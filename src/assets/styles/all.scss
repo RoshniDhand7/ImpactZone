@@ -1,0 +1,25 @@
+@import "./_variables.scss";
+@import "./_bg-colors.scss";
+@import "./_text-colors.scss";
+
+// Layout file
+@import "./layout/_layout.scss";
+@import "./layout/_sidebar.scss";
+@import "./layout/_topbar.scss";
+///////////////////////////////////////////////////////////
+////// All other style files will be imported below///////
+/////////////////////////////////////////////////////////
+
+@import "./pages/_login.scss";
+@import "./pages/_forgotPassword.scss";
+@import "./pages/_userMember.scss";
+@import "./pages/_employeeClock.scss";
+@import "./pages/_settings.scss";
+@import "./pages/_businessSettings.scss";
+
+@import "./components/_button.scss";
+@import "./components/_hightlightcard.scss";
+@import "./components/_graphcard.scss";
+@import "./components/_search.scss";
+@import "./components/_profilelayout.scss";
+@import "./components/_datatable.scss";

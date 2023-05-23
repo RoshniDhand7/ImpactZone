@@ -1,0 +1,168 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/icons/Navlogo.png";
+import Profile from "../assets/icons/profilepic.png";
+import addtask from "../assets/icons/addtask.png";
+import PopUp from "../components/popup/popup";
+import showPopUpAction from "../store/actions/popupActions";
+import mytask from "../pages/popups/mytask";
+import { useState } from "react";
+import searchBar from "../pages/popups/searchBar";
+import EmployeeClockIn from "../pages/popups/EmployeeClockIn";
+// import { useDispatch, useSelector } from "react-redux";
+
+export default function TopBar({ setIsActive, isActive }) {
+  const [popUp, setPopUp] = useState({
+    title: "",
+    show: null,
+  });
+
+  const [comment, setComment] = useState("");
+
+  // const popup = useSelector((state) => state.popup);
+  // const dispatch = useDispatch();
+  // console.log(popup);
+
+  const showPopUp = async (title, data) => {
+    // dispatch({ type: "SHOW_POPUP", payload: "my payload" });
+    // useDispatch("SHOW_POPUP", {
+    //   isVisible: true,
+    //   title: title,
+    //   show: data,
+    // });
+    setPopUp({
+      title: title,
+      show: data,
+    });
+    setIsActive(true);
+  };
+
+  return (
+    <>
+      <div className="topposition ">
+        <div className="bgcolor  grid m-0 px-3 justify-content-between  ">
+          <div className=" col-5 cursor-pointer md:col-7 flex align-items-center justify-content-between">
+            <div style={{ width: "74px", height: "69px" }} className=" col-4">
+              <img src={logo} alt="" />
+            </div>
+            <Link to={"/"}>
+              <div className="textcolor ">Dashboard</div>
+            </Link>
+            <Link to={"/user-member"}>
+              <div className="textcolor">Check-In</div>
+            </Link>
+
+            <div className="textcolor">Members</div>
+            <div className="textcolor">Calendar</div>
+            <div className="textcolor">Point of Sale</div>
+            <div className="textcolor">Plans</div>
+            <div>
+              <div className="dropdown textcolor">
+                <button className="dropbtn ">
+                  Report
+                  <i className="pi pi-chevron-down mx-2"></i>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#">Link 1</a>
+                  <a href="#">Link 2</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
+            </div>
+
+            <div className="textcolor">More</div>
+          </div>
+          <div className="col-4  flex align-items-center justify-content-between ">
+            <div onClick={() => showPopUp("searchBar", searchBar)}>
+              <i
+                className="pi pi-search icon-size"
+                style={{ color: "black" }}
+              ></i>
+            </div>
+            <Link to="/fastadd">
+              <div>
+                <i
+                  className="pi pi-plus-circle icon-size"
+                  style={{ color: "black" }}
+                ></i>
+              </div>
+            </Link>
+            <div onClick={() => showPopUp("My Tasks", mytask)}>
+              <img className="icon-size" src={addtask} alt="" />
+            </div>
+            <div
+              onClick={() =>
+                showPopUp("Employee Clock In/Out", EmployeeClockIn)
+              }
+            >
+              <i
+                className="pi pi-clock icon-size"
+                style={{ color: "black" }}
+              ></i>
+            </div>
+            <Link to="/settings">
+              <div>
+                <i
+                  className="pi pi-cog icon-size"
+                  style={{ color: "black" }}
+                ></i>
+              </div>
+            </Link>
+            <div>
+              <div className="dropdown textcolor">
+                <button className="dropbtn ">
+                  <i
+                    className="pi pi-question-circle"
+                    style={{ color: "black" }}
+                  ></i>
+                  <i className="pi pi-chevron-down mx-2"></i>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#">Link 1</a>
+                  <a href="#">Link 2</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
+            </div>
+            <div className="dropdown textcolor">
+              <button className="dropbtn flex text-center ">
+                <div style={{ width: "43px", height: "43px" }}>
+                  <img src={Profile} alt="" />
+                </div>
+                <span className="font-semibold text-base m-2">
+                  Mike Puglisi
+                </span>
+                <i className="pi pi-chevron-down mt-2"></i>
+              </button>
+              <div className="dropdown-content border-round">
+                <div className="p-3">
+                  <a href="#" className="text-black">
+                    Switch User
+                  </a>
+                  <hr />
+                  <a href="#" className="text-black">
+                    Forgot Password
+                  </a>
+                  <hr />
+                  <a href="#" className="text-black">
+                    Log Out
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/* <div style={{ width: "43px", height: "43px" }}>
+              <img src={Profile} alt="" />
+            </div>
+            <span className="font-semibold text-base">Mike Puglisi</span> */}
+          </div>
+        </div>
+      </div>
+      <PopUp
+        setIsActive={setIsActive}
+        title={popUp.title}
+        isActive={isActive}
+        data={popUp.show ? popUp.show() : null}
+      />
+    </>
+  );
+}
