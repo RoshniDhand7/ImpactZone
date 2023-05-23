@@ -1,0 +1,53 @@
+.border-left {
+  border-left: 2px solid;
+}
+.text-xx-sm {
+  font-size: 8px;
+}
+.card-length {
+  min-height: 150px;
+  overflow: auto;
+}
+.card-height {
+  min-height: 250px;
+  overflow: auto;
+
+  .p-datatable .p-datatable-thead {
+    tr > th {
+      text-align: left;
+      padding: 1rem 1rem;
+      border: 1px solid #ffffff;
+      border-width: 0 0 1px 0;
+      font-weight: 600;
+      color: rgb(0, 0, 0) !important;
+      background-color: $lightestblue !important;
+      transition: none;
+      border-bottom: 0px solid #fff !important;
+    }
+
+    tr:first-child > th:first-child {
+      border-radius: 5px 0 0 5px;
+    }
+
+    tr:first-child > th:last-child {
+      border-radius: 0 5px 5px 0;
+    }
+  }
+  .p-datatable-wrapper {
+    border-radius: 5px;
+  }
+
+  .p-datatable .p-datatable-tbody {
+    tr > td {
+      background-color: $lightestblue;
+    }
+
+    tr:first-child > td:first-child {
+      border-radius: 5px 0 0 0;
+    }
+
+    tr:first-child > td:last-child {
+      border-radius: 0 5px 0 0;
+    }
+  }
+}

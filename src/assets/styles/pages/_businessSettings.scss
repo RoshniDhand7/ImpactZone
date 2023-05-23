@@ -1,0 +1,64 @@
+.text-style {
+  font-size: 14px;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 28px;
+  /* identical to box height, or 200% */
+  color: rgba(0, 0, 0, 0.504);
+}
+.text-style:hover {
+  font-size: 16px;
+  color: black;
+  font-weight: 700;
+}
+
+.p-tabview .p-tabview-nav {
+  background: $lightestblue !important;
+  border-radius: 5px;
+  padding: 5px !important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: $lightestblue !important;
+  border-color: #5e81ac;
+  color: #4c566a;
+}
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  border: solid #e5e9f0;
+  border-width: 0 0 2px 0;
+  border-color: transparent transparent #e5e9f0 transparent;
+  background: $lightestblue !important;
+  color: #4c566a;
+  padding: 1rem;
+  font-weight: 600;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  transition: none;
+  margin: 0 64px -2px 0 !important;
+}
+.p-tabview-nav-content {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior: contain auto;
+  position: relative;
+  border-radius: 10px 10px 10px 10px;
+}
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+  z-index: 1;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: none !important;
+  transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
+  width: 0px !important;
+}
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: #ffffff;
+  border-color: none !important;
+  color: #000000 !important;
+}

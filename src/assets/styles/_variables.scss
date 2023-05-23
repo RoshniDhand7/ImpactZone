@@ -1,0 +1,35 @@
+// Please write exact color name
+:root {
+  --primaryDark: #252b42;
+  --whiteColor: #fff;
+  --darkGray: rgba(82, 82, 82, 1);
+  --lightGray: rgb(37, 43, 66, 0.05);
+  --darkGreen: rgba(10, 95, 89, 1);
+  --yellow: #fdcf6f;
+  --lightgreen: rgba(26, 176, 165, 1);
+  --darkblue: rgba(37, 43, 66, 1);
+  --lightblue: rgba(30, 97, 122, 1);
+  --lightestblue: rgba(242, 245, 254, 1);
+  --grey: #b7b7b7;
+  --green: rgba(12, 141, 0, 1);
+}
+
+/////////////////////////////////////////////////////////////////
+///////////// Follow the same color name below//////////////////
+///////////////////////////////////////////////////////////////
+
+// These variables with $ sign will be used in all other style file
+// No color code will be write in any style file directly
+
+$primaryDark: var(--primaryDark);
+$whiteColor: var(--whiteColor);
+$darkGray: var(--darkGray);
+$lightGray: var(--lightGray);
+$darkGreen: var(--darkGreen);
+$yellow: var(--yellow);
+$lightgreen: var(--lightgreen);
+$darkblue: var(--darkblue);
+$lightblue: var(--lightblue);
+$lightestblue: var(--lightestblue);
+$grey: var(--grey);
+$green: var(--green);
