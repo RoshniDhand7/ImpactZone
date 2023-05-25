@@ -1,8 +1,4 @@
-import React, { useState } from "react";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
-import itemsforword from "../../../../assets/icons/itemsforward.png";
-import itemforword from "../../../../assets/icons/itemforword.png";
-import itembackword from "../../../../assets/icons/itembackward.png";
 import itemsbackword from "../../../../assets/icons/itemsbackward.png";
 import checkInData from "../../../../utils/checkInData";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
@@ -10,8 +6,8 @@ import Buttons from "../../../../components/buttons/button";
 import { PickList } from "primereact/picklist";
 
 const CancelCode = () => {
-  const [source, setSource] = useState([]);
-  const [target, setTarget] = useState([]);
+  // const [source, setSource] = useState([]);
+  // const [target, setTarget] = useState([]);
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -123,11 +119,13 @@ const CancelCode = () => {
           </CardWithTitle>
         </div>
       </div>
-      <div className="flex justify-content-end p-2">
-        <div className="mx-2 ">
-          <Buttons label="Save" className="btn-dark border-none"></Buttons>
-        </div>
-        <div>
+      <div className="flex justify-content-end p-3">
+        <div className="col-2 flex  ">
+          <Buttons
+            label="Save"
+            className="btn-dark p-3 mx-2  border-none"
+          ></Buttons>
+
           <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
         </div>
       </div>

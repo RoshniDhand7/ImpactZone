@@ -4,20 +4,17 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import dummyData from "../../../../utils/dummyData";
 import { useRef } from "react";
-import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 
-import { Navigate } from "react-router-dom";
-
 const Employee = () => {
   const navigate = useNavigate();
   const { manageEmployee, manageEmolyeeData } = dummyData();
-  const [isActiveColor, setIsActiveColor] = useState(false);
+  // const [isActiveColor, setIsActiveColor] = useState(false);
   const op = useRef(null);
   const ope = useRef(null);
   const navigateToAddEmployee = () => {

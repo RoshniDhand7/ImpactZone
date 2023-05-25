@@ -6,6 +6,8 @@ import DropDown from "../../../../../components/dropdown/dropdown";
 import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
+import ImageUpload from "../../../../../assets/icons/imgupload.png";
+import { InputTextarea } from "primereact/inputtextarea";
 
 const GeneralAddEmployee = () => {
   return (
@@ -118,8 +120,19 @@ const GeneralAddEmployee = () => {
                       <Input title="User Name"></Input>
                     </div>
                   </div>
-                  <div className="col">
-                    <Input title="Notes"></Input>
+                  <div className="col flex flex-column gap-2">
+                    <label className="text-xs text-dark-gray   font-semibold">
+                      Notes
+                    </label>
+                    {/* <span className="p-input-icon-left">
+        <i className="pi pi-search" /> */}
+                    <InputTextarea
+                    // placeholder={placeholder}
+                    // icon={icon}
+                    // type={type}
+                    // onChange={onChange}
+                    ></InputTextarea>
+                    {/* </span> */}
                   </div>
                 </div>
               </CardWithTitle>
@@ -127,9 +140,24 @@ const GeneralAddEmployee = () => {
             <div className="my-2">
               <CardWithTitle title="Photo">
                 <div className="p-3">
-                  <div className="flex ">
-                    <div className="col-4">
-                      <Input title="Hire Date"></Input>
+                  <div className=" ">
+                    <span className="text-xl font-semibold">Upload Image</span>
+                    <div
+                      style={{ height: "235px" }}
+                      className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex-column justify-content-center align-items-center "
+                    >
+                      <div className="flex flex-column justify-content-center align-items-center">
+                        <div style={{ width: "60px", height: "60px" }}>
+                          {" "}
+                          <img src={ImageUpload} alt="" />
+                        </div>
+
+                        <div className="my-3">
+                          <span className="text-base text-surface-300">
+                            Drag your photo here or Browse
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -138,9 +166,15 @@ const GeneralAddEmployee = () => {
           </div>
         </div>
         <div className="flex justify-content-end col-12">
-          <div className="flex col-2 ">
-            <Buttons label="Save" className="btn-dark"></Buttons>
-            <Buttons label="Cancel" className="btn-grey mx-2"></Buttons>
+          <div className="flex col-2  ">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3  border-none"
+            ></Buttons>
+            <Buttons
+              label="Cancel"
+              className="btn-grey mx-2 border-none"
+            ></Buttons>
           </div>
         </div>
       </div>

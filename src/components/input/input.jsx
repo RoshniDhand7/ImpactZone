@@ -8,6 +8,7 @@ const Input = ({
   icon,
   onChange,
   error,
+  value,
   ...props
 }) => {
   return (
@@ -19,6 +20,7 @@ const Input = ({
         placeholder={placeholder}
         icon={icon}
         type={type}
+        value={value}
         onChange={onChange}
       ></InputText>
       {/* </span> */}
