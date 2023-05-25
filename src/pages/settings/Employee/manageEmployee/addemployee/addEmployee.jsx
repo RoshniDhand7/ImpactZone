@@ -1,18 +1,25 @@
 import { TabView, TabPanel } from "primereact/tabview";
 import React from "react";
 import { useState } from "react";
-import { General } from "../../../BusinessSettings/company/general";
 import GeneralAddEmployee from "./general";
+import Department from "./Department";
+import Security from "./security";
+import Clubs from "./Clubs";
+import ClassesSetup from "./classesSetup/ClassesSetup";
+import ServiceSetup from "./Services Setup/ServiceSetup";
+import SalesCommission from "./Salescommission/SalesCommission";
+import Notes from "./Notes";
+import Certifications from "./Certification";
 
 const AddEmployee = () => {
   const [activeIndex2, setActiveIndex2] = useState(0);
   return (
     <>
       <div>
-        <div className="m-3 ">
-          <span className="font-bold">Add Employee</span>
-        </div>
         <div>
+          <div className="mx-3 mt-3 ">
+            <span className="font-bold text-xl">Add Employee</span>
+          </div>
           <div className="p-3">
             <TabView
               activeIndex={activeIndex2}
@@ -21,14 +28,31 @@ const AddEmployee = () => {
               <TabPanel header="General">
                 <GeneralAddEmployee />
               </TabPanel>
-              <TabPanel header="Security"></TabPanel>
-              <TabPanel header="Departments"></TabPanel>
-              <TabPanel header="Clubs"></TabPanel>
-              <TabPanel header="Services Setup"></TabPanel>
-              <TabPanel header="Sales Commission"></TabPanel>
+              <TabPanel header="Security">
+                <Security />
+              </TabPanel>
+              <TabPanel header="Departments">
+                <Department />
+              </TabPanel>
+              <TabPanel header="Clubs">
+                <Clubs></Clubs>
+              </TabPanel>
+              <TabPanel header="Classes Setup ">
+                <ClassesSetup />
+              </TabPanel>
+              <TabPanel header="Services Setup">
+                <ServiceSetup />
+              </TabPanel>
+              <TabPanel header="Sales Commission">
+                <SalesCommission />
+              </TabPanel>
               <TabPanel header="Time Sheet"></TabPanel>
-              <TabPanel header="Notes"></TabPanel>
-              <TabPanel header="Certifications"></TabPanel>
+              <TabPanel header="Notes">
+                <Notes />
+              </TabPanel>
+              <TabPanel header="Certifications">
+                <Certifications />
+              </TabPanel>
             </TabView>
           </div>
         </div>
