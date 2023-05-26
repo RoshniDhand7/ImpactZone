@@ -4,7 +4,6 @@ import logo from "../assets/icons/Navlogo.png";
 import Profile from "../assets/icons/profilepic.png";
 import addtask from "../assets/icons/addtask.png";
 import PopUp from "../components/popup/popup";
-import showPopUpAction from "../store/actions/popupActions";
 import mytask from "../pages/popups/mytask";
 import { useState } from "react";
 import searchBar from "../pages/popups/searchBar";
@@ -16,8 +15,6 @@ export default function TopBar({ setIsActive, isActive }) {
     title: "",
     show: null,
   });
-
-  const [comment, setComment] = useState("");
 
   // const popup = useSelector((state) => state.popup);
   // const dispatch = useDispatch();
@@ -72,8 +69,8 @@ export default function TopBar({ setIsActive, isActive }) {
 
             <div className="textcolor">More</div>
           </div>
-          <div className="col-4  flex align-items-center justify-content-between ">
-            <div onClick={() => showPopUp("searchBar", searchBar)}>
+          <div className="col-4 flex align-items-center justify-content-between ">
+            <div onClick={() => showPopUp("", searchBar)}>
               <i
                 className="pi pi-search icon-size"
                 style={{ color: "black" }}
@@ -87,7 +84,7 @@ export default function TopBar({ setIsActive, isActive }) {
                 ></i>
               </div>
             </Link>
-            <div onClick={() => showPopUp("My Tasks", mytask)}>
+            <div onClick={() => showPopUp("", mytask)}>
               <img className="icon-size" src={addtask} alt="" />
             </div>
             <div

@@ -23,7 +23,7 @@ const SalesBonus = () => {
               <DropDown title="" placeholder="Single Item"></DropDown>
             </div>
 
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="6"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 # of Items
@@ -31,7 +31,7 @@ const SalesBonus = () => {
             </div>
             <span className="mt-3 p-2 text-gray-200">Over</span>
 
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="6"></Input>
             </div>
             <div className="col">
@@ -41,12 +41,12 @@ const SalesBonus = () => {
               </span>
             </div>
 
-            <div className="col ml-2">
+            <div className="col-2 ml-2">
               <Input title="" placeholder="2.5"></Input>
             </div>
             <div
               style={{ width: "18px", height: "20px" }}
-              className="flex align-items-center mt-4   mx-2 "
+              className="flex align-items-center mt-4   mr-2 "
             >
               <span className="m-auto ">$</span>
               <img src={Divide} alt="" className="m-auto mx-2  " />
@@ -60,7 +60,7 @@ const SalesBonus = () => {
               <DropDown title="" placeholder="Sale Value"></DropDown>
             </div>
 
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="2,000"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Sales Value
@@ -68,7 +68,7 @@ const SalesBonus = () => {
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="30"></Input>
             </div>
             <div className="col">
@@ -78,7 +78,7 @@ const SalesBonus = () => {
               </span>
             </div>
 
-            <div className="col ml-2">
+            <div className="col-2 ml-2">
               <Input title="" placeholder="5"></Input>
             </div>
             <div
@@ -96,7 +96,7 @@ const SalesBonus = () => {
           <Buttons
             label="Add"
             icon={"pi pi-plus-circle"}
-            className="btn-dark p-3  mx-2  border-none"
+            className="btn-dark p-3 border-none"
           ></Buttons>
           <Buttons
             label="Save"

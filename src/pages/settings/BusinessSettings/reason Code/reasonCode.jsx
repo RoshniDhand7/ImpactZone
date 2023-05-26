@@ -11,7 +11,7 @@ const ReasonCode = () => {
   const { reasonCode, reasonCodeData } = dummyData();
   return (
     <>
-      <div className="">
+      <div className="my-2">
         <div className=" btn-lightblue flex justify-content-between p-2 border-round-md  ">
           <div className=" flex justify-content-around">
             <div className="flex align-items-center mr-3 ">
@@ -43,7 +43,7 @@ const ReasonCode = () => {
           <TableData columns={reasonCode} data={reasonCodeData} />
         </div>
       </div>
-      <div className="fixed bottom-0 mt-2">
+      <div className=" mt-2">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

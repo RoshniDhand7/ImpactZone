@@ -13,7 +13,7 @@ const GeneralAddEmployee = () => {
   return (
     <>
       <div>
-        <Checkbox title="Active" className="text-900" />
+        <Checkbox title="Active" className=" text-900 font-bold" />
         <div>
           <div className="my-2">
             <CardWithTitle title="Personal">

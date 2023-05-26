@@ -24,7 +24,7 @@ const Bonus = () => {
             </div>
             <span className="mt-3 p-2"> </span>
 
-            <div className="col">
+            <div className="col-2">
               <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Select Timeframe
@@ -34,7 +34,7 @@ const Bonus = () => {
             <div className="col">
               <DropDown title=""></DropDown>
             </div>
-            <div className="col">
+            <div className="col-3 md:col-2">
               <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-center">
                 Bonus Amount
@@ -61,7 +61,7 @@ const Bonus = () => {
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
-            <div className="col">
+            <div className="col-2">
               <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Select Timeframe
@@ -71,7 +71,7 @@ const Bonus = () => {
             <div className="col">
               <DropDown title=""></DropDown>
             </div>
-            <div className="col">
+            <div className="col-2">
               <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-center">
                 Bonus Amount
@@ -101,7 +101,7 @@ const Bonus = () => {
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="30"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Select Timeframe
@@ -111,7 +111,7 @@ const Bonus = () => {
             <div className="col">
               <DropDown title="" placeholder="Days"></DropDown>
             </div>
-            <div className="col">
+            <div className="col-2">
               <Input title="" placeholder="5"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-center">
                 Bonus Amount
@@ -136,11 +136,11 @@ const Bonus = () => {
           <Buttons
             label="Add"
             icon={"pi pi-plus-circle"}
-            className="btn-dark p-3  mx-2  border-none"
+            className="btn-dark p-3   border-none"
           ></Buttons>
           <Buttons
             label="Save"
-            className="btn-dark p-3  mx-2  border-none"
+            className="btn-dark mx-2  border-none"
           ></Buttons>
 
           <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
