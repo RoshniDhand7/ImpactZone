@@ -30,8 +30,8 @@ const CancelCode = () => {
   return (
     <>
       <div>
-        <h4 className="text-bold text-black">IN-Club Cancel Codes</h4>
-        <div>
+        <h4 className="text-bold text-black my-3">IN-Club Cancel Codes</h4>
+        <div className="">
           <CardWithTitle title="Select Cancel Codes">
             <div className="p-3">
               {/* <span className="my-4 text-xs">Available</span> */}

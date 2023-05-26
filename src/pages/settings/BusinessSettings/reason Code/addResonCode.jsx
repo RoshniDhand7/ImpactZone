@@ -9,7 +9,7 @@ const AddResonCode = () => {
   return (
     <>
       <div className="p-3">
-        <h4 className="text-bold">ADD Reason Code</h4>
+        <h4 className="text-bold my-2">ADD Reason Code</h4>
         <div className="">
           <CardWithTitle title="Active">
             <div className="col-5 p-4">
@@ -24,7 +24,7 @@ const AddResonCode = () => {
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="p-3">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

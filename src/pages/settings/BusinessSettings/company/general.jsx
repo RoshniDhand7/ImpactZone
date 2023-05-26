@@ -5,12 +5,32 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
-import chartData from "../../../../components/cards/graphcards/activemember";
+import { PickList } from "primereact/picklist";
+import itemsbackword from "../../../../assets/icons/itemsbackward.png";
 
 export const General = () => {
+  const itemTemplate = (item) => {
+    return (
+      <div className=" flex flex-wrap p-2 align-items-center gap-3">
+        <img
+          className="w-4rem shadow-2 flex-shrink-0 border-round"
+          src={itemsbackword}
+          alt={item.name}
+        />
+        <div className="flex-1 flex flex-column gap-2">
+          <span className="font-bold">{item.name}</span>
+          <div className="flex align-items-center gap-2">
+            <i className="pi pi-tag text-sm"></i>
+            <span>{item.category}</span>
+          </div>
+        </div>
+        <span className="font-bold text-900">${item.price}</span>
+      </div>
+    );
+  };
   return (
     <>
-      <div>
+      <div className="my-2">
         <CardWithTitle title="Genral">
           <div className="p-3">
             <div className="flex justify-content-between ">
@@ -79,7 +99,20 @@ export const General = () => {
                 </div>
               </div>
               <div>
-                <span className="mt-3 text-semibold">Country Addresses</span>
+                <span className=" font-semibold">Country Addresses</span>
+                <div className="card  my-3  ">
+                  <PickList
+                    // source={source}
+                    // target={target}
+                    // onChange={onChange}
+                    itemTemplate={itemTemplate}
+                    breakpoint=""
+                    sourceHeader="Available"
+                    targetHeader="Selected"
+                    sourceStyle={{ height: "20rem" }}
+                    targetStyle={{ height: "20rem" }}
+                  />
+                </div>
               </div>
             </div>
           </CardWithTitle>
@@ -175,10 +208,16 @@ export const General = () => {
         </div>
         <div className="col-12 flex justify-content-end">
           <div className="col-1">
-            <Buttons label="Save" className="btn-dark border-none "></Buttons>
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 border-none "
+            ></Buttons>
           </div>
           <div className="col-1">
-            <Buttons label="Cancel" className="btn-grey border-none "></Buttons>
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3 border-none "
+            ></Buttons>
           </div>
         </div>
         <div>

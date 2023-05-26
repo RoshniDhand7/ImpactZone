@@ -81,11 +81,11 @@ const mytask = () => {
         </div>
         <div></div>
         <div className="flex justify-content-end">
-          <div className="col-3">
+          <div className="">
             <Buttons
               icon="pi pi-plus-circle"
               label="Add New Task  "
-              className="btn-dark"
+              className="btn-dark p-3 mx-2 border-none"
             ></Buttons>
           </div>
         </div>

@@ -8,7 +8,7 @@ import checkInData from "../../../../utils/checkInData";
 const Customization = () => {
   return (
     <>
-      <div>
+      <div className="my-2">
         <div>
           <CardWithTitle title="Customization">
             <div className="p-2 flex">
@@ -22,15 +22,21 @@ const Customization = () => {
           </CardWithTitle>
         </div>
         <div className="flex justify-content-end ">
-          <div className="mx-2  ">
-            <Buttons label="Save" className="btn-dark border-none"></Buttons>
+          <div className="   col-1 mx-2  ">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 border-none"
+            ></Buttons>
           </div>
-          <div className="">
-            <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
+          <div className="col-1">
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3 border-none"
+            ></Buttons>
           </div>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 static b-0 ">
         <RecentCheckIn data={checkInData}></RecentCheckIn>
       </div>
     </>

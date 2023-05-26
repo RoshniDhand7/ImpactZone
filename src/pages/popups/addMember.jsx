@@ -6,6 +6,7 @@ import Input from "../../components/input/input";
 import Buttons from "../../components/buttons/button";
 import RecentCheckIn from "../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../utils/checkInData";
+import { InputTextarea } from "primereact/inputtextarea";
 
 // import { InputTextarea } from "primereact/inputtextarea";
 
@@ -20,12 +21,14 @@ const AddMember = () => {
         <div className="m-2 ">
           <CardWithTitle title="Membership">
             <div className="grid m-0 p-3">
-              <div className="col-3">
-                <img
-                  src={Image}
-                  alt=""
-                  style={{ width: "161px", height: "170px" }}
-                />
+              <div className="col-2 flex justify-content-center align-items-center">
+                <div>
+                  <img
+                    src={Image}
+                    alt=""
+                    style={{ width: "161px", height: "170px" }}
+                  />
+                </div>
               </div>
               <div className="col-9 grid flex-column  justify-content-between  ">
                 <div className="grid m-0">
@@ -50,13 +53,20 @@ const AddMember = () => {
                   </div>
                 </div>
                 <div className="col-12 ">
-                  {/* <InputTextarea
-                    rows={5}
-                    cols={30}
-                    // value={}
-                    // onChange={(e) => setValue(event.target.value)}
-                    autoResize
-                  /> */}
+                  <div className=" flex flex-column gap-2">
+                    <label className="text-xs text-dark-gray   font-semibold">
+                      Notes
+                    </label>
+                    {/* <span className="p-input-icon-left">
+        <i className="pi pi-search" /> */}
+                    <InputTextarea
+                    // placeholder={placeholder}
+                    // icon={icon}
+                    // type={type}
+                    // onChange={onChange}
+                    ></InputTextarea>
+                    {/* </span> */}
+                  </div>
                 </div>
               </div>
             </div>
@@ -307,12 +317,17 @@ const AddMember = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="flex  justify-content-end">
-          <div className="flex m-2">
-            <Buttons label="Save" className=" btn-dark border-none "></Buttons>
+        <div className="col-12 flex  justify-content-end">
+          <div className="col-1">
+            <Buttons
+              label="Save"
+              className=" btn-dark border-none p-3 "
+            ></Buttons>
+          </div>
+          <div className="col-1">
             <Buttons
               label="Cancel"
-              className="ml-2 btn-grey border-none "
+              className="ml-2 p-3 btn-grey border-none "
             ></Buttons>
           </div>
         </div>

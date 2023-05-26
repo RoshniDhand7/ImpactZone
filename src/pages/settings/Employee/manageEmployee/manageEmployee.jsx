@@ -23,7 +23,7 @@ const Employee = () => {
 
   return (
     <>
-      <div>
+      <div className="my-2">
         <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3">
           <div className="flex p-2 justify-content-between">
             <div
@@ -112,7 +112,7 @@ const Employee = () => {
             </div>
             <div></div>
           </div>
-          <div>
+          <div className=" mr-3 ">
             <Buttons
               onClick={navigateToAddEmployee}
               label="Add Employee"

@@ -7,7 +7,7 @@ const ManageEmployee = () => {
   const [activeIndex1, setActiveIndex1] = useState(0);
   return (
     <>
-      <div>
+      <div className="">
         <div className="p-3">
           <TabView
             activeIndex={activeIndex1}
