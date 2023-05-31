@@ -1,6 +1,7 @@
 import React from "react";
 import Buttons from "../../components/buttons/button";
 import User from "../../assets/icons/usermember.png";
+import Camera from "../../assets/icons/camera.png";
 import CardWithTitle from "../../components/cards/cardWithTitle/cardWithTitle";
 import TableData from "../../components/cards/dataTable/dataTable";
 import dummyData from "../../utils/dummyData";
@@ -40,12 +41,26 @@ const UserMember = () => {
     <>
       <div className="p-3">
         <div className="p-2">
-          <div className="bg-green  p-2 flex  border-round">
+          <div className="bg-green  flex  border-round">
             <div className=" col-6 p-3  flex justify-content-between ">
-              <div className="flex  ">
-                <div style={{ width: "154px", height: "161px" }}>
-                  <img className="border-round" src={User} alt="" />
+              <div className="flex  p-2  ">
+                <div className="relative   flex flex-column justify-content-end algin-content-center">
+                  <img
+                    style={{ width: "154px", height: "161px" }}
+                    className="border-round"
+                    src={User}
+                    alt=""
+                  />
+                  <div className="absolute w-full text-center -mb-2  flex justify-content-center algin-content-bottom ">
+                    <img
+                      className="mt-3"
+                      style={{ width: "24px", height: "24px" }}
+                      src={Camera}
+                      alt=""
+                    />
+                  </div>
                 </div>
+
                 <div className=" mx-3 mt-3  flex flex-column">
                   <span className="text-white text-xxl">John Wick</span>
                   <span className="text-white text-base">Barcode:45677654</span>
@@ -53,7 +68,7 @@ const UserMember = () => {
                   <span className="text-white text-base">All Accesss</span>
                 </div>
               </div>
-              <div>
+              <div className="p-2">
                 <Buttons
                   onClick={() => showPopUp("Add Task", addTask)}
                   label="Add Task"
@@ -63,7 +78,7 @@ const UserMember = () => {
               </div>
             </div>
 
-            <div className="col-6 p-3 text-white  border-left border">
+            <div className="col-6 p-2 px-3 my-3 text-white  border-left border">
               <div className="flex justify-content-between">
                 <span className="text-white text-xl text-white">Alerts</span>
                 <span className="text-xs text-white">11/17/2022</span>
@@ -74,24 +89,18 @@ const UserMember = () => {
             </div>
           </div>
         </div>
-        <div className="flex ">
-          <div className="col-3 flex flex-column">
-            <div className=" p-2 cursor-pointer  flex justify-content-between  text-xs text-bold">
-              <span className="font-semibold text-base">Event</span>
-              <span className="font-semibold text-base">Calendar</span>
-              <button
-                className=" border-none bg-white font-semibold text-base "
-                onClick={() => showPopUp("Quick Enroll", QuickEnroll)}
-              >
-                Quick Enroll
-              </button>
-            </div>
-
-            <TableData columns={relationshipColumns} data={relationshipData} />
-            <div className="my-3">
-              <div className=" p-2 cursor-pointer flex justify-content-between text-xs text-bold">
-                <span className="font-semibold text-base">Services</span>{" "}
-                <span className="font-semibold text-base">POS</span>
+        <div className="">
+          <div className="grid">
+            <div className="col-3">
+              <div className=" p-2 cursor-pointer  flex justify-content-between  text-xs text-bold">
+                <span className="font-semibold text-base">Event</span>
+                <span className="font-semibold text-base">Calendar</span>
+                <button
+                  className=" border-none bg-white font-semibold text-base "
+                  onClick={() => showPopUp("Quick Enroll", QuickEnroll)}
+                >
+                  Quick Enroll
+                </button>
               </div>
 
               <TableData
@@ -99,16 +108,7 @@ const UserMember = () => {
                 data={relationshipData}
               />
             </div>
-            <div className=" p-2 cursor-pointer  flex justify-content-between text-xs text-bold">
-              <span className="font-semibold text-base">Resources</span>
-              <span className="font-semibold text-base">Calendar</span>
-              <span className="font-semibold text-base">Reserve</span>
-            </div>
-
-            <TableData columns={relationshipColumns} data={relationshipData} />
-          </div>
-          <div className="col-9 p-0">
-            <div className="col-12 flex justify-content-between p-0 mt-3">
+            <div className="col-9 mt-5 grid">
               <div className="col-6 ">
                 <CardWithTitle title="Member Details">
                   <div className=" card-height flex justify-content-between p-3 text-sm ">
@@ -158,7 +158,20 @@ const UserMember = () => {
                 </CardWithTitle>
               </div>
             </div>
-            <div className="col-12 justify-content-between flex">
+          </div>
+          <div className="grid">
+            <div className="col-3">
+              <div className=" p-2 cursor-pointer flex justify-content-between text-xs text-bold">
+                <span className="font-semibold text-base">Services</span>{" "}
+                <span className="font-semibold text-base">POS</span>
+              </div>
+
+              <TableData
+                columns={relationshipColumns}
+                data={relationshipData}
+              />
+            </div>
+            <div className="col-9 mt-5 grid">
               <div className="col-6">
                 <CardWithTitle title="POS" title3="Pre-Pay Balance:$30.92">
                   <div className="card-height ">
@@ -185,7 +198,6 @@ const UserMember = () => {
                   </div>
                 </CardWithTitle>
               </div>
-
               <div className="col-6">
                 <CardWithTitle title="Membership">
                   <div className="card-height flex justify-content-between p-3 text-sm ">
@@ -210,7 +222,21 @@ const UserMember = () => {
                 </CardWithTitle>
               </div>
             </div>
-            <div className="col-12">
+          </div>
+          <div className="grid ">
+            <div className="col-3">
+              <div className=" p-2 cursor-pointer  flex justify-content-between text-xs text-bold">
+                <span className="font-semibold text-base">Resources</span>
+                <span className="font-semibold text-base">Calendar</span>
+                <span className="font-semibold text-base">Reserve</span>
+              </div>
+
+              <TableData
+                columns={relationshipColumns}
+                data={relationshipData}
+              />
+            </div>
+            <div className="mt-5 col-9">
               <TableData
                 columns={relationshipColumns}
                 data={relationshipData}
