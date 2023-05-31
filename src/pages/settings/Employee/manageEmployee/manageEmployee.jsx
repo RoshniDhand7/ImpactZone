@@ -129,7 +129,7 @@ const Employee = () => {
           />
         </div>
 
-        <div className=" flex justify-content-end">
+        <div className=" mt-3 flex justify-content-end">
           <div className="col-1 ">
             <Buttons
               label="Print"

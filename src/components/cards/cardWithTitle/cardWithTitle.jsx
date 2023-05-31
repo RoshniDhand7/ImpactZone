@@ -14,7 +14,7 @@ const CardWithTitle = ({ title, children, title2, title3, title4, title5 }) => {
             <h4>{title5}</h4> */}
           </div>
         </div>
-        <div className=" mt-2 btn-lightblue bg-black border-round ">
+        <div className="shadow-4  mt-2 btn-lightblue bg-black border-round ">
           {children}
         </div>
       </div>

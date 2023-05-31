@@ -82,7 +82,7 @@ const Availability = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-content-end col-12">
+      <div className="mt-3 flex justify-content-end col-12">
         <div className="flex col-6  ">
           <Buttons
             label="Clear Week"

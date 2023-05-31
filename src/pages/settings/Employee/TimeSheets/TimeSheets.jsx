@@ -18,9 +18,9 @@ const TimeSheets = () => {
       <div>
         <div className="p-0">
           <div className=" px-0 flex justify-content-between">
-            <div className="col-6  ">
+            <div className="col-6   ">
               <CardWithTitle title="General">
-                <div className=" flex">
+                <div className=" flex p-3">
                   <div className="col-6">
                     <DropDown title="Club" placeholder="club 30591"></DropDown>
                   </div>
@@ -30,9 +30,9 @@ const TimeSheets = () => {
                 </div>
               </CardWithTitle>
             </div>
-            <div className="col-6">
+            <div className="col-6 ">
               <CardWithTitle title="Clock In Date">
-                <div className="flex">
+                <div className="flex p-3">
                   <div className="col-6">
                     <Input title="From" type="date"></Input>
                   </div>
