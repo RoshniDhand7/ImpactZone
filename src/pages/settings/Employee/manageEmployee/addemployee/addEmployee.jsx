@@ -25,11 +25,11 @@ const AddEmployee = () => {
               activeIndex={activeIndex2}
               onTabChange={(e) => setActiveIndex2(e.index)}
             >
-              <TabPanel header="General">
-                <GeneralAddEmployee />
-              </TabPanel>
               <TabPanel header="Security">
                 <Security />
+              </TabPanel>
+              <TabPanel header=" General ">
+                <GeneralAddEmployee />
               </TabPanel>
               <TabPanel header="Departments">
                 <Department />

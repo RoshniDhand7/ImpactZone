@@ -11,6 +11,7 @@ import { Column } from "primereact/column";
 import { useState } from "react";
 import PopUp from "../../components/popup/popup";
 import QuickEnroll from "./quickEnroll";
+import addTask from "./addTask";
 
 const UserMember = () => {
   const [isActive, setIsActive] = useState(false);
@@ -54,6 +55,7 @@ const UserMember = () => {
               </div>
               <div>
                 <Buttons
+                  onClick={() => showPopUp("Add Task", addTask)}
                   label="Add Task"
                   icon="pi pi-plus-circle"
                   className="btn-green border-round mx-2  border-white-alpha-50"
@@ -75,9 +77,10 @@ const UserMember = () => {
         <div className="flex ">
           <div className="col-3 flex flex-column">
             <div className=" p-2 cursor-pointer  flex justify-content-between  text-xs text-bold">
-              <span>Event</span> <span>Calendar</span>
+              <span className="font-semibold text-base">Event</span>
+              <span className="font-semibold text-base">Calendar</span>
               <button
-                className="cursor-pointer border-none bg-white"
+                className=" border-none bg-white font-semibold text-base "
                 onClick={() => showPopUp("Quick Enroll", QuickEnroll)}
               >
                 Quick Enroll
@@ -87,7 +90,8 @@ const UserMember = () => {
             <TableData columns={relationshipColumns} data={relationshipData} />
             <div className="my-3">
               <div className=" p-2 cursor-pointer flex justify-content-between text-xs text-bold">
-                <span>Services</span> <span>POS</span>
+                <span className="font-semibold text-base">Services</span>{" "}
+                <span className="font-semibold text-base">POS</span>
               </div>
 
               <TableData
@@ -96,8 +100,9 @@ const UserMember = () => {
               />
             </div>
             <div className=" p-2 cursor-pointer  flex justify-content-between text-xs text-bold">
-              <span>Resources</span> <span>Calendar</span>
-              <span>Reserve</span>
+              <span className="font-semibold text-base">Resources</span>
+              <span className="font-semibold text-base">Calendar</span>
+              <span className="font-semibold text-base">Reserve</span>
             </div>
 
             <TableData columns={relationshipColumns} data={relationshipData} />

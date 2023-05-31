@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BlackArrow from "../../../../assets/icons/blackarrow.png";
 import { OverlayPanel } from "primereact/overlaypanel";
 import TableData from "../../../../components/cards/dataTable/dataTable";
@@ -12,8 +12,9 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 
 const Employee = () => {
-  const navigate = useNavigate();
   const { manageEmployee, manageEmolyeeData } = dummyData();
+  const { products } = useState();
+  const navigate = useNavigate();
   // const [isActiveColor, setIsActiveColor] = useState(false);
   const op = useRef(null);
   const ope = useRef(null);
@@ -69,7 +70,7 @@ const Employee = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 flex justify-content-end border-none">
+                <div className=" flex justify-content-end border-none">
                   <div className="col-3 border-none ">
                     <Buttons
                       label="Apply"
@@ -102,7 +103,7 @@ const Employee = () => {
                     <Input title="To"></Input>
                   </div>
                 </div>
-                <div className="  flex justify-content-end border-none">
+                <div className="  mt-3 flex justify-content-end border-none">
                   <Buttons
                     label="Apply"
                     className=" p-3 btn-dark border-none "
@@ -110,19 +111,22 @@ const Employee = () => {
                 </div>
               </OverlayPanel>
             </div>
-            <div></div>
           </div>
-          <div className=" mr-3 ">
+          <div className="   text-center">
             <Buttons
               onClick={navigateToAddEmployee}
               label="Add Employee"
-              className="btn-dark p-3 mx-2 border-none "
+              className="btn-dark   p-3 border-none "
               icon="pi pi-plus-circle"
             ></Buttons>
           </div>
         </div>
         <div classsName="mt-3 ">
-          <TableData columns={manageEmployee} data={manageEmolyeeData} />
+          <TableData
+            value={products}
+            columns={manageEmployee}
+            data={manageEmolyeeData}
+          />
         </div>
 
         <div className=" flex justify-content-end">

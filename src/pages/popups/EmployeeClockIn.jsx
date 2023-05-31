@@ -1,7 +1,6 @@
 import React from "react";
 import Input from "../../components/input/input";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useState } from "react";
 import Buttons from "../../components/buttons/button";
 
 const EmployeeClockIn = () => {
@@ -55,24 +54,24 @@ const EmployeeClockIn = () => {
       <div className="text-Show flex justify-content-center align-items-center">
         <h4 className="text-900 text-xs">No Rows to Show</h4>
       </div>
-      <div className="flex justify-content-end">
+      <div className="flex justify-content-end mt-3">
         <div className="flex justify-content-between">
-          <div>
+          <div className="">
             <Buttons
               label="Clock In"
-              className="col-4 btn-dark border-none"
+              className=" p-3 btn-dark border-none"
             ></Buttons>
           </div>
-          <div className="mx-3">
+          <div className=" mx-2 ">
             <Buttons
               label="Clock Out"
-              className="btn-dark border-none  "
+              className=" p-3 btn-dark  border-none  "
             ></Buttons>
           </div>
-          <div>
+          <div className=" ">
             <Buttons
               label="Cancel"
-              className="col btn-grey border-none"
+              className=" p-3 btn-grey border-none"
             ></Buttons>
           </div>
         </div>

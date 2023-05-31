@@ -1,6 +1,6 @@
 import React from "react";
 import CardWithTitle from "../../../../../components/cards/cardWithTitle/cardWithTitle";
-import itemsbackword from "../../../../../assets/icons/itemsbackward.png";
+import itemsbackword from "../../../../../assets/icons/itembackward.png";
 import { PickList } from "primereact/picklist";
 import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";

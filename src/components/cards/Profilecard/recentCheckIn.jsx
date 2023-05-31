@@ -1,8 +1,5 @@
-import React, { useState } from "react";
 import Search from "../../search/search";
 import Filter from "../../../assets/icons/filter.png";
-import Profcard from "../../../assets/icons/profcard.png";
-import Alert from "../../../assets/icons/alert-triangle.png";
 
 const RecentCheckIn = ({ data }) => {
   return (
@@ -10,22 +7,24 @@ const RecentCheckIn = ({ data }) => {
       <div className="w-100 ">
         <div className="">
           <div>
-            <h3>Recent Check-Ins</h3>
+            <h3 className="text-900">Recent Check-Ins</h3>
           </div>
           <div className="flex mt-3 justify-content-between align-items-center">
-            <div className="flex">
-              <span className="text-sm font-semibold text-center mt-3 mx-2">
+            <div className="flex mb-3">
+              <span className="text-sm text-900 font-bold text-center mt-3 mx-2">
                 Check-In
               </span>
               <Search placeholder="Search by barcode/member"></Search>
               <div className="flex  ">
-                <span className="mx-3 mt-3 opacity-50 font-bold">:</span>
+                <span className="mx-3 text-900 mt-3 opacity-50 font-bold">
+                  :
+                </span>
                 <div
                   className="flex text-center mt-3  "
                   style={{ width: "19px", height: "19px" }}
                 >
                   <img className="" src={Filter} alt="" />
-                  <span className="text-sm font-semibold text-center mx-2">
+                  <span className="text-sm text-900 font-bold text-center mx-2">
                     Filter
                   </span>
                 </div>

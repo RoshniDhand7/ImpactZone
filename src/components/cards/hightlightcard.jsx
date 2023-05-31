@@ -1,5 +1,5 @@
 import React from "react";
-import Members from "../../assets/icons/member.png";
+
 import hightlightcards from "./hightlightcards";
 
 const HightLightCard = ({ title, icon, number, className }) => {
@@ -18,7 +18,7 @@ const HightLightCard = ({ title, icon, number, className }) => {
                   >
                     <img
                       className="mt-1"
-                      style={{ width: "19px", height: "19px" }}
+                      style={{ width: "22px", height: "22px" }}
                       src={card.icon}
                       alt=""
                     />

@@ -80,7 +80,7 @@ const mytask = () => {
           </Card>
         </div>
         <div></div>
-        <div className="flex justify-content-end">
+        <div className="flex justify-content-end mt-3">
           <div className="">
             <Buttons
               icon="pi pi-plus-circle"

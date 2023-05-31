@@ -9,11 +9,14 @@ const Input = ({
   onChange,
   error,
   value,
+  required,
   ...props
 }) => {
   return (
     <div className="flex flex-column gap-2">
-      <label className="text-xs text-dark-gray   font-semibold">{title}</label>
+      <label className="text-xs text-dark-gray   font-semibold">
+        {title} {required ? <span className="text-red-500">*</span> : null}
+      </label>
       {/* <span className="p-input-icon-left">
         <i className="pi pi-search" /> */}
       <InputText

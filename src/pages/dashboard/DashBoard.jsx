@@ -1,8 +1,6 @@
 import React from "react";
 import HightLightCard from "../../components/cards/hightlightcard";
 import Graphcard from "../../components/cards/graphcards/graphcard";
-
-import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import chartData from "../../components/cards/graphcards/activemember";
 import MemberStatus from "../../components/cards/graphcards/memberstatusbymonth";
@@ -26,7 +24,6 @@ const DashBoard = () => {
             <div className=" col-6 ">
               <Graphcard>
                 <div className="mx-5 font-bold text-lg mt-3">
-                  {" "}
                   % Active Members Checked-In
                 </div>
                 <ReactApexChart

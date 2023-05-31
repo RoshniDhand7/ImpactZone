@@ -1,0 +1,19 @@
+.custome-checkbox {
+  .checked {
+    display: none;
+    color: $green;
+    font-weight: 800;
+  }
+  .unchecked {
+    // color: $green;
+    font-weight: 800;
+  }
+  input:checked + label {
+    i.checked {
+      display: inline;
+    }
+    i.unchecked {
+      display: none;
+    }
+  }
+}
