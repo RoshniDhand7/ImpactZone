@@ -84,7 +84,7 @@ export default function TopBar({ setIsActive, isActive }) {
                 ></i>
               </div>
             </Link>
-            <div onClick={() => showPopUp("", mytask)}>
+            <div onClick={() => showPopUp("My Tasks", mytask)}>
               <img className="icon-size" src={addtask} alt="" />
             </div>
             <div

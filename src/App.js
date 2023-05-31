@@ -6,15 +6,14 @@ import TopBar from "./layout/Topbar";
 import Login from "./pages/login/login";
 import Forgotpassword from "./pages/forgotPassword/forgotPassword";
 import DashBoard from "./pages/dashboard/DashBoard";
-import AddMember from "./pages/popups/addMember";
+import FastAdd from "./pages/popups/fastAdd";
 import UserMember from "./pages/checkIn/userMember";
 import Settings from "./pages/settings/settings";
 import Company from "./pages/settings/BusinessSettings/company/company";
 import ReasonCode from "./pages/settings/BusinessSettings/reason Code/reasonCode";
 import AddReasonCode from "./pages/settings/BusinessSettings/reason Code/addResonCode";
 import BusinessSettings from "./pages/settings/BusinessSettings/BusinessSettings";
-
-import ManageEmployee from "./pages/settings/Employee/employee";
+import ManageEmployee from "./pages/settings/Employee/manageEmployee";
 import AddEmployee from "./pages/settings/Employee/manageEmployee/addemployee/addEmployee";
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
           <Route>
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/user-member" element={<UserMember />} />
-            <Route exact path="/fastadd" element={<AddMember />} />
+            <Route exact path="/fastadd" element={<FastAdd />} />
             <Route exact path="/forgotpassword" element={<Forgotpassword />} />
             <Route
               exact
@@ -39,6 +38,7 @@ function App() {
             <Route exact path="/addReasonCode" element={<AddReasonCode />} />
             <Route exact path="/manageEmployee" element={<ManageEmployee />} />
             <Route exact path="/addEmployee" element={<AddEmployee />} />
+
             <Route exact path="/settings" element={<Settings />} />
             <Route
               exact

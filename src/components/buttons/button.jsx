@@ -12,7 +12,7 @@ export default function Buttons({
   return (
     <Button
       label={label}
-      className={"w-full  mt-2  text-sm   " + " " + className}
+      className={"w-full  text-sm   " + " " + className}
       onClick={onClick}
       style={style}
       icon={icon}

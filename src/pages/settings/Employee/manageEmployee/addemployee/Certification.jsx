@@ -36,7 +36,7 @@ const Certifications = () => {
           </CardWithTitle>
         </div>
         <div className="my-2">
-          <CardWithTitle title="General">
+          <CardWithTitle title="Acquired Date">
             <div className="flex">
               <div className="col-3 p-4 flex ">
                 <div className="col border-round bg-white ">Date</div>

@@ -12,11 +12,11 @@ import { InputTextarea } from "primereact/inputtextarea";
 const GeneralAddEmployee = () => {
   return (
     <>
-      <div>
-        <Checkbox title="Active" className=" text-900 font-bold" />
-        <div>
+      <div className="my-3">
+        <Checkbox title="Active" className=" text-900 font-semibold " />
+        <div className="my-3 ">
           <div className="my-2">
-            <CardWithTitle title="Personal">
+            {/* <CardWithTitle title="Personal">
               <div className="p-3">
                 <div className="flex ">
                   <div className="col">
@@ -44,13 +44,13 @@ const GeneralAddEmployee = () => {
                   </div>
                 </div>
               </div>
-            </CardWithTitle>
+            </CardWithTitle> */}
             <div className="my-2">
               <CardWithTitle title="Employment">
                 <div className="p-3">
                   <div className="flex ">
                     <div className="col-4">
-                      <Input title="Hire Date"></Input>
+                      <Input title="Hire Date" type="date"></Input>
                     </div>
                     <div className="col-4">
                       <Input title="ADP ID"></Input>
