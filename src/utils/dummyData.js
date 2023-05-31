@@ -9,31 +9,19 @@ const dummyData = () => {
   const relationshipData = [
     {
       code: 123,
-      name: "Amrit",
+      name: "Jason Statham",
       category: "qwe",
       quantity: "123",
     },
     {
       code: 123,
-      name: "Amrit",
+      name: "Jason Statham",
       category: "qwe",
       quantity: "123",
     },
     {
       code: 123,
-      name: "Amrit",
-      category: "qwe",
-      quantity: "123",
-    },
-    {
-      code: 123,
-      name: "Amrit",
-      category: "qwe",
-      quantity: "123",
-    },
-    {
-      code: 123,
-      name: "Amrit",
+      name: "Jason Statham",
       category: "qwe",
       quantity: "123",
     },
