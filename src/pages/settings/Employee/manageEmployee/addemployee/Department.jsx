@@ -17,10 +17,10 @@ const Department = () => {
               <div>
                 <Input title="Default Hourly Wages" placeholder="$0.00"></Input>
               </div>
-              <div className="col-2 mt-3  px-3">
+              <div className=" mt-3  px-3">
                 <Buttons
                   label="Copy to All"
-                  className="btn-dark border-none px- "
+                  className="btn-dark border-none mx-4  "
                 ></Buttons>
               </div>
             </div>
@@ -152,16 +152,16 @@ const Department = () => {
       </div>
       <div className="flex justify-content-end p-2 ">
         <div className=" mt-3 flex  ">
-          <div className="">
+          <div className="mx-4">
             <Buttons
               label="Save"
-              className="btn-dark p-3 px-4  border-none"
+              className="btn-dark mx-3 border-none"
             ></Buttons>
           </div>
-          <div className="ml-3 ">
+          <div className=" ">
             <Buttons
               label="Cancel"
-              className="btn-grey p-3   border-none"
+              className="btn-grey   border-none"
             ></Buttons>
           </div>
         </div>

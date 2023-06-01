@@ -166,17 +166,17 @@ const GeneralAddEmployee = () => {
           </div>
         </div>
         <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
+          <div className="  flex  ">
             <div className="">
               <Buttons
                 label="Save"
-                className="btn-dark  px-4  border-none"
+                className="btn-dark px-4  border-none"
               ></Buttons>
             </div>
             <div className="ml-3 ">
               <Buttons
                 label="Cancel"
-                className="btn-grey    border-none"
+                className="btn-grey  border-none"
               ></Buttons>
             </div>
           </div>

@@ -218,20 +218,14 @@ const Pay = () => {
             <Buttons
               label="Add"
               icon="pi pi-plus-circle"
-              className="btn-dark p-3 px-4   border-none"
+              className="btn-dark   border-none"
             ></Buttons>
           </div>
           <div className="">
-            <Buttons
-              label="Save"
-              className="btn-dark p-3 px-4  border-none"
-            ></Buttons>
+            <Buttons label="Save" className="btn-dark border-none"></Buttons>
           </div>
           <div className="ml-2 ">
-            <Buttons
-              label="Cancel"
-              className="btn-grey p-3   border-none"
-            ></Buttons>
+            <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
           </div>
         </div>
       </div>

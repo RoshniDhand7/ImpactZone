@@ -24,26 +24,23 @@ const Notes = () => {
               <Buttons
                 label="Add"
                 icon={"pi pi-plus-circle"}
-                className="btn-dark p-3 px-4    border-none"
+                className="btn-dark border-none"
               ></Buttons>
             </div>
             <div>
               <Buttons
                 label="Print"
                 icon={"pi pi-print"}
-                className="bg-yellow p-3    border-none"
+                className="bg-yellow  border-none"
               ></Buttons>
             </div>
             <div className="mx-2">
-              <Buttons
-                label="Save"
-                className="btn-dark p-3 px-4   border-none"
-              ></Buttons>
+              <Buttons label="Save" className="btn-dark  border-none"></Buttons>
             </div>
             <div>
               <Buttons
                 label="Cancel"
-                className="btn-grey border-none p-3"
+                className="btn-grey border-none"
               ></Buttons>
             </div>
           </div>
