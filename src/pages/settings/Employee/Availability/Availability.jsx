@@ -83,20 +83,32 @@ const Availability = () => {
         </div>
       </div>
       <div className="mt-3 flex justify-content-end col-12">
-        <div className="flex col-6  ">
-          <Buttons
-            label="Clear Week"
-            className="btn-dark p-3 border-none"
-          ></Buttons>
-          <Buttons
-            label="Copy Week"
-            className="btn-dark p-3 mx-2 border-none"
-          ></Buttons>
-          <Buttons label="Save" className="btn-dark border-none"></Buttons>
-          <Buttons
-            label="Cancel"
-            className="btn-grey ml-2  border-none"
-          ></Buttons>
+        <div className="flex   ">
+          <div>
+            {" "}
+            <Buttons
+              label="Clear Week"
+              className="btn-dark p-3 border-none"
+            ></Buttons>
+          </div>
+          <div className="mx-2 ">
+            <Buttons
+              label="Copy Week"
+              className="btn-dark p-3 border-none"
+            ></Buttons>
+          </div>
+          <div>
+            <Buttons
+              label="Save"
+              className="btn-dark border-none p-3"
+            ></Buttons>
+          </div>
+          <div className="ml-2">
+            <Buttons
+              label="Cancel"
+              className="btn-grey ml-2 p-3  border-none"
+            ></Buttons>
+          </div>
         </div>
       </div>
 

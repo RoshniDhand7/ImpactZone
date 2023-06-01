@@ -1,6 +1,6 @@
 import React from "react";
 import Remove from "../../../../../../assets/icons/remove.png";
-
+import Buttons from "../../../../../../components/buttons/button";
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
@@ -84,6 +84,22 @@ const CalendarDefacult = () => {
               </div>
             </div>
           </CardWithTitle>
+        </div>
+      </div>
+      <div className="flex justify-content-end p-2 ">
+        <div className=" mt-3 flex  ">
+          <div className="">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 px-4  border-none"
+            ></Buttons>
+          </div>
+          <div className="ml-3 ">
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3   border-none"
+            ></Buttons>
+          </div>
         </div>
       </div>
       <div className="mt-3">

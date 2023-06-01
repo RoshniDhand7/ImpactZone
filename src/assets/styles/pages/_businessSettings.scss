@@ -21,9 +21,8 @@
 }
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
-  background: $lightestblue !important;
-  border-color: #5e81ac;
-  color: #000000;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 }
 .p-tabview .p-tabview-nav li .p-tabview-nav-link {
   border: solid #e5e9f0;
@@ -32,10 +31,11 @@
   background: $lightestblue !important;
   color: #000000;
   padding: 1rem;
-  font-weight: 600;
+  font-weight: 400 !important;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   transition: none;
+  font-size: 14px !important;
   margin: 0 64px -2px 0 !important;
 }
 .p-tabview-nav-content {

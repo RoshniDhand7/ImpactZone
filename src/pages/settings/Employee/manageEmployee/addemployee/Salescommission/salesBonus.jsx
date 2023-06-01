@@ -91,19 +91,27 @@ const SalesBonus = () => {
           </div>
         </CardWithTitle>
       </div>
-      <div className="flex justify-content-end pt-2 ">
-        <div className="col-3 flex  ">
-          <Buttons
-            label="Add"
-            icon={"pi pi-plus-circle"}
-            className="btn-dark p-3 border-none"
-          ></Buttons>
-          <Buttons
-            label="Save"
-            className="btn-dark p-3  mx-2  border-none"
-          ></Buttons>
-
-          <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
+      <div className="flex justify-content-end p-2 ">
+        <div className=" mt-3 flex  ">
+          <div className="mx-3">
+            <Buttons
+              label="Add"
+              icon="pi pi-plus-circle"
+              className="btn-dark p-3 px-4   border-none"
+            ></Buttons>
+          </div>
+          <div className="">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 px-4  border-none"
+            ></Buttons>
+          </div>
+          <div className="ml-3 ">
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3   border-none"
+            ></Buttons>
+          </div>
         </div>
       </div>
       <div>

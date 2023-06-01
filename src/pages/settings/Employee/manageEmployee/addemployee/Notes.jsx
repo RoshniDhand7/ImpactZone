@@ -18,24 +18,34 @@ const Notes = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="flex justify-content-end pt-2 ">
-          <div className="col-4 flex  ">
-            <Buttons
-              label="Add"
-              icon={"pi pi-plus-circle"}
-              className="btn-dark p-3  mx-2  border-none"
-            ></Buttons>
-            <Buttons
-              label="Print"
-              icon={"pi pi-print"}
-              className="bg-yellow p-3  mx-2  border-none"
-            ></Buttons>
-            <Buttons
-              label="Save"
-              className="btn-dark p-3  mx-2  border-none"
-            ></Buttons>
-
-            <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
+        <div className="flex justify-content-end pt-2">
+          <div className="flex  mr-2 mt-3 ">
+            <div className="mx-2">
+              <Buttons
+                label="Add"
+                icon={"pi pi-plus-circle"}
+                className="btn-dark p-3 px-4    border-none"
+              ></Buttons>
+            </div>
+            <div>
+              <Buttons
+                label="Print"
+                icon={"pi pi-print"}
+                className="bg-yellow p-3    border-none"
+              ></Buttons>
+            </div>
+            <div className="mx-2">
+              <Buttons
+                label="Save"
+                className="btn-dark p-3 px-4   border-none"
+              ></Buttons>
+            </div>
+            <div>
+              <Buttons
+                label="Cancel"
+                className="btn-grey border-none p-3"
+              ></Buttons>
+            </div>
           </div>
         </div>
       </div>

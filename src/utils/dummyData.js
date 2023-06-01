@@ -3,7 +3,15 @@ const dummyData = () => {
     { field: "code", header: "Code" },
     { field: "name", header: "Name" },
     { field: "category", header: "Category" },
-    { field: "quantity", header: "Quantity" },
+    { field: "quantity", header: "Quan  tity" },
+  ];
+
+  const commissionTableData = [
+    {
+      commissionGroup: ["Group 1", "Group 2"],
+      commissionType: ["Type 1", "Type 2"],
+      pay: null,
+    },
   ];
 
   const relationshipData = [
@@ -244,6 +252,7 @@ const dummyData = () => {
     manageTimesheets,
     departmentData,
     ManageSecurityData,
+    commissionTableData,
   };
 };
 

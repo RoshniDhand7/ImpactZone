@@ -8,7 +8,7 @@ const mytask = () => {
   return (
     <>
       <div>
-        <div className=" flex justify-content-betweem text-base ">
+        <div className=" flex justify-content-between text-base p-2 ">
           <Buttons
             label="All"
             className=" shadow-2 btn-lightblue text-base  "

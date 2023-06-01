@@ -119,18 +119,19 @@ const CancelCode = () => {
           </CardWithTitle>
         </div>
       </div>
-      <div className="flex justify-content-end p-3">
-        <div className="col-2 flex  ">
+      <div className="flex justify-content-end mt-3">
+        <div className="col-1">
+          <Buttons label="Save" className=" p-3 btn-dark border-none"></Buttons>
+        </div>
+        <div className="col-1">
           <Buttons
-            label="Save"
-            className="btn-dark p-3 mx-2  border-none"
+            label="Cancel"
+            className=" p-3 btn-grey border-none"
           ></Buttons>
-
-          <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
         </div>
       </div>
       <div>
-        <div className="bottom-0  mt-2">
+        <div className="bottom-0  mt-5">
           <RecentCheckIn data={checkInData}></RecentCheckIn>
         </div>
       </div>

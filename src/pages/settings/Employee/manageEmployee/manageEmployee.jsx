@@ -31,7 +31,7 @@ const Employee = () => {
               onClick={(e) => op.current.toggle(e)}
               className="col-12  bg-white cursor-pointer border-round flex justify-content-between "
             >
-              <div className="text-sm text-900">General</div>
+              <div className="text-sm mt-1 text-900">General</div>
               <div className="">
                 <img
                   style={{ width: "8px", height: "7.25px" }}
@@ -85,7 +85,7 @@ const Employee = () => {
               onClick={(e) => ope.current.toggle(e)}
               className=" col-12 cursor-pointer bg-white border-round flex justify-content-between mx-3 "
             >
-              <div className="text-sm   text-900">Hire Details</div>
+              <div className="text-sm mt-1  text-900">Hire Details</div>
               <div className=" ">
                 <img
                   style={{ width: "8px", height: "7.25px" }}
@@ -112,13 +112,15 @@ const Employee = () => {
               </OverlayPanel>
             </div>
           </div>
-          <div className="   text-center">
-            <Buttons
-              onClick={navigateToAddEmployee}
-              label="Add Employee"
-              className="btn-dark   p-3 border-none "
-              icon="pi pi-plus-circle"
-            ></Buttons>
+          <div className=" mr-2   text-center">
+            <div className="p-1">
+              <Buttons
+                onClick={navigateToAddEmployee}
+                label="Add Employee"
+                className="btn-dark p-3 border-none "
+                icon="pi pi-plus-circle"
+              ></Buttons>
+            </div>
           </div>
         </div>
         <div classsName="mt-3 ">
@@ -129,11 +131,11 @@ const Employee = () => {
           />
         </div>
 
-        <div className=" mt-3 flex justify-content-end">
-          <div className="col-1 ">
+        <div className=" m-2 mt-3 flex justify-content-end">
+          <div className="">
             <Buttons
               label="Print"
-              className="bg-yellow p-3 ml-2  border-none"
+              className="bg-yellow text-900 p-3    border-none"
               icon={
                 <i className="pi pi-print " style={{ fontSize: "1rem" }}></i>
               }
