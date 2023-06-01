@@ -17,7 +17,7 @@ const Department = () => {
               <div>
                 <Input title="Default Hourly Wages" placeholder="$0.00"></Input>
               </div>
-              <div className="col-2 mt-2  px-3">
+              <div className="col-2 mt-3  px-3">
                 <Buttons
                   label="Copy to All"
                   className="btn-dark border-none px- "
@@ -26,13 +26,15 @@ const Department = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div>
+        <div className="mt-3">
           <CardWithTitle title="Deparments">
             <div>
               <div className="p-3">
                 <div className="flex justify-content-between px-3 p-2">
-                  <div className="text-xs">Name</div>
-                  <div className="text-blue text-xs">Add All</div>
+                  <div className="text-xs font-semibold text-dark-gray">
+                    Name
+                  </div>
+                  <div className="text-blue text-xs font-semibold">Add All</div>
                 </div>
                 <div className=" justify-content-between bg-white p-3 border-round-md">
                   <div className="text-xs text-gray-400 flex justify-content-between p-2">
@@ -110,9 +112,15 @@ const Department = () => {
               </div>
               <div className="p-3">
                 <div className="flex justify-content-between px-3 p-2">
-                  <div className="text-xs">Name</div>
-                  <div className="text-blue text-xs">Wages</div>
-                  <div className="text-blue text-xs ">Remove All</div>
+                  <div className="text-xs  font-semibold text-dark-gray ">
+                    Name
+                  </div>
+                  <div className=" font-semibold  text-xs text-dark-gray">
+                    Wages
+                  </div>
+                  <div className="text-blue  font-semibold  text-xs ">
+                    Remove All
+                  </div>
                 </div>
                 <div className="text-sm">
                   <div className="bg-white text-sm border-round-md ">
@@ -121,8 +129,10 @@ const Department = () => {
                         <span className="text-xs text-gray-300 ">Trainers</span>
                       </div>
                       <div>
-                        <div className="">
-                          <Input></Input>
+                        <div className="col-5 ml-8 -m-2 text-center flex justify-content-center">
+                          <div className="flex  justify-content-center">
+                            <Input placeholder="$0.00"></Input>
+                          </div>
                         </div>
                       </div>
                       <div className=" pt-3 flex justify-content-end">
@@ -131,7 +141,8 @@ const Department = () => {
                         </div>
                       </div>
                     </div>
-                    <hr />
+                    <hr className="hrtagstyle" />
+                    <div className="flex p-5 text-sm justify-content-between"></div>
                   </div>
                 </div>
               </div>
@@ -139,14 +150,20 @@ const Department = () => {
           </CardWithTitle>
         </div>
       </div>
-      <div className="flex justify-content-end pt-2 ">
-        <div className="col-2 flex  ">
-          <Buttons
-            label="Save"
-            className="btn-dark p-3 mx-2  border-none"
-          ></Buttons>
-
-          <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
+      <div className="flex justify-content-end p-2 ">
+        <div className=" mt-3 flex  ">
+          <div className="">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 px-4  border-none"
+            ></Buttons>
+          </div>
+          <div className="ml-3 ">
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3   border-none"
+            ></Buttons>
+          </div>
         </div>
       </div>
       <div>

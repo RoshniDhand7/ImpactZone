@@ -10,13 +10,15 @@ export default function Buttons({
   iconPos,
 }) {
   return (
-    <Button
-      label={label}
-      className={"w-full  text-sm   " + " " + className}
-      onClick={onClick}
-      style={style}
-      icon={icon}
-      iconPos={iconPos}
-    />
+    <div>
+      <Button
+        label={label}
+        className={"w-full  text-sm mx-2   " + " " + className}
+        onClick={onClick}
+        style={style}
+        icon={icon}
+        iconPos={iconPos}
+      />
+    </div>
   );
 }

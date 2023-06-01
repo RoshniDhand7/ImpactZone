@@ -1,5 +1,6 @@
 import Search from "../../search/search";
 import Filter from "../../../assets/icons/filter.png";
+import Input from "../../input/input";
 
 const RecentCheckIn = ({ data }) => {
   return (
@@ -14,7 +15,11 @@ const RecentCheckIn = ({ data }) => {
               <span className="text-sm text-900 font-bold text-center mt-3 mx-2">
                 Check-In
               </span>
-              <Search placeholder="Search by barcode/member"></Search>
+              <Input
+                icon="pi pi-search"
+                type="search"
+                placeholder="Search by barcode/member"
+              ></Input>
               <div className="flex  ">
                 <span className="mx-3 text-900 mt-3 opacity-50 font-bold">
                   :
@@ -34,7 +39,7 @@ const RecentCheckIn = ({ data }) => {
               </div>
             </div>
             <div className="">
-              <button className="p-2 px-3 text-black bg-white border-1 border-round cursor-pointer">
+              <button className=" btn-more text-black bg-white border-1 border-round cursor-pointer">
                 More
               </button>
             </div>
@@ -56,7 +61,7 @@ const RecentCheckIn = ({ data }) => {
               >
                 <div
                   className="border-circle   "
-                  style={{ width: "80px", height: "80px" }}
+                  style={{ width: "79px", height: "73px" }}
                 >
                   <img className="border-circle" src={card.image} alt="" />
                 </div>

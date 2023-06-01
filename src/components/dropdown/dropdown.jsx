@@ -2,8 +2,15 @@ import React from "react";
 import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 
-const DropDown = ({ value, optionLabel, placeholder, title, required }) => {
-  const [countries, setSelectedCountry] = useState();
+const DropDown = ({
+  value,
+  optionLabel,
+  options,
+  placeholder,
+  title,
+  required,
+}) => {
+  // const [countries, setSelectedCountry] = useState();
   // const citySelectItems = [
   //   { label: "New York", value: "NY" },
   //   { label: "Rome", value: "RM" },
@@ -19,8 +26,8 @@ const DropDown = ({ value, optionLabel, placeholder, title, required }) => {
       </label>
       <Dropdown
         value={value}
-        options={countries}
-        onChange={(e) => setSelectedCountry(e.value)}
+        options={options}
+        // onChange={(e) => setSelectedCountry(e.value)}
         optionLabel={optionLabel}
         placeholder={placeholder}
       />

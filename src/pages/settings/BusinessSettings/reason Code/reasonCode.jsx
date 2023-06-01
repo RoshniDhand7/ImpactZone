@@ -12,29 +12,33 @@ const ReasonCode = () => {
   return (
     <>
       <div className="my-2">
-        <div className=" btn-lightblue flex justify-content-between p-2 border-round-md  ">
-          <div className=" flex justify-content-around">
-            <div className="flex align-items-center mr-3 ">
-              <span className="mx-3">Type:</span>
-              <DropDown></DropDown>
+        <div className="col-12 p-0 btn-lightblue flex justify-content-between p-2 border-round-md  ">
+          <div className="col-8  p-0 flex justify-content-around align-items-center">
+            <div className="col-3 p-0 flex align-items-center  align-items-center mr-3 ">
+              <span className="mx-3 text-xs font-semibold">Type:</span>
+              <div className="col-12 p-0 ">
+                <DropDown></DropDown>
+              </div>
             </div>
-            <div className="flex justify-content-between align-items-center ">
-              <span className="mx-3">Status:</span>{" "}
-              <DropDown className=""></DropDown>
+            <div className="col-3 flex justify-content-between align-items-center ">
+              <span className="mx-3 text-xs font-semibold">Status:</span>{" "}
+              <div className="col-12 p-0">
+                <DropDown className=""></DropDown>
+              </div>
             </div>
-            <div className="mx-5 ">
+            <div className="col-2  mx-5 ">
               <Buttons
                 label="Search"
-                className="btn-dark border-none"
+                className="btn-dark p-3 border-none"
               ></Buttons>
             </div>
           </div>
-          <div className="mx-3">
+          <div className=" col-2  ">
             <Link to="/addReasonCode">
               <Buttons
-                icon="pi pi-pi-plus"
+                icon="pi pi-plus-circle"
                 label=" Add Reason Code"
-                className="btn-dark border-none"
+                className=" p-3 btn-dark border-none"
               ></Buttons>
             </Link>
           </div>
@@ -43,7 +47,15 @@ const ReasonCode = () => {
           <TableData columns={reasonCode} data={reasonCodeData} />
         </div>
       </div>
-      <div className=" mt-2">
+      <div className="flex justify-content-end mt-3">
+        <div className="col-1 ">
+          <Buttons
+            label="Close"
+            className=" p-3 text-900 btn-grey border-none"
+          ></Buttons>
+        </div>
+      </div>
+      <div className=" mt-5">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

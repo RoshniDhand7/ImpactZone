@@ -38,9 +38,9 @@ const Certifications = () => {
         <div className="my-2">
           <CardWithTitle title="Acquired Date">
             <div className="flex">
-              <div className="col-3 p-4 flex ">
+              <div className=" p-4 flex ">
                 <div className="col border-round bg-white ">Date</div>
-                <div>
+                <div className="">
                   <Calendar
                     value={dates}
                     onChange={(e) => setDates(e.value)}
@@ -49,7 +49,7 @@ const Certifications = () => {
                   />
                 </div>
               </div>
-              <div className="col-9 flex">
+              <div className="col-9 mt-2 flex">
                 <div className="col">
                   <Buttons
                     label="Today"
@@ -86,7 +86,7 @@ const Certifications = () => {
                     className="bg-white text-sm text-900 border-none"
                   ></Buttons>
                 </div>
-                <div className="col">
+                <div className="col mr-2">
                   <Buttons
                     label="Search"
                     className="btn-dark text-sm  border-none"
@@ -117,15 +117,27 @@ const Certifications = () => {
           </DataTable>
         </div>
       </div>
-      <div className="flex justify-content-end col-12">
-        <div className="flex col-3  ">
-          <Buttons
-            label="Add"
-            className="btn-dark p-3 border-none"
-            icon="pi pi-plus-circle"
-          ></Buttons>
-          <Buttons label="Save" className="btn-dark mx-2 border-none"></Buttons>
-          <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
+      <div className="flex justify-content-end p-2 ">
+        <div className=" mt-3 flex  ">
+          <div className=" mx-3">
+            <Buttons
+              label="Add "
+              icon="pi pi-plus-circle"
+              className="btn-dark p-3 px-4  border-none"
+            ></Buttons>
+          </div>
+          <div className="">
+            <Buttons
+              label="Save"
+              className="btn-dark p-3 px-4  border-none"
+            ></Buttons>
+          </div>
+          <div className="ml-3 ">
+            <Buttons
+              label="Cancel"
+              className="btn-grey p-3   border-none"
+            ></Buttons>
+          </div>
         </div>
       </div>
       <div>

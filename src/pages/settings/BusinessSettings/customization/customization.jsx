@@ -21,7 +21,7 @@ const Customization = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="flex justify-content-end ">
+        <div className="flex justify-content-end mt-3">
           <div className="   col-1 mx-2  ">
             <Buttons
               label="Save"
@@ -36,7 +36,7 @@ const Customization = () => {
           </div>
         </div>
       </div>
-      <div className="mt-2 static b-0 ">
+      <div className="mt-5 static b-0 ">
         <RecentCheckIn data={checkInData}></RecentCheckIn>
       </div>
     </>
