@@ -35,7 +35,7 @@ const dummyData = () => {
     },
   ];
   const reasonCode = [
-    { field: "name", header: "Name(4)" },
+    { field: "name", header: "Name" },
     { field: "abcCode", header: "ABC Code" },
     { field: "", header: "", body: "tableActionTemplate" },
   ];
@@ -77,9 +77,9 @@ const dummyData = () => {
     { field: "deparment", header: "Deparment" },
     { field: "barcod", header: "Barcode" },
     { field: "address", header: "Address" },
-    { field: "primary", header: "Primary" },
-    { field: "hireDates", header: "Hire Dates" },
-    { field: "terminates", header: "Terminates" },
+    { field: "primary", header: "Primary Phone" },
+    { field: "hireDates", header: "Hire Date" },
+    { field: "terminates", header: "Termination Date" },
     { field: "", header: "", body: actionTemplate },
   ];
   const manageEmolyeeData = [
