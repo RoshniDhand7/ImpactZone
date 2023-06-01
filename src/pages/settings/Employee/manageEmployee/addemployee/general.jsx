@@ -170,13 +170,13 @@ const GeneralAddEmployee = () => {
             <div className="">
               <Buttons
                 label="Save"
-                className="btn-dark p-3 px-4  border-none"
+                className="btn-dark  px-4  border-none"
               ></Buttons>
             </div>
             <div className="ml-3 ">
               <Buttons
                 label="Cancel"
-                className="btn-grey p-3   border-none"
+                className="btn-grey    border-none"
               ></Buttons>
             </div>
           </div>

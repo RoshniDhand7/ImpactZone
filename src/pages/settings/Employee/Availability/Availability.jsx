@@ -14,8 +14,8 @@ const Availability = () => {
   return (
     <>
       <div>
-        <div className=" bg-lightest-blue border-round-md p-2">
-          <div className="col flex justify-content-between">
+        <div className=" bg-lightest-blue border-round-md p-3">
+          <div className="col p-0 flex justify-content-between">
             <div className="">
               <div className=" mt-2 flex flex-column gap-2">
                 <label className="text-xs text-dark-gray   font-semibold">
@@ -27,24 +27,24 @@ const Availability = () => {
                 </span>
               </div>
             </div>
-            <div className="col-4">
+            <div className="col-4 ">
               <DropDown title="Club" placeholder="Club 30591"></DropDown>
             </div>
             <div className="col-4">
               <DropDown title="Track Avalibility" placeholder="Yes"></DropDown>
             </div>
           </div>
-          <div className=" col-12 flex justify-content-between">
+          <div className=" p-0 col-12 flex justify-content-between">
             {/* <span className="p-input-icon-right">
               <i className="pi pi-search" />
               <InputText placeholder="Search" />
             </span> */}
-            <div className=" m-2 flex flex-column gap-2">
+            <div className="flex mt-2 flex-column gap-2">
               <label className="text-xs text-dark-gray   font-semibold">
                 Date
               </label>
               {/* <span className="p-input-icon-left">
-        <i className="pi pi-search" /> */}
+                <i className="p" /> */}
               <Calendar
                 value={dates}
                 onChange={(e) => setDates(e.value)}
@@ -54,7 +54,7 @@ const Availability = () => {
               {/* </span> */}
             </div>
 
-            <div className="col-4">
+            <div className="col-4 ml-4">
               <DropDown title="Duration:" placeholder="15minutes"></DropDown>
             </div>
             <div className="col-4">
@@ -85,34 +85,30 @@ const Availability = () => {
       <div className="mt-3 flex justify-content-end col-12">
         <div className="flex   ">
           <div>
-            {" "}
             <Buttons
               label="Clear Week"
-              className="btn-dark p-3 border-none"
+              className="btn-dark border-none"
             ></Buttons>
           </div>
           <div className="mx-2 ">
             <Buttons
               label="Copy Week"
-              className="btn-dark p-3 border-none"
+              className="btn-dark border-none"
             ></Buttons>
           </div>
           <div>
-            <Buttons
-              label="Save"
-              className="btn-dark border-none p-3"
-            ></Buttons>
+            <Buttons label="Save" className="btn-dark border-none"></Buttons>
           </div>
           <div className="ml-2">
             <Buttons
               label="Cancel"
-              className="btn-grey ml-2 p-3  border-none"
+              className="btn-grey ml-2  border-none"
             ></Buttons>
           </div>
         </div>
       </div>
 
-      <div>
+      <div className="mt-5">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

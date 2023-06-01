@@ -23,21 +23,21 @@ const SecurityRoles = () => {
   const securityRoleList = () => {
     return (
       <div>
-        <div className="p-2 flex align-items-center justify-content-between">
+        <div className=" flex align-items-center justify-content-between my-3">
           <span className="text-xl font-bold text-900">
             Manage Security Roles
           </span>
-          <div className="col-2  ">
+          <div className=" px-2 ">
             <Buttons
               onClick={showAddSecurity}
-              className="p-3 btn-dark border-none"
+              className=" btn-dark border-none"
               label="Add Security Roles"
               icon="pi pi-plus-circle"
             ></Buttons>
           </div>
         </div>
         <div>
-          <div className="mt-3 ">
+          <div className=" mt-2">
             <DataTable
               value={ManageSecurityData}
               selection={selectedPos}

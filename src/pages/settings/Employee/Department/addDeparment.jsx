@@ -49,18 +49,18 @@ const AddDeparment = () => {
                 <div className="flex align-content-center justify-content-center">
                   <div className="text-xs font-semibold">None Found</div>
                 </div>
-                <div className="col-2 ">
-                  <div className="col">
+                <div className=" flex flex-column  justify-content-between mx-3 ">
+                  <div className=" ">
                     <Buttons
                       label="Add"
-                      className="btn-dark border-none p-3 "
+                      className="btn-dark border-none  "
                     ></Buttons>
                   </div>
 
-                  <div className="col">
+                  <div className="mt-3">
                     <Buttons
-                      label="RemoveAll"
-                      className="btn-dark border-none p-3"
+                      label="Remove All"
+                      className="btn-dark border-none "
                     ></Buttons>
                   </div>
                 </div>
@@ -69,14 +69,17 @@ const AddDeparment = () => {
           </div>
         </CardWithTitle>
       </div>
-      <div className=" flex justify-content-end">
-        <div className="col-2">
-          <Buttons label="Save" className="btn-dark p-3 border-none"></Buttons>
+      <div className=" mt-3 px-3 pt-3 flex justify-content-end">
+        <div className="  ">
+          <Buttons
+            label="Save"
+            className="btn-dark mx-4  border-none"
+          ></Buttons>
         </div>
-        <div className="col-2">
+        <div className=" ml-4">
           <Buttons
             label="Cancel"
-            className="btn-grey p-3 border-none"
+            className="btn-grey  mx-3 border-none"
           ></Buttons>
         </div>
       </div>
