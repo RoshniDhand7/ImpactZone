@@ -7,17 +7,59 @@ import Buttons from "../../../../../../components/buttons/button";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import Input from "../../../../../../components/input/input";
 import dummyData from "../../../../../../utils/dummyData";
+import { useState } from "react";
 
 const ItemCommission = () => {
   const { commissionTableData } = dummyData();
+
+  const [payType, setPayType] = useState("");
+
   const commissionGroupTemp = (col) => {
     return <DropDown options={col.commissionGroup}></DropDown>;
   };
   const commissionTypeTemp = (col) => {
     return <DropDown options={col.commissionType}></DropDown>;
   };
+
+  const changePayType = (e) => {
+    setPayType(e.target.value);
+  };
   const payTemp = (col) => {
-    return <Input placeholder="0.00" icon="pi pi-dollar" iconPos="left" />;
+    return (
+      <div className="flex align-items-center">
+        <Input placeholder="0.00" />
+        <input
+          type="radio"
+          name="payType"
+          id="dollar"
+          onChange={(e) => changePayType(e)}
+          value="dollar"
+          hidden
+        />
+        <label
+          htmlFor="dollar"
+          className={payType === "dollar" ? "selected-pay-type" : "pay-type"}
+        >
+          $
+        </label>
+        <input
+          type="radio"
+          name="payType"
+          id="percentage"
+          value="percentage"
+          hidden
+          onChange={(e) => changePayType(e)}
+        />
+        <label
+          htmlFor="percentage"
+          className={
+            payType === "percentage" ? "selected-pay-type" : "pay-type"
+          }
+        >
+          %
+        </label>
+      </div>
+    );
   };
 
   const actionTemp = (col) => {
