@@ -137,20 +137,17 @@ const Bonus = () => {
             <Buttons
               label="Add"
               icon="pi pi-plus-circle"
-              className="btn-dark  p-3 px-4  border-none"
+              className="btn-dark  border-none"
             ></Buttons>
           </div>
           <div className="">
             <Buttons
               label="Save"
-              className="btn-dark p-3 px-4  border-none"
+              className="btn-dark mx-3 border-none"
             ></Buttons>
           </div>
-          <div className="ml-3 ">
-            <Buttons
-              label="Cancel"
-              className="btn-grey p-3   border-none"
-            ></Buttons>
+          <div className="mx-4 ">
+            <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
           </div>
         </div>
       </div>

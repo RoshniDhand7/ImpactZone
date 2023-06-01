@@ -8,7 +8,7 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 
 const SubstituteOption = () => {
-  const { relationshipColumns, relationshipData } = dummyData();
+  const { relationshipData } = dummyData();
   const [selectedPos, setSelectedPos] = useState(null);
   return (
     <>
@@ -30,8 +30,8 @@ const SubstituteOption = () => {
                 headerStyle={{ width: "3rem" }}
               ></Column>
               <Column field="code" header="Name"></Column>
-              <Column field="name" header="Category"></Column>
-              <Column field="category" header="Price"></Column>
+              <Column field="name" header="Priority"></Column>
+              <Column field="category" header=""></Column>
             </DataTable>
             {/* <div className="p-3 flex justify-content-end">
               <button className=" px-2 p-2 border-round font-semibold bg-white  ">
@@ -42,16 +42,16 @@ const SubstituteOption = () => {
         </div>
         <div className="flex justify-content-end p-2 ">
           <div className=" mt-3 flex  ">
-            <div className="">
+            <div className=" mx-4">
               <Buttons
                 label="Save"
-                className="btn-dark p-3 px-4  border-none"
+                className="btn-dark mx-3 border-none"
               ></Buttons>
             </div>
-            <div className="ml-3 ">
+            <div className="">
               <Buttons
                 label="Cancel"
-                className="btn-grey p-3   border-none"
+                className="btn-grey   border-none"
               ></Buttons>
             </div>
           </div>

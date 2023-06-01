@@ -119,24 +119,21 @@ const Certifications = () => {
       </div>
       <div className="flex justify-content-end p-2 ">
         <div className=" mt-3 flex  ">
-          <div className=" mx-3">
+          <div className=" mx-2">
             <Buttons
               label="Add "
               icon="pi pi-plus-circle"
-              className="btn-dark p-3 px-4  border-none"
+              className="btn-dark border-none"
             ></Buttons>
           </div>
           <div className="">
             <Buttons
               label="Save"
-              className="btn-dark p-3 px-4  border-none"
+              className="btn-dark mx-3 border-none"
             ></Buttons>
           </div>
-          <div className="ml-3 ">
-            <Buttons
-              label="Cancel"
-              className="btn-grey p-3   border-none"
-            ></Buttons>
+          <div className="ml-4 ">
+            <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
           </div>
         </div>
       </div>

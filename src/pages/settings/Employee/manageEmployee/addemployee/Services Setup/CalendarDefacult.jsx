@@ -11,11 +11,11 @@ const CalendarDefacult = () => {
     <>
       <div>
         <div className="">
-          <div className="flex">
-            <div className="mb-3 col-3 flex">
+          <div className="col-3 p-0 flex mb-3">
+            <div className=" col flex">
               <DropDown title="Event" placeholder="Selected Event"></DropDown>
             </div>
-            <div className="mb-3 col-3 flex">
+            <div className=" col flex">
               <DropDown
                 title="Similar To"
                 placeholder="Select Employee"
@@ -88,16 +88,16 @@ const CalendarDefacult = () => {
       </div>
       <div className="flex justify-content-end p-2 ">
         <div className=" mt-3 flex  ">
-          <div className="">
+          <div className=" mx-4">
             <Buttons
               label="Save"
-              className="btn-dark p-3 px-4  border-none"
+              className="btn-dark mx-3  border-none"
             ></Buttons>
           </div>
-          <div className="ml-3 ">
+          <div className=" ">
             <Buttons
               label="Cancel"
-              className="btn-grey p-3   border-none"
+              className="btn-grey    border-none"
             ></Buttons>
           </div>
         </div>
