@@ -31,7 +31,7 @@ const Employee = () => {
               onClick={(e) => op.current.toggle(e)}
               className="col-12  bg-white cursor-pointer border-round flex justify-content-between "
             >
-              <div className="text-sm mt-1 text-900">General</div>
+              <div className="text-sm text-900">General</div>
               <div className="">
                 <img
                   style={{ width: "8px", height: "7.25px" }}
@@ -66,15 +66,16 @@ const Employee = () => {
                       <Input title="Barcode"></Input>
                     </div>
                     <div className="mt-2">
-                      <Input title="Traning Level"></Input>
+                      <DropDown title="Traning Level"></DropDown>
                     </div>
                   </div>
                 </div>
-                <div className=" flex justify-content-end border-none">
-                  <div className="col-3 border-none ">
+                <div className=" flex justify-content-end border-none px-3 ">
+                  <div className="border-none pt-2 ">
                     <Buttons
                       label="Apply"
-                      className=" p-3 btn-dark border-none "
+                      className="btn-dark border-none"
+                      style={{}}
                     ></Buttons>
                   </div>
                 </div>
@@ -83,10 +84,10 @@ const Employee = () => {
 
             <div
               onClick={(e) => ope.current.toggle(e)}
-              className=" col-12 cursor-pointer bg-white border-round flex justify-content-between mx-3 "
+              className=" col-12  cursor-pointer bg-white border-round flex justify-content-between align-items-center mx-3 "
             >
-              <div className="text-sm mt-1  text-900">Hire Details</div>
-              <div className=" ">
+              <div className="text-sm   text-900">Hire Details</div>
+              <div className="  ">
                 <img
                   style={{ width: "8px", height: "7.25px" }}
                   src={BlackArrow}
@@ -112,13 +113,17 @@ const Employee = () => {
               </OverlayPanel>
             </div>
           </div>
-          <div className=" mr-2   text-center">
-            <div className="p-1">
+          <div className=" flex justify-content-center align-items-center ">
+            <div className=" px-3">
               <Buttons
                 onClick={navigateToAddEmployee}
                 label="Add Employee"
-                className="btn-dark p-3 border-none "
+                className="btn-dark  border-none "
                 icon="pi pi-plus-circle"
+                // style={{
+                //   padding: "10px 16px 10px 16px",
+                //   fontSize: "12px !important",
+                // }}
               ></Buttons>
             </div>
           </div>
@@ -135,7 +140,7 @@ const Employee = () => {
           <div className="">
             <Buttons
               label="Print"
-              className="bg-yellow text-900 p-3    border-none"
+              className="bg-yellow text-900  border-none"
               icon={
                 <i className="pi pi-print " style={{ fontSize: "1rem" }}></i>
               }

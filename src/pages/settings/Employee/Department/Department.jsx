@@ -22,16 +22,18 @@ const Department = () => {
     return (
       <div>
         <div className=" bg-lightest-blue border-round-lg p-2 flex justify-content-between">
-          <div className="col-3">
+          <div className="col-3 ">
             <DropDown title="Status"></DropDown>
           </div>
-          <div className="col-2">
+          <div className=" px-3 flex justify-content-center align-items-center ">
             <Buttons
               onClick={showAddDeparment}
               label="Add Deparment"
               icon="pi pi-plus-circle "
-              className="border-none btn-dark p-3"
-            />
+              className=" btn-custom border-none btn-dark"
+            >
+              <i className="pi pi-plus-circle" /> Add Deparment
+            </Buttons>
           </div>
         </div>
         <div>
@@ -57,18 +59,12 @@ const Department = () => {
             </DataTable>
           </div>
         </div>
-        <div className=" flex justify-content-end">
-          <div className="col-2">
-            <Buttons
-              label="Save"
-              className="btn-dark p-3 border-none"
-            ></Buttons>
+        <div className=" mt-3 flex justify-content-end">
+          <div className="col-1">
+            <Buttons label="Save" className="btn-dark  border-none"></Buttons>
           </div>
-          <div className="col-2">
-            <Buttons
-              label="Cancel"
-              className="btn-grey p-3 border-none"
-            ></Buttons>
+          <div className="col-1">
+            <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
           </div>
         </div>
       </div>

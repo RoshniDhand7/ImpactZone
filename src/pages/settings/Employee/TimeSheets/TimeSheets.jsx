@@ -49,16 +49,13 @@ const TimeSheets = () => {
           </div>
         </div>
         <div className=" flex justify-content-end">
-          <div className="col-2">
-            <Buttons
-              label="Search"
-              className="btn-dark border-none p-3"
-            ></Buttons>
+          <div className=" mx-3 mt-2">
+            <Buttons label="Search" className="btn-dark border-none "></Buttons>
           </div>
         </div>
       </div>
       <div>
-        <div className="mt-3 ">
+        <div className="mt-3 mx-2 ">
           <DataTable
             value={TimeSheetsData}
             selection={selectedPos}
@@ -81,7 +78,7 @@ const TimeSheets = () => {
           </DataTable>
         </div>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 mx-2">
         <div>
           <RecentCheckIn data={checkInData} />
         </div>

@@ -8,9 +8,7 @@ import checkInData from "../../../../utils/checkInData";
 const AddSecurityRoles = () => {
   return (
     <>
-      {/* <div>
-        <ManageEmployee />
-      </div> */}
+      <div></div>
       <div className="p-3">
         <span className="font-bold text-xl text-900 ">Add Security Roles</span>
         <div className="mt-2">
@@ -30,7 +28,9 @@ const AddSecurityRoles = () => {
             <CardWithTitle title="Add Employee">
               <div className=" p-4 btn-lightest-blue">
                 <div className="ml-4 mb-2">
-                  <span className="text-sm ">Name</span>
+                  <span className="text-sm text-dark-gray font-semibold ">
+                    Name
+                  </span>
                 </div>
 
                 <div className="bg-white col-12 border-round-md ">
@@ -44,18 +44,18 @@ const AddSecurityRoles = () => {
                     <div className="flex align-content-center justify-content-center">
                       <div className="text-xs font-semibold">None Found</div>
                     </div>
-                    <div className="col-2 ">
-                      <div className="col">
+                    <div className=" mx-3">
+                      <div className="">
                         <Buttons
                           label="Add"
-                          className="btn-dark border-none p-3 "
+                          className="btn-dark border-none "
                         ></Buttons>
                       </div>
 
-                      <div className="col">
+                      <div className="mt-3">
                         <Buttons
-                          label="RemoveAll"
-                          className="btn-dark border-none p-3"
+                          label="Remove All"
+                          className="btn-dark border-none"
                         ></Buttons>
                       </div>
                     </div>
@@ -68,7 +68,9 @@ const AddSecurityRoles = () => {
             <CardWithTitle title="Permissions">
               <div className=" p-4 btn-lightest-blue">
                 <div className="ml-4 mb-2">
-                  <span className="text-sm ">Name</span>
+                  <span className="text-sm text-dark-gray font-semibold">
+                    Function
+                  </span>
                 </div>
 
                 <div className="bg-white col-12 border-round-md ">
@@ -82,18 +84,18 @@ const AddSecurityRoles = () => {
                     <div className="flex align-content-center justify-content-center">
                       <div className="text-xs font-semibold">None Found</div>
                     </div>
-                    <div className="col-2 ">
-                      <div className="col">
+                    <div className=" mx-3">
+                      <div className="">
                         <Buttons
                           label="Add"
-                          className="btn-dark border-none p-3 "
+                          className="btn-dark border-none "
                         ></Buttons>
                       </div>
 
-                      <div className="col">
+                      <div className="mt-3">
                         <Buttons
-                          label="RemoveAll"
-                          className="btn-dark border-none p-3"
+                          label="Remove All"
+                          className="btn-dark border-none"
                         ></Buttons>
                       </div>
                     </div>
@@ -104,13 +106,13 @@ const AddSecurityRoles = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-content-end">
-        <div className=" col-2  flex">
-          <div className="col ">
-            <Buttons label="Save" className="btn-dark p-3 border-none " />
+      <div className="flex justify-content-end mr-3">
+        <div className="flex  p-2">
+          <div className="mx-4">
+            <Buttons label="Save" className="btn-dark mx-3 border-none " />
           </div>
-          <div className="col ">
-            <Buttons label="Cancel" className="btn-grey p-3 border-none " />
+          <div className="">
+            <Buttons label="Cancel" className="btn-grey  border-none " />
           </div>
         </div>
       </div>

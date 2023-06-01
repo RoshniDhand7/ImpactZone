@@ -9,10 +9,82 @@ import dummyData from "../../../../../../utils/dummyData";
 import Buttons from "../../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
+import TableData from "../../../../../../components/cards/dataTable/dataTable";
 
 const ServicePay = () => {
   const { relationshipData } = dummyData();
   const [selectedPos, setSelectedPos] = useState(null);
+  // const { commissionTableData } = dummyData();
+
+  // const [payType, setPayType] = useState("");
+
+  // const commissionTypeTemp = (col) => {
+  //   return <DropDown options={col.commissionType}></DropDown>;
+  // };
+
+  // const changePayType = (e) => {
+  //   setPayType(e.target.value);
+  // };
+  // const payTemp = (col) => {
+  //   return (
+  //     <div className="flex align-items-center">
+  //       <Input placeholder="0.00" />
+  //       <input
+  //         type="radio"
+  //         name="payType"
+  //         id="dollar"
+  //         onChange={(e) => changePayType(e)}
+  //         value="dollar"
+  //         hidden
+  //       />
+  //       <label
+  //         htmlFor="dollar"
+  //         className={payType === "dollar" ? "selected-pay-type" : "pay-type"}
+  //       >
+  //         $
+  //       </label>
+  //       <input
+  //         type="radio"
+  //         name="payType"
+  //         id="percentage"
+  //         value="percentage"
+  //         hidden
+  //         onChange={(e) => changePayType(e)}
+  //       />
+  //       <label
+  //         htmlFor="percentage"
+  //         className={
+  //           payType === "percentage" ? "selected-pay-type" : "pay-type"
+  //         }
+  //       >
+  //         %
+  //       </label>
+  //     </div>
+  //   );
+  // };
+
+  // const actionTemp = (col) => {
+  //   return (
+  //     <span>
+  //       <i className="pi pi-minus-circle"></i>
+  //     </span>
+  //   );
+  // };
+
+  // const commissionTableColumns = [
+  //   {
+  //     field: "event",
+  //     header: "Event",
+  //   },
+  //   {
+  //     field: "commissionType",
+  //     header: "Commission Type",
+  //     body: commissionTypeTemp,
+  //   },
+  //   { field: "pay", header: "Pay", body: payTemp },
+  //   { field: "", header: "", body: actionTemp },
+  // ];
+
   return (
     <>
       <div>
@@ -46,6 +118,10 @@ const ServicePay = () => {
           </div>
           <div>
             <div className=" ">
+              {/* <TableData
+                data={commissionTableData}
+                columns={commissionTableColumns}
+              ></TableData> */}
               <DataTable
                 value={relationshipData}
                 selection={selectedPos}
@@ -57,9 +133,9 @@ const ServicePay = () => {
                   selectionMode="multiple"
                   headerStyle={{ width: "3rem" }}
                 ></Column>
-                <Column field="code" header="Name"></Column>
-                <Column field="name" header="Category"></Column>
-                <Column field="category" header="Price"></Column>
+                <Column field="code" header="Event"></Column>
+                <Column field="name" header="Commission "></Column>
+                <Column field="category" header="Pay"></Column>
               </DataTable>
 
               <div className="flex justify-content-end p-2 ">
