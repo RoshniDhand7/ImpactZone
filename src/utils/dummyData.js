@@ -3,7 +3,7 @@ const dummyData = () => {
     { field: "code", header: "Code" },
     { field: "name", header: "Name" },
     { field: "category", header: "Category" },
-    { field: "quantity", header: "Quan  tity" },
+    { field: "quantity", header: "Quantity" },
   ];
 
   const commissionTableData = [
@@ -20,18 +20,21 @@ const dummyData = () => {
       name: "Jason Statham",
       category: "qwe",
       quantity: "123",
+      id: 1,
     },
     {
       code: 123,
       name: "Jason Statham",
       category: "qwe",
       quantity: "123",
+      id: 2,
     },
     {
       code: 123,
       name: "Jason Statham",
       category: "qwe",
       quantity: "123",
+      id: 3,
     },
   ];
   const reasonCode = [

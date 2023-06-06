@@ -2,7 +2,6 @@ import React from "react";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
-import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Buttons from "../../../../../../components/buttons/button";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import Input from "../../../../../../components/input/input";

@@ -8,6 +8,7 @@ import { useState } from "react";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddDeparment from "./addDeparment";
+import Navbar from "../../../../layout/Navbar";
 
 const Department = () => {
   const [addDepartment, setAddDeparment] = useState(false);
@@ -20,8 +21,9 @@ const Department = () => {
 
   const deparmentList = () => {
     return (
-      <div>
-        <div className=" bg-lightest-blue border-round-lg p-2 flex justify-content-between">
+      <div className="p-3">
+        <Navbar />
+        <div className=" mt-2 bg-lightest-blue border-round-lg p-2 flex justify-content-between">
           <div className="col-3 ">
             <DropDown title="Status"></DropDown>
           </div>

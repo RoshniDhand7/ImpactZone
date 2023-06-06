@@ -28,7 +28,7 @@
   z-index: 1;
 }
 a:-webkit-any-link {
-  color: black !important;
+  color: grey !important;
 }
 
 .dropdown-content a {
@@ -50,28 +50,27 @@ a:-webkit-any-link {
 .bgcolor {
   background: #f9f9f9;
 }
-.textcolor {
-  color: rgba(0, 0, 0, 0.5);
-}
-.textcolor:hover {
-  font-weight: 700;
-  font-size: 16px;
-  color: #252b42;
-}
+// .textcolor {
+//   color: rgba(0, 0, 0, 0.5);
+// }
+// .textcolor:hover {
+//   font-weight: 700;
+//   font-size: 16px;
+// }
 .dropdown .dropbtn:hover {
   font-weight: 700;
   font-size: 16px;
-  color: #252b42;
+  color: black;
 }
 .icon-size {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
-#sidebar a.active {
-  color: #252b42;
-  font-weight: 700;
-  font-size: 16px;
+a.active {
+  color: black !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
 }
 .topposition {
   position: sticky;

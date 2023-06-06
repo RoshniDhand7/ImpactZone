@@ -15,6 +15,12 @@ import AddReasonCode from "./pages/settings/BusinessSettings/reason Code/addReso
 import BusinessSettings from "./pages/settings/BusinessSettings/BusinessSettings";
 import ManageEmployee from "./pages/settings/Employee/manageEmployee";
 import AddEmployee from "./pages/settings/Employee/manageEmployee/addemployee/addEmployee";
+import Availability from "./pages/settings/Employee/Availability/Availability";
+import TimeSheets from "./pages/settings/Employee/TimeSheets/TimeSheets";
+import Department from "./pages/settings/Employee/Department/Department";
+import SecurityRoles from "./pages/settings/Employee/Security Roles/securityRoles";
+import ManageReportSecurity from "./pages/settings/Employee/ReportSecurity/ManageReportSecurity";
+import Employee from "./pages/settings/Employee/manageEmployee/manageEmployee";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -37,6 +43,16 @@ function App() {
             <Route exact path="/reasonCode" element={<ReasonCode />} />
             <Route exact path="/addReasonCode" element={<AddReasonCode />} />
             <Route exact path="/manageEmployee" element={<ManageEmployee />} />
+            <Route exact path="/employee" element={<Employee />} />
+            <Route exact path="/availability" element={<Availability />} />
+            <Route exact path="/timesheets" element={<TimeSheets />} />
+            <Route exact path="/department" element={<Department />} />
+            <Route exact path="/securityRoles" element={<SecurityRoles />} />
+            <Route
+              exact
+              path="/manageReportSecurity"
+              element={<ManageReportSecurity />}
+            />
             <Route exact path="/addEmployee" element={<AddEmployee />} />
 
             <Route exact path="/settings" element={<Settings />} />

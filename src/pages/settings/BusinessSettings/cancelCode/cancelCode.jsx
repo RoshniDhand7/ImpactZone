@@ -30,7 +30,11 @@ const CancelCode = () => {
   return (
     <>
       <div>
-        <h4 className="text-bold text-black my-3">IN-Club Cancel Codes</h4>
+        <div className="my-3">
+          <span className="font-bold text-900 text-xl">
+            IN-Club Cancel Codes
+          </span>
+        </div>
         <div className="">
           <CardWithTitle title="Select Cancel Codes">
             <div className="p-3">
@@ -48,86 +52,16 @@ const CancelCode = () => {
                   targetStyle={{ height: "30rem" }}
                 />
               </div>
-
-              {/* <div className="flex justify-content-around my-2 ">
-                <div className="col-5 flex flex-column justify-content-around  border-1 opacity-40 border-round text-grey bg-white w-25">
-                  <div>
-                    <span>10 Days Clause</span>
-                  </div>
-                  <div>
-                    <span>13 Month Clause</span>
-                  </div>
-                  <div>
-                    <span>14 Day Clause</span>
-                  </div>
-                  <div>
-                    <span>14 Day Trail Membership</span>
-                  </div>
-                  <div>
-                    <span>15 Day Clause</span>
-                  </div>
-                  <div>
-                    <span>1st Payment Default</span>
-                  </div>
-                </div>
-                <div className="col-2">
-                  <div className="flex flex-column justify-content-center align-items-center mt-2">
-                    <div>
-                      <div style={{ width: "24px", height: "24px" }}>
-                        <img src={itemsforword} alt="" />
-                      </div>
-                      <div
-                        className="my-2"
-                        style={{ width: "24px", height: "24px" }}
-                      >
-                        <img src={itemforword} alt="" />
-                      </div>
-                      <div style={{ width: "24px", height: "24px" }}>
-                        <img src={itembackword} alt="" />
-                      </div>
-                      <div
-                        className="my-2"
-                        style={{ width: "24px", height: "24px" }}
-                      >
-                        <img src={itemsbackword} alt="" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-5 border-1 opacity-40 text-grey border-round bg-white w-25">
-                  <div>
-                    <span>10 Days Clause</span>
-                  </div>
-                  <div>
-                    <span>13 Month Clause</span>
-                  </div>
-                  {/* <div>
-                    <span>14 Day Clause</span>
-                  </div>
-                  <div>
-                    <span>14 Day Trail Membership</span>
-                  </div>
-                  <div>
-                    <span>15 Day Clause</span>
-                  </div>
-                  <div>
-                    <span>1st Payment Default</span>
-                  </div> */}
-              {/* </div> */}
-              {/* </div> */}
             </div>
           </CardWithTitle>
         </div>
       </div>
-      <div className="flex justify-content-end mt-3">
-        <div className="col-1">
-          <Buttons label="Save" className=" p-3 btn-dark border-none"></Buttons>
+      <div className="flex justify-content-end mt-3 p-2">
+        <div className="mx-5">
+          <Buttons label="Save" className="mx-3 btn-dark border-none"></Buttons>
         </div>
-        <div className="col-1">
-          <Buttons
-            label="Cancel"
-            className=" p-3 btn-grey border-none"
-          ></Buttons>
+        <div className="">
+          <Buttons label="Cancel" className="  btn-grey border-none"></Buttons>
         </div>
       </div>
       <div>

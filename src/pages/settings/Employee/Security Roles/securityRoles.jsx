@@ -6,6 +6,7 @@ import dummyData from "../../../../utils/dummyData";
 import checkInData from "../../../../utils/checkInData";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import AddSecurityRoles from "./AddSecurityRoles";
+import Navbar from "../../../../layout/Navbar";
 
 const SecurityRoles = () => {
   const [addSecurityRole, setAddSecurity] = useState(false);
@@ -22,7 +23,8 @@ const SecurityRoles = () => {
 
   const securityRoleList = () => {
     return (
-      <div>
+      <div className="p-3">
+        <Navbar />
         <div className=" flex align-items-center justify-content-between my-3">
           <span className="text-xl font-bold text-900">
             Manage Security Roles
@@ -61,7 +63,7 @@ const SecurityRoles = () => {
   return (
     <>
       {addSecurityRole ? <AddSecurityRoles /> : securityRoleList()}
-      <div className="mt-5">
+      <div className="mt-5 p-3">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

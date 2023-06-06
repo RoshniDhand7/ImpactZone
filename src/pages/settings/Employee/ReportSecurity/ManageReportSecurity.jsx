@@ -6,6 +6,7 @@ import itemsbackword from "../../../../assets/icons/itembackward.png";
 import Buttons from "../../../../components/buttons/button";
 import checkInData from "../../../../utils/checkInData";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
+import Navbar from "../../../../layout/Navbar";
 
 const ManageReportSecurity = () => {
   const itemTemplate = (item) => {
@@ -29,70 +30,74 @@ const ManageReportSecurity = () => {
   };
   return (
     <>
-      <div className="my-3">
-        <span className="font-bold text-xl text-900">
-          Manage Report Security
-        </span>
+      <div className="p-3">
+        <Navbar />
+
         <div className="my-3">
-          <CardWithTitle title="General">
-            <div className="p-3 flex">
-              <div className="col">
-                <DropDown title="View"></DropDown>
-              </div>
-              <div className="col">
-                <DropDown title="Employee"></DropDown>
-              </div>
-            </div>
-          </CardWithTitle>
-        </div>
-        <div className="my-3">
-          <CardWithTitle title="Report for user (by Security Roles)">
-            <div className="p-3 " style={{ height: "fit-content" }}>
-              <div className="bg-white p-2 border-round-md ">
-                <div className=" flex flex flex-column">
-                  <span className="text-gray-400 text-sm my-2">
-                    -- Drawer Summary
-                  </span>
-                  <span className="text-gray-400 text-sm my-2">
-                    -- Recurring Service Plans Adults
-                  </span>
-                  <span className="text-gray-400 text-sm my-2">
-                    -- Recurring Service Billing Projections
-                  </span>
+          <span className="font-bold text-xl text-900">
+            Manage Report Security
+          </span>
+          <div className="my-3">
+            <CardWithTitle title="General">
+              <div className="p-3 flex">
+                <div className="col">
+                  <DropDown title="View"></DropDown>
+                </div>
+                <div className="col">
+                  <DropDown title="Employee"></DropDown>
                 </div>
               </div>
-            </div>
-          </CardWithTitle>
+            </CardWithTitle>
+          </div>
+          <div className="my-3">
+            <CardWithTitle title="Report for user (by Security Roles)">
+              <div className="p-3 " style={{ height: "fit-content" }}>
+                <div className="bg-white p-2 border-round-md ">
+                  <div className=" flex flex flex-column">
+                    <span className="text-gray-400 text-sm my-2">
+                      -- Drawer Summary
+                    </span>
+                    <span className="text-gray-400 text-sm my-2">
+                      -- Recurring Service Plans Adults
+                    </span>
+                    <span className="text-gray-400 text-sm my-2">
+                      -- Recurring Service Billing Projections
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardWithTitle>
+          </div>
+          <div className="my-3">
+            <CardWithTitle title="Clubs">
+              <div className="card p-3 ">
+                <PickList
+                  // source={source}
+                  // target={target}
+                  // onChange={onChange}
+                  itemTemplate={itemTemplate}
+                  breakpoint=""
+                  sourceHeader="Available"
+                  targetHeader="Selected"
+                  sourceStyle={{ height: "30rem" }}
+                  targetStyle={{ height: "30rem" }}
+                />
+              </div>
+            </CardWithTitle>
+          </div>
         </div>
-        <div className="my-3">
-          <CardWithTitle title="Clubs">
-            <div className="card p-3 ">
-              <PickList
-                // source={source}
-                // target={target}
-                // onChange={onChange}
-                itemTemplate={itemTemplate}
-                breakpoint=""
-                sourceHeader="Available"
-                targetHeader="Selected"
-                sourceStyle={{ height: "30rem" }}
-                targetStyle={{ height: "30rem" }}
-              />
+        <div className="flex justify-content-end ">
+          <div className="flex  p-2">
+            <div className="mx-4">
+              <Buttons label="Save" className="btn-dark mx-3 border-none " />
             </div>
-          </CardWithTitle>
+            <div className="">
+              <Buttons label="Cancel" className="btn-grey  border-none " />
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex justify-content-end ">
-        <div className="flex  p-2">
-          <div className="mx-4">
-            <Buttons label="Save" className="btn-dark mx-3 border-none " />
-          </div>
-          <div className="">
-            <Buttons label="Cancel" className="btn-grey  border-none " />
-          </div>
-        </div>
-      </div>
-      <div className="mt-5 p-2">
+      <div className="mt-5 p-3">
         <RecentCheckIn data={checkInData}></RecentCheckIn>
       </div>
     </>

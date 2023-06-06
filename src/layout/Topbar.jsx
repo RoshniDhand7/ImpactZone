@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/icons/Navlogo.png";
 import Profile from "../assets/icons/profilepic.png";
 import addtask from "../assets/icons/addtask.png";
@@ -42,17 +42,24 @@ export default function TopBar({ setIsActive, isActive }) {
             <div style={{ width: "74px", height: "69px" }} className=" col-4">
               <img src={logo} alt="" />
             </div>
-            <Link to={"/"}>
+            <NavLink to={"/"}>
               <div className="textcolor ">Dashboard</div>
-            </Link>
-            <Link to={"/user-member"}>
+            </NavLink>
+            <NavLink to={"/user-member"}>
               <div className="textcolor">Check-In</div>
-            </Link>
-
-            <div className="textcolor">Members</div>
-            <div className="textcolor">Calendar</div>
-            <div className="textcolor">Point of Sale</div>
-            <div className="textcolor">Plans</div>
+            </NavLink>
+            <NavLink to={"/members"}>
+              <div className="textcolor">Members</div>
+            </NavLink>
+            <NavLink to={"/calendar"}>
+              <div className="textcolor">Calendar</div>
+            </NavLink>
+            <NavLink to={"/pointofsale"}>
+              <div className="textcolor">Point of Sale</div>
+            </NavLink>
+            <NavLink to={"/plan"}>
+              <div className="textcolor">Plans</div>
+            </NavLink>
             <div>
               <div className="dropdown textcolor">
                 <button className="dropbtn ">
@@ -67,7 +74,9 @@ export default function TopBar({ setIsActive, isActive }) {
               </div>
             </div>
 
-            <div className="textcolor">More</div>
+            <NavLink to={"/more"}>
+              <div className="textcolor">More</div>{" "}
+            </NavLink>
           </div>
           <div className="col-4 flex align-items-center justify-content-between ">
             <div onClick={() => showPopUp("", searchBar)}>
@@ -76,14 +85,14 @@ export default function TopBar({ setIsActive, isActive }) {
                 style={{ color: "black" }}
               ></i>
             </div>
-            <Link to="/fastadd">
+            <NavLink to="/fastadd">
               <div>
                 <i
                   className="pi pi-plus-circle icon-size"
                   style={{ color: "black" }}
                 ></i>
               </div>
-            </Link>
+            </NavLink>
             <div onClick={() => showPopUp("My Tasks", mytask)}>
               <img className="icon-size" src={addtask} alt="" />
             </div>
@@ -97,14 +106,14 @@ export default function TopBar({ setIsActive, isActive }) {
                 style={{ color: "black" }}
               ></i>
             </div>
-            <Link to="/settings">
+            <NavLink to="/settings">
               <div>
                 <i
                   className="pi pi-cog icon-size"
                   style={{ color: "black" }}
                 ></i>
               </div>
-            </Link>
+            </NavLink>
             <div>
               <div className="dropdown textcolor">
                 <button className="dropbtn ">

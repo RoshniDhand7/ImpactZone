@@ -9,7 +9,7 @@ const AddResonCode = () => {
   return (
     <>
       <div className="p-3">
-        <h4 className="text-bold my-2">ADD Reason Code</h4>
+        <h4 className="font-bold text-xl  my-3">ADD Reason Code</h4>
         <div className="">
           <CardWithTitle title="Active">
             <div className="col-5 p-4">
@@ -18,8 +18,10 @@ const AddResonCode = () => {
           </CardWithTitle>
         </div>
         <div className="flex justify-content-end">
-          <div className="flex col-2 ">
-            <Buttons label="Save" className="mr-2 btn-dark border-none p-3" />
+          <div className="flex mt-4 mr-2">
+            <div className="mx-4">
+              <Buttons label="Save" className=" mx-3 btn-dark border-none" />
+            </div>
             <Buttons label="Cancel " className="btn-grey border-none " />
           </div>
         </div>

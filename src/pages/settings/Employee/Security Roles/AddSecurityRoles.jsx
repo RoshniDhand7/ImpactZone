@@ -2,15 +2,18 @@ import React from "react";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
-import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
-import checkInData from "../../../../utils/checkInData";
+import Navbar from "../../../../layout/Navbar";
 
 const AddSecurityRoles = () => {
   return (
     <>
-      <div></div>
       <div className="p-3">
-        <span className="font-bold text-xl text-900 ">Add Security Roles</span>
+        <Navbar />
+        <div className="my-3">
+          <span className="font-bold  text-xl text-900 ">
+            Add Security Roles
+          </span>
+        </div>
         <div className="mt-2">
           <CardWithTitle title="General">
             <div className="p-2 flex">
@@ -115,9 +118,6 @@ const AddSecurityRoles = () => {
             <Buttons label="Cancel" className="btn-grey  border-none " />
           </div>
         </div>
-      </div>
-      <div className="p-3">
-        <RecentCheckIn data={checkInData} />
       </div>
     </>
   );

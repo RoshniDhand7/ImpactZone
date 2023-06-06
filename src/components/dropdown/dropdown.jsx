@@ -1,6 +1,5 @@
 import React from "react";
 import { Dropdown } from "primereact/dropdown";
-import { useState } from "react";
 
 const DropDown = ({
   value,
@@ -9,16 +8,8 @@ const DropDown = ({
   placeholder,
   title,
   required,
+  onChange,
 }) => {
-  // const [countries, setSelectedCountry] = useState();
-  // const citySelectItems = [
-  //   { label: "New York", value: "NY" },
-  //   { label: "Rome", value: "RM" },
-  //   { label: "London", value: "LDN" },
-  //   { label: "Istanbul", value: "IST" },
-  //   { label: "Paris", value: "PRS" },
-  // ];
-
   return (
     <div className="flex flex-column gap-2">
       <label className="text-xs text-dark-gray font-semibold">
@@ -27,7 +18,7 @@ const DropDown = ({
       <Dropdown
         value={value}
         options={options}
-        // onChange={(e) => setSelectedCountry(e.value)}
+        onChange={onChange}
         optionLabel={optionLabel}
         placeholder={placeholder}
       />

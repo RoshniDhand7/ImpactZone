@@ -9,28 +9,30 @@ import dummyData from "../../../../utils/dummyData";
 import { useState } from "react";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
+import Navbar from "../../../../layout/Navbar";
 
 const TimeSheets = () => {
   const { TimeSheetsData } = dummyData();
   const [selectedPos, setSelectedPos] = useState(null);
   return (
     <>
-      <div>
+      <div className="p-3">
+        <Navbar />
         <div className="p-0">
           <div className=" px-0 flex justify-content-between">
-            <div className="col-6   ">
+            <div className="col-6 pl-0   ">
               <CardWithTitle title="General">
                 <div className=" flex p-3">
                   <div className="col-6">
                     <DropDown title="Club" placeholder="club 30591"></DropDown>
                   </div>
-                  <div className="col-6">
+                  <div className="col-6 ">
                     <DropDown title="Deparment" placeholder="All"></DropDown>
                   </div>
                 </div>
               </CardWithTitle>
             </div>
-            <div className="col-6 ">
+            <div className="col-6 pr-0 ">
               <CardWithTitle title="Clock In Date">
                 <div className="flex p-3">
                   <div className="col-6">
@@ -55,7 +57,7 @@ const TimeSheets = () => {
         </div>
       </div>
       <div>
-        <div className="mt-3 mx-2 ">
+        <div className="  p-3 ">
           <DataTable
             value={TimeSheetsData}
             selection={selectedPos}
@@ -78,7 +80,7 @@ const TimeSheets = () => {
           </DataTable>
         </div>
       </div>
-      <div className="mt-5 mx-2">
+      <div className="mt-5 mx-2 p-3">
         <div>
           <RecentCheckIn data={checkInData} />
         </div>

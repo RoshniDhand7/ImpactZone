@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
-const TableData = ({ data, columns }) => {
+const TableData = ({ data, columns, selectionMode, delRow }) => {
   const dynamicColumns = columns.map((col, i) => {
-    return (
+    return selectionMode && i === 0 ? (
+      <Column selectionMode="multiple" headerStyle={{ width: "3rem" }}></Column>
+    ) : (
       <Column
         key={col.field}
         field={col.field}
@@ -17,7 +18,7 @@ const TableData = ({ data, columns }) => {
   return (
     <div>
       <div className="card ">
-        <DataTable value={data} responsiveLayout="scroll">
+        <DataTable value={data} responsiveLayout="scroll" delRow={delRow}>
           {dynamicColumns}
         </DataTable>
       </div>

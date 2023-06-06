@@ -11,6 +11,7 @@ const Input = ({
   value,
   required,
   iconPos,
+  style,
   ...props
 }) => {
   return (
