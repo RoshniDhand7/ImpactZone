@@ -90,8 +90,8 @@ const UserMember = () => {
           </div>
         </div>
         <div className="">
-          <div className="grid">
-            <div className="col-3">
+          <div className="grid ">
+            <div className="col-3 pt-0 table-quickenroll-height">
               <div className=" p-2 cursor-pointer  flex justify-content-between  text-xs text-bold">
                 <span className="font-semibold text-base">Event</span>
                 <span className="font-semibold text-base">Calendar</span>
@@ -108,7 +108,7 @@ const UserMember = () => {
                 data={relationshipData}
               />
             </div>
-            <div className="col-9 mt-5 grid">
+            <div className="col-9 pt-0 mt-5 grid">
               <div className="col-6 ">
                 <CardWithTitle title="Member Details">
                   <div className=" card-height flex justify-content-between p-3 text-sm ">
@@ -159,8 +159,8 @@ const UserMember = () => {
               </div>
             </div>
           </div>
-          <div className="grid">
-            <div className="col-3">
+          <div className="grid ">
+            <div className="col-3  table-service-height">
               <div className=" p-2 cursor-pointer flex justify-content-between text-xs text-bold">
                 <span className="font-semibold text-base">Services</span>{" "}
                 <span className="font-semibold text-base">POS</span>
@@ -200,7 +200,7 @@ const UserMember = () => {
               </div>
               <div className="col-6">
                 <CardWithTitle title="Membership">
-                  <div className="card-height flex justify-content-between p-3 text-sm ">
+                  <div className=" card-member-height flex justify-content-between p-3 text-sm ">
                     <div className="  font-bold flex flex-column justify-content-around">
                       <span> Recurring Plans</span>
                       <span>Past Due</span>
@@ -224,13 +224,12 @@ const UserMember = () => {
             </div>
           </div>
           <div className="grid ">
-            <div className="col-3">
+            <div className="col-3 pt-0">
               <div className=" p-2 cursor-pointer  flex justify-content-between text-xs text-bold">
                 <span className="font-semibold text-base">Resources</span>
                 <span className="font-semibold text-base">Calendar</span>
                 <span className="font-semibold text-base">Reserve</span>
               </div>
-
               <TableData
                 columns={relationshipColumns}
                 data={relationshipData}
@@ -244,7 +243,7 @@ const UserMember = () => {
             </div>
           </div>
         </div>
-        <div className="">
+        <div className=" mt-5">
           <RecentCheckIn data={checkInData} />
         </div>
       </div>

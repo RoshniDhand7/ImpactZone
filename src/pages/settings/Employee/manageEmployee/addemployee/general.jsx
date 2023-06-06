@@ -1,5 +1,4 @@
 import React from "react";
-import Checkbox from "../../../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../../components/input/input";
 import DropDown from "../../../../../components/dropdown/dropdown";
@@ -13,7 +12,6 @@ const GeneralAddEmployee = () => {
   return (
     <>
       <div className="my-3">
-        <Checkbox title="Active" className=" text-900 font-semibold " />
         <div className="my-3 ">
           <div className="my-2">
             {/* <CardWithTitle title="Personal">
@@ -147,9 +145,23 @@ const GeneralAddEmployee = () => {
                       className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex-column justify-content-center align-items-center "
                     >
                       <div className="flex flex-column justify-content-center align-items-center">
-                        <div style={{ width: "60px", height: "60px" }}>
-                          {" "}
+                        {/* <div style={{ width: "60px", height: "60px" }}>
                           <img src={ImageUpload} alt="" />
+                        </div> */}
+                        <div class="image-upload">
+                          <label for="file-input">
+                            <img
+                              style={{ width: "60px", height: "60px" }}
+                              src={ImageUpload}
+                              alt=""
+                            />
+                          </label>
+
+                          <input
+                            id="file-input"
+                            name="file-input"
+                            type="file"
+                          />
                         </div>
 
                         <div className="my-3">
@@ -167,10 +179,10 @@ const GeneralAddEmployee = () => {
         </div>
         <div className="flex justify-content-end p-2 ">
           <div className="  flex  ">
-            <div className="">
+            <div className="mx-3">
               <Buttons
                 label="Save"
-                className="btn-dark px-4  border-none"
+                className="btn-dark mx-2 border-none"
               ></Buttons>
             </div>
             <div className="ml-3 ">

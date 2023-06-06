@@ -1,0 +1,30 @@
+.navbar {
+  background-color: $lightestblue;
+  border-radius: 8px;
+  color: #4c566a;
+
+  .border-show {
+    border-bottom: 2px solid #4c566a1c !important;
+  }
+  .border-show:has(a.active) {
+    border-bottom: 2px solid $grey !important;
+  }
+  .border-show:hover {
+    border-bottom: 2px solid #4c566ab8 !important;
+  }
+  a.active {
+    color: black !important;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  a {
+    font-size: 14px;
+    transition: 0.09s;
+    color: #4c566a !important;
+  }
+  //   li > a:hover {
+  //     font-size: 17px;
+  //     font-weight: 600;
+  //     color: black;
+  //   }
+}

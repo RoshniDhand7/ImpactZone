@@ -204,10 +204,6 @@ const Pay = () => {
                   </span>
                 </div>
               </div>
-
-              <div className="col-3">
-                <div className="text-xs mt-4 "></div>
-              </div>
             </div>
           </div>
         </div>

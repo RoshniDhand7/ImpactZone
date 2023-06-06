@@ -27,7 +27,7 @@ const settingsCard = [
   },
   {
     img: Employee,
-    link: "/manageEmployee",
+    link: "/employee",
     title: "Employee",
   },
   {

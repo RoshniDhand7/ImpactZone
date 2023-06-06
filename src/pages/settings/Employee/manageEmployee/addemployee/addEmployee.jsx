@@ -9,15 +9,19 @@ import ClassesSetup from "./classesSetup/ClassesSetup";
 import ServiceSetup from "./Services Setup/ServiceSetup";
 import SalesCommission from "./Salescommission/SalesCommission";
 import Notes from "./Notes";
-import Certifications from "./Certification";
+import Certifications from "./Certifications/Certification";
+import Navbar from "../../../../../layout/Navbar";
 
 const AddEmployee = () => {
   const [activeIndex2, setActiveIndex2] = useState(0);
   return (
     <>
       <div>
+        <div className="p-3">
+          <Navbar />
+        </div>
         <div>
-          <div className="mx-3 mt-3 ">
+          <div className="mx-3  ">
             <span className="font-bold text-xl">Add Employee</span>
           </div>
           <div className="p-3">

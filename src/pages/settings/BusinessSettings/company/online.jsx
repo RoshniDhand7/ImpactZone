@@ -36,15 +36,15 @@ export const Online = () => {
           </div>
         </CardWithTitle>
       </div>
-      <div className="col-12 flex justify-content-end">
-        <div className="col-1">
-          <Buttons label="Save" className="btn-dark p-3 border-none "></Buttons>
-        </div>
-        <div className="col-1">
+      <div className="col-12 mt-3 flex justify-content-end">
+        <div className="mx-5">
           <Buttons
-            label="Cancel"
-            className="btn-grey p-3 border-none "
+            label="Save"
+            className="btn-dark mx-3 border-none "
           ></Buttons>
+        </div>
+        <div className="">
+          <Buttons label="Cancel" className="btn-grey border-none "></Buttons>
         </div>
       </div>
       <div>

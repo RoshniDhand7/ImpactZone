@@ -6,6 +6,8 @@ import itemsbackword from "../../../../../assets/icons/itemsbackward.png";
 import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
+import Checkbox from "../../../../../components/checkbox/checkbox";
+import Navbar from "../../../../../layout/Navbar";
 
 const Security = () => {
   //   const [source, setSource] = useState([]);
@@ -31,7 +33,8 @@ const Security = () => {
   };
   return (
     <>
-      <div>
+      <div className="my-3">
+        <Checkbox title="Active" className=" text-900 font-semibold " />
         <div>
           <div className="my-3">
             <CardWithTitle title="Personal">

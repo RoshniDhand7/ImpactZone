@@ -7,14 +7,16 @@ import TimeSheets from "./TimeSheets/TimeSheets";
 import Department from "./Department/Department";
 import SecurityRoles from "./Security Roles/securityRoles";
 import ManageReportSecurity from "./ReportSecurity/ManageReportSecurity";
+import Navbar from "../../../layout/Navbar";
 
 const ManageEmployee = () => {
-  const [activeIndex1, setActiveIndex1] = useState(0);
+  // const [activeIndex1, setActiveIndex1] = useState(0);
   return (
     <>
       <div className="">
         <div className="p-3">
-          <TabView
+          <Navbar />
+          {/* <TabView
             activeIndex={activeIndex1}
             onTabChange={(e) => setActiveIndex1(e.index)}
           >
@@ -36,7 +38,7 @@ const ManageEmployee = () => {
             <TabPanel header="Report Security">
               <ManageReportSecurity />
             </TabPanel>
-          </TabView>
+          </TabView> */}
         </div>
       </div>
     </>

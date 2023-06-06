@@ -36,13 +36,13 @@ const addTask = () => {
         </div>
         <div className="flex justify-content-end">
           <div className="flex  ">
-            <div className="col p-3">
-              <Buttons label="Save" className="btn-dark p-3"></Buttons>
+            <div className="mx-4 ">
+              <Buttons label="Save" className="btn-dark mx-3"></Buttons>
             </div>
           </div>
           <div>
-            <div className="col p-3">
-              <Buttons label="Cancel" className="bg-grey p-3"></Buttons>
+            <div className=" ">
+              <Buttons label="Cancel" className="bg-grey"></Buttons>
             </div>
           </div>
         </div>
