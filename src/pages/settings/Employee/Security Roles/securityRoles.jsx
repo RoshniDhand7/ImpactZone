@@ -1,21 +1,63 @@
 import React, { useState } from "react";
 import Buttons from "../../../../components/buttons/button";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import dummyData from "../../../../utils/dummyData";
 import checkInData from "../../../../utils/checkInData";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import AddSecurityRoles from "./AddSecurityRoles";
 import Navbar from "../../../../layout/Navbar";
+import TableData from "../../../../components/cards/dataTable/dataTable";
 
 const SecurityRoles = () => {
   const [addSecurityRole, setAddSecurity] = useState(false);
-  const { ManageSecurityData } = dummyData();
-  const [selectedPos, setSelectedPos] = useState(null);
+
   // const navigate = useNavigate();
   // // const addSecurity = () => {
   // //   navigate("/add-Securityroles");
   // // };
+
+  const actionTemplate = (col) => {
+    return (
+      <>
+        <div className="flex justify-content-end">
+          <span>
+            <i className="pi pi-pencil mr-3 "></i>
+          </span>
+          <span>
+            <i className="pi pi-trash"></i>
+          </span>
+        </div>
+      </>
+    );
+  };
+
+  const manageSecurity = [
+    { field: "name", header: "Name", id: "", index: "" },
+    { field: "description", header: "Description", id: "", index: "" },
+
+    { field: "", header: "", body: actionTemplate, id: "", index: "" },
+  ];
+
+  const [manageSecurityData, setManagaEmplyoee] = useState([
+    {
+      name: "All Access",
+      description: "All Access",
+    },
+    {
+      name: "Call Center Rep L1",
+      description: "Call Center Representative Level 1",
+    },
+    {
+      name: "ChargebackUser",
+      description: "ChargebackUser",
+    },
+    {
+      name: "Corporate Access",
+      description: "Corporate Access",
+    },
+    {
+      name: "Data Entry",
+      description: "Data Entry",
+    },
+  ]);
 
   const showAddSecurity = () => {
     setAddSecurity(true);
@@ -40,20 +82,11 @@ const SecurityRoles = () => {
         </div>
         <div>
           <div className=" mt-2">
-            <DataTable
-              value={ManageSecurityData}
-              selection={selectedPos}
-              onSelectionChange={(e) => setSelectedPos(e.value)}
-              dataKey="id"
-              tableStyle={{ minWidth: "50rem" }}
-            >
-              {/* <Column
-              selectionMode="multiple"
-              headerStyle={{ width: "3rem" }}
-            ></Column> */}
-              <Column field="name" header="Name"></Column>
-              <Column field="description" header="Description"></Column>
-            </DataTable>
+            <TableData
+              columns={manageSecurity}
+              data={manageSecurityData}
+              // delRow={tableRowRemove}
+            />
           </div>
         </div>
       </div>

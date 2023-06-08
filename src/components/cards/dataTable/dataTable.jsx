@@ -14,7 +14,6 @@ const TableData = ({ data, columns, selectionMode, delRow }) => {
       />
     );
   });
-
   return (
     <div>
       <div className="card ">

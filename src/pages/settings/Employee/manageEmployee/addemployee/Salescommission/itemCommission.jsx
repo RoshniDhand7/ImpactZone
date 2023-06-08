@@ -71,15 +71,37 @@ const ItemCommission = () => {
 
   const commissionTableColumns = [
     {
+      field: "",
+      header: "",
+    },
+
+    {
       field: "commissionGroup",
       header: "Commission Group",
       body: commissionGroupTemp,
+    },
+    {
+      field: "",
+      header: "",
+    },
+    {
+      field: "",
+      header: "",
     },
     {
       field: "commissionType",
       header: "Commission Type",
       body: commissionTypeTemp,
     },
+    {
+      field: "",
+      header: "",
+    },
+    {
+      field: "",
+      header: "",
+    },
+
     { field: "pay", header: "Pay", body: payTemp },
     { field: "", header: "", body: actionTemp },
   ];

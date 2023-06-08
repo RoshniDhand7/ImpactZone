@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import { TabView, TabPanel } from "primereact/tabview";
-import { Link } from "react-router-dom";
-import { Button } from "primereact/button";
 import Company from "./company/company";
 import ReasonCode from "./reason Code/reasonCode";
 import CancelCode from "./cancelCode/cancelCode";
@@ -10,7 +7,6 @@ import Customization from "./customization/customization";
 
 const BusinessSettings = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isactive, setIsActive] = useState(0);
   return (
     <>
       <div className="p-3">

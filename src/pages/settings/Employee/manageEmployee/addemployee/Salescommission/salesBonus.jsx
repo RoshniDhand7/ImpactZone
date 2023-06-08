@@ -15,7 +15,7 @@ const SalesBonus = () => {
       </div>
       <div>
         <CardWithTitle title="Bonus">
-          <div className="col-12 p-3 flex">
+          <div className="col-12 p-5 py-3 flex">
             <div className="col">
               <DropDown title="" placeholder="Single Client"></DropDown>
             </div>

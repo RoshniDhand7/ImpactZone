@@ -50,14 +50,14 @@ const ReasonCode = () => {
   const removeRowPriority = (col) => {
     return (
       <>
-        <button className="border-none bg-lightest-blue ">
+        <div className="border-none bg-lightest-blue flex justify-content-end ">
           <span>
             <i className="pi pi-pencil mx-3" style={{ color: "#708090" }}></i>
           </span>
           <span onClick={tableRowRemove}>
             <i className="pi pi-trash" style={{ color: "#708090" }}></i>
           </span>
-        </button>
+        </div>
       </>
     );
   };

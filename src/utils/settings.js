@@ -32,7 +32,7 @@ const settingsCard = [
   },
   {
     img: Schedule,
-    link: "",
+    link: "/scheduleSetup",
     title: "Schedule Setup",
   },
   {

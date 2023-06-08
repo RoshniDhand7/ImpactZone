@@ -1,23 +1,79 @@
 import React from "react";
 import DropDown from "../../../../components/dropdown/dropdown";
 import Buttons from "../../../../components/buttons/button";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import dummyData from "../../../../utils/dummyData";
 import { useState } from "react";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddDeparment from "./addDeparment";
 import Navbar from "../../../../layout/Navbar";
+import TableData from "../../../../components/cards/dataTable/dataTable";
 
 const Department = () => {
   const [addDepartment, setAddDeparment] = useState(false);
-  const { departmentData } = dummyData();
-  const [selectedPos, setSelectedPos] = useState(null);
 
   const showAddDeparment = () => {
     setAddDeparment(true);
   };
+  const actionTemplate = (col) => {
+    return (
+      <>
+        <div className="flex justify-content-end">
+          <span>
+            <i className="pi pi-pencil mr-3 "></i>
+          </span>
+          <span>
+            <i className="pi pi-trash"></i>
+          </span>
+        </div>
+      </>
+    );
+  };
+
+  const department = [
+    { field: "name", header: "Name", id: "", index: "" },
+    { field: "Showincalendar", header: "Show in Calendar", id: "", index: "" },
+    { field: "visibleonline", header: "Visible Online", id: "", index: "" },
+    {
+      field: "salespersononline",
+      header: "Sales Person Online",
+      id: "",
+      index: "",
+    },
+    { field: "", header: "", body: actionTemplate, id: "", index: "" },
+  ];
+
+  const [departmentData, setManagaEmplyoee] = useState([
+    {
+      name: "Front Desk",
+      Showincalendar: "",
+      visibleonline: "",
+      salespersononline: "",
+    },
+    {
+      name: "Instructors",
+      Showincalendar: "Yes",
+      visibleonline: "Yes",
+      salespersononline: "",
+    },
+    {
+      name: "Maintenance",
+      Showincalendar: "",
+      visibleonline: "",
+      salespersononline: "",
+    },
+    {
+      name: "Management",
+      Showincalendar: "",
+      visibleonline: "",
+      salespersononline: "",
+    },
+    {
+      name: "Sales",
+      Showincalendar: "Yes",
+      visibleonline: "Yes",
+      salespersononline: "",
+    },
+  ]);
 
   const deparmentList = () => {
     return (
@@ -40,17 +96,22 @@ const Department = () => {
         </div>
         <div>
           <div className="mt-3 ">
-            <DataTable
+            <TableData
+              columns={department}
+              data={departmentData}
+              // delRow={tableRowRemove}
+            />
+            {/* <DataTable
               value={departmentData}
               selection={selectedPos}
               onSelectionChange={(e) => setSelectedPos(e.value)}
               dataKey="id"
               tableStyle={{ minWidth: "50rem" }}
             >
-              {/* <Column
-          selectionMode="multiple"
-          headerStyle={{ width: "3rem" }}
-        ></Column> */}
+              <Column
+                selectionMode="multiple"
+                headerStyle={{ width: "3rem" }}
+              ></Column>
               <Column field="name" header="Name"></Column>
               <Column field="Showincalendar" header="Show in Calendar"></Column>
               <Column field="visibleonline" header="Visible Online"></Column>
@@ -58,7 +119,7 @@ const Department = () => {
                 field="salespersononline"
                 header="Sales Person Online"
               ></Column>
-            </DataTable>
+            </DataTable> */}
           </div>
         </div>
         <div className=" mt-3 flex justify-content-end">

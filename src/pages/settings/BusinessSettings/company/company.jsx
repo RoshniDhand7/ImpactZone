@@ -17,7 +17,7 @@ const Company = () => {
           <TabPanel header="General">
             <General></General>
           </TabPanel>
-          <TabPanel header="online">
+          <TabPanel header="Online">
             <Online></Online>
           </TabPanel>
         </TabView>

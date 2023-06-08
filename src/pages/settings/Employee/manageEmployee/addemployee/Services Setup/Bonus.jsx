@@ -57,7 +57,7 @@ const Bonus = () => {
               <DropDown title="" placeholder="Bonus Type"></DropDown>
             </div>
             <div className="col">
-              <DropDown title="" placeholder="Select Days"></DropDown>
+              <Input title="" placeholder="Select Days"></Input>
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
@@ -94,7 +94,7 @@ const Bonus = () => {
               <DropDown title="" placeholder="Service Value"></DropDown>
             </div>
             <div className="col">
-              <DropDown title="" placeholder="2,000s"></DropDown>
+              <Input title="" placeholder="2,000s"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Sessions Value
               </span>
