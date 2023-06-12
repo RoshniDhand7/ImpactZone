@@ -30,7 +30,7 @@ export const Online = () => {
                 <DropDown title="Allow Cancel Online" />
               </div>
               <div className="col-4">
-                <DropDown title="Time before evento" />
+                <DropDown title="Time before event" />
               </div>
             </div>
           </div>

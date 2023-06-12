@@ -21,11 +21,14 @@ import Department from "./pages/settings/Employee/Department/Department";
 import SecurityRoles from "./pages/settings/Employee/Security Roles/securityRoles";
 import ManageReportSecurity from "./pages/settings/Employee/ReportSecurity/ManageReportSecurity";
 import Employee from "./pages/settings/Employee/manageEmployee/manageEmployee";
+import ScheduleSetup from "./pages/settings/ScheduleSetup/ScheduleSetup";
+import Loader from "./components/loader";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
   return (
     <>
+      <Loader />
       <Router>
         <TopBar setIsActive={setIsActive} isActive={isActive} />
         <Routes>
@@ -54,7 +57,7 @@ function App() {
               element={<ManageReportSecurity />}
             />
             <Route exact path="/addEmployee" element={<AddEmployee />} />
-
+            <Route exact path="/scheduleSetup" element={<ScheduleSetup />} />
             <Route exact path="/settings" element={<Settings />} />
             <Route
               exact

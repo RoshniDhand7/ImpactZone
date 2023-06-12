@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Input from "../../../../components/input/input";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Buttons from "../../../../components/buttons/button";
@@ -59,7 +58,6 @@ const Customization = () => {
                         alt=""
                       />
                     </label>
-
                     <input
                       id="file-input"
                       onChange={getImageName}

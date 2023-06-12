@@ -46,6 +46,8 @@
   overscroll-behavior: contain auto;
   position: relative;
   border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 4px 11px rgba(0, 0, 0, 0.15);
+  background-color: $lightestblue;
 }
 .p-tabview .p-tabview-nav .p-tabview-ink-bar {
   z-index: 1;

@@ -1,7 +1,7 @@
 import React from "react";
 import Buttons from "../../components/buttons/button";
-import User from "../../assets/icons/usermember.png";
 import Camera from "../../assets/icons/camera.png";
+import johnsmith from "../../assets/images/image.png";
 import CardWithTitle from "../../components/cards/cardWithTitle/cardWithTitle";
 import TableData from "../../components/cards/dataTable/dataTable";
 import dummyData from "../../utils/dummyData";
@@ -37,27 +37,57 @@ const UserMember = () => {
     });
     setIsActive(true);
   };
+  const getImage = (el) => {
+    var input = document.getElementById("file-input");
+    // var filename = input.files[0];
+    // var textArea = document.getElementById("file-name");
+    // textArea.textContent = fileName;
+    document.getElementById("showImage").hidden = false;
+    document.getElementById("showImage").src = URL.createObjectURL(
+      input.files[0]
+    );
+  };
   return (
     <>
       <div className="p-3">
         <div className="p-2">
           <div className="bg-green  flex  border-round">
-            <div className=" col-6 p-3  flex justify-content-between ">
-              <div className="flex  p-2  ">
-                <div className="relative   flex flex-column justify-content-end algin-content-center">
+            <div className=" col-6 p-3 flex justify-content-between ">
+              <div className="flex p-2">
+                <div
+                  id="Image"
+                  className=" relative flex flex-column justify-content-end algin-content-center"
+                >
                   <img
+                    id="showImage"
                     style={{ width: "154px", height: "161px" }}
                     className="border-round"
-                    src={User}
+                    src={johnsmith}
                     alt=""
                   />
                   <div className="absolute w-full text-center -mb-2  flex justify-content-center algin-content-bottom ">
-                    <img
+                    {/* <img
                       className="mt-3"
                       style={{ width: "24px", height: "24px" }}
                       src={Camera}
                       alt=""
-                    />
+                    /> */}
+
+                    <div class="image-upload">
+                      <label for="file-input">
+                        <img
+                          style={{ width: "24px", height: "24px" }}
+                          src={Camera}
+                          alt=""
+                        />
+                      </label>
+                      <input
+                        id="file-input"
+                        onChange={getImage}
+                        name="file-input"
+                        type="file"
+                      />
+                    </div>
                   </div>
                 </div>
 

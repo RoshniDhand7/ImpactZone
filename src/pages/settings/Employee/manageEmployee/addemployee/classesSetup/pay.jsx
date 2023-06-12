@@ -133,7 +133,7 @@ const Pay = () => {
                   </span>
                 </div>
                 <div className="col-1">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input placeholder="0.00"></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
                     For Each
                   </span>
@@ -145,7 +145,7 @@ const Pay = () => {
                   </span>
                 </div>
                 <div className="col-1">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input placeholder="0.00"></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
                     For Each
                   </span>
@@ -157,7 +157,7 @@ const Pay = () => {
                   </span>
                 </div>
                 <div className="col-1">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input placeholder="0.00"></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
                     For Each
                   </span>
@@ -196,9 +196,7 @@ const Pay = () => {
                 </div>
 
                 <div className="col-3">
-                  <Input placeholder="0.00" icon="pi pi-dollar">
-                    {" "}
-                  </Input>
+                  <Input placeholder="0.00"></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
                     No Registration Pay
                   </span>

@@ -5,8 +5,45 @@ import CardWithTitle from "../../../../../../components/cards/cardWithTitle/card
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
+import TableData from "../../../../../../components/cards/dataTable/dataTable";
+import { useState } from "react";
 
 const CalendarDefacult = () => {
+  const actionTemplate = (col) => {
+    return (
+      <>
+        <span>
+          <i className="pi pi-minus-circle mr-3"></i>
+        </span>
+      </>
+    );
+  };
+
+  const manageSecurity = [
+    { field: "", header: "", id: "", index: "" },
+    { field: "event", header: "Event", id: "", index: "" },
+    { field: "eventType", header: "Event Type", id: "", index: "" },
+
+    { field: "", header: "", body: actionTemplate, id: "", index: "" },
+  ];
+
+  const [manageSecurityData, setManagaEmplyoee] = useState([
+    {
+      event: "3D Body Scan",
+      eventType: "30 min Private",
+      id: 1,
+    },
+    {
+      event: "Aga Group 30 Min",
+      eventType: "60 min Private",
+      id: 2,
+    },
+    {
+      event: "Aga Group 45 Min",
+      eventType: "30 min Public",
+      id: 3,
+    },
+  ]);
   return (
     <>
       <div>
@@ -22,14 +59,17 @@ const CalendarDefacult = () => {
               ></DropDown>
             </div>
           </div>
-          <CardWithTitle title="Deparments" title2="Event Type">
+          <div className=" mt-2">
+            <TableData
+              columns={manageSecurity}
+              data={manageSecurityData}
+              // delRow={tableRowRemove}
+            />
+          </div>
+          {/* <CardWithTitle title="Deparments" title2="Event Type">
             <div>
               <div className="p-3">
-                {/* <div className="flex justify-content-between p-3">
-                  <div className="text-xs">Name</div>
-                  <div className="text-xs">Event Type</div>
-                  <div className="text-blue text-xs">Add All</div>
-                </div> */}
+                
                 <div className=" justify-content-between  p-3 border-round-md">
                   <div className="text-xs text-gray-400 flex justify-content-between p-2">
                     <div className="text-xs  ">Front Desk</div>
@@ -83,7 +123,7 @@ const CalendarDefacult = () => {
                 </div>
               </div>
             </div>
-          </CardWithTitle>
+          </CardWithTitle> */}
         </div>
       </div>
       <div className="flex justify-content-end p-2 ">

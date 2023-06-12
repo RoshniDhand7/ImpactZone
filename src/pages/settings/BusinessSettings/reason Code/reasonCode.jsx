@@ -50,14 +50,14 @@ const ReasonCode = () => {
   const removeRowPriority = (col) => {
     return (
       <>
-        <button className="border-none bg-lightest-blue ">
+        <div className="border-none bg-lightest-blue flex justify-content-end ">
           <span>
             <i className="pi pi-pencil mx-3" style={{ color: "#708090" }}></i>
           </span>
           <span onClick={tableRowRemove}>
             <i className="pi pi-trash" style={{ color: "#708090" }}></i>
           </span>
-        </button>
+        </div>
       </>
     );
   };
@@ -73,37 +73,40 @@ const ReasonCode = () => {
   return (
     <>
       <div className="my-2">
-        <div className="col-12 p-0 btn-lightblue flex justify-content-between p-2 border-round-lg  ">
+        <div className="col-12 p-0 btn-lightblue flex justify-content-between p-2 border-round-lg  align-items-center  ">
           <div className=" p-0 flex justify-content-around align-items-center">
-            <div className="p-0 flex align-items-center  align-items-center mr-3 ">
-              <span className="mx-3 text-xs text-dark-gray font-semibold">
-                Type:
-              </span>
-              <div className=" p-0 ">
-                <DropDown placeholder="Cancel Pending POS Transaction"></DropDown>
+            <div className="p-0 flex align-items-center  mr-3 ">
+              <div className=" p-0 p-2 ">
+                <DropDown
+                  title="Type"
+                  placeholder="Cancel Pending POS Transaction"
+                ></DropDown>
               </div>
             </div>
             <div className=" flex justify-content-between align-items-center ">
-              <span className="mx-3 text-xs text-dark-gray font-semibold">
-                Status:
-              </span>
-              <div className=" p-0">
-                <DropDown className="" placeholder="Active"></DropDown>
+              <div className="  p-0">
+                <DropDown
+                  title="Status"
+                  className=""
+                  placeholder="Active"
+                ></DropDown>
               </div>
             </div>
             <div className=" mx-5 ">
               <Buttons
                 label="Search"
                 className="btn-dark mx-3  text-xs border-none"
+                style={{ height: "36px", top: "10px" }}
               ></Buttons>
             </div>
           </div>
-          <div className=" mr-3">
+          <div className=" justify-content-center align-items-center mr-3">
             <Link to="/addReasonCode">
               <Buttons
                 icon="pi pi-plus-circle"
                 label=" Add Reason Code"
                 className="btn-dark border-none"
+                style={{ height: "36px", top: "10px" }}
               ></Buttons>
             </Link>
           </div>

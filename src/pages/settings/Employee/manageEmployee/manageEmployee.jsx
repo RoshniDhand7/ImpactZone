@@ -124,10 +124,10 @@ const Employee = () => {
         <Navbar />
         <div className="my-2">
           <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3">
-            <div className="flex p-2 justify-content-between">
+            <div className="flex p-2 justify-content-between align-items-center ">
               <div
                 onClick={(e) => op.current.toggle(e)}
-                className="col-12 bg-white  cursor-pointer border-round flex justify-content-between "
+                className="col-12 bg-white align-items-center   cursor-pointer border-round flex justify-content-between "
               >
                 <div className="text-sm text-900">General</div>
                 <div className="">
@@ -138,7 +138,7 @@ const Employee = () => {
                   />
                 </div>
                 <OverlayPanel ref={op} dismissable={false}>
-                  <div className="flex">
+                  <div className="flex align-items-center ">
                     <div className="col-6">
                       <div className=" ">
                         <DropDown title="Status" placeholder="All"></DropDown>
@@ -182,7 +182,7 @@ const Employee = () => {
 
               <div
                 onClick={(e) => ope.current.toggle(e)}
-                className=" col-12  cursor-pointer bg-white border-round flex justify-content-between align-items-center mx-3 "
+                className=" col-12  cursor-pointer bg-white border-round flex justify-content-between align-items-center  mx-3 "
               >
                 <div className="text-sm   text-900">Hire Details</div>
                 <div className="  ">
@@ -222,6 +222,7 @@ const Employee = () => {
                   //   padding: "10px 16px 10px 16px",
                   //   fontSize: "12px !important",
                   // }}
+                  style={{ height: "36px" }}
                 ></Buttons>
               </div>
             </div>
