@@ -11,7 +11,7 @@ const Checkbox = ({ title, className }) => {
       />
       <label
         className={"form-check-label lightgrey mx-2 " + className}
-        htmlFor="flexCheckDefault"
+        HtmlFor="flexCheckDefault"
       >
         <span className="mr-2">
           <i className="pi pi-stop unchecked"></i>

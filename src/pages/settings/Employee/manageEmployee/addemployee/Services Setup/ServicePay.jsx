@@ -35,7 +35,7 @@ const ServicePay = () => {
           hidden
         />
         <label
-          htmlFor="dollar"
+          HtmlFor="dollar"
           className={payType === "dollar" ? "selected-pay-type" : "pay-type"}
         >
           $
@@ -49,7 +49,7 @@ const ServicePay = () => {
           onChange={(e) => changePayType(e)}
         />
         <label
-          htmlFor="percentage"
+          HtmlFor="percentage"
           className={
             payType === "percentage" ? "selected-pay-type" : "pay-type"
           }

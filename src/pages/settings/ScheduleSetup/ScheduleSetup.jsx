@@ -2,7 +2,8 @@ import { TabPanel, TabView } from "primereact/tabview";
 import React, { useState } from "react";
 import ScheduleLevel from "./levelpages/ScheduleLevel";
 import LocationTypes from "./locationTypes";
-import Location from "./levelpages/Location";
+import Location from "./Location";
+import EventSetups from "./Event/Event";
 
 const ScheduleSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -22,7 +23,9 @@ const ScheduleSetup = () => {
           <TabPanel header="Location">
             <Location />
           </TabPanel>
-          <TabPanel header="Event Setups"></TabPanel>
+          <TabPanel header="Event Setups">
+            <EventSetups />{" "}
+          </TabPanel>
           <TabPanel header="Event Categories"></TabPanel>
           <TabPanel header="Classes"></TabPanel>
         </TabView>

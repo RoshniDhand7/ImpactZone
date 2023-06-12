@@ -117,16 +117,18 @@ const LocationTypes = () => {
                 <div className="">
                   <Buttons
                     label="Search"
-                    className="btn-dark mt-3  border-none"
+                    className="btn-dark  border-none"
+                    style={{ height: "36px", top: "10px" }}
                   ></Buttons>
                 </div>
               </div>
-              <div className="mr-2">
+              <div className="mr-5">
                 <div className="">
                   <Buttons
                     onClick={setshowLocationType}
                     label="Add"
-                    className="btn-dark border-none  "
+                    className="btn-dark mx-4 border-none  "
+                    style={{ height: "36px", top: "10px" }}
                   ></Buttons>
                 </div>
               </div>

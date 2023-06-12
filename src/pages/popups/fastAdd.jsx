@@ -194,7 +194,7 @@ const AddMember = () => {
                   </div>
                   <div className="col-4">
                     <label
-                      htmlFor=""
+                      HtmlFor=""
                       className="text-xs text-dark-gray font-semibold"
                     >
                       Sales Person

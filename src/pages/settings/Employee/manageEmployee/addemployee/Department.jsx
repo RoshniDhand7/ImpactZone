@@ -17,10 +17,11 @@ const Department = () => {
               <div>
                 <Input title="Default Hourly Wages" placeholder="$0.00"></Input>
               </div>
-              <div className=" mt-3  px-3">
+              <div className=" flex align-items-center px-3">
                 <Buttons
                   label="Copy to All"
                   className="btn-dark border-none mx-4  "
+                  style={{ height: "36px", top: "10px" }}
                 ></Buttons>
               </div>
             </div>
