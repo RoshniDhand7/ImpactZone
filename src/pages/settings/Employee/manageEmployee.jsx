@@ -1,12 +1,4 @@
 import React from "react";
-import { TabView, TabPanel } from "primereact/tabview";
-import { useState } from "react";
-import Employee from "./manageEmployee/manageEmployee";
-import Availability from "./Availability/Availability";
-import TimeSheets from "./TimeSheets/TimeSheets";
-import Department from "./Department/Department";
-import SecurityRoles from "./Security Roles/securityRoles";
-import ManageReportSecurity from "./ReportSecurity/ManageReportSecurity";
 import Navbar from "../../../layout/Navbar";
 
 const ManageEmployee = () => {

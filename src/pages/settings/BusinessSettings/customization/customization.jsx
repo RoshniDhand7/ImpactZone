@@ -68,7 +68,7 @@ const Customization = () => {
                 </div>
               </div>
               <div className="col-3">
-                <Input title="ThemeColor"></Input>
+                <Input title="Theme Color"></Input>
               </div>
             </div>
           </CardWithTitle>

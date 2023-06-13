@@ -1,7 +1,5 @@
 import React from "react";
-import Remove from "../../../../../../assets/icons/remove.png";
 import Buttons from "../../../../../../components/buttons/button";
-import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
@@ -12,22 +10,23 @@ const CalendarDefacult = () => {
   const actionTemplate = (col) => {
     return (
       <>
-        <span>
-          <i className="pi pi-minus-circle mr-3"></i>
-        </span>
+        <div className="flex justify-content-end">
+          <span>
+            <i className="pi pi-minus-circle mr-3"></i>
+          </span>
+        </div>
       </>
     );
   };
 
   const manageSecurity = [
-    { field: "", header: "", id: "", index: "" },
     { field: "event", header: "Event", id: "", index: "" },
     { field: "eventType", header: "Event Type", id: "", index: "" },
 
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
   ];
 
-  const [manageSecurityData, setManagaEmplyoee] = useState([
+  const [manageSecurityData] = useState([
     {
       event: "3D Body Scan",
       eventType: "30 min Private",

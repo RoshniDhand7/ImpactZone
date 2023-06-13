@@ -12,6 +12,21 @@ const dummyData = () => {
       commissionType: ["Type 1", "Type 2"],
       pay: null,
     },
+    {
+      commissionGroup: ["Group 1", "Group 2"],
+      commissionType: ["Type 1", "Type 2"],
+      pay: null,
+    },
+    {
+      commissionGroup: ["Group 1", "Group 2"],
+      commissionType: ["Type 1", "Type 2"],
+      pay: null,
+    },
+    {
+      commissionGroup: ["Group 1", "Group 2"],
+      commissionType: ["Type 1", "Type 2"],
+      pay: null,
+    },
   ];
 
   const relationshipData = [

@@ -37,10 +37,10 @@ const Certifications = () => {
                   <DropDown title="Status" placeholder="Active"></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Status" placeholder="Active"></DropDown>
+                  <DropDown title="Search By" placeholder="Active"></DropDown>
                 </div>
                 <div className="col">
-                  <Input title="Status" placeholder="Active"></Input>
+                  <Input title="Search Text" placeholder="Active"></Input>
                 </div>
               </div>
             </CardWithTitle>
@@ -56,6 +56,8 @@ const Certifications = () => {
                       onChange={(e) => setDates(e.value)}
                       selectionMode="range"
                       readOnlyInput
+                      icon="pi pi-calendar"
+                      showIcon
                     />
                   </div>
                 </div>
@@ -164,37 +166,38 @@ const Certifications = () => {
               <div className="col flex justify-content-between">
                 <div className="flex">
                   <div className="col">
-                    <Input title="Name" placeholder="John"></Input>
+                    <div>
+                      <Input title="Name" placeholder="John"></Input>
+                    </div>
+                    <div className="mt-4">
+                      <Input
+                        title="Acquired Date"
+                        placeholder="John"
+                        type="date"
+                      ></Input>
+                    </div>
                   </div>
                   <div className="col">
-                    <Input
-                      title="Certification Number"
-                      placeholder="2345678"
-                    ></Input>
+                    <div>
+                      <Input
+                        title="Certification Number"
+                        placeholder="2345678"
+                      ></Input>
+                    </div>
+                    <div className="mt-4">
+                      <Input
+                        title="Expiration Date"
+                        type="date"
+                        placeholder="2345678"
+                      ></Input>
+                    </div>
                   </div>
                   <div className="col">
                     <Input title="Issuer"></Input>
                   </div>
                 </div>
               </div>
-              <div className="col flex justify-content-between">
-                <div className="flex">
-                  <div className="col">
-                    <Input
-                      title="Acquired Date"
-                      placeholder="John"
-                      type="date"
-                    ></Input>
-                  </div>
-                  <div className="col">
-                    <Input
-                      title="Expiration Date"
-                      type="date"
-                      placeholder="2345678"
-                    ></Input>
-                  </div>
-                </div>
-              </div>
+
               <div className="col flex flex-column gap-2 p-3">
                 <label className="text-xs text-dark-gray   font-semibold">
                   Descriptions

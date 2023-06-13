@@ -17,14 +17,14 @@ const ScheduleSetup = () => {
           <TabPanel header="Level">
             <ScheduleLevel />
           </TabPanel>
-          <TabPanel header="Location Type">
+          <TabPanel header="Location Types">
             <LocationTypes />
           </TabPanel>
-          <TabPanel header="Location">
+          <TabPanel header="Locations">
             <Location />
           </TabPanel>
           <TabPanel header="Event Setups">
-            <EventSetups />{" "}
+            <EventSetups />
           </TabPanel>
           <TabPanel header="Event Categories"></TabPanel>
           <TabPanel header="Classes"></TabPanel>

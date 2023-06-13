@@ -50,7 +50,7 @@ const AddEmployee = () => {
               <TabPanel header="Sales Commission">
                 <SalesCommission />
               </TabPanel>
-              <TabPanel header="Time Sheet"></TabPanel>
+
               <TabPanel header="Notes">
                 <Notes />
               </TabPanel>
