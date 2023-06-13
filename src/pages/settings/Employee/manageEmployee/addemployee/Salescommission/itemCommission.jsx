@@ -71,11 +71,6 @@ const ItemCommission = () => {
 
   const commissionTableColumns = [
     {
-      field: "",
-      header: "",
-    },
-
-    {
       field: "commissionGroup",
       header: "Commission Group",
       body: commissionGroupTemp,

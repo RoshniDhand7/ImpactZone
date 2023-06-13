@@ -44,7 +44,7 @@ export const General = () => {
                 <Input title="Company Name"></Input>
               </div>
             </div>
-            <div className="flex  justify-content-between ">
+            <div className="flex  justify-content-between mt-3 ">
               <div className="col-4">
                 <DropDown title="Brand"></DropDown>
               </div>
@@ -55,7 +55,7 @@ export const General = () => {
                 <DropDown title="Allow Multi-Club Clock In/Out"></DropDown>
               </div>
             </div>
-            <div className="flex  justify-content-between ">
+            <div className="flex  justify-content-between mt-3 ">
               <div className="col-4">
                 <DropDown title="Clock In Department Required"></DropDown>
               </div>
@@ -66,7 +66,7 @@ export const General = () => {
                 <DropDown title="Waitlist Email Interval"></DropDown>
               </div>
             </div>
-            <div className="flex  justify-content-between ">
+            <div className="flex  justify-content-between mt-4 ">
               <div className="col-4">
                 <DropDown title="Club Account Payment Methods"></DropDown>
               </div>
@@ -76,7 +76,7 @@ export const General = () => {
         <div className="mt-3">
           <CardWithTitle title="Address">
             <div className="p-3">
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-4">
                 <div className="col-4">
                   <DropDown title="Country"></DropDown>
                 </div>
@@ -87,7 +87,7 @@ export const General = () => {
                   <Input title="Address 2"></Input>
                 </div>
               </div>
-              <div className="flex  justify-content-between ">
+              <div className="flex  justify-content-between mt-4 ">
                 <div className="col-4">
                   <Input title="City"></Input>
                 </div>
@@ -98,8 +98,10 @@ export const General = () => {
                   <Input title="Zip Code"></Input>
                 </div>
               </div>
-              <div>
-                <span className=" font-semibold">Country Addresses</span>
+              <div className="mt-2 p-2">
+                <span className=" font-semibold text-dark-gray">
+                  Country Addresses
+                </span>
                 <div className="card  my-3  ">
                   <PickList
                     // source={source}
@@ -120,7 +122,7 @@ export const General = () => {
         <div className="mt-3">
           <CardWithTitle title="Contact Information">
             <div className="p-3">
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between  ">
                 <div className="col-4">
                   <Input title="Work Number"></Input>
                 </div>
@@ -131,7 +133,7 @@ export const General = () => {
                   <Input title="Fax Number"></Input>
                 </div>
               </div>
-              <div className="flex  justify-content-between ">
+              <div className="flex  justify-content-between my-4 ">
                 <div className="col-4">
                   <Input title="Primary Email"></Input>
                 </div>
@@ -153,7 +155,7 @@ export const General = () => {
                   <Input title="Alternate Email"></Input>
                 </div>
               </div>
-              <div className="flex  justify-content-between ">
+              <div className="flex  justify-content-between mt-4 ">
                 <div className="col-4">
                   <Input title="Company URL"></Input>
                 </div>

@@ -39,30 +39,46 @@ const Security = () => {
             <CardWithTitle title="Personal">
               <div className="p-3">
                 <div className="flex ">
-                  <div className="col ">
-                    <Input title="First Name" required></Input>
+                  <div className="col  ">
+                    <div>
+                      <Input title="First Name" required></Input>
+                    </div>
+                    <div className="mt-4">
+                      <Input
+                        title="Date of Birth"
+                        placeholder="11/08/1998"
+                        type="date"
+                      ></Input>
+                    </div>
                   </div>
                   <div className="col-1">
                     <Input title="M.I"></Input>
                   </div>
                   <div className="col">
-                    <Input title="Last Name" required></Input>
+                    <div>
+                      {" "}
+                      <Input title="Last Name" required></Input>
+                    </div>
+                    <div className="mt-4">
+                      <Input title="Social Security #"></Input>
+                    </div>
                   </div>
                   <div className="col">
                     <DropDown title="Title"></DropDown>
                   </div>
                 </div>
-                <div className="flex">
+                {/* <div className="flex mt-3">
                   <div className="col-3">
                     <Input
                       title="Date of Birth"
                       placeholder="11/08/1998"
+                      type="date"
                     ></Input>
                   </div>
                   <div className="col-3">
                     <Input title="Social Security #"></Input>
                   </div>
-                </div>
+                </div> */}
               </div>
             </CardWithTitle>
           </div>
@@ -79,7 +95,7 @@ const Security = () => {
                   <Input title="Email" required></Input>
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex mt-3">
                 <div className="col-4">
                   <DropDown title="Multi-Club Clock In/Out"></DropDown>
                 </div>
@@ -87,7 +103,7 @@ const Security = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div>
+        <div className="mt-3">
           <CardWithTitle title="Select Roles">
             <div className="p-3">
               <div className="card  ">

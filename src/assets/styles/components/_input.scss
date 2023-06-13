@@ -2,4 +2,14 @@
   font-family: manrope;
   font-size: 14px;
   color: rgba(208, 208, 208, 1);
+  padding-right: 0%;
+}
+i.pi.pi-search:has(+ input:not(:placeholder-shown)) {
+  display: none;
+}
+input:not(:placeholder-shown) {
+  padding-right: 0;
+}
+.p-input-icon-right > .p-inputtext {
+  padding-right: 4px !important;
 }

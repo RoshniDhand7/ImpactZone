@@ -65,7 +65,7 @@ const ScheduleLevel = () => {
   };
   const levelcolumn = [
     { field: "name", header: "Name", id: "", index: "" },
-    { field: "value", header: "Value", id: "", index: "" },
+
     { field: "active", header: "Active", id: "", index: "" },
     { field: "", header: "", id: "", index: "" },
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
@@ -81,22 +81,17 @@ const ScheduleLevel = () => {
           <div>
             <div className="flex justify-content-end p-2 ">
               <div className=" mt-3 flex  ">
-                <div className="">
+                <div className="mx-3">
                   <Buttons
                     onClick={showcomponent}
                     label="Add Level"
                     className="btn-dark px-4  border-none"
                   ></Buttons>
                 </div>
-                <div className="mx-3">
-                  <Buttons
-                    label="Company Options"
-                    className="btn-dark px-4  border-none"
-                  ></Buttons>
-                </div>
+
                 <div className=" ">
                   <Buttons
-                    label="Club Options"
+                    label="Scheduling Options"
                     className="btn-dark  border-none"
                   ></Buttons>
                 </div>
@@ -197,9 +192,9 @@ const ScheduleLevel = () => {
             <div
               style={{ width: "297px", height: "40px" }}
               onClick={(e) => op.current.toggle(e)}
-              className=" bg-white p-2 cursor-pointer border-round flex justify-content-between align-items-center "
+              className=" bg-white p-2  cursor-pointer border-round flex justify-content-between align-items-center "
             >
-              <div className=" text-sm text-900 ">General</div>
+              <div className=" text-sm text-900 ">Filter</div>
               <div className="ml-3">
                 <img
                   style={{ width: "8px", height: "7.25px" }}
@@ -208,7 +203,7 @@ const ScheduleLevel = () => {
                 />
               </div>
               <OverlayPanel ref={op} dismissable={false}>
-                <div className="flex">
+                <div className="flex ">
                   <div className="col-6">
                     <div className=" ">
                       <DropDown
@@ -255,7 +250,7 @@ const ScheduleLevel = () => {
           </div>
           <div className=" flex justify-content-center align-items-center ">
             <div className=" px-3">
-              <Input icon="pi pi-search"></Input>
+              <Input icon="pi pi-search" placeholder="Search"></Input>
             </div>
           </div>
         </div>

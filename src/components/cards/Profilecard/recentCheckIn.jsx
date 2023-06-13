@@ -1,5 +1,6 @@
 import Search from "../../search/search";
 import Filter from "../../../assets/icons/filter.png";
+import threedots from "../../../assets/icons/threedots.png";
 import Input from "../../input/input";
 
 const RecentCheckIn = ({ data }) => {
@@ -21,9 +22,19 @@ const RecentCheckIn = ({ data }) => {
                 placeholder="Search by barcode/member"
               ></Input>
               <div className="flex  ">
-                <span className="mx-3 text-900 mt-3 opacity-50 font-bold">
-                  :
-                </span>
+                <div className="flex">
+                  <div
+                    className="opacity-50 mt-3 mx-4"
+                    style={{ width: "3px", height: "10px" }}
+                  >
+                    <img src={threedots} alt="" />
+                  </div>
+
+                  {/* <span className="mx-3 text-900 mt-3 opacity-50 font-bold">
+                    : <span>.</span>
+                  </span> */}
+                </div>
+
                 <div
                   className="flex text-center mt-3  "
                   style={{ width: "19px", height: "19px" }}
@@ -35,7 +46,7 @@ const RecentCheckIn = ({ data }) => {
                 </div>
               </div>
               <div className="mx-6">
-                <Search placeholder="search by filter"></Search>
+                <Search placeholder="Search by filter"></Search>
               </div>
             </div>
             <div className="">

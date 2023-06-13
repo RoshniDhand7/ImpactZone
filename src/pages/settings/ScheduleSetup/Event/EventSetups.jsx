@@ -1,6 +1,7 @@
 import { TabPanel, TabView } from "primereact/tabview";
 import React, { useState } from "react";
 import EventGeneral from "./EventGeneral";
+import DisplayOptions from "./displayOptions";
 
 const EventSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,7 +17,9 @@ const EventSetup = () => {
               <EventGeneral />
             </TabPanel>
             <TabPanel header="Services"></TabPanel>
-            <TabPanel header="Display Options"></TabPanel>
+            <TabPanel header="Display Options">
+              <DisplayOptions />
+            </TabPanel>
             <TabPanel header="Online"></TabPanel>
             <TabPanel header="Notifications"></TabPanel>
           </TabView>

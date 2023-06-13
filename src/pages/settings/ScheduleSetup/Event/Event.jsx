@@ -122,15 +122,9 @@ const EventSetups = () => {
             </div>
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
-            <div className="mx-3">
-              <Buttons
-                label="Company Options"
-                className="btn-dark   border-none"
-              ></Buttons>
-            </div>
             <div className="">
               <Buttons
-                label="Club Options"
+                label="Scheduling Options"
                 className="btn-dark   border-none"
               ></Buttons>
             </div>

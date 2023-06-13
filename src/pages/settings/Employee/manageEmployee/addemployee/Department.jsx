@@ -37,7 +37,7 @@ const Department = () => {
                   </div>
                   <div className="text-blue text-xs font-semibold">Add All</div>
                 </div>
-                <div className=" justify-content-between bg-white p-3 border-round-md">
+                <div className=" justify-content-between bg-white py-2 border-round-md">
                   <div className="text-xs text-gray-400 flex justify-content-between p-3">
                     <div className="text-xs  ">Front Desk</div>
                     <div className="text-xs">

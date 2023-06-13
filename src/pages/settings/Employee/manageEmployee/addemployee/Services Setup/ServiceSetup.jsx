@@ -22,7 +22,7 @@ const ServiceSetup = () => {
               <TabPanel header="Bonus">
                 <Bonus />
               </TabPanel>
-              <TabPanel header="Calendar Defacult">
+              <TabPanel header="Calendar Default">
                 <CalendarDefacult />
               </TabPanel>
             </TabView>

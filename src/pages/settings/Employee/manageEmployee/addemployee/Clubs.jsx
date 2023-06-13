@@ -32,7 +32,7 @@ const Clubs = () => {
     <>
       <div>
         <div className="">
-          <CardWithTitle title="Report Access">
+          <CardWithTitle title="Report Data Access">
             <div className="card p-3 ">
               <PickList
                 // source={source}
@@ -48,8 +48,8 @@ const Clubs = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div>
-          <CardWithTitle title="Report Access">
+        <div className="mt-3">
+          <CardWithTitle title="Clubs">
             <div className="card p-3 ">
               <PickList
                 // source={source}

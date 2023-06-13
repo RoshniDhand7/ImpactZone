@@ -15,15 +15,14 @@ const Bonus = () => {
       </div>
       <div>
         <CardWithTitle title="Bonus">
-          <div className="col-12 p-3 flex">
+          <div className="col-12 pb-0 flex">
             <div className="col">
               <DropDown title="" placeholder="Bonus Type"></DropDown>
             </div>
             <div className="col">
               <DropDown title="" placeholder="Select Days"></DropDown>
             </div>
-            <span className="mt-3 p-2"> </span>
-
+            <div className="mt-3 mx-3  p-2"></div>
             <div className="col-2">
               <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
@@ -52,12 +51,23 @@ const Bonus = () => {
               <DropDown title="" placeholder="Selected Services"></DropDown>
             </div>
           </div>
-          <div className="col-12 p-3 flex">
+
+          <hr className="hrtagstyle" />
+
+          <div className="col-12 py-0 flex">
             <div className="col">
-              <DropDown title="" placeholder="Bonus Type"></DropDown>
+              <div className="">
+                <DropDown title="" placeholder="Single Client"></DropDown>
+              </div>
+              {/* <div class>
+                <DropDown title="" placeholder="Single Client"></DropDown>
+              </div> */}
             </div>
             <div className="col">
               <Input title="" placeholder="Select Days"></Input>
+              <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
+                # of Sessions
+              </span>
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
@@ -69,7 +79,7 @@ const Bonus = () => {
             </div>
 
             <div className="col">
-              <DropDown title=""></DropDown>
+              <DropDown title="" placeholder="Months"></DropDown>
             </div>
             <div className="col-2">
               <Input title=""></Input>
@@ -89,20 +99,27 @@ const Bonus = () => {
               <DropDown title="" placeholder="Selected Services"></DropDown>
             </div>
           </div>
-          <div className="col-12 p-3 flex">
+
+          <hr className="hrtagstyle" />
+          <div className="col-12 py-0 flex">
             <div className="col">
-              <DropDown title="" placeholder="Service Value"></DropDown>
+              <div className="">
+                <DropDown title="" placeholder="Single Client"></DropDown>
+              </div>
+              {/* <div class>
+                <DropDown title="" placeholder="Single Client"></DropDown>
+              </div> */}
             </div>
             <div className="col">
-              <Input title="" placeholder="2,000s"></Input>
+              <Input title="" placeholder="Select Days"></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
-                Sessions Value
+                # of Sessions
               </span>
             </div>
             <span className="mt-3 p-2 text-gray-300">Over</span>
 
             <div className="col-2">
-              <Input title="" placeholder="30"></Input>
+              <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                 Select Timeframe
               </span>
@@ -112,7 +129,7 @@ const Bonus = () => {
               <DropDown title="" placeholder="Days"></DropDown>
             </div>
             <div className="col-2">
-              <Input title="" placeholder="5"></Input>
+              <Input title=""></Input>
               <span className="text-xs text-gray-200 p-2 flex justify-content-center">
                 Bonus Amount
               </span>
@@ -126,31 +143,27 @@ const Bonus = () => {
               <img src={Divide} alt="" className="m-auto mx-2  " />
             </div>
             <div className="col ml-2">
-              <DropDown title="" placeholder="Select Services"></DropDown>
+              <DropDown title="" placeholder="Selected Services"></DropDown>
             </div>
           </div>
         </CardWithTitle>
       </div>
-      <div className="flex justify-content-end p-2 ">
-        <div className=" mt-3 flex  ">
-          <div className=" mx-3">
-            <Buttons
-              label="Add"
-              icon="pi pi-plus-circle"
-              className="btn-dark  border-none"
-            ></Buttons>
-          </div>
-          <div className="">
-            <Buttons
-              label="Save"
-              className="btn-dark mx-3 border-none"
-            ></Buttons>
-          </div>
-          <div className="mx-4 ">
-            <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
-          </div>
+      <div className="flex justify-content-end  m-2 mt-3 ">
+        <div className="mr-2">
+          <Buttons
+            label="Add"
+            icon="pi pi-plus-circle"
+            className="btn-dark  border-none"
+          ></Buttons>
+        </div>
+        <div className="mr-4">
+          <Buttons label="Save" className="btn-dark mx-3 border-none"></Buttons>
+        </div>
+        <div className=" ">
+          <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
         </div>
       </div>
+
       <div>
         <RecentCheckIn data={checkInData} />
       </div>
