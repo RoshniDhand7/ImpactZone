@@ -23,6 +23,7 @@ import ManageReportSecurity from "./pages/settings/Employee/ReportSecurity/Manag
 import Employee from "./pages/settings/Employee/manageEmployee/manageEmployee";
 import ScheduleSetup from "./pages/settings/ScheduleSetup/ScheduleSetup";
 import Loader from "./components/loader";
+import SchedulingOptions from "./pages/settings/ScheduleSetup/Schedulingoptions";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -51,6 +52,11 @@ function App() {
             <Route exact path="/timesheets" element={<TimeSheets />} />
             <Route exact path="/department" element={<Department />} />
             <Route exact path="/securityRoles" element={<SecurityRoles />} />
+            <Route
+              exact
+              path="/schedulingoptions"
+              element={<SchedulingOptions />}
+            />
             <Route
               exact
               path="/manageReportSecurity"

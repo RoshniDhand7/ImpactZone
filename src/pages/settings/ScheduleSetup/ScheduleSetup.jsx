@@ -14,7 +14,7 @@ const ScheduleSetup = () => {
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
         >
-          <TabPanel header="Level">
+          <TabPanel header="Levels">
             <ScheduleLevel />
           </TabPanel>
           <TabPanel header="Location Types">
