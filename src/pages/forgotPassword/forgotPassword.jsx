@@ -10,8 +10,8 @@ const ForgotPassword = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [newPassword, setIsNewPassword] = useState(false);
   const [value, setValue] = useState("");
-  const [otp, setOtp] = useState("");
-  const [OTP, setOTP] = useState("");
+  // const [otp, setOtp] = useState("");
+  // const [OTP, setOTP] = useState("");
 
   const sendEmail = () => {
     setIsOtpSent(true);
@@ -39,9 +39,9 @@ const ForgotPassword = () => {
           <div className="col-9">
             <Input title="Email" placeholder="mike"></Input>
           </div>
-          <div className="col-9">
+          <div className="col-9 mr-3">
             <Button
-              className="btn-dark border-none"
+              className="btn-dark border-none "
               label="Continue"
               onClick={sendEmail}
             ></Button>
@@ -54,7 +54,6 @@ const ForgotPassword = () => {
   const otpVerifyCard = () => {
     return (
       <>
-        {" "}
         <div className=" bg-light-gray flex justify-content-center align-items-center h-screen ">
           <div className="loginCard flex-column primaryfont flex align-items-center p-4 ">
             <div className="logo mt-5">
@@ -97,11 +96,11 @@ const ForgotPassword = () => {
               <span className="text-green-600"> in </span> 55
               <span className="text-green-600"> s</span>
             </div>
-            <div className="col-9">
+            <div className="col-9 mr-3 ">
               <Button
-                className="btn-dark border-none"
+                className="btn-dark border-none "
                 label="Continue"
-                onClick={sendEmail}
+                onClick={otpVerify}
               ></Button>
             </div>
           </div>

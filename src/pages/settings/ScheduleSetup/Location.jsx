@@ -77,14 +77,14 @@ const Location = () => {
           </div>
           <div>
             <CardWithTitle title="Add Location Type">
-              <div className="flex p-2">
-                <div className="col-3 mx-3">
+              <div className="flex p-2 mx-3">
+                <div className="col-4">
                   <Input title="Name"></Input>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                   <DropDown title="Location Type"></DropDown>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                   <DropDown title="Club"></DropDown>
                 </div>
               </div>
@@ -122,13 +122,13 @@ const Location = () => {
           <div>
             <div className="bg-lightest-blue border-round-lg px-3 flex justify-content-between align-items-center ">
               <div className=" flex align-items-center">
-                <div className="col-4 ">
+                <div className="col-7">
                   <DropDown title="Status"></DropDown>
                 </div>
-                <div className="col-4 ">
+                <div className="col-7 ">
                   <DropDown title="Club"></DropDown>
                 </div>
-                <div className="col-4 ">
+                <div className="col-7 ">
                   <DropDown title="Location Type"></DropDown>
                 </div>
                 <div className="">
