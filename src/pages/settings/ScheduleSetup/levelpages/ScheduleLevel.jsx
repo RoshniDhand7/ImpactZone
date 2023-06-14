@@ -12,6 +12,7 @@ import BlackArrow from "../../../../assets/icons/blackarrow.png";
 import DropDown from "../../../../components/dropdown/dropdown";
 // import { useDispatch } from "react-redux";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { Link } from "react-router-dom";
 
 const ScheduleLevel = () => {
   const op = useRef(null);
@@ -89,12 +90,14 @@ const ScheduleLevel = () => {
                   ></Buttons>
                 </div>
 
-                <div className=" ">
-                  <Buttons
-                    label="Scheduling Options"
-                    className="btn-dark  border-none"
-                  ></Buttons>
-                </div>
+                <Link to="/schedulingoptions">
+                  <div className=" ">
+                    <Buttons
+                      label="Scheduling Options"
+                      className="btn-dark  border-none"
+                    ></Buttons>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

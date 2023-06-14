@@ -58,7 +58,7 @@ const RecentCheckIn = ({ data }) => {
         </div>
 
         <div className="flex overflow-auto">
-          {data.map((card, index) => {
+          {data?.map((card, index) => {
             return (
               <div
                 className={
