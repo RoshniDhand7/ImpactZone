@@ -55,55 +55,57 @@ const Classes = () => {
                   ></Checkbox>
                 </div>
               </div>
-              <div className="flex justify-content-between w-7 mt-4">
-                <div>
-                  <Buttons
-                    label="Sunday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Monday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Tuesday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Wednesday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Thursday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Friday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
-                </div>
-                <div>
-                  <Buttons
-                    label="Saturday"
-                    className="bg-white text-gray-200 border-none border-round-lg"
-                    style={{ height: "38px" }}
-                  ></Buttons>
+              <div className="grid">
+                <div className="col-12 flex   mt-4">
+                  <div>
+                    <Buttons
+                      label="Sunday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div className="mx-4">
+                    <Buttons
+                      label="Monday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div>
+                    <Buttons
+                      label="Tuesday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div className="mx-4">
+                    <Buttons
+                      label="Wednesday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div>
+                    <Buttons
+                      label="Thursday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div className="mx-4">
+                    <Buttons
+                      label="Friday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
+                  <div>
+                    <Buttons
+                      label="Saturday"
+                      className="bg-white text-gray-200 border-none border-round-lg"
+                      style={{ height: "38px" }}
+                    ></Buttons>
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,7 +116,7 @@ const Classes = () => {
             <div className="p-3">
               <div className="flex">
                 <div className="col-4">
-                  <DropDown title="staff"></DropDown>
+                  <DropDown title="Staff"></DropDown>
                 </div>
                 <div className="col-4">
                   <DropDown title="Pay"></DropDown>

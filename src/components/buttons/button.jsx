@@ -1,17 +1,19 @@
 import React from "react";
 import { Button } from "primereact/button";
+import { Ripple } from "primereact/ripple";
 
 function Buttons({ label, onClick, className, style, icon, iconPos }) {
   return (
     <div>
       <Button
         label={label}
-        className={"w-full  text-sm mx-2   " + " " + className}
+        className={"w-full  text-sm mx-2  p-ripple   " + " " + className}
         onClick={onClick}
         style={{ padding: "13px 22px 13px 22px", ...style }}
         icon={icon}
         iconPos={iconPos}
       />
+      <Ripple />
     </div>
   );
 }

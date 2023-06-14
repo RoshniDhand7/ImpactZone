@@ -22,18 +22,21 @@ const login = () => {
           <div className="col-9 mt-2">
             <Input title="Password" placeholder="*******"></Input>
           </div>
-          <div className="col-9 -m-2 flex justify-content-between">
+          <div className="col-9 -m-2 flex justify-content-between ">
             <div className=" text-xs  ">
               <Checkbox title="Remember Me" />
             </div>
             <Link to="/forgotpassword">
-              <div className="text-xs underline cursor-pointer ">
+              <div
+                className="text-xs underline cursor-pointer font-semibold "
+                style={{ color: "#222222" }}
+              >
                 Forgot Password?
               </div>
             </Link>
           </div>
-          <div className="col-9 ">
-            <Button className="btn-dark border-none" label="Login"></Button>
+          <div className="col-9 mr-3 mt-3">
+            <Button className="btn-dark border-none m-0" label="Login"></Button>
           </div>
         </div>
       </div>

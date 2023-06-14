@@ -15,13 +15,13 @@ const EventOnline = () => {
         <div className="">
           <CardWithTitle title="Allow Booking an Appointment">
             <div className="p-3 flex ">
-              <div className="col-2">
+              <div className="col-4">
                 <DropDown
                   placeholder="24hours"
                   title="User can book an appointment that is at least"
                 ></DropDown>
               </div>
-              <div className="col-2">
+              <div className="col-4">
                 <DropDown
                   placeholder="14 days"
                   title="In the future and less than"
@@ -34,13 +34,13 @@ const EventOnline = () => {
         <div className="mt-3">
           <CardWithTitle title="Cancellation">
             <div className="p-3 flex">
-              <div className="col-2">
+              <div className="col-4">
                 <DropDown
                   placeholder="24hours"
                   title="Allow cancel online:"
                 ></DropDown>
               </div>
-              <div className="col-2">
+              <div className="col-4">
                 <DropDown
                   placeholder="14 days"
                   title="Time before event:"
