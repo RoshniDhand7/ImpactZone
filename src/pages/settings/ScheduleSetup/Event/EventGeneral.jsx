@@ -51,7 +51,7 @@ const EventGeneral = () => {
                   <DropDown title="Internal Use"></DropDown>
                 </div>
               </div>
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-3 ">
                 <div className="col">
                   <DropDown title="Location Type"></DropDown>
                 </div>
@@ -62,7 +62,7 @@ const EventGeneral = () => {
                   <DropDown title="Event Commission Type"></DropDown>
                 </div>
               </div>
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-3 ">
                 <div className="col">
                   <DropDown title="Available Online"></DropDown>
                 </div>
@@ -76,7 +76,7 @@ const EventGeneral = () => {
                   ></DropDown>
                 </div>
               </div>
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-3 ">
                 <div className="col-4">
                   <DropDown title="Waitlist Expiration (Turned off at club level)"></DropDown>
                 </div>
@@ -113,7 +113,7 @@ const EventGeneral = () => {
                   <DropDown title="Member"></DropDown>
                 </div>
               </div>
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-3 ">
                 <div className="col">
                   <DropDown title="Member Verification"></DropDown>
                 </div>
@@ -141,7 +141,7 @@ const EventGeneral = () => {
                   <DropDown title="MCancel-C"></DropDown>
                 </div>
               </div>
-              <div className="flex justify-content-between ">
+              <div className="flex justify-content-between mt-3 ">
                 <div className="col-4">
                   <DropDown title="Rebook"></DropDown>
                 </div>
@@ -151,8 +151,8 @@ const EventGeneral = () => {
         </div>
         <div className="mt-3">
           <CardWithTitle title="Durations">
-            <div className="p-3 ">
-              <div className="info-box flex p-3 mb-2">
+            <div className="p-3 px-4 ">
+              <div className="info-box  flex p-3 mb-2">
                 <i
                   className="pi pi-info-circle"
                   style={{ color: " #329bea", width: "15px", height: "15px" }}
@@ -161,7 +161,7 @@ const EventGeneral = () => {
                   To top duration will be the default when creating events.
                 </p>
               </div>
-              <div className="card mt-3  ">
+              <div className="card mt-4  ">
                 <PickList
                   // source={source}
                   // target={target}
@@ -177,9 +177,12 @@ const EventGeneral = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div className=" m-2 mt-3 flex justify-content-end">
-          <div className="mx-3">
-            <Buttons label="Next" className="btn-dark   border-none"></Buttons>
+        <div className=" m-2 mt-3 flex justify-content-end ">
+          <div className="mx-4">
+            <Buttons
+              label="Next"
+              className="btn-dark mx-3 border-none"
+            ></Buttons>
           </div>
           <div className="">
             <Buttons

@@ -4,6 +4,8 @@ import ScheduleLevel from "./levelpages/ScheduleLevel";
 import LocationTypes from "./locationTypes";
 import Location from "./Location";
 import EventSetups from "./Event/Event";
+import EventCategories from "./EventCategories";
+import Classes from "./Classes";
 
 const ScheduleSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -26,8 +28,12 @@ const ScheduleSetup = () => {
           <TabPanel header="Event Setups">
             <EventSetups />
           </TabPanel>
-          <TabPanel header="Event Categories"></TabPanel>
-          <TabPanel header="Classes"></TabPanel>
+          <TabPanel header="Event Categories">
+            <EventCategories />
+          </TabPanel>
+          <TabPanel header="Classes">
+            <Classes></Classes>
+          </TabPanel>
         </TabView>
       </div>
     </div>
