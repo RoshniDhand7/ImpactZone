@@ -5,6 +5,7 @@ import ReasonCode from "./reason Code/reasonCode";
 import CancelCode from "./cancelCode/cancelCode";
 import Customization from "./customization/customization";
 import Clubs from "./Clubs";
+import JobTitle from "./JobTitle";
 
 const BusinessSettings = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,6 +30,9 @@ const BusinessSettings = () => {
           </TabPanel>
           <TabPanel header="Clubs">
             <Clubs></Clubs>
+          </TabPanel>
+          <TabPanel header="Job Title">
+            <JobTitle></JobTitle>
           </TabPanel>
         </TabView>
       </div>

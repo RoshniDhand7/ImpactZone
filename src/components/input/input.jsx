@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 
 const Input = ({
   title,
+  title1,
   placeholder,
   type,
   icon,
@@ -16,8 +17,9 @@ const Input = ({
 }) => {
   return (
     <div className="flex flex-column gap-2">
-      <label className="text-xs text-dark-gray   font-semibold">
-        {title} {required ? <span className="text-red-500">*</span> : null}
+      <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
+        <div>{title}</div> <div>{title1}</div>
+        {required ? <span className="text-red-500">*</span> : null}
       </label>
       <span
         style={{ width: "100%", display: "inline-block" }}

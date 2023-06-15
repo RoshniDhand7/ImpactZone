@@ -101,25 +101,6 @@ const Department = () => {
               data={departmentData}
               // delRow={tableRowRemove}
             />
-            {/* <DataTable
-              value={departmentData}
-              selection={selectedPos}
-              onSelectionChange={(e) => setSelectedPos(e.value)}
-              dataKey="id"
-              tableStyle={{ minWidth: "50rem" }}
-            >
-              <Column
-                selectionMode="multiple"
-                headerStyle={{ width: "3rem" }}
-              ></Column>
-              <Column field="name" header="Name"></Column>
-              <Column field="Showincalendar" header="Show in Calendar"></Column>
-              <Column field="visibleonline" header="Visible Online"></Column>
-              <Column
-                field="salespersononline"
-                header="Sales Person Online"
-              ></Column>
-            </DataTable> */}
           </div>
         </div>
         <div className=" mt-3 flex justify-content-end">
@@ -136,7 +117,7 @@ const Department = () => {
   return (
     <>
       {addDepartment ? <AddDeparment /> : deparmentList()}
-      <div className="mt-3">
+      <div className=" p-3 mt-3">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

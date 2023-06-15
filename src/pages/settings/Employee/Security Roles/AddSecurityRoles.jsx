@@ -3,8 +3,11 @@ import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTi
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import Navbar from "../../../../layout/Navbar";
+import { InputTextarea } from "primereact/inputtextarea";
+import { useState } from "react";
 
 const AddSecurityRoles = () => {
+  const [value, setValue] = useState("");
   return (
     <>
       <div className="p-3">
@@ -20,8 +23,15 @@ const AddSecurityRoles = () => {
               <div className="col-3">
                 <Input title="Name"></Input>
               </div>
-              <div className="col-9">
-                <Input title="Description"></Input>
+              <div className="col-8 ">
+                <Input title="Description" title1="(40-50)"></Input>
+                {/* <div className="card flex justify-content-center">
+                  <InputTextarea
+                    autoResize
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                  />
+                </div> */}
               </div>
             </div>
           </CardWithTitle>
