@@ -51,12 +51,15 @@ const EventNotifications = () => {
           </CardWithTitle>
         </div>
       </div>
-      <div className=" m-2 mt-3 flex justify-content-end">
-        <div className="mx-3">
+      <div className=" m-2  flex justify-content-end">
+        <div className="mt-3 mx-4">
           <Buttons
-            label="Scheduling Options"
-            className="btn-dark   border-none"
+            label="Save"
+            className="btn-dark mx-3   border-none"
           ></Buttons>
+        </div>
+        <div className="mt-3">
+          <Buttons label="Cancel" className="btn-grey   border-none"></Buttons>
         </div>
       </div>
     </>

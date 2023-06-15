@@ -42,3 +42,6 @@
 .p-tabview-nav {
   min-width: fit-content;
 }
+.p-datatable .p-sortable-column:focus {
+  box-shadow: none !important;
+}

@@ -138,7 +138,7 @@ const EventGeneral = () => {
                   <DropDown title="Cancel-NC"></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="MCancel-C"></DropDown>
+                  <DropDown title="Cancel-C"></DropDown>
                 </div>
               </div>
               <div className="flex justify-content-between mt-3 ">

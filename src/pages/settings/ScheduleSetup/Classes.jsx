@@ -11,7 +11,7 @@ const Classes = () => {
   return (
     <>
       <div>
-        <div className="bg-lightest-blue p-2 border-round-lg shadow-2">
+        <div className="bg-lightest-blue py-2 border-round-lg shadow-2">
           <div className="flex justify-content-between  align-items-center px-3">
             <div className="col-3 px-0">
               <Input
