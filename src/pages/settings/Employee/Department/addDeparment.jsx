@@ -10,12 +10,14 @@ const AddDeparment = () => {
     <>
       <div className="p-3">
         <Navbar />
-
+        <div>
+          <p className="my-3 font-semibold text-xl ">Add Departments</p>
+        </div>
         <div className="mt-2">
           <CardWithTitle title="General">
             <div className="p-2 flex">
               <div className="col">
-                <Input title="SalesPerson Online" placeholder=""></Input>
+                <Input title="Name" placeholder=""></Input>
               </div>
               <div className="col">
                 <DropDown title="Show in Calendar" placeholder="No"></DropDown>
@@ -26,7 +28,10 @@ const AddDeparment = () => {
             </div>
             <div className="col-12 flex">
               <div className="col-4">
-                <DropDown title="SalesPersonOnline" placeholder="No"></DropDown>
+                <DropDown
+                  title="Sales Person Online"
+                  placeholder="No"
+                ></DropDown>
               </div>
               <div className="col-4">
                 <Input title="Department Code" placeholder=""></Input>
@@ -39,7 +44,9 @@ const AddDeparment = () => {
           <CardWithTitle title="Add Employee">
             <div className=" p-4 btn-lightest-blue">
               <div className="ml-4 mb-2">
-                <span className="text-sm ">Name</span>
+                <span className="text-xs font-semibold  text-dark-gray">
+                  Name
+                </span>
               </div>
 
               <div className="bg-white col-12 border-round-md ">
