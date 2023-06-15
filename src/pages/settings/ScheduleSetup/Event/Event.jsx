@@ -89,13 +89,13 @@ const EventSetups = () => {
           <div>
             <div className="bg-lightest-blue border-round-lg px-3 py-2 flex justify-content-between align-items-center ">
               <div className=" flex align-items-center">
-                <div className="col-4 ">
+                <div className="col-6 ">
                   <DropDown title="Status"></DropDown>
                 </div>
-                <div className="col-4 ">
+                <div className="col-6 ">
                   <DropDown title="Type"></DropDown>
                 </div>
-                <div className="col-4 ">
+                <div className="col-6 ">
                   <Input title="Name"></Input>
                 </div>
                 <div className="">

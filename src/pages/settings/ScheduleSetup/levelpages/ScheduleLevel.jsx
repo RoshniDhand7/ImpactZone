@@ -28,22 +28,22 @@ const ScheduleLevel = () => {
     {
       name: "1",
       value: "1",
-      active: "Yes",
+      active: "No",
     },
     {
-      name: "1",
+      name: "2",
       value: "1",
       active: "Yes",
       AddLevel: "",
     },
     {
-      name: "1",
+      name: "3",
       value: "1",
       active: "Yes",
       AddLevel: "",
     },
     {
-      name: "1",
+      name: "4",
       value: "1",
       active: "Yes",
       AddLevel: "",
@@ -66,7 +66,6 @@ const ScheduleLevel = () => {
   };
   const levelcolumn = [
     { field: "name", header: "Name", id: "", index: "" },
-
     { field: "active", header: "Active", id: "", index: "" },
     { field: "", header: "", id: "", index: "" },
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
@@ -285,9 +284,8 @@ const ScheduleLevel = () => {
   };
 
   const levelEmployeecolumn = [
-    { field: "", header: "" },
     { field: "", header: "", body: emailIconTemplate },
-    { field: "name", header: "Name" },
+    { field: "name", header: "Name", sorting: true },
     { field: "department", header: "Department" },
     { field: "barcode", header: "Barcode" },
     { field: "addresscity", header: "Address/City/State/Zip" },
