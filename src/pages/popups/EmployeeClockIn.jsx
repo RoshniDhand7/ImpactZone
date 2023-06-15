@@ -55,23 +55,23 @@ const EmployeeClockIn = () => {
         <h4 className="text-900 text-xs">No Rows to Show</h4>
       </div>
       <div className="flex justify-content-end mt-3">
-        <div className="flex justify-content-between">
+        <div className="flex justify-content-between p-2">
           <div className="">
             <Buttons
               label="Clock In"
-              className=" p-3 btn-dark border-none"
+              className="  btn-dark border-none"
             ></Buttons>
           </div>
           <div className=" mx-2 ">
             <Buttons
               label="Clock Out"
-              className=" p-3 btn-dark  border-none  "
+              className="  btn-dark  border-none  "
             ></Buttons>
           </div>
           <div className=" ">
             <Buttons
               label="Cancel"
-              className=" p-3 btn-grey border-none"
+              className="  btn-grey border-none"
             ></Buttons>
           </div>
         </div>

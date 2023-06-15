@@ -75,16 +75,17 @@ const EventCategories = () => {
     return (
       <>
         <div>
-          <div className="bg-lightest-blue p-2 border-round-lg ">
+          <div className="bg-lightest-blue py-2  border-round-lg ">
             <div className="flex justify-content-between align-items-center px-3">
               <div className="col-3">
                 <DropDown title="Status" placeholder="Active"></DropDown>
               </div>
-              <div className="">
+              <div className="mx-5">
                 <Buttons
                   onClick={setEventCategories}
-                  className="btn-dark border-none"
+                  className="btn-dark mx-4  border-none"
                   label="Add"
+                  style={{ height: "36px", top: "10px" }}
                 ></Buttons>
               </div>
             </div>
