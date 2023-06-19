@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/icons/Navlogo.png";
 import Profile from "../assets/icons/profilepic.png";
 import addtask from "../assets/icons/addtask.png";
@@ -8,9 +8,22 @@ import mytask from "../pages/popups/mytask";
 import { useState } from "react";
 import searchBar from "../pages/popups/searchBar";
 import EmployeeClockIn from "../pages/popups/EmployeeClockIn";
+import { useEffect } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 
-export default function TopBar({ setIsActive, isActive }) {
+export default function TopBar({
+  setIsActive,
+  isActive,
+  isLogged,
+  setIsLogged,
+}) {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.clear();
+    setIsLogged(false);
+    navigate("/login");
+  };
+
   const [popUp, setPopUp] = useState({
     title: "",
     show: null,
@@ -33,6 +46,7 @@ export default function TopBar({ setIsActive, isActive }) {
     });
     setIsActive(true);
   };
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -67,15 +81,19 @@ export default function TopBar({ setIsActive, isActive }) {
                   <i className="pi pi-chevron-down mx-2"></i>
                 </button>
                 <div className="dropdown-content">
-                  <a href="#">Link 1</a>
-                  <a href="#">Link 2</a>
-                  <a href="#">Link 3</a>
+                  <div className="p-3">
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                    <hr />
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                    <hr />
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <NavLink to={"/more"}>
-              <div className="textcolor">More</div>{" "}
+              <div className="textcolor">More</div>
             </NavLink>
           </div>
           <div className="col-4 flex align-items-center justify-content-between ">
@@ -124,9 +142,13 @@ export default function TopBar({ setIsActive, isActive }) {
                   <i className="pi pi-chevron-down mx-2"></i>
                 </button>
                 <div className="dropdown-content">
-                  <a href="#">Link 1</a>
-                  <a href="#">Link 2</a>
-                  <a href="#">Link 3</a>
+                  <div className="p-3">
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                    <hr />
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                    <hr />
+                    <div className="text-black p-2 cursor-pointer">Link</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -135,24 +157,31 @@ export default function TopBar({ setIsActive, isActive }) {
                 <div style={{ width: "43px", height: "43px" }}>
                   <img src={Profile} alt="" />
                 </div>
-                <span className="font-semibold text-base m-2">
-                  Mike Puglisi
+                <span
+                  style={{ width: "100px" }}
+                  className="font-semibold flex text-base m-2 "
+                >
+                  {localStorage.getItem("firstName") || "User"} &nbsp;
+                  {localStorage.getItem("lastName") || ""}
                 </span>
                 <i className="pi pi-chevron-down mt-2"></i>
               </button>
               <div className="dropdown-content border-round">
                 <div className="p-3">
-                  <a href="#" className="text-black">
+                  <div className="text-black p-2 cursor-pointer">
                     Switch User
-                  </a>
+                  </div>
                   <hr />
-                  <a href="#" className="text-black">
+                  <div className="text-black p-2 cursor-pointer">
                     Forgot Password
-                  </a>
+                  </div>
                   <hr />
-                  <a href="#" className="text-black">
+                  <div
+                    onClick={logout}
+                    className="text-black p-2 cursor-pointer"
+                  >
                     Log Out
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>

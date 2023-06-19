@@ -1,15 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/icons/logo.png";
 import Input from "../../components/input/input";
 import Checkbox from "../../components/checkbox/checkbox";
 import Button from "../../components/buttons/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { showToast } from "../../redux/actions/toastAction";
+import { useDispatch } from "react-redux";
+import api from "../../services/api";
+import constants from "../../utils/constants";
+import validation from "../../utils/Validation";
 
-const login = () => {
+const Login = ({ setIsLogged }) => {
+  const { loginValidations } = validation();
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [dataIsCorrect, setDataIsCorrect] = useState(false);
+  const [data, setData] = useState({
+    email: "gymowner@impactzone.com",
+    password: "owner@123",
+  });
+
+  const handelChange = (name) => (e) => {
+    setData({ ...data, [name]: e.target.value });
+    // console.log(data);
+  };
+
+  const onClickLogin = async () => {
+    const res = await api("post", constants.endPoints.Login, data);
+    if (res.success) {
+      const token = res.data.token;
+      localStorage.setItem("token", token);
+      const firstname = res.data.firstName;
+      const lastname = res.data.lastName;
+      localStorage.setItem("firstName", firstname);
+      localStorage.setItem("lastName", lastname);
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      setIsLogged(true);
+      navigate("/");
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+    let validate = await loginValidations(data);
+    if (validate.email || validate.password) {
+      setErrors(validate);
+    } else {
+      setDataIsCorrect();
+      onClickLogin();
+    }
+  };
+
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && dataIsCorrect) {
+      onClickLogin();
+    }
+  }, [errors]);
+
   return (
     <div className="login-page h-screen bg-light-gray flex justify-content-center align-items-center">
       <div className="flex justify-content-center align-items-center">
-        <div className="loginCard flex-column  flex align-items-center p-4 ">
+        <div className="loginCard flex-column  flex align-items-center p-4  py-5">
           <div className="logo ">
             <img src={Logo} alt="" />
           </div>
@@ -17,10 +71,28 @@ const login = () => {
             Welcome Back!
           </div>
           <div className="col-9">
-            <Input title="Usename" placeholder="mike"></Input>
+            <Input
+              id=""
+              values={data.email}
+              title="Username"
+              placeholder="gymowner@impactzone.com"
+              onChange={handelChange("email")}
+            ></Input>
+            {errors.email && (
+              <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
           <div className="col-9 mt-2">
-            <Input title="Password" placeholder="*******"></Input>
+            <Input
+              title="Password"
+              id=""
+              value={data.password}
+              type="password"
+              onChange={handelChange("password")}
+            ></Input>
+            {errors.password && (
+              <p className="text-red-600 text-xs mt-1">{errors.password}</p>
+            )}
           </div>
           <div className="col-9 -m-2 flex justify-content-between ">
             <div className=" text-xs  ">
@@ -35,8 +107,12 @@ const login = () => {
               </div>
             </Link>
           </div>
-          <div className="col-9 mr-3 mt-3">
-            <Button className="btn-dark border-none m-0" label="Login"></Button>
+          <div className="col-9 mr-3 mt-3 mb-3">
+            <Button
+              onClick={handleLoginSubmit}
+              className="btn-dark border-none m-0"
+              label="Login"
+            ></Button>
           </div>
         </div>
       </div>
@@ -44,4 +120,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

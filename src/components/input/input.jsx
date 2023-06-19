@@ -13,13 +13,17 @@ const Input = ({
   required,
   iconPos,
   style,
+  maxLength,
+  pattern,
   ...props
 }) => {
   return (
     <div className="flex flex-column gap-2">
       <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
-        <div>{title}</div> <div>{title1}</div>
-        {required ? <span className="text-red-500">*</span> : null}
+        <div>
+          {title} {required ? <span className="text-red-500">*</span> : null}
+        </div>
+        <div>{title1}</div>
       </label>
       <span
         style={{ width: "100%", display: "inline-block" }}
@@ -32,6 +36,7 @@ const Input = ({
           icon={icon}
           type={type}
           value={value}
+          maxLength={maxLength}
           onChange={onChange}
         ></InputText>
       </span>
