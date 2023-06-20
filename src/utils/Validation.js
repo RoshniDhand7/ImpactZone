@@ -17,18 +17,18 @@ const validation = () => {
   };
 
   const securityValidations = (data) => {
-    if (!data.firstName) {
+    if (!data.personalInfo.firstName) {
       errors.firstName = "First Name is required.";
     }
-    if (!data.lastName) {
+    if (!data.personalInfo.lastName) {
       errors.lastName = "Last Name is required.";
     }
-    if (!data.email) {
+    if (!data.systemInfo.email) {
       errors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(data.systemInfo.email)) {
       errors.email = "Email is invalid.";
     }
-    if (!data.barCode) {
+    if (!data.systemInfo.barCode) {
       errors.barCode = "barCode is required.";
     }
 

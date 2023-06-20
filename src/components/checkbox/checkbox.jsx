@@ -1,18 +1,19 @@
 import React from "react";
 
-const Checkbox = ({ title, className, value }) => {
+const Checkbox = ({ title, className, value, onclick }) => {
   console.log(value, "checkbox");
   return (
     <div className="form-check border-gray-100 custome-checkbox ">
       <input
         className="form-check-input hidden"
         type="checkbox"
-        value={value}
+        checked={value}
+        onClick={onclick}
         id="flexCheckDefault"
       />
       <label
         className={"form-check-label lightgrey mr-2  text-center " + className}
-        HtmlFor="flexCheckDefault"
+        htmlFor="flexCheckDefault"
       >
         <span className="mr-2">
           <i className="pi pi-stop unchecked"></i>

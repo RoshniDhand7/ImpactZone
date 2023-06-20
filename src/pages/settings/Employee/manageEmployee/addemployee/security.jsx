@@ -14,10 +14,14 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
   const { securityValidations } = validation();
   const [errors, setErrors] = useState({});
 
-  const handelChange = (name) => (e) => {
-    setData({ ...data, [name]: e.target.value });
-    console.log(data);
+  const handelChange = (group, name) => (e) => {
+    if (group?.length) {
+      setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
+    } else {
+      setData({ ...data, [name]: e.target.value || e.value });
+    }
   };
+  console.log(data);
 
   const nextPage = async () => {
     let validate = await securityValidations(data);
@@ -29,7 +33,9 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
     ) {
       setErrors(validate);
     } else setActiveTabIndex(1);
+    console.log(validate, "vvvvvvvv");
   };
+
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -54,7 +60,10 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
       <div className="my-3">
         <Checkbox
           title="Active"
-          value=""
+          value={data.isActive}
+          onclick={() => {
+            setData({ ...data, isActive: !data.isActive });
+          }}
           className=" text-900 font-semibold "
         />
         <div>
@@ -69,8 +78,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         type="text"
                         title="First Name"
                         required
-                        value={data.firstname}
-                        onChange={handelChange("firstName")}
+                        value={data.personalInfo.firstname}
+                        onChange={handelChange("personalInfo", "firstName")}
                       ></Input>
                       {errors.firstName && (
                         <p className="text-red-600 text-xs mt-1">
@@ -83,8 +92,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         title="Date of Birth"
                         placeholder="11/08/1998"
                         type="date"
-                        value={data.dob}
-                        onChange={handelChange("dob")}
+                        value={data.personalInfo.dob}
+                        onChange={handelChange("personalInfo", "dob")}
                       ></Input>
                     </div>
                   </div>
@@ -95,8 +104,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                       maxLength={1}
                       type="text"
                       pattern="[A-Za-z]{1}"
-                      value={data.middleInitial}
-                      onChange={handelChange("middleInitial")}
+                      value={data.personalInfo.middleInitial}
+                      onChange={handelChange("personalInfo", "middleInitial")}
                     ></Input>
                   </div>
                   <div className="col">
@@ -105,8 +114,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         title="Last Name"
                         required
                         type="text"
-                        value={data.lastname}
-                        onChange={handelChange("lastName")}
+                        value={data.personalInfo.lastname}
+                        onChange={handelChange("personalInfo", "lastName")}
                       ></Input>
                       {errors.lastName && (
                         <p className="text-red-600 text-xs mt-1">
@@ -118,8 +127,11 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                       <Input
                         title="Social Security #"
                         type="text"
-                        value={data.socialSecurity}
-                        onChange={handelChange("socialSecurity")}
+                        value={data.personalInfo.socialSecurity}
+                        onChange={handelChange(
+                          "personalInfo",
+                          "socialSecurity"
+                        )}
                       ></Input>
                     </div>
                   </div>
@@ -127,8 +139,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                     <DropDown
                       title="Title"
                       type="text"
-                      value={data.title}
-                      onChange={handelChange("title")}
+                      value={data.personalInfo.title}
+                      onChange={handelChange("personalInfo", "title")}
                     ></DropDown>
                   </div>
                 </div>
@@ -153,10 +165,10 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                 <div className="col-4">
                   <Input
                     title="Barcode"
-                    value={data.barCode}
+                    value={data.systemInfo.barCode}
                     type="number"
                     pattern="[0-9]*"
-                    onChange={handelChange("barCode")}
+                    onChange={handelChange("systemInfo", "barCode")}
                     required
                   ></Input>
                   {errors.barCode && (
@@ -169,15 +181,15 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                   <Input
                     title="Access Code"
                     pattern="[0-9]*"
-                    value={data.accessCode}
-                    onChange={handelChange("accessCode")}
+                    value={data.systemInfo.accessCode}
+                    onChange={handelChange("systemInfo", "accessCode")}
                   ></Input>
                 </div>
                 <div className="col-4">
                   <Input
                     title="Email"
-                    value={data.email}
-                    onChange={handelChange("email")}
+                    value={data.systemInfo.email}
+                    onChange={handelChange("systemInfo", "email")}
                     required
                   ></Input>
                   {errors.email && (
@@ -189,8 +201,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                 <div className="col-4">
                   <DropDown
                     title="Multi-Club Clock In/Out"
-                    value={data.multiClubClockIn}
-                    onChange={handelChange("multiClubClockIn")}
+                    value={data.systemInfo.multiClubClockIn}
+                    onChange={handelChange("systemInfo", "multiClubClockIn")}
                   ></DropDown>
                 </div>
               </div>
