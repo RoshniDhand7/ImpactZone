@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import BlackArrow from "../../../../assets/icons/blackarrow.png";
 import { OverlayPanel } from "primereact/overlaypanel";
 import TableData from "../../../../components/cards/dataTable/dataTable";
-
 import { useNavigate } from "react-router-dom";
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
@@ -55,11 +54,11 @@ const Employee = () => {
   };
 
   const formatHireDate = (col) => {
-    let date = col.employmentInfo.hireDate.toString();
+    let date = col?.employmentInfo?.hireDate?.toString();
     return date.split("T")[0];
   };
   const formatTerminationDate = (col) => {
-    let date = col.employmentInfo.terminationDate?.toString();
+    let date = col?.employmentInfo?.terminationDate?.toString();
     return date ? date.split("T")[0] : "-";
   };
 
