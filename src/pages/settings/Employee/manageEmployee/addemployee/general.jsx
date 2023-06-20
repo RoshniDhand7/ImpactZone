@@ -54,7 +54,6 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="ADP ID"
                         id=""
-                        type="number"
                         pattern="[0-10]"
                         value={data.employmentInfo.adpId}
                         onChange={handelChange("employmentInfo", "adpId")}
@@ -72,8 +71,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Primary Phone"
                         id=""
-                        type="number"
                         pattern="[0-10]"
+                        maxLength={12}
                         value={data.contactInfo.primaryPhone}
                         onChange={handelChange("contactInfo", "primaryPhone")}
                       ></Input>
@@ -82,7 +81,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Work Phone"
                         id=""
-                        type="number"
+                        maxLength={12}
                         pattern="[0-10]"
                         value={data.contactInfo.workPhone}
                         onChange={handelChange("contactInfo", "workPhone")}
@@ -92,8 +91,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Ext."
                         id=""
-                        type="number"
-                        maxLength={1}
+                        maxLength={4}
                         value={data.contactInfo.workPhoneExt}
                         onChange={handelChange("contactInfo", "workPhoneExt")}
                       ></Input>
@@ -102,8 +100,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Mobile Phone"
                         id=""
-                        type="number"
                         pattern="[0-10]"
+                        maxLength={12}
                         value={data.contactInfo.mobilePhone}
                         onChange={handelChange("contactInfo", "mobilePhone")}
                       ></Input>
@@ -115,7 +113,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         <Input
                           title="Fax Phone"
                           id=""
-                          type=""
+                          type="text"
                           pattern="[0-10]"
                           value={data.contactInfo.faxPhone}
                           onChange={handelChange("contactInfo", "faxPhone")}
@@ -147,7 +145,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         <Input
                           title="Emergency Phone"
                           id=""
-                          type="number"
+                          maxLength={12}
                           pattern="[0-10]"
                           value={data.contactInfo.emergencyPhone}
                           onChange={handelChange(
@@ -184,8 +182,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Ext."
                         id=""
-                        type="number"
-                        maxLength={1}
+                        maxLength={4}
                         value={data.contactInfo.emergencyPhoneExt}
                         onChange={handelChange(
                           "contactInfo",

@@ -166,7 +166,6 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                   <Input
                     title="Barcode"
                     value={data.systemInfo.barCode}
-                    type="number"
                     pattern="[0-9]*"
                     onChange={handelChange("systemInfo", "barCode")}
                     required

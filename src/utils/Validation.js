@@ -29,7 +29,7 @@ const validation = () => {
       errors.email = "Email is invalid.";
     }
     if (!data.systemInfo.barCode) {
-      errors.barCode = "barCode is required.";
+      errors.barCode = "Barcode is required.";
     }
 
     return errors;
