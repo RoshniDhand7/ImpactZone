@@ -1,5 +1,10 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import React from "react";
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from "react-router-dom";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./styles.scss";
 import TopBar from "./layout/Topbar";
@@ -24,17 +29,38 @@ import Employee from "./pages/settings/Employee/manageEmployee/manageEmployee";
 import ScheduleSetup from "./pages/settings/ScheduleSetup/ScheduleSetup";
 import Loader from "./components/loader";
 import SchedulingOptions from "./pages/settings/ScheduleSetup/Schedulingoptions";
+import ToastContainer from "./components/toast";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLogged(true);
+    }
+  }, []);
+
   return (
     <>
       <Loader />
+      <ToastContainer />
       <Router>
-        <TopBar setIsActive={setIsActive} isActive={isActive} />
+        {isLogged ? (
+          <TopBar
+            setIsActive={setIsActive}
+            isActive={isActive}
+            isLogged={isLogged}
+            setIsLogged={setIsLogged}
+          />
+        ) : null}
         <Routes>
           <Route>
-            <Route exact path="/login" element={<Login />} />
+            <Route
+              exact
+              path="/login"
+              element={<Login setIsLogged={setIsLogged} />}
+            />
             <Route exact path="/user-member" element={<UserMember />} />
             <Route exact path="/fastadd" element={<FastAdd />} />
             <Route exact path="/forgotpassword" element={<Forgotpassword />} />

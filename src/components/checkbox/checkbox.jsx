@@ -1,12 +1,13 @@
 import React from "react";
 
-const Checkbox = ({ title, className }) => {
+const Checkbox = ({ title, className, value }) => {
+  console.log(value, "checkbox");
   return (
     <div className="form-check border-gray-100 custome-checkbox ">
       <input
         className="form-check-input hidden"
         type="checkbox"
-        value=""
+        value={value}
         id="flexCheckDefault"
       />
       <label

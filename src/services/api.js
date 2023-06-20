@@ -1,0 +1,37 @@
+import axios from "axios";
+import constants from "../utils/constants";
+
+const api = (method, urlEndPoint, data) =>
+  new Promise((myResolve) => {
+    const token = localStorage.getItem("token");
+    let headers = {
+      "Content-Type": "application/json",
+    };
+    headers = {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    };
+
+    axios({
+      method: method,
+      url: constants.base_url + urlEndPoint,
+      data,
+      headers,
+    })
+      .then((response) => {
+        myResolve({
+          message: response.data.message,
+          data: response.data.data,
+          success: response.data.success,
+        });
+      })
+      .catch((err) => {
+        myResolve({
+          message: err.response.data.message,
+          data: err.response.data.data,
+          success: err.response.data.success,
+        });
+      });
+  });
+
+export default api;

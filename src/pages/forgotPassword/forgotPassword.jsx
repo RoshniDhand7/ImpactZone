@@ -3,8 +3,6 @@ import Logo from "../../assets/icons/logo.png";
 import Input from "../../components/input/input";
 import Button from "../../components/buttons/button";
 import { Password } from "primereact/password";
-import OtpInput from "react-otp-input";
-import OTPInput, { ResendOTP } from "otp-input-react";
 
 const ForgotPassword = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);

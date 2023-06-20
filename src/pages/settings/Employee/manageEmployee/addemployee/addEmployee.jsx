@@ -13,7 +13,46 @@ import Certifications from "./Certifications/Certification";
 import Navbar from "../../../../../layout/Navbar";
 
 const AddEmployee = () => {
-  const [activeIndex2, setActiveIndex2] = useState(0);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [data, setData] = useState({
+    personalInfo: {
+      firstName: "manvir",
+      lastName: "Singh",
+      middleInitial: "",
+      title: "6488785897e657a7a583d2ee",
+      dob: "03-05-1998",
+      socialSecurity: "unkonwn",
+    },
+    systemInfo: {
+      email: "manvir@yopmail.com",
+      barCode: "abcd12",
+      accessCode: "2703",
+      multiClubClockIn: "true",
+    },
+    employmentInfo: {
+      hireDate: "2023-09-13",
+      adpId: "21",
+    },
+    contactInfo: {
+      primaryPhone: "8835561210",
+      workPhone: "321654789",
+      workPhoneExt: "4",
+      mobilePhone: "7894561230",
+      faxPhone: "1234fax",
+      emergencyPhone: "784561230",
+      emergencyPhoneExt: "78494561",
+      street: "mohali",
+      city: "Jalandhar",
+      state: "punjab",
+      zipCode: "160055",
+      emailNotification: "true",
+    },
+    onlineInfo: {
+      userName: "mavir",
+      notes: "its wake up",
+    },
+  });
+
   return (
     <>
       <div>
@@ -26,14 +65,22 @@ const AddEmployee = () => {
           </div>
           <div className="p-3">
             <TabView
-              activeIndex={activeIndex2}
-              onTabChange={(e) => setActiveIndex2(e.index)}
+              activeIndex={activeTabIndex}
+              onTabChange={(e) => setActiveTabIndex(e.index)}
             >
               <TabPanel header="Security">
-                <Security />
+                <Security
+                  setData={setData}
+                  data={data}
+                  setActiveTabIndex={setActiveTabIndex}
+                />
               </TabPanel>
               <TabPanel header=" General ">
-                <GeneralAddEmployee />
+                <GeneralAddEmployee
+                  setData={setData}
+                  data={data}
+                  setActiveTabIndex={setActiveTabIndex}
+                />
               </TabPanel>
               <TabPanel header="Departments">
                 <Department />

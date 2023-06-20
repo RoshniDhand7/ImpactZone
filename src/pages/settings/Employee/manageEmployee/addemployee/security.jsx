@@ -7,10 +7,29 @@ import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
 import Checkbox from "../../../../../components/checkbox/checkbox";
+import validation from "../../../../../utils/Validation";
+import { useState } from "react";
 
-const Security = () => {
-  //   const [source, setSource] = useState([]);
-  //   const [target, setTarget] = useState([]);
+const Security = ({ setData, data, setActiveTabIndex }) => {
+  const { securityValidations } = validation();
+  const [errors, setErrors] = useState({});
+
+  const handelChange = (name) => (e) => {
+    setData({ ...data, [name]: e.target.value });
+    console.log(data);
+  };
+
+  const nextPage = async () => {
+    let validate = await securityValidations(data);
+    if (
+      validate.firstName ||
+      validate.lastName ||
+      validate.barCode ||
+      validate.email
+    ) {
+      setErrors(validate);
+    } else setActiveTabIndex(1);
+  };
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -33,7 +52,11 @@ const Security = () => {
   return (
     <>
       <div className="my-3">
-        <Checkbox title="Active" className=" text-900 font-semibold " />
+        <Checkbox
+          title="Active"
+          value=""
+          className=" text-900 font-semibold "
+        />
         <div>
           <div className="my-3">
             <CardWithTitle title="Personal">
@@ -41,30 +64,72 @@ const Security = () => {
                 <div className="flex ">
                   <div className="col  ">
                     <div>
-                      <Input title="First Name" required></Input>
+                      <Input
+                        id=""
+                        type="text"
+                        title="First Name"
+                        required
+                        value={data.firstname}
+                        onChange={handelChange("firstName")}
+                      ></Input>
+                      {errors.firstName && (
+                        <p className="text-red-600 text-xs mt-1">
+                          {errors.firstName}
+                        </p>
+                      )}
                     </div>
                     <div className="mt-4">
                       <Input
                         title="Date of Birth"
                         placeholder="11/08/1998"
                         type="date"
+                        value={data.dob}
+                        onChange={handelChange("dob")}
                       ></Input>
                     </div>
                   </div>
                   <div className="col-1">
-                    <Input title="M.I"></Input>
+                    <Input
+                      id="data"
+                      title="M.I"
+                      maxLength={1}
+                      type="text"
+                      pattern="[A-Za-z]{1}"
+                      value={data.middleInitial}
+                      onChange={handelChange("middleInitial")}
+                    ></Input>
                   </div>
                   <div className="col">
                     <div>
-                      {" "}
-                      <Input title="Last Name" required></Input>
+                      <Input
+                        title="Last Name"
+                        required
+                        type="text"
+                        value={data.lastname}
+                        onChange={handelChange("lastName")}
+                      ></Input>
+                      {errors.lastName && (
+                        <p className="text-red-600 text-xs mt-1">
+                          {errors.lastName}
+                        </p>
+                      )}
                     </div>
                     <div className="mt-4">
-                      <Input title="Social Security #"></Input>
+                      <Input
+                        title="Social Security #"
+                        type="text"
+                        value={data.socialSecurity}
+                        onChange={handelChange("socialSecurity")}
+                      ></Input>
                     </div>
                   </div>
                   <div className="col">
-                    <DropDown title="Title"></DropDown>
+                    <DropDown
+                      title="Title"
+                      type="text"
+                      value={data.title}
+                      onChange={handelChange("title")}
+                    ></DropDown>
                   </div>
                 </div>
                 {/* <div className="flex mt-3">
@@ -86,18 +151,47 @@ const Security = () => {
             <div className="p-3">
               <div className="flex ">
                 <div className="col-4">
-                  <Input title="Barcode" required></Input>
+                  <Input
+                    title="Barcode"
+                    value={data.barCode}
+                    type="number"
+                    pattern="[0-9]*"
+                    onChange={handelChange("barCode")}
+                    required
+                  ></Input>
+                  {errors.barCode && (
+                    <p className="text-red-600 text-xs mt-1">
+                      {errors.barCode}
+                    </p>
+                  )}
                 </div>
                 <div className="col-4">
-                  <Input title="Access Code" required></Input>
+                  <Input
+                    title="Access Code"
+                    pattern="[0-9]*"
+                    value={data.accessCode}
+                    onChange={handelChange("accessCode")}
+                  ></Input>
                 </div>
                 <div className="col-4">
-                  <Input title="Email" required></Input>
+                  <Input
+                    title="Email"
+                    value={data.email}
+                    onChange={handelChange("email")}
+                    required
+                  ></Input>
+                  {errors.email && (
+                    <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+                  )}
                 </div>
               </div>
               <div className="flex mt-3">
                 <div className="col-4">
-                  <DropDown title="Multi-Club Clock In/Out"></DropDown>
+                  <DropDown
+                    title="Multi-Club Clock In/Out"
+                    value={data.multiClubClockIn}
+                    onChange={handelChange("multiClubClockIn")}
+                  ></DropDown>
                 </div>
               </div>
             </div>
@@ -127,6 +221,7 @@ const Security = () => {
         <div className=" mt-3 flex  ">
           <div className="">
             <Buttons
+              onClick={nextPage}
               label="Save"
               className="btn-dark px-4  border-none"
             ></Buttons>
