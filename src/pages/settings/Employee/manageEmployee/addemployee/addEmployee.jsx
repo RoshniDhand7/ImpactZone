@@ -17,15 +17,15 @@ const AddEmployee = () => {
   const [data, setData] = useState({
     isActive: true,
     personalInfo: {
-      firstName: "manvir",
-      lastName: "Singh",
+      firstName: "",
+      lastName: "",
       middleInitial: "",
       title: "6488785897e657a7a583d2ee",
       dob: "",
       socialSecurity: "unkonwn",
     },
     systemInfo: {
-      email: "manvir@yopmail.com",
+      email: "",
       barCode: "",
       accessCode: "2703",
       multiClubClockIn: "true",
