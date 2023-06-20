@@ -15,17 +15,18 @@ import Navbar from "../../../../../layout/Navbar";
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [data, setData] = useState({
+    isActive: true,
     personalInfo: {
       firstName: "manvir",
       lastName: "Singh",
       middleInitial: "",
       title: "6488785897e657a7a583d2ee",
-      dob: "03-05-1998",
+      dob: "",
       socialSecurity: "unkonwn",
     },
     systemInfo: {
       email: "manvir@yopmail.com",
-      barCode: "abcd12",
+      barCode: "",
       accessCode: "2703",
       multiClubClockIn: "true",
     },
@@ -38,7 +39,7 @@ const AddEmployee = () => {
       workPhone: "321654789",
       workPhoneExt: "4",
       mobilePhone: "7894561230",
-      faxPhone: "1234fax",
+      faxPhone: "",
       emergencyPhone: "784561230",
       emergencyPhoneExt: "78494561",
       street: "mohali",
