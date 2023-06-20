@@ -55,11 +55,11 @@ const Employee = () => {
 
   const formatHireDate = (col) => {
     let date = col?.employmentInfo?.hireDate?.toString();
-    return date.split("T")[0];
+    return date ? date?.split("T")[0] : "-";
   };
   const formatTerminationDate = (col) => {
     let date = col?.employmentInfo?.terminationDate?.toString();
-    return date ? date.split("T")[0] : "-";
+    return date ? date?.split("T")[0] : "-";
   };
 
   const manageEmployeeTableColumns = [
