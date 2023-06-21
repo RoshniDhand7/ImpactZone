@@ -1,12 +1,19 @@
 import React from "react";
+import Checkbox from "../../checkbox/checkbox";
 
-const CardWithTitle = ({ title, children, title2, title3, title4, title5 }) => {
+const CardWithTitle = ({ titlee, title, children, title2, title3 }) => {
   return (
     <>
       <div>
         <div className="btn-dark  p-3 border-round">
           <div className="flex justify-content-between">
-            <span className="text-xl">{title}</span>
+            <div>
+              {title ? (
+                <span className="text-xl">{title}</span>
+              ) : (
+                <Checkbox title={titlee}> </Checkbox>
+              )}
+            </div>
             <span className="text-xl">{title2}</span>
             <span className="text-xl">{title3}</span>
             {/* <h4>{title4}</h4>

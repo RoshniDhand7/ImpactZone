@@ -5,6 +5,8 @@ const constants = {
     CreateEmployee: "/employee/create-employee",
     GetEmployeeTableData: "/employee/employees?sortOrder=DESC",
     DeleteEmployee: "/employee/delete/",
+    ForgotPassword: "/gym-owner/forget-password",
+    CreateNewPassword: "/gym-owner/change-forget-password",
   },
 };
 
