@@ -3,22 +3,56 @@ import Logo from "../../assets/icons/logo.png";
 import Input from "../../components/input/input";
 import Button from "../../components/buttons/button";
 import { Password } from "primereact/password";
+import { useDispatch } from "react-redux";
+import { showToast } from "../../redux/actions/toastAction";
+import { useNavigate } from "react-router-dom";
+import constants from "../../utils/constants";
+import api from "../../services/api";
+import validation from "../../utils/Validation";
 
 const ForgotPassword = () => {
+  const { loginValidations } = validation();
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [newPassword, setIsNewPassword] = useState(false);
   const [value, setValue] = useState("");
-  // const [otp, setOtp] = useState("");
-  // const [OTP, setOTP] = useState("");
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  const [data, setData] = useState({});
 
-  const sendEmail = () => {
-    setIsOtpSent(true);
+  const handelChange = (name) => (e) => {
+    setData({ ...data, [name]: e.target.value });
   };
 
-  const otpVerify = () => {
-    setIsNewPassword(false);
-    setIsOtpSent(false);
+  console.log(data, "data");
+  const onClickForgot = async () => {
+    const res = await api("post", constants.endPoints.ForgotPassword, data);
+    if (res.success) {
+      dispatch(showToast({ severity: "Success", summary: res.message }));
+      setIsOtpSent(true);
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+      showcomponent(false);
+    }
   };
+  const createNewPassword = async () => {
+    const res = await api("post", constants.endPoints.CreateNewPassword, data);
+    if (res.success) {
+      dispatch(showToast({ severity: "Success", summary: res.message }));
+      setIsOtpSent(true);
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+      showcomponent(false);
+    }
+  };
+  // const sendEmail = () => {
+  //   setIsOtpSent(true);
+  // };
+
+  // const otpVerify = () => {
+  //   setIsNewPassword(false);
+  //   setIsOtpSent(false);
+  // };
+  const showcomponent = () => {};
 
   const sendEmailCard = () => {
     return (
@@ -35,13 +69,18 @@ const ForgotPassword = () => {
             you one time password.
           </span>
           <div className="col-9">
-            <Input title="Email" placeholder="mike"></Input>
+            <Input
+              title="Email"
+              placeholder=""
+              value={data.email}
+              onChange={handelChange("email")}
+            ></Input>
           </div>
           <div className="col-9 mr-3">
             <Button
               className="btn-dark border-none "
               label="Continue"
-              onClick={sendEmail}
+              onClick={onClickForgot}
             ></Button>
           </div>
         </div>
@@ -65,29 +104,12 @@ const ForgotPassword = () => {
               imp....@gmail.com
             </span>
             <div className="customOtp  col-9">
-              <Input title=" " placeholder=""></Input>
-              {/* <OtpInput
-                className="border-round-1"
-                inputStyle={{ width: "66px", height: "61px" }}
-                value={otp}
-                onChange={setOtp}
-                numInputs={4}
-                renderSeparator={<span>-</span>}
-                renderInput={(props) => <input {...props} />}
-              /> */}
-              {/* <OTPInput
-                inputStyle={{ width: "66px", height: "61px" }}
-                value={OTP}
-                onChange={setOTP}
-                autoFocus
-                OTPLength={4}
-                otpType="number"
-                disabled={false}
-                secure
-              />
-              <ResendOTP
-                handelResendClick={() => console.log("Resend clicked")}
-              /> */}
+              <Input
+                title=" "
+                placeholder=""
+                value={data.otpcode}
+                onChange={handelChange("otpcode")}
+              ></Input>
             </div>
             <div>
               <span claass="text-base font-medium">Resend</span> code
@@ -98,7 +120,7 @@ const ForgotPassword = () => {
               <Button
                 className="btn-dark border-none "
                 label="Continue"
-                onClick={otpVerify}
+                onClick={setIsNewPassword}
               ></Button>
             </div>
           </div>
@@ -121,25 +143,35 @@ const ForgotPassword = () => {
             Forgot your password? Enter your email address <br /> and we’ll send
             you one time password.
           </span> */}
-          <div className="col-9">
-            <Password
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              toggleMask
-            />
+          <div className="mb-3">
+            <div className="flex flex-column gap-1">
+              <label htmlFor="" className="text-xs font-semibold">
+                New Password
+              </label>
+              <Password
+                value={data.password}
+                onChange={handelChange("password")}
+                toggleMask
+              />
+            </div>
           </div>
-          <div className="col-9">
-            <Password
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              toggleMask
-            />
+          <div className="">
+            <div className=" flex flex-column gap-1">
+              <label htmlFor="" className="text-xs font-semibold">
+                Confirm Password
+              </label>
+              <Password
+                value={data.password}
+                onChange={handelChange("password")}
+                toggleMask
+              />
+            </div>
           </div>
-          <div className="col-9">
+          <div className="mt-3 mr-3 " style={{ width: "236px" }}>
             <Button
               className="btn-dark border-none"
               label="Reset Password"
-              onClick={sendEmail}
+              onClick={createNewPassword}
             ></Button>
           </div>
         </div>
@@ -149,10 +181,10 @@ const ForgotPassword = () => {
 
   return (
     <>
-      {isOtpSent
-        ? otpVerifyCard()
-        : newPassword
+      {newPassword
         ? createNewPasswordCard()
+        : isOtpSent
+        ? otpVerifyCard()
         : sendEmailCard()}
     </>
   );

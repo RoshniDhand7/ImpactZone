@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import api from "../../services/api";
 import constants from "../../utils/constants";
 import validation from "../../utils/Validation";
+import { Password } from "primereact/password";
 
 const Login = ({ setIsLogged }) => {
   const { loginValidations } = validation();
@@ -83,18 +84,29 @@ const Login = ({ setIsLogged }) => {
             )}
           </div>
           <div className="col-9 mt-2">
+            {/* <div className="">
+              <label
+                htmlFor=""
+                className="text-xs text-dark-gray font-semibold"
+              >
+                Password
+              </label>
+            </div> */}
             <Input
+              style={{ width: "100%" }}
               title="Password"
               id=""
+              inputType="password"
               value={data.password}
               type="password"
+              toggleMask
               onChange={handelChange("password")}
             ></Input>
             {errors.password && (
               <p className="text-red-600 text-xs mt-1">{errors.password}</p>
             )}
           </div>
-          <div className="col-9 -m-2 flex justify-content-between ">
+          <div className="col-9 -m-2 mt-1 flex justify-content-between ">
             <div className=" text-xs  ">
               <Checkbox title="Remember Me" />
             </div>

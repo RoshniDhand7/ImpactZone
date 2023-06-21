@@ -4,6 +4,7 @@ import EventGeneral from "./EventGeneral";
 import DisplayOptions from "./displayOptions";
 import EventOnline from "./EventOnline";
 import EventNotifications from "./EventNotification";
+import EventServices from "./EventServices";
 
 const EventSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -18,7 +19,9 @@ const EventSetup = () => {
             <TabPanel header="General">
               <EventGeneral />
             </TabPanel>
-            <TabPanel header="Services"></TabPanel>
+            <TabPanel header="Services">
+              <EventServices />
+            </TabPanel>
             <TabPanel header="Display Options">
               <DisplayOptions />
             </TabPanel>

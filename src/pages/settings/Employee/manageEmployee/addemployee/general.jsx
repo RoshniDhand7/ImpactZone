@@ -276,8 +276,6 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             id="file-input"
                             name="file-input"
                             type="file"
-                            value={data.notes}
-                            onChange={handelChange("notes")}
                           />
                         </div>
 
