@@ -14,6 +14,7 @@ import api from "../../../../services/api";
 // import { showToast } from "../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import { showToast } from "../../../../redux/actions/toastAction";
+import { Button } from "primereact/button";
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
   const navigate = useNavigate();
@@ -175,6 +176,8 @@ const Employee = () => {
     console.log(res, "resss");
     if (res.success) {
       setShowEmployee(res.data);
+    } else {
+      console.log(res);
     }
   };
   console.log(ShowEmployee, "(999999999999999999");
@@ -187,12 +190,29 @@ const Employee = () => {
       <div className="p-3">
         <Navbar />
         <div className="my-2">
-          <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3">
-            <div className="flex p-2  justify-content-between align-items-center ">
-              <div
+          <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3 ">
+            <div
+              className="flex p-2  justify-content-between align-items-center"
+              id=""
+            >
+              {/* <Buttons
+                style={{ height: "36px", width: "37px" }}
+                className="bg-white  text-900 border-none "
+                label="General"
+                icon="pi pi-angle-down"
+                iconPos="right"
+               
+              ></Buttons> */}
+              <button
+                id="1"
+                className="btn_custom flex justify-content-between border-round-md  align-items-center  border-none "
+                style={{ height: "36px", width: "258px" }}
                 onClick={(e) => op.current.toggle(e)}
-                className="col-12 bg-white align-items-center   cursor-pointer border-round flex justify-content-between "
+                onChange={{}}
               >
+                General <i className="pi pi-angle-down"></i>
+              </button>
+              {/* <div className="col-12 bg-white align-items-center   cursor-pointer border-round flex justify-content-between ">
                 <div className="text-sm text-900">General</div>
                 <div className="">
                   <img
@@ -200,52 +220,53 @@ const Employee = () => {
                     src={BlackArrow}
                     alt=""
                   />
-                </div>
-                <OverlayPanel ref={op} dismissable={false}>
-                  <div className="flex align-items-center ">
-                    <div className="col-6">
-                      <div className=" ">
-                        <DropDown title="Status" placeholder="All"></DropDown>
-                      </div>
-                      <div className="my-2">
-                        <DropDown title="Club"></DropDown>
-                      </div>
-                      <div className="">
-                        <DropDown title="Department"></DropDown>
-                      </div>
-                      <div className="mt-2">
-                        <DropDown title="Commission Level"></DropDown>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className=" ">
-                        <Input title="First Name"></Input>
-                      </div>
-                      <div className="my-2">
-                        <Input title="Last Name"></Input>
-                      </div>
-                      <div className="">
-                        <Input title="Barcode"></Input>
-                      </div>
-                      <div className="mt-2">
-                        <DropDown title="Traning Level"></DropDown>
-                      </div>
-                    </div>
-                  </div>
-                  <div className=" flex justify-content-end border-none px-3 ">
-                    <div className="border-none pt-2 ">
-                      <Buttons
-                        label="Apply"
-                        className="btn-dark border-none"
-                        style={{}}
-                      ></Buttons>
-                    </div>
-                  </div>
-                </OverlayPanel>
-              </div>
+                </div> */}
 
-              <div
-                onClick={(e) => ope.current.toggle(e)}
+              <OverlayPanel ref={op} dismissable={false}>
+                <div className="flex align-items-center ">
+                  <div className="col-6">
+                    <div className=" ">
+                      <DropDown title="Status" placeholder="All"></DropDown>
+                    </div>
+                    <div className="my-2">
+                      <DropDown title="Club"></DropDown>
+                    </div>
+                    <div className="">
+                      <DropDown title="Department"></DropDown>
+                    </div>
+                    <div className="mt-2">
+                      <DropDown title="Commission Level"></DropDown>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <div className=" ">
+                      <Input title="First Name"></Input>
+                    </div>
+                    <div className="my-2">
+                      <Input title="Last Name"></Input>
+                    </div>
+                    <div className="">
+                      <Input title="Barcode"></Input>
+                    </div>
+                    <div className="mt-2">
+                      <DropDown title="Traning Level"></DropDown>
+                    </div>
+                  </div>
+                </div>
+                <div className=" flex justify-content-end border-none px-3 ">
+                  <div className="border-none pt-2 ">
+                    <Buttons
+                      label="Apply"
+                      className="btn-dark border-none "
+                      style={{}}
+                    ></Buttons>
+                  </div>
+                </div>
+              </OverlayPanel>
+              {/* </div> */}
+
+              {/* <div
+             
                 className=" col-12  cursor-pointer bg-white border-round flex justify-content-between align-items-center  mx-3 "
               >
                 <div className="text-sm   text-900">Hire Details</div>
@@ -255,26 +276,34 @@ const Employee = () => {
                     src={BlackArrow}
                     alt=""
                   />
-                </div>
-
-                <OverlayPanel ref={ope}>
+                </div> */}
+              <button
+                id="2"
+                className="btn_custom  flex justify-content-between border-round-md  mx-5  align-items-center border-none "
+                style={{ height: "36px", width: "258px" }}
+                onClick={(e) => ope.current.toggle(e)}
+                onChange={{}}
+              >
+                Hire Details <i className="pi pi-angle-down"></i>
+              </button>
+              <OverlayPanel ref={ope}>
+                <div>
                   <div>
-                    <div>
-                      <Input title="From" type="date"></Input>
-                    </div>
-                    <div className="mt-3">
-                      <Input title="To" type="date"></Input>
-                    </div>
+                    <Input title="From" type="date"></Input>
                   </div>
-                  <div className="  mt-3 mr-3   border-none">
-                    <Buttons
-                      label="Apply"
-                      className="btn-dark border-none "
-                    ></Buttons>
+                  <div className="mt-3">
+                    <Input title="To" type="date"></Input>
                   </div>
-                </OverlayPanel>
-              </div>
+                </div>
+                <div className="  mt-3 mr-3   border-none">
+                  <Buttons
+                    label="Apply"
+                    className="btn-dark border-none "
+                  ></Buttons>
+                </div>
+              </OverlayPanel>
             </div>
+            {/* </div> */}
             <div className=" flex justify-content-center align-items-center ">
               <div className=" px-3">
                 <Buttons

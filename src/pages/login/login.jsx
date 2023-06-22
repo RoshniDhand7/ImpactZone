@@ -18,7 +18,7 @@ const Login = ({ setIsLogged }) => {
   const [errors, setErrors] = useState({});
   const [dataIsCorrect, setDataIsCorrect] = useState(false);
   const [data, setData] = useState({
-    email: "gymowner@impactzone.com",
+    email: "gymowner@yopmail.com",
     password: "owner@123",
   });
 
@@ -33,8 +33,10 @@ const Login = ({ setIsLogged }) => {
       const token = res.data.token;
       localStorage.setItem("token", token);
       const firstname = res.data.firstName;
+      const email = res.data.email;
       const lastname = res.data.lastName;
       localStorage.setItem("firstName", firstname);
+      localStorage.setItem("email", email);
       localStorage.setItem("lastName", lastname);
       dispatch(showToast({ severity: "success", summary: res.message }));
       setIsLogged(true);

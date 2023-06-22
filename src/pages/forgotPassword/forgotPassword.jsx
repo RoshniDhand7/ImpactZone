@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/icons/logo.png";
 import Input from "../../components/input/input";
 import Button from "../../components/buttons/button";
@@ -9,25 +9,35 @@ import { useNavigate } from "react-router-dom";
 import constants from "../../utils/constants";
 import api from "../../services/api";
 import validation from "../../utils/Validation";
+import OtpInput from "react-otp-input";
 
 const ForgotPassword = () => {
+  const [otp, setotp] = useState();
   const { loginValidations } = validation();
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [newPassword, setIsNewPassword] = useState(false);
-  const [value, setValue] = useState("");
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState({});
+  const [dataIsCorrect, setDataIsCorrect] = useState(false);
   let navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    otpcode: "",
+  });
 
   const handelChange = (name) => (e) => {
-    setData({ ...data, [name]: e.target.value });
+    setData({ ...data, [name]: e.target?.value });
   };
 
   console.log(data, "data");
-  const onClickForgot = async () => {
+  const callForgotApi = async () => {
     const res = await api("post", constants.endPoints.ForgotPassword, data);
+    console.log(res);
     if (res.success) {
-      dispatch(showToast({ severity: "Success", summary: res.message }));
+      const email = res.data.email;
+      localStorage.getItem("email", email);
+      dispatch(showToast({ severity: "success", summary: res.message }));
       setIsOtpSent(true);
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
@@ -35,24 +45,47 @@ const ForgotPassword = () => {
     }
   };
   const createNewPassword = async () => {
-    const res = await api("post", constants.endPoints.CreateNewPassword, data);
-    if (res.success) {
-      dispatch(showToast({ severity: "Success", summary: res.message }));
-      setIsOtpSent(true);
+    if (data.password === data.confirmPassword) {
+      const res = await api(
+        "post",
+        constants.endPoints.CreateNewPassword,
+        data
+      );
+      if (res.success) {
+        dispatch(showToast({ severity: "success", summary: res.message }));
+        setIsOtpSent(true);
+        navigate("/login");
+      } else {
+        dispatch(showToast({ severity: "error", summary: res.message }));
+        showcomponent(false);
+      }
     } else {
-      dispatch(showToast({ severity: "error", summary: res.message }));
-      showcomponent(false);
+      setErrors({ confirmPassword: "Passwords didn't matched" });
     }
   };
-  // const sendEmail = () => {
-  //   setIsOtpSent(true);
-  // };
+  const handleForgetSubmit = async (event) => {
+    event.preventDefault();
+    let validate = await loginValidations(data);
+    if (validate.email) {
+      setErrors(validate);
+    } else {
+      setDataIsCorrect(true);
+      setErrors({});
+    }
+  };
 
-  // const otpVerify = () => {
-  //   setIsNewPassword(false);
-  //   setIsOtpSent(false);
-  // };
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && dataIsCorrect) {
+      callForgotApi();
+    }
+  }, [errors]);
+
   const showcomponent = () => {};
+
+  const verifyOtp = () => {
+    setData({ ...data, otpcode: otp });
+    setIsNewPassword(true);
+  };
 
   const sendEmailCard = () => {
     return (
@@ -75,12 +108,15 @@ const ForgotPassword = () => {
               value={data.email}
               onChange={handelChange("email")}
             ></Input>
+            {errors.email && (
+              <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
           <div className="col-9 mr-3">
             <Button
               className="btn-dark border-none "
               label="Continue"
-              onClick={onClickForgot}
+              onClick={handleForgetSubmit}
             ></Button>
           </div>
         </div>
@@ -101,15 +137,23 @@ const ForgotPassword = () => {
             </div>
             <span className="text-sm text-dark-gray text-center mb-3">
               Code has been send to registered email: <br />
-              imp....@gmail.com
+              {localStorage.getItem("email")}
             </span>
-            <div className="customOtp  col-9">
-              <Input
+            <div className="customOtp flex justify-content-center col-9">
+              <OtpInput
+                inputStyle={{ width: "4em", height: "3rem" }}
+                value={otp}
+                onChange={setotp}
+                numInputs={4}
+                renderSeparator={<span>-</span>}
+                renderInput={(props) => <input {...props} />}
+              />
+              {/* <Input
                 title=" "
                 placeholder=""
                 value={data.otpcode}
                 onChange={handelChange("otpcode")}
-              ></Input>
+              ></Input> */}
             </div>
             <div>
               <span claass="text-base font-medium">Resend</span> code
@@ -120,7 +164,7 @@ const ForgotPassword = () => {
               <Button
                 className="btn-dark border-none "
                 label="Continue"
-                onClick={setIsNewPassword}
+                onClick={verifyOtp}
               ></Button>
             </div>
           </div>
@@ -161,10 +205,15 @@ const ForgotPassword = () => {
                 Confirm Password
               </label>
               <Password
-                value={data.password}
-                onChange={handelChange("password")}
+                value={data.confirmPassword}
+                onChange={handelChange("confirmPassword")}
                 toggleMask
               />
+              {errors.confirmPassword && (
+                <p className="text-red-600 text-xs mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
           </div>
           <div className="mt-3 mr-3 " style={{ width: "236px" }}>
