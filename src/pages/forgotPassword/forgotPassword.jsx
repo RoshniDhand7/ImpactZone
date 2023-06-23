@@ -19,12 +19,23 @@ const ForgotPassword = () => {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [newPassword, setIsNewPassword] = useState(false);
   const dispatch = useDispatch();
+  const [isErrors, setIsError] = useState();
+  const [error, setError] = useState({
+    isError: false,
+    message: "",
+  });
+  let errorss = {
+    password: false,
+    confirmPassword: false,
+  };
+
   const [errors, setErrors] = useState({});
   const [dataIsCorrect, setDataIsCorrect] = useState(false);
   let navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
     otpcode: "",
     OTP: "",
   });
@@ -32,6 +43,7 @@ const ForgotPassword = () => {
   const handelChange = (name) => (e) => {
     setData({ ...data, [name]: e.target?.value });
   };
+
   console.log(data, "data");
 
   const callForgotApi = async () => {
@@ -58,6 +70,7 @@ const ForgotPassword = () => {
     console.log(res.data, "otp");
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
+      setIsNewPassword(true);
     } else {
       setIsNewPassword(false);
       dispatch(showToast({ severity: "error", summary: res.message }));
@@ -66,8 +79,28 @@ const ForgotPassword = () => {
     //   setErrors({ confirmPassword: "Passwords didn't matched" });}
   };
 
+  useEffect(() => {
+    setErrors(false);
+  }, [data, otp]);
+
+  // const validate = () => {
+  //   let error = {};
+  //   if (data.password !== data.confirmPassword) {
+  //     errors.confirmPassword = true;
+  //     setIsError(errors);
+  //     error.confimrPassword = true;
+  //   } else {
+  //     errors.confirmPassword = false;
+  //     setIsError(errors);
+  //     error.confirmPassword = false;
+  //   }
+
+  //   return error;
+  // };
   const createNewPassword = async () => {
-    if (data.password === data.confirmPassword) {
+    if (data.password === "" && data.confirmPassword === "") {
+      setErrors({ confirmPassword: "Password Required" });
+    } else if (data.password === data.confirmPassword) {
       const res = await api(
         "post",
         constants.endPoints.CreateNewPassword,
@@ -80,9 +113,10 @@ const ForgotPassword = () => {
       } else {
         dispatch(showToast({ severity: "error", summary: res.message }));
         showcomponent(false);
+        console.log(error);
       }
     } else {
-      setErrors({ confirmPassword: "Passwords didn't matched" });
+      setErrors({ confirmPassword: "Password mismatch" });
     }
   };
 
@@ -112,10 +146,9 @@ const ForgotPassword = () => {
   const showcomponent = () => {};
   const verifyOtp = () => {
     if (otp) {
-      setIsNewPassword(true);
       OtpVerify();
     } else {
-      setErrors({ otp: "Please enter otp" });
+      setErrors({ otp: "Please enter OTP" });
     }
   };
 
@@ -127,7 +160,7 @@ const ForgotPassword = () => {
             <img src={Logo} alt="" />
           </div>
           <div className="text-3xl text-dark-gray   font-bold my-3">
-            Forget Password
+            Forgot Password
           </div>
           <span className="text-sm text-dark-gray text-center mb-3">
             Forgot your password? Enter your email address <br /> and we’ll send
@@ -173,7 +206,14 @@ const ForgotPassword = () => {
             </span>
             <div className="customOtp flex justify-content-center col-9">
               <OtpInput
-                inputStyle={{ width: "4em", height: "3rem" }}
+                class="otpstyle"
+                containerStyle={{ color: "white", borderRadius: "9px" }}
+                inputStyle={{
+                  width: "4em",
+                  height: "3rem",
+                  radius: "8px",
+                  bordercolor: "white",
+                }}
                 value={otp}
                 onChange={setotp}
                 numInputs={4}
@@ -243,6 +283,16 @@ const ForgotPassword = () => {
                 onChange={handelChange("password")}
                 toggleMask
               />
+              <i className="text-danger text-sm">
+                {error.isError ? error.message : ""}
+              </i>
+              <i className="text-danger text-sm">
+                {isErrors?.password ? (
+                  <i className="text-danger text-sm">Enter a valid password</i>
+                ) : (
+                  ""
+                )}
+              </i>
             </div>
           </div>
           <div className="">
@@ -260,6 +310,16 @@ const ForgotPassword = () => {
                   {errors.confirmPassword}
                 </p>
               )}
+              <i className="text-danger text-sm">
+                {error.isError ? error.message : ""}
+              </i>
+              <i className="text-danger text-sm">
+                {isErrors?.password ? (
+                  <i className="text-danger text-sm">Password Mismatch</i>
+                ) : (
+                  ""
+                )}
+              </i>
             </div>
           </div>
           <div className="mt-3 mr-3 " style={{ width: "236px" }}>

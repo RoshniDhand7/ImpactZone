@@ -11,14 +11,22 @@ const EventServices = () => {
           <CardWithTitle titlee="Level 1">
             <div className="p-3">
               <div className="flex justify-content-between w-6  p-2  ">
-                <span className="text-xs font-semibold">Catalog Price</span>
-                <span className="text-xs font-semibold">Name</span>
-                <span className="text-xs font-semibold">Size</span>
-                <span className="text-xs font-semibold">Status</span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Catalog Price
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Name
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Size
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Status
+                </span>
               </div>
               <div className="bg-white m-2 border-round-lg flex ">
                 <div className="col-9 flex justify-content-center align-items-center">
-                  <span className="text-xs font-semibold text-center ">
+                  <span className="text-xs font-semibold text-gray-600 text-center ">
                     No Row To Show
                   </span>
                 </div>
@@ -83,14 +91,22 @@ const EventServices = () => {
           <CardWithTitle titlee="Level 2">
             <div className="p-3">
               <div className="flex justify-content-between w-6  p-2  ">
-                <span className="text-xs font-semibold">Catalog Price</span>
-                <span className="text-xs font-semibold">Name</span>
-                <span className="text-xs font-semibold">Size</span>
-                <span className="text-xs font-semibold">Status</span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Catalog Price
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Name
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Size
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Status
+                </span>
               </div>
               <div className="bg-white m-2 border-round-lg flex">
                 <div className="col-9 flex justify-content-center align-items-center">
-                  <span className="text-xs font-semibold text-center ">
+                  <span className="text-xs font-semibold text-gray-600 text-center ">
                     No Row To Show
                   </span>
                 </div>
@@ -155,14 +171,22 @@ const EventServices = () => {
           <CardWithTitle titlee="Level 3">
             <div className="p-3">
               <div className="flex justify-content-between w-6  p-2  ">
-                <span className="text-xs font-semibold">Catalog Price</span>
-                <span className="text-xs font-semibold">Name</span>
-                <span className="text-xs font-semibold">Size</span>
-                <span className="text-xs font-semibold">Status</span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Catalog Price
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Name
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Size
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Status
+                </span>
               </div>
               <div className="bg-white m-2 border-round-lg flex ">
                 <div className="col-9 flex justify-content-center align-items-center">
-                  <span className="text-xs font-semibold text-center ">
+                  <span className="text-xs font-semibold text-gray-600 text-center ">
                     No Row To Show
                   </span>
                 </div>
@@ -227,14 +251,22 @@ const EventServices = () => {
           <CardWithTitle titlee="Level 4">
             <div className="p-3">
               <div className="flex justify-content-between w-6  p-2  ">
-                <span className="text-xs font-semibold">Catalog Price</span>
-                <span className="text-xs font-semibold">Name</span>
-                <span className="text-xs font-semibold">Size</span>
-                <span className="text-xs font-semibold">Status</span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Catalog Price
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Name
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Size
+                </span>
+                <span className="text-xs font-semibold text-gray-600">
+                  Status
+                </span>
               </div>
               <div className="bg-white m-2 border-round-lg flex ">
                 <div className="col-9 flex justify-content-center align-items-center">
-                  <span className="text-xs font-semibold text-center ">
+                  <span className="text-xs font-semibold text-gray-600 text-center ">
                     No Row To Show
                   </span>
                 </div>

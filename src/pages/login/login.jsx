@@ -20,7 +20,7 @@ const Login = ({ setIsLogged }) => {
   const [dataIsCorrect, setDataIsCorrect] = useState(false);
   const [data, setData] = useState({
     email: "gymowner@yopmail.com",
-    password: "Testing@123",
+    password: "owner@123",
   });
 
   const handelChange = (name) => (e) => {
@@ -62,7 +62,8 @@ const Login = ({ setIsLogged }) => {
     if (Object.keys(errors).length === 0 && dataIsCorrect) {
       onClickLogin();
     }
-  }, [errors]);
+    setErrors(false);
+  }, [data]);
 
   return (
     <div className="login-page h-screen bg-light-gray flex justify-content-center align-items-center">
