@@ -7,6 +7,7 @@
   .unchecked {
     color: $grey;
     font-weight: 400;
+    background-color: white !important;
   }
   input:checked + label {
     i.checked {
@@ -14,6 +15,7 @@
     }
     i.unchecked {
       display: none;
+      background-color: white !important;
     }
   }
 }

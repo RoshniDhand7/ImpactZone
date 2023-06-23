@@ -11,7 +11,7 @@ const CardWithTitle = ({ titlee, title, children, title2, title3 }) => {
               {title ? (
                 <span className="text-xl">{title}</span>
               ) : (
-                <Checkbox title={titlee}> </Checkbox>
+                <Checkbox title={titlee}></Checkbox>
               )}
             </div>
             <span className="text-xl">{title2}</span>
