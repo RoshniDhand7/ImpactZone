@@ -10,6 +10,7 @@ import api from "../../services/api";
 import constants from "../../utils/constants";
 import validation from "../../utils/Validation";
 import { Password } from "primereact/password";
+import InputPassword from "../../components/input/inputfields";
 
 const Login = ({ setIsLogged }) => {
   const { loginValidations } = validation();
@@ -18,8 +19,8 @@ const Login = ({ setIsLogged }) => {
   const [errors, setErrors] = useState({});
   const [dataIsCorrect, setDataIsCorrect] = useState(false);
   const [data, setData] = useState({
-    email: "gymowner@impactzone.com",
-    password: "owner@123",
+    email: "gymowner@yopmail.com",
+    password: "Testing@123",
   });
 
   const handelChange = (name) => (e) => {
@@ -33,8 +34,10 @@ const Login = ({ setIsLogged }) => {
       const token = res.data.token;
       localStorage.setItem("token", token);
       const firstname = res.data.firstName;
+      const email = res.data.email;
       const lastname = res.data.lastName;
       localStorage.setItem("firstName", firstname);
+      localStorage.setItem("email", email);
       localStorage.setItem("lastName", lastname);
       dispatch(showToast({ severity: "success", summary: res.message }));
       setIsLogged(true);
@@ -76,7 +79,7 @@ const Login = ({ setIsLogged }) => {
               id=""
               values={data.email}
               title="Username"
-              placeholder="gymowner@impactzone.com"
+              placeholder="gymowner@yopmail.com"
               onChange={handelChange("email")}
             ></Input>
             {errors.email && (
@@ -92,7 +95,7 @@ const Login = ({ setIsLogged }) => {
                 Password
               </label>
             </div> */}
-            <Input
+            <Password
               style={{ width: "100%" }}
               title="Password"
               id=""
@@ -101,7 +104,7 @@ const Login = ({ setIsLogged }) => {
               type="password"
               toggleMask
               onChange={handelChange("password")}
-            ></Input>
+            ></Password>
             {errors.password && (
               <p className="text-red-600 text-xs mt-1">{errors.password}</p>
             )}

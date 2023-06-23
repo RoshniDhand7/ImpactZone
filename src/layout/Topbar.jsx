@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/icons/Navlogo.png";
 import Profile from "../assets/icons/profilepic.png";
 import addtask from "../assets/icons/addtask.png";
@@ -19,6 +19,7 @@ export default function TopBar({
 }) {
   const navigate = useNavigate();
   const logout = () => {
+    console.log("Logout fun");
     localStorage.clear();
     setIsLogged(false);
     navigate("/login");
@@ -168,20 +169,26 @@ export default function TopBar({
               </button>
               <div className="dropdown-content border-round">
                 <div className="p-3">
-                  <div className="text-black p-2 cursor-pointer">
-                    Switch User
-                  </div>
+                  <Link to={""}>
+                    <div className="text-black  cursor-pointer">
+                      Switch User
+                    </div>
+                  </Link>
                   <hr />
-                  <div className="text-black p-2 cursor-pointer">
-                    Forgot Password
-                  </div>
+                  <Link to="/forgotpassword">
+                    <div className="text-black cursor-pointer">
+                      Forgot Password
+                    </div>
+                  </Link>
                   <hr />
-                  <div
-                    onClick={logout}
-                    className="text-black p-2 cursor-pointer"
-                  >
-                    Log Out
-                  </div>
+                  <Link to="/login">
+                    <div
+                      onClick={logout}
+                      className="text-black  cursor-pointer"
+                    >
+                      Log Out
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
