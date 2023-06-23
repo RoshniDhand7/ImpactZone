@@ -19,6 +19,7 @@ export default function TopBar({
 }) {
   const navigate = useNavigate();
   const logout = () => {
+    console.log("Logout fun");
     localStorage.clear();
     setIsLogged(false);
     navigate("/login");
@@ -180,7 +181,7 @@ export default function TopBar({
                     </div>
                   </Link>
                   <hr />
-                  <Link to={""}>
+                  <Link to="/login">
                     <div
                       onClick={logout}
                       className="text-black  cursor-pointer"

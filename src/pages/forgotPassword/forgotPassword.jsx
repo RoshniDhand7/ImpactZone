@@ -14,6 +14,8 @@ import OtpInput from "react-otp-input";
 const ForgotPassword = () => {
   const [otp, setotp] = useState();
   const { loginValidations } = validation();
+  const [resendOtpTime, setResnedOtpTime] = useState(null);
+  const [isResendOtp, setIsResendOtp] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [newPassword, setIsNewPassword] = useState(false);
   const dispatch = useDispatch();
@@ -24,26 +26,46 @@ const ForgotPassword = () => {
     email: "",
     password: "",
     otpcode: "",
+    OTP: "",
   });
 
   const handelChange = (name) => (e) => {
     setData({ ...data, [name]: e.target?.value });
   };
-
   console.log(data, "data");
+
   const callForgotApi = async () => {
     const res = await api("post", constants.endPoints.ForgotPassword, data);
-    console.log(res);
+    console.log(res.data.email);
     if (res.success) {
       const email = res.data.email;
       localStorage.getItem("email", email);
       dispatch(showToast({ severity: "success", summary: res.message }));
       setIsOtpSent(true);
+      setResnedOtpTime(60);
+      setIsResendOtp(false);
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
       showcomponent(false);
     }
   };
+
+  const OtpVerify = async () => {
+    const res = await api("post", constants.endPoints.OtpVerfiy, {
+      email: data.email,
+      OTP: otp,
+    });
+    console.log(res.data, "otp");
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+    } else {
+      setIsNewPassword(false);
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+    // } else {
+    //   setErrors({ confirmPassword: "Passwords didn't matched" });}
+  };
+
   const createNewPassword = async () => {
     if (data.password === data.confirmPassword) {
       const res = await api(
@@ -63,6 +85,7 @@ const ForgotPassword = () => {
       setErrors({ confirmPassword: "Passwords didn't matched" });
     }
   };
+
   const handleForgetSubmit = async (event) => {
     event.preventDefault();
     let validate = await loginValidations(data);
@@ -71,20 +94,29 @@ const ForgotPassword = () => {
     } else {
       setDataIsCorrect(true);
       setErrors({});
+      callForgotApi();
     }
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length === 0 && dataIsCorrect) {
-      callForgotApi();
+    if (resendOtpTime > 0) {
+      setTimeout(() => {
+        setResnedOtpTime((prev) => prev - 1);
+      }, 1000);
     }
-  }, [errors]);
+    if (resendOtpTime === 0) {
+      setIsResendOtp(true);
+    }
+  }, [resendOtpTime]);
 
   const showcomponent = () => {};
-
   const verifyOtp = () => {
-    setData({ ...data, otpcode: otp });
-    setIsNewPassword(true);
+    if (otp) {
+      setIsNewPassword(true);
+      OtpVerify();
+    } else {
+      setErrors({ otp: "Please enter otp" });
+    }
   };
 
   const sendEmailCard = () => {
@@ -148,6 +180,7 @@ const ForgotPassword = () => {
                 renderSeparator={<span>-</span>}
                 renderInput={(props) => <input {...props} />}
               />
+
               {/* <Input
                 title=" "
                 placeholder=""
@@ -155,15 +188,28 @@ const ForgotPassword = () => {
                 onChange={handelChange("otpcode")}
               ></Input> */}
             </div>
+            {errors.otp && (
+              <p className="text-red-600 text-xs mt-1">{errors.otp}</p>
+            )}
             <div>
-              <span claass="text-base font-medium">Resend</span> code
-              <span className="text-green-600"> in </span> 55
+              {isResendOtp ? (
+                <span
+                  className="text-base font-medium cursor-pointer underline"
+                  onClick={callForgotApi}
+                >
+                  Resend code
+                </span>
+              ) : (
+                <span className="text-base font-medium">Resend code</span>
+              )}
+              <span className="text-green-600"> in </span> {resendOtpTime}
               <span className="text-green-600"> s</span>
             </div>
             <div className="col-9 mr-3 ">
               <Button
                 className="btn-dark border-none "
                 label="Continue"
+                // onClick={OtpVerify}
                 onClick={verifyOtp}
               ></Button>
             </div>

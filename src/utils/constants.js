@@ -7,6 +7,7 @@ const constants = {
     DeleteEmployee: "/employee/delete/",
     ForgotPassword: "/gym-owner/forget-password",
     CreateNewPassword: "/gym-owner/change-forget-password",
+    OtpVerfiy: "/gym-owner/verify-otp",
   },
 };
 
