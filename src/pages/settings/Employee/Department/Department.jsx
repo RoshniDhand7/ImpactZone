@@ -84,6 +84,7 @@ const Department = () => {
   };
   // const dispatch = useDispatch();
   const levelEmployeecolumn = [
+    { field: "", header: "" },
     { field: "name", header: "Name", sorting: true },
     { field: "department", header: "Department" },
     { field: "barcode", header: "Barcode" },
@@ -210,7 +211,7 @@ const Department = () => {
 
           <div className="flex justify-content-end mt-3 p-2 ">
             <div className=" mx-3">
-              <Buttons className="btn-dark border-none" label="Add"></Buttons>
+              <Buttons className="btn-dark border-none" label="Save"></Buttons>
             </div>
             <Buttons
               onClick={() => setShowDepartmentTable(false)}
