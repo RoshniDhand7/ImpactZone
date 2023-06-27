@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <>
       <div>
-        <nav className=" col-12 p-0 navbar ">
+        <nav className=" col-12 p-0 navbar shadow-3 ">
           <ul className=" lg:col-7 md:col-10 nav flex justify-content-between">
             <div className="border-show pb-3 p-2 pl-3 ml-3">
               <NavLink to="/employee" ClassName="nav-bar-link">

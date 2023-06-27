@@ -24,6 +24,11 @@ export default function TopBar({
     setIsLogged(false);
     navigate("/login");
   };
+  const forgotPassword = () => {
+    localStorage.clear();
+    setIsLogged(false);
+    navigate("/forgotpassword");
+  };
 
   const [popUp, setPopUp] = useState({
     title: "",
@@ -176,7 +181,10 @@ export default function TopBar({
                   </Link>
                   <hr />
                   <Link to="/forgotpassword">
-                    <div className="text-black cursor-pointer">
+                    <div
+                      className="text-black cursor-pointer"
+                      onClick={forgotPassword}
+                    >
                       Forgot Password
                     </div>
                   </Link>

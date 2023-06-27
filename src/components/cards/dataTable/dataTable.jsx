@@ -23,7 +23,7 @@ const TableData = ({ data, columns, selectionMode, delRow }) => {
   });
   return (
     <div>
-      <div className="card ">
+      <div className="card">
         <DataTable value={data} responsiveLayout="scroll" delRow={delRow}>
           {dynamicColumns}
         </DataTable>

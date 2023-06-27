@@ -94,13 +94,19 @@ const ForgotPassword = () => {
   //     setIsError(errors);
   //     error.confirmPassword = false;
   //   }
-
   //   return error;
   // };
+
   const createNewPassword = async () => {
-    if (data.password === "" && data.confirmPassword === "") {
-      setErrors({ confirmPassword: "Password Required" });
-    } else if (data.password === data.confirmPassword) {
+    if (data.password === "") {
+      setErrors({ password: "Please Enter Password" });
+    } else if (data.confirmPassword === "") {
+      setErrors({ confirmPassword: "Please Enter Confirm Password" });
+    }
+    // if (data.password === "" && data.confirmPassword === "") {
+    //   setErrors({ confirmPassword: "Please Enter Password" });
+    // } else if (data.password === data.confirmPassword) {
+    else if (data.password !== "" && data.password === data.confirmPassword) {
       const res = await api(
         "post",
         constants.endPoints.CreateNewPassword,
@@ -207,12 +213,12 @@ const ForgotPassword = () => {
             <div className="customOtp flex justify-content-center col-9">
               <OtpInput
                 class="otpstyle"
-                containerStyle={{ color: "white", borderRadius: "9px" }}
+                containerStyle={{ color: "white", borderRadius: "10px" }}
                 inputStyle={{
-                  width: "4em",
-                  height: "3rem",
-                  radius: "8px",
-                  bordercolor: "white",
+                  width: "66px",
+                  height: "60px",
+                  borderRadius: "10px",
+                  border: "1px solid grey",
                 }}
                 value={otp}
                 onChange={setotp}
@@ -231,10 +237,10 @@ const ForgotPassword = () => {
             {errors.otp && (
               <p className="text-red-600 text-xs mt-1">{errors.otp}</p>
             )}
-            <div>
+            <div className="mt-3">
               {isResendOtp ? (
                 <span
-                  className="text-base font-medium cursor-pointer underline"
+                  className="text-base font-medium cursor-pointer  underline"
                   onClick={callForgotApi}
                 >
                   Resend code
@@ -245,7 +251,7 @@ const ForgotPassword = () => {
               <span className="text-green-600"> in </span> {resendOtpTime}
               <span className="text-green-600"> s</span>
             </div>
-            <div className="col-9 mr-3 ">
+            <div className="col-9 mr-3 mt-3 ">
               <Button
                 className="btn-dark border-none "
                 label="Continue"
@@ -283,16 +289,9 @@ const ForgotPassword = () => {
                 onChange={handelChange("password")}
                 toggleMask
               />
-              <i className="text-danger text-sm">
-                {error.isError ? error.message : ""}
-              </i>
-              <i className="text-danger text-sm">
-                {isErrors?.password ? (
-                  <i className="text-danger text-sm">Enter a valid password</i>
-                ) : (
-                  ""
-                )}
-              </i>
+              {errors.password && (
+                <p className="text-red-600 text-xs mt-1">{errors.password}</p>
+              )}
             </div>
           </div>
           <div className="">
@@ -310,16 +309,6 @@ const ForgotPassword = () => {
                   {errors.confirmPassword}
                 </p>
               )}
-              <i className="text-danger text-sm">
-                {error.isError ? error.message : ""}
-              </i>
-              <i className="text-danger text-sm">
-                {isErrors?.password ? (
-                  <i className="text-danger text-sm">Password Mismatch</i>
-                ) : (
-                  ""
-                )}
-              </i>
             </div>
           </div>
           <div className="mt-3 mr-3 " style={{ width: "236px" }}>
