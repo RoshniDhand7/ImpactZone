@@ -9,6 +9,7 @@ import checkInData from "../../../../../utils/checkInData";
 import Checkbox from "../../../../../components/checkbox/checkbox";
 import validation from "../../../../../utils/Validation";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Security = ({ setData, data, setActiveTabIndex }) => {
   const { securityValidations } = validation();
@@ -35,6 +36,12 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
     } else setActiveTabIndex(1);
     console.log(validate, "vvvvvvvv");
   };
+
+  useEffect(() => {
+    setErrors(false);
+  }, [data]);
+
+  const multiClubClockIn = [{ name: "Yes" }, { name: "No" }];
 
   const itemTemplate = (item) => {
     return (
@@ -201,6 +208,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                   <DropDown
                     title="Multi-Club Clock In/Out"
                     value={data.systemInfo.multiClubClockIn}
+                    options={multiClubClockIn}
+                    optionLabel="name"
                     onChange={handelChange("systemInfo", "multiClubClockIn")}
                   ></DropDown>
                 </div>

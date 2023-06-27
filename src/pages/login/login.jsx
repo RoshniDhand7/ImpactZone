@@ -19,8 +19,8 @@ const Login = ({ setIsLogged }) => {
   const [errors, setErrors] = useState({});
   const [dataIsCorrect, setDataIsCorrect] = useState(false);
   const [data, setData] = useState({
-    email: "gymowner@yopmail.com",
-    password: "owner@123",
+    email: "",
+    password: "",
   });
 
   const handelChange = (name) => (e) => {
@@ -80,7 +80,7 @@ const Login = ({ setIsLogged }) => {
               id=""
               values={data.email}
               title="Username"
-              placeholder="gymowner@yopmail.com"
+              placeholder="Please Enter Your Email"
               onChange={handelChange("email")}
             ></Input>
             {errors.email && (
@@ -100,6 +100,7 @@ const Login = ({ setIsLogged }) => {
               style={{ width: "100%" }}
               title="Password"
               id=""
+              placeholder="Please Enter Your Password"
               inputType="password"
               value={data.password}
               type="password"

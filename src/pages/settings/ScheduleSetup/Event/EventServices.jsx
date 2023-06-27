@@ -331,7 +331,7 @@ const EventServices = () => {
       <div className=" m-2  flex justify-content-end">
         <div className="mt-3 mx-4">
           <Buttons
-            label="Save"
+            label="Next"
             className="btn-dark mx-3   border-none"
           ></Buttons>
         </div>

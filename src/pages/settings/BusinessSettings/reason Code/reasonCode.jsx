@@ -64,9 +64,6 @@ const ReasonCode = () => {
 
   const reasonCode = [
     { field: "name", header: "Name", id: "" },
-    { field: "abc", header: "ABC", id: "", index: "" },
-    { field: "" },
-    { field: "" },
     { field: "", header: "", body: removeRowPriority, id: "", index: "" },
   ];
 
