@@ -59,7 +59,6 @@ const Department = () => {
     if (!addDepartment) {
       fetchDepartmentData();
       setPayload({});
-      fetchDepartmentData();
     }
   }, []);
 
@@ -237,6 +236,7 @@ const Department = () => {
         />
       ) : addDepartment ? (
         <AddDeparment
+          fetchDepartmentData={fetchDepartmentData}
           handleChange={handleChange}
           payload={payload}
           setPayload={setPayload}

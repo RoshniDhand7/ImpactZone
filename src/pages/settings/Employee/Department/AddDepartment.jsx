@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 const AddDeparment = ({
   setAddDeparment,
   handleChange,
+  fetchDepartmentData,
   payload,
   setPayload,
   setShowDepartmentTable,
@@ -36,6 +37,7 @@ const AddDeparment = ({
       dispatch(showToast({ severity: "success", summary: res.message }));
       setAddDeparment((prev) => !prev);
       console.log(res);
+      fetchDepartmentData();
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
       console.log(res);
@@ -65,7 +67,7 @@ const AddDeparment = ({
                   title="Show in Calendar"
                   optionLabel="name"
                   options={DropDownOptions}
-                  placeholder="No"
+                  placeholder=""
                   value={payload.showInCalendar}
                   onChange={handleChange("showInCalendar")}
                 ></DropDown>
@@ -75,7 +77,7 @@ const AddDeparment = ({
                   optionLabel="name"
                   options={DropDownOptions}
                   title="Visible Online"
-                  placeholder="No"
+                  placeholder=""
                   value={payload.visibleOnline}
                   onChange={handleChange("visibleOnline")}
                 ></DropDown>
@@ -87,7 +89,7 @@ const AddDeparment = ({
                   optionLabel="name"
                   options={DropDownOptions}
                   title="Sales Person Online"
-                  placeholder="No"
+                  placeholder=""
                   value={payload.salesPersonOnline}
                   onChange={handleChange("salesPersonOnline")}
                 ></DropDown>
@@ -114,29 +116,35 @@ const AddDeparment = ({
 
               <div className="bg-white col-12 border-round-md ">
                 <div
-                  className="flex justify-content-between align-items-center "
+                  className="flex justify-content-between "
                   style={{ height: "190px" }}
                 >
                   {/* <div className="">
                     <span className=""></span>
                   </div> */}
-                  <div className="flex align-content-center w-5  justify-content-center">
-                    <div className="text-xs font-semibold w-12 text-center">
+                  <div className="flex align-content-center justify-content-start w-5  ">
+                    <div className="text-xs font-semibold flex justify-content-start w-12">
                       <table style={{ width: "100%", textAlign: "left" }}>
-                        {selectedEmployees.length
-                          ? selectedEmployees?.map((emp, index) => {
-                              return (
-                                <tr>
-                                  <td>{index + 1}</td>
-                                  <td>{emp.firstName + " " + emp.lastName}</td>
-                                </tr>
-                              );
-                            })
-                          : "None Found"}
+                        {selectedEmployees.length ? (
+                          selectedEmployees?.map((emp, index) => {
+                            return (
+                              <tr>
+                                <td>{index + 1}</td>
+                                <td>{emp.firstName + " " + emp.lastName}</td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <>
+                            <div className="flex align-content-center w-5  justify-content-center">
+                              None Found
+                            </div>
+                          </>
+                        )}
                       </table>
                     </div>
                   </div>
-                  <div className=" flex flex-column  justify-content-between mx-3 ">
+                  <div className=" flex flex-column  justify-content-center mx-3 ">
                     <div className=" ">
                       <Buttons
                         onClick={setShowDepartmentTable}
