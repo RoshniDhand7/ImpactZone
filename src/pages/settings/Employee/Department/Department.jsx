@@ -55,10 +55,10 @@ const Department = () => {
       console.log(res);
     }
   };
+
   useEffect(() => {
     if (!addDepartment) {
       fetchDepartmentData();
-      setPayload({});
     }
   }, []);
 
