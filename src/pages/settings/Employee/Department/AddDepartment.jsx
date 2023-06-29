@@ -36,8 +36,14 @@ const AddDeparment = ({
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
       setAddDeparment((prev) => !prev);
-      console.log(res);
       fetchDepartmentData();
+      setPayload({
+        name: "",
+        showInCalendar: true,
+        visibleOnline: true,
+        salesPersonOnline: true,
+        employees: [],
+      });
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
       console.log(res);
@@ -116,14 +122,14 @@ const AddDeparment = ({
 
               <div className="bg-white col-12 border-round-md ">
                 <div
-                  className="flex justify-content-between "
+                  className="flex justify-content-between  "
                   style={{ height: "190px" }}
                 >
                   {/* <div className="">
                     <span className=""></span>
                   </div> */}
-                  <div className="flex align-content-center justify-content-start w-5  ">
-                    <div className="text-xs font-semibold flex justify-content-start w-12">
+                  <div className="flex justify-content-start   w-5  ">
+                    <div className="text-xs flex  font-semibold  w-12">
                       <table style={{ width: "100%", textAlign: "left" }}>
                         {selectedEmployees.length ? (
                           selectedEmployees?.map((emp, index) => {
@@ -136,8 +142,13 @@ const AddDeparment = ({
                           })
                         ) : (
                           <>
-                            <div className="flex align-content-center w-5  justify-content-center">
-                              None Found
+                            <div className="mt-6">
+                              <div
+                                style={{ height: "auto" }}
+                                className="flex  align-items-center  mt-6  justify-content-center"
+                              >
+                                None Found
+                              </div>
                             </div>
                           </>
                         )}
