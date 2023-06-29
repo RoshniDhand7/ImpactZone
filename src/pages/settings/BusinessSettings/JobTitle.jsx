@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Buttons from "../../../components/buttons/button";
 import DropDown from "../../../components/dropdown/dropdown";
 import TableData from "../../../components/cards/dataTable/dataTable";
@@ -8,9 +8,19 @@ import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle
 import Input from "../../../components/input/input";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
+import api from "../../../services/api";
+import constants from "../../../utils/constants";
+import {
+  hideLoaderAction,
+  showLoaderAction,
+} from "../../../redux/actions/loaderAction";
+import { useDispatch } from "react-redux";
+import { showToast } from "../../../redux/actions/toastAction";
+import Checkbox from "../../../components/checkbox/checkbox";
 
 const JobTitle = () => {
-  const [value, setValue] = useState("");
+  const [isError, setIsError] = useState("");
+  //use for changing page
   const [showAddJobTitle, setAddJobTitle] = useState("");
   const JobTitleData = [
     {
@@ -34,6 +44,13 @@ const JobTitle = () => {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
     },
   ];
+  //Api data store
+  const [jobTitle, setJobTitle] = useState([]);
+  const [data, setData] = useState({
+    title: "",
+    description: "",
+  });
+  const dispatch = useDispatch();
 
   const ActionEditDelete = (col) => {
     return (
@@ -42,7 +59,7 @@ const JobTitle = () => {
           <span>
             <i className="pi pi-pencil mx-3" style={{ color: "#708090" }}></i>
           </span>
-          <span>
+          <span onClick={() => deleteTitle(col._id)}>
             <i className="pi pi-trash" style={{ color: "#708090" }}></i>
           </span>
         </div>
@@ -51,12 +68,12 @@ const JobTitle = () => {
   };
   const JobTitleColumns = [
     {
-      field: "name",
+      field: "title",
       header: "Name",
     },
     {
-      field: "discription",
-      header: "Discription",
+      field: "description",
+      header: "Description",
     },
     {
       field: "",
@@ -64,14 +81,88 @@ const JobTitle = () => {
       body: ActionEditDelete,
     },
   ];
+
+  const handleChange = (name) => (e) => {
+    setData({ ...data, [name]: e.target.value || e.value });
+  };
+  console.log(data);
+
+  const fetchJobTitle = async () => {
+    dispatch(showLoaderAction());
+    const res = await api("get", constants.endPoints.JobTitle);
+    if (res.success) {
+      setJobTitle(res.data);
+      dispatch(hideLoaderAction());
+    } else {
+      console.log(res);
+    }
+  };
+  useEffect(() => {
+    fetchJobTitle();
+  }, []);
+
+  const CreateJobTitle = async () => {
+    if (data.title === "") {
+      setIsError({ title: "Title is Required" });
+    } else {
+      const res = await api("post", constants.endPoints.CreateJobTitle, data);
+
+      if (res.success) {
+        setData(res.data);
+        setIsError(true);
+        dispatch(showToast({ severity: "success", summary: res.message }));
+        setAddJobTitle(false);
+      } else {
+        dispatch(showToast({ severity: "error", summary: res.message }));
+        console.log(res);
+      }
+    }
+  };
+
+  const SaveTitleButton = () => {
+    CreateJobTitle();
+    fetchJobTitle();
+  };
+
+  const deleteTitle = async (id) => {
+    const res = await api("put", constants.endPoints.DeleteTitle + id);
+    console.log(res, "delete");
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      fetchJobTitle();
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
   const AddJobTitle = () => {
     return (
       <>
         <div>
+          <div className="my-3">
+            <Checkbox
+              value={data.isActive}
+              onclick={() => {
+                setData({ ...data, isActive: !data.isActive });
+              }}
+              title="Active "
+              className="text-xs font-semibold text-900"
+            >
+              Active
+            </Checkbox>
+          </div>
           <CardWithTitle title="Job Title">
             <div className="p-3">
               <div>
-                <Input title="Job Title" placeholder="Gym Floor"></Input>
+                <Input
+                  title="Job Title"
+                  placeholder="Gym Floor"
+                  value={data.title}
+                  onChange={handleChange("title")}
+                ></Input>
+                {isError.title && (
+                  <p className="text-red-600 text-xs mt-1">{isError.title}</p>
+                )}
               </div>
               <div className="mt-4" style={{ Width: "100%" }}>
                 <div className="flex flex-column gap-2">
@@ -79,11 +170,11 @@ const JobTitle = () => {
                     htmlFor=""
                     className="text-xs text-dark-gray font-semibold"
                   >
-                    Description (221/2565)
+                    Description ({data?.description?.length || 0}/500)
                   </label>
                   <InputTextarea
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    value={data.description}
+                    onChange={handleChange("description")}
                     style={{ height: "150px" }}
                   />
                 </div>
@@ -94,6 +185,7 @@ const JobTitle = () => {
         <div className="flex justify-content-end mt-3 p-2">
           <div className="mx-3">
             <Buttons
+              onClick={SaveTitleButton}
               label="Save"
               className="btn-dark border-none"
               style={{ height: "40px" }}
@@ -114,6 +206,7 @@ const JobTitle = () => {
       </>
     );
   };
+
   return (
     <>
       {showAddJobTitle ? (
@@ -139,7 +232,8 @@ const JobTitle = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={JobTitleData}
+                value={jobTitle}
+                data={jobTitle}
                 columns={JobTitleColumns}
               ></TableData>
             </div>

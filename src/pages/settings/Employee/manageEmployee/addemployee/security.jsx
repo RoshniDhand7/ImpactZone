@@ -10,21 +10,36 @@ import Checkbox from "../../../../../components/checkbox/checkbox";
 import validation from "../../../../../utils/Validation";
 import { useState } from "react";
 import { useEffect } from "react";
+import constants from "../../../../../utils/constants";
+import api from "../../../../../services/api";
+import { showToast } from "../../../../../redux/actions/toastAction";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Security = ({ setData, data, setActiveTabIndex }) => {
   const { securityValidations } = validation();
   const [errors, setErrors] = useState({});
+  const [title, setTitle] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handelChange = (group, name) => (e) => {
-    if (group?.length) {
-      setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
-    } else {
-      setData({ ...data, [name]: e.target.value || e.value });
+  const handelChange = (name) => (e) => {
+    // if (group?.length) {
+    //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
+    // } else {
+    if (name === "title") {
+      setSelectedTitle(() => {
+        return title.find((item) => item._id === e.target.value._id);
+      });
+      return setData({ ...data, title: selectedTitle._id });
     }
+    return setData({ ...data, [name]: e.target.value || e.value });
+    // }
   };
   console.log(data);
 
-  const nextPage = async () => {
+  const createSecurity = async () => {
     let validate = await securityValidations(data);
     if (
       validate.firstName ||
@@ -33,15 +48,44 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
       validate.email
     ) {
       setErrors(validate);
-    } else setActiveTabIndex(1);
-    console.log(validate, "vvvvvvvv");
+    } else {
+      const res = await api("post", constants.endPoints.CreateEmployee, data);
+      console.log(res, "resss");
+      if (res.success) {
+        // setActiveTabIndex(1);
+        dispatch(showToast({ severity: "success", summary: res.message }));
+        navigate("/employee");
+      } else {
+        console.log(validate, "vvvvvvvv");
+      }
+    }
+  };
+
+  const nextPage = async () => {
+    createSecurity();
   };
 
   useEffect(() => {
     setErrors(false);
   }, [data]);
 
-  const multiClubClockIn = [{ name: "Yes" }, { name: "No" }];
+  const multiClubClockIn = [
+    { name: "true", value: "true" },
+    { name: "false", value: "false" },
+  ];
+
+  const fetchTitle = async () => {
+    const res = await api("get", constants.endPoints.JobTitle);
+    console.log(title, "title");
+    if (res.success) {
+      setTitle(res.data);
+    } else {
+      console.log(res);
+    }
+  };
+  useEffect(() => {
+    fetchTitle();
+  }, []);
 
   const itemTemplate = (item) => {
     return (
@@ -85,8 +129,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         type="text"
                         title="First Name"
                         required
-                        value={data.personalInfo.firstname}
-                        onChange={handelChange("personalInfo", "firstName")}
+                        value={data.firstName}
+                        onChange={handelChange("firstName")}
                       ></Input>
                       {errors.firstName && (
                         <p className="text-red-600 text-xs mt-1">
@@ -99,8 +143,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         title="Date of Birth"
                         placeholder="11/08/1998"
                         type="date"
-                        value={data.personalInfo.dob}
-                        onChange={handelChange("personalInfo", "dob")}
+                        value={data.dob}
+                        onChange={handelChange("dob")}
                       ></Input>
                     </div>
                   </div>
@@ -111,8 +155,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                       maxLength={1}
                       type="text"
                       pattern="[A-Za-z]{1}"
-                      value={data.personalInfo.middleInitial}
-                      onChange={handelChange("personalInfo", "middleInitial")}
+                      value={data.middleInitial}
+                      onChange={handelChange("middleInitial")}
                     ></Input>
                   </div>
                   <div className="col">
@@ -121,8 +165,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                         title="Last Name"
                         required
                         type="text"
-                        value={data.personalInfo.lastname}
-                        onChange={handelChange("personalInfo", "lastName")}
+                        value={data.lastname}
+                        onChange={handelChange("lastName")}
                       ></Input>
                       {errors.lastName && (
                         <p className="text-red-600 text-xs mt-1">
@@ -134,11 +178,8 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                       <Input
                         title="Social Security #"
                         type="text"
-                        value={data.personalInfo.socialSecurity}
-                        onChange={handelChange(
-                          "personalInfo",
-                          "socialSecurity"
-                        )}
+                        value={data.socialSecurity}
+                        onChange={handelChange("socialSecurity")}
                       ></Input>
                     </div>
                   </div>
@@ -146,8 +187,10 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                     <DropDown
                       title="Title"
                       type="text"
-                      value={data.personalInfo.title}
-                      onChange={handelChange("personalInfo", "title")}
+                      options={title}
+                      optionLabel="title"
+                      value={selectedTitle}
+                      onChange={handelChange("title")}
                     ></DropDown>
                   </div>
                 </div>
@@ -172,9 +215,9 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                 <div className="col-4">
                   <Input
                     title="Barcode"
-                    value={data.systemInfo.barCode}
+                    value={data.barCode}
                     pattern="[0-9]*"
-                    onChange={handelChange("systemInfo", "barCode")}
+                    onChange={handelChange("barCode")}
                     required
                   ></Input>
                   {errors.barCode && (
@@ -187,15 +230,15 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                   <Input
                     title="Access Code"
                     pattern="[0-9]*"
-                    value={data.systemInfo.accessCode}
-                    onChange={handelChange("systemInfo", "accessCode")}
+                    value={data.accessCode}
+                    onChange={handelChange("accessCode")}
                   ></Input>
                 </div>
                 <div className="col-4">
                   <Input
                     title="Email"
-                    value={data.systemInfo.email}
-                    onChange={handelChange("systemInfo", "email")}
+                    value={data.email}
+                    onChange={handelChange("email")}
                     required
                   ></Input>
                   {errors.email && (
@@ -207,10 +250,10 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
                 <div className="col-4">
                   <DropDown
                     title="Multi-Club Clock In/Out"
-                    value={data.systemInfo.multiClubClockIn}
+                    value={data.multiClubClockIn}
                     options={multiClubClockIn}
-                    optionLabel="name"
-                    onChange={handelChange("systemInfo", "multiClubClockIn")}
+                    optionLabel="value"
+                    onChange={handelChange("multiClubClockIn")}
                   ></DropDown>
                 </div>
               </div>
