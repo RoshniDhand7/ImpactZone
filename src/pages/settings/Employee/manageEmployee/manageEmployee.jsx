@@ -14,7 +14,11 @@ import api from "../../../../services/api";
 // import { showToast } from "../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import { showToast } from "../../../../redux/actions/toastAction";
-import { Button } from "primereact/button";
+import {
+  hideLoaderAction,
+  showLoaderAction,
+} from "../../../../redux/actions/loaderAction";
+
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
   const navigate = useNavigate();
@@ -48,41 +52,39 @@ const Employee = () => {
     );
   };
 
-  const emailIconTemplate = (col) => {
-    return col.contactInfo.emailNotification ? (
-      <i className="pi pi-envelope"></i>
-    ) : null;
-  };
+  // const emailIconTemplate = (col) => {
+  //   return col.emailNotification ? <i className="pi pi-envelope"></i> : null;
+  // };
 
   const formatHireDate = (col) => {
-    let date = col?.employmentInfo?.hireDate?.toString();
+    let date = col?.hireDate?.toString();
     return date ? date?.split("T")[0] : "-";
   };
   const formatTerminationDate = (col) => {
-    let date = col?.employmentInfo?.terminationDate?.toString();
+    let date = col?.terminationDate?.toString();
     return date ? date?.split("T")[0] : "-";
   };
 
   const manageEmployeeTableColumns = [
+    // {
+    //   field: "contactInfo.emailNotification",
+    //   header: "",
+    //   body: emailIconTemplate,
+    //   id: "",
+    //   index: "",
+    // },
+    { field: "firstName", header: "Name", id: "", index: "" },
+    // { field: "deparment", header: "Deparment", id: "", index: "" },
+    { field: "barCode", header: "Barcode", id: "", index: "" },
+    { field: "city", header: "Address", id: "", index: "" },
     {
-      field: "contactInfo.emailNotification",
-      header: "",
-      body: emailIconTemplate,
-      id: "",
-      index: "",
-    },
-    { field: "personalInfo.firstName", header: "Name", id: "", index: "" },
-    { field: "deparment", header: "Deparment", id: "", index: "" },
-    { field: "systemInfo.barCode", header: "Barcode", id: "", index: "" },
-    { field: "contactInfo.city", header: "Address", id: "", index: "" },
-    {
-      field: "contactInfo.primaryPhone",
+      field: "primaryPhone",
       header: "Primary Phone",
       id: "",
       index: "",
     },
     {
-      field: "employmentInfo.hireDate",
+      field: "hireDate",
       header: "Hire Date",
       id: "",
       index: "",
@@ -172,10 +174,12 @@ const Employee = () => {
   };
 
   const fetchEmployees = async () => {
+    dispatch(showLoaderAction());
     const res = await api("get", constants.endPoints.GetEmployeeTableData);
     console.log(res, "resss");
     if (res.success) {
       setShowEmployee(res.data);
+      dispatch(hideLoaderAction());
     } else {
       console.log(res);
     }

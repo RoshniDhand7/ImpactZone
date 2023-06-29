@@ -11,49 +11,65 @@ import SalesCommission from "./Salescommission/SalesCommission";
 import Notes from "./Notes";
 import Certifications from "./Certifications/Certification";
 import Navbar from "../../../../../layout/Navbar";
+import constants from "../../../../../utils/constants";
+import { showToast } from "../../../../../redux/actions/toastAction";
+import validation from "../../../../../utils/Validation";
+import api from "../../../../../services/api";
 
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const { securityValidations } = validation();
+  const [errors, setErrors] = useState({});
+
   const [data, setData] = useState({
     isActive: true,
-    personalInfo: {
-      firstName: "",
-      lastName: "",
-      middleInitial: "",
-      title: "6488785897e657a7a583d2ee",
-      dob: "",
-      socialSecurity: "",
-    },
-    systemInfo: {
-      email: "",
-      barCode: "",
-      accessCode: "",
-      multiClubClockIn: "true",
-    },
-    employmentInfo: {
-      hireDate: "",
-      adpId: "",
-    },
-    contactInfo: {
-      primaryPhone: "",
-      workPhone: "",
-      workPhoneExt: "",
-      mobilePhone: "",
-      faxPhone: "",
-      emergencyPhone: "",
-      emergencyPhoneExt: "",
-      street: "",
-      city: "",
-      state: "punjab",
-      zipCode: "",
-      emailNotification: "true",
-    },
-    onlineInfo: {
-      userName: "",
-      notes: "",
-    },
+    firstName: "",
+    lastName: "",
+    middleInitial: "",
+    title: "",
+    dob: "",
+    socialSecurity: "",
+    email: "",
+    barCode: "",
+    accessCode: "",
+    multiClubClockIn: "",
+    hireDate: "",
+    adpId: "",
+    primaryPhone: "",
+    workPhone: "",
+    workPhoneExt: "",
+    mobilePhone: "",
+    faxPhone: "",
+    emergencyPhone: "",
+    emergencyPhoneExt: "",
+    street: "",
+    city: "",
+    state: "punjab",
+    zipCode: "",
+    emailNotification: "true",
+    userName: "",
+    notes: "",
   });
-
+  // const createEmployee = async () => {
+  //   let validate = await securityValidations(data);
+  //   if (
+  //     validate.firstName ||
+  //     validate.lastName ||
+  //     validate.barCode ||
+  //     validate.email
+  //   ) {
+  //     setErrors(validate);
+  //   } else {
+  //     const res = await api("post", constants.endPoints.CreateEmployee, data);
+  //     console.log(res, "resss");
+  //     if (res.success) {
+  //       // setActiveTabIndex(1);
+  //       dispatchEvent(showToast({ severity: "success", summary: res.message }));
+  //     } else {
+  //       console.log(validate, "vvvvvvvv");
+  //     }
+  //   }
+  // };
   return (
     <>
       <div>
@@ -67,7 +83,10 @@ const AddEmployee = () => {
           <div className="p-3">
             <TabView
               activeIndex={activeTabIndex}
-              onTabChange={(e) => setActiveTabIndex(e.index)}
+              onTabChange={(e) => {
+                setActiveTabIndex(e.index);
+                // createEmployee();
+              }}
             >
               <TabPanel header="Security">
                 <Security
@@ -76,7 +95,7 @@ const AddEmployee = () => {
                   setActiveTabIndex={setActiveTabIndex}
                 />
               </TabPanel>
-              <TabPanel header=" General ">
+              <TabPanel header=" General  ">
                 <GeneralAddEmployee
                   setData={setData}
                   data={data}

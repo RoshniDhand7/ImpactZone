@@ -8,6 +8,11 @@ const constants = {
     ForgotPassword: "/gym-owner/forget-password",
     CreateNewPassword: "/gym-owner/change-forget-password",
     OtpVerfiy: "/gym-owner/verify-otp",
+    GetDepartment: "/departments",
+    CreateDepartment: "/departments",
+    JobTitle: "/gym-owner/titles",
+    CreateJobTitle: "/gym-owner/title",
+    DeleteTitle: "/gym-owner/title/delete/",
   },
 };
 

@@ -25,12 +25,12 @@ const GeneralAddEmployee = ({ data, setData }) => {
     }
   };
 
-  const handelChange = (group, name) => (e) => {
-    if (group?.length) {
-      setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
-    } else {
-      setData({ ...data, [name]: e.target.value || e.value });
-    }
+  const handelChange = (name) => (e) => {
+    // if (group?.length) {
+    //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
+    // } else {
+    setData({ ...data, [name]: e.target.value || e.value });
+    // }
   };
   return (
     <>
@@ -46,8 +46,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Hire Date"
                         type="date"
                         id=""
-                        value={data.employmentInfo.hireDate}
-                        onChange={handelChange("employmentInfo", "hireDate")}
+                        value={data.hireDate}
+                        onChange={handelChange("hireDate")}
                       ></Input>
                     </div>
                     <div className="col-4">
@@ -55,8 +55,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="ADP ID"
                         id=""
                         pattern="[0-10]"
-                        value={data.employmentInfo.adpId}
-                        onChange={handelChange("employmentInfo", "adpId")}
+                        value={data.adpId}
+                        onChange={handelChange("adpId")}
                       ></Input>
                     </div>
                   </div>
@@ -73,8 +73,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         id=""
                         pattern="[0-10]"
                         maxLength={12}
-                        value={data.contactInfo.primaryPhone}
-                        onChange={handelChange("contactInfo", "primaryPhone")}
+                        value={data.primaryPhone}
+                        onChange={handelChange("primaryPhone")}
                       ></Input>
                     </div>
                     <div className="col">
@@ -83,8 +83,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         id=""
                         maxLength={12}
                         pattern="[0-10]"
-                        value={data.contactInfo.workPhone}
-                        onChange={handelChange("contactInfo", "workPhone")}
+                        value={data.workPhone}
+                        onChange={handelChange("workPhone")}
                       ></Input>
                     </div>
                     <div className="col-1">
@@ -92,8 +92,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Ext."
                         id=""
                         maxLength={4}
-                        value={data.contactInfo.workPhoneExt}
-                        onChange={handelChange("contactInfo", "workPhoneExt")}
+                        value={data.workPhoneExt}
+                        onChange={handelChange("workPhoneExt")}
                       ></Input>
                     </div>
                     <div className="col">
@@ -102,8 +102,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         id=""
                         pattern="[0-10]"
                         maxLength={12}
-                        value={data.contactInfo.mobilePhone}
-                        onChange={handelChange("contactInfo", "mobilePhone")}
+                        value={data.mobilePhone}
+                        onChange={handelChange("mobilePhone")}
                       ></Input>
                     </div>
                   </div>
@@ -115,8 +115,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           id=""
                           type="text"
                           pattern="[0-10]"
-                          value={data.contactInfo.faxPhone}
-                          onChange={handelChange("contactInfo", "faxPhone")}
+                          value={data.faxPhone}
+                          onChange={handelChange("faxPhone")}
                         ></Input>
                       </div>
                       <div className="mt-4">
@@ -125,8 +125,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             title="City"
                             id=""
                             type="text"
-                            value={data.contactInfo.city}
-                            onChange={handelChange("contactInfo", "city")}
+                            value={data.city}
+                            onChange={handelChange("city")}
                           ></Input>
                         </div>
                         <div className="mt-4">
@@ -134,8 +134,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             title="Email"
                             id=""
                             type="text"
-                            value={data.contactInfo.email}
-                            onChange={handelChange("contactInfo", "email")}
+                            value={data.email}
+                            onChange={handelChange("email")}
                           ></Input>
                         </div>
                       </div>
@@ -147,11 +147,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           id=""
                           maxLength={12}
                           pattern="[0-10]"
-                          value={data.contactInfo.emergencyPhone}
-                          onChange={handelChange(
-                            "contactInfo",
-                            "emergencyPhone"
-                          )}
+                          value={data.emergencyPhone}
+                          onChange={handelChange("emergencyPhone")}
                         ></Input>
                       </div>
                       <div className="mt-4">
@@ -160,8 +157,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             title="State"
                             id=""
                             type="text"
-                            value={data.contactInfo.state}
-                            onChange={handelChange("contactInfo", "state")}
+                            value={data.state}
+                            onChange={handelChange("state")}
                           ></DropDown>
                         </div>
                         <div className="mt-4">
@@ -169,11 +166,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             title="Email Updates"
                             id=""
                             type="text"
-                            value={data.contactInfo.firstname}
-                            onChange={handelChange(
-                              "contactInfo",
-                              "emailNotification"
-                            )}
+                            value={data.firstname}
+                            onChange={handelChange("emailNotification")}
                           ></DropDown>
                         </div>
                       </div>
@@ -183,11 +177,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Ext."
                         id=""
                         maxLength={4}
-                        value={data.contactInfo.emergencyPhoneExt}
-                        onChange={handelChange(
-                          "contactInfo",
-                          "emergencyPhoneExt"
-                        )}
+                        value={data.emergencyPhoneExt}
+                        onChange={handelChange("emergencyPhoneExt")}
                       ></Input>
                     </div>
                     <div className="col">
@@ -196,8 +187,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           title="Street Address"
                           id=""
                           type="text"
-                          value={data.contactInfo.street}
-                          onChange={handelChange("contactInfo", "street")}
+                          value={data.street}
+                          onChange={handelChange("street")}
                         ></Input>
                       </div>
                       <div className="mt-4">
@@ -205,8 +196,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           title="Zip Code"
                           id=""
                           type="text"
-                          value={data.contactInfo.zipCode}
-                          onChange={handelChange("contactInfo", "zipCode")}
+                          value={data.zipCode}
+                          onChange={handelChange("zipCode")}
                         ></Input>
                       </div>
                     </div>
@@ -223,8 +214,8 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="User Name"
                         id=""
                         type="text"
-                        value={data.onlineInfo.userName}
-                        onChange={handelChange("onlineInfo", "userName")}
+                        value={data.userName}
+                        onChange={handelChange("userName")}
                       ></Input>
                     </div>
                   </div>

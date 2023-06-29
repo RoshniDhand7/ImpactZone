@@ -1,7 +1,15 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
-const TableData = ({ data, columns, selectionMode, delRow }) => {
+const TableData = ({
+  data,
+  columns,
+  selectionMode,
+  delRow,
+  selected,
+  changeSelection,
+  key,
+}) => {
   const dynamicColumns = columns.map((col, i) => {
     console.log(col.sorting, "SORTING");
     return selectionMode && i === 0 ? (
@@ -24,7 +32,15 @@ const TableData = ({ data, columns, selectionMode, delRow }) => {
   return (
     <div>
       <div className="card">
-        <DataTable value={data} responsiveLayout="scroll" delRow={delRow}>
+        <DataTable
+          value={data}
+          responsiveLayout="scroll"
+          selectionMode
+          delRow={delRow}
+          selection={selected ? selected : null}
+          onSelectionChange={changeSelection ? changeSelection : null}
+          dataKey={key}
+        >
           {dynamicColumns}
         </DataTable>
       </div>
