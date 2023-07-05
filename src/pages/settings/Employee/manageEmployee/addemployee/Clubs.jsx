@@ -1,30 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardWithTitle from "../../../../../components/cards/cardWithTitle/cardWithTitle";
-import itemsbackword from "../../../../../assets/icons/itembackward.png";
 import { PickList } from "primereact/picklist";
 import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
+import constants from "../../../../../utils/constants";
+import api from "../../../../../services/api";
 
 const Clubs = () => {
-  //     const [source, setSource] = useState([]);
-  // const [target, setTarget] = useState([]);
-  const itemTemplate = (item) => {
+  const [reportDataSource, setReportDataSource] = useState([]);
+  const [clubSource, setClubSource] = useState([]);
+  const [reportDatatarget, setreportDataTarget] = useState([]);
+  const [clubtarget, setClubTarget] = useState([]);
+
+  const getClubs = async () => {
+    const res = await api("get", constants.endPoints.GetClubs);
+    console.log(res, "club");
+    if (res.success) {
+      setReportDataSource(res.data);
+      setClubSource(res.data);
+    } else {
+      console.log(res);
+    }
+  };
+  const onReportChange = (event) => {
+    setReportDataSource(event.source);
+
+    setreportDataTarget(event.target);
+  };
+  const onClubChange = (event) => {
+    setClubSource(event.source);
+
+    setClubTarget(event.target);
+  };
+
+  useEffect(() => {
+    getClubs();
+  }, []);
+
+  const itemTemplate = (data) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
-        <img
-          className="w-4rem shadow-2 flex-shrink-0 border-round"
-          src={itemsbackword}
-          alt={item.name}
-        />
+        <div className="flex-1 flex flex-column gap-2">
+          <span className="font-bold">{data.name}</span>
+          <div className="flex align-items-center gap-2"></div>
+        </div>
+      </div>
+    );
+  };
+  const itemTemplates = (item) => {
+    return (
+      <div className="flex flex-wrap p-2 align-items-center gap-3">
         <div className="flex-1 flex flex-column gap-2">
           <span className="font-bold">{item.name}</span>
-          <div className="flex align-items-center gap-2">
-            <i className="pi pi-tag text-sm"></i>
-            <span>{item.category}</span>
-          </div>
+          <div className="flex align-items-center gap-2"></div>
         </div>
-        <span className="font-bold text-900">${item.price}</span>
       </div>
     );
   };
@@ -35,15 +65,15 @@ const Clubs = () => {
           <CardWithTitle title="Report Data Access">
             <div className="card p-3 ">
               <PickList
-                // source={source}
-                // target={target}
-                // onChange={onChange}
+                source={reportDataSource}
+                target={reportDatatarget}
+                onChange={onReportChange}
                 itemTemplate={itemTemplate}
                 breakpoint=""
                 sourceHeader="Available"
                 targetHeader="Selected"
-                sourceStyle={{ height: "30rem" }}
-                targetStyle={{ height: "30rem" }}
+                sourceStyle={{ height: "20rem" }}
+                targetStyle={{ height: "20rem" }}
               />
             </div>
           </CardWithTitle>
@@ -52,15 +82,15 @@ const Clubs = () => {
           <CardWithTitle title="Clubs">
             <div className="card p-3 ">
               <PickList
-                // source={source}
-                // target={target}
-                // onChange={onChange}
-                itemTemplate={itemTemplate}
+                source={clubSource}
+                target={clubtarget}
+                onChange={onClubChange}
+                itemTemplate={itemTemplates}
                 breakpoint=""
                 sourceHeader="Available"
                 targetHeader="Selected"
-                sourceStyle={{ height: "30rem" }}
-                targetStyle={{ height: "30rem" }}
+                sourceStyle={{ height: "20rem" }}
+                targetStyle={{ height: "20rem" }}
               />
             </div>
           </CardWithTitle>

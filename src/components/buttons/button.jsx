@@ -2,7 +2,15 @@ import React from "react";
 import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
 
-function Buttons({ label, onClick, className, style, icon, iconPos }) {
+function Buttons({
+  label,
+  onClick,
+  className,
+  style,
+  icon,
+  iconPos,
+  disabled,
+}) {
   return (
     <div>
       <Button
@@ -12,6 +20,7 @@ function Buttons({ label, onClick, className, style, icon, iconPos }) {
         style={{ padding: "13px 22px 13px 22px", ...style }}
         icon={icon}
         iconPos={iconPos}
+        disabled={disabled}
       />
       <Ripple />
     </div>

@@ -9,9 +9,9 @@ const TableData = ({
   selected,
   changeSelection,
   key,
+  checked,
 }) => {
   const dynamicColumns = columns.map((col, i) => {
-    console.log(col.sorting, "SORTING");
     return selectionMode && i === 0 ? (
       <Column
         selectionMode="multiple"
@@ -40,6 +40,7 @@ const TableData = ({
           selection={selected ? selected : null}
           onSelectionChange={changeSelection ? changeSelection : null}
           dataKey={key}
+          checked={checked}
         >
           {dynamicColumns}
         </DataTable>
