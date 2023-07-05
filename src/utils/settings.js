@@ -57,7 +57,7 @@ const settingsCard = [
   },
   {
     img: Member,
-    link: "",
+    link: "/manageSetup",
     title: "Members Setup",
   },
   {

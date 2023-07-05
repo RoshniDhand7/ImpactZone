@@ -55,7 +55,6 @@ const Department = () => {
     fetchDepartment();
   }, []);
 
-  console.log(selectedDepartment, "ddddddddddd");
   return (
     <>
       <div>
@@ -99,16 +98,26 @@ const Department = () => {
                           <div className="text-xs">{item.name}</div>
                           <div className="text-xs">
                             <div
-                              onClick={() =>
-                                setSelectedDepartment([
-                                  ...selectedDepartment,
-                                  {
-                                    deptId: item._id,
-                                    name: item.name,
-                                    wage: 0,
-                                  },
-                                ])
-                              }
+                              onClick={() => {
+                                console.log(
+                                  selectedDepartment.includes(item),
+                                  item
+                                );
+                                if (
+                                  !selectedDepartment.some(
+                                    (dept) => dept.deptId === item._id
+                                  )
+                                ) {
+                                  setSelectedDepartment([
+                                    ...selectedDepartment,
+                                    {
+                                      deptId: item._id,
+                                      name: item.name,
+                                      wage: 0,
+                                    },
+                                  ]);
+                                }
+                              }}
                               className="cursor-pointer button-hover "
                               style={{ width: "15px", height: "15px" }}
                             >

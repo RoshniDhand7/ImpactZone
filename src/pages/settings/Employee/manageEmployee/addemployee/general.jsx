@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CardWithTitle from "../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../../components/input/input";
 import DropDown from "../../../../../components/dropdown/dropdown";
@@ -6,6 +6,7 @@ import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
 import ImageUpload from "../../../../../assets/icons/imgupload.png";
+import White from "../../../../../assets/images/white.jpg";
 import { InputTextarea } from "primereact/inputtextarea";
 import constants from "../../../../../utils/constants";
 import { showToast } from "../../../../../redux/actions/toastAction";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const GeneralAddEmployee = ({ data, setData }) => {
   const navigate = useNavigate();
+  const [showSelectedImage, setSelectedImage] = useState(false);
   const dispatch = useDispatch();
   const createEmployee = async () => {
     const res = await api("post", constants.endPoints.CreateEmployee, data);
@@ -31,6 +33,31 @@ const GeneralAddEmployee = ({ data, setData }) => {
     // } else {
     setData({ ...data, [name]: e.target.value || e.value });
     // }
+  };
+
+  // const getImage = (el) => {
+  //   var input = document.getElementById("file-input");
+  //   document.getElementById("showImage").hidden = false;
+  //   document.getElementById("showImage").src = URL.createObjectURL(
+  //     input.files[0]
+  //   );
+
+  // };
+
+  const dragNdrop = (event) => {
+    var fileName = URL.createObjectURL(event.target.files[0]);
+    var preview = document.getElementById("preview");
+    var previewImg = document.createElement("img");
+    previewImg.setAttribute("src", fileName);
+    preview.innerHTML = "";
+    preview.appendChild(previewImg);
+  };
+  const drag = () => {
+    document.getElementById("uploadFile").parentNode.className =
+      "draging dragBox";
+  };
+  const drop = () => {
+    document.getElementById("uploadFile").parentNode.className = "dragBox";
   };
   return (
     <>
@@ -248,13 +275,23 @@ const GeneralAddEmployee = ({ data, setData }) => {
                     <span className="text-xl font-semibold">Upload Image</span>
                     <div
                       style={{ height: "235px" }}
-                      className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex-column justify-content-center align-items-center "
+                      className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex justify-content-between "
                     >
-                      <div className="flex flex-column justify-content-center align-items-center">
-                        {/* <div style={{ width: "60px", height: "60px" }}>
-                          <img src={ImageUpload} alt="" />
-                        </div> */}
-                        <div class="image-upload">
+                      {/* <div id="Image" className=" col-2 flex ">
+                        <img
+                          id="showImage"
+                          style={{ width: "115px", height: "116px" }}
+                          className="border-round"
+                          src={White}
+                          alt=""
+                        />
+                      </div> */}
+                      <div
+                        id="preview"
+                        style={{ width: "115px", height: "116px" }}
+                      ></div>
+                      <div className=" col-10   flex flex-cloumn justify-content-center align-items-center">
+                        {/* <div class="image-upload">
                           <label for="file-input">
                             <img
                               style={{ width: "60px", height: "60px" }}
@@ -262,18 +299,40 @@ const GeneralAddEmployee = ({ data, setData }) => {
                               alt=""
                             />
                           </label>
-
                           <input
                             id="file-input"
                             name="file-input"
+                            onChange={getImage}
                             type="file"
                           />
+                        </div> */}
+                        <div class="uploadOuter flex flex-column justify-centent-center align-items-center text-center">
+                          <label
+                            for="uploadFile"
+                            class="btn btn-primary"
+                          ></label>
+                          <div
+                            className="flex justify-centent-center align-items-center"
+                            style={{ width: "60px", height: "60px" }}
+                          >
+                            <img src={ImageUpload} alt="" />
+                          </div>
+                          <span class="dragBox text-base text-surface-300">
+                            Drag your photo here or Browse
+                            <input
+                              type="file"
+                              onChange={dragNdrop}
+                              ondragover={drag}
+                              ondrop={drop}
+                              id="uploadFile"
+                            />
+                          </span>
                         </div>
 
                         <div className="my-3">
-                          <span className="text-base text-surface-300">
+                          {/* <span className="text-base text-surface-300">
                             Drag your photo here or Browse
-                          </span>
+                          </span> */}
                         </div>
                       </div>
                     </div>

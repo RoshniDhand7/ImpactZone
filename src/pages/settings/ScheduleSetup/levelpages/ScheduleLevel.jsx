@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
@@ -13,14 +13,91 @@ import DropDown from "../../../../components/dropdown/dropdown";
 // import { useDispatch } from "react-redux";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Link } from "react-router-dom";
+import constants from "../../../../utils/constants";
+import api from "../../../../services/api";
+import { useDispatch } from "react-redux";
+import {
+  hideLoaderAction,
+  showLoaderAction,
+} from "../../../../redux/actions/loaderAction";
+import {
+  formatTerminationDate,
+  formatHireDate,
+  booleanToString,
+} from "../../../../utils/helpers/dataTableCommonFunct";
 
 const ScheduleLevel = () => {
   const op = useRef(null);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [empId, setEmpId] = useState([]);
+  const [getLevels, setGetLevels] = useState([]);
   const [showLevelTable, setShowTable] = useState(false);
   const [showEmployeeTable, setShowEmployeeTable] = useState(false);
+  const [ShowEmployee, setShowEmployee] = useState({});
+  const dispatch = useDispatch();
+  const [payload, setPayload] = useState({
+    name: "",
+    isActive: true,
+    employees: [],
+  });
+
+  const createLevel = async () => {
+    const res = await api("post", constants.endPoints.AddLevel, payload);
+    console.log(res, "level");
+    if (res.success) {
+    } else {
+      console.log(res);
+    }
+  };
+  const fetchLevels = async () => {
+    dispatch(showLoaderAction());
+    const res = await api(
+      "get",
+      constants.endPoints.AddLevel + "?sortOrder=ASC"
+    );
+    console.log(res, "level");
+    if (res.success) {
+      setGetLevels(res.data);
+      dispatch(hideLoaderAction());
+    } else {
+      console.log(res);
+    }
+  };
+
+  const getEmployee = async () => {
+    dispatch(showLoaderAction());
+    const res = await api("get", constants.endPoints.GetEmployeeTableData);
+    console.log(res, "getemployee");
+    if (res.success) {
+      setShowEmployee(res.data);
+      dispatch(hideLoaderAction());
+    } else {
+      console.log(res);
+    }
+  };
+
+  useEffect(() => {
+    fetchLevels();
+    if (showEmployeeTable) {
+      getEmployee();
+    }
+  }, [showEmployeeTable]);
+
+  const handleChange = (name) => (e) => {
+    setPayload({ ...payload, [name]: e.target.value });
+  };
+
+  const onClickSave = () => {
+    createLevel();
+  };
 
   const showcomponent = () => {
     setShowTable((prev) => !prev);
+  };
+
+  const addEmployees = () => {
+    setPayload({ ...payload, employees: empId });
+    setShowEmployeeTable(false);
   };
 
   // const dispatch = useDispatch();
@@ -66,7 +143,13 @@ const ScheduleLevel = () => {
   };
   const levelcolumn = [
     { field: "name", header: "Name", id: "", index: "" },
-    { field: "active", header: "Active", id: "", index: "" },
+    {
+      field: "isActive",
+      header: "Active",
+      id: "",
+      index: "",
+      body: booleanToString,
+    },
     { field: "", header: "", id: "", index: "" },
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
   ];
@@ -76,7 +159,7 @@ const ScheduleLevel = () => {
       <>
         <div className="" style={{ minHeight: "475px" }}>
           <div>
-            <TableData columns={levelcolumn} data={leveldata} />
+            <TableData columns={levelcolumn} data={getLevels} />
           </div>
           <div>
             <div className="flex justify-content-end p-2 ">
@@ -112,14 +195,22 @@ const ScheduleLevel = () => {
             <span className="text-xl font-bold text-900 ">Add Level</span>
           </div>
           <div className="p-3 ">
-            <Checkbox title="Active"></Checkbox>
+            <Checkbox
+              onChange={handleChange("isActive")}
+              value={payload.isActive}
+              title="Active"
+            ></Checkbox>
           </div>
           <div>
             <CardWithTitle title="Personal">
               <div className="flex justify-content-between p-3">
                 <div className=" flex">
                   <div className="col mr-3">
-                    <Input title="Name"></Input>
+                    <Input
+                      value={payload.name}
+                      onChange={handleChange("name")}
+                      title="Name"
+                    ></Input>
                   </div>
                 </div>
               </div>
@@ -129,41 +220,72 @@ const ScheduleLevel = () => {
             <CardWithTitle title="Add Employee">
               <div className=" p-4 btn-lightest-blue">
                 <div className="ml-4 mb-2">
-                  <span className="text-sm text-dark-gray font-semibold ">
+                  <span className="text-xs font-semibold  text-dark-gray">
                     Name
                   </span>
                 </div>
 
                 <div className="bg-white col-12 border-round-md ">
                   <div
-                    className="flex justify-content-between align-items-center "
+                    className="flex justify-content-between  "
                     style={{ height: "190px" }}
                   >
-                    <div className="">
-                      <span className=""></span>
+                    {/* <div className="">
+                    <span className=""></span>
+                  </div> */}
+                    <div className="flex justify-content-center   w-5  ">
+                      <div className="text-xs flex flex-column justify-content-start font-semibold  w-12">
+                        <table style={{ width: "100%", textAlign: "top" }}>
+                          {selectedEmployees.length ? (
+                            selectedEmployees?.map((emp, index) => {
+                              return (
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td>{emp.firstName + " " + emp.lastName}</td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <>
+                              <div className="mt-6">
+                                <div
+                                  style={{ height: "auto" }}
+                                  className="flex  align-items-center  mt-6  justify-content-center"
+                                >
+                                  None Found
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </table>
+                      </div>
                     </div>
-                    <div className="flex align-content-center justify-content-center">
-                      <div className="text-xs font-semibold">None Found</div>
-                    </div>
-                    <div className=" mx-3">
-                      <div className="">
+                    <div className=" flex flex-column  justify-content-center mx-3 ">
+                      <div className=" ">
                         <Buttons
                           onClick={setShowEmployeeTable}
                           label="Add"
-                          className="btn-dark border-none "
+                          className="btn-dark border-none  "
                         ></Buttons>
                       </div>
+
                       <div className="my-3">
                         <Buttons
-                          label="Remove"
-                          className="btn-dark border-none "
+                          onClick={setShowEmployeeTable}
+                          disabled={!selectedEmployees.length}
+                          label="Edit"
+                          className="btn-dark border-none  "
                         ></Buttons>
                       </div>
 
                       <div className="">
                         <Buttons
                           label="Remove All"
-                          className="btn-dark border-none"
+                          className="btn-dark border-none "
+                          onClick={() => {
+                            setSelectedEmployees([]);
+                            setPayload({ ...payload, employees: [] });
+                          }}
                         ></Buttons>
                       </div>
                     </div>
@@ -174,8 +296,13 @@ const ScheduleLevel = () => {
           </div>
           <div className="flex justify-content-end mt-3 p-2 ">
             <div className=" mx-3">
-              <Buttons className="btn-dark border-none" label="Save"></Buttons>
+              <Buttons
+                onClick={onClickSave}
+                className="btn-dark border-none"
+                label="Save"
+              ></Buttons>
             </div>
+
             <Buttons
               onClick={showcomponent}
               className="btn-grey border-none"
@@ -259,15 +386,29 @@ const ScheduleLevel = () => {
         <div>
           <div>
             <TableData
-              selectionMode
-              data={levelEmployeeTable}
+              selectionMode="checkbox"
+              value={ShowEmployee}
+              data={ShowEmployee}
               columns={levelEmployeecolumn}
+              selected={selectedEmployees}
+              changeSelection={(e) => {
+                setSelectedEmployees(e.value);
+                let empIds = e.value.map((emp) => {
+                  return emp._id;
+                });
+                setEmpId(empIds);
+              }}
+              key="_id"
             ></TableData>
           </div>
         </div>
         <div className="flex justify-content-end mt-3 p-2 ">
           <div className=" mx-3">
-            <Buttons className="btn-dark border-none" label="Add"></Buttons>
+            <Buttons
+              onClick={addEmployees}
+              className="btn-dark border-none"
+              label="Add"
+            ></Buttons>
           </div>
           <Buttons
             onClick={() => setShowEmployeeTable(false)}
@@ -279,20 +420,33 @@ const ScheduleLevel = () => {
     );
   };
 
-  const emailIconTemplate = (col) => {
-    return col.sendEmail ? <i className="pi pi-envelope"></i> : null;
+  // const emailIconTemplate = (col) => {
+  //   return col.sendEmail ? <i className="pi pi-envelope"></i> : null;
+  // };
+
+  const addressTemplate = (col) => {
+    console.log(col);
+    col.address = `${col.street} ${col.city} ${col.state} ${col.zipCode}`;
+    return col.address;
   };
 
   const levelEmployeecolumn = [
-    { field: "", header: "", body: emailIconTemplate },
-    { field: "name", header: "Name", sorting: true },
-    { field: "department", header: "Department" },
-    { field: "barcode", header: "Barcode" },
-    { field: "addresscity", header: "Address/City/State/Zip" },
-    { field: "primaryphone", header: "Primary Phone" },
-    { field: "hiredate", header: "Hire Date" },
-    { field: "terminationdate", header: "Termination Date" },
-    { field: "", header: "", body: actionTemplate },
+    { field: "", header: "" },
+    { field: "firstName", header: "Name", sorting: true },
+    // { field: "department", header: "Department" },
+    { field: "barCode", header: "Barcode" },
+    {
+      field: "address",
+      header: "Address/City/State/Zip",
+      body: addressTemplate,
+    },
+    { field: "primaryPhone", header: "Primary Phone" },
+    { field: "hireDate", header: "Hire Date", body: formatHireDate },
+    {
+      field: "terminationDate",
+      header: "Termination Date",
+      body: formatTerminationDate,
+    },
   ];
 
   const levelEmployeeTable = [

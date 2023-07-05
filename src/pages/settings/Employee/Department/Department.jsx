@@ -16,8 +16,11 @@ import {
   hideLoaderAction,
   showLoaderAction,
 } from "../../../../redux/actions/loaderAction";
+import { showToast } from "../../../../redux/actions/toastAction";
+import { booleanToString } from "../../../../utils/helpers/dataTableCommonFunct";
 
 const Department = () => {
+  const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
   // Data for department listing
   const [departmentData, setDepartmentData] = useState({});
@@ -29,9 +32,9 @@ const Department = () => {
   // data for payload
   const [payload, setPayload] = useState({
     name: "",
-    showInCalendar: true,
-    visibleOnline: true,
-    salesPersonOnline: true,
+    showInCalendar: null,
+    visibleOnline: null,
+    salesPersonOnline: null,
     employees: [],
   });
 
@@ -47,7 +50,6 @@ const Department = () => {
   const fetchDepartmentData = async () => {
     dispatch(showLoaderAction());
     const res = await api("get", constants.endPoints.GetDepartment);
-    console.log(res, "resss");
     if (res.success) {
       setDepartmentData(res.data);
       dispatch(hideLoaderAction());
@@ -62,58 +64,58 @@ const Department = () => {
     }
   }, []);
 
-  // const deleteDepartmentEmployee = async (id) => {
-  //   const res = await api(
-  //     "put",
-  //     constants.endPoints.DepartmentEmployeeDelete + id
-  //   );
-  //   console.log(res, "resss");
-  //   if (res.success) {
-  //     dispatch(showToast({ severity: "success", summary: res.message }));
-  //     fetchDepartmentData();
-  //   } else {
-  //     dispatch(showToast({ severity: "error", summary: res.message }));
-  //   }
-  // };
+  const deleteDepartment = async (id) => {
+    const res = await api("put", constants.endPoints.DeleteDepartment + id);
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      fetchDepartmentData();
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+  const UpdateDepartment = async (id) => {
+    const data = { ...payload };
+    data.employees = payload.employees.map((item) => item._id);
+    setPayload({
+      ...data,
+    });
+    const res = await api(
+      "put",
+      constants.endPoints.UpdateDepartment + id,
+      payload
+    );
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      fetchDepartmentData();
+      showcomponent();
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
   const actionTemplate = (col) => {
     return (
       <>
         <div className="flex justify-content-end">
-          <span>
+          <span onClick={() => onClickEdit(col)}>
             <i className="pi pi-pencil mr-3 "></i>
           </span>
           <span>
             <i
               className="pi pi-trash cursor-pointer"
-              // onClick={() => deleteDepartmentEmployee(col._id)}
+              onClick={() => deleteDepartment(col._id)}
             ></i>
           </span>
         </div>
       </>
     );
   };
-  const visibleOnlineTemplate = (col) => {
-    if (col.visibleOnline) {
-      return <span>Yes</span>;
-    } else {
-      return <span>No</span>;
-    }
-  };
 
-  const showInCalendarTemplate = (col) => {
-    if (col.showInCalendar) {
-      return <span>Yes</span>;
-    } else {
-      return <span>No</span>;
-    }
-  };
-
-  const salesPersonOnlineTemplate = (col) => {
-    if (col.salesPersonOnline) {
-      return <span>Yes</span>;
-    } else {
-      return <span>No</span>;
-    }
+  const onClickEdit = (row) => {
+    setIsEdit(true);
+    setPayload({ ...row });
+    setSelectedEmployees(row.employees);
+    setAddDeparment(true);
   };
 
   const departmentcolumn = [
@@ -123,57 +125,24 @@ const Department = () => {
       header: "Show in Calendar",
       id: "",
       index: "",
-      body: showInCalendarTemplate,
+      body: booleanToString,
     },
     {
       field: "visibleOnline",
       header: "Visible Online",
       id: "",
       index: "",
-      body: visibleOnlineTemplate,
+      body: booleanToString,
     },
     {
       field: "salesPersonOnline",
       header: "Sales Person Online",
       id: "",
       index: "",
-      body: salesPersonOnlineTemplate,
+      body: booleanToString,
     },
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
   ];
-
-  // const [departmentData, setManagaEmplyoee] = useState([
-  //   {
-  //     name: "Front Desk",
-  //     Showincalendar: "",
-  //     visibleonline: "",
-  //     salespersononline: "",
-  //   },
-  //   {
-  //     name: "Instructors",
-  //     Showincalendar: "Yes",
-  //     visibleonline: "Yes",
-  //     salespersononline: "",
-  //   },
-  //   {
-  //     name: "Maintenance",
-  //     Showincalendar: "",
-  //     visibleonline: "",
-  //     salespersononline: "",
-  //   },
-  //   {
-  //     name: "Management",
-  //     Showincalendar: "",
-  //     visibleonline: "",
-  //     salespersononline: "",
-  //   },
-  //   {
-  //     name: "Sales",
-  //     Showincalendar: "Yes",
-  //     visibleonline: "Yes",
-  //     salespersononline: "",
-  //   },
-  // ]);
 
   const showcomponent = () => {
     setAddDeparment((prev) => !prev);
@@ -245,11 +214,13 @@ const Department = () => {
           selectedEmployees={selectedEmployees}
           setSelectedEmployees={setSelectedEmployees}
           setAddDeparment={setAddDeparment}
+          UpdateDepartment={UpdateDepartment}
+          isEdit={isEdit}
         />
       ) : (
         departmentList()
       )}
-      <div className=" p-3 mt-3">
+      <div className=" p-3 mt-5">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

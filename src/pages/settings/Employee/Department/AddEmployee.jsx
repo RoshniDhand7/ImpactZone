@@ -19,8 +19,10 @@ const AddEmployeeTable = ({
   selectedEmployees,
   setSelectedEmployees,
 }) => {
-  const [employee, setEmployee] = useState([]);
+  console.log(selectedEmployees, "emp");
+  const [employees, setEmployee] = useState([]);
   const [empId, setEmpId] = useState([]);
+
   const op = useRef(null);
   const levelEmployeecolumn = [
     { field: "", header: "" },
@@ -72,24 +74,24 @@ const AddEmployeeTable = ({
 
   const fetchEmployees = async () => {
     const res = await api("get", constants.endPoints.GetEmployeeTableData);
-    console.log(res, "resss");
     if (res.success) {
       setEmployee(res.data);
+      // setSelectedEmployees(() => {});
     } else {
       console.log(res);
     }
   };
-  console.log();
+
   useEffect(() => {
     fetchEmployees();
   }, []);
+
+  console.log(empId, "empId");
 
   const saveSelectedEmp = () => {
     setPayload({ ...payload, employees: empId });
     setShowDepartmentTable(false);
   };
-
-  console.log(selectedEmployees, payload);
 
   return (
     <>
@@ -166,13 +168,16 @@ const AddEmployeeTable = ({
           <div>
             <TableData
               selectionMode="checkbox"
-              data={employee}
-              value={employee}
+              data={employees}
+              value={employees}
               columns={levelEmployeecolumn}
               selected={selectedEmployees}
               changeSelection={(e) => {
                 setSelectedEmployees(e.value);
-                setEmpId([...empId, e.value[0]._id]);
+                let empIds = e.value.map((emp) => {
+                  return emp._id;
+                });
+                setEmpId(empIds);
               }}
               key="_id"
             ></TableData>

@@ -18,6 +18,10 @@ import {
   hideLoaderAction,
   showLoaderAction,
 } from "../../../../redux/actions/loaderAction";
+import {
+  formatHireDate,
+  formatTerminationDate,
+} from "../../../../utils/helpers/dataTableCommonFunct";
 
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
@@ -56,14 +60,14 @@ const Employee = () => {
   //   return col.emailNotification ? <i className="pi pi-envelope"></i> : null;
   // };
 
-  const formatHireDate = (col) => {
-    let date = col?.hireDate?.toString();
-    return date ? date?.split("T")[0] : "-";
-  };
-  const formatTerminationDate = (col) => {
-    let date = col?.terminationDate?.toString();
-    return date ? date?.split("T")[0] : "-";
-  };
+  // const formatHireDate = (col) => {
+  //   let date = col?.hireDate?.toString();
+  //   return date ? date?.split("T")[0] : "-";
+  // };
+  // const formatTerminationDate = (col) => {
+  //   let date = col?.terminationDate?.toString();
+  //   return date ? date?.split("T")[0] : "-";
+  // };
 
   const manageEmployeeTableColumns = [
     // {

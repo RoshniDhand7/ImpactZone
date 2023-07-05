@@ -20,7 +20,7 @@ import Checkbox from "../../../components/checkbox/checkbox";
 
 const JobTitle = () => {
   const [isError, setIsError] = useState("");
-  //use for changing page
+  //use for changing pages
   const [showAddJobTitle, setAddJobTitle] = useState("");
   const JobTitleData = [
     {
@@ -50,13 +50,16 @@ const JobTitle = () => {
     title: "",
     description: "",
   });
+
+  // check for edit title //
+  const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
 
   const ActionEditDelete = (col) => {
     return (
       <>
         <div className="border-none bg-lightest-blue flex justify-content-end ">
-          <span>
+          <span onClick={() => onClickEdit(col)}>
             <i className="pi pi-pencil mx-3" style={{ color: "#708090" }}></i>
           </span>
           <span onClick={() => deleteTitle(col._id)}>
@@ -66,6 +69,32 @@ const JobTitle = () => {
       </>
     );
   };
+
+  const onClickEdit = (row) => {
+    setIsEdit(true);
+    setData({ ...row });
+    setAddJobTitle(true);
+  };
+
+  const updateTitle = async (id) => {
+    const res = await api("put", constants.endPoints.TitleUpdate + id, {
+      title: data.title,
+      description: data.description,
+    });
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      setIsEdit(false);
+      setData({
+        title: "",
+        description: "",
+      });
+      setAddJobTitle(false);
+      fetchJobTitle();
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
   const JobTitleColumns = [
     {
       field: "title",
@@ -119,8 +148,12 @@ const JobTitle = () => {
     }
   };
 
-  const SaveTitleButton = () => {
-    CreateJobTitle();
+  const hitApiButton = () => {
+    if (isEdit) {
+      updateTitle(data._id);
+    } else {
+      CreateJobTitle();
+    }
     fetchJobTitle();
   };
 
@@ -185,7 +218,7 @@ const JobTitle = () => {
         <div className="flex justify-content-end mt-3 p-2">
           <div className="mx-3">
             <Buttons
-              onClick={SaveTitleButton}
+              onClick={hitApiButton}
               label="Save"
               className="btn-dark border-none"
               style={{ height: "40px" }}
@@ -193,7 +226,14 @@ const JobTitle = () => {
           </div>
           <div className="">
             <Buttons
-              onClick={() => setAddJobTitle(false)}
+              onClick={() => {
+                setAddJobTitle(false);
+                setData({
+                  title: "",
+                  description: "",
+                });
+                setIsEdit(false);
+              }}
               label="Cancel "
               className="btn-grey border-none"
               style={{ height: "40px" }}

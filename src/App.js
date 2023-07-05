@@ -30,6 +30,7 @@ import ScheduleSetup from "./pages/settings/ScheduleSetup/ScheduleSetup";
 import Loader from "./components/loader";
 import SchedulingOptions from "./pages/settings/ScheduleSetup/Schedulingoptions";
 import ToastContainer from "./components/toast";
+import MemberSetup from "./pages/settings/MemberSetup/MemberSetup";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -78,6 +79,8 @@ function App() {
             <Route exact path="/timesheets" element={<TimeSheets />} />
             <Route exact path="/department" element={<Department />} />
             <Route exact path="/securityRoles" element={<SecurityRoles />} />
+            <Route exact path="/manageSetup" element={<MemberSetup />} />
+
             <Route
               exact
               path="/schedulingoptions"

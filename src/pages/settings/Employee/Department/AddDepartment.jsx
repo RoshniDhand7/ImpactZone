@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Buttons from "../../../../components/buttons/button";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../components/input/input";
@@ -19,6 +18,8 @@ const AddDeparment = ({
   showcomponent,
   selectedEmployees,
   setSelectedEmployees,
+  UpdateDepartment,
+  isEdit,
 }) => {
   const DropDownOptions = [
     { name: "Yes", value: true },
@@ -32,21 +33,28 @@ const AddDeparment = ({
       constants.endPoints.CreateDepartment,
       payload
     );
-    console.log(res, "resss");
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
       setAddDeparment((prev) => !prev);
       fetchDepartmentData();
       setPayload({
         name: "",
-        showInCalendar: true,
-        visibleOnline: true,
-        salesPersonOnline: true,
+        showInCalendar: null,
+        visibleOnline: null,
+        salesPersonOnline: null,
         employees: [],
       });
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
       console.log(res);
+    }
+  };
+
+  const apiHitButton = () => {
+    if (isEdit) {
+      UpdateDepartment(payload._id);
+    } else {
+      saveDepartment();
     }
   };
 
@@ -128,9 +136,9 @@ const AddDeparment = ({
                   {/* <div className="">
                     <span className=""></span>
                   </div> */}
-                  <div className="flex justify-content-start   w-5  ">
-                    <div className="text-xs flex  font-semibold  w-12">
-                      <table style={{ width: "100%", textAlign: "left" }}>
+                  <div className="flex justify-content-center   w-5  ">
+                    <div className="text-xs flex flex-column justify-content-start font-semibold  w-12">
+                      <table style={{ width: "100%", textAlign: "top" }}>
                         {selectedEmployees.length ? (
                           selectedEmployees?.map((emp, index) => {
                             return (
@@ -184,7 +192,7 @@ const AddDeparment = ({
           <div className="  ">
             <Buttons
               label="Save"
-              onClick={() => saveDepartment()}
+              onClick={() => apiHitButton()}
               className="btn-dark mx-4  border-none"
             ></Buttons>
           </div>

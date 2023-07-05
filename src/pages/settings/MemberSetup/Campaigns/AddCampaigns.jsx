@@ -1,0 +1,109 @@
+import React from "react";
+import Checkbox from "../../../../components/checkbox/checkbox";
+import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
+import DropDown from "../../../../components/input/input";
+import itemsbackword from "../../../../assets/icons/itembackward.png";
+import { InputTextarea } from "primereact/inputtextarea";
+import Input from "../../../../components/input/input";
+import { PickList } from "primereact/picklist";
+import Buttons from "../../../../components/buttons/button";
+import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
+import checkInData from "../../../../utils/checkInData";
+
+const AddCampaigns = ({ showcomponent }) => {
+  const itemTemplate = (item) => {
+    return (
+      <div className="flex flex-wrap p-2 align-items-center gap-3">
+        <img
+          className="w-4rem shadow-2 flex-shrink-0 border-round"
+          src={itemsbackword}
+          alt={item.name}
+        />
+        <div className="flex-1 flex flex-column gap-2">
+          <span className="font-bold">{item.name}</span>
+          <div className="flex align-items-center gap-2">
+            <i className="pi pi-tag text-sm"></i>
+            <span>{item.category}</span>
+          </div>
+        </div>
+        <span className="font-bold text-900">${item.price}</span>
+      </div>
+    );
+  };
+  return (
+    <>
+      <div>
+        <div className="my-3">
+          <span className="text-xl font-bold text-900 ">Add Campaign</span>
+        </div>
+        <div className="">
+          <Checkbox
+            title="Active"
+            className="text-900 font-semibold"
+          ></Checkbox>
+        </div>
+        <div className="mt-3">
+          <CardWithTitle title="Add Campaign Details ">
+            <div className=" p-3">
+              <div className="flex ">
+                <div className="col">
+                  <Input title="Name"></Input>
+                </div>
+                <div className="col">
+                  <DropDown title="Campain Group" options=""></DropDown>
+                </div>
+              </div>
+              <div>
+                <div className="col-12 flex flex-column ">
+                  <label
+                    className="text-xs text-grey-500 font-semibold gap-2"
+                    htmlFor=""
+                  >
+                    Description (256/256)
+                  </label>
+                  <div className="">
+                    <InputTextarea value="" style={{ width: "100%" }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardWithTitle>
+        </div>
+        <div className="my-3">
+          <CardWithTitle title="Campaign Types">
+            <div className="card p-3 ">
+              <PickList
+                // source={source}
+                // target={target}
+                // onChange={onChange}
+                itemTemplate={itemTemplate}
+                breakpoint=""
+                sourceHeader="Available"
+                targetHeader="Selected"
+                sourceStyle={{ height: "30rem" }}
+                targetStyle={{ height: "30rem" }}
+              />
+            </div>
+          </CardWithTitle>
+        </div>
+        <div className=" m-2 mt-3 flex justify-content-end">
+          <div className="mx-3">
+            <Buttons label="Save" className="btn-dark border-none"></Buttons>
+          </div>
+          <div className="">
+            <Buttons
+              onClick={showcomponent}
+              label="Cancel"
+              className="btn-grey   border-none"
+            ></Buttons>
+          </div>
+        </div>
+      </div>
+      <div>
+        <RecentCheckIn data={checkInData}></RecentCheckIn>
+      </div>
+    </>
+  );
+};
+
+export default AddCampaigns;
