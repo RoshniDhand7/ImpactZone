@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Navbar = () => {
   return (
     <>
-      <div>
+      <div className="mx-3">
         <nav className=" col-12 p-0 navbar shadow-3 ">
           <ul className=" lg:col-7 md:col-10 nav flex justify-content-between">
             <div className="border-show pb-3 p-2 pl-3 ml-3">

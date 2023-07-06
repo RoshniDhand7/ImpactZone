@@ -1,7 +1,6 @@
 import React from "react";
 import Checkbox from "../../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
-import DropDown from "../../../../components/input/input";
 import itemsbackword from "../../../../assets/icons/itembackward.png";
 import { InputTextarea } from "primereact/inputtextarea";
 import Input from "../../../../components/input/input";
@@ -9,6 +8,7 @@ import { PickList } from "primereact/picklist";
 import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
+import DropDown from "../../../../components/dropdown/dropdown";
 
 const AddCampaigns = ({ showcomponent }) => {
   const itemTemplate = (item) => {
@@ -43,20 +43,20 @@ const AddCampaigns = ({ showcomponent }) => {
           ></Checkbox>
         </div>
         <div className="mt-3">
-          <CardWithTitle title="Add Campaign Details ">
+          <CardWithTitle title="Add campaign Details ">
             <div className=" p-3">
               <div className="flex ">
-                <div className="col">
+                <div className="col-3">
                   <Input title="Name"></Input>
                 </div>
-                <div className="col">
-                  <DropDown title="Campain Group" options=""></DropDown>
+                <div className="col-3">
+                  <DropDown title="Campaign Group"></DropDown>
                 </div>
               </div>
               <div>
-                <div className="col-12 flex flex-column ">
+                <div className="col-12 flex flex-column gap-2 ">
                   <label
-                    className="text-xs text-grey-500 font-semibold gap-2"
+                    className="text-xs text-gray-500 font-semibold gap-2"
                     htmlFor=""
                   >
                     Description (256/256)
@@ -87,7 +87,7 @@ const AddCampaigns = ({ showcomponent }) => {
           </CardWithTitle>
         </div>
         <div className=" m-2 mt-3 flex justify-content-end">
-          <div className="mx-3">
+          <div className="mx-3" style={{ width: "105px" }}>
             <Buttons label="Save" className="btn-dark border-none"></Buttons>
           </div>
           <div className="">

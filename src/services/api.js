@@ -23,6 +23,7 @@ const api = (method, urlEndPoint, data) =>
           message: response.data.message,
           data: response.data.data,
           success: response.data.success,
+          count: response.data.count,
         });
       })
       .catch((err) => {

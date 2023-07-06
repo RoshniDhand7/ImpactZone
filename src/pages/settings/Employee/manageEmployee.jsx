@@ -6,7 +6,7 @@ const ManageEmployee = () => {
   return (
     <>
       <div className="">
-        <div className="p-3">
+        <div className="p-3   ">
           <Navbar />
           {/* <TabView
             activeIndex={activeIndex1}

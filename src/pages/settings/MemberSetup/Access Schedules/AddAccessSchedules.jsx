@@ -50,9 +50,13 @@ const AddAccessSchedules = ({ showcomponent }) => {
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
         <div className="">
-          <Buttons label="Copy" className="btn-dark border-none"></Buttons>
+          <Buttons
+            label="Copy"
+            className="btn-dark border-none"
+            style={{ width: "105px" }}
+          ></Buttons>
         </div>
-        <div className="mx-3">
+        <div className="mx-3" style={{ width: "105px" }}>
           <Buttons label="Save" className="btn-dark border-none"></Buttons>
         </div>
         <div className="">

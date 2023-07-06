@@ -62,146 +62,148 @@ const AddDeparment = ({
     <>
       <div className="p-3">
         <Navbar />
-        <div>
-          <p className="my-3 font-semibold text-xl ">Add Departments</p>
-        </div>
-        <div className="mt-2">
-          <CardWithTitle title="General">
-            <div className="p-2 flex">
-              <div className="col">
-                <Input
-                  title="Name"
-                  value={payload.name}
-                  onChange={handleChange("name")}
-                  placeholder=""
-                ></Input>
+        <div className="mx-3">
+          <div>
+            <p className="my-3 font-semibold text-xl ">Add Departments</p>
+          </div>
+          <div className="mt-2">
+            <CardWithTitle title="General">
+              <div className="p-2 flex">
+                <div className="col">
+                  <Input
+                    title="Name"
+                    value={payload.name}
+                    onChange={handleChange("name")}
+                    placeholder=""
+                  ></Input>
+                </div>
+                <div className="col">
+                  <DropDown
+                    title="Show in Calendar"
+                    optionLabel="name"
+                    options={DropDownOptions}
+                    placeholder=""
+                    value={payload.showInCalendar}
+                    onChange={handleChange("showInCalendar")}
+                  ></DropDown>
+                </div>
+                <div className="col">
+                  <DropDown
+                    optionLabel="name"
+                    options={DropDownOptions}
+                    title="Visible Online"
+                    placeholder=""
+                    value={payload.visibleOnline}
+                    onChange={handleChange("visibleOnline")}
+                  ></DropDown>
+                </div>
               </div>
-              <div className="col">
-                <DropDown
-                  title="Show in Calendar"
-                  optionLabel="name"
-                  options={DropDownOptions}
-                  placeholder=""
-                  value={payload.showInCalendar}
-                  onChange={handleChange("showInCalendar")}
-                ></DropDown>
+              <div className="col-12 flex">
+                <div className="col-4">
+                  <DropDown
+                    optionLabel="name"
+                    options={DropDownOptions}
+                    title="Sales Person Online"
+                    placeholder=""
+                    value={payload.salesPersonOnline}
+                    onChange={handleChange("salesPersonOnline")}
+                  ></DropDown>
+                </div>
+                <div className="col-4">
+                  <Input
+                    title="Department Code"
+                    placeholder=""
+                    value={payload.departmentCode}
+                    onChange={handleChange("departmentCode")}
+                  ></Input>
+                </div>
               </div>
-              <div className="col">
-                <DropDown
-                  optionLabel="name"
-                  options={DropDownOptions}
-                  title="Visible Online"
-                  placeholder=""
-                  value={payload.visibleOnline}
-                  onChange={handleChange("visibleOnline")}
-                ></DropDown>
-              </div>
-            </div>
-            <div className="col-12 flex">
-              <div className="col-4">
-                <DropDown
-                  optionLabel="name"
-                  options={DropDownOptions}
-                  title="Sales Person Online"
-                  placeholder=""
-                  value={payload.salesPersonOnline}
-                  onChange={handleChange("salesPersonOnline")}
-                ></DropDown>
-              </div>
-              <div className="col-4">
-                <Input
-                  title="Department Code"
-                  placeholder=""
-                  value={payload.departmentCode}
-                  onChange={handleChange("departmentCode")}
-                ></Input>
-              </div>
-            </div>
-          </CardWithTitle>
-        </div>
-        <div className="mt-3">
-          <CardWithTitle title="Add Employee">
-            <div className=" p-4 btn-lightest-blue">
-              <div className="ml-4 mb-2">
-                <span className="text-xs font-semibold  text-dark-gray">
-                  Name
-                </span>
-              </div>
+            </CardWithTitle>
+          </div>
+          <div className="mt-3">
+            <CardWithTitle title="Add Employee">
+              <div className=" p-4 btn-lightest-blue">
+                <div className="ml-4 mb-2">
+                  <span className="text-xs font-semibold  text-dark-gray">
+                    Name
+                  </span>
+                </div>
 
-              <div className="bg-white col-12 border-round-md ">
-                <div
-                  className="flex justify-content-between  "
-                  style={{ height: "190px" }}
-                >
-                  {/* <div className="">
+                <div className="bg-white col-12 border-round-md ">
+                  <div
+                    className="flex justify-content-between  "
+                    style={{ height: "190px" }}
+                  >
+                    {/* <div className="">
                     <span className=""></span>
                   </div> */}
-                  <div className="flex justify-content-center   w-5  ">
-                    <div className="text-xs flex flex-column justify-content-start font-semibold  w-12">
-                      <table style={{ width: "100%", textAlign: "top" }}>
-                        {selectedEmployees.length ? (
-                          selectedEmployees?.map((emp, index) => {
-                            return (
-                              <tr>
-                                <td>{index + 1}</td>
-                                <td>{emp.firstName + " " + emp.lastName}</td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <>
-                            <div className="mt-6">
-                              <div
-                                style={{ height: "auto" }}
-                                className="flex  align-items-center  mt-6  justify-content-center"
-                              >
-                                None Found
+                    <div className="flex justify-content-center   w-5  ">
+                      <div className="text-xs flex flex-column justify-content-start font-semibold  w-12">
+                        <table style={{ width: "100%", textAlign: "top" }}>
+                          {selectedEmployees.length ? (
+                            selectedEmployees?.map((emp, index) => {
+                              return (
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td>{emp.firstName + " " + emp.lastName}</td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <>
+                              <div className="mt-6">
+                                <div
+                                  style={{ height: "auto" }}
+                                  className="flex  align-items-center  mt-6  justify-content-center"
+                                >
+                                  None Found
+                                </div>
                               </div>
-                            </div>
-                          </>
-                        )}
-                      </table>
+                            </>
+                          )}
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                  <div className=" flex flex-column  justify-content-center mx-3 ">
-                    <div className=" ">
-                      <Buttons
-                        onClick={setShowDepartmentTable}
-                        label="Add"
-                        className="btn-dark border-none  "
-                      ></Buttons>
-                    </div>
+                    <div className=" flex flex-column  justify-content-center mx-3 ">
+                      <div className=" ">
+                        <Buttons
+                          onClick={setShowDepartmentTable}
+                          label="Add"
+                          className="btn-dark border-none  "
+                        ></Buttons>
+                      </div>
 
-                    <div className="mt-3">
-                      <Buttons
-                        label="Remove All"
-                        className="btn-dark border-none "
-                        onClick={() => {
-                          setSelectedEmployees([]);
-                          setPayload({ ...payload, employees: [] });
-                        }}
-                      ></Buttons>
+                      <div className="mt-3">
+                        <Buttons
+                          label="Remove All"
+                          className="btn-dark border-none "
+                          onClick={() => {
+                            setSelectedEmployees([]);
+                            setPayload({ ...payload, employees: [] });
+                          }}
+                        ></Buttons>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </CardWithTitle>
-        </div>
-        <div className=" mt-3 px-3 pt-3 flex justify-content-end">
-          <div className="  ">
-            <Buttons
-              label="Save"
-              onClick={() => apiHitButton()}
-              className="btn-dark mx-4  border-none"
-            ></Buttons>
+            </CardWithTitle>
           </div>
-          <div className=" ml-4">
-            <Buttons
-              onClick={showcomponent}
-              label="Cancel"
-              className="btn-grey  mx-3 border-none"
-            ></Buttons>
+          <div className=" mt-3 px-3 pt-3 flex justify-content-end">
+            <div className="  ">
+              <Buttons
+                label="Save"
+                onClick={() => apiHitButton()}
+                className="btn-dark mx-4  border-none"
+              ></Buttons>
+            </div>
+            <div className=" ml-4">
+              <Buttons
+                onClick={showcomponent}
+                label="Cancel"
+                className="btn-grey  mx-3 border-none"
+              ></Buttons>
+            </div>
           </div>
         </div>
       </div>

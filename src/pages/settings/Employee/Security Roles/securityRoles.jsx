@@ -67,7 +67,7 @@ const SecurityRoles = () => {
     return (
       <div className="p-3">
         <Navbar />
-        <div className=" flex align-items-center justify-content-between my-3">
+        <div className=" flex align-items-center justify-content-between my-3 mx-3">
           <span className="text-xl font-bold text-900">
             Manage Security Roles
           </span>
@@ -80,7 +80,7 @@ const SecurityRoles = () => {
             ></Buttons>
           </div>
         </div>
-        <div>
+        <div className="mx-3">
           <div className=" mt-2">
             <TableData
               columns={manageSecurity}
@@ -96,7 +96,7 @@ const SecurityRoles = () => {
   return (
     <>
       {addSecurityRole ? <AddSecurityRoles /> : securityRoleList()}
-      <div className="mt-5 p-3">
+      <div className="mt-5 p-3 mx-3">
         <RecentCheckIn data={checkInData} />
       </div>
     </>

@@ -14,8 +14,11 @@ const Availability = () => {
 
   return (
     <>
-      <div className="p-3">
+      <div className="p-3 pb-2">
         <Navbar />
+      </div>
+
+      <div className=" p-3 pt-0 mx-3">
         <div className="mt-2 ">
           <div className=" bg-lightest-blue border-round-md p-4">
             <div className=" p-0 flex justify-content-between">
@@ -117,9 +120,10 @@ const Availability = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-5 p-3">
-        <RecentCheckIn data={checkInData} />
+
+        <div className="mt-5">
+          <RecentCheckIn data={checkInData} />
+        </div>
       </div>
     </>
   );

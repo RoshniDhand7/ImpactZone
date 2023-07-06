@@ -18,7 +18,7 @@ const AddResource = ({ openAddResource }) => {
           ></Checkbox>
         </div>
         <div className="mt-3">
-          <CardWithTitle title="Add Campaign Details ">
+          <CardWithTitle title="Resource ">
             <div className=" p-3">
               <div className="flex ">
                 <div className="col">
@@ -52,7 +52,7 @@ const AddResource = ({ openAddResource }) => {
         </div>
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
-        <div className="mx-3">
+        <div className="mx-3" style={{ width: "105px" }}>
           <Buttons label="Save" className="btn-dark border-none"></Buttons>
         </div>
         <div className="">

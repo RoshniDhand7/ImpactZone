@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../../../../../components/input/input";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
@@ -7,8 +7,30 @@ import Buttons from "../../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
 import Divide from "../../../../../../assets/icons/box.png";
+import constants from "../../../../../../utils/constants";
+import { showToast } from "../../../../../../redux/actions/toastAction";
+import api from "../../../../../../services/api";
+import { useDispatch } from "react-redux";
 
 const Pay = () => {
+  const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const createClassic = async () => {
+    const res = await api("post", constants.endPoints.CreateEmployee, data);
+    console.log(res, "resss");
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
+  const handelChange = (name) => (e) => {
+    return setData({ ...data, [name]: e.target.value || e.value });
+  };
+
   return (
     <div>
       <div className="col-2 mb-3">
@@ -20,7 +42,14 @@ const Pay = () => {
             <div className="p-3">
               <div className="flex">
                 <div className="col-2">
-                  <DropDown title="Class Level"></DropDown>
+                  <DropDown
+                    type="text"
+                    // options={title}
+                    optionLabel="title"
+                    // value={selectedTitle}
+                    onChange={handelChange("")}
+                    title="Class Level"
+                  ></DropDown>
                 </div>
                 <div className="col-2">
                   <DropDown title="Default Pay"></DropDown>
@@ -29,7 +58,7 @@ const Pay = () => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="col-12 bg-lightest-blue border-round-sm mt-3 ">
+        <div className="col-12 bg-lightest-blue border-round-sm mt-3 shadow-4 ">
           <div className="">
             <div className="flex justify-content-between">
               <div className="col-2 flex">
@@ -216,7 +245,11 @@ const Pay = () => {
             ></Buttons>
           </div>
           <div className="">
-            <Buttons label="Save" className="btn-dark border-none"></Buttons>
+            <Buttons
+              onClick={createClassic}
+              label="Save"
+              className="btn-dark border-none"
+            ></Buttons>
           </div>
           <div className="ml-2 ">
             <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
