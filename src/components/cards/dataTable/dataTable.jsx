@@ -1,5 +1,7 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Paginator } from "primereact/paginator";
+import { useState } from "react";
 
 const TableData = ({
   data,
@@ -10,7 +12,20 @@ const TableData = ({
   changeSelection,
   key,
   checked,
+  rows,
+  setRows,
+  first,
+  setFirst,
+  count,
+  setCurrentPage,
 }) => {
+  const onPageChangeEvent = (event) => {
+    console.log("reached", event);
+    setFirst(event.first);
+    setRows(event.rows);
+    setCurrentPage(event.page + 1);
+  };
+
   const dynamicColumns = columns.map((col, i) => {
     return selectionMode && i === 0 ? (
       <Column
@@ -44,6 +59,15 @@ const TableData = ({
         >
           {dynamicColumns}
         </DataTable>
+        <div className="card">
+          <Paginator
+            first={first}
+            rows={rows}
+            totalRecords={count}
+            rowsPerPageOptions={[5, 10, 20, 30]}
+            onPageChange={(e) => onPageChangeEvent(e)}
+          />
+        </div>
       </div>
     </div>
   );

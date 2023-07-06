@@ -153,33 +153,34 @@ const Department = () => {
       <>
         <div className="p-3">
           <Navbar />
-          <div className=" mt-2 bg-lightest-blue border-round-lg p-2 flex justify-content-between">
-            <div className="col-3 ">
-              <DropDown title="Status"></DropDown>
+          <div className="mx-3">
+            <div className=" mt-2 bg-lightest-blue border-round-lg p-2 flex justify-content-between">
+              <div className="col-3 ">
+                <DropDown title="Status"></DropDown>
+              </div>
+              <div className=" px-3 flex justify-content-center align-items-center ">
+                <Buttons
+                  onClick={showcomponent}
+                  label="Add Deparment"
+                  icon="pi pi-plus-circle "
+                  className=" btn-custom border-none btn-dark"
+                >
+                  <i className="pi pi-plus-circle" /> Add Deparment
+                </Buttons>
+              </div>
             </div>
-            <div className=" px-3 flex justify-content-center align-items-center ">
-              <Buttons
-                onClick={showcomponent}
-                label="Add Deparment"
-                icon="pi pi-plus-circle "
-                className=" btn-custom border-none btn-dark"
-              >
-                <i className="pi pi-plus-circle" /> Add Deparment
-              </Buttons>
-            </div>
-          </div>
-          <div>
-            <div className="mt-3 ">
-              <TableData
-                columns={departmentcolumn}
-                data={departmentData}
-                value={departmentData}
+            <div>
+              <div className="mt-3 ">
+                <TableData
+                  columns={departmentcolumn}
+                  data={departmentData}
+                  value={departmentData}
 
-                // delRow={tableRowRemove}
-              />
+                  // delRow={tableRowRemove}
+                />
+              </div>
             </div>
-          </div>
-          {/* <div className=" mt-3 flex justify-content-end">
+            {/* <div className=" mt-3 flex justify-content-end">
           <div className="col-1">
             <Buttons label="Save" className="btn-dark  border-none"></Buttons>
           </div>
@@ -187,6 +188,7 @@ const Department = () => {
             <Buttons label="Cancel" className="btn-grey  border-none"></Buttons>
           </div>
         </div> */}
+          </div>
         </div>
       </>
     );

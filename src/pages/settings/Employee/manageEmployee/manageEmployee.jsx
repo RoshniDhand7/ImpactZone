@@ -56,19 +56,6 @@ const Employee = () => {
     );
   };
 
-  // const emailIconTemplate = (col) => {
-  //   return col.emailNotification ? <i className="pi pi-envelope"></i> : null;
-  // };
-
-  // const formatHireDate = (col) => {
-  //   let date = col?.hireDate?.toString();
-  //   return date ? date?.split("T")[0] : "-";
-  // };
-  // const formatTerminationDate = (col) => {
-  //   let date = col?.terminationDate?.toString();
-  //   return date ? date?.split("T")[0] : "-";
-  // };
-
   const manageEmployeeTableColumns = [
     // {
     //   field: "contactInfo.emailNotification",
@@ -188,7 +175,7 @@ const Employee = () => {
       console.log(res);
     }
   };
-  console.log(ShowEmployee, "(999999999999999999");
+  console.log(ShowEmployee, "showEmployee");
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -197,7 +184,7 @@ const Employee = () => {
     <>
       <div className="p-3">
         <Navbar />
-        <div className="my-2">
+        <div className="my-2 mx-3">
           <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3 ">
             <div
               className="flex p-2  justify-content-between align-items-center"
@@ -348,9 +335,9 @@ const Employee = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="p-3">
-        <RecentCheckIn data={checkInData}></RecentCheckIn>
+        <div className="p-3">
+          <RecentCheckIn data={checkInData}></RecentCheckIn>
+        </div>
       </div>
     </>
   );

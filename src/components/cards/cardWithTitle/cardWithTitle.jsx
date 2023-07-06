@@ -5,7 +5,7 @@ const CardWithTitle = ({ titlee, title, children, title2, title3 }) => {
   return (
     <>
       <div>
-        <div className="btn-dark  p-3 border-round">
+        <div className="btn-dark  p-3 border-round shadow-2">
           <div className="flex justify-content-between">
             <div>
               {title ? (

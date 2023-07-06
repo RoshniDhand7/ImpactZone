@@ -115,7 +115,7 @@ const ManageMembershipTypes = () => {
                   <DropDown title="Status"></DropDown>
                 </div>
                 <div className="col-3">
-                  <Input title="TypeName"></Input>
+                  <Input title="Type Name"></Input>
                 </div>
                 <div className="mt-4 p-2 ">
                   <Buttons

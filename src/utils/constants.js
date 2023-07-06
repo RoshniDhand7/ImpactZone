@@ -18,6 +18,8 @@ const constants = {
     UpdateDepartment: "departments/update/",
     GetClubs: "gym-owner/clubs",
     AddLevel: "levels",
+    DeleteLevel: "levels/delete/",
+    UpdateLevel: "levels/update/",
   },
 };
 

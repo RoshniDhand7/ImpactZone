@@ -16,9 +16,9 @@ const TimeSheets = () => {
   const [selectedPos, setSelectedPos] = useState(null);
   return (
     <>
-      <div className="p-3">
+      <div className="p-3 ">
         <Navbar />
-        <div className="p-0">
+        <div className="p-0 mx-3">
           <div className=" px-0 flex justify-content-between">
             <div className="col-6 pl-0   ">
               <CardWithTitle title="General">
@@ -49,40 +49,44 @@ const TimeSheets = () => {
               </CardWithTitle>
             </div>
           </div>
-        </div>
-        <div className=" flex justify-content-end">
-          <div className=" mx-3 mt-2">
-            <Buttons label="Search" className="btn-dark border-none "></Buttons>
+
+          <div className=" flex justify-content-end">
+            <div className=" mx-3 mt-2">
+              <Buttons
+                label="Search"
+                className="btn-dark border-none "
+              ></Buttons>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div className="  p-3 ">
-          <DataTable
-            value={TimeSheetsData}
-            selection={selectedPos}
-            onSelectionChange={(e) => setSelectedPos(e.value)}
-            dataKey="id"
-            tableStyle={{ minWidth: "50rem" }}
-          >
-            {/* <Column
+        <div>
+          <div className="  p-3 ">
+            <DataTable
+              value={TimeSheetsData}
+              selection={selectedPos}
+              onSelectionChange={(e) => setSelectedPos(e.value)}
+              dataKey="id"
+              tableStyle={{ minWidth: "50rem" }}
+            >
+              {/* <Column
               selectionMode="multiple"
               headerStyle={{ width: "3rem" }}
             ></Column> */}
-            <Column field="club" header="Club"></Column>
-            <Column field="employee" header="Employee Name"></Column>
-            <Column field="department" header="Department"></Column>
-            <Column field="date" header="Date"></Column>
-            <Column field="clockin" header="Clock In"></Column>
-            <Column field="clockout" header="Clock Out"></Column>
-            <Column field="duration" header="Duration"></Column>
-            <Column field="modifiedon" header="Modified On"></Column>
-          </DataTable>
+              <Column field="club" header="Club"></Column>
+              <Column field="employee" header="Employee Name"></Column>
+              <Column field="department" header="Department"></Column>
+              <Column field="date" header="Date"></Column>
+              <Column field="clockin" header="Clock In"></Column>
+              <Column field="clockout" header="Clock Out"></Column>
+              <Column field="duration" header="Duration"></Column>
+              <Column field="modifiedon" header="Modified On"></Column>
+            </DataTable>
+          </div>
         </div>
-      </div>
-      <div className="mt-5 mx-2 p-3">
-        <div>
-          <RecentCheckIn data={checkInData} />
+        <div className="mt-5 mx-2 p-3">
+          <div>
+            <RecentCheckIn data={checkInData} />
+          </div>
         </div>
       </div>
     </>

@@ -10,7 +10,7 @@ import Classes from "./Classes";
 const ScheduleSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
-    <div>
+    <div className="mx-3">
       <div className="p-3">
         <TabView
           activeIndex={activeIndex}

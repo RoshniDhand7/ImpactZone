@@ -18,7 +18,7 @@ const AddResourceType = ({ openADDResourceType }) => {
           ></Checkbox>
         </div>
         <div className="mt-3">
-          <CardWithTitle title="Add Campaign Details ">
+          <CardWithTitle title="Resource Type ">
             <div className=" p-3">
               <div className="flex ">
                 <div className="col">
@@ -26,7 +26,7 @@ const AddResourceType = ({ openADDResourceType }) => {
                 </div>
               </div>
               <div>
-                <div className="col-12 flex flex-column ">
+                <div className="col-12 flex flex-column gap-2 ">
                   <label
                     className="text-xs font-semibold text-gray-500 gap-2"
                     htmlFor=""
@@ -43,7 +43,7 @@ const AddResourceType = ({ openADDResourceType }) => {
         </div>
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
-        <div className="mx-3">
+        <div className="mx-3" style={{ width: "105px" }}>
           <Buttons label="Save" className="btn-dark border-none"></Buttons>
         </div>
         <div className="">

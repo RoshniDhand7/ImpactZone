@@ -112,7 +112,7 @@ const AccessSchedules = () => {
                       style={{ width: "118px", height: "37px" }}
                       icon="pi pi-plus-circle"
                       className="btn-dark border-none"
-                      label="Add Campaigns"
+                      label="Add Access Schedules "
                     ></Buttons>
                   </div>
                 </div>

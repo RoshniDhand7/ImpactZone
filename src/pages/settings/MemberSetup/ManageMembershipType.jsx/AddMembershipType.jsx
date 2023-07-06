@@ -205,10 +205,10 @@ const AddMembershipType = ({ showAddMemebershipTypeScreen }) => {
           </CardWithTitle>
         </div>
         <div className=" m-2 mt-3 flex justify-content-end">
-          <div className="">
+          <div className="" style={{ width: "105px" }}>
             <Buttons label="Copy" className="btn-dark border-none"></Buttons>
           </div>
-          <div className="mx-3">
+          <div className="mx-3" style={{ width: "105px" }}>
             <Buttons label="Save" className="btn-dark border-none"></Buttons>
           </div>
           <div className="">

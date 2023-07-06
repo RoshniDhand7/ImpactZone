@@ -39,12 +39,6 @@ const Campaigns = () => {
       index: "",
     },
     {
-      field: "discount Type",
-      header: "Discount Type",
-      id: "",
-      index: "",
-    },
-    {
       field: "members",
       header: "# Members",
       id: "",

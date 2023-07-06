@@ -25,13 +25,14 @@ import {
   formatHireDate,
   booleanToString,
 } from "../../../../utils/helpers/dataTableCommonFunct";
+import { showToast } from "../../../../redux/actions/toastAction";
 
 const ScheduleLevel = () => {
   const op = useRef(null);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [empId, setEmpId] = useState([]);
   const [getLevels, setGetLevels] = useState([]);
-  const [showLevelTable, setShowTable] = useState(false);
+  const [showLevelTable, setShowLLevelTable] = useState(false);
   const [showEmployeeTable, setShowEmployeeTable] = useState(false);
   const [ShowEmployee, setShowEmployee] = useState({});
   const dispatch = useDispatch();
@@ -40,12 +41,21 @@ const ScheduleLevel = () => {
     isActive: true,
     employees: [],
   });
+  // check for edit level //
+  const [isEdit, setIsEdit] = useState(false);
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(5);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const createLevel = async () => {
     const res = await api("post", constants.endPoints.AddLevel, payload);
     console.log(res, "level");
     if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      showcomponent();
     } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
       console.log(res);
     }
   };
@@ -53,10 +63,10 @@ const ScheduleLevel = () => {
     dispatch(showLoaderAction());
     const res = await api(
       "get",
-      constants.endPoints.AddLevel + "?sortOrder=ASC"
+      `${constants.endPoints.AddLevel}?limit=${rows}&page=${currentPage}`
     );
-    console.log(res, "level");
     if (res.success) {
+      setCount(res.count);
       setGetLevels(res.data);
       dispatch(hideLoaderAction());
     } else {
@@ -76,23 +86,58 @@ const ScheduleLevel = () => {
     }
   };
 
+  const deleteLevel = async (id) => {
+    const res = await api("put", constants.endPoints.DeleteLevel + id);
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      fetchLevels();
+    } else {
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
+  const updateLevel = async (id) => {
+    console.log(payload);
+    const res = await api("put", constants.endPoints.UpdateLevel + id, {
+      name: payload.name,
+      employees: selectedEmployees,
+    });
+    if (res.success) {
+      dispatch(showToast({ severity: "success", summary: res.message }));
+      setIsEdit(false);
+      // setGetLevels({
+      //   name: "",
+      // });
+      showcomponent();
+      fetchLevels();
+    } else {
+      fetchLevels();
+      dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+  };
+
   useEffect(() => {
     fetchLevels();
     if (showEmployeeTable) {
       getEmployee();
     }
-  }, [showEmployeeTable]);
+  }, [showEmployeeTable, rows, currentPage]);
 
   const handleChange = (name) => (e) => {
     setPayload({ ...payload, [name]: e.target.value });
   };
 
-  const onClickSave = () => {
-    createLevel();
-  };
-
+  // const onClickSave = () => {
+  //   createLevel();
+  //   setPayload({
+  //     name: "",
+  //     employees: [],
+  //   });
+  //   // showcomponent();
+  // };
   const showcomponent = () => {
-    setShowTable((prev) => !prev);
+    setShowLLevelTable((prev) => !prev);
+    fetchLevels();
   };
 
   const addEmployees = () => {
@@ -132,15 +177,33 @@ const ScheduleLevel = () => {
       <>
         <div className="flex justify-content-end">
           <span>
-            <i className="pi pi-pencil mr-3 "></i>
+            <i
+              onClick={() => onClickEdit(col)}
+              className="pi pi-pencil mr-3 "
+            ></i>
           </span>
-          <span>
+          <span onClick={() => deleteLevel(col._id)}>
             <i className="pi pi-trash"></i>
           </span>
         </div>
       </>
     );
   };
+
+  const onClickEdit = (row) => {
+    setIsEdit(true);
+    setPayload({ ...row });
+    showcomponent();
+  };
+
+  const hitApiButton = () => {
+    if (isEdit) {
+      updateLevel(payload._id);
+    } else {
+      createLevel();
+    }
+  };
+
   const levelcolumn = [
     { field: "name", header: "Name", id: "", index: "" },
     {
@@ -159,7 +222,16 @@ const ScheduleLevel = () => {
       <>
         <div className="" style={{ minHeight: "475px" }}>
           <div>
-            <TableData columns={levelcolumn} data={getLevels} />
+            <TableData
+              columns={levelcolumn}
+              data={getLevels}
+              first={first}
+              setFirst={setFirst}
+              rows={rows}
+              setRows={setRows}
+              count={count}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
           <div>
             <div className="flex justify-content-end p-2 ">
@@ -187,6 +259,7 @@ const ScheduleLevel = () => {
       </>
     );
   };
+
   const AddLevel = () => {
     return (
       <>
@@ -295,24 +368,34 @@ const ScheduleLevel = () => {
             </CardWithTitle>
           </div>
           <div className="flex justify-content-end mt-3 p-2 ">
-            <div className=" mx-3">
+            <div className=" mx-3" style={{ width: "105px" }}>
               <Buttons
-                onClick={onClickSave}
+                // onClick={onClickSave}
+                onClick={hitApiButton}
                 className="btn-dark border-none"
                 label="Save"
               ></Buttons>
             </div>
 
             <Buttons
-              onClick={showcomponent}
+              onClick={() => {
+                showcomponent();
+                setPayload({
+                  title: "",
+                  description: "",
+                });
+                setIsEdit(false);
+              }}
+              label="Cancel "
               className="btn-grey border-none"
-              label="Cancel"
+              style={{ height: "40px" }}
             ></Buttons>
           </div>
         </div>
       </>
     );
   };
+
   const AddEmployeeTable = () => {
     return (
       <>

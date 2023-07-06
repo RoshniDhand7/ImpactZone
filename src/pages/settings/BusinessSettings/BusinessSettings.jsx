@@ -11,7 +11,7 @@ const BusinessSettings = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
-      <div className="p-3">
+      <div className="p-3 mx-3">
         <TabView
           activeIndex={activeIndex}
           onTabChange={(e) => setActiveIndex(e.index)}
