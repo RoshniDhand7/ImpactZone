@@ -33,6 +33,7 @@ const AddMembershipType = ({ showAddMemebershipTypeScreen }) => {
   return (
     <>
       <div>
+        {" "}
         <div className="my-3">
           <span className="text-xl font-bold text-900 ">
             Add Membership Type

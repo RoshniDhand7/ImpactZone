@@ -72,15 +72,15 @@ const AddEmployee = () => {
   // };
   return (
     <>
-      <div>
+      <div className="">
         <div className="p-3">
           <Navbar />
         </div>
         <div>
-          <div className="mx-3  ">
+          <div className="  ml-5  ">
             <span className="font-bold text-xl">Add Employee</span>
           </div>
-          <div className="p-3">
+          <div className="p-3 mx-3">
             <TabView
               activeIndex={activeTabIndex}
               onTabChange={(e) => {

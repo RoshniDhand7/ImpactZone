@@ -13,13 +13,14 @@ const AddDeparment = ({
   handleChange,
   fetchDepartmentData,
   payload,
-  setPayload,
+
   setShowDepartmentTable,
   showcomponent,
   selectedEmployees,
   setSelectedEmployees,
   UpdateDepartment,
   isEdit,
+  setPayload,
 }) => {
   const DropDownOptions = [
     { name: "Yes", value: true },
@@ -56,6 +57,18 @@ const AddDeparment = ({
     } else {
       saveDepartment();
     }
+  };
+
+  const goBackToDepartment = () => {
+    setPayload({
+      name: "",
+      showInCalendar: null,
+      visibleOnline: null,
+      salesPersonOnline: null,
+      employees: [],
+    });
+    setSelectedEmployees([]);
+    showcomponent();
   };
 
   return (
@@ -144,7 +157,6 @@ const AddDeparment = ({
                             selectedEmployees?.map((emp, index) => {
                               return (
                                 <tr>
-                                  <td>{index + 1}</td>
                                   <td>{emp.firstName + " " + emp.lastName}</td>
                                 </tr>
                               );
@@ -199,7 +211,8 @@ const AddDeparment = ({
             </div>
             <div className=" ml-4">
               <Buttons
-                onClick={showcomponent}
+                // onClick={showcomponent}
+                onClick={goBackToDepartment}
                 label="Cancel"
                 className="btn-grey  mx-3 border-none"
               ></Buttons>

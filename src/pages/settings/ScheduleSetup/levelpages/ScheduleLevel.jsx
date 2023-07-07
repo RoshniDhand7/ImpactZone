@@ -54,6 +54,10 @@ const ScheduleLevel = () => {
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
       showcomponent();
+      setPayload({
+        name: "",
+        employees: [],
+      });
     } else {
       dispatch(showToast({ severity: "error", summary: res.message }));
       console.log(res);
@@ -105,10 +109,11 @@ const ScheduleLevel = () => {
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
       setIsEdit(false);
-      // setGetLevels({
-      //   name: "",
-      // });
       showcomponent();
+      setPayload({
+        name: "",
+        employee: [],
+      });
       fetchLevels();
     } else {
       fetchLevels();
@@ -312,8 +317,7 @@ const ScheduleLevel = () => {
                           {selectedEmployees.length ? (
                             selectedEmployees?.map((emp, index) => {
                               return (
-                                <tr>
-                                  <td>{index + 1}</td>
+                                <tr className="">
                                   <td>{emp.firstName + " " + emp.lastName}</td>
                                 </tr>
                               );
@@ -384,6 +388,7 @@ const ScheduleLevel = () => {
                   title: "",
                   description: "",
                 });
+                setSelectedEmployees([]);
                 setIsEdit(false);
               }}
               label="Cancel "
