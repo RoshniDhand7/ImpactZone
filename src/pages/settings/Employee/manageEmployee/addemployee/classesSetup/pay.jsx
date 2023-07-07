@@ -11,9 +11,27 @@ import constants from "../../../../../../utils/constants";
 import { showToast } from "../../../../../../redux/actions/toastAction";
 import api from "../../../../../../services/api";
 import { useDispatch } from "react-redux";
-
+import { paymentOptions } from "./PaymentOptions";
 const Pay = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    " payments"[
+      ({
+        " name": "Incremental Pay",
+        "1-5 Clients": 25,
+        "6-10 Clients": 30,
+        "11-15 Clients": 28,
+        "16-20 Clients": 32,
+        "No Registration Pay": 10,
+        "Count Unpaid Services": true,
+      },
+      {
+        name: "Pay Per Class",
+        "Pay Per Class": 25,
+        "No Registration Pay": 12,
+      })
+    ],
+  ]);
+  const [selectedPay, setselectedPay] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -27,9 +45,16 @@ const Pay = () => {
     }
   };
 
-  const handelChange = (name) => (e) => {
-    return setData({ ...data, [name]: e.target.value || e.value });
+  const handleChange = (name) => (e) => {
+    return setData({ ...data, [name]: e.target.vaue });
   };
+  console.log(data);
+  const pay = [
+    { name: "Incremental Pay", value: "" },
+    { name: "Pay Per Class", value: "" },
+    { name: "Pay Per Client", value: "" },
+    { name: "% Rate", value: "" },
+  ];
 
   return (
     <div>
@@ -44,15 +69,16 @@ const Pay = () => {
                 <div className="col-2">
                   <DropDown
                     type="text"
-                    // options={title}
-                    optionLabel="title"
-                    // value={selectedTitle}
-                    onChange={handelChange("")}
+                    onChange={handleChange("")}
                     title="Class Level"
                   ></DropDown>
                 </div>
                 <div className="col-2">
-                  <DropDown title="Default Pay"></DropDown>
+                  <DropDown
+                    title="Default Pay"
+                    options={paymentOptions}
+                    optionLabel={"name"}
+                  ></DropDown>
                 </div>
               </div>
             </div>
@@ -64,44 +90,84 @@ const Pay = () => {
               <div className="col-2 flex">
                 <span className="text-gray-300 text-xs m-2 mt-4">1</span>
                 <div className="col-11">
-                  <DropDown></DropDown>
+                  <DropDown
+                    options={paymentOptions}
+                    optionLabel={"name"}
+                    onChange={handleChange("")}
+                  ></DropDown>
                 </div>
               </div>
               <div className="col-8 flex">
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data["1-5 Clients"]}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
                     1-5 Clients
                   </span>
                 </div>
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data["6-10 Clients"]}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
-                    1-5 Clients
+                    6-10 Clients
                   </span>
                 </div>
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
-                    1-5 Clients
+                    11-15 Clients
                   </span>
                 </div>
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
-                    1-5 Clients
+                    16-20 Clients
                   </span>
                 </div>
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
-                    1-5 Clients
+                    21-25 Clients
                   </span>
                 </div>
                 <div className="col-2">
-                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
+                  <Input
+                    placeholder="0.00"
+                    id=""
+                    values={data}
+                    onChange={handleChange("1-5")}
+                    icon="pi pi-dollar"
+                  ></Input>
                   <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
-                    1-5 Clients
+                    26+ Clients
                   </span>
                 </div>
               </div>
@@ -122,7 +188,12 @@ const Pay = () => {
               <div className="col-10 flex">
                 <span className="text-gray-300 text-xs m-2 mt-4">2</span>
                 <div className="col-2 px-0 ml-2">
-                  <DropDown></DropDown>
+                  <DropDown
+                    options={paymentOptions}
+                    optionLabel={"name"}
+                    value={selectedPay}
+                    onChange={handleChange("")}
+                  ></DropDown>
                 </div>
                 <div className=" ml-3 -m-2 col-2">
                   <div className="col-10">
@@ -147,7 +218,12 @@ const Pay = () => {
               <div className="col-10 flex">
                 <span className="text-gray-300 text-xs m-2 mt-4">3</span>
                 <div className="col-2 px-0 mx-2">
-                  <DropDown></DropDown>
+                  <DropDown
+                    options={paymentOptions}
+                    optionLabel={"name"}
+                    value={selectedPay}
+                    onChange={handleChange("")}
+                  ></DropDown>
                 </div>
                 <div className=" mx-3  col-1">
                   <Input placeholder="0.00" icon="pi pi-dollar"></Input>
@@ -210,12 +286,15 @@ const Pay = () => {
               <div className="col-10 flex">
                 <span className="text-gray-300 text-xs m-2 mt-4">4</span>
                 <div className="col-2 px-0 ml-2">
-                  <DropDown> </DropDown>
+                  <DropDown
+                    options={paymentOptions}
+                    optionLabel={"name"}
+                    value={selectedPay}
+                    onChange={handleChange("")}
+                  ></DropDown>
                 </div>
                 <div className="ml-4 col-3 flex">
-                  <Input placeholder="0.00" icon="pi pi-dollar">
-                    {" "}
-                  </Input>
+                  <Input placeholder="0.00" icon="pi pi-dollar"></Input>
                   <div
                     style={{ width: "18px", height: "20px" }}
                     className="flex align-items-center mt-3   "
