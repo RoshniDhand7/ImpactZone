@@ -15,9 +15,12 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Department = () => {
+const Department = ({ data, setData }) => {
+  console.log(data, "dataaa");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   let [selectedDepartment, setSelectedDepartment] = useState([]);
   const fetchDepartment = async () => {
@@ -27,6 +30,22 @@ const Department = () => {
     if (res.success) {
       setDepartments(res.data);
       dispatch(hideLoaderAction());
+    } else {
+      console.log(res);
+    }
+  };
+
+  const createDeparment = async () => {
+    setData(() => {
+      return {
+        ...data,
+        departments: departments.map((dept) => dept._id),
+      };
+    });
+    const res = await api("post", constants.endPoints.CreateEmployee, data);
+    console.log(res, "club");
+    if (res.success) {
+      navigate("/employee");
     } else {
       console.log(res);
     }
@@ -204,6 +223,7 @@ const Department = () => {
         <div className=" mt-3 flex  ">
           <div className="mx-4">
             <Buttons
+              onClick={createDeparment}
               label="Save"
               className="btn-dark mx-3 border-none"
             ></Buttons>

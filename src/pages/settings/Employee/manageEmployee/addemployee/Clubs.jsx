@@ -6,12 +6,14 @@ import RecentCheckIn from "../../../../../components/cards/Profilecard/recentChe
 import checkInData from "../../../../../utils/checkInData";
 import constants from "../../../../../utils/constants";
 import api from "../../../../../services/api";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Clubs = () => {
   const [reportDataSource, setReportDataSource] = useState([]);
   const [clubSource, setClubSource] = useState([]);
   const [reportDatatarget, setreportDataTarget] = useState([]);
   const [clubtarget, setClubTarget] = useState([]);
+  const navigate = useNavigate();
 
   const getClubs = async () => {
     const res = await api("get", constants.endPoints.GetClubs);
@@ -29,14 +31,32 @@ const Clubs = () => {
     setreportDataTarget(event.target);
   };
   const onClubChange = (event) => {
+    console.log(event);
     setClubSource(event.source);
-
     setClubTarget(event.target);
   };
 
   useEffect(() => {
     getClubs();
   }, []);
+  const showEmployee = () => {
+    navigate("/employee");
+  };
+
+  // const createDeparment = async () => {
+  //   setData(() => {
+  //     return {
+  //       ...data,
+  //       departments: departments.map((dept) => dept._id),
+  //     };
+  //   });
+  //   const res = await api("post", constants.endPoints.CreateEmployee, data);
+  //   console.log(res, "club");
+  //   if (res.success) {
+  //   } else {
+  //     console.log(res);
+  //   }
+  // };
 
   const itemTemplate = (data) => {
     return (
@@ -100,6 +120,7 @@ const Clubs = () => {
         <div className=" mt-3 flex  ">
           <div className="mx-4">
             <Buttons
+              onClick={showEmployee}
               label="Save"
               className="btn-dark  mx-3 border-none"
             ></Buttons>

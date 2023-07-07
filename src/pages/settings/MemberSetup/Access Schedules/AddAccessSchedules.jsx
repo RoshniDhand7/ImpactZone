@@ -32,7 +32,7 @@ const AddAccessSchedules = ({ showcomponent }) => {
                 </div>
               </div>
               <div>
-                <div className="col-12 flex flex-column ">
+                <div className="col-12 flex flex-column gap-2">
                   <label
                     className="text-xs font-semibold text-gray-500 gap-2"
                     htmlFor=""

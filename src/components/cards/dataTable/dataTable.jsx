@@ -46,7 +46,7 @@ const TableData = ({
   });
   return (
     <div>
-      <div className="card">
+      <div className="card shadow-4">
         <DataTable
           value={data}
           responsiveLayout="scroll"
@@ -59,7 +59,9 @@ const TableData = ({
         >
           {dynamicColumns}
         </DataTable>
-        <div className="card">
+      </div>
+      {count > rows && (
+        <div className="card mt-2">
           <Paginator
             first={first}
             rows={rows}
@@ -68,7 +70,7 @@ const TableData = ({
             onPageChange={(e) => onPageChangeEvent(e)}
           />
         </div>
-      </div>
+      )}
     </div>
   );
 };

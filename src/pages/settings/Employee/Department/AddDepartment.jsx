@@ -141,7 +141,6 @@ const AddDeparment = ({
                     Name
                   </span>
                 </div>
-
                 <div className="bg-white col-12 border-round-md ">
                   <div
                     className="flex justify-content-between  "

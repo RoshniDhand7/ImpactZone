@@ -16,7 +16,7 @@ import { showToast } from "../../../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Security = ({ setData, data, setActiveTabIndex }) => {
+const Security = ({ setData, data, setActiveTabIndex, createEmployee }) => {
   const { securityValidations } = validation();
   const [errors, setErrors] = useState({});
   const [title, setTitle] = useState([]);
@@ -49,15 +49,7 @@ const Security = ({ setData, data, setActiveTabIndex }) => {
     ) {
       setErrors(validate);
     } else {
-      const res = await api("post", constants.endPoints.CreateEmployee, data);
-      console.log(res, "resss");
-      if (res.success) {
-        // setActiveTabIndex(1);
-        dispatch(showToast({ severity: "success", summary: res.message }));
-        navigate("/employee");
-      } else {
-        console.log(validate, "vvvvvvvv");
-      }
+      await createEmployee();
     }
   };
 

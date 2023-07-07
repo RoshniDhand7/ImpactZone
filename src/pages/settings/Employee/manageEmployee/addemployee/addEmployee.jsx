@@ -15,24 +15,28 @@ import constants from "../../../../../utils/constants";
 import { showToast } from "../../../../../redux/actions/toastAction";
 import validation from "../../../../../utils/Validation";
 import api from "../../../../../services/api";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { securityValidations } = validation();
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [data, setData] = useState({
     isActive: true,
     firstName: "",
     lastName: "",
     middleInitial: "",
-    title: "",
+    title: null,
     dob: "",
     socialSecurity: "",
     email: "",
     barCode: "",
     accessCode: "",
-    multiClubClockIn: "",
+    multiClubClockIn: null,
     hireDate: "",
     adpId: "",
     primaryPhone: "",
@@ -44,32 +48,27 @@ const AddEmployee = () => {
     emergencyPhoneExt: "",
     street: "",
     city: "",
-    state: "punjab",
+    state: "",
     zipCode: "",
-    emailNotification: "true",
+    emailNotification: true,
     userName: "",
     notes: "",
+    department: [],
   });
-  // const createEmployee = async () => {
-  //   let validate = await securityValidations(data);
-  //   if (
-  //     validate.firstName ||
-  //     validate.lastName ||
-  //     validate.barCode ||
-  //     validate.email
-  //   ) {
-  //     setErrors(validate);
-  //   } else {
-  //     const res = await api("post", constants.endPoints.CreateEmployee, data);
-  //     console.log(res, "resss");
-  //     if (res.success) {
-  //       // setActiveTabIndex(1);
-  //       dispatchEvent(showToast({ severity: "success", summary: res.message }));
-  //     } else {
-  //       console.log(validate, "vvvvvvvv");
-  //     }
-  //   }
-  // };
+  const createEmployee = async () => {
+    try {
+      const res = await api("post", constants.endPoints.CreateEmployee, data);
+      console.log(res, "resss");
+      if (res.success) {
+        dispatch(showToast({ severity: "success", summary: res.message }));
+        navigate("/employee");
+      } else {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="">
@@ -93,6 +92,7 @@ const AddEmployee = () => {
                   setData={setData}
                   data={data}
                   setActiveTabIndex={setActiveTabIndex}
+                  createEmployee={createEmployee}
                 />
               </TabPanel>
               <TabPanel header=" General  ">
@@ -100,13 +100,22 @@ const AddEmployee = () => {
                   setData={setData}
                   data={data}
                   setActiveTabIndex={setActiveTabIndex}
+                  createEmployee={createEmployee}
                 />
               </TabPanel>
               <TabPanel header="Departments">
-                <Department />
+                <Department
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Clubs">
-                <Clubs></Clubs>
+                <Clubs
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                ></Clubs>
               </TabPanel>
               <TabPanel header="Classes Setup ">
                 <ClassesSetup />

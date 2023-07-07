@@ -23,7 +23,7 @@ const Login = ({ setIsLogged }) => {
     password: "",
   });
 
-  const handelChange = (name) => (e) => {
+  const handleChange = (name) => (e) => {
     setData({ ...data, [name]: e.target.value });
     // console.log(data);
   };
@@ -81,7 +81,7 @@ const Login = ({ setIsLogged }) => {
               values={data.email}
               title="Username"
               placeholder="Please Enter Your Email"
-              onChange={handelChange("email")}
+              onChange={handleChange("email")}
             ></Input>
             {errors.email && (
               <p className="text-red-600 text-xs mt-1">{errors.email}</p>
@@ -105,7 +105,7 @@ const Login = ({ setIsLogged }) => {
               value={data.password}
               type="password"
               toggleMask
-              onChange={handelChange("password")}
+              onChange={handleChange("password")}
             ></Password>
             {errors.password && (
               <p className="text-red-600 text-xs mt-1">{errors.password}</p>
