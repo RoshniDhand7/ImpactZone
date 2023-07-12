@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../../components/input/input";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import DropDown from "../../../components/dropdown/dropdown";
@@ -6,10 +6,101 @@ import Checkbox from "../../../components/checkbox/checkbox";
 import Buttons from "../../../components/buttons/button";
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../utils/checkInData";
+import TableData from "../../../components/cards/dataTable/dataTable";
 
 const Classes = () => {
+  const[showAddClasses,setAddClasses]=useState()
+
+
+  
+const actionTemplate = (col) => {
   return (
     <>
+      <div className="flex justify-content-end">
+        <span>
+          <i
+            onClick={() => onClickEdit(col)}
+            className="pi pi-pencil mr-3 "
+          ></i>
+        </span>
+        <span onClick={() => deleteLevel(col._id)}>
+          <i className="pi pi-trash"></i>
+        </span>
+      </div>
+    </>
+  );
+};
+
+
+const TableClassicData = [
+  {
+  name:"Zumba",
+  location:"Group Zone",
+  Schedule:"Monday",
+  Instructor:"Austin Mahone",
+  Capacity:"10"
+},
+  {
+  name:"Yoga",
+  location:"Yoga Class",
+  Schedule:"Wednesday",
+  Instructor:"Will Smith",
+  Capacity:"10"
+},
+  {
+  name:"Pilates",
+  location:"Group Zone",
+  Schedule:"Friday",
+  Instructor:"Austin Mahone",
+  Capacity:"10"
+},
+  {
+  name:"Zumba",
+  location:"Group Zone",
+  Schedule:"Monday",
+  Instructor:"John",
+  Capacity:"6"
+},
+  {
+  name:"yoga",
+  location:"Group Zone",
+  Schedule:"Monday",
+  Instructor:"Austin Mahone",
+  Capacity:"10"
+},
+]
+const TableClassicColumn = [
+  {
+  field:"name" ,header:"Name"
+},
+  {
+  field:"location" ,header:"Location"
+},
+  {
+  field:"Schedule" ,header:"Schedule"
+},
+  {
+  field:"instructor" ,header:"Instructor"
+},
+  {
+  field:"capacity" ,header:"Capacity"
+},
+  {
+  field:"" ,header:"",body:actionTemplate
+},
+]
+
+
+const onClickShowAddClassic = ()=>{
+ setAddClasses((prev) => !prev)
+}
+
+  return (
+  <>
+{
+  showAddClasses ? 
+ 
+<>
       <div>
         <div className="bg-lightest-blue py-2 border-round-lg shadow-2">
           <div className="flex justify-content-between  align-items-center px-3">
@@ -200,6 +291,7 @@ const Classes = () => {
           </div>
           <div className="">
             <Buttons
+            onClick={onClickShowAddClassic}
               label="Cancel"
               className="btn-grey   border-none"
             ></Buttons>
@@ -209,6 +301,38 @@ const Classes = () => {
       <div className="mt-5">
         <RecentCheckIn data={checkInData}></RecentCheckIn>
       </div>
+      </>
+      : 
+      <>
+   <div className="mt-3">
+    <div className="bg-lightest-blue py-2 border-round-lg shadow-2">
+    <div className="flex justify-content-between  align-items-center px-3">
+            <div className="col-3 px-0">
+              <DropDown
+                title="Status"
+                placeholder="Active"
+              ></DropDown>
+            </div>
+            <div className=" mr-2  ">
+              <Buttons onClick={onClickShowAddClassic}  className="btn-dark border-none" label="Add" style={{height:"45px" ,width:"102px"}}></Buttons>
+            </div>
+          </div>
+    </div>
+    <div className="mt-3">
+      <TableData columns={TableClassicColumn} data={TableClassicData}></TableData>
+    </div>
+    </div>
+<div className="mt-6">
+  <RecentCheckIn data={checkInData}></RecentCheckIn>
+</div>
+</>
+}
+
+
+
+
+
+
     </>
   );
 };

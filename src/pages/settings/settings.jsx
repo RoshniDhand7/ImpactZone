@@ -1,5 +1,4 @@
 import React from "react";
-
 import settingsCard from "../../utils/settings";
 import RecentCheckIn from "../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../utils/checkInData";

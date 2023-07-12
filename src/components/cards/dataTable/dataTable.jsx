@@ -18,6 +18,7 @@ const TableData = ({
   setFirst,
   count,
   setCurrentPage,
+  
 }) => {
   const onPageChangeEvent = (event) => {
     console.log("reached", event);

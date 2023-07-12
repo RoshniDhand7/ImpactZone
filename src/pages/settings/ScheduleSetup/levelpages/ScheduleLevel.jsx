@@ -15,6 +15,8 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { Link } from "react-router-dom";
 import constants from "../../../../utils/constants";
 import api from "../../../../services/api";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 import { useDispatch } from "react-redux";
 import {
   hideLoaderAction,
@@ -180,13 +182,13 @@ const ScheduleLevel = () => {
   const actionTemplate = (col) => {
     return (
       <>
-        <div className="flex justify-content-end">
-          <span>
+        <div className="flex justify-content-end" >
+          <span  >
             <i
               onClick={() => onClickEdit(col)}
               className="pi pi-pencil mr-3 "
             ></i>
-          </span>
+          </span >
           <span onClick={() => deleteLevel(col._id)}>
             <i className="pi pi-trash"></i>
           </span>
@@ -199,6 +201,7 @@ const ScheduleLevel = () => {
     setIsEdit(true);
     setPayload({ ...row });
     showcomponent();
+
   };
 
   const hitApiButton = () => {
@@ -225,6 +228,8 @@ const ScheduleLevel = () => {
   const ScheduleLevel = () => {
     return (
       <>
+       
+            <ConfirmDialog />
         <div className="" style={{ minHeight: "475px" }}>
           <div>
             <TableData

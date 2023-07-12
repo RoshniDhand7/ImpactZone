@@ -6,6 +6,7 @@ import CancelCode from "./cancelCode/cancelCode";
 import Customization from "./customization/customization";
 import Clubs from "./Clubs";
 import JobTitle from "./JobTitle";
+import CompanyDetails from "./company/companyDetails";
 
 const BusinessSettings = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -17,7 +18,7 @@ const BusinessSettings = () => {
           onTabChange={(e) => setActiveIndex(e.index)}
         >
           <TabPanel header="Company">
-            <Company />
+            <CompanyDetails/>
           </TabPanel>
           <TabPanel header="Reason Code">
             <ReasonCode />
