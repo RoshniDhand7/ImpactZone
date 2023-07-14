@@ -22,9 +22,15 @@ import {
   formatHireDate,
   formatTerminationDate,
 } from "../../../../utils/helpers/dataTableCommonFunct";
+import DeleteDailog from "../../../../components/popup/deleteDailog";
 
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [deleteRow, setDeleteRow] = useState({
+    id: null,
+    isDelete: false,
+  });
   const navigate = useNavigate();
   // const [isActiveColor, setIsActiveColor] = useState(false);
   const op = useRef(null);
@@ -39,7 +45,9 @@ const Employee = () => {
   //   dataRow.splice(index, 1);
   //   setManagaEmplyoee(dataRow);
   // };
-
+  useEffect(() => {
+    if (deleteRow.isDelete) deleteEmployee(deleteRow.id);
+  }, [deleteRow]);
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -48,7 +56,13 @@ const Employee = () => {
           <span>
             <i className="pi pi-pencil mr-3 cursor-pointer"></i>
           </span>
-          <span onClick={() => deleteEmployee(col._id)}>
+          {/* <span onClick={() => }> */}
+          <span
+            onClick={() => {
+              setVisible(true);
+              setDeleteRow({ ...deleteRow, id: col._id });
+            }}
+          >
             <i className="pi pi-trash cursor-pointer"></i>
           </span>
         </div>
@@ -182,6 +196,13 @@ const Employee = () => {
     <>
       <div className="p-3">
         <Navbar />
+        <DeleteDailog
+          visible={visible}
+          setVisible={setVisible}
+          setDeleteRow={setDeleteRow}
+          deleteRow={deleteRow}
+        />
+
         <div className="my-2 mx-3">
           <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3 ">
             <div

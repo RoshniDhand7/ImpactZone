@@ -17,6 +17,7 @@ import validation from "../../../../../utils/Validation";
 import api from "../../../../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import DeleteDailog from "../../../../../components/popup/deleteDailog";
 
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -69,7 +70,7 @@ const AddEmployee = () => {
         // if (tabClick) {
         //   setActiveTabIndex(tabEvent.index);
         // } else {
-          navigate("/employee");
+        navigate("/employee");
         // }
       } else {
         console.log(res);
@@ -94,32 +95,32 @@ const AddEmployee = () => {
               activeIndex={activeTabIndex}
               onTabChange={async (e) => {
                 // if (e.index > activeTabIndex) {
-                  let validate = securityValidations(data);
-                  if (
-                    validate.firstName ||
-                    validate.lastName ||
-                    validate.barCode ||
-                    validate.email
-                  ) {
-                    if (Object.keys(validate).length > 1) {
-                      dispatch(
-                        showToast({
-                          severity: "error",
-                          summary: "Please fill required fields first",
-                        })
-                      );
-                    } else {
-                      dispatch(
-                        showToast({
-                          severity: "error",
-                          summary: validate[Object.keys(validate)[0]],
-                        })
-                      );
-                    }
-                    return setErrors(validate);
+                let validate = securityValidations(data);
+                if (
+                  validate.firstName ||
+                  validate.lastName ||
+                  validate.barCode ||
+                  validate.email
+                ) {
+                  if (Object.keys(validate).length > 1) {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: "Please fill required fields first",
+                      })
+                    );
                   } else {
-                      return setActiveTabIndex(e.index);
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: validate[Object.keys(validate)[0]],
+                      })
+                    );
                   }
+                  return setErrors(validate);
+                } else {
+                  return setActiveTabIndex(e.index);
+                }
                 // } else {
                 //   return setActiveTabIndex(e.index);
                 // }

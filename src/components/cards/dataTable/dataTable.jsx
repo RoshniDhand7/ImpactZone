@@ -2,6 +2,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
 import { useState } from "react";
+import DeleteDailog from "../../popup/deleteDailog";
 
 const TableData = ({
   data,
@@ -17,6 +18,7 @@ const TableData = ({
   first,
   setFirst,
   count,
+
   setCurrentPage,
 }) => {
   const onPageChangeEvent = (event) => {
