@@ -45,7 +45,7 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
   };
 
   const priorities = [
-    { name: "Suggest" },
+    { name: "Suggested" },
     { name: "High" },
     { name: "Medium" },
     { name: "Low" },

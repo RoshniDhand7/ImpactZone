@@ -55,19 +55,23 @@ const AddEmployee = () => {
     userName: "",
     notes: "",
     department: [],
+    reportDataAccess: [],
+    clubs: [],
     classLevel: null,
     defaultPay: "Incremental Pay",
     payments: [],
     substituteOption: [],
   });
-
-  const createEmployee = async () => {
+  const createEmployee = async (tabClick, tabEvent) => {
     try {
       const res = await api("post", constants.endPoints.CreateEmployee, data);
-      console.log(res, "resss");
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
+        // if (tabClick) {
+        //   setActiveTabIndex(tabEvent.index);
+        // } else {
         navigate("/employee");
+        // }
       } else {
         console.log(res);
       }
@@ -89,9 +93,37 @@ const AddEmployee = () => {
           <div className="p-3 mx-3">
             <TabView
               activeIndex={activeTabIndex}
-              onTabChange={(e) => {
-                setActiveTabIndex(e.index);
-                // createEmployee();
+              onTabChange={async (e) => {
+                // if (e.index > activeTabIndex) {
+                let validate = securityValidations(data);
+                if (
+                  validate.firstName ||
+                  validate.lastName ||
+                  validate.barCode ||
+                  validate.email
+                ) {
+                  if (Object.keys(validate).length > 1) {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: "Please fill required fields first",
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: validate[Object.keys(validate)[0]],
+                      })
+                    );
+                  }
+                  return setErrors(validate);
+                } else {
+                  return setActiveTabIndex(e.index);
+                }
+                // } else {
+                //   return setActiveTabIndex(e.index);
+                // }
               }}
             >
               <TabPanel header="Security">
@@ -100,6 +132,8 @@ const AddEmployee = () => {
                   data={data}
                   setActiveTabIndex={setActiveTabIndex}
                   createEmployee={createEmployee}
+                  errors={errors}
+                  setErrors={setErrors}
                 />
               </TabPanel>
               <TabPanel header=" General  ">

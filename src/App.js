@@ -98,7 +98,7 @@ function App() {
               exact
               path="/"
               element={
-                <DashBoard setIsActive={setIsActive} isActive={isActive} />
+                <DashBoard isLogged={isLogged} setIsActive={setIsActive} isActive={isActive} />
               }
             />
           </Route>

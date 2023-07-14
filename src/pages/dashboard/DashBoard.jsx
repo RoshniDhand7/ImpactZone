@@ -6,8 +6,18 @@ import chartData from "../../components/cards/graphcards/activemember";
 import MemberStatus from "../../components/cards/graphcards/memberstatusbymonth";
 import NewRegistration from "../../components/cards/graphcards/newregistrationbymonth";
 import RevenueActiveMembers from "../../components/cards/graphcards/Revenue&ActiveMember";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const DashBoard = () => {
+const DashBoard = ({ isLogged }) => {
+console.log(isLogged)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!isLogged) {
+      return navigate('/login');
+    }
+  })
   return (
     <>
       <div className=" mt-3 p-3">

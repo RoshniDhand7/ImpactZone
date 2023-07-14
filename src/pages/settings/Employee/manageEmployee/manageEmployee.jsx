@@ -169,7 +169,6 @@ const Employee = () => {
 
   const deleteEmployee = async (id) => {
     const res = await api("put", constants.endPoints.DeleteEmployee + id);
-    console.log(res, "resss");
     if (res.success) {
       dispatch(showToast({ severity: "success", summary: res.message }));
       fetchEmployees();
@@ -181,15 +180,14 @@ const Employee = () => {
   const fetchEmployees = async () => {
     dispatch(showLoaderAction());
     const res = await api("get", constants.endPoints.GetEmployeeTableData);
-    console.log(res, "resss");
     if (res.success) {
       setShowEmployee(res.data);
       dispatch(hideLoaderAction());
     } else {
+      dispatch(hideLoaderAction());
       console.log(res);
     }
   };
-  console.log(ShowEmployee, "showEmployee");
   useEffect(() => {
     fetchEmployees();
   }, []);
