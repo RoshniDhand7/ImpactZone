@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 
 import Buttons from "../../../../../../components/buttons/button";
@@ -6,7 +6,7 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 
-const SubstituteOption = () => {
+const SubstituteOption = ({ data, setData, createEmployee }) => {
   const [exerciseDetail, setExerciseDetail] = useState([
     {
       id: 1,
@@ -15,20 +15,21 @@ const SubstituteOption = () => {
     },
     {
       id: 2,
-      name: "Yoga",
+      name: "Zumba",
       priority: null,
     },
     {
       id: 3,
-      name: "Yoga",
+      name: "Cardio",
       priority: null,
     },
     {
       id: 4,
-      name: "Yoga",
+      name: "Bhangra",
       priority: null,
     },
   ]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const changePriority = (e, col) => {
     const updatedExercise = [];
@@ -50,6 +51,18 @@ const SubstituteOption = () => {
     { name: "Low" },
   ];
 
+  useEffect(() => {
+    let substituteOptions = [];
+    selectedOptions?.map((exercise) => {
+      substituteOptions.push({
+        name: exercise?.name,
+        priority: exercise?.priority?.name,
+      });
+    });
+
+    setData({ ...data, substituteOption: substituteOptions });
+  }, [selectedOptions, exerciseDetail]);
+  console.log("data", data);
   const PriorityBodyTemplate = (col) => {
     return (
       <span>
@@ -65,24 +78,36 @@ const SubstituteOption = () => {
     );
   };
 
-  const removeRowPriority = (col) => {
-    return (
-      <>
-        <span>
-          <i className="pi pi-minus-circle"></i>
-        </span>
-      </>
-    );
-  };
+  // const removeRowPriority = (col) => {
+  //   return (
+  //     <>
+  //       <div className="flex justify-content-end">
+  //         <span onClick={() => onRemoveOption(col)}>
+  //           <i className="pi pi-minus-circle"></i>
+  //         </span>
+  //       </div>
+  //     </>
+  //   );
+  // };
+
+  // const onRemoveOption = (col) => {
+  //   const allAvailableOptions = [...exerciseDetail];
+  //   const index = allAvailableOptions.indexOf(col);
+  //   allAvailableOptions.splice(index, 1);
+
+  //   setExerciseDetail(allAvailableOptions);
+  // };
 
   const tableHeadingPriority = [
-    { field: "" },
-    { field: "" },
-    { field: "name", header: "Name" },
-    { field: "priority", header: "Priority", body: PriorityBodyTemplate },
-    { field: "" },
-    { field: "" },
-    { field: "", header: "", body: removeRowPriority },
+    { field: "", id: "" },
+    { field: "name", header: "Name", id: "" },
+    {
+      field: "priority",
+      header: "Priority",
+      body: PriorityBodyTemplate,
+      id: "",
+    },
+    { field: "", header: "", id: "" },
   ];
 
   return (
@@ -95,40 +120,27 @@ const SubstituteOption = () => {
           <div className=" ">
             <TableData
               data={exerciseDetail}
-              selectionMode="multiple"
+              selectionMode="checkbox"
               columns={tableHeadingPriority}
+              key="id"
+              selected={selectedOptions}
+              changeSelection={(e) => setSelectedOptions(e.value)}
             ></TableData>
-
-            {/* <DataTable
-              value={exerciseDetail}
-              selection={selectedPos}
-              onSelectionChange={(e) => setSelectedPos(e.value)}
-              dataKey="id"
-              tableStyle={{ minWidth: "50rem" }}
-            >
-              <Column
-                selectionMode="multiple"
-                headerStyle={{ width: "3rem" }}
-              ></Column>
-              <Column field="name" header="Name"></Column>
-              <Column
-                field="name"
-                header="Priority"
-                body={PriorityBodyTemplate}
-              ></Column>
-              <Column field="category" header=""></Column>
-            </DataTable> */}
-            {/* <div className="p-3 flex justify-content-end">
-              <button className=" px-2 p-2 border-round font-semibold bg-white  ">
-                <i className="pi pi-shopping-cart mr-2"></i>Buy
-              </button>
-            </div> */}
           </div>
         </div>
         <div className="flex justify-content-end p-2 ">
           <div className=" mt-3 flex  ">
             <div className=" mx-4">
               <Buttons
+                onClick={() => {
+                  setData(() => {
+                    return {
+                      ...data,
+                      substituteOption: selectedOptions,
+                    };
+                  });
+                  createEmployee();
+                }}
                 label="Save"
                 className="btn-dark mx-3 border-none"
               ></Buttons>

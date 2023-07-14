@@ -3,7 +3,8 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { useState } from "react";
 import Pay from "./pay";
 import SubstituteOption from "./SubstituteOption";
-const ClassesSetup = () => {
+const ClassesSetup = ({ setData, data, createEmployee }) => {
+  console.log(data, "resss");
   const [activeIndex3, setActiveIndex3] = useState(0);
   return (
     <>
@@ -15,10 +16,18 @@ const ClassesSetup = () => {
               onTabChange={(e) => setActiveIndex3(e.index)}
             >
               <TabPanel header="Pay">
-                <Pay />
+                <Pay
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Substitute Option">
-                <SubstituteOption />
+                <SubstituteOption
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
             </TabView>
           </div>

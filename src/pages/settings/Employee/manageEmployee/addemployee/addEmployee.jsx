@@ -54,6 +54,10 @@ const AddEmployee = () => {
     userName: "",
     notes: "",
     department: [],
+    classLevel: "",
+    defaultPay: "",
+    payments: [],
+    substituteOption: [],
   });
   const createEmployee = async () => {
     try {
@@ -118,7 +122,11 @@ const AddEmployee = () => {
                 ></Clubs>
               </TabPanel>
               <TabPanel header="Classes Setup ">
-                <ClassesSetup />
+                <ClassesSetup
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Services Setup">
                 <ServiceSetup />
