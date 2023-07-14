@@ -8,16 +8,15 @@ import constants from "../../../../../utils/constants";
 import api from "../../../../../services/api";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const Clubs = () => {
+const Clubs = ({ setData, data, createEmployee,}) => {
   const [reportDataSource, setReportDataSource] = useState([]);
   const [clubSource, setClubSource] = useState([]);
   const [reportDatatarget, setreportDataTarget] = useState([]);
-  const [clubtarget, setClubTarget] = useState([]);
+  const [clubTarget, setClubTarget] = useState([]);
   const navigate = useNavigate();
 
   const getClubs = async () => {
     const res = await api("get", constants.endPoints.GetClubs);
-    console.log(res, "club");
     if (res.success) {
       setReportDataSource(res.data);
       setClubSource(res.data);
@@ -25,15 +24,27 @@ const Clubs = () => {
       console.log(res);
     }
   };
+
   const onReportChange = (event) => {
     setReportDataSource(event.source);
-
     setreportDataTarget(event.target);
+    setData(() => {
+      return {
+        ...data,
+        reportDataAccess: event.target.map(item => item._id)
+      }
+    })
   };
+
   const onClubChange = (event) => {
-    console.log(event);
     setClubSource(event.source);
     setClubTarget(event.target);
+    setData(() => {
+      return {
+        ...data,
+        clubs: event.target.map(item => item._id)
+      }
+    })
   };
 
   useEffect(() => {
@@ -103,7 +114,7 @@ const Clubs = () => {
             <div className="card p-3 ">
               <PickList
                 source={clubSource}
-                target={clubtarget}
+                target={clubTarget}
                 onChange={onClubChange}
                 itemTemplate={itemTemplates}
                 breakpoint=""
@@ -120,7 +131,7 @@ const Clubs = () => {
         <div className=" mt-3 flex  ">
           <div className="mx-4">
             <Buttons
-              onClick={showEmployee}
+              onClick={createEmployee}
               label="Save"
               className="btn-dark  mx-3 border-none"
             ></Buttons>

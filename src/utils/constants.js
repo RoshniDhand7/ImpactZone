@@ -1,5 +1,7 @@
 const constants = {
-  base_url: "https://impactzoneapi.appdeft.biz/api/",
+  // base_url: "https://impactzoneapi.appdeft.biz/api/",
+  base_url: "http://localhost:1102/api/",
+
   endPoints: {
     Login: "gym-owner/login",
     CreateEmployee: "employee/create-employee",
