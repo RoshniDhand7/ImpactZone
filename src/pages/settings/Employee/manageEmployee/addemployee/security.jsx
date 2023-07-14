@@ -7,7 +7,6 @@ import Buttons from "../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../utils/checkInData";
 import Checkbox from "../../../../../components/checkbox/checkbox";
-import validation from "../../../../../utils/Validation";
 import { useState } from "react";
 import { useEffect } from "react";
 import constants from "../../../../../utils/constants";
@@ -16,9 +15,7 @@ import { showToast } from "../../../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Security = ({ setData, data, setActiveTabIndex, createEmployee }) => {
-  const { securityValidations } = validation();
-  const [errors, setErrors] = useState({});
+const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, setErrors }) => {
   const [title, setTitle] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState({});
   const dispatch = useDispatch();
@@ -37,20 +34,9 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee }) => {
     return setData({ ...data, [name]: e.target.value || e.value });
     // }
   };
-  console.log(data);
 
   const createSecurity = async () => {
-    let validate = await securityValidations(data);
-    if (
-      validate.firstName ||
-      validate.lastName ||
-      validate.barCode ||
-      validate.email
-    ) {
-      setErrors(validate);
-    } else {
-      await createEmployee();
-    }
+    await createEmployee();
   };
 
   const nextPage = async () => {
@@ -157,7 +143,7 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee }) => {
                         title="Last Name"
                         required
                         type="text"
-                        value={data.lastname}
+                        value={data.lastName}
                         onChange={handelChange("lastName")}
                       ></Input>
                       {errors.lastName && (
