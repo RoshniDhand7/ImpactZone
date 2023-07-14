@@ -17,6 +17,7 @@ import validation from "../../../../../utils/Validation";
 import api from "../../../../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import DeleteDailog from "../../../../../components/popup/deleteDailog";
 
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -54,11 +55,12 @@ const AddEmployee = () => {
     userName: "",
     notes: "",
     department: [],
-    classLevel: "",
-    defaultPay: "",
+    classLevel: null,
+    defaultPay: "Incremental Pay",
     payments: [],
     substituteOption: [],
   });
+
   const createEmployee = async () => {
     try {
       const res = await api("post", constants.endPoints.CreateEmployee, data);
@@ -73,6 +75,7 @@ const AddEmployee = () => {
       console.log(error);
     }
   };
+
   return (
     <>
       <div className="">
