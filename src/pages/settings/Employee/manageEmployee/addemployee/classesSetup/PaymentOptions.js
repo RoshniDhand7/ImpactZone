@@ -1,38 +1,40 @@
+import Divide from "../../../../../../assets/icons/box.png";
+
 export const paymentOptions = [
   {
     name: "Incremental Pay",
     fields: [
       {
         name: "1-5 Clients",
-        type: "text",
+        type: "number",
       },
       {
         name: "6-10 Clientss",
-        type: "text",
+        type: "number",
       },
       {
         name: "11-15 Clients",
-        type: "text",
+        type: "number",
       },
       {
         name: "16-20 Clients",
-        type: "text",
+        type: "number",
       },
       {
         name: "21-25 Clients",
-        type: "text",
+        type: "number",
       },
       {
         name: "26+ Clients",
-        type: "text",
+        type: "number",
       },
       {
         name: "No Registration Pay",
-        type: "text",
+        type: "number",
       },
       {
         name: "Count Unpaid Services",
-        type: "text",
+        type: "checkbox",
       },
     ],
   },
@@ -41,11 +43,15 @@ export const paymentOptions = [
     fields: [
       {
         name: "Pay Per Class",
-        type: "text",
+        type: "number",
       },
       {
         name: "No Registration Pay",
-        type: "text",
+        type: "number",
+      },
+      {
+        name: "Count Unpaid Services",
+        type: "checkbox",
       },
     ],
   },
@@ -54,39 +60,39 @@ export const paymentOptions = [
     fields: [
       {
         name: "Base Rate",
-        type: "text",
+        type: "number",
       },
       {
         name: "Per Client",
-        type: "text",
+        type: "number",
       },
       {
         name: "For Each",
-        type: "text",
+        type: "number",
       },
       {
         name: "Add",
-        type: "text",
+        type: "number",
       },
       {
         name: "For Each",
-        type: "text",
+        type: "number",
       },
       {
         name: "Per Client",
-        type: "text",
+        type: "number",
       },
       {
         name: "For Each",
-        type: "text",
+        type: "number",
       },
       {
         name: "No Registration Pay",
-        type: "text",
+        type: "number",
       },
       {
         name: "Max Pay",
-        type: "text",
+        type: "number",
       },
     ],
   },
@@ -95,11 +101,11 @@ export const paymentOptions = [
     fields: [
       {
         name: "% Rate",
-        type: "text",
+        type: "number",
       },
       {
         name: "No Registration Pay",
-        type: "text",
+        type: "number",
       },
     ],
   },

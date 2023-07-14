@@ -18,7 +18,6 @@ const TableData = ({
   setFirst,
   count,
   setCurrentPage,
-  
 }) => {
   const onPageChangeEvent = (event) => {
     console.log("reached", event);
@@ -51,7 +50,7 @@ const TableData = ({
         <DataTable
           value={data}
           responsiveLayout="scroll"
-          selectionMode
+          selectionMode={"checkbox"}
           delRow={delRow}
           selection={selected ? selected : null}
           onSelectionChange={changeSelection ? changeSelection : null}
