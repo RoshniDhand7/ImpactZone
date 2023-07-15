@@ -42,7 +42,7 @@ const settingsCard = [
   },
   {
     img: Alerts,
-    link: "",
+    link: "/alertsTypes",
     title: "Alerts",
   },
   {

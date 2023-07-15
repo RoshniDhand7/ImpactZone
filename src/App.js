@@ -31,6 +31,8 @@ import Loader from "./components/loader";
 import SchedulingOptions from "./pages/settings/ScheduleSetup/Schedulingoptions";
 import ToastContainer from "./components/toast";
 import MemberSetup from "./pages/settings/MemberSetup/MemberSetup";
+import AlertsTypes from "./pages/settings/Alert Types/alertsTypes";
+import ViewEmployee from "./pages/settings/Employee/manageEmployee/viewEmployee";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -80,6 +82,8 @@ function App() {
             <Route exact path="/department" element={<Department />} />
             <Route exact path="/securityRoles" element={<SecurityRoles />} />
             <Route exact path="/manageSetup" element={<MemberSetup />} />
+            <Route exact path="/alertsTypes" element={<AlertsTypes />} />
+            <Route exact path="/viewEmployee" element={<ViewEmployee />} />
 
             <Route
               exact
@@ -98,7 +102,11 @@ function App() {
               exact
               path="/"
               element={
-                <DashBoard isLogged={isLogged} setIsActive={setIsActive} isActive={isActive} />
+                <DashBoard
+                  isLogged={isLogged}
+                  setIsActive={setIsActive}
+                  isActive={isActive}
+                />
               }
             />
           </Route>

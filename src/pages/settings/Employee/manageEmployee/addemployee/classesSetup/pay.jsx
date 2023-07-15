@@ -211,7 +211,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                                 ) : (
                                   <>
                                     <div className="mt-2">
-                                      <Checkbox></Checkbox>
+                                      <Checkbox id={item.name}></Checkbox>
                                     </div>
                                   </>
                                 )}

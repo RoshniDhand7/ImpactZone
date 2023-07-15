@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
-import Company from "./company/company";
 import ReasonCode from "./reason Code/reasonCode";
 import CancelCode from "./cancelCode/cancelCode";
 import Customization from "./customization/customization";
@@ -18,7 +17,7 @@ const BusinessSettings = () => {
           onTabChange={(e) => setActiveIndex(e.index)}
         >
           <TabPanel header="Company">
-            <CompanyDetails/>
+            <CompanyDetails />
           </TabPanel>
           <TabPanel header="Reason Code">
             <ReasonCode />
