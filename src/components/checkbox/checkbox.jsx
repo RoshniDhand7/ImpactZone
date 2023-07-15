@@ -1,7 +1,7 @@
 import React from "react";
 
-const Checkbox = ({ title, className, value, onclick }) => {
-  console.log(value, "checkbox");
+const Checkbox = ({ title, className, value, onclick, id = "defaultId" }) => {
+  console.log(id, "checkbox");
   return (
     <div className="form-check border-gray-100 custome-checkbox ">
       <input
@@ -9,11 +9,11 @@ const Checkbox = ({ title, className, value, onclick }) => {
         type="checkbox"
         checked={value}
         onClick={onclick}
-        id="flexCheckDefault"
+        id={id}
       />
       <label
         className={"form-check-label lightgrey mr-2  text-center " + className}
-        htmlFor="flexCheckDefault"
+        htmlFor={id}
       >
         <span className="mr-2">
           <i className="pi pi-stop unchecked"></i>

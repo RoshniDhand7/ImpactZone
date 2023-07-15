@@ -8,6 +8,7 @@ import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
+
 import Navbar from "../../../../layout/Navbar";
 import constants from "../../../../utils/constants";
 import api from "../../../../services/api";
@@ -23,9 +24,11 @@ import {
   formatTerminationDate,
 } from "../../../../utils/helpers/dataTableCommonFunct";
 import DeleteDailog from "../../../../components/popup/deleteDailog";
+import ViewEmployee from "./viewEmployee";
 
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
+  const [showViewEmployee, setViewEmployee] = useState({});
   const [visible, setVisible] = useState(false);
   const [deleteRow, setDeleteRow] = useState({
     id: null,
@@ -38,8 +41,13 @@ const Employee = () => {
   const navigateToAddEmployee = () => {
     navigate("/addEmployee");
   };
+  const navigateTOViewEmployee = () => {
+    navigate("/viewEmployee");
+  };
   const dispatch = useDispatch();
-
+  const onClickviewEmployee = () => {
+    setViewEmployee((prev) => !prev);
+  };
   // const tableRowRemove = (index) => {
   //   const dataRow = [...manageEmolyeeData];
   //   dataRow.splice(index, 1);
@@ -53,6 +61,9 @@ const Employee = () => {
     return (
       <>
         <div className="flex">
+          <span onClick={onClickviewEmployee}>
+            <i className="pi pi-eye mr-3 cursor-pointer"></i>
+          </span>
           <span>
             <i className="pi pi-pencil mr-3 cursor-pointer"></i>
           </span>
@@ -71,15 +82,8 @@ const Employee = () => {
   };
 
   const manageEmployeeTableColumns = [
-    // {
-    //   field: "contactInfo.emailNotification",
-    //   header: "",
-    //   body: emailIconTemplate,
-    //   id: "",
-    //   index: "",
-    // },
     { field: "firstName", header: "Name", id: "", index: "" },
-    // { field: "deparment", header: "Deparment", id: "", index: "" },
+
     { field: "barCode", header: "Barcode", id: "", index: "" },
     { field: "city", header: "Address", id: "", index: "" },
     {
@@ -202,158 +206,131 @@ const Employee = () => {
           setDeleteRow={setDeleteRow}
           deleteRow={deleteRow}
         />
-
-        <div className="my-2 mx-3">
-          <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3 ">
-            <div
-              className="flex p-2  justify-content-between align-items-center"
-              id=""
-            >
-              {/* <Buttons
-                style={{ height: "36px", width: "37px" }}
-                className="bg-white  text-900 border-none "
-                label="General"
-                icon="pi pi-angle-down"
-                iconPos="right"
-               
-              ></Buttons> */}
-              <button
-                id="1"
-                className="btn_custom flex justify-content-between border-round-md  align-items-center  border-none "
-                style={{ height: "36px", width: "258px" }}
-                onClick={(e) => op.current.toggle(e)}
-                onChange={{}}
+        {showViewEmployee ? (
+          <div className="my-2 mx-3">
+            <div className="bg-lightest-blue border-round-md p-2  flex justify-content-between mb-3 ">
+              <div
+                className="flex p-2  justify-content-between align-items-center"
+                id=""
               >
-                General <i className="pi pi-angle-down"></i>
-              </button>
-              {/* <div className="col-12 bg-white align-items-center   cursor-pointer border-round flex justify-content-between ">
-                <div className="text-sm text-900">General</div>
-                <div className="">
-                  <img
-                    style={{ width: "8px", height: "7.25px" }}
-                    src={BlackArrow}
-                    alt=""
-                  />
-                </div> */}
+                <button
+                  id="1"
+                  className="btn_custom flex justify-content-between border-round-md  align-items-center  border-none "
+                  style={{ height: "36px", width: "258px" }}
+                  onClick={(e) => op.current.toggle(e)}
+                  onChange={{}}
+                >
+                  General <i className="pi pi-angle-down"></i>
+                </button>
 
-              <OverlayPanel ref={op} dismissable={false}>
-                <div className="flex align-items-center ">
-                  <div className="col-6">
-                    <div className=" ">
-                      <DropDown title="Status" placeholder="All"></DropDown>
+                <OverlayPanel ref={op} dismissable={false}>
+                  <div className="flex align-items-center ">
+                    <div className="col-6">
+                      <div className=" ">
+                        <DropDown title="Status" placeholder="All"></DropDown>
+                      </div>
+                      <div className="my-2">
+                        <DropDown title="Club"></DropDown>
+                      </div>
+                      <div className="">
+                        <DropDown title="Department"></DropDown>
+                      </div>
+                      <div className="mt-2">
+                        <DropDown title="Commission Level"></DropDown>
+                      </div>
                     </div>
-                    <div className="my-2">
-                      <DropDown title="Club"></DropDown>
-                    </div>
-                    <div className="">
-                      <DropDown title="Department"></DropDown>
-                    </div>
-                    <div className="mt-2">
-                      <DropDown title="Commission Level"></DropDown>
+                    <div className="col-6">
+                      <div className=" ">
+                        <Input title="First Name"></Input>
+                      </div>
+                      <div className="my-2">
+                        <Input title="Last Name"></Input>
+                      </div>
+                      <div className="">
+                        <Input title="Barcode"></Input>
+                      </div>
+                      <div className="mt-2">
+                        <DropDown title="Traning Level"></DropDown>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-6">
-                    <div className=" ">
-                      <Input title="First Name"></Input>
-                    </div>
-                    <div className="my-2">
-                      <Input title="Last Name"></Input>
-                    </div>
-                    <div className="">
-                      <Input title="Barcode"></Input>
-                    </div>
-                    <div className="mt-2">
-                      <DropDown title="Traning Level"></DropDown>
+                  <div className=" flex justify-content-end border-none px-3 ">
+                    <div className="border-none pt-2 ">
+                      <Buttons
+                        label="Apply"
+                        className="btn-dark border-none "
+                        style={{}}
+                      ></Buttons>
                     </div>
                   </div>
-                </div>
-                <div className=" flex justify-content-end border-none px-3 ">
-                  <div className="border-none pt-2 ">
+                </OverlayPanel>
+
+                <button
+                  id="2"
+                  className="btn_custom  flex justify-content-between border-round-md  mx-5  align-items-center border-none "
+                  style={{ height: "36px", width: "258px" }}
+                  onClick={(e) => ope.current.toggle(e)}
+                  onChange={{}}
+                >
+                  Hire Details <i className="pi pi-angle-down"></i>
+                </button>
+                <OverlayPanel ref={ope}>
+                  <div>
+                    <div>
+                      <Input title="From" type="date"></Input>
+                    </div>
+                    <div className="mt-3">
+                      <Input title="To" type="date"></Input>
+                    </div>
+                  </div>
+                  <div className="  mt-3 mr-3   border-none">
                     <Buttons
                       label="Apply"
                       className="btn-dark border-none "
-                      style={{}}
                     ></Buttons>
                   </div>
-                </div>
-              </OverlayPanel>
-              {/* </div> */}
+                </OverlayPanel>
+              </div>
 
-              {/* <div
-             
-                className=" col-12  cursor-pointer bg-white border-round flex justify-content-between align-items-center  mx-3 "
-              >
-                <div className="text-sm   text-900">Hire Details</div>
-                <div className="  ">
-                  <img
-                    style={{ width: "8px", height: "7.25px" }}
-                    src={BlackArrow}
-                    alt=""
-                  />
-                </div> */}
-              <button
-                id="2"
-                className="btn_custom  flex justify-content-between border-round-md  mx-5  align-items-center border-none "
-                style={{ height: "36px", width: "258px" }}
-                onClick={(e) => ope.current.toggle(e)}
-                onChange={{}}
-              >
-                Hire Details <i className="pi pi-angle-down"></i>
-              </button>
-              <OverlayPanel ref={ope}>
-                <div>
-                  <div>
-                    <Input title="From" type="date"></Input>
-                  </div>
-                  <div className="mt-3">
-                    <Input title="To" type="date"></Input>
-                  </div>
-                </div>
-                <div className="  mt-3 mr-3   border-none">
+              <div className=" flex justify-content-center align-items-center ">
+                <div className=" px-3">
                   <Buttons
-                    label="Apply"
-                    className="btn-dark border-none "
+                    onClick={navigateToAddEmployee}
+                    label="Add Employee"
+                    className="btn-dark   border-none "
+                    icon="pi pi-plus-circle"
+                    style={{ height: "36px" }}
                   ></Buttons>
                 </div>
-              </OverlayPanel>
+              </div>
             </div>
-            {/* </div> */}
-            <div className=" flex justify-content-center align-items-center ">
-              <div className=" px-3">
+            <div classsName="mt-3 ">
+              <TableData
+                value={ShowEmployee}
+                columns={manageEmployeeTableColumns}
+                data={ShowEmployee}
+              />
+            </div>
+
+            <div className=" m-2 mt-3 flex justify-content-end">
+              <div className="">
                 <Buttons
-                  onClick={navigateToAddEmployee}
-                  label="Add Employee"
-                  className="btn-dark   border-none "
-                  icon="pi pi-plus-circle"
-                  // style={{
-                  //   padding: "10px 16px 10px 16px",
-                  //   fontSize: "12px !important",
-                  // }}
-                  style={{ height: "36px" }}
+                  label="Print"
+                  className="bg-yellow text-900  border-none"
+                  icon={
+                    <i
+                      className="pi pi-print "
+                      style={{ fontSize: "1rem" }}
+                    ></i>
+                  }
                 ></Buttons>
               </div>
             </div>
           </div>
-          <div classsName="mt-3 ">
-            <TableData
-              value={ShowEmployee}
-              columns={manageEmployeeTableColumns}
-              data={ShowEmployee}
-            />
-          </div>
+        ) : (
+          <ViewEmployee />
+        )}
 
-          <div className=" m-2 mt-3 flex justify-content-end">
-            <div className="">
-              <Buttons
-                label="Print"
-                className="bg-yellow text-900  border-none"
-                icon={
-                  <i className="pi pi-print " style={{ fontSize: "1rem" }}></i>
-                }
-              ></Buttons>
-            </div>
-          </div>
-        </div>
         <div className="p-3">
           <RecentCheckIn data={checkInData}></RecentCheckIn>
         </div>

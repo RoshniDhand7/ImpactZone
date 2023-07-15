@@ -98,6 +98,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Primary Phone"
                         id=""
+                        type="number"
                         pattern="[0-10]"
                         maxLength={12}
                         value={data.primaryPhone}
@@ -108,6 +109,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Work Phone"
                         id=""
+                        type="number"
                         maxLength={12}
                         pattern="[0-10]"
                         value={data.workPhone}
@@ -127,6 +129,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       <Input
                         title="Mobile Phone"
                         id=""
+                        type="number"
                         pattern="[0-10]"
                         maxLength={12}
                         value={data.mobilePhone}
@@ -140,7 +143,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         <Input
                           title="Fax Phone"
                           id=""
-                          type="text"
+                          type="number"
                           pattern="[0-10]"
                           value={data.faxPhone}
                           onChange={handelChange("faxPhone")}
@@ -172,6 +175,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         <Input
                           title="Emergency Phone"
                           id=""
+                          type="number"
                           maxLength={12}
                           pattern="[0-10]"
                           value={data.emergencyPhone}
@@ -277,63 +281,37 @@ const GeneralAddEmployee = ({ data, setData }) => {
                       style={{ height: "235px" }}
                       className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex justify-content-between "
                     >
-                      {/* <div id="Image" className=" col-2 flex ">
-                        <img
-                          id="showImage"
-                          style={{ width: "115px", height: "116px" }}
-                          className="border-round"
-                          src={White}
-                          alt=""
-                        />
-                      </div> */}
                       <div
                         id="preview"
                         style={{ width: "115px", height: "116px" }}
                       ></div>
-                      <div className=" col-10   flex flex-cloumn justify-content-center align-items-center">
-                        {/* <div class="image-upload">
-                          <label for="file-input">
-                            <img
-                              style={{ width: "60px", height: "60px" }}
-                              src={ImageUpload}
-                              alt=""
-                            />
-                          </label>
-                          <input
-                            id="file-input"
-                            name="file-input"
-                            onChange={getImage}
-                            type="file"
-                          />
-                        </div> */}
-                        <div class="uploadOuter flex flex-column justify-centent-center align-items-center text-center">
+                      <div className=" col-8  flex flex-cloumn justify-content-start align-items-center">
+                        <div class="uploadOuter ml-6 flex flex-column justify-centent-center align-items-center text-center ">
                           <label
                             for="uploadFile"
                             class="btn btn-primary"
                           ></label>
                           <div
-                            className="flex justify-centent-center align-items-center"
+                            className="flex justify-centent-center align-items-center "
                             style={{ width: "60px", height: "60px" }}
                           >
                             <img src={ImageUpload} alt="" />
                           </div>
-                          <span class="dragBox text-base text-surface-300">
-                            Drag your photo here or Browse
-                            <input
-                              type="file"
-                              onChange={dragNdrop}
-                              ondragover={drag}
-                              ondrop={drop}
-                              id="uploadFile"
-                            />
-                          </span>
+                          <div className="cursor-pointer">
+                            <p class="dragBox text-base text-surface-300 cursor-pointer ">
+                              Drag your photo here or Browse
+                              <input
+                                type="file"
+                                onChange={dragNdrop}
+                                ondragover={drag}
+                                ondrop={drop}
+                                id="uploadFile"
+                              />
+                            </p>
+                          </div>
                         </div>
 
-                        <div className="my-3">
-                          {/* <span className="text-base text-surface-300">
-                            Drag your photo here or Browse
-                          </span> */}
-                        </div>
+                        <div className="my-3"></div>
                       </div>
                     </div>
                   </div>

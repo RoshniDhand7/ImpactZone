@@ -66,6 +66,27 @@ const Classes = () => {
       Capacity: "10",
     },
   ];
+  const actionTemplate = (col) => {
+    // console.log(col._id, "collllll");
+    return (
+      <>
+        <div className="flex justify-content-end">
+          <span>
+            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
+          </span>
+          {/* <span onClick={() => }> */}
+          <span
+          // onClick={() => {
+          //   setVisible(true);
+          //   setDeleteRow({ ...deleteRow, id: col._id });
+          // }}
+          >
+            <i className="pi pi-trash cursor-pointer"></i>
+          </span>
+        </div>
+      </>
+    );
+  };
   const TableClassicColumn = [
     {
       field: "name",
@@ -90,6 +111,7 @@ const Classes = () => {
     {
       field: "",
       header: "",
+      body: actionTemplate,
     },
   ];
 
