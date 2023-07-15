@@ -161,7 +161,7 @@ const AddEmployee = () => {
                   createEmployee={createEmployee}
                 />
               </TabPanel>
-              <TabPanel header="Services Setup">
+              <TabPanel header="Appointments Setup">
                 <ServiceSetup />
               </TabPanel>
               <TabPanel header="Sales Commission">
