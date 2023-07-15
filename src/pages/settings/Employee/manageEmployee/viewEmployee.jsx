@@ -122,15 +122,6 @@ const ViewEmployee = () => {
                 <span>Clock Out</span>
                 <span>Duration</span>
                 <span>Modified On</span>
-                <span>Emergency Phone</span>
-                <span>Street Address</span>
-                <span>City</span>
-                <span>State</span>
-                <span>Zip Code</span>
-                <span>Email Updates</span>
-                <span>User Name</span>
-                <span>Notes</span>
-                <span>Departments</span>
               </div>
             </div>
           </CardWithTitle>
