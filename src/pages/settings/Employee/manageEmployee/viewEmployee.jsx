@@ -115,7 +115,7 @@ const ViewEmployee = () => {
         <div className="col mt-3">
           <CardWithTitle title="Time Sheet Details">
             <div className="card-fixed-height flex justify-content-between p-3">
-              <div className="font-semibold text-sm flex flex-column justify-content-between">
+              <div className="font-semibold text-sm flex flex-column">
                 <span>Club</span>
                 <span>Department</span>
                 <span>Clock In</span>
