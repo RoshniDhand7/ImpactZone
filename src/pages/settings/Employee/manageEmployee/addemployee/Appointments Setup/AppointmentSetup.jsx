@@ -1,11 +1,11 @@
 import React from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import { useState } from "react";
-import ServicePay from "./ServicePay";
 import Bonus from "./Bonus";
 import CalendarDefacult from "./CalendarDefacult";
+import AppointmentPay from "./AppointmentPay";
 
-const ServiceSetup = () => {
+const AppointmentSetup = () => {
   const [activeIndex3, setActiveIndex3] = useState(0);
   return (
     <>
@@ -17,7 +17,7 @@ const ServiceSetup = () => {
               onTabChange={(e) => setActiveIndex3(e.index)}
             >
               <TabPanel header="Pay">
-                <ServicePay />
+                <AppointmentPay />
               </TabPanel>
               <TabPanel header="Bonus">
                 <Bonus />
@@ -33,4 +33,4 @@ const ServiceSetup = () => {
   );
 };
 
-export default ServiceSetup;
+export default AppointmentSetup;
