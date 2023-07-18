@@ -3,8 +3,8 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { useState } from "react";
 import Pay from "./pay";
 import SubstituteOption from "./SubstituteOption";
+
 const ClassesSetup = ({ setData, data, createEmployee }) => {
-  console.log(data, "resss");
   const [activeIndex3, setActiveIndex3] = useState(0);
   return (
     <>

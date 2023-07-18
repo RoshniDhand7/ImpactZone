@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DashBoard = ({ isLogged }) => {
-console.log(isLogged)
   const navigate = useNavigate();
 
   useEffect(() => {

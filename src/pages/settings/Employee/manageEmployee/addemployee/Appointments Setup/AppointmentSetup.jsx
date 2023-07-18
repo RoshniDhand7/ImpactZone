@@ -5,7 +5,7 @@ import Bonus from "./Bonus";
 import CalendarDefacult from "./CalendarDefacult";
 import AppointmentPay from "./AppointmentPay";
 
-const AppointmentSetup = () => {
+const AppointmentSetup = ({ data, setData, createEmployee }) => {
   const [activeIndex3, setActiveIndex3] = useState(0);
   return (
     <>
@@ -17,7 +17,11 @@ const AppointmentSetup = () => {
               onTabChange={(e) => setActiveIndex3(e.index)}
             >
               <TabPanel header="Pay">
-                <AppointmentPay />
+                <AppointmentPay
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Bonus">
                 <Bonus />
