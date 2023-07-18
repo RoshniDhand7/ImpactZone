@@ -7,9 +7,15 @@ import Buttons from "../../../../../../components/buttons/button";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
+import constants from "../../../../../../utils/constants";
+import api from "../../../../../../services/api";
+import { useEffect } from "react";
 
-const ServicePay = () => {
+const AppointmentPay = ({ data, setData, createEmployee }) => {
   const [payType, setPayType] = useState("");
+  const [dropDownLevels, setDropDownLevels] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   // const commissionGroupTemp = (col) => {
   //   return <DropDown options={col.commissionGroup}></DropDown>;
@@ -20,6 +26,16 @@ const ServicePay = () => {
 
   const changePayType = (e) => {
     setPayType(e.target.value);
+  };
+
+  const getLevels = async () => {
+    const res = await api("get", constants.endPoints.AddLevel);
+    console.log(res, "resss");
+    if (res.success) {
+      setDropDownLevels(res.data);
+    } else {
+      console.log(res);
+    }
   };
 
   const payTemp = (col) => {
@@ -60,15 +76,22 @@ const ServicePay = () => {
     );
   };
   const commissionTypeTemp = (col) => {
-    return <DropDown options={col.commissionType}></DropDown>;
+    return (
+      <DropDown onChange={handleChange} options={col.commissionType}></DropDown>
+    );
   };
 
-  const actionTemp = (col) => {
-    return (
-      <span>
-        <i className="pi pi-minus-circle"></i>
-      </span>
-    );
+  useEffect(() => {
+    getLevels();
+  }, []);
+
+  const handleChange = (name, payRow) => (e) => {
+    if (name === "classLevel") {
+      setSelectedLevel(() => {
+        return dropDownLevels.find((item) => item._id === e.target.value._id);
+      });
+      return setData({ ...data, [name]: e.target.value._id });
+    }
   };
   const relationship = [
     { field: "", header: "" },
@@ -77,7 +100,6 @@ const ServicePay = () => {
     { field: "", header: "" },
     { field: "", header: "" },
     { field: "pay", header: "Pay", body: payTemp },
-    { field: "", header: "", body: actionTemp },
   ];
   const [relationshipData] = useState([
     {
@@ -107,10 +129,16 @@ const ServicePay = () => {
           <CardWithTitle title="General">
             <div className="p-3 flex">
               <div className="col-2">
-                <DropDown title="Class Level"></DropDown>
+                <DropDown
+                  value={selectedLevel}
+                  options={dropDownLevels}
+                  optionLabel={"name"}
+                  onChange={handleChange("classLevel")}
+                  title="Class Level"
+                ></DropDown>
               </div>
               <div className="col-2">
-                <Input title="Class Level"></Input>
+                <Input title="Default"></Input>
               </div>
 
               <div
@@ -125,15 +153,14 @@ const ServicePay = () => {
         </div>
         <div className="my-5">
           <span className="font-bold text-900 text-xl ">Commission Setups</span>
-          <div className="col-2 my-2">
-            <DropDown title="Event"></DropDown>
-          </div>
-          <div>
+          <div className="mt-2">
             <div className=" ">
               <TableData
-                selectionMode="multiple"
+                selected={selectedOptions}
+                selectionMode="checkbox"
                 data={relationshipData}
                 columns={relationship}
+                changeSelection={(e) => setSelectedOptions(e.value)}
               ></TableData>
 
               <div className="flex justify-content-end p-2 ">
@@ -162,4 +189,4 @@ const ServicePay = () => {
     </>
   );
 };
-export default ServicePay;
+export default AppointmentPay;

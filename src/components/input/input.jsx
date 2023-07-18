@@ -33,6 +33,7 @@ const Input = ({
         className={"p-input-icon-right"}
       >
         <i className={icon} />
+
         <InputText
           style={{ width: "100%" }}
           placeholder={placeholder}
@@ -42,6 +43,7 @@ const Input = ({
           maxLength={maxLength}
           onChange={onChange}
         ></InputText>
+
         {/* {inputType === "password" ? (
           <span className="pp-input-icon-right text-xs input100">
             <i

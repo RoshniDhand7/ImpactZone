@@ -6,7 +6,7 @@ import Department from "./Department";
 import Security from "./security";
 import Clubs from "./Clubs";
 import ClassesSetup from "./classesSetup/ClassesSetup";
-import ServiceSetup from "./Services Setup/ServiceSetup";
+import ServiceSetup from "./Appointments Setup/AppointmentSetup";
 import SalesCommission from "./Salescommission/SalesCommission";
 import Notes from "./Notes";
 import Certifications from "./Certifications/Certification";
@@ -18,6 +18,7 @@ import api from "../../../../../services/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import DeleteDailog from "../../../../../components/popup/deleteDailog";
+import AppointmentSetup from "./Appointments Setup/AppointmentSetup";
 
 const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -94,32 +95,32 @@ const AddEmployee = () => {
             <TabView
               activeIndex={activeTabIndex}
               onTabChange={async (e) => {
-                let validate = securityValidations(data);
-                if (
-                  validate.firstName ||
-                  validate.lastName ||
-                  validate.barCode ||
-                  validate.email
-                ) {
-                  if (Object.keys(validate).length > 1) {
-                    dispatch(
-                      showToast({
-                        severity: "error",
-                        summary: "Please fill required fields first",
-                      })
-                    );
-                  } else {
-                    dispatch(
-                      showToast({
-                        severity: "error",
-                        summary: validate[Object.keys(validate)[0]],
-                      })
-                    );
-                  }
-                  return setErrors(validate);
-                } else {
-                  return setActiveTabIndex(e.index);
-                }
+                //   let validate = securityValidations(data);
+                //   if (
+                //     validate.firstName ||
+                //     validate.lastName ||
+                //     validate.barCode ||
+                //     validate.email
+                //   ) {
+                //     if (Object.keys(validate).length > 1) {
+                //       dispatch(
+                //         showToast({
+                //           severity: "error",
+                //           summary: "Please fill required fields first",
+                //         })
+                //       );
+                //     } else {
+                //       dispatch(
+                //         showToast({
+                //           severity: "error",
+                //           summary: validate[Object.keys(validate)[0]],
+                //         })
+                //       );
+                //     }
+                //     return setErrors(validate);
+                //   } else {
+                return setActiveTabIndex(e.index);
+                // }
               }}
             >
               <TabPanel header="Security">
@@ -162,12 +163,15 @@ const AddEmployee = () => {
                 />
               </TabPanel>
               <TabPanel header="Appointments Setup">
-                <ServiceSetup />
+                <AppointmentSetup
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Sales Commission">
                 <SalesCommission />
               </TabPanel>
-
               <TabPanel header="Notes">
                 <Notes />
               </TabPanel>

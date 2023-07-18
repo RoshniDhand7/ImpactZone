@@ -1,0 +1,17 @@
+.picklistbutton {
+  .p-picklist.p-component {
+    .p-picklist-buttons.p-picklist-source-controls {
+      display: none !important;
+    }
+  }
+}
+.p-button.p-component.p-button-icon-only {
+  background: none !important;
+  border-color: black;
+  color: black !important;
+}
+.p-colorpicker-preview.p-inputtext {
+  height: 16px;
+  width: 16px;
+  margin-right: 12px;
+}
