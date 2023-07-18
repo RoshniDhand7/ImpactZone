@@ -16,13 +16,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   const [dropDownLevels, setDropDownLevels] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState({});
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [defaultPay, setDefaultPay] = useState("");
 
-  // const commissionGroupTemp = (col) => {
-  //   return <DropDown options={col.commissionGroup}></DropDown>;
-  // };
-  // const commissionTypeTemp = (col) => {
-  //   return <DropDown options={col.commissionType}></DropDown>;
-  // };
+  const commissionTypeOptions = ["Per Event", "Person"];
 
   const changePayType = (e) => {
     setPayType(e.target.value);
@@ -30,7 +26,6 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
 
   const getLevels = async () => {
     const res = await api("get", constants.endPoints.AddLevel);
-    console.log(res, "resss");
     if (res.success) {
       setDropDownLevels(res.data);
     } else {
@@ -41,7 +36,21 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   const payTemp = (col) => {
     return (
       <div className="flex align-items-center">
-        <Input placeholder="0.00" />
+        <Input
+          placeholder="0.00"
+          onChange={(e) => {
+            col.pay = e.target.value;
+            const changedSelectedOptions = selectedOptions.map(item => {
+              if(item.id === col.id) {
+                item = { ...col }
+              }
+              return item;
+            })
+            setDefaultPay("");
+            setSelectedOptions(changedSelectedOptions);
+          }}
+          value={col.pay}
+        />
         <input
           type="radio"
           name="payType"
@@ -77,7 +86,13 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   };
   const commissionTypeTemp = (col) => {
     return (
-      <DropDown onChange={handleChange} options={col.commissionType}></DropDown>
+      <DropDown
+        onChange={(e) => {
+          col.commissionType = e.target.value;
+        }}
+        options={commissionTypeOptions}
+        value={col.commissionType}
+      ></DropDown>
     );
   };
 
@@ -103,21 +118,33 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   ];
   const [relationshipData] = useState([
     {
-      event: "3D Body Scan",
-      Commission: "",
       id: 1,
+      event: "3D Body Scan",
+      commissionType: "",
+      pay: 0,
     },
     {
-      event: "Aga Group 30 Min",
-      Commission: "",
       id: 2,
+      event: "Aga Group 30 Min",
+      commissionType: "",
+      pay: 0,
     },
     {
-      event: "Aga Group 45 Min",
-      Commission: "",
       id: 3,
+      event: "Aga Group 45 Min",
+      commissionType: "",
+      pay: 0,
     },
   ]);
+
+  const onEnterDefaultPay = (event) => {
+    setDefaultPay(event.target.value);
+    selectedOptions.map(item => {
+      item.pay = event.target.value;
+      return item;
+    });
+    setSelectedOptions([...selectedOptions]);
+  };
 
   return (
     <>
@@ -138,7 +165,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                 ></DropDown>
               </div>
               <div className="col-2">
-                <Input title="Default"></Input>
+                <Input title="Default" value={defaultPay} onChange={(e) => onEnterDefaultPay(e)}></Input>
               </div>
 
               <div
@@ -160,7 +187,22 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                 selectionMode="checkbox"
                 data={relationshipData}
                 columns={relationship}
-                changeSelection={(e) => setSelectedOptions(e.value)}
+                changeSelection={(e) => {
+                  console.log(e)
+                  setSelectedOptions(e.value);
+                  let commSetupData = [];
+                  if(defaultPay || defaultPay.length > 0) {
+                    const defaultPayVal = defaultPay;
+                    commSetupData = e.value.map(item => { item.pay = defaultPayVal; return item; });
+                  }
+                  commSetupData = e.value.map(item => { delete item.id; return item; });
+                  setData(() => {
+                    return {
+                      ...data,
+                      commissionSetups: commSetupData,
+                    };
+                  });
+                }}
               ></TableData>
 
               <div className="flex justify-content-end p-2 ">
@@ -169,6 +211,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     <Buttons
                       label="Save"
                       className="btn-dark mx-3  border-none"
+                      onClick={() => {
+                        return createEmployee();
+                      }}
                     ></Buttons>
                   </div>
                   <div className=" ">

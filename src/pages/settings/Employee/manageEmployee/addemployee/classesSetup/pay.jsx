@@ -46,7 +46,6 @@ const Pay = ({ data, setData, createEmployee }) => {
 
   const getLevels = async () => {
     const res = await api("get", constants.endPoints.AddLevel);
-    console.log(res, "resss");
     if (res.success) {
       setDropDownLevels(res.data);
     } else {

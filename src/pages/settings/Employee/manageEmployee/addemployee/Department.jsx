@@ -18,15 +18,14 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Department = ({ data, setData }) => {
-  console.log(data, "dataaa");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   let [selectedDepartment, setSelectedDepartment] = useState([]);
+
   const fetchDepartment = async () => {
     dispatch(showLoaderAction());
     const res = await api("get", constants.endPoints.GetDepartment);
-    console.log(res, "resss");
     if (res.success) {
       setDepartments(res.data);
       dispatch(hideLoaderAction());
@@ -43,7 +42,6 @@ const Department = ({ data, setData }) => {
       };
     });
     const res = await api("post", constants.endPoints.CreateEmployee, data);
-    console.log(res, "club");
     if (res.success) {
       navigate("/employee");
     } else {
@@ -64,10 +62,13 @@ const Department = ({ data, setData }) => {
   };
 
   const removeSelectedDepartment = (index) => {
-    console.log(selectedDepartment);
     const newArr = [...selectedDepartment];
     newArr.splice(index, 1);
     setSelectedDepartment(newArr);
+  };
+
+  const addWages = (dept, event) => {
+    dept.wage = Number(event.target.value);
   };
 
   useEffect(() => {
@@ -86,7 +87,7 @@ const Department = ({ data, setData }) => {
               <div className=" flex align-items-center px-3">
                 <Buttons
                   label="Copy to All"
-                  className="btn-dark border-none mx-4  "
+                  className="btn-dark border-none mx-4"
                   style={{ height: "36px", top: "10px" }}
                 ></Buttons>
               </div>
@@ -118,10 +119,6 @@ const Department = ({ data, setData }) => {
                           <div className="text-xs">
                             <div
                               onClick={() => {
-                                console.log(
-                                  selectedDepartment.includes(item),
-                                  item
-                                );
                                 if (
                                   !selectedDepartment.some(
                                     (dept) => dept.deptId === item._id
@@ -184,7 +181,9 @@ const Department = ({ data, setData }) => {
                               <div>
                                 <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
                                   <div className="flex  justify-content-center">
-                                    <Input placeholder="$0.00"></Input>
+                                    <Input type="number" onChange={(event) => {
+                                      addWages(item, event);
+                                    }} placeholder="$0.00"></Input>
                                   </div>
                                 </div>
                               </div>
