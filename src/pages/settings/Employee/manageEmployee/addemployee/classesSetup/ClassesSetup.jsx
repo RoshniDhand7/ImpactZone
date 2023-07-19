@@ -11,7 +11,7 @@ const ClassesSetup = ({ setData, data, createEmployee }) => {
       <div>
         <div>
           <div className="">
-            <TabView
+            <TabView 
               activeIndex={activeIndex3}
               onTabChange={(e) => setActiveIndex3(e.index)}
             >
