@@ -2,7 +2,7 @@ import React from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import { useState } from "react";
 import Bonus from "./Bonus";
-import CalendarDefacult from "./CalendarDefacult";
+import CalendarDefacult from "./CalendarDefault";
 import AppointmentPay from "./AppointmentPay";
 
 const AppointmentSetup = ({ data, setData, createEmployee }) => {
@@ -24,10 +24,18 @@ const AppointmentSetup = ({ data, setData, createEmployee }) => {
                 />
               </TabPanel>
               <TabPanel header="Bonus">
-                <Bonus />
+                <Bonus
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Calendar Default">
-                <CalendarDefacult />
+                <CalendarDefacult
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
             </TabView>
           </div>
