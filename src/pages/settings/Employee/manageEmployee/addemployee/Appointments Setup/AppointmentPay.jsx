@@ -41,8 +41,10 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
           onChange={(e) => {
             col.pay = e.target.value;
             const changedSelectedOptions = selectedOptions.map(item => {
-              if(item.id === col.id) {
-                item = { ...col }
+              if(item.id) {
+                if(item.id === col.id) {
+                  item = { ...col }
+                }
               }
               return item;
             })
@@ -87,11 +89,12 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   const commissionTypeTemp = (col) => {
     return (
       <DropDown
+        value={col.commissionType}
         onChange={(e) => {
-          col.commissionType = e.target.value;
+          col.commissionType = e.value;
+          setSelectedOptions([...selectedOptions]);
         }}
         options={commissionTypeOptions}
-        value={col.commissionType}
       ></DropDown>
     );
   };
@@ -188,10 +191,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                 data={relationshipData}
                 columns={relationship}
                 changeSelection={(e) => {
-                  console.log(e)
                   setSelectedOptions(e.value);
                   let commSetupData = [];
-                  if(defaultPay || defaultPay.length > 0) {
+                  if(defaultPay) {
                     const defaultPayVal = defaultPay;
                     commSetupData = e.value.map(item => { item.pay = defaultPayVal; return item; });
                   }
