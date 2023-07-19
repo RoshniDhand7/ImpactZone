@@ -22,7 +22,6 @@ const TableData = ({
   setCurrentPage,
 }) => {
   const onPageChangeEvent = (event) => {
-    console.log("reached", event);
     setFirst(event.first);
     setRows(event.rows);
     setCurrentPage(event.page + 1);
