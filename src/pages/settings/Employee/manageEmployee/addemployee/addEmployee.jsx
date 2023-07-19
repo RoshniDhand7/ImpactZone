@@ -68,6 +68,7 @@ const AddEmployee = () => {
   });
   const createEmployee = async () => {
     try {
+      console.log(data);
       const res = await api("post", constants.endPoints.CreateEmployee, data);
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
