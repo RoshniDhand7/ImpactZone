@@ -5,19 +5,34 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import { useState } from "react";
+import MuliSelectDropDown from "../../../../../../components/dropdown/muliSelectDropDown";
 
 const CalendarDefault = ({ setData, data, createEmployee }) => {
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const CalendarEvent = [
+  const [selectedEvents, setSelectedEvents] = useState(null);
+  const calendarEvents = [
     {
-      name: "Single Client",
+      id: 1,
+      event: "Cardio",
+      orderNumber: null,
+      eventType: "30 min Private",
     },
-    { name: "Service Value" },
+    {
+      id: 2,
+      event: "Yoga",
+      orderNumber: null,
+      eventType: "60 min Private",
+    },
+    {
+      id: 3,
+      event: "Bhangra",
+      orderNumber: null,
+      eventType: "60 min Public",
+    },
   ];
   const actionTemplate = (col) => {
     return (
       <>
-        <div className="flex justify-content-end">
+        <div className="flex justify-content-end" onClick={() => removeRow(col)}>
           <span>
             <i className="pi pi-minus-circle mr-3"></i>
           </span>
@@ -26,57 +41,52 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
     );
   };
 
-  const manageSecurity = [
-    { field: "event", header: "Event", id: "", index: "" },
-    { field: "eventType", header: "Event Type", id: "", index: "" },
+  const removeRow = (item) => {
+    const index = selectedEvents.indexOf(item);
+    selectedEvents.splice(index, 1); // 2nd parameter means remove one item only
+    setSelectedEvents([...selectedEvents]);
+  }
 
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
+  const eventsHeaders = [
+    { field: "event", header: "Event"},
+    { field: "eventType", header: "Event Type"},
+
+    { field: "", header: "", body: actionTemplate},
   ];
 
-  const [manageSecurityData] = useState([
-    {
-      event: "3D Body Scan",
-      eventType: "30 min Private",
-      id: 1,
-    },
-    {
-      event: "Aga Group 30 Min",
-      eventType: "60 min Private",
-      id: 2,
-    },
-    {
-      event: "Aga Group 45 Min",
-      eventType: "30 min Public",
-      id: 3,
-    },
-  ]);
   return (
     <>
       <div>
         <div className="">
-          <div className="col-3 p-0 flex mb-3">
-            <div className=" col flex">
-              <DropDown
-                title="Event"
-                options={CalendarEvent}
-                optionLabel="name"
-                value={selectedEvent}
-                onChange={(e) => setSelectedEvent(e.value)}
-                placeholder="Selected Event"
-              ></DropDown>
-            </div>
-            <div className=" col flex">
+          <div className="col-3 p-0 flex">
+          <div className=" col flex">
               <DropDown
                 title="Similar To"
-                placeholder="Select Event"
+                placeholder="Select Employee"
               ></DropDown>
             </div>
           </div>
+          <div className="col-3 p-0 flex mb-3">
+          <div className="col flex">
+            <div className="mt-4">
+              <MuliSelectDropDown
+                title="Events"
+                options={calendarEvents}
+                optionsLabel="event"
+                onChange={(e) => {
+                  setSelectedEvents(e.value);
+                }}
+                key={"id"}
+                placeholder="Select Events"
+                value={selectedEvents}
+              ></MuliSelectDropDown>
+              </div>
+            </div>
+            </div>
           <div className=" mt-2">
             <TableData
-              columns={manageSecurity}
-              data={manageSecurityData}
-              // delRow={tableRowRemove}
+              columns={eventsHeaders}
+              data={selectedEvents}
             />
           </div>
         </div>
@@ -86,13 +96,28 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
           <div className=" mx-4">
             <Buttons
               label="Save"
-              className="btn-dark mx-3  border-none"
+              className="btn-dark mx-3 border-none"
+              onClick={() => {
+                const selectedEventsClone = JSON.parse(JSON.stringify(selectedEvents));
+                setData(() => {
+                  return {
+                    ...data,
+                    appointmentCalendarDefault: selectedEventsClone.map((item, index) => {
+                      item.orderNumber = index + 1;
+                      delete item.id;
+                      return item;
+                    })
+                  }
+                });
+                console.log(selectedEvents)
+                return createEmployee();
+              }}
             ></Buttons>
           </div>
           <div className=" ">
             <Buttons
               label="Cancel"
-              className="btn-grey    border-none"
+              className="btn-grey border-none"
             ></Buttons>
           </div>
         </div>

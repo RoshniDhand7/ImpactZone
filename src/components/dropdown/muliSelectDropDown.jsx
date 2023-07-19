@@ -2,21 +2,25 @@ import React from "react";
 import { MultiSelect } from "primereact/multiselect";
 
 const MuliSelectDropDown = ({
+  key,
+  title,
   value,
   options,
   onChange,
-  optionLabel,
+  optionsLabel,
   placeholder,
   optionGroupTemplate,
 }) => {
   return (
     <div className="">
       <MultiSelect
+        key={key}
+        title={title}
         value={value}
         options={options}
         onChange={onChange}
-        optionLabel={optionLabel}
-        // optionGroupLabel="label"
+        optionLabel={optionsLabel}
+        // optionGroupLabel={optionsLabel}
         // optionGroupChildren="items"
         optionGroupTemplate={optionGroupTemplate}
         placeholder={placeholder}

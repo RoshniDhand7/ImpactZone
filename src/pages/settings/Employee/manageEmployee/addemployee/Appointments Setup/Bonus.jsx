@@ -149,7 +149,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                 ></Input>
                               ) : field.type === "multiSelectDropDown" ? (
                                 <>
-                                  <div className=" p-2">
+                                  <div className="p-2">
                                     <MuliSelectDropDown
                                       title=""
                                       options={eventOptions}
@@ -238,12 +238,6 @@ const Bonus = ({ data, setData, createEmployee }) => {
         <div className="mr-4">
           <Buttons
             onClick={() => {
-              // setData(() => {
-              //   return {
-              //     ...data,
-              //     payments: bonusRows,
-              //   };
-              // });
               return createEmployee();
             }}
             label="Save"
