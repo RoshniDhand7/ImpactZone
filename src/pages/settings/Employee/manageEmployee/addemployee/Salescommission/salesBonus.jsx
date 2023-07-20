@@ -17,7 +17,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
   const bonusFields = {
     fields: [
       {
-        name: "# of Sessions",
+        name: "# of items",
         type: "input",
         subType: "number",
         key: "numberofSessions",
@@ -40,7 +40,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
         type: "input",
         subType: "number",
         key: "bonusAmount",
-      }
+      },
     ],
   };
 
@@ -141,25 +141,35 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                   type={field.subType}
                                   placeholder={field.placeholder}
                                   onChange={(e) => {
-                                    onEnterData(e.value , index, field.key);
+                                    onEnterData(e.value, index, field.key);
                                   }}
                                   // value={
                                   //   data.salesCommissionBonus[index][field.key]
                                   // }
                                 ></Input>
                               ) : (
-                                <DropDown
-                                  title=""
-                                  options={timeFrameOptions}
-                                  onChange={(e) => {
-                                    onEnterData(e.target.value, index, field.key);
-                                  }}
-                                  placeholder="Time Frame"
-                                  value={
-                                    data.salesCommissionBonus[index]
-                                      .timeFramePeriod
-                                  }
-                                ></DropDown>
+                                <>
+                                  
+                                  <div className="" style={{width:"13em"}}>
+                                    
+                                    <DropDown
+                                      title=""
+                                      options={timeFrameOptions}
+                                      onChange={(e) => {
+                                        onEnterData(
+                                          e.target.value,
+                                          index,
+                                          field.key
+                                        );
+                                      }}
+                                      placeholder="Time Frame     "
+                                      value={
+                                        data.salesCommissionBonus[index]
+                                          .timeFramePeriod
+                                      }
+                                    ></DropDown>
+                                  </div>
+                                </>
                               )}
                               <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
                                 {fieldIndex === 0 &&
@@ -167,7 +177,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                   ? "# of Sessions"
                                   : fieldIndex === 0 &&
                                     item.name === "Service Value"
-                                  ? "Sessions Value"
+                                  ? "Sales Value"
                                   : field.name}
                               </span>
                             </div>

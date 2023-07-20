@@ -8,7 +8,7 @@ import constants from "../../../../../utils/constants";
 import api from "../../../../../services/api";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const Clubs = ({ setData, data, createEmployee,}) => {
+const Clubs = ({ setData, data, createEmployee }) => {
   const [reportDataSource, setReportDataSource] = useState([]);
   const [clubSource, setClubSource] = useState([]);
   const [reportDatatarget, setreportDataTarget] = useState([]);

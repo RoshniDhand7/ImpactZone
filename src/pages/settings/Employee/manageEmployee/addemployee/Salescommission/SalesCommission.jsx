@@ -13,7 +13,7 @@ const SalesCommission = ({ setData, data, createEmployee }) => {
           activeIndex={activeIndex4}
           onTabChange={(e) => setActiveIndex4(e.index)}
         >
-          <TabPanel header="ItemCommission">
+          <TabPanel header="Item Commission">
             <ItemCommission
               setData={setData}
               data={data}

@@ -191,7 +191,7 @@ const AlertsTypes = () => {
                 </div>
               </div>
               <div
-                className="flex"
+                className="flex my-3"
                 onClick={(e) => {
                   document
                     .getElementById("pickcolor")
@@ -239,6 +239,26 @@ const AlertsTypes = () => {
               </div>
             </div>
           </CardWithTitle>
+          <div>
+          <div className="flex justify-content-end p-2 ">
+          <div className=" mt-3 flex">
+           
+            <div className="mr-4">
+              <Buttons
+                label="Save"
+                className="btn-dark mx-3 border-none"
+
+              ></Buttons>
+            </div>
+            <div className=" ">
+              <Buttons
+                label="Cancel"
+                className="btn-grey  border-none"
+              ></Buttons>
+            </div>
+          </div>
+        </div>
+          </div>
         </div>
       </>
     );
