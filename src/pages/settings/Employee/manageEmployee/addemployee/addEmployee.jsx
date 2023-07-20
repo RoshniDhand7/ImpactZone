@@ -1,5 +1,5 @@
 import { TabView, TabPanel } from "primereact/tabview";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import GeneralAddEmployee from "./general";
 import Department from "./Department";
@@ -62,13 +62,15 @@ const AddEmployee = () => {
     defaultPay: "Incremental Pay",
     payments: [],
     substituteOption: [],
-    commissionSetups: [],
+    appointmentCommissionSetups: [],
     appointmentSetupBonus: [],
     appointmentCalendarDefault: [],
+    salesItemCommission: [],
+    salesCommissionBonus: []
   });
   const createEmployee = async () => {
     try {
-      console.log(data);
+      // console.log(data);
       const res = await api("post", constants.endPoints.CreateEmployee, data);
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
@@ -95,32 +97,32 @@ const AddEmployee = () => {
             <TabView
               activeIndex={activeTabIndex}
               onTabChange={async (e) => {
-                // let validate = securityValidations(data);
-                // if (
-                //   validate.firstName ||
-                //   validate.lastName ||
-                //   validate.barCode ||
-                //   validate.email
-                // ) {
-                //   if (Object.keys(validate).length > 1) {
-                //     dispatch(
-                //       showToast({
-                //         severity: "error",
-                //         summary: "Please fill required fields first",
-                //       })
-                //     );
-                //   } else {
-                //     dispatch(
-                //       showToast({
-                //         severity: "error",
-                //         summary: validate[Object.keys(validate)[0]],
-                //       })
-                //     );
-                //   }
-                //   return setErrors(validate);
-                // } else {
+                let validate = securityValidations(data);
+                if (
+                  validate.firstName ||
+                  validate.lastName ||
+                  validate.barCode ||
+                  validate.email
+                ) {
+                  if (Object.keys(validate).length > 1) {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: "Please fill required fields first",
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: validate[Object.keys(validate)[0]],
+                      })
+                    );
+                  }
+                  return setErrors(validate);
+                } else {
                 return setActiveTabIndex(e.index);
-                // }
+                }
               }}
             >
               <TabPanel header="Security">
@@ -170,7 +172,11 @@ const AddEmployee = () => {
                 />
               </TabPanel>
               <TabPanel header="Sales Commission">
-                <SalesCommission />
+                <SalesCommission
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
+                />
               </TabPanel>
               <TabPanel header="Notes">
                 <Notes />

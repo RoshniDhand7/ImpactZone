@@ -1,6 +1,7 @@
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
+import { InputNumber } from "primereact/inputnumber";
 
 const Input = ({
   title,
@@ -34,15 +35,25 @@ const Input = ({
       >
         <i className={icon} />
 
-        <InputText
-          style={{ width: "100%" }}
-          placeholder={placeholder}
-          icon={icon}
-          type={type}
-          value={value}
-          maxLength={maxLength}
-          onChange={onChange}
-        ></InputText>
+        {type === "number" ? (
+          <InputNumber
+            style={{ width: "100%" }}
+            placeholder={placeholder}
+            icon={icon}
+            value={value}
+            onChange={onChange}
+          />
+        ) : (
+          <InputText
+            style={{ width: "100%" }}
+            placeholder={placeholder}
+            icon={icon}
+            type={type}
+            value={value}
+            maxLength={maxLength}
+            onChange={onChange}
+          ></InputText>
+        )}
 
         {/* {inputType === "password" ? (
           <span className="pp-input-icon-right text-xs input100">

@@ -201,7 +201,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                   setData(() => {
                     return {
                       ...data,
-                      commissionSetups: commSetupData,
+                      appointmentCommissionSetups: commSetupData,
                     };
                   });
                 }}

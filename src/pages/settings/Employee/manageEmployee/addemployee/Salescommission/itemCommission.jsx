@@ -1,32 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../../../utils/checkInData";
 import Buttons from "../../../../../../components/buttons/button";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import Input from "../../../../../../components/input/input";
-import dummyData from "../../../../../../utils/dummyData";
 import { useState } from "react";
 
-const ItemCommission = () => {
-  const { commissionTableData } = dummyData();
+const ItemCommission = ({ setData, data, createEmployee }) => {
 
   const [payType, setPayType] = useState("");
+  const [isPayloadReady, setIsPayloadReady] = useState(false);
+
+  const itemCommissionTableRow = {
+      commissionGroup: "",
+      commissionType: "",
+      pay: null,
+  };
+
+  const commGroupOptions = [ "Shakes", "Bars", "Supplements" ];
+  const commTypeOptions = [ "Per Item", "Per sale" ];
+
+  const [itemCommissionRows, setItemCommissionRows] = useState([ itemCommissionTableRow ]);
 
   const commissionGroupTemp = (col) => {
-    return <DropDown options={col.commissionGroup}></DropDown>;
+    return <DropDown options={commGroupOptions} value={col.commissionGroup} placeholder="Select Group" onChange={(e) => {
+      col.commissionGroup = e.value;
+      return setItemCommissionRows([...itemCommissionRows]);
+    }}></DropDown>;
   };
+
   const commissionTypeTemp = (col) => {
-    return <DropDown options={col.commissionType}></DropDown>;
+    return <DropDown options={commTypeOptions} value={col.commissionType} placeholder="Select Type" onChange={(e) =>  {
+      col.commissionType = e.value;
+      return setItemCommissionRows([...itemCommissionRows]);
+    }}></DropDown>;
   };
 
   const changePayType = (e) => {
     setPayType(e.target.value);
   };
+
   const payTemp = (col) => {
     return (
       <div className="flex align-items-center">
-        <Input placeholder="0.00" />
+        <Input type="number" placeholder="0.00" value={col.pay} onChange={(e) => {
+          col.pay = e.value;
+          return setItemCommissionRows([...itemCommissionRows]);
+        }}/>
         <input
           type="radio"
           name="payType"
@@ -61,9 +82,11 @@ const ItemCommission = () => {
     );
   };
 
-  const actionTemp = (col) => {
+  const actionTemp = (col, field) => {
     return (
-      <span>
+      <span onClick={() => {
+        return removeCommissionRow(col, field);
+      }}>
         <i className="pi pi-minus-circle"></i>
       </span>
     );
@@ -101,6 +124,33 @@ const ItemCommission = () => {
     { field: "", header: "", body: actionTemp },
   ];
 
+  const addCommissionRow = () => {
+    setItemCommissionRows(() => {
+      return [
+        ...itemCommissionRows,
+        itemCommissionTableRow
+      ]
+    });
+  };
+
+  useEffect(() => {
+    if(isPayloadReady) {
+      createEmployee();
+    }
+  }, [ data ]);
+
+  const removeCommissionRow = (item, field) => {
+    const index = field.rowIndex;
+    if(index > 0) {
+      itemCommissionRows.splice(index, 1);
+      setItemCommissionRows([...itemCommissionRows]);
+    } else {
+      itemCommissionRows[index] = { ...itemCommissionTableRow };
+      setItemCommissionRows([...itemCommissionRows]);
+    }
+  };
+
+  // const 
   return (
     <>
       <div>
@@ -111,56 +161,36 @@ const ItemCommission = () => {
         </div>
         <div>
           <TableData
-            data={commissionTableData}
+            data={itemCommissionRows}
             columns={commissionTableColumns}
           ></TableData>
         </div>
-        {/* <div>
-          <CardWithTitle
-            title="commision Group"
-            title2="commission Type"
-            title3="Pay"
-            title4=""
-          >
-            <div className="p-3 flex justify-content-between">
-              <div className="col-3">
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-              </div>
-              <div className="col-3">
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-              </div>
-              <div className="col-2">
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-                <DropDown title="" placeholder="select"></DropDown>
-              </div>
-              <div className="col-2"></div>
-            </div>
-          </CardWithTitle>
-        </div> */}
         <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
+          <div className=" mt-3 flex">
             <div className="mx-2">
               <Buttons
                 label="Add"
                 icon="pi pi-plus-circle"
                 className="btn-dark border-none"
+                disabled={itemCommissionRows?.some(item => JSON.stringify(item) === JSON.stringify(itemCommissionTableRow))}
+                onClick={addCommissionRow}
               ></Buttons>
             </div>
             <div className="mr-4">
               <Buttons
                 label="Save"
                 className="btn-dark mx-3 border-none"
+                disabled={itemCommissionRows?.some(item => JSON.stringify(item) === JSON.stringify(itemCommissionTableRow))}
+                onClick={() => {
+                  const salesItemCommissionClone = [...itemCommissionRows];
+                  setData(() => {
+                    return {
+                      ...data,
+                      salesItemCommission: salesItemCommissionClone
+                    }
+                  });
+                  setIsPayloadReady(true);
+                }}
               ></Buttons>
             </div>
             <div className=" ">

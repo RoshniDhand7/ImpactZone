@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Buttons from "../../../../../../components/buttons/button";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import RecentCheckIn from "../../../../../../components/cards/Profilecard/recentCheckIn";
@@ -9,6 +9,8 @@ import MuliSelectDropDown from "../../../../../../components/dropdown/muliSelect
 
 const CalendarDefault = ({ setData, data, createEmployee }) => {
   const [selectedEvents, setSelectedEvents] = useState(null);
+  const [isPayloadReady, setIsPayloadReady] = useState(false);
+
   const calendarEvents = [
     {
       id: 1,
@@ -29,6 +31,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
       eventType: "60 min Public",
     },
   ];
+
   const actionTemplate = (col) => {
     return (
       <>
@@ -53,6 +56,12 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
 
     { field: "", header: "", body: actionTemplate},
   ];
+
+  useEffect(() => {
+    if(isPayloadReady) {
+      createEmployee();
+    }
+  }, [ data ]);
 
   return (
     <>
@@ -98,7 +107,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
               label="Save"
               className="btn-dark mx-3 border-none"
               onClick={() => {
-                const selectedEventsClone = JSON.parse(JSON.stringify(selectedEvents));
+                const selectedEventsClone = [ ...selectedEvents ];
                 setData(() => {
                   return {
                     ...data,
@@ -109,8 +118,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
                     })
                   }
                 });
-                console.log(selectedEvents)
-                return createEmployee();
+                setIsPayloadReady(true);
               }}
             ></Buttons>
           </div>
