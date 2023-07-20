@@ -101,7 +101,6 @@ const Bonus = ({ data, setData, createEmployee }) => {
 
   const onEnterData = (e, index, keyName) => {
     let appointmentPayload = [...data.appointmentSetupBonus];
-    console.log(appointmentPayload[index], index);
     appointmentPayload[index][keyName] = e.target.value;
     setData(() => {
       return {
@@ -110,7 +109,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
       };
     });
   };
-  console.log("appointmentSetupBonus", data.appointmentSetupBonus);
+
   return (
     <>
       <div className="col-2 mb-2">

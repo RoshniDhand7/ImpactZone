@@ -4,7 +4,7 @@ import { useState } from "react";
 import ItemCommission from "./itemCommission";
 import SalesBonus from "./salesBonus";
 
-const SalesCommission = () => {
+const SalesCommission = ({ setData, data, createEmployee }) => {
   const [activeIndex4, setActiveIndex4] = useState(0);
   return (
     <>
@@ -14,10 +14,18 @@ const SalesCommission = () => {
           onTabChange={(e) => setActiveIndex4(e.index)}
         >
           <TabPanel header="ItemCommission">
-            <ItemCommission />
+            <ItemCommission
+              setData={setData}
+              data={data}
+              createEmployee={createEmployee}
+            />
           </TabPanel>
           <TabPanel header="Bonus">
-            <SalesBonus />
+            <SalesBonus
+              setData={setData}
+              data={data}
+              createEmployee={createEmployee}
+            />
           </TabPanel>
         </TabView>
       </div>
