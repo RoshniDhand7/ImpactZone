@@ -125,12 +125,14 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
   ];
 
   const addCommissionRow = () => {
-    setItemCommissionRows(() => {
-      return [
-        ...itemCommissionRows,
-        itemCommissionTableRow
-      ]
-    });
+    if(itemCommissionRows.length <= commGroupOptions.length) {
+      setItemCommissionRows(() => {
+        return [
+          ...itemCommissionRows,
+          itemCommissionTableRow
+        ]
+      });
+    }
   };
 
   useEffect(() => {
@@ -172,7 +174,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                 label="Add"
                 icon="pi pi-plus-circle"
                 className="btn-dark border-none"
-                disabled={itemCommissionRows?.some(item => JSON.stringify(item) === JSON.stringify(itemCommissionTableRow))}
+                disabled={itemCommissionRows?.some(item => JSON.stringify(item) === JSON.stringify(itemCommissionTableRow)) || itemCommissionRows.length >= commGroupOptions.length}
                 onClick={addCommissionRow}
               ></Buttons>
             </div>

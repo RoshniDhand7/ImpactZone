@@ -1,5 +1,5 @@
 import { TabView, TabPanel } from "primereact/tabview";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import GeneralAddEmployee from "./general";
 import Department from "./Department";
@@ -62,7 +62,7 @@ const AddEmployee = () => {
     defaultPay: "Incremental Pay",
     payments: [],
     substituteOption: [],
-    appointmentCommissionSetups: [],
+    commissionSetups: [],
     appointmentSetupBonus: [],
     appointmentCalendarDefault: [],
     salesItemCommission: [],
@@ -70,7 +70,7 @@ const AddEmployee = () => {
   });
   const createEmployee = async () => {
     try {
-      // console.log(data);
+      console.log(data);
       const res = await api("post", constants.endPoints.CreateEmployee, data);
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
