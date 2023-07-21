@@ -10,7 +10,7 @@ import MuliSelectDropDown from "../../../../../../components/dropdown/muliSelect
 
 const SalesBonus = ({ data, setData, createEmployee }) => {
   const [bonusRows, setBonusRows] = useState([{ name: "" }]);
-  const bonusTypeOptions = ["Single Item", "Service Value"];
+  const bonusTypeOptions = ["Single Item", "Sale Value"];
   const timeFrameOptions = ["Days", "Weeks", "Months", "Years"];
   const [selectedTimeFrame, setSelectedTimeFrame] = useState([]);
 
@@ -160,7 +160,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                           field.key
                                         );
                                       }}
-                                      placeholder="Time Frame     "
+                                      placeholder="Time Frame"
                                       value={
                                         data.salesCommissionBonus[index]
                                           .timeFramePeriod
@@ -174,7 +174,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                 item.name === "Single Client"
                                   ? "# of Sessions"
                                   : fieldIndex === 0 &&
-                                    item.name === "Service Value"
+                                    item.name === "Sale Value"
                                   ? "Sales Value"
                                   : field.name}
                               </span>
