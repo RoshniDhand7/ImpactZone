@@ -169,7 +169,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                   </div>
                                 </>
                               )}
-                              <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
+                              <span className="text-xs text-gray-200 p-2 flex justify-content-center ">
                                 {fieldIndex === 0 &&
                                 item.name === "Single Client"
                                   ? "# of Sessions"
