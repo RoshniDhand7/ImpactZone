@@ -120,7 +120,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
               return (
                 <>
                   <div className=" flex p-3">
-                    <div className="col-2">
+                    <div className="col-2 mt-2">
                       <DropDown
                         title=""
                         options={bonusTypeOptions}
@@ -133,7 +133,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                     {item.fields?.map((field, fieldIndex) => {
                       return (
                         <>
-                          <div className=" flex ">
+                          <div className=" col flex ">
                             <div className="col">
                               {field.type === "input" ? (
                                 <Input
@@ -149,9 +149,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                 ></Input>
                               ) : (
                                 <>
-                                  
-                                  <div className="" style={{width:"13em"}}>
-                                    
+                                  <div className="">
                                     <DropDown
                                       title=""
                                       options={timeFrameOptions}
@@ -204,7 +202,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                     })}
                     {item.fields ? (
                       <div
-                        className="mt-4 cursor-pointer"
+                        className="mt-5  cursor-pointer"
                         onClick={() => removePayRow(item)}
                       >
                         <i className="pi pi-minus-circle"></i>

@@ -75,7 +75,7 @@ function App() {
             <Route exact path="/company" element={<Company />} />
             <Route exact path="/reasonCode" element={<ReasonCode />} />
             <Route exact path="/addReasonCode" element={<AddReasonCode />} />
-            <Route exact path="/manageEmployee" element={<ManageEmployee />} />
+            {/* <Route exact path="/manageEmployee" element={<ManageEmployee />} /> */}
             <Route exact path="/employee" element={<Employee />} />
             <Route exact path="/availability" element={<Availability />} />
             <Route exact path="/timesheets" element={<TimeSheets />} />
@@ -95,7 +95,11 @@ function App() {
               path="/manageReportSecurity"
               element={<ManageReportSecurity />}
             />
-            <Route exact path="/addEmployee" element={<AddEmployee />} />
+            <Route
+              exact
+              path="/employee/addEmployee"
+              element={<AddEmployee />}
+            />
             <Route exact path="/scheduleSetup" element={<ScheduleSetup />} />
             <Route exact path="/settings" element={<Settings />} />
             <Route

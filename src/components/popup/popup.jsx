@@ -6,7 +6,7 @@ const PopUp = ({ setIsActive, isActive, title, data }) => {
       <Dialog
         header={title}
         visible={isActive}
-        style={{ width: "60vw" }}
+        style={{ width: "60vw", borderRadius: "22px" }}
         onHide={() => setIsActive(false)}
       >
         {data}

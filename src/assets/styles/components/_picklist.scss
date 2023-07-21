@@ -1,3 +1,28 @@
 .p-picklist .p-picklist-header {
   font-size: 12px !important;
 }
+.picklistbutton {
+  .p-picklist.p-component {
+    .p-picklist-buttons.p-picklist-source-controls {
+      display: none !important;
+    }
+  }
+}
+.p-button.p-component.p-button-icon-only {
+  background: none !important;
+  border-color: rgba(0, 0, 0, 0.508);
+  color: rgba(0, 0, 0, 0.508) !important;
+}
+.p-colorpicker-preview.p-inputtext {
+  height: 16px;
+  width: 16px;
+  margin-right: 12px;
+}
+.p-picklist .p-picklist-header {
+  border: none !important;
+  color: #525252 !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  padding: 8px !important;
+  background: transparent !important;
+}
