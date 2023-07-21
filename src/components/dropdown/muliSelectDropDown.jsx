@@ -25,7 +25,7 @@ const MuliSelectDropDown = ({
         optionGroupTemplate={optionGroupTemplate}
         placeholder={placeholder}
         display="chip"
-        className="w-full md:w-20rem"
+        className="w-full"
       />
     </div>
   );

@@ -12,7 +12,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
   const [bonusRows, setBonusRows] = useState([{ name: "" }]);
   const bonuTypeOptions = ["Single Client", "Service Value"];
   const timeFrameOptions = ["Days", "Weeks", "Months", "Years"];
-  const eventOptions = ["Private", "Sessions", "Yoga Sessions", "Reformer"];
+  const eventOptions = ["Private Sessions", "Yoga Sessions", "Reformer", "Etc"];
   const [selectedTimeFrame, setSelectedTimeFrame] = useState([]);
   const bonusFields = {
     fields: [
@@ -39,7 +39,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
         key: "bonusAmount",
       },
       {
-        name: "Select Event",
+        name: "",
         type: "multiSelectDropDown",
         key: "bonusEvent",
       },
@@ -121,8 +121,8 @@ const Bonus = ({ data, setData, createEmployee }) => {
             {bonusRows.map((item, index) => {
               return (
                 <>
-                  <div className="col-12 flex   p-3">
-                    <div className="col-2">
+                  <div className="col-12 flex ">
+                    <div className="col-2 mt-2 ">
                       <DropDown
                         title=""
                         options={bonuTypeOptions}
@@ -135,7 +135,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
                     {item.fields?.map((field, fieldIndex) => {
                       return (
                         <>
-                          <div className="flex">
+                          <div className="col flex">
                             <div className="col">
                               {field.type === "text" ? (
                                 <Input
@@ -148,7 +148,10 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                 ></Input>
                               ) : field.type === "multiSelectDropDown" ? (
                                 <>
-                                  <div className="p-2">
+                                  <div
+                                    className="mt-2"
+                                    style={{ width: "220px" }}
+                                  >
                                     <MuliSelectDropDown
                                       title=""
                                       options={eventOptions}
@@ -156,29 +159,32 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                         setSelectedTimeFrame(e.value);
                                         onEnterData(e, index, field.key);
                                       }}
-                                      placeholder="Select Services"
+                                      placeholder="Select Event"
                                       value={selectedTimeFrame}
                                     ></MuliSelectDropDown>
                                   </div>
                                 </>
                               ) : (
-                                <><div className="" style={{width:"13em"}}><DropDown
-                                title=""
-                                options={timeFrameOptions}
-                                onChange={(e) => {
-                                  onEnterData(e, index, field.key);
-                                }}
-                                placeholder="Time Frame"
-                                value={
-                                  data.appointmentSetupBonus[index]
-                                    .timeFramePeriod
-                                }
-                              ></DropDown></div></>
-                                
+                                <>
+                                  <div className="">
+                                    <DropDown
+                                      title=""
+                                      options={timeFrameOptions}
+                                      onChange={(e) => {
+                                        onEnterData(e, index, field.key);
+                                      }}
+                                      placeholder="Time Frame"
+                                      value={
+                                        data.appointmentSetupBonus[index]
+                                          .timeFramePeriod
+                                      }
+                                    ></DropDown>
+                                  </div>
+                                </>
                               )}
                               {console.log("item", item)}
 
-                              <span className="text-xs text-gray-200 p-2 flex justify-content-end ">
+                              <span className="text-xs text-gray-200 p-2 flex justify-content-center ">
                                 {fieldIndex === 0 &&
                                 item.name === "Single Client"
                                   ? "# of Sessions"

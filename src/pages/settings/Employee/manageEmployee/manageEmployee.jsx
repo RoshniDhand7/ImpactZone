@@ -39,7 +39,7 @@ const Employee = () => {
   const op = useRef(null);
   const ope = useRef(null);
   const navigateToAddEmployee = () => {
-    navigate("/addEmployee");
+    navigate("/employee/addEmployee");
   };
   const navigateTOViewEmployee = () => {
     navigate("/viewEmployee");
