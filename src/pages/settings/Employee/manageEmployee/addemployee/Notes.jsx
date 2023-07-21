@@ -73,8 +73,15 @@ const Notes = ({ setData, data, createEmployee }) => {
               <div className="pt-2">
                 <InputTextarea
                   style={{ width: "100%", height: "250px" }}
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={data.notes}
+                  onChange={(e) =>
+                    setData(() => {
+                      return {
+                        ...data,
+                        notes: e.target.value,
+                      };
+                    })
+                  }
                 />
               </div>
             </div>
@@ -84,7 +91,7 @@ const Notes = ({ setData, data, createEmployee }) => {
           <div className="flex  mr-2 mt-3 ">
             <div className="mx-2">
               <Buttons
-                onClick={onClickActiveNotes}
+                onClick={createEmployee}
                 label="Save"
                 className="btn-dark  border-none"
               ></Buttons>

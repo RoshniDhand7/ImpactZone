@@ -119,7 +119,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
             {bonusRows.map((item, index) => {
               return (
                 <>
-                  <div className=" flex p-3">
+                  <div className="flex p-3">
                     <div className="col-2 mt-2">
                       <DropDown
                         title=""
@@ -133,7 +133,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                     {item.fields?.map((field, fieldIndex) => {
                       return (
                         <>
-                          <div className=" col flex ">
+                          <div className="col flex ">
                             <div className="col">
                               {field.type === "input" ? (
                                 <Input
