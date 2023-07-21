@@ -15,9 +15,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   const [payType, setPayType] = useState("");
   const [dropDownLevels, setDropDownLevels] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState({});
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([...data.appointmentCommissionSetups]);
   const [defaultPay, setDefaultPay] = useState("");
-
+console.log(data.appointmentCommissionSetups, selectedOptions)
   const commissionTypeOptions = ["Per Event", "Person"];
 
   const changePayType = (e) => {
@@ -103,6 +103,20 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     getLevels();
   }, []);
 
+
+  //  const getSelectedOptions = () => {
+  //   if(data?.appointmentCommissionSetups.length) {
+  //     return setSelectedOptions([...data.appointmentCommissionSetups]);
+  //   } else {
+  //     return setSelectedOptions([]);
+  //   }
+  // } 
+
+  // useEffect(() => {
+  //   console.log('reached', selectedOptions)
+  //   getSelectedOptions();
+  // }, [])
+
   const handleChange = (name, payRow) => (e) => {
     if (name === "classLevel") {
       setSelectedLevel(() => {
@@ -113,7 +127,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   };
   const relationship = [
     { field: "", header: "" },
-    { field: "event", header: "Name" },
+    { field: "event", header: "Event" },
     { field: "Commission", header: "Commission", body: commissionTypeTemp },
     { field: "", header: "" },
     { field: "", header: "" },
@@ -140,6 +154,21 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     },
   ]);
 
+  //  const getSelectedOptions = () => {
+  //   if(data?.appointmentCommissionSetups.length) {
+  //     const megrgedSelection = relationshipData.map((item, i) => Object.assign({}, data.appointmentCommissionSetups[i], item));
+  //     console.log(megrgedSelection)
+  //   return setSelectedOptions([...megrgedSelection]);
+  //   } else {
+  //     return setSelectedOptions([]);
+  //   }
+  // } 
+
+  // useEffect(() => {
+  //   console.log('reached', selectedOptions)
+  //   getSelectedOptions();
+  // }, [])
+
   const onEnterDefaultPay = (event) => {
     setDefaultPay(event.target.value);
     selectedOptions.map(item => {
@@ -153,7 +182,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     <>
       <div>
         <div className="col-2 mb-2">
-          <DropDown title="Similar To"></DropDown>
+          <DropDown title="Similar To"
+          placeholder="Select Employee"
+          ></DropDown>
         </div>
         <div>
           <CardWithTitle title="General">
@@ -192,12 +223,12 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                 columns={relationship}
                 changeSelection={(e) => {
                   setSelectedOptions(e.value);
-                  let commSetupData = [];
+                  let commSetupData = e.value;
                   if(defaultPay) {
                     const defaultPayVal = defaultPay;
-                    commSetupData = e.value.map(item => { item.pay = defaultPayVal; return item; });
+                    commSetupData = commSetupData.map(item => { item.pay = defaultPayVal; return item; });
                   }
-                  commSetupData = e.value.map(item => { delete item.id; return item; });
+                  // commSetupData = e.value.map(item => { delete item.id; return item; });
                   setData(() => {
                     return {
                       ...data,

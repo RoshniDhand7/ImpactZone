@@ -18,11 +18,12 @@ const Input = ({
   style,
   maxLength,
   pattern,
+  extraclassName,
   ...props
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="flex flex-column gap-2">
+    <div className={`flex flex-column gap-2 ${extraclassName}`}>
       <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
         <div>
           {title} {required ? <span className="text-red-500">*</span> : null}

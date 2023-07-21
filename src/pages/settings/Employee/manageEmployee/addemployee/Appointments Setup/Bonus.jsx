@@ -162,18 +162,19 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                   </div>
                                 </>
                               ) : (
-                                <DropDown
-                                  title=""
-                                  options={timeFrameOptions}
-                                  onChange={(e) => {
-                                    onEnterData(e, index, field.key);
-                                  }}
-                                  placeholder="Time Frame"
-                                  value={
-                                    data.appointmentSetupBonus[index]
-                                      .timeFramePeriod
-                                  }
-                                ></DropDown>
+                                <><div className="" style={{width:"13em"}}><DropDown
+                                title=""
+                                options={timeFrameOptions}
+                                onChange={(e) => {
+                                  onEnterData(e, index, field.key);
+                                }}
+                                placeholder="Time Frame"
+                                value={
+                                  data.appointmentSetupBonus[index]
+                                    .timeFramePeriod
+                                }
+                              ></DropDown></div></>
+                                
                               )}
                               {console.log("item", item)}
 

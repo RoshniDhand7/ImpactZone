@@ -6,7 +6,7 @@ import checkInData from "../../../../../utils/checkInData";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
 
-const Notes = () => {
+const Notes = ({ setData, data, createEmployee }) => {
   const [showNotes, setActiveNotes] = useState(false);
   const [value, setValue] = useState("");
 
