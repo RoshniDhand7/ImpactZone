@@ -25,8 +25,10 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
 
   const commissionGroupTemp = (col) => {
     return <DropDown options={commGroupOptions} value={col.commissionGroup} placeholder="Select Group" onChange={(e) => {
-      col.commissionGroup = e.value;
-      return setItemCommissionRows([...itemCommissionRows]);
+      if(!itemCommissionRows?.some(item => item.commissionGroup === e.value)) {
+        col.commissionGroup = e.value;
+        return setItemCommissionRows([...itemCommissionRows]);
+      }
     }}></DropDown>;
   };
 
