@@ -160,7 +160,10 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                         onEnterData(e, index, field.key);
                                       }}
                                       placeholder="Select Event"
-                                      value={selectedTimeFrame}
+                                      value={
+                                        data.appointmentSetupBonus[index]
+                                        .bonusEvent
+                                      }
                                     ></MuliSelectDropDown>
                                   </div>
                                 </>
@@ -176,7 +179,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                       placeholder="Time Frame"
                                       value={
                                         data.appointmentSetupBonus[index]
-                                          .timeFramePeriod
+                                        .timeFramePeriod
                                       }
                                     ></DropDown>
                                   </div>
