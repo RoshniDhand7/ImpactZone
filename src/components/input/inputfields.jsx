@@ -16,6 +16,7 @@ const InputPassword = ({
   slotchar,
   disabled,
   maxLength,
+  style,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,11 +28,12 @@ const InputPassword = ({
       <span className="p-input-icon-left text-xs input100">
         <i className={` text-xs pi ${iconName}`} />
         <InputText
+          style={style}
           type={showPassword && inputType === "password" ? "text" : inputType}
           id={id}
           value={value ? value : null}
           onChange={onChange}
-          className="w-100  "
+          className="w-100"
           placeholder={placeholder}
           inputMode={inputMode}
           pattern={pattern}

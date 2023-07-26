@@ -78,7 +78,7 @@ const Department = ({ data, setData }) => {
   return (
     <>
       <div>
-        <div>
+        {/* <div>
           <CardWithTitle title="General">
             <div className="flex p-3">
               <div>
@@ -93,126 +93,124 @@ const Department = ({ data, setData }) => {
               </div>
             </div>
           </CardWithTitle>
-        </div>
+        </div> */}
         <div className="mt-3">
           <CardWithTitle title="Deparments">
-            <div>
-              <div className="p-3">
-                <div className="flex justify-content-between px-3 p-3">
-                  <div className="text-xs font-semibold text-dark-gray">
-                    Name
-                  </div>
-                  <div
-                    onClick={selectAllDepartment}
-                    className="text-blue text-xs font-semibold cursor-pointer"
-                  >
-                    Add All
-                  </div>
+            <div className="p-3">
+              <div className="flex justify-content-between px-3 p-3">
+                <div className="text-xs  font-semibold text-dark-gray ">
+                  Name
                 </div>
-
-                <div className=" justify-content-between bg-white py-2 border-round-md">
-                  {departments?.map((item, index) => {
-                    return (
-                      <>
-                        <div className="text-xs text-gray-400 flex justify-content-between p-3">
-                          <div className="text-xs">{item.name}</div>
-                          <div className="text-xs">
-                            <div
-                              onClick={() => {
-                                if (
-                                  !selectedDepartment.some(
-                                    (dept) => dept.deptId === item._id
-                                  )
-                                ) {
-                                  setSelectedDepartment([
-                                    ...selectedDepartment,
-                                    {
-                                      deptId: item._id,
-                                      name: item.name,
-                                      wage: 0,
-                                    },
-                                  ]);
-                                }
-                              }}
-                              className="cursor-pointer button-hover "
-                              style={{ width: "15px", height: "15px" }}
-                            >
-                              <img src={Add} alt="" />
+                <div className=" font-semibold ml-4  text-xs text-dark-gray">
+                  Wages
+                </div>
+                {selectedDepartment.length ? (
+                  <div
+                    onClick={() => setSelectedDepartment([])}
+                    className="text-blue  font-semibold cursor-pointer  text-xs "
+                  >
+                    Remove All
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+              <div className="text-sm">
+                <div className="bg-white text-sm border-round-md ">
+                  {selectedDepartment.length ? (
+                    selectedDepartment?.map((item, index) => {
+                      return (
+                        <>
+                          <div className="flex p-3 text-sm justify-content-between ">
+                            <div className="pt-3 w-1">
+                              <span className="text-xs text-gray-300 ">
+                                {item.name}
+                              </span>
+                            </div>
+                            <div>
+                              <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
+                                <div className="flex  justify-content-center">
+                                  <Input
+                                    type="number"
+                                    onChange={(event) => {
+                                      addWages(item, event);
+                                    }}
+                                    placeholder="$0.00"
+                                  ></Input>
+                                </div>
+                              </div>
+                            </div>
+                            <div className=" pt-3 flex justify-content-end">
+                              <div
+                                onClick={() => removeSelectedDepartment(index)}
+                                className="cursor-pointer"
+                                style={{
+                                  width: "15px",
+                                  height: "15px",
+                                }}
+                              >
+                                <img src={Remove} alt="" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <hr className="hrtagstyle" />
-                      </>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="p-3">
-                <div className="flex justify-content-between px-3 p-3">
-                  <div className="text-xs  font-semibold text-dark-gray ">
-                    Name
-                  </div>
-                  <div className=" font-semibold ml-4  text-xs text-dark-gray">
-                    Wages
-                  </div>
-                  {selectedDepartment.length ? (
-                    <div
-                      onClick={() => setSelectedDepartment([])}
-                      className="text-blue  font-semibold cursor-pointer  text-xs "
-                    >
-                      Remove All
-                    </div>
+                          <hr className="hrtagstyle" />
+                        </>
+                      );
+                    })
                   ) : (
-                    <div></div>
+                    <div className="flex p-5 text-sm">
+                      Please Add Department
+                    </div>
                   )}
                 </div>
-                <div className="text-sm">
-                  <div className="bg-white text-sm border-round-md ">
-                    {selectedDepartment.length ? (
-                      selectedDepartment?.map((item, index) => {
-                        return (
-                          <>
-                            <div className="flex p-3 text-sm justify-content-between ">
-                              <div className="pt-3 w-1">
-                                <span className="text-xs text-gray-300 ">
-                                  {item.name}
-                                </span>
-                              </div>
-                              <div>
-                                <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
-                                  <div className="flex  justify-content-center">
-                                    <Input type="number" onChange={(event) => {
-                                      addWages(item, event);
-                                    }} placeholder="$0.00"></Input>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className=" pt-3 flex justify-content-end">
-                                <div
-                                  onClick={() =>
-                                    removeSelectedDepartment(index)
-                                  }
-                                  className="cursor-pointer"
-                                  style={{
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                >
-                                  <img src={Remove} alt="" />
-                                </div>
-                              </div>
-                            </div>
-                            <hr className="hrtagstyle" />
-                          </>
-                        );
-                      })
-                    ) : (
-                      <div className="flex p-5 text-sm">
-                        Please Add Department
-                      </div>
-                    )}
-                  </div>
+              </div>
+            </div>
+            <div className="p-3">
+              <div className="flex justify-content-between px-3 p-3">
+                <div className="text-xs font-semibold text-dark-gray">Name</div>
+                <div
+                  onClick={selectAllDepartment}
+                  className="text-blue text-xs font-semibold cursor-pointer"
+                >
+                  Add All
                 </div>
+              </div>
+
+              <div className=" justify-content-between bg-white py-2 border-round-md">
+                {departments?.map((item, index) => {
+                  return (
+                    <>
+                      <div className="text-xs text-gray-400 flex justify-content-between p-3">
+                        <div className="text-xs">{item.name}</div>
+                        <div className="text-xs">
+                          <div
+                            onClick={() => {
+                              if (
+                                !selectedDepartment.some(
+                                  (dept) => dept.deptId === item._id
+                                )
+                              ) {
+                                setSelectedDepartment([
+                                  ...selectedDepartment,
+                                  {
+                                    deptId: item._id,
+                                    name: item.name,
+                                    wage: 0,
+                                  },
+                                ]);
+                              }
+                            }}
+                            className="cursor-pointer button-hover "
+                            style={{ width: "15px", height: "15px" }}
+                          >
+                            <img src={Add} alt="" />
+                          </div>
+                        </div>
+                      </div>
+                      <hr className="hrtagstyle" />
+                    </>
+                  );
+                })}
               </div>
             </div>
           </CardWithTitle>
