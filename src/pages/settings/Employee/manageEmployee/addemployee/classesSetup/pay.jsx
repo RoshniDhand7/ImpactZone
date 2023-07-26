@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../../../../components/input/input";
+import Inputfields from "../../../../../../components/input/inputfields";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Checkbox from "../../../../../../components/checkbox/checkbox";
@@ -13,6 +14,7 @@ import api from "../../../../../../services/api";
 import { useDispatch } from "react-redux";
 import { paymentOptions } from "./PaymentOptions";
 import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
 const Pay = ({ data, setData, createEmployee }) => {
   const [payRows, setPayRows] = useState([{ name: "" }]);
   const [dropDownLevels, setDropDownLevels] = useState([]);
@@ -151,13 +153,13 @@ const Pay = ({ data, setData, createEmployee }) => {
           {payRows.map((item, index) => {
             return (
               <>
-                <div className="">
-                  <div className="flex justify-content-start">
-                    <div className="col-2 flex">
+                <div className="col flex justify-content-between">
+                  <div className="flex justify-content-between ">
+                    <div className="flex  ">
                       <span className="text-gray-300 text-xs m-2 mt-4">
                         {index + 1}
                       </span>
-                      <div className="col-11">
+                      <div className="mx-2" style={{ width: "8rem" }}>
                         <DropDown
                           options={paymentOptions}
                           optionLabel={"name"}
@@ -166,25 +168,31 @@ const Pay = ({ data, setData, createEmployee }) => {
                         ></DropDown>
                       </div>
                     </div>
-
-                    {item.fields &&
-                      item.fields.map((field) => {
-                        return (
-                          <div>
-                            <div className="col ">
-                              <div className="col flex">
+                    <div className="flex justify-content-between">
+                      {item.fields &&
+                        item.fields.map((field) => {
+                          return (
+                            <div className="mx-2 input-width ">
+                              <div className=" flex flex justify-content-between ">
                                 {field.type === "number" ? (
                                   <>
-                                    <Input
-                                      placeholder="0.00"
-                                      id=""
-                                      type="number"
-                                      // values={data.payments.map(
-                                      //   (p) => p.name === item.name
-                                      // )}
-                                      onChange={handleChange(field.name, item)}
-                                      icon="pi pi-dollar"
-                                    ></Input>
+                                    <div className=" mt-2  flex align-items-center">
+                                      <InputText
+                                        style={{ width: field.width }}
+                                        placeholder="0.00"
+                                        id=""
+                                        type="number"
+                                        // values={data.payments.map(
+                                        //   (p) => p.name === item.name
+                                        // )}
+
+                                        onChange={handleChange(
+                                          field.name,
+                                          item
+                                        )}
+                                      ></InputText>
+                                      <i className="text-bold pi pi-dollar" />
+                                    </div>
                                     <div className="col px-0 flex">
                                       <div className="row">
                                         {field.name === "% Rate" ? (
@@ -209,20 +217,22 @@ const Pay = ({ data, setData, createEmployee }) => {
                                   </>
                                 ) : (
                                   <>
-                                    <div className="mt-2">
+                                    <div className="mt-3 flex justify-content-end">
                                       <Checkbox id={item.name}></Checkbox>
                                     </div>
                                   </>
                                 )}
                               </div>
 
-                              <span className="flex justify-content-end text-xs mt-2 text-gray-300 r-0">
+                              <span className="flex justify-content-end text-xs mt-2 mr-2 text-gray-300 r-0">
                                 {field.name}
                               </span>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                    </div>
+                  </div>
+                  <div>
                     {item.fields ? (
                       <div
                         className="mt-5 cursor-pointer "

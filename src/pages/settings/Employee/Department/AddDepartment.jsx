@@ -149,32 +149,7 @@ const AddDeparment = ({
                     {/* <div className="">
                     <span className=""></span>
                   </div> */}
-                    <div className="flex justify-content-center   w-5  ">
-                      <div className="text-xs flex flex-column justify-content-start font-semibold  w-12">
-                        <table style={{ width: "100%", textAlign: "top" }}>
-                          {selectedEmployees.length ? (
-                            selectedEmployees?.map((emp, index) => {
-                              return (
-                                <tr>
-                                  <td>{emp.firstName + " " + emp.lastName}</td>
-                                </tr>
-                              );
-                            })
-                          ) : (
-                            <>
-                              <div className="mt-6">
-                                <div
-                                  style={{ height: "auto" }}
-                                  className="flex  align-items-center  mt-6  justify-content-center"
-                                >
-                                  None Found
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </table>
-                      </div>
-                    </div>
+
                     <div className=" flex flex-column  justify-content-center mx-3 ">
                       <div className=" ">
                         <Buttons

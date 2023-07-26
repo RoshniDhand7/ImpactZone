@@ -19,7 +19,7 @@ const Input = ({
   maxLength,
   pattern,
   extraclassName,
-  ...props
+  width,
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
   return (
@@ -46,7 +46,7 @@ const Input = ({
           />
         ) : (
           <InputText
-            style={{ width: "100%" }}
+            style={{ width: width ? width : "100%" }}
             placeholder={placeholder}
             icon={icon}
             type={type}
