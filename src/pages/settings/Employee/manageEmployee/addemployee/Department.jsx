@@ -22,6 +22,7 @@ const Department = ({ data, setData }) => {
   const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   let [selectedDepartment, setSelectedDepartment] = useState([]);
+  const [allWagesValue, setAllWagesValue] = useState(null);;
 
   const fetchDepartment = async () => {
     dispatch(showLoaderAction());
@@ -68,8 +69,16 @@ const Department = ({ data, setData }) => {
   };
 
   const addWages = (dept, event) => {
-    dept.wage = Number(event.target.value);
+    dept.wage = Number(event.value);
   };
+
+  const onClickCopytoAll = () => {
+    selectedDepartment = selectedDepartment.map(item => {
+      item.wage = allWagesValue;
+      return item;
+    });
+    return setSelectedDepartment([...selectedDepartment]);
+  }
 
   useEffect(() => {
     fetchDepartment();
@@ -78,22 +87,23 @@ const Department = ({ data, setData }) => {
   return (
     <>
       <div>
-        {/* <div>
+        <div>
           <CardWithTitle title="General">
             <div className="flex p-3">
               <div>
-                <Input title="Default Hourly Wages" placeholder="$0.00"></Input>
+                <Input type="number" onChange={(e) => setAllWagesValue(e.value)} value={allWagesValue}  title="Default Hourly Wages" placeholder="$0.00"></Input>
               </div>
               <div className=" flex align-items-center px-3">
                 <Buttons
                   label="Copy to All"
                   className="btn-dark border-none mx-4"
                   style={{ height: "36px", top: "10px" }}
+                  onClick={onClickCopytoAll}
                 ></Buttons>
               </div>
             </div>
           </CardWithTitle>
-        </div> */}
+        </div>
         <div className="mt-3">
           <CardWithTitle title="Deparments">
             <div className="p-3">
@@ -136,6 +146,7 @@ const Department = ({ data, setData }) => {
                                       addWages(item, event);
                                     }}
                                     placeholder="$0.00"
+                                    value={item.wage}
                                   ></Input>
                                 </div>
                               </div>

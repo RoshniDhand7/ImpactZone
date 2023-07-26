@@ -34,11 +34,11 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
     },
   ]);
   const selectAllOptions = () => {
-    let allDept = exerciseDetail.map((dept) => {
+    let allDept = exerciseDetail.map((item) => {
       return {
-        deptId: dept._id,
-        name: dept.name,
-        wage: 0,
+        id: item.id,
+        name: item.name,
+        priority: item.priority,
       };
     });
 
@@ -54,63 +54,23 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const changePriority = (e, col) => {
-    const updatedExercise = [];
-    exerciseDetail.map((exercise) => {
-      if (exercise.id === col.id) {
-        exercise.priority = e.value;
-        updatedExercise.push(exercise);
-      } else {
-        updatedExercise.push(exercise);
-      }
-    });
-    setExerciseDetail(updatedExercise);
+    col.priority = e.value;
+    setSelectedOptions([...selectedOptions])
   };
 
-  const priorities = [
-    { name: "Suggested" },
-    { name: "High" },
-    { name: "Medium" },
-    { name: "Low" },
-  ];
+  const priorities = [ "Suggested", "High", "Medium", "Low" ];
 
   useEffect(() => {
     let substituteOptions = [];
     selectedOptions?.map((exercise) => {
       substituteOptions.push({
         name: exercise?.name,
-        priority: exercise?.priority?.name,
+        priority: exercise?.priority,
       });
     });
 
-    setData({ ...data, substituteOption: substituteOptions });
+  setData({ ...data, substituteOption: substituteOptions });
   }, [selectedOptions, exerciseDetail]);
-  console.log("data", data);
-  const PriorityBodyTemplate = (col) => {
-    return (
-      <span>
-        <div style={{ width: "30%" }}>
-          <DropDown
-            value={col.priority}
-            options={priorities}
-            onChange={(e) => changePriority(e, col)}
-            optionLabel="name"
-          ></DropDown>
-        </div>
-      </span>
-    );
-  };
-
-  // const removeRowPriority = (col) => {
-  //   return (
-  //     <>
-  //       <div className="flex justify-content-end">
-  //         <span onClick={() => onRemoveOption(col)}>
-  //           <i className="pi pi-minus-circle"></i>
-  //         </span>
-  //       </div>
-  //     </>
-  //   );
-  // };
 
   const tableHeadingPriority = [
     { field: "", id: "" },
@@ -118,7 +78,6 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
     {
       field: "priority",
       header: "Priority",
-      body: PriorityBodyTemplate,
       id: "",
     },
     { field: "", header: "", id: "" },
@@ -130,18 +89,6 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
         <div className="col-2 mb-3">
           <DropDown title="Similar To"></DropDown>
         </div>
-        {/* <div>
-          <div className=" ">
-            <TableData
-              data={exerciseDetail}
-              selectionMode="checkbox"
-              columns={tableHeadingPriority}
-              key="id"
-              selected={selectedOptions}
-              changeSelection={(e) => setSelectedOptions(e.value)}
-            ></TableData>
-          </div>
-        </div> */}
         <div className="mt-3">
           <CardWithTitle title="Deparments">
             <div className="p-3">
@@ -150,7 +97,7 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                   Name
                 </div>
                 <div className=" font-semibold ml-4  text-xs text-dark-gray">
-                  Wages
+                  Priority
                 </div>
                 {selectedOptions.length ? (
                   <div
@@ -185,9 +132,9 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                                     }}
                                   >
                                     <DropDown
-                                      // value={priority}
+                                      value={item.priority}
                                       options={priorities}
-                                      optionLabel="name"
+                                      onChange={(e) => changePriority(e, item)}
                                     ></DropDown>
                                   </div>
                                 </div>
@@ -240,15 +187,15 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                             onClick={() => {
                               if (
                                 !selectedOptions.some(
-                                  (dept) => dept.deptId === item._id
+                                  (option) => option.id === item.id
                                 )
                               ) {
                                 setSelectedOptions([
                                   ...selectedOptions,
                                   {
-                                    deptId: item._id,
+                                    id: item.id,
                                     name: item.name,
-                                    wage: 0,
+                                    priority: item.priority,
                                   },
                                 ]);
                               }

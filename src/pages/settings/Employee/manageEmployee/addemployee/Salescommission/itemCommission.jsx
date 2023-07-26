@@ -6,16 +6,19 @@ import Buttons from "../../../../../../components/buttons/button";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import Input from "../../../../../../components/input/input";
 import { useState } from "react";
+import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 
 const ItemCommission = ({ setData, data, createEmployee }) => {
 
   const [payType, setPayType] = useState("");
   const [isPayloadReady, setIsPayloadReady] = useState(false);
+  const [commissionRows, setCommissionRows] = useState([{ name: "" }]);
+  const commissionGroupOptions = ["Shakes", "Bars", "Supplements"];
 
   const itemCommissionTableRow = {
       commissionGroup: "",
-      commissionType: "",
-      pay: null,
+      // commissionType: "",
+      // pay: null,
   };
 
   const commGroupOptions = [ "Shakes", "Bars", "Supplements" ];
@@ -23,108 +26,44 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
 
   const [itemCommissionRows, setItemCommissionRows] = useState([ itemCommissionTableRow ]);
 
-  const commissionGroupTemp = (col) => {
-    return <DropDown options={commGroupOptions} value={col.commissionGroup} placeholder="Select Group" onChange={(e) => {
-      if(!itemCommissionRows?.some(item => item.commissionGroup === e.value)) {
-        col.commissionGroup = e.value;
-        return setItemCommissionRows([...itemCommissionRows]);
-      }
-    }}></DropDown>;
+  const commissionFields = {
+    fields: [
+      {
+        name: "Commission Type",
+        type: "dropdown",
+        key: "commissionType",
+        placeholder: "Select Type",
+      },
+      {
+        name: "Pay",
+        type: "input",
+        subType: "number",
+        key: "pay",
+      },
+    ],
   };
 
-  const commissionTypeTemp = (col) => {
-    return <DropDown options={commTypeOptions} value={col.commissionType} placeholder="Select Type" onChange={(e) =>  {
-      col.commissionType = e.value;
-      return setItemCommissionRows([...itemCommissionRows]);
-    }}></DropDown>;
+  const onSelectCommGroup = (e, index) => {
+    if (!commissionRows.some((item) => item.name === e.target.value)) {
+      const commissionRowsClone = [...commissionRows];
+      commissionRowsClone[index] = {
+        name: e.target.value,
+        ...commissionFields,
+      };
+      setCommissionRows(commissionRowsClone);
+      setData(() => {
+        return {
+          ...data,
+          salesItemCommission: [
+            ...data.salesItemCommission,
+            {
+              commissionGroup: e.target.value,
+            },
+          ],
+        };
+      });
+    }
   };
-
-  const changePayType = (e) => {
-    setPayType(e.target.value);
-  };
-
-  const payTemp = (col) => {
-    return (
-      <div className="flex align-items-center">
-        <Input type="number" placeholder="0.00" value={col.pay} onChange={(e) => {
-          col.pay = e.value;
-          return setItemCommissionRows([...itemCommissionRows]);
-        }}/>
-        <input
-          type="radio"
-          name="payType"
-          id="dollar"
-          onChange={(e) => changePayType(e)}
-          value="dollar"
-          hidden
-        />
-        <label
-          HtmlFor="dollar"
-          className={payType === "dollar" ? "selected-pay-type" : "pay-type"}
-        >
-          $
-        </label>
-        <input
-          type="radio"
-          name="payType"
-          id="percentage"
-          value="percentage"
-          hidden
-          onChange={(e) => changePayType(e)}
-        />
-        <label
-          HtmlFor="percentage"
-          className={
-            payType === "percentage" ? "selected-pay-type" : "pay-type"
-          }
-        >
-          %
-        </label>
-      </div>
-    );
-  };
-
-  const actionTemp = (col, field) => {
-    return (
-      <span onClick={() => {
-        return removeCommissionRow(col, field);
-      }}>
-        <i className="pi pi-minus-circle"></i>
-      </span>
-    );
-  };
-
-  const commissionTableColumns = [
-    {
-      field: "commissionGroup",
-      header: "Commission Group",
-      body: commissionGroupTemp,
-    },
-    {
-      field: "",
-      header: "",
-    },
-    {
-      field: "",
-      header: "",
-    },
-    {
-      field: "commissionType",
-      header: "Commission Type",
-      body: commissionTypeTemp,
-    },
-    {
-      field: "",
-      header: "",
-    },
-    {
-      field: "",
-      header: "",
-    },
-
-    { field: "pay", header: "Pay", body: payTemp },
-    { field: "", header: "", body: actionTemp },
-  ];
 
   const addCommissionRow = () => {
     if(itemCommissionRows.length <= commGroupOptions.length) {
@@ -163,12 +102,84 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
             <DropDown title="similar To"></DropDown>
           </div>
         </div>
-        <div>
-          <TableData
-            data={itemCommissionRows}
-            columns={commissionTableColumns}
-          ></TableData>
-        </div>
+          <div>
+        <CardWithTitle title="Bonus">
+          <div className=" pb-0 ">
+            {commissionRows.map((item, index) => {
+              return (
+                <>
+                  <div className="flex p-3">
+                    <div className="col-2 mt-2">
+                      <DropDown
+                        title=""
+                        options={commissionGroupOptions}
+                        onChange={(e) => onSelectCommGroup(e, index)}
+                        placeholder="Select Group"
+                        value={item.name}
+                      ></DropDown>
+                    </div>
+
+                    {item.fields?.map((field, fieldIndex) => {
+                      return (
+                        <>
+                          <div className="col flex ">
+                            <div className="col">
+                              {field.type === "input" ? (
+                                <Input
+                                  title=""
+                                  // type={field.subType}
+                                  // placeholder={field.placeholder}
+                                  // onChange={(e) => {
+                                  //   onEnterData(e.value, index, field.key);
+                                  // }}
+                                  // value={
+                                  //   data.salesCommissionBonus[index][field.key]
+                                  // }
+                                ></Input>
+                              ) : (
+                                <>
+                                  <div className="">
+                                    <DropDown
+                                      title=""
+                                      // options={timeFrameOptions}
+                                      // onChange={(e) => {
+                                      //   onEnterData(
+                                      //     e.target.value,
+                                      //     index,
+                                      //     field.key
+                                      //   );
+                                      // }}
+                                      // placeholder="Time Frame"
+                                      // value={
+                                      //   data.salesCommissionBonus[index]
+                                      //     .timeFramePeriod
+                                      // }
+                                    ></DropDown>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                    {/* {item.fields ? (
+                      <div
+                        className="mt-5  cursor-pointer"
+                        onClick={() => removePayRow(item)}
+                      >
+                        <i className="pi pi-minus-circle"></i>
+                      </div>
+                    ) : (
+                      ""
+                    )} */}
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        </CardWithTitle>
+      </div>
         <div className="flex justify-content-end p-2 ">
           <div className=" mt-3 flex">
             <div className="mx-2">

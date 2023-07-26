@@ -191,7 +191,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                                           item
                                         )}
                                       ></InputText>
-                                      <i className="text-bold pi pi-dollar" />
+                                      {field.dollarsign ? <i className="text-bold pi pi-dollar" /> : null }
                                     </div>
                                     <div className="col px-0 flex">
                                       <div className="row">
