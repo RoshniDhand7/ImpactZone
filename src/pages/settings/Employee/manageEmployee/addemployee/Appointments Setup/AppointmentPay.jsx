@@ -51,7 +51,7 @@ console.log(data.appointmentCommissionSetups, selectedOptions)
             setDefaultPay("");
             setSelectedOptions(changedSelectedOptions);
           }}
-          value={col.pay}
+          value={col.pay || null}
         />
         <input
           type="radio"

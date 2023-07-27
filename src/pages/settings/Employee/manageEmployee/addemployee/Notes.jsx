@@ -92,7 +92,7 @@ const Notes = ({ setData, data, createEmployee }) => {
             <div className="mx-2">
               <Buttons
                 onClick={createEmployee}
-                label="Save"
+                label="Done"
                 className="btn-dark  border-none"
               ></Buttons>
             </div>

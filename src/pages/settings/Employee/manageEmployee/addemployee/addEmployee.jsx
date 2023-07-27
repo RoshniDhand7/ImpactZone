@@ -67,6 +67,7 @@ const AddEmployee = () => {
     appointmentCalendarDefault: [],
     salesItemCommission: [],
     salesCommissionBonus: [],
+    notes: []
   });
   const createEmployee = async () => {
     try {
