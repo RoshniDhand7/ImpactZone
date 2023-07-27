@@ -55,10 +55,10 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
 
   const changePriority = (e, col) => {
     col.priority = e.value;
-    setSelectedOptions([...selectedOptions])
+    setSelectedOptions([...selectedOptions]);
   };
 
-  const priorities = [ "Suggested", "High", "Medium", "Low" ];
+  const priorities = ["Suggested", "High", "Medium", "Low"];
 
   useEffect(() => {
     let substituteOptions = [];
@@ -69,7 +69,7 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
       });
     });
 
-  setData({ ...data, substituteOption: substituteOptions });
+    setData({ ...data, substituteOption: substituteOptions });
   }, [selectedOptions, exerciseDetail]);
 
   const tableHeadingPriority = [
@@ -176,7 +176,10 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                 </div>
               </div>
 
-              <div className=" justify-content-between bg-white py-2 border-round-md">
+              <div
+                className=" justify-content-between bg-white py-2 border-round-md"
+                style={{ height: "200px", overflow: "auto" }}
+              >
                 {exerciseDetail?.map((item, index) => {
                   return (
                     <>

@@ -22,7 +22,7 @@ const Department = ({ data, setData }) => {
   const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   let [selectedDepartment, setSelectedDepartment] = useState([]);
-  const [allWagesValue, setAllWagesValue] = useState(null);;
+  const [allWagesValue, setAllWagesValue] = useState(null);
 
   const fetchDepartment = async () => {
     dispatch(showLoaderAction());
@@ -73,12 +73,12 @@ const Department = ({ data, setData }) => {
   };
 
   const onClickCopytoAll = () => {
-    selectedDepartment = selectedDepartment.map(item => {
+    selectedDepartment = selectedDepartment.map((item) => {
       item.wage = allWagesValue;
       return item;
     });
     return setSelectedDepartment([...selectedDepartment]);
-  }
+  };
 
   useEffect(() => {
     fetchDepartment();
@@ -91,7 +91,13 @@ const Department = ({ data, setData }) => {
           <CardWithTitle title="General">
             <div className="flex p-3">
               <div>
-                <Input type="number" onChange={(e) => setAllWagesValue(e.value)} value={allWagesValue}  title="Default Hourly Wages" placeholder="$0.00"></Input>
+                <Input
+                  type="number"
+                  onChange={(e) => setAllWagesValue(e.value)}
+                  value={allWagesValue}
+                  title="Default Hourly Wages"
+                  placeholder="$0.00"
+                ></Input>
               </div>
               <div className=" flex align-items-center px-3">
                 <Buttons
@@ -126,7 +132,7 @@ const Department = ({ data, setData }) => {
                 )}
               </div>
               <div className="text-sm">
-                <div className="bg-white text-sm border-round-md ">
+                <div className="bg-white text-sm border-round-md  ">
                   {selectedDepartment.length ? (
                     selectedDepartment?.map((item, index) => {
                       return (
@@ -187,7 +193,10 @@ const Department = ({ data, setData }) => {
                 </div>
               </div>
 
-              <div className=" justify-content-between bg-white py-2 border-round-md">
+              <div
+                className=" justify-content-between bg-white py-2 border-round-md"
+                style={{ height: "250px", overflow: "auto" }}
+              >
                 {departments?.map((item, index) => {
                   return (
                     <>

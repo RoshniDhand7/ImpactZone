@@ -149,11 +149,11 @@ const Pay = ({ data, setData, createEmployee }) => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="col-12 bg-lightest-blue border-round-sm mt-3 shadow-4 ">
+        <div className="col-12 bg-lightest-blue border-round-sm mt-3 shadow-4 p-2 ">
           {payRows.map((item, index) => {
             return (
               <>
-                <div className=" flex justify-content-between">
+                <div className=" flex justify-content-between m-2">
                   <div className="flex justify-content-between">
                     <div className="flex  ">
                       <span className="text-gray-300 text-xs m-2 mt-4">
@@ -172,29 +172,31 @@ const Pay = ({ data, setData, createEmployee }) => {
                       {item.fields &&
                         item.fields.map((field) => {
                           return (
-                            <div className="mx-2 justify-content-between  ">
-                              <div className=" flex flex justify-content-between ">
+                            <div
+                              className="mx-2   justify-content-between"
+                              style={{
+                                width: `calc(100/${item.fields.length})%`,
+                              }}
+                            >
+                              <div className=" flex flex justify-content-between mt-2 ">
                                 {field.type === "number" ? (
                                   <>
-                                    <div className=" mt-2  flex align-items-center">
-                                      <InputText
-                                        style={{ width: field.width }}
-                                        placeholder="0.00"
-                                        id=""
-                                        type="number"
-                                        // values={data.payments.map(
-                                        //   (p) => p.name === item.name
-                                        // )}
+                                    <InputText
+                                      // style={{ width: field.width }}
+                                      placeholder="0.00"
+                                      id=""
+                                      className="w-12"
+                                      type="number"
+                                      // values={data.payments.map(
+                                      //   (p) => p.name === item.name
+                                      // )}
 
-                                        onChange={handleChange(
-                                          field.name,
-                                          item
-                                        )}
-                                      ></InputText>
-                                      {field.dollarsign ? (
-                                        <i className="font-bold pi pi-dollar" />
-                                      ) : null}
-                                    </div>
+                                      onChange={handleChange(field.name, item)}
+                                    ></InputText>
+
+                                    {field.dollarsign ? (
+                                      <i className=" mx-3 mt-2 font-bold pi pi-dollar" />
+                                    ) : null}
                                     <div className="col px-0 flex">
                                       <div className="row">
                                         {field.name === "% Rate" ? (
@@ -203,7 +205,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                                               width: "18px",
                                               height: "20px",
                                             }}
-                                            className="flex align-items-center mt-2"
+                                            className="flex align-items-center "
                                           >
                                             <img
                                               src={Divide}
@@ -226,7 +228,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                                 )}
                               </div>
 
-                              <span className="flex justify-content-end text-xs mt-2 mr-2 text-gray-300 r-0">
+                              <span className="flex justify-content-end text-xs mt-2  w-10 text-gray-300">
                                 {field.name}
                               </span>
                             </div>
