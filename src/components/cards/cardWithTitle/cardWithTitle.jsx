@@ -10,13 +10,15 @@ const CardWithTitle = ({
   title4,
   extraclassName,
   title2className,
+  title1className,
+  title3className,
 }) => {
   return (
     <>
       <div>
         <div className="btn-dark  p-3 border-round shadow-2">
           <div className={`flex justify-content-between ${extraclassName}`}>
-            <div className="">
+            <div className={`text-xl ${title1className}`}>
               {title ? (
                 <span className="text-xl">{title}</span>
               ) : (
@@ -24,7 +26,7 @@ const CardWithTitle = ({
               )}
             </div>
             <span className={`text-xl ${title2className}`}>{title2}</span>
-            <span className="text-xl">{title3}</span>
+            <span className={`text-xl ${title3className}`}>{title3}</span>
             {title4 ? <span>{title4}</span> : ""}
           </div>
         </div>

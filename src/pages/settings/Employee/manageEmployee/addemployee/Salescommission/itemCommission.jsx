@@ -118,13 +118,16 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
               title2="Commission Type"
               title3="Pay"
               extraclassName="flex justify-content-around"
-              title2className=" pr-3"
+              title1className="w-3
+              "
+              title2className="w-3"
+              title3className="w-3 "
             >
               {commissionRows.map((item, index) => {
                 return (
                   <>
-                    <div className="flex justify-content-start p-3">
-                      <div className="padding-extra input-size">
+                    <div className="flex justify-content-between p-3">
+                      <div className="ml-7  input-size">
                         <DropDown
                           placeholder="Select Group"
                           options={commGroupOptions}
@@ -132,71 +135,75 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                           onChange={(e) => onSelectCommGroup(e, index)}
                         ></DropDown>
                       </div>
-                      {item.fields?.map((field, fieldIndex) => {
-                        return (
-                          <>
-                            <div className="col flex ">
-                              <div className="col">
-                                {field.type === "input" ? (
-                                  <Input
-                                    title=""
-                                    type={field.subType}
-                                    placeholder={field.placeholder}
-                                    onChange={(e) => {
-                                      onEnterData(e.value, index, field.key);
-                                    }}
-                                    value={
-                                      data.salesItemCommission[index][field.key]
-                                    }
-                                  ></Input>
-                                ) : (
-                                  <>
-                                    <div className="">
-                                      <DropDown
-                                        title=""
-                                        options={commTypeOptions}
-                                        onChange={(e) => {
-                                          onEnterData(
-                                            e.target.value,
-                                            index,
-                                            field.key
-                                          );
-                                        }}
-                                        placeholder="Commission Type"
-                                        value={
-                                          data.salesItemCommission[index][
-                                            field.key
-                                          ]
-                                        }
-                                      ></DropDown>
-                                    </div>
-                                  </>
-                                )}
+                      <div className="flex  ">
+                        {item.fields?.map((field, fieldIndex) => {
+                          return (
+                            <>
+                              <div className=" ">
+                                <div className="  ">
+                                  {field.type === "input" ? (
+                                    <Input
+                                      title=""
+                                      type={field.subType}
+                                      placeholder={field.placeholder}
+                                      onChange={(e) => {
+                                        onEnterData(e.value, index, field.key);
+                                      }}
+                                      value={
+                                        data.salesItemCommission[index][
+                                          field.key
+                                        ]
+                                      }
+                                    ></Input>
+                                  ) : (
+                                    <>
+                                      <div className="extra-padding">
+                                        <DropDown
+                                          title=""
+                                          options={commTypeOptions}
+                                          onChange={(e) => {
+                                            onEnterData(
+                                              e.target.value,
+                                              index,
+                                              field.key
+                                            );
+                                          }}
+                                          placeholder="Commission Type"
+                                          value={
+                                            data.salesItemCommission[index][
+                                              field.key
+                                            ]
+                                          }
+                                        ></DropDown>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                      {item.fields && item.fields.length ? (
-                        <div className="flex align-items-center">
-                          <span>
-                            <i className="pi pi-dollar font-bold mx-2 "></i>
-                          </span>
+                            </>
+                          );
+                        })}
+                        {item.fields && item.fields.length ? (
+                          <div className="flex align-items-center">
+                            <span>
+                              <i className="pi pi-dollar font-bold mx-2 "></i>
+                            </span>
 
-                          <div
-                            className="mx-3"
-                            style={{ width: "18px", height: "20px" }}
-                          >
-                            <img src={divide} alt="" />
+                            <div
+                              className="mx-3"
+                              style={{ width: "18px", height: "20px" }}
+                            >
+                              <img src={divide} alt="" />
+                            </div>
                           </div>
-                          <div
-                            className="mt-5  cursor-pointer"
-                            onClick={() => removeCommissionRow(item)}
-                          >
-                            <i className="pi pi-minus-circle"></i>
-                          </div>
-                        </div>
-                      ) : null}
+                        ) : null}
+                      </div>
+                      <div
+                        className="mt-2 cursor-pointer"
+                        onClick={() => removeCommissionRow(item)}
+                      >
+                        <i className=" pi pi-minus-circle"></i>
+                      </div>
                     </div>
                   </>
                 );
