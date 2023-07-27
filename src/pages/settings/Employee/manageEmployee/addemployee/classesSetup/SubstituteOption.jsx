@@ -32,6 +32,11 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
       name: "Bhangra",
       priority: null,
     },
+    {
+      id: 5,
+      name: "Pallate",
+      priority: null,
+    },
   ]);
   const selectAllOptions = () => {
     let allDept = exerciseDetail.map((item) => {
@@ -111,7 +116,10 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                 )}
               </div>
               <div className="text-sm">
-                <div className="bg-white text-sm border-round-md ">
+                <div
+                  className="bg-white text-sm border-round-md "
+                  style={{ maxHeight: "280px", overflow: "auto" }}
+                >
                   {selectedOptions.length ? (
                     selectedOptions?.map((item, index) => {
                       return (

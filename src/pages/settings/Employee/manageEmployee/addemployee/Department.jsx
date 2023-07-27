@@ -132,7 +132,10 @@ const Department = ({ data, setData }) => {
                 )}
               </div>
               <div className="text-sm">
-                <div className="bg-white text-sm border-round-md  ">
+                <div
+                  className="bg-white text-sm border-round-md  "
+                  style={{ maxHeight: "335px", overflow: "auto" }}
+                >
                   {selectedDepartment.length ? (
                     selectedDepartment?.map((item, index) => {
                       return (
