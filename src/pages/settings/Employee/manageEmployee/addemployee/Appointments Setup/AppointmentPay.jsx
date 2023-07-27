@@ -201,19 +201,17 @@ console.log(data.appointmentCommissionSetups, selectedOptions)
               <div className="col-2">
                 <Input title="Default" value={defaultPay} onChange={(e) => onEnterDefaultPay(e)}></Input>
               </div>
-
               <div
                 style={{ width: "18px", height: "20px" }}
-                className="flex align-items-center mt-5  "
-              >
+                className="flex align-items-center mt-5">
                 <span className="mt-2">$</span>
-                <img src={Divide} alt="" className="mx-2 mt-2 " />
+                <img src={Divide} alt="" className="mx-2 mt-2" />
               </div>
             </div>
           </CardWithTitle>
         </div>
         <div className="my-5">
-          <span className="font-bold text-900 text-xl ">Commission Setups</span>
+          <span className="font-bold text-900 text-xl">Commission Setups</span>
           <div className="mt-2">
             <div className=" ">
               <TableData
