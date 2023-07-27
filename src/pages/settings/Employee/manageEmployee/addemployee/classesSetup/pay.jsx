@@ -153,8 +153,8 @@ const Pay = ({ data, setData, createEmployee }) => {
           {payRows.map((item, index) => {
             return (
               <>
-                <div className="col flex justify-content-between">
-                  <div className="flex justify-content-between ">
+                <div className=" flex justify-content-between">
+                  <div className="flex justify-content-between">
                     <div className="flex  ">
                       <span className="text-gray-300 text-xs m-2 mt-4">
                         {index + 1}
@@ -172,7 +172,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                       {item.fields &&
                         item.fields.map((field) => {
                           return (
-                            <div className="mx-2 input-width ">
+                            <div className="mx-2 justify-content-between  ">
                               <div className=" flex flex justify-content-between ">
                                 {field.type === "number" ? (
                                   <>
