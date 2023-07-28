@@ -43,7 +43,7 @@ function App() {
       setIsLogged(true);
     }
   }, []);
-
+console.log(isLogged)
   return (
     <>
       <Loader />
