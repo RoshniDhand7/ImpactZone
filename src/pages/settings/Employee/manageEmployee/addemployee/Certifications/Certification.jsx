@@ -32,73 +32,78 @@ const Certifications = () => {
         <div>
           <div>
             <CardWithTitle title="General">
-              <div className="flex p-3">
-                <div className="col">
-                  <DropDown title="Status" placeholder="Active"></DropDown>
-                </div>
-                <div className="col">
-                  <DropDown title="Search By" placeholder="Active"></DropDown>
-                </div>
-                <div className="col">
-                  <Input title="Search Text" placeholder="Active"></Input>
-                </div>
-              </div>
-            </CardWithTitle>
-          </div>
-          <div className="my-2">
-            <CardWithTitle title="Acquired Date">
-              <div className="flex">
-                <div className=" p-4 flex ">
-                  <div className="col border-round bg-white ">Date</div>
-                  <div className="">
-                    <Calendar
-                      value={dates}
-                      onChange={(e) => setDates(e.value)}
-                      selectionMode="range"
-                      readOnlyInput
-                      icon="pi pi-calendar"
-                      showIcon
-                    />
+              <div className="p-4">
+                <div className="flex">
+                  <div className="col">
+                    <DropDown title="Status" placeholder="Active"></DropDown>
+                  </div>
+                  <div className="col">
+                    <DropDown title="Search By" placeholder="Active"></DropDown>
+                  </div>
+                  <div className="col">
+                    <Input title="Search Text" placeholder="Active"></Input>
                   </div>
                 </div>
-                <div className="col-9 mt-2 flex">
-                  <div className="col">
-                    <Buttons
-                      label="Today"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
+                <div className=" flex">
+                  <div className="mt-4 flex ">
+                    <div
+                      className="col border-round bg-white  "
+                      style={{ height: "40px" }}
+                    >
+                      Date
+                    </div>
+                    <div className="">
+                      <Calendar
+                        value={dates}
+                        onChange={(e) => setDates(e.value)}
+                        selectionMode="range"
+                        readOnlyInput
+                        icon="pi pi-calendar"
+                        showIcon
+                      />
+                    </div>
                   </div>
-                  <div className="col">
-                    <Buttons
-                      label="Yesterday"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
+                  <div className="col-10 mt-2 flex">
+                    <div className="col">
+                      <Buttons
+                        label="Today"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
+                    <div className="col">
+                      <Buttons
+                        label="Yesterday"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
+                    <div className="col">
+                      <Buttons
+                        label="This Week"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
+                    <div className="col">
+                      <Buttons
+                        label="Last Week"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
+                    <div className="col">
+                      <Buttons
+                        label="This Month"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
+                    <div className="col">
+                      <Buttons
+                        label="Last Month"
+                        className="bg-white text-sm text-900 border-none"
+                      ></Buttons>
+                    </div>
                   </div>
-                  <div className="col">
-                    <Buttons
-                      label="This Week"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
-                  </div>
-                  <div className="col">
-                    <Buttons
-                      label="Last Week"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
-                  </div>
-                  <div className="col">
-                    <Buttons
-                      label="This Month"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
-                  </div>
-                  <div className="col">
-                    <Buttons
-                      label="Last Month"
-                      className="bg-white text-sm text-900 border-none"
-                    ></Buttons>
-                  </div>
-                  <div className="col mr-2">
+                </div>
+                <div className="flex justify-content-end ">
+                  <div className=" mr-2">
                     <Buttons
                       label="Search"
                       className="btn-dark text-sm  border-none"
@@ -108,6 +113,7 @@ const Certifications = () => {
               </div>
             </CardWithTitle>
           </div>
+
           <div className=" ">
             <DataTable
               value={relationshipData}

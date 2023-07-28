@@ -26,6 +26,20 @@ const Notes = ({ setData, data, createEmployee }) => {
               >
                 <div className="font-semibold">None Found</div>
               </div>
+              <div
+                style={{ height: "250px" }}
+                className="p-3 flex justify-content-between"
+              >
+                <div className="font-semibold">
+                  <span>gym owner</span>
+                </div>
+                <div className="font-semibold">
+                  <span>28/7/2023</span>
+                </div>
+                <div className="font-semibold">
+                  <span>gym owner</span>
+                </div>
+              </div>
             </CardWithTitle>
           </div>
         </div>
