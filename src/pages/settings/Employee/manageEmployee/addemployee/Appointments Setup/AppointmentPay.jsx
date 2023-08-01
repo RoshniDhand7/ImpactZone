@@ -77,7 +77,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
             setDefaultPay("");
             setSelectedOptions(changedSelectedOptions);
           }}
-          value={col.pay}
+          value={col.pay || null}
         />
         <input
           type="radio"
@@ -228,13 +228,11 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                   onChange={(e) => onEnterDefaultPay(e)}
                 ></Input>
               </div>
-
               <div
                 style={{ width: "18px", height: "20px" }}
-                className="flex align-items-center mt-5  "
-              >
+                className="flex align-items-center mt-5">
                 <span className="mt-2">$</span>
-                <img src={Divide} alt="" className="mx-2 mt-2 " />
+                <img src={Divide} alt="" className="mx-2 mt-2" />
               </div>
             </div>
           </CardWithTitle>

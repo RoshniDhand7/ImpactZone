@@ -36,9 +36,13 @@ const Login = ({ setIsLogged }) => {
       const firstname = res.data.firstName;
       const email = res.data.email;
       const lastname = res.data.lastName;
+      const fullName = res.data.firstName + " " + res.data.lastName;
+
       localStorage.setItem("firstName", firstname);
       localStorage.setItem("email", email);
       localStorage.setItem("lastName", lastname);
+      localStorage.setItem("fullName", fullName);
+
       dispatch(showToast({ severity: "success", summary: res.message }));
       setIsLogged(true);
       navigate("/");

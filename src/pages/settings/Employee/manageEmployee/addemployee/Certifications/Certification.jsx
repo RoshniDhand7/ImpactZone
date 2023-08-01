@@ -102,8 +102,8 @@ const Certifications = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-content-end ">
-                  <div className=" mr-2">
+                <div className="flex justify-content-end">
+                  <div className="mr-3">
                     <Buttons
                       label="Search"
                       className="btn-dark text-sm  border-none"
@@ -114,7 +114,7 @@ const Certifications = () => {
             </CardWithTitle>
           </div>
 
-          <div className=" ">
+          <div className="mt-3">
             <DataTable
               value={relationshipData}
               selection={selectedPos}

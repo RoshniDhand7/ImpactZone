@@ -8,10 +8,26 @@ import { useState } from "react";
 
 const Notes = ({ setData, data, createEmployee }) => {
   const [showNotes, setActiveNotes] = useState(false);
-  const [value, setValue] = useState("");
+  const [noteValue, setNoteValue] = useState({ note: "" });
 
   const onClickActiveNotes = () => {
     setActiveNotes((prev) => !prev);
+  };
+
+  const addNote = () => {
+    setData(() => {
+      return {
+        ...data,
+        notes: [
+          ...data.notes,
+          {
+            ...noteValue,
+          },
+        ],
+      };
+    });
+    setNoteValue({note: ""});
+    setActiveNotes(false);
   };
 
   const showTableNotes = () => {
@@ -19,27 +35,36 @@ const Notes = ({ setData, data, createEmployee }) => {
       <>
         <div>
           <div>
-            <CardWithTitle title="Taken By" title2="Date/Time" title3="Notes">
-              <div
-                style={{ height: "250px" }}
-                className="p-3 flex justify-content-center align-items-center"
-              >
-                <div className="font-semibold">None Found</div>
-              </div>
-              <div
-                style={{ height: "250px" }}
-                className="p-3 flex justify-content-between"
-              >
-                <div className="font-semibold">
-                  <span>gym owner</span>
+            <CardWithTitle title="Taken By" title2="Date/Time" title3="Notes" title1className="w-3" title2className="w-3" title3className="w-3">
+              {!data.notes.length ? (
+                <div
+                  style={{ height: "250px" }}
+                  className="p-3 flex justify-content-center align-items-center"
+                >
+                  <div className="font-semibold">None Found</div>
                 </div>
-                <div className="font-semibold">
-                  <span>28/7/2023</span>
-                </div>
-                <div className="font-semibold">
-                  <span>gym owner</span>
-                </div>
-              </div>
+              ) : (
+                data.notes.map((item) => {
+                  return (
+                    <>
+                      <div
+                        style={{ height: "auto" }}
+                        className="p-3 flex justify-content-between"
+                      >
+                        <div className="font-semibold col-4">
+                          <span>{item.createdBy}</span>
+                        </div>
+                        <div className="font-semibold col-4 ml-5">
+                          <span>{`${new Date(item.createdAt).toLocaleDateString()} ${new Date(item.createdAt).toLocaleTimeString()}`}</span>
+                        </div>
+                        <div className="font-semibold col-4">
+                          <span>{item.note}</span>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })
+              )}
             </CardWithTitle>
           </div>
         </div>
@@ -61,7 +86,7 @@ const Notes = ({ setData, data, createEmployee }) => {
               ></Buttons>
             </div>
             <div className="mx-2">
-              <Buttons label="Save" className="btn-dark  border-none"></Buttons>
+              <Buttons label="Save" onClick={createEmployee} className="btn-dark  border-none"></Buttons>
             </div>
             <div>
               <Buttons
@@ -87,13 +112,12 @@ const Notes = ({ setData, data, createEmployee }) => {
               <div className="pt-2">
                 <InputTextarea
                   style={{ width: "100%", height: "250px" }}
-                  value={data.notes}
+                  value={noteValue.note}
                   onChange={(e) =>
-                    setData(() => {
-                      return {
-                        ...data,
-                        notes: e.target.value,
-                      };
+                    setNoteValue({
+                      note: e.target.value,
+                      createdBy: localStorage.getItem("fullName"),
+                      createdAt: Date.now(),
                     })
                   }
                 />
@@ -105,8 +129,8 @@ const Notes = ({ setData, data, createEmployee }) => {
           <div className="flex  mr-2 mt-3 ">
             <div className="mx-2">
               <Buttons
-                onClick={createEmployee}
-                label="Save"
+                onClick={addNote}
+                label="Done"
                 className="btn-dark  border-none"
               ></Buttons>
             </div>

@@ -31,7 +31,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
     // if (group?.length) {
     //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
     // } else {
-    setData({ ...data, [name]: e.target.value || e.value });
+    setData({ ...data, [name]: e?.target?.value || e.value });
     // }
   };
 
@@ -101,7 +101,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         type="number"
                         pattern="[0-10]"
                         maxLength={12}
-                        value={data.primaryPhone}
+                        value={data.primaryPhone || null}
                         onChange={handelChange("primaryPhone")}
                       ></Input>
                     </div>
@@ -112,7 +112,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         type="number"
                         maxLength={12}
                         pattern="[0-10]"
-                        value={data.workPhone}
+                        value={data.workPhone || null}
                         onChange={handelChange("workPhone")}
                       ></Input>
                     </div>
@@ -121,7 +121,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Ext."
                         id=""
                         maxLength={4}
-                        value={data.workPhoneExt}
+                        value={data.workPhoneExt || null}
                         onChange={handelChange("workPhoneExt")}
                       ></Input>
                     </div>
@@ -132,7 +132,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         type="number"
                         pattern="[0-10]"
                         maxLength={12}
-                        value={data.mobilePhone}
+                        value={data.mobilePhone || null}
                         onChange={handelChange("mobilePhone")}
                       ></Input>
                     </div>
@@ -145,7 +145,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           id=""
                           type="number"
                           pattern="[0-10]"
-                          value={data.faxPhone}
+                          value={data.faxPhone || null}
                           onChange={handelChange("faxPhone")}
                         ></Input>
                       </div>
@@ -178,7 +178,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           type="number"
                           maxLength={12}
                           pattern="[0-10]"
-                          value={data.emergencyPhone}
+                          value={data.emergencyPhone || null}
                           onChange={handelChange("emergencyPhone")}
                         ></Input>
                       </div>
@@ -208,7 +208,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Ext."
                         id=""
                         maxLength={4}
-                        value={data.emergencyPhoneExt}
+                        value={data.emergencyPhoneExt || null}
                         onChange={handelChange("emergencyPhoneExt")}
                       ></Input>
                     </div>
