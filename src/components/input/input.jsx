@@ -20,6 +20,8 @@ const Input = ({
   pattern,
   extraclassName,
   width,
+  mode,
+  minFractionDigits
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
   return (
@@ -43,6 +45,8 @@ const Input = ({
             icon={icon}
             value={value}
             onChange={onChange}
+            mode={mode}
+            minFractionDigits={minFractionDigits}
           />
         ) : (
           <InputText

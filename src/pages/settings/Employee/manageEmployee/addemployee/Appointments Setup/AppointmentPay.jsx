@@ -14,24 +14,20 @@ import Remove from "../../../../../../assets/icons/remove.png";
 import { useEffect } from "react";
 
 const AppointmentPay = ({ data, setData, createEmployee }) => {
-  const [payType, setPayType] = useState("");
   const [dropDownLevels, setDropDownLevels] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState({});
   const [selectedOptions, setSelectedOptions] = useState([
     ...data.appointmentCommissionSetups,
   ]);
   const [defaultPay, setDefaultPay] = useState("");
-  console.log(data.appointmentCommissionSetups, selectedOptions);
-  const commissionTypeOptions = ["Per Event", "Person"];
+  const [isPriceInDollars, setIsPriceInDollars] = useState(true);
+
   const priorities = ["Suggested", "High", "Medium", "Low"];
 
-  const changePayType = (e) => {
-    setPayType(e.target.value);
-  };
   const removeSelectedAppointment = (index) => {
-    // const newArr = [...selectedOptions];
-    // newArr.splice(index, 1);
-    // setSelectedOptions(newArr);
+    const newArr = [...selectedOptions];
+    newArr.splice(index, 1);
+    setSelectedOptions(newArr);
   };
 
   const changePriority = (e, col) => {
@@ -48,99 +44,12 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     }
   };
   const selectAllOptions = () => {
-    // let allDept = exerciseDetail.map((item) => {
-    //   return {
-    //     id: item.id,
-    //     name: item.name,
-    //     priority: item.priority,
-    //   };
-    // }
-    // );
-    // setSelectedOptions(allDept);
-  };
-
-  const payTemp = (col) => {
-    return (
-      <div className="flex align-items-center">
-        <Input
-          placeholder="0.00"
-          onChange={(e) => {
-            col.pay = e.target.value;
-            const changedSelectedOptions = selectedOptions.map((item) => {
-              if (item.id) {
-                if (item.id === col.id) {
-                  item = { ...col };
-                }
-              }
-              return item;
-            });
-            setDefaultPay("");
-            setSelectedOptions(changedSelectedOptions);
-          }}
-          value={col.pay || null}
-        />
-        <input
-          type="radio"
-          name="payType"
-          id="dollar"
-          onChange={(e) => changePayType(e)}
-          value="dollar"
-          hidden
-        />
-        <label
-          HtmlFor="dollar"
-          className={payType === "dollar" ? "selected-pay-type" : "pay-type"}
-        >
-          $
-        </label>
-        <input
-          type="radio"
-          name="payType"
-          id="percentage"
-          value="percentage"
-          hidden
-          onChange={(e) => changePayType(e)}
-        />
-        <label
-          HtmlFor="percentage"
-          className={
-            payType === "percentage" ? "selected-pay-type" : "pay-type"
-          }
-        >
-          %
-        </label>
-      </div>
-    );
-  };
-  const commissionTypeTemp = (col) => {
-    return (
-      <DropDown
-        value={col.commissionType}
-        onChange={(e) => {
-          col.commissionType = e.value;
-          setSelectedOptions([...selectedOptions]);
-        }}
-        options={commissionTypeOptions}
-      ></DropDown>
-    );
+    setSelectedOptions([...relationshipData]);
   };
 
   useEffect(() => {
     getLevels();
   }, []);
-
-  //  const getSelectedOptions = () => {
-  //   if(data?.appointmentCommissionSetups.length) {
-  //     return setSelectedOptions([...data.appointmentCommissionSetups]);
-  //   } else {
-  //     return setSelectedOptions([]);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   console.log('reached', selectedOptions)
-  //   getSelectedOptions();
-  // }, [])
 
   const handleChange = (name, payRow) => (e) => {
     if (name === "classLevel") {
@@ -150,49 +59,30 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
       return setData({ ...data, [name]: e.target.value._id });
     }
   };
-  const relationship = [
-    { field: "", header: "" },
-    { field: "event", header: "Event" },
-    { field: "Commission", header: "Commission", body: commissionTypeTemp },
-    { field: "", header: "" },
-    { field: "", header: "" },
-    { field: "pay", header: "Pay", body: payTemp },
-  ];
+
   const [relationshipData] = useState([
     {
       id: 1,
-      event: "3D Body Scan",
+      name: "3D Body Scan",
       commissionType: "",
       pay: 0,
+      isPayTypeDollar: true
     },
     {
       id: 2,
-      event: "Aga Group 30 Min",
+      name: "Aga Group 30 Min",
       commissionType: "",
       pay: 0,
+      isPayTypeDollar: true
     },
     {
       id: 3,
-      event: "Aga Group 45 Min",
+      name: "Aga Group 45 Min",
       commissionType: "",
       pay: 0,
+      isPayTypeDollar: true
     },
   ]);
-
-  //  const getSelectedOptions = () => {
-  //   if(data?.appointmentCommissionSetups.length) {
-  //     const megrgedSelection = relationshipData.map((item, i) => Object.assign({}, data.appointmentCommissionSetups[i], item));
-  //     console.log(megrgedSelection)
-  //   return setSelectedOptions([...megrgedSelection]);
-  //   } else {
-  //     return setSelectedOptions([]);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   console.log('reached', selectedOptions)
-  //   getSelectedOptions();
-  // }, [])
 
   const onEnterDefaultPay = (event) => {
     setDefaultPay(event.target.value);
@@ -230,9 +120,28 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
               </div>
               <div
                 style={{ width: "18px", height: "20px" }}
-                className="flex align-items-center mt-5">
-                <span className="mt-2">$</span>
-                <img src={Divide} alt="" className="mx-2 mt-2" />
+                className="flex align-items-center mt-5"
+              >
+                <span
+                  className={
+                    "mt-2 cursor-pointer ml-3 " +
+                    (isPriceInDollars ? "selected-price-type" : "")
+                  }
+                  onClick={() => setIsPriceInDollars(true)}
+                >
+                  $
+                </span>
+                <span
+                  className={
+                    "mt-2 cursor-pointer ml-3 " +
+                    (!isPriceInDollars ? "selected-price-type" : "")
+                  }
+                  onClick={() => setIsPriceInDollars(false)}
+                >
+                  %
+                </span>
+
+                {/* <img src={Divide} alt="" className="mx-2 mt-2" /> */}
               </div>
             </div>
           </CardWithTitle>
@@ -241,30 +150,6 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
           {/* <span className="font-bold text-900 text-xl ">Commission Setups</span> */}
           <div className="mt-2">
             <div className=" ">
-              {/* <TableData
-                selected={selectedOptions}
-                selectionMode="checkbox"
-                data={relationshipData}
-                columns={relationship}
-                changeSelection={(e) => {
-                  setSelectedOptions(e.value);
-                  let commSetupData = e.value;
-                  if (defaultPay) {
-                    const defaultPayVal = defaultPay;
-                    commSetupData = commSetupData.map((item) => {
-                      item.pay = defaultPayVal;
-                      return item;
-                    });
-                  }
-                  // commSetupData = e.value.map(item => { delete item.id; return item; });
-                  setData(() => {
-                    return {
-                      ...data,
-                      appointmentCommissionSetups: commSetupData,
-                    };
-                  });
-                }}
-              ></TableData> */}
               <div className="mt-3">
                 <CardWithTitle title="Commission Setups">
                   <div className="p-3">
@@ -347,14 +232,38 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           }}
                                           className="flex align-items-center "
                                         >
-                                          <span className="mt-2 font-semibold">
+                                          <span
+                                            className={
+                                              "mt-2 cursor-pointer ml-3 " +
+                                              (item.isPayTypeDollar
+                                                ? "selected-price-type"
+                                                : "")
+                                            }
+                                            onClick={() =>
+                                              {
+                                                item.isPayTypeDollar= true
+                                                setSelectedOptions([...selectedOptions])
+                                              }
+                                            }
+                                          >
                                             $
                                           </span>
-                                          <img
-                                            src={Divide}
-                                            alt=""
-                                            className="mx-2 mt-2 "
-                                          />
+                                          <span
+                                            className={
+                                              "mt-2 cursor-pointer ml-3 " +
+                                              (!item.isPayTypeDollar
+                                                ? "selected-price-type"
+                                                : "")
+                                            }
+                                            onClick={() =>
+                                              {
+                                                item.isPayTypeDollar= false
+                                                setSelectedOptions([...selectedOptions])
+                                              }
+                                            }
+                                          >
+                                            %
+                                          </span>
                                         </div>
                                       </div>
                                     </div>

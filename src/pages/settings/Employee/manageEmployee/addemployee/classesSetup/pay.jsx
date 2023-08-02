@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../../../../../components/input/input";
-import Inputfields from "../../../../../../components/input/inputfields";
-import DropDown from "../../../../../../components/dropdown/dropdown";
+
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Checkbox from "../../../../../../components/checkbox/checkbox";
 import Buttons from "../../../../../../components/buttons/button";
@@ -9,19 +7,21 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 import Divide from "../../../../../../assets/icons/box.png";
 import constants from "../../../../../../utils/constants";
-import { showToast } from "../../../../../../redux/actions/toastAction";
 import api from "../../../../../../services/api";
-import { useDispatch } from "react-redux";
 import { paymentOptions } from "./PaymentOptions";
-import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import DropDown from "../../../../../../components/dropdown/dropdown";
 const Pay = ({ data, setData, createEmployee }) => {
-  const [payRows, setPayRows] = useState([{ name: "" }]);
+  const [payRows, setPayRows] = useState([{ name: "", key: "" }]);
   const [dropDownLevels, setDropDownLevels] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState({});
   const [payDefault, setPayDefault] = useState({});
 
-  const dispatch = useDispatch();
+  const forEachClientOverDropdownValue = Array.from(
+    { length: 50 },
+    (_, index) => index + 1
+  );
 
   function onClickAdd() {
     if (payRows.length < 4) {
@@ -35,16 +35,6 @@ const Pay = ({ data, setData, createEmployee }) => {
       });
     } else return;
   }
-
-  // const createClassic = async () => {
-  //   const res = await api("post", constants.endPoints.CreateEmployee, data);
-  //   console.log(res, "resss");
-  //   if (res.success) {
-  //     dispatch(showToast({ severity: "success", summary: res.message }));
-  //   } else {
-  //     dispatch(showToast({ severity: "error", summary: res.message }));
-  //   }
-  // };
 
   const getLevels = async () => {
     const res = await api("get", constants.endPoints.AddLevel);
@@ -68,11 +58,15 @@ const Pay = ({ data, setData, createEmployee }) => {
       return setData({ ...data, [name]: e.target.value.name });
     } else {
       let selectedPayments = data.payments.map((payment) => {
-        if (payment.name === payRow.name) {
-          payment[name] = e.target.value;
+        if (payment.name === payRow.key) {
+          payment = {
+            ...payment,
+            [name]: e.target.value,
+          };
         }
         return payment;
       });
+
       return setData(() => {
         return { ...data, payments: selectedPayments };
       });
@@ -80,17 +74,18 @@ const Pay = ({ data, setData, createEmployee }) => {
   };
 
   const onSelectPayMethod = (event, index) => {
-    if (payRows.indexOf(event.value) === -1) {
-      payRows[index] = event.value;
+    if (!payRows.some((item) => item.key === event.value.key)) {
+      payRows[index] = event.target.value;
       setPayRows([...payRows]);
-      return setData({
+
+      if (!data.payments.some((item) => item.name === event.value.key)) {
+        data.payments[index] = {
+          name: event.value.key,
+        };
+      }
+      setData({
         ...data,
-        payments: [
-          ...data.payments,
-          {
-            name: event.target.value.name,
-          },
-        ],
+        payments: data.payments,
       });
     }
   };
@@ -107,9 +102,28 @@ const Pay = ({ data, setData, createEmployee }) => {
       } else {
         // only splice array when item is found
         payRows.splice(index, 1); // 2nd parameter means remove one item only
+        data.payments.splice(index, 1);
+        setData({
+          ...data,
+          payments: data.payments,
+        });
         setPayRows([...payRows]);
       }
     }
+  };
+
+  const getForEachClientOverDropDownValue = (start) => {
+    let count = [];
+    for (let i = start; i <= 50; i++) {
+      count.push(String(i));
+    }
+    return count;
+  };
+
+  const findForEachClientOverValue = (key) => {
+    return data.payments.map((payment) => {
+      return Number(payment[key]) + 1;
+    })[0];
   };
 
   useEffect(() => {
@@ -178,24 +192,19 @@ const Pay = ({ data, setData, createEmployee }) => {
                                 width: `calc(100/${item.fields.length})%`,
                               }}
                             >
-                              <div className=" flex flex justify-content-between mt-2 ">
+                              <div className="flex justify-content-between mt-2">
                                 {field.type === "number" ? (
                                   <>
                                     <InputText
-                                      // style={{ width: field.width }}
                                       placeholder="0.00"
                                       id=""
                                       className="w-12"
                                       type="number"
-                                      // values={data.payments.map(
-                                      //   (p) => p.name === item.name
-                                      // )}
-
-                                      onChange={handleChange(field.name, item)}
+                                      onChange={handleChange(field.key, item)}
                                     ></InputText>
 
                                     {field.dollarsign ? (
-                                      <i className=" mx-3 mt-2 font-bold pi pi-dollar" />
+                                      <i className="mx-3 mt-2 font-bold pi pi-dollar" />
                                     ) : null}
                                     <div className="col px-0 flex">
                                       <div className="row">
@@ -217,6 +226,39 @@ const Pay = ({ data, setData, createEmployee }) => {
                                           ""
                                         )}
                                       </div>
+                                    </div>
+                                  </>
+                                ) : field.type === "dropdown" ? (
+                                  <>
+                                    <div className="-mb-2">
+                                      <Dropdown
+                                        options={
+                                          field.key === "forEachClientOver1"
+                                            ? getForEachClientOverDropDownValue(
+                                                1
+                                              )
+                                            : field.key === "forEachClientOver2"
+                                            ? getForEachClientOverDropDownValue(
+                                                findForEachClientOverValue(
+                                                  "forEachClientOver1"
+                                                )
+                                              )
+                                            : getForEachClientOverDropDownValue(
+                                                findForEachClientOverValue(
+                                                  "forEachClientOver2"
+                                                )
+                                              )
+                                        }
+                                        onChange={handleChange(field.key, item)}
+                                        placeholder="Select"
+                                        value={
+                                          data.payments.map((payment) => {
+                                            if (payment.name === item.key) {
+                                              return payment[field.key];
+                                            }
+                                          })[0]
+                                        }
+                                      ></Dropdown>
                                     </div>
                                   </>
                                 ) : (

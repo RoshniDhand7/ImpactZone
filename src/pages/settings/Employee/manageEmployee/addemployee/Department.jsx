@@ -55,7 +55,7 @@ const Department = ({ data, setData }) => {
       return {
         deptId: dept._id,
         name: dept.name,
-        wage: 0,
+        wage: allWagesValue && allWagesValue !== 0 ? allWagesValue : 0,
       };
     });
 
@@ -93,19 +93,22 @@ const Department = ({ data, setData }) => {
               <div>
                 <Input
                   type="number"
-                  onChange={(e) => setAllWagesValue(e.value)}
+                  onChange={(e) => { 
+                    setAllWagesValue(e.value);
+                    selectedDepartment.map(item => {
+                      item.wage = e.value;
+                      return item;
+                    });
+                    setSelectedDepartment([...selectedDepartment]);
+                  }}
                   value={allWagesValue}
                   title="Default Hourly Wages"
                   placeholder="$0.00"
+                  mode="decimal"
+                  minFractionDigits={3}
                 ></Input>
               </div>
               <div className=" flex align-items-center px-3">
-                <Buttons
-                  label="Copy to All"
-                  className="btn-dark border-none mx-4"
-                  style={{ height: "36px", top: "10px" }}
-                  onClick={onClickCopytoAll}
-                ></Buttons>
               </div>
             </div>
           </CardWithTitle>
@@ -153,9 +156,12 @@ const Department = ({ data, setData }) => {
                                     type="number"
                                     onChange={(event) => {
                                       addWages(item, event);
+                                      setAllWagesValue(null);
                                     }}
                                     placeholder="$0.00"
-                                    value={item.wage}
+                                    value={item.wage || null}
+                                    mode="decimal"
+                                    minFractionDigits={3}
                                   ></Input>
                                 </div>
                               </div>
@@ -218,7 +224,7 @@ const Department = ({ data, setData }) => {
                                   {
                                     deptId: item._id,
                                     name: item.name,
-                                    wage: 0,
+                                    wage: allWagesValue && allWagesValue !== 0 ? allWagesValue : 0,
                                   },
                                 ]);
                               }

@@ -13,7 +13,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
   const [payType, setPayType] = useState("");
   const [isPayloadReady, setIsPayloadReady] = useState(false);
   const [commissionRows, setCommissionRows] = useState([
-    { commissionGroup: "" },
+    { commissionGroup: "", isPayTypeDollar: true },
   ]);
 
   const commGroupOptions = ["Shakes", "Bars", "Supplements"];
@@ -57,6 +57,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
         commissionGroup: e.target.value,
         ...commissionFields,
       };
+      console.log(commissionRowsClone);
       setCommissionRows(commissionRowsClone);
       setData(() => {
         return {
@@ -79,6 +80,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
           ...prev,
           {
             commissionGroup: "",
+            isPayTypeDollar: true,
           },
         ];
       });
@@ -184,26 +186,52 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                           );
                         })}
                         {item.fields && item.fields.length ? (
-                          <div className="flex align-items-center">
-                            <span>
-                              <i className="pi pi-dollar font-bold mx-2 "></i>
-                            </span>
-
-                            <div
-                              className="mx-3"
-                              style={{ width: "18px", height: "20px" }}
+                          <div
+                            className="flex align-items-center"
+                            style={{
+                              width: "18px",
+                              // height: "20px",
+                            }}
+                          >
+                            <span
+                              className={
+                                "mt-2 cursor-pointer ml-3 " +
+                                (item.isPayTypeDollar
+                                  ? "selected-price-type"
+                                  : "")
+                              }
+                              onClick={() => {
+                                item.isPayTypeDollar = true;
+                                setCommissionRows([...commissionRows]);
+                              }}
                             >
-                              <img src={divide} alt="" />
-                            </div>
+                              $
+                            </span>
+                            <span
+                              className={
+                                "mt-2 cursor-pointer ml-3 " +
+                                (!item.isPayTypeDollar
+                                  ? "selected-price-type"
+                                  : "")
+                              }
+                              onClick={() => {
+                                item.isPayTypeDollar = false;
+                                setCommissionRows([...commissionRows]);
+                              }}
+                            >
+                              %
+                            </span>
                           </div>
                         ) : null}
                       </div>
+                      {item.fields && item.fields.length ? (
                       <div
-                        className="mt-2 cursor-pointer"
+                        className="mt-3 cursor-pointer"
                         onClick={() => removeCommissionRow(item)}
                       >
                         <i className=" pi pi-minus-circle"></i>
                       </div>
+                      ) : null}
                     </div>
                   </>
                 );

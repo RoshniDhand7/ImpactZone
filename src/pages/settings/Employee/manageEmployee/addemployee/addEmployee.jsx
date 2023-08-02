@@ -24,6 +24,7 @@ const AddEmployee = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { securityValidations } = validation();
   const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
