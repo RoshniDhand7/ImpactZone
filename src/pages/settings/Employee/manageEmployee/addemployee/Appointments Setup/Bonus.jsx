@@ -162,7 +162,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                       placeholder="Select Event"
                                       value={
                                         data.appointmentSetupBonus[index]
-                                        .bonusEvent
+                                          .bonusEvent
                                       }
                                     ></MuliSelectDropDown>
                                   </div>
@@ -179,13 +179,12 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                       placeholder="Time Frame"
                                       value={
                                         data.appointmentSetupBonus[index]
-                                        .timeFramePeriod
+                                          .timeFramePeriod
                                       }
                                     ></DropDown>
                                   </div>
                                 </>
                               )}
-                              {console.log("item", item)}
 
                               <span className="text-xs text-gray-200 p-2 flex justify-content-center ">
                                 {fieldIndex === 0 &&
@@ -206,12 +205,40 @@ const Bonus = ({ data, setData, createEmployee }) => {
                                 style={{ width: "18px", height: "20px" }}
                                 className="flex align-items-center mt-4   mx-5 "
                               >
-                                <span className="m-auto ">$</span>
-                                <img
-                                  src={Divide}
-                                  alt=""
-                                  className="m-auto mx-2  "
-                                />
+                                <span
+                                  className={
+                                    "mt-2 cursor-pointer " +
+                                    (data.appointmentSetupBonus[index]
+                                      .isPayTypeDollar
+                                      ? "selected-price-type"
+                                      : "")
+                                  }
+                                  onClick={() => {
+                                    data.appointmentSetupBonus[
+                                      index
+                                    ].isPayTypeDollar = true;
+                                    setData({ ...data });
+                                  }}
+                                >
+                                  $
+                                </span>
+                                <span
+                                  className={
+                                    "mt-2 cursor-pointer ml-3 " +
+                                    (!data.appointmentSetupBonus[index]
+                                      .isPayTypeDollar
+                                      ? "selected-price-type"
+                                      : "")
+                                  }
+                                  onClick={() => {
+                                    data.appointmentSetupBonus[
+                                      index
+                                    ].isPayTypeDollar = false;
+                                    setData({ ...data });
+                                  }}
+                                >
+                                  %
+                                </span>
                               </div>
                             ) : null}
                           </div>

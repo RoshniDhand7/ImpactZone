@@ -21,7 +21,6 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   ]);
   const [defaultPay, setDefaultPay] = useState("");
   const [isPriceInDollars, setIsPriceInDollars] = useState(true);
-
   const priorities = ["Suggested", "High", "Medium", "Low"];
 
   const removeSelectedAppointment = (index) => {
@@ -35,6 +34,11 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     setSelectedOptions([...selectedOptions]);
   };
 
+  const setPay = (e, col) => {
+    col.pay = e.value;
+    setSelectedOptions([...selectedOptions]);
+  };
+
   const getLevels = async () => {
     const res = await api("get", constants.endPoints.AddLevel);
     if (res.success) {
@@ -43,8 +47,13 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
       console.log(res);
     }
   };
+
   const selectAllOptions = () => {
-    setSelectedOptions([...relationshipData]);
+    const allData = relationshipData.map(item => {
+      item.pay = defaultPay ? defaultPay : null;
+      return item;
+    })
+    setSelectedOptions([...allData]);
   };
 
   useEffect(() => {
@@ -65,29 +74,29 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
       id: 1,
       name: "3D Body Scan",
       commissionType: "",
-      pay: 0,
+      pay: null,
       isPayTypeDollar: true
     },
     {
       id: 2,
       name: "Aga Group 30 Min",
       commissionType: "",
-      pay: 0,
+      pay: null,
       isPayTypeDollar: true
     },
     {
       id: 3,
       name: "Aga Group 45 Min",
       commissionType: "",
-      pay: 0,
+      pay: null,
       isPayTypeDollar: true
     },
   ]);
 
   const onEnterDefaultPay = (event) => {
-    setDefaultPay(event.target.value);
+    setDefaultPay(event.value);
     selectedOptions.map((item) => {
-      item.pay = event.target.value;
+      item.pay = event.value;
       return item;
     });
     setSelectedOptions([...selectedOptions]);
@@ -116,6 +125,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                   title="Default"
                   value={defaultPay}
                   onChange={(e) => onEnterDefaultPay(e)}
+                  type="number"
                 ></Input>
               </div>
               <div
@@ -127,7 +137,16 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     "mt-2 cursor-pointer ml-3 " +
                     (isPriceInDollars ? "selected-price-type" : "")
                   }
-                  onClick={() => setIsPriceInDollars(true)}
+                  onClick={() => {
+                    if(defaultPay) {
+                      const selectedPayOptions = selectedOptions.map(item => {
+                        item.isPayTypeDollar = true;
+                        return item;
+                      })
+                      setSelectedOptions([...selectedPayOptions]);
+                    }
+                    setIsPriceInDollars(true);
+                  }}
                 >
                   $
                 </span>
@@ -136,7 +155,16 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     "mt-2 cursor-pointer ml-3 " +
                     (!isPriceInDollars ? "selected-price-type" : "")
                   }
-                  onClick={() => setIsPriceInDollars(false)}
+                  onClick={() => {
+                    if(defaultPay) {
+                      const selectedPayOptions = selectedOptions.map(item => {
+                        item.isPayTypeDollar = false;
+                        return item;
+                      })
+                      setSelectedOptions([...selectedPayOptions]);
+                    }
+                    setIsPriceInDollars(false)
+                  }}
                 >
                   %
                 </span>
@@ -219,10 +247,11 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           }}
                                         >
                                           <Input
-                                            value={item.priority}
+                                            value={item.pay}
                                             onChange={(e) =>
-                                              changePriority(e, item)
+                                              setPay(e, item)
                                             }
+                                            type="number"
                                           ></Input>
                                         </div>
                                         <div
@@ -230,7 +259,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                             width: "18px",
                                             height: "20px",
                                           }}
-                                          className="flex align-items-center "
+                                          className="flex align-items-center"
                                         >
                                           <span
                                             className={
@@ -241,8 +270,8 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                             }
                                             onClick={() =>
                                               {
-                                                item.isPayTypeDollar= true
-                                                setSelectedOptions([...selectedOptions])
+                                                item.isPayTypeDollar= true;
+                                                setSelectedOptions([...selectedOptions]);
                                               }
                                             }
                                           >
@@ -257,8 +286,8 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                             }
                                             onClick={() =>
                                               {
-                                                item.isPayTypeDollar= false
-                                                setSelectedOptions([...selectedOptions])
+                                                item.isPayTypeDollar= false;
+                                                setSelectedOptions([...selectedOptions]);
                                               }
                                             }
                                           >
@@ -329,6 +358,8 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           id: item.id,
                                           name: item.name,
                                           priority: item.priority,
+                                          isPayTypeDollar: item.isPayTypeDollar,
+                                          pay: defaultPay ? defaultPay : null
                                         },
                                       ]);
                                     }

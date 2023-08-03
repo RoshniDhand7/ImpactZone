@@ -143,9 +143,6 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                   onChange={(e) => {
                                     onEnterData(e.value, index, field.key);
                                   }}
-                                  // value={
-                                  //   data.salesCommissionBonus[index][field.key]
-                                  // }
                                 ></Input>
                               ) : (
                                 <>
@@ -186,14 +183,42 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                             ) : fieldIndex === 3 ? (
                               <div
                                 style={{ width: "18px", height: "20px" }}
-                                className="flex align-items-center mt-4   mx-5 "
+                                className="flex align-items-center mt-4 mr-5"
                               >
-                                <span className="m-auto ">$</span>
-                                <img
-                                  src={Divide}
-                                  alt=""
-                                  className="m-auto mx-2  "
-                                />
+                                <span
+                                  className={
+                                    "mt-2 cursor-pointer " +
+                                    (data.salesCommissionBonus[index]
+                                      .isPayTypeDollar
+                                      ? "selected-price-type"
+                                      : "")
+                                  }
+                                  onClick={() => {
+                                    data.salesCommissionBonus[
+                                      index
+                                    ].isPayTypeDollar = true;
+                                    setData({ ...data });
+                                  }}
+                                >
+                                  $
+                                </span>
+                                <span
+                                  className={
+                                    "mt-2 cursor-pointer ml-3 " +
+                                    (!data.salesCommissionBonus[index]
+                                      .isPayTypeDollar
+                                      ? "selected-price-type"
+                                      : "")
+                                  }
+                                  onClick={() => {
+                                    data.salesCommissionBonus[
+                                      index
+                                    ].isPayTypeDollar = false;
+                                    setData({ ...data });
+                                  }}
+                                >
+                                  %
+                                </span>
                               </div>
                             ) : null}
                           </div>
@@ -202,7 +227,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                     })}
                     {item.fields ? (
                       <div
-                        className="mt-5  cursor-pointer"
+                        className="mt-5 pt-1 cursor-pointer"
                         onClick={() => removePayRow(item)}
                       >
                         <i className="pi pi-minus-circle"></i>
