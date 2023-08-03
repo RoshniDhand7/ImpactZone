@@ -19,7 +19,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   const [selectedOptions, setSelectedOptions] = useState([
     ...data.appointmentCommissionSetups,
   ]);
-  const [defaultPay, setDefaultPay] = useState("");
+  const [defaultPay, setDefaultPay] = useState(null);
   const [isPriceInDollars, setIsPriceInDollars] = useState(true);
   const priorities = ["Suggested", "High", "Medium", "Low"];
 
