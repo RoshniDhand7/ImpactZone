@@ -409,7 +409,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
                             <img src={ImageUpload} alt="" />
                           </div>
                           {/* <p class="dragBox text-base text-surface-300 cursor-pointer "> */}
-                          Drag your photo here or Browse
+                          Drag your file here or Browse
                           <input
                             type="file"
                             onChange={dragNdrop}
