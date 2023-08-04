@@ -26,7 +26,7 @@ const Notes = ({ setData, data, createEmployee }) => {
         ],
       };
     });
-    setNoteValue({note: ""});
+    setNoteValue({ note: "" });
     setActiveNotes(false);
   };
 
@@ -35,7 +35,14 @@ const Notes = ({ setData, data, createEmployee }) => {
       <>
         <div>
           <div>
-            <CardWithTitle title="Taken By" title2="Date/Time" title3="Notes" title1className="w-3" title2className="w-3" title3className="w-3">
+            <CardWithTitle
+              title="Taken By"
+              title2="Date/Time"
+              title3="Notes"
+              title1className="w-3"
+              title2className="w-3"
+              title3className="w-4"
+            >
               {!data.notes.length ? (
                 <div
                   style={{ height: "250px" }}
@@ -54,11 +61,15 @@ const Notes = ({ setData, data, createEmployee }) => {
                         <div className="font-semibold col-4">
                           <span>{item.createdBy}</span>
                         </div>
-                        <div className="font-semibold col-4 ml-5">
-                          <span>{`${new Date(item.createdAt).toLocaleDateString()} ${new Date(item.createdAt).toLocaleTimeString()}`}</span>
+                        <div className="font-semibold col-4 ">
+                          <span>{`${new Date(
+                            item.createdAt
+                          ).toLocaleDateString()} ${new Date(
+                            item.createdAt
+                          ).toLocaleTimeString()}`}</span>
                         </div>
-                        <div className="font-semibold col-4">
-                          <span>{item.note}</span>
+                        <div className="font-semibold col-4 ">
+                          <div className="">{item.note}</div>
                         </div>
                       </div>
                     </>
@@ -86,7 +97,11 @@ const Notes = ({ setData, data, createEmployee }) => {
               ></Buttons>
             </div>
             <div className="mx-2">
-              <Buttons label="Save" onClick={createEmployee} className="btn-dark  border-none"></Buttons>
+              <Buttons
+                label="Save"
+                onClick={createEmployee}
+                className="btn-dark  border-none"
+              ></Buttons>
             </div>
             <div>
               <Buttons
