@@ -35,6 +35,28 @@ const validation = () => {
     return errors;
   };
 
-  return { loginValidations, securityValidations };
+  const certificationValidations = (data) => {
+    if (!data.name) {
+      errors.name = "Name is required.";
+    }
+    if (!data.certificationNumber) {
+      errors.certificationNumber = "Certification number is required.";
+    }
+    if (!data.issuer) {
+      errors.issuer = "Issuer is required.";
+    }
+    if (!data.acquiredDate) {
+      errors.acquiredDate = "Acquired date is required.";
+    }
+    if (!data.expirationDate) {
+      errors.expirationDate = "Expiration date is required.";
+    }
+    if (!data.descriptions) {
+      errors.descriptions = "Description is required.";
+    }
+    return errors;
+  };
+
+  return { loginValidations, securityValidations, certificationValidations };
 };
 export default validation;

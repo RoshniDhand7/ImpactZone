@@ -21,9 +21,10 @@ const Input = ({
   extraclassName,
   width,
   mode,
-  minFractionDigits
+  minFractionDigits,
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
       <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
@@ -39,14 +40,14 @@ const Input = ({
         <i className={icon} />
 
         {type === "number" ? (
-          <InputNumber
+          <InputText
             style={{ width: "100%" }}
-            placeholder={placeholder}
+            // placeholder={placeholder}
             icon={icon}
             value={value}
             onChange={onChange}
-            mode={mode}
             minFractionDigits={minFractionDigits}
+            type="number"
           />
         ) : (
           <InputText

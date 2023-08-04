@@ -16,9 +16,13 @@ import api from "../../../../../../services/api";
 import constants from "../../../../../../utils/constants";
 import { showToast } from "../../../../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
+import validation from "../../../../../../utils/Validation";
 
 const Certifications = ({ setData, data, createEmployee }) => {
   const [dates, setDates] = useState(null);
+  const { certificationValidations } = validation();
+  const [errors, setErrors] = useState({});
+
   const [showCertification, setShowAddCertification] = useState(false);
   const [certificationsValue, setCertificationsValue] = useState({
     name: "",
@@ -37,6 +41,11 @@ const Certifications = ({ setData, data, createEmployee }) => {
   };
 
   const addCertification = () => {
+    let validate = certificationValidations(certificationsValue);
+
+    if (Object.keys(validate).length) {
+      return setErrors(validate);
+    }
     setData(() => {
       return {
         ...data,
@@ -58,24 +67,27 @@ const Certifications = ({ setData, data, createEmployee }) => {
       image: "",
     });
     showAddCertification(false);
+    return setErrors({});
   };
 
   const dragNdrop = async (event) => {
     try {
       event.preventDefault();
       const formData = new FormData();
-      formData.append("file", event.target.files[0])
+      formData.append("file", event.target.files[0]);
 
       var preview = document.getElementById("preview");
       preview.innerHTML = event.target.files[0].name;
 
-      const res = await api("post", constants.endPoints.uploadFile, formData, { "Content-Type": "multipart/form-data" });
+      const res = await api("post", constants.endPoints.uploadFile, formData, {
+        "Content-Type": "multipart/form-data",
+      });
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
         setCertificationsValue({
           ...certificationsValue,
           image: res.data.image,
-        })
+        });
       } else {
         console.log(res);
       }
@@ -234,71 +246,115 @@ const Certifications = ({ setData, data, createEmployee }) => {
           <div>
             <CardWithTitle title="General">
               <div className="col flex justify-content-between">
-                <div className="flex">
-                  <div className="col">
-                    <div>
-                      <Input
-                        title="Name"
-                        placeholder="John"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            name: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                    <div className="mt-4">
-                      <Input
-                        title="Acquired Date"
-                        type="date"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            acquiredDate: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div>
-                      <Input
-                        title="Certification Number"
-                        placeholder="2345678"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            certificationNumber: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                    <div className="mt-4">
-                      <Input
-                        title="Expiration Date"
-                        type="date"
-                        placeholder="2345678"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            expirationDate: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                  </div>
-                  <div className="col">
+                <div className="col">
+                  <div>
                     <Input
-                      title="Issuer"
-                      onChange={(e) =>
+                      title="Name"
+                      placeholder="John"
+                      onChange={(e) => {
                         setCertificationsValue({
                           ...certificationsValue,
-                          issuer: e.target.value,
-                        })
-                      }
+                          name: e.target.value,
+                        });
+                        let validate = certificationValidations({
+                          ...certificationsValue,
+                          name: e.target.value,
+                        });
+                        setErrors(validate);
+                      }}
                     ></Input>
+                    {errors.name && (
+                      <p className="text-red-600 text-xs mt-1">{errors.name}</p>
+                    )}
                   </div>
+                  <div className="mt-5">
+                    <Input
+                      title="Acquired Date"
+                      type="date"
+                      onChange={(e) => {
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          acquiredDate: e.target.value,
+                        });
+                        let validate = certificationValidations({
+                          ...certificationsValue,
+                          acquiredDate: e.target.value,
+                        });
+                        setErrors(validate);
+                      }}
+                    ></Input>
+                    {errors.acquiredDate && (
+                      <p className="text-red-600 text-xs mt-1">
+                        {errors.acquiredDate}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="col">
+                  <div>
+                    <Input
+                      title="Certification Number"
+                      placeholder="2345678"
+                      onChange={(e) => {
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          certificationNumber: e.target.value,
+                        });
+                        let validate = certificationValidations({
+                          ...certificationsValue,
+                          certificationNumber: e.target.value,
+                        });
+                        setErrors(validate);
+                      }}
+                    ></Input>
+                    {errors.certificationNumber && (
+                      <p className="text-red-600 text-xs mt-1">
+                        {errors.certificationNumber}
+                      </p>
+                    )}
+                  </div>
+                  <div className="mt-5">
+                    <Input
+                      title="Expiration Date"
+                      type="date"
+                      placeholder="2345678"
+                      onChange={(e) => {
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          expirationDate: e.target.value,
+                        });
+                        let validate = certificationValidations({
+                          ...certificationsValue,
+                          expirationDate: e.target.value,
+                        });
+                        setErrors(validate);
+                      }}
+                    ></Input>
+                    {errors.expirationDate && (
+                      <p className="text-red-600 text-xs mt-1">
+                        {errors.expirationDate}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="col">
+                  <Input
+                    title="Issuer"
+                    onChange={(e) => {
+                      setCertificationsValue({
+                        ...certificationsValue,
+                        issuer: e.target.value,
+                      });
+                      let validate = certificationValidations({
+                        ...certificationsValue,
+                        issuer: e.target.value,
+                      });
+                      setErrors(validate);
+                    }}
+                  ></Input>
+                  {errors.issuer && (
+                    <p className="text-red-600 text-xs mt-1">{errors.issuer}</p>
+                  )}
                 </div>
               </div>
 
@@ -307,13 +363,23 @@ const Certifications = ({ setData, data, createEmployee }) => {
                   Descriptions
                 </label>
                 <InputTextarea
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setCertificationsValue({
                       ...certificationsValue,
                       descriptions: e.target.value,
-                    })
-                  }
+                    });
+                    let validate = certificationValidations({
+                      ...certificationsValue,
+                      descriptions: e.target.value,
+                    });
+                    setErrors(validate);
+                  }}
                 ></InputTextarea>
+                {errors.descriptions && (
+                  <p className="text-red-600 text-xs mt-1">
+                    {errors.descriptions}
+                  </p>
+                )}
               </div>
               <div className="p-3">
                 <div className=" ">
