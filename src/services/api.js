@@ -1,12 +1,10 @@
 import axios from "axios";
 import constants from "../utils/constants";
 
-const api = (method, urlEndPoint, data) =>
+const api = (method, urlEndPoint, data, requestHeaders = { "Content-Type": "application/json" }) =>
   new Promise((myResolve) => {
     const token = localStorage.getItem("token");
-    let headers = {
-      "Content-Type": "application/json",
-    };
+    let headers = requestHeaders;
     headers = {
       ...headers,
       Authorization: `Bearer ${token}`,

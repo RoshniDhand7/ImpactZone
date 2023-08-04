@@ -36,6 +36,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
       {
         name: "Bonus Amount",
         type: "text",
+        subtype: "number",
         key: "bonusAmount",
       },
       {
@@ -101,7 +102,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
 
   const onEnterData = (e, index, keyName) => {
     let appointmentPayload = [...data.appointmentSetupBonus];
-    appointmentPayload[index][keyName] = e.target.value;
+    appointmentPayload[index][keyName] = keyName === 'bonusAmount' ? e.value : e.target.value;
     setData(() => {
       return {
         ...data,
@@ -140,7 +141,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
                               {field.type === "text" ? (
                                 <Input
                                   title=""
-                                  type={field.type}
+                                  type={field.subtype ? field.subtype : field.type}
                                   placeholder={field.placeholder}
                                   onChange={(e) => {
                                     onEnterData(e, index, field.key);

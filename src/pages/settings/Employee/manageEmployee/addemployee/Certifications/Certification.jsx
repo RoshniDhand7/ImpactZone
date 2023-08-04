@@ -12,25 +12,91 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 import ImageUpload from "../../../../../../assets/icons/imgupload.png";
 import { InputTextarea } from "primereact/inputtextarea";
+import api from "../../../../../../services/api";
+import constants from "../../../../../../utils/constants";
+import { showToast } from "../../../../../../redux/actions/toastAction";
+import { useDispatch } from "react-redux";
 
-const Certifications = () => {
+const Certifications = ({ setData, data, createEmployee }) => {
   const [dates, setDates] = useState(null);
-  const { relationshipData } = dummyData();
-  const [selectedPos, setSelectedPos] = useState(null);
-  const [showCertification, addCertification] = useState(false);
+  const [showCertification, setShowAddCertification] = useState(false);
+  const [certificationsValue, setCertificationsValue] = useState({
+    name: "",
+    certificationNumber: "",
+    issuer: "",
+    acquiredDate: null,
+    expirationDate: null,
+    descriptions: "",
+    image: "",
+  });
+
+  const dispatch = useDispatch();
 
   const showAddCertification = () => {
-    addCertification((prev) => !prev);
+    setShowAddCertification((prev) => !prev);
   };
-  // const setAddCertification = () => {
-  //   addCertification(false);
-  // };
+
+  const addCertification = () => {
+    setData(() => {
+      return {
+        ...data,
+        certifications: [
+          ...data.certifications,
+          {
+            ...certificationsValue,
+          },
+        ],
+      };
+    });
+    setCertificationsValue({
+      name: "",
+      certificationNumber: "",
+      issuer: "",
+      acquiredDate: null,
+      expirationDate: null,
+      descriptions: "",
+      image: "",
+    });
+    showAddCertification(false);
+  };
+
+  const dragNdrop = async (event) => {
+    try {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append("file", event.target.files[0])
+
+      var preview = document.getElementById("preview");
+      preview.innerHTML = event.target.files[0].name;
+
+      const res = await api("post", constants.endPoints.uploadFile, formData, { "Content-Type": "multipart/form-data" });
+      if (res.success) {
+        dispatch(showToast({ severity: "success", summary: res.message }));
+        setCertificationsValue({
+          ...certificationsValue,
+          image: res.data.image,
+        })
+      } else {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const drag = () => {
+    document.getElementById("uploadFile").parentNode.className =
+      "draging dragBox";
+  };
+  const drop = () => {
+    document.getElementById("uploadFile").parentNode.className = "dragBox";
+  };
 
   const Certification = () => {
     return (
       <>
         <div>
-          <div>
+          {/* <div>
             <CardWithTitle title="General">
               <div className="p-4">
                 <div className="flex">
@@ -45,10 +111,10 @@ const Certifications = () => {
                   </div>
                 </div>
                 <div className=" flex">
-                  <div className="mt-4 flex ">
+                  <div className="mt-4 flex ml-2 ">
                     <div
                       className="col border-round bg-white  "
-                      style={{ height: "40px" }}
+                      style={{ height: "38px" }}
                     >
                       Date
                     </div>
@@ -112,26 +178,23 @@ const Certifications = () => {
                 </div>
               </div>
             </CardWithTitle>
-          </div>
+          </div> */}
 
           <div className="mt-3">
             <DataTable
-              value={relationshipData}
-              selection={selectedPos}
-              onSelectionChange={(e) => setSelectedPos(e.value)}
+              value={data.certifications}
               dataKey="id"
               tableStyle={{ minWidth: "50rem" }}
             >
-              {/* <Column
-          selectionMode="multiple"
-          headerStyle={{ width: "3rem" }}
-        ></Column> */}
-              <Column field="code" header="Name"></Column>
-              <Column field="name" header="Certifiacte Number"></Column>
-              <Column field="category" header="Description"></Column>
-              <Column field="code" header="Issuer"></Column>
-              <Column field="name" header="Acquired Date"></Column>
-              <Column field="category" header="Expiration Date"></Column>
+              <Column field="name" header="Name"></Column>
+              <Column
+                field="certificationNumber"
+                header="Certifiacte Number"
+              ></Column>
+              <Column field="descriptions" header="Description"></Column>
+              <Column field="issuer" header="Issuer"></Column>
+              <Column field="acquiredDate" header="Acquired Date"></Column>
+              <Column field="expirationDate" header="Expiration Date"></Column>
             </DataTable>
           </div>
         </div>
@@ -148,6 +211,7 @@ const Certifications = () => {
             <div className="">
               <Buttons
                 label="Save"
+                onClick={createEmployee}
                 className="btn-dark mx-3 border-none"
               ></Buttons>
             </div>
@@ -173,13 +237,27 @@ const Certifications = () => {
                 <div className="flex">
                   <div className="col">
                     <div>
-                      <Input title="Name" placeholder="John"></Input>
+                      <Input
+                        title="Name"
+                        placeholder="John"
+                        onChange={(e) =>
+                          setCertificationsValue({
+                            ...certificationsValue,
+                            name: e.target.value,
+                          })
+                        }
+                      ></Input>
                     </div>
                     <div className="mt-4">
                       <Input
                         title="Acquired Date"
-                        placeholder="John"
                         type="date"
+                        onChange={(e) =>
+                          setCertificationsValue({
+                            ...certificationsValue,
+                            acquiredDate: e.target.value,
+                          })
+                        }
                       ></Input>
                     </div>
                   </div>
@@ -188,6 +266,12 @@ const Certifications = () => {
                       <Input
                         title="Certification Number"
                         placeholder="2345678"
+                        onChange={(e) =>
+                          setCertificationsValue({
+                            ...certificationsValue,
+                            certificationNumber: e.target.value,
+                          })
+                        }
                       ></Input>
                     </div>
                     <div className="mt-4">
@@ -195,11 +279,25 @@ const Certifications = () => {
                         title="Expiration Date"
                         type="date"
                         placeholder="2345678"
+                        onChange={(e) =>
+                          setCertificationsValue({
+                            ...certificationsValue,
+                            expirationDate: e.target.value,
+                          })
+                        }
                       ></Input>
                     </div>
                   </div>
                   <div className="col">
-                    <Input title="Issuer"></Input>
+                    <Input
+                      title="Issuer"
+                      onChange={(e) =>
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          issuer: e.target.value,
+                        })
+                      }
+                    ></Input>
                   </div>
                 </div>
               </div>
@@ -208,34 +306,57 @@ const Certifications = () => {
                 <label className="text-xs text-dark-gray   font-semibold">
                   Descriptions
                 </label>
-                {/* <span className="p-input-icon-left">
-        <i className="pi pi-search" /> */}
                 <InputTextarea
-                // placeholder={placeholder}
-                // icon={icon}
-                // type={type}
-                // onChange={onChange}
+                  onChange={(e) =>
+                    setCertificationsValue({
+                      ...certificationsValue,
+                      descriptions: e.target.value,
+                    })
+                  }
                 ></InputTextarea>
-                {/* </span> */}
               </div>
               <div className="p-3">
                 <div className=" ">
-                  <span className="text-xl font-semibold">Upload Image</span>
+                  <span className="text-xl font-semibold">
+                    Upload Certificate
+                  </span>
                   <div
                     style={{ height: "235px" }}
-                    className="col-12 bg-white my-2 border-round-sm border-dashed border-gray-100 flex flex-column justify-content-center align-items-center "
+                    className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex justify-content-between "
                   >
-                    <div className="flex flex-column justify-content-center align-items-center">
-                      <div style={{ width: "60px", height: "60px" }}>
-                        {" "}
-                        <img src={ImageUpload} alt="" />
+                    <div
+                      id="preview"
+                      style={{ width: "115px", height: "116px" }}
+                    ></div>
+                    <div className=" col-8  flex flex-cloumn justify-content-start align-items-center">
+                      <div class="uploadOuter ml-6 flex flex-column justify-centent-center align-items-center text-center ">
+                        <label for="uploadFile" class="btn btn-primary"></label>
+                        <div
+                          className="flex justify-centent-center align-items-center "
+                          style={{ width: "60px", height: "60px" }}
+                        ></div>
+                        <div
+                          className="cursor-pointer dragBox -mt-8"
+                          style={{ "line-height": "50px" }}
+                        >
+                          <div className="mx-auto" style={{ width: "5rem" }}>
+                            <img src={ImageUpload} alt="" />
+                          </div>
+                          {/* <p class="dragBox text-base text-surface-300 cursor-pointer "> */}
+                          Drag your photo here or Browse
+                          <input
+                            type="file"
+                            onChange={dragNdrop}
+                            ondragover={drag}
+                            ondrop={drop}
+                            id="uploadFile"
+                            accept="application/pdf, application/vnd.ms-excel"
+                          />
+                          {/* </p> */}
+                        </div>
                       </div>
 
-                      <div className="my-3">
-                        <span className="text-base text-surface-300">
-                          Drag your photo here or Browse
-                        </span>
-                      </div>
+                      <div className="my-3"></div>
                     </div>
                   </div>
                 </div>
@@ -247,7 +368,7 @@ const Certifications = () => {
           <div className=" mt-3 flex  ">
             <div className="">
               <Buttons
-                onClick={showAddCertification}
+                onClick={addCertification}
                 label="Save"
                 className="btn-dark mx-3 border-none"
               ></Buttons>

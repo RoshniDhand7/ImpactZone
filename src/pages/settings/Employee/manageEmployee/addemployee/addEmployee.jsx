@@ -68,11 +68,11 @@ const AddEmployee = () => {
     appointmentCalendarDefault: [],
     salesItemCommission: [],
     salesCommissionBonus: [],
-    notes: []
+    notes: [],
+    certifications: []
   });
   const createEmployee = async () => {
     try {
-      console.log(data);
       const res = await api("post", constants.endPoints.CreateEmployee, data);
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
@@ -188,7 +188,11 @@ const AddEmployee = () => {
                 />
               </TabPanel>
               <TabPanel header="Certifications">
-                <Certifications />
+                <Certifications 
+                setData={setData}
+                data={data}
+                createEmployee={createEmployee}
+                />
               </TabPanel>
             </TabView>
           </div>
