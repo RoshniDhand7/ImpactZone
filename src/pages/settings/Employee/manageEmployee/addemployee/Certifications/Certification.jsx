@@ -64,18 +64,20 @@ const Certifications = ({ setData, data, createEmployee }) => {
     try {
       event.preventDefault();
       const formData = new FormData();
-      formData.append("file", event.target.files[0])
+      formData.append("file", event.target.files[0]);
 
       var preview = document.getElementById("preview");
       preview.innerHTML = event.target.files[0].name;
 
-      const res = await api("post", constants.endPoints.uploadFile, formData, { "Content-Type": "multipart/form-data" });
+      const res = await api("post", constants.endPoints.uploadFile, formData, {
+        "Content-Type": "multipart/form-data",
+      });
       if (res.success) {
         dispatch(showToast({ severity: "success", summary: res.message }));
         setCertificationsValue({
           ...certificationsValue,
           image: res.data.image,
-        })
+        });
       } else {
         console.log(res);
       }
@@ -233,72 +235,70 @@ const Certifications = ({ setData, data, createEmployee }) => {
         <div className="">
           <div>
             <CardWithTitle title="General">
-              <div className="col flex justify-content-between">
-                <div className="flex">
-                  <div className="col">
-                    <div>
-                      <Input
-                        title="Name"
-                        placeholder="John"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            name: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                    <div className="mt-4">
-                      <Input
-                        title="Acquired Date"
-                        type="date"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            acquiredDate: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div>
-                      <Input
-                        title="Certification Number"
-                        placeholder="2345678"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            certificationNumber: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                    <div className="mt-4">
-                      <Input
-                        title="Expiration Date"
-                        type="date"
-                        placeholder="2345678"
-                        onChange={(e) =>
-                          setCertificationsValue({
-                            ...certificationsValue,
-                            expirationDate: e.target.value,
-                          })
-                        }
-                      ></Input>
-                    </div>
-                  </div>
-                  <div className="col">
+              <div className="col-12 flex justify-content-between">
+                <div className="col">
+                  <div>
                     <Input
-                      title="Issuer"
+                      title="Name"
+                      placeholder="John"
                       onChange={(e) =>
                         setCertificationsValue({
                           ...certificationsValue,
-                          issuer: e.target.value,
+                          name: e.target.value,
                         })
                       }
                     ></Input>
                   </div>
+                  <div className="mt-4">
+                    <Input
+                      title="Acquired Date"
+                      type="date"
+                      onChange={(e) =>
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          acquiredDate: e.target.value,
+                        })
+                      }
+                    ></Input>
+                  </div>
+                </div>
+                <div className="col">
+                  <div>
+                    <Input
+                      title="Certification Number"
+                      placeholder="2345678"
+                      onChange={(e) =>
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          certificationNumber: e.target.value,
+                        })
+                      }
+                    ></Input>
+                  </div>
+                  <div className="mt-4">
+                    <Input
+                      title="Expiration Date"
+                      type="date"
+                      placeholder="2345678"
+                      onChange={(e) =>
+                        setCertificationsValue({
+                          ...certificationsValue,
+                          expirationDate: e.target.value,
+                        })
+                      }
+                    ></Input>
+                  </div>
+                </div>
+                <div className="col">
+                  <Input
+                    title="Issuer"
+                    onChange={(e) =>
+                      setCertificationsValue({
+                        ...certificationsValue,
+                        issuer: e.target.value,
+                      })
+                    }
+                  ></Input>
                 </div>
               </div>
 
