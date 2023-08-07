@@ -162,7 +162,10 @@ const Pay = ({ data, setData, createEmployee }) => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="col-12 bg-lightest-blue border-round-sm mt-3 shadow-4 p-2 ">
+        <div
+          className="col-12 bg-lightest-blue border-round-sm mt-3 shadow-4 p-2 overflow-scroll "
+          style={{ height: "360px" }}
+        >
           {payRows.map((item, index) => {
             return (
               <>
