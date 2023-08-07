@@ -103,6 +103,25 @@ const Certifications = ({ setData, data, createEmployee }) => {
   const drop = () => {
     document.getElementById("uploadFile").parentNode.className = "dragBox";
   };
+  const actionTemplate = (col) => {
+    // console.log(col._id, "collllll");
+    return (
+      <>
+        <div className="flex">
+          <span onClick={showAddCertification}>
+            <i className="pi pi-eye mr-3 cursor-pointer"></i>
+          </span>
+          <span>
+            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
+          </span>
+          {/* <span onClick={() => }> */}
+          <span>
+            <i className="pi pi-trash cursor-pointer"></i>
+          </span>
+        </div>
+      </>
+    );
+  };
 
   const Certification = () => {
     return (
@@ -207,6 +226,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
               <Column field="issuer" header="Issuer"></Column>
               <Column field="acquiredDate" header="Acquired Date"></Column>
               <Column field="expirationDate" header="Expiration Date"></Column>
+              <Column header="" body={actionTemplate}></Column>
             </DataTable>
           </div>
         </div>
@@ -423,6 +443,19 @@ const Certifications = ({ setData, data, createEmployee }) => {
 
                       <div className="my-3"></div>
                     </div>
+                  </div>
+                </div>
+                <div className="bg-white border-gray-200 border-2 border-round-md w-3 mt-4">
+                  <div className="flex px-5 border-bottom-1 border-gray-100 w-12  justify-content-between p-2">
+                    <span className="text-sm font-semibold">Name</span>
+                    <span className="text-sm font-semibold">File size</span>
+                  </div>
+                  <div
+                    className="flex w-12  px-5 justify-content-between p-2 "
+                    style={{ height: "60px" }}
+                  >
+                    <span className="text-sm text-gray-300">Name</span>
+                    <span className="text-sm text-gray-300">File size</span>
                   </div>
                 </div>
               </div>
