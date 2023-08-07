@@ -52,10 +52,8 @@ const Pay = ({ data, setData, createEmployee }) => {
       });
       return setData({ ...data, [name]: e.target.value._id });
     } else if (name === "defaultPay") {
-      setPayDefault(() => {
-        return payRows.find((item) => item.name === e.target.value.name);
-      });
-      return setData({ ...data, [name]: e.target.value.name });
+      setPayDefault(e.target.value);
+      return setData({ ...data, [name]: (e.target.value - 1).toString() });
     } else {
       let selectedPayments = data.payments.map((payment) => {
         if (payment.name === payRow.key) {
@@ -74,7 +72,7 @@ const Pay = ({ data, setData, createEmployee }) => {
   };
 
   const onSelectPayMethod = (event, index) => {
-    if (!payRows.some((item) => item.key === event.value.key)) {
+    // if (!payRows.some((item) => item.key === event.value.key)) {
       payRows[index] = event.target.value;
       setPayRows([...payRows]);
 
@@ -87,7 +85,7 @@ const Pay = ({ data, setData, createEmployee }) => {
         ...data,
         payments: data.payments,
       });
-    }
+    // }
   };
 
   const removePayRow = (item) => {
@@ -153,10 +151,10 @@ const Pay = ({ data, setData, createEmployee }) => {
                 <div className="col-2">
                   <DropDown
                     title="Default Pay"
-                    optionLabel={"name"}
+                    // optionLabel={"name"}
                     value={payDefault}
                     onChange={handleChange("defaultPay")}
-                    options={payRows[0].fields && payRows}
+                    options={payRows[0].fields && payRows.map((row, index) => (index + 1).toString())}
                   ></DropDown>
                 </div>
               </div>

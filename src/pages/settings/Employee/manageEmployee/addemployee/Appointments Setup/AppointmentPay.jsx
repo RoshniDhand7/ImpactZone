@@ -29,13 +29,13 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     setSelectedOptions(newArr);
   };
 
-  const changePriority = (e, col) => {
-    col.priority = e.value;
-    setSelectedOptions([...selectedOptions]);
-  };
+  // const changePriority = (e, col) => {
+  //   col.priority = e.value;
+  //   setSelectedOptions([...selectedOptions]);
+  // };
 
   const setPay = (e, col) => {
-    col.pay = e.value;
+    col.pay = e.target.value;
     setSelectedOptions([...selectedOptions]);
   };
 
@@ -94,9 +94,11 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
   ]);
 
   const onEnterDefaultPay = (event) => {
-    setDefaultPay(event.value);
+    setDefaultPay(event.target.value);
     selectedOptions.map((item) => {
-      item.pay = event.value;
+      if(!item.pay) {
+        item.pay = event.target.value;
+      }
       return item;
     });
     setSelectedOptions([...selectedOptions]);
@@ -138,13 +140,13 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     (isPriceInDollars ? "selected-price-type" : "")
                   }
                   onClick={() => {
-                    if(defaultPay) {
-                      const selectedPayOptions = selectedOptions.map(item => {
-                        item.isPayTypeDollar = true;
-                        return item;
-                      })
-                      setSelectedOptions([...selectedPayOptions]);
-                    }
+                    // if(defaultPay) {
+                    //   const selectedPayOptions = selectedOptions.map(item => {
+                    //     item.isPayTypeDollar = true;
+                    //     return item;
+                    //   })
+                    //   setSelectedOptions([...selectedPayOptions]);
+                    // }
                     setIsPriceInDollars(true);
                   }}
                 >
@@ -156,13 +158,13 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     (!isPriceInDollars ? "selected-price-type" : "")
                   }
                   onClick={() => {
-                    if(defaultPay) {
-                      const selectedPayOptions = selectedOptions.map(item => {
-                        item.isPayTypeDollar = false;
-                        return item;
-                      })
-                      setSelectedOptions([...selectedPayOptions]);
-                    }
+                    // if(defaultPay) {
+                    //   const selectedPayOptions = selectedOptions.map(item => {
+                    //     item.isPayTypeDollar = false;
+                    //     return item;
+                    //   })
+                    //   setSelectedOptions([...selectedPayOptions]);
+                    // }
                     setIsPriceInDollars(false)
                   }}
                 >
@@ -185,9 +187,9 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                       <div className="text-xs  font-semibold text-dark-gray ">
                         Name
                       </div>
-                      <div className=" font-semibold mr-5  text-xs text-dark-gray">
-                        Priority
-                      </div>
+                        {/* <div className=" font-semibold mr-5  text-xs text-dark-gray">
+                          Priority
+                        </div> */}
                       <div className=" font-semibold  ml-8 text-xs text-dark-gray">
                         Pay
                       </div>
@@ -217,7 +219,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                       {item.name}
                                     </span>
                                   </div>
-                                  <div>
+                                  {/* <div>
                                     <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
                                       <div className="flex  justify-content-center">
                                         <div
@@ -236,7 +238,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </div> */}
                                   <div>
                                     <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
                                       <div className="flex  justify-content-center align-items-center">
@@ -358,7 +360,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           id: item.id,
                                           name: item.name,
                                           priority: item.priority,
-                                          isPayTypeDollar: item.isPayTypeDollar,
+                                          isPayTypeDollar: isPriceInDollars,
                                           pay: defaultPay ? defaultPay : null
                                         },
                                       ]);

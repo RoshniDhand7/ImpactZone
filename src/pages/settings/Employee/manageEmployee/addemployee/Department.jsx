@@ -72,14 +72,6 @@ const Department = ({ data, setData }) => {
     dept.wage = Number(event.value);
   };
 
-  const onClickCopytoAll = () => {
-    selectedDepartment = selectedDepartment.map((item) => {
-      item.wage = allWagesValue;
-      return item;
-    });
-    return setSelectedDepartment([...selectedDepartment]);
-  };
-
   useEffect(() => {
     fetchDepartment();
   }, []);
@@ -94,9 +86,11 @@ const Department = ({ data, setData }) => {
                 <Input
                   type="number"
                   onChange={(e) => { 
-                    setAllWagesValue(e.value);
+                    setAllWagesValue(e.target.value);
                     selectedDepartment.map(item => {
-                      item.wage = e.value;
+                      if(!item.wage) {
+                        item.wage = e.target.value;
+                      }
                       return item;
                     });
                     setSelectedDepartment([...selectedDepartment]);

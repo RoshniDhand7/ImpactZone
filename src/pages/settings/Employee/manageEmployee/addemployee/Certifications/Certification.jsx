@@ -408,7 +408,6 @@ const Certifications = ({ setData, data, createEmployee }) => {
                           <div className="mx-auto" style={{ width: "5rem" }}>
                             <img src={ImageUpload} alt="" />
                           </div>
-                          {/* <p class="dragBox text-base text-surface-300 cursor-pointer "> */}
                           Drag your file here or Browse
                           <input
                             type="file"
