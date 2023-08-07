@@ -302,8 +302,7 @@ const Pay = ({ data, setData, createEmployee }) => {
               onClick={onClickAdd}
               label="Add"
               icon="pi pi-plus-circle"
-              disabled={payRows.length >= 4}
-              className="btn-dark   border-none"
+              className="btn-dark border-none"
             ></Buttons>
           </div>
           <div className="">
