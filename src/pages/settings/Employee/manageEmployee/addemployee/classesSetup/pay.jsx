@@ -24,16 +24,14 @@ const Pay = ({ data, setData, createEmployee }) => {
   );
 
   function onClickAdd() {
-    if (payRows.length < 4) {
-      setPayRows((prev) => {
-        return [
-          ...prev,
-          {
-            name: "",
-          },
-        ];
-      });
-    } else return;
+    setPayRows((prev) => {
+      return [
+        ...prev,
+        {
+          name: "",
+        },
+      ];
+    });
   }
 
   const getLevels = async () => {
@@ -73,18 +71,18 @@ const Pay = ({ data, setData, createEmployee }) => {
 
   const onSelectPayMethod = (event, index) => {
     // if (!payRows.some((item) => item.key === event.value.key)) {
-      payRows[index] = event.target.value;
-      setPayRows([...payRows]);
+    payRows[index] = event.target.value;
+    setPayRows([...payRows]);
 
-      if (!data.payments.some((item) => item.name === event.value.key)) {
-        data.payments[index] = {
-          name: event.value.key,
-        };
-      }
-      setData({
-        ...data,
-        payments: data.payments,
-      });
+    if (!data.payments.some((item) => item.name === event.value.key)) {
+      data.payments[index] = {
+        name: event.value.key,
+      };
+    }
+    setData({
+      ...data,
+      payments: data.payments,
+    });
     // }
   };
 
@@ -154,7 +152,10 @@ const Pay = ({ data, setData, createEmployee }) => {
                     // optionLabel={"name"}
                     value={payDefault}
                     onChange={handleChange("defaultPay")}
-                    options={payRows[0].fields && payRows.map((row, index) => (index + 1).toString())}
+                    options={
+                      payRows[0].fields &&
+                      payRows.map((row, index) => (index + 1).toString())
+                    }
                   ></DropDown>
                 </div>
               </div>
