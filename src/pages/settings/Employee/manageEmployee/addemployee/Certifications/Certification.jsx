@@ -445,19 +445,6 @@ const Certifications = ({ setData, data, createEmployee }) => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white border-gray-200 border-2 border-round-md w-3 mt-4">
-                  <div className="flex px-5 border-bottom-1 border-gray-100 w-12  justify-content-between p-2">
-                    <span className="text-sm font-semibold">Name</span>
-                    <span className="text-sm font-semibold">File size</span>
-                  </div>
-                  <div
-                    className="flex w-12  px-5 justify-content-between p-2 "
-                    style={{ height: "60px" }}
-                  >
-                    <span className="text-sm text-gray-300">Name</span>
-                    <span className="text-sm text-gray-300">File size</span>
-                  </div>
-                </div>
               </div>
             </CardWithTitle>
           </div>
