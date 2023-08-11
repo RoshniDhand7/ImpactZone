@@ -207,7 +207,15 @@ const Certifications = ({ setData, data, createEmployee }) => {
         <div>
           <div className="mt-3">
             <DataTable
-              value={data.certifications}
+              value={data.certifications.map(item => {
+                if(item.acquiredDate) {
+                  item.acquiredDate = item.acquiredDate.split("T")[0];
+                }
+                if(item.expirationDate) {
+                  item.expirationDate = item.expirationDate.split("T")[0];
+                }
+                return item;
+              })}
               dataKey="id"
               tableStyle={{ minWidth: "50rem" }}
             >
@@ -298,7 +306,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
-                      value={certificationsValue.acquiredDate.split("T")[0] || certificationsValue.acquiredDate}
+                      value={certificationsValue.acquiredDate}
                       onKeyDown={(e) => {
                         e.preventDefault();
                       }}
@@ -352,7 +360,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
-                      value={certificationsValue.expirationDate.split("T")[0] || certificationsValue.expirationDate}
+                      value={certificationsValue.expirationDate}
                       onKeyDown={(e) => {
                         e.preventDefault();
                       }}
