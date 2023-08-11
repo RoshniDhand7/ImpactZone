@@ -5,16 +5,24 @@ import RecentCheckIn from "../../../../../components/cards/Profilecard/recentChe
 import checkInData from "../../../../../utils/checkInData";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
+import validation from "../../../../../utils/Validation";
 
 const Notes = ({ setData, data, createEmployee }) => {
   const [showNotes, setActiveNotes] = useState(false);
   const [noteValue, setNoteValue] = useState({ note: "" });
+  const { notesValidation } = validation();
+  const [errors, setErrors] = useState({});
 
   const onClickActiveNotes = () => {
     setActiveNotes((prev) => !prev);
   };
 
   const addNote = () => {
+    let validate = notesValidation(noteValue);
+    if (Object.keys(validate).length) {
+      return setErrors(validate);
+    };
+
     setData(() => {
       return {
         ...data,
@@ -28,6 +36,7 @@ const Notes = ({ setData, data, createEmployee }) => {
     });
     setNoteValue({ note: "" });
     setActiveNotes(false);
+    return setErrors({});
   };
 
   const showTableNotes = () => {
@@ -137,6 +146,9 @@ const Notes = ({ setData, data, createEmployee }) => {
                   }
                 />
               </div>
+              {errors.note && (
+                      <p className="text-red-600 text-xs mt-1">{errors.note}</p>
+                    )}
             </div>
           </CardWithTitle>
         </div>

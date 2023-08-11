@@ -25,39 +25,52 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
 
   const removeSelectedAppointment = (index) => {
     const newArr = [...selectedOptions];
-    newArr.splice(index, 1);
+    const splicedArray = newArr.splice(index, 1);
     setSelectedOptions(newArr);
+    setRelationshipData(() => {
+      return [...relationshipData, ...splicedArray];
+    });
+    setData(() => {
+      return {
+        ...data,
+        appointmentCommissionSetups: [ ...newArr ]
+      };
+    });
   };
 
-  // const changePriority = (e, col) => {
-  //   col.priority = e.value;
-  //   setSelectedOptions([...selectedOptions]);
-  // };
-
-  const setPay = (e, col) => {
+  const setPay = (e, col, index) => {
     col.pay = e.target.value;
     setSelectedOptions([...selectedOptions]);
+    setData({ ...data, appointmentCommissionSetups: [ ...selectedOptions ] })
   };
 
   const getLevels = async () => {
     const res = await api("get", constants.endPoints.AddLevel);
     if (res.success) {
       setDropDownLevels(res.data);
+      setSelectedLevel(res.data.find((item) => item._id === data.classLevel));
     } else {
       console.log(res);
     }
   };
 
   const selectAllOptions = () => {
-    const allData = relationshipData.map(item => {
+    const allData = relationshipData.map((item) => {
       item.pay = defaultPay ? defaultPay : null;
       return item;
-    })
+    });
     setSelectedOptions([...allData]);
+    setData({ ...data, appointmentCommissionSetups: [ ...allData ]})
+    setRelationshipData([]);
   };
 
   useEffect(() => {
     getLevels();
+    if (data.appointmentCommissionSetups.length) {
+      const selectedOptIds = data.appointmentCommissionSetups.map(item => item.id);
+      setSelectedOptions([...data.appointmentCommissionSetups]);
+      setRelationshipData(relationshipData.filter(item => !selectedOptIds.includes(item.id)));
+    }
   }, []);
 
   const handleChange = (name, payRow) => (e) => {
@@ -69,34 +82,34 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
     }
   };
 
-  const [relationshipData] = useState([
+  let [relationshipData, setRelationshipData] = useState([
     {
       id: 1,
       name: "3D Body Scan",
       commissionType: "",
       pay: null,
-      isPayTypeDollar: true
+      isPayTypeDollar: true,
     },
     {
       id: 2,
       name: "Aga Group 30 Min",
       commissionType: "",
       pay: null,
-      isPayTypeDollar: true
+      isPayTypeDollar: true,
     },
     {
       id: 3,
       name: "Aga Group 45 Min",
       commissionType: "",
       pay: null,
-      isPayTypeDollar: true
+      isPayTypeDollar: true,
     },
   ]);
 
   const onEnterDefaultPay = (event) => {
     setDefaultPay(event.target.value);
     selectedOptions.map((item) => {
-      if(!item.pay) {
+      if (!item.pay) {
         item.pay = event.target.value;
       }
       return item;
@@ -165,7 +178,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                     //   })
                     //   setSelectedOptions([...selectedPayOptions]);
                     // }
-                    setIsPriceInDollars(false)
+                    setIsPriceInDollars(false);
                   }}
                 >
                   %
@@ -187,7 +200,7 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                       <div className="text-xs  font-semibold text-dark-gray ">
                         Name
                       </div>
-                        {/* <div className=" font-semibold mr-5  text-xs text-dark-gray">
+                      {/* <div className=" font-semibold mr-5  text-xs text-dark-gray">
                           Priority
                         </div> */}
                       <div className=" font-semibold  ml-8 text-xs text-dark-gray">
@@ -195,7 +208,11 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                       </div>
                       {selectedOptions.length ? (
                         <div
-                          onClick={() => setSelectedOptions([])}
+                          onClick={() => {
+                            setRelationshipData([...selectedOptions]);
+                            setSelectedOptions([]);
+                            setData({ ...data, appointmentCommissionSetups: []})
+                          }}
                           className="text-blue  font-semibold cursor-pointer  text-xs "
                         >
                           Remove All
@@ -249,10 +266,8 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           }}
                                         >
                                           <Input
-                                            value={item.pay}
-                                            onChange={(e) =>
-                                              setPay(e, item)
-                                            }
+                                            value={data.appointmentCommissionSetups[index] && data.appointmentCommissionSetups[index].pay}
+                                            onChange={(e) => setPay(e, item)}
                                             type="number"
                                           ></Input>
                                         </div>
@@ -270,12 +285,12 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                                 ? "selected-price-type"
                                                 : "")
                                             }
-                                            onClick={() =>
-                                              {
-                                                item.isPayTypeDollar= true;
-                                                setSelectedOptions([...selectedOptions]);
-                                              }
-                                            }
+                                            onClick={() => {
+                                              item.isPayTypeDollar = true;
+                                              setSelectedOptions([
+                                                ...selectedOptions,
+                                              ]);
+                                            }}
                                           >
                                             $
                                           </span>
@@ -286,12 +301,12 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                                 ? "selected-price-type"
                                                 : "")
                                             }
-                                            onClick={() =>
-                                              {
-                                                item.isPayTypeDollar= false;
-                                                setSelectedOptions([...selectedOptions]);
-                                              }
-                                            }
+                                            onClick={() => {
+                                              item.isPayTypeDollar = false;
+                                              setSelectedOptions([
+                                                ...selectedOptions,
+                                              ]);
+                                            }}
                                           >
                                             %
                                           </span>
@@ -329,17 +344,19 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                       <div className="text-xs font-semibold text-dark-gray">
                         Name
                       </div>
-                      <div
-                        onClick={selectAllOptions}
-                        className="text-blue text-xs font-semibold cursor-pointer"
-                      >
-                        Add All
-                      </div>
+                      {relationshipData.length ? (
+                        <div
+                          onClick={selectAllOptions}
+                          className="text-blue text-xs font-semibold cursor-pointer"
+                        >
+                          Add All
+                        </div>
+                      ) : null}
                     </div>
 
                     <div
                       className=" justify-content-between bg-white py-2 border-round-md"
-                      style={{ height: "200px", overflow: "auto" }}
+                      style={{ maxHeight: "200px", overflow: "auto" }}
                     >
                       {relationshipData?.map((item, index) => {
                         return (
@@ -361,9 +378,30 @@ const AppointmentPay = ({ data, setData, createEmployee }) => {
                                           name: item.name,
                                           priority: item.priority,
                                           isPayTypeDollar: isPriceInDollars,
-                                          pay: defaultPay ? defaultPay : null
+                                          pay: defaultPay ? defaultPay : null,
                                         },
                                       ]);
+
+                                      relationshipData =
+                                        relationshipData.filter(
+                                          (option) => option.id !== item.id
+                                        );
+                                      setRelationshipData(relationshipData);
+                                      setData(() => {
+                                        return {
+                                          ...data,
+                                          appointmentCommissionSetups: [
+                                            ...data.appointmentCommissionSetups,
+                                            {
+                                              id: item.id,
+                                              name: item.name,
+                                              priority: item.priority,
+                                              isPayTypeDollar: isPriceInDollars,
+                                              pay: defaultPay ? defaultPay : null,
+                                            },
+                                          ]
+                                        };
+                                      });
                                     }
                                   }}
                                   className="cursor-pointer button-hover "

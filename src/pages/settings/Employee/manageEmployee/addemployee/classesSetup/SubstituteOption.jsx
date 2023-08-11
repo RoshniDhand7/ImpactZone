@@ -11,7 +11,7 @@ import Remove from "../../../../../../assets/icons/remove.png";
 import Input from "../../../../../../components/input/input";
 
 const SubstituteOption = ({ data, setData, createEmployee }) => {
-  const [exerciseDetail, setExerciseDetail] = useState([
+  let [exerciseDetail, setExerciseDetail] = useState([
     {
       id: 1,
       name: "Yoga",
@@ -48,12 +48,30 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
     });
 
     setSelectedOptions(allDept);
+    setData(() => {
+      return {
+        ...data,
+        substituteOption: [
+          ...allDept
+        ]
+      };
+    });
+    setExerciseDetail([]);
   };
 
   const removeSelectedDepartment = (index) => {
     const newArr = [...selectedOptions];
-    newArr.splice(index, 1);
+    const splicedArray = newArr.splice(index, 1);
     setSelectedOptions(newArr);
+    setExerciseDetail(() => {
+      return [...exerciseDetail, ...splicedArray];
+    });
+    setData(() => {
+      return {
+        ...data,
+        substituteOption: [ ...newArr ]
+      };
+    });
   };
 
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -66,16 +84,12 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
   const priorities = ["Suggested", "High", "Medium", "Low"];
 
   useEffect(() => {
-    let substituteOptions = [];
-    selectedOptions?.map((exercise) => {
-      substituteOptions.push({
-        name: exercise?.name,
-        priority: exercise?.priority,
-      });
-    });
-
-    setData({ ...data, substituteOption: substituteOptions });
-  }, [selectedOptions, exerciseDetail]);
+    if (data.substituteOption.length) {
+      const selectedOptIds = data.substituteOption.map(item => item.id);
+      setSelectedOptions([...data.substituteOption]);
+      setExerciseDetail(exerciseDetail.filter(item => !selectedOptIds.includes(item.id)));
+    }
+  }, []);
 
   const tableHeadingPriority = [
     { field: "", id: "" },
@@ -106,7 +120,10 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                 </div>
                 {selectedOptions.length ? (
                   <div
-                    onClick={() => setSelectedOptions([])}
+                    onClick={() => {
+                      setExerciseDetail([...selectedOptions]);
+                      setSelectedOptions([]);
+                    }}
                     className="text-blue  font-semibold cursor-pointer  text-xs "
                   >
                     Remove All
@@ -209,6 +226,23 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                                     priority: item.priority,
                                   },
                                 ]);
+                                exerciseDetail = exerciseDetail.filter(
+                                  (option) => option.id !== item.id
+                                );
+                                setExerciseDetail(exerciseDetail);
+                                setData(() => {
+                                  return {
+                                    ...data,
+                                    substituteOption: [
+                                      ...data.substituteOption,
+                                      {
+                                        id: item.id,
+                                        name: item.name,
+                                        priority: item.priority,
+                                      },
+                                    ]
+                                  };
+                                });
                               }
                             }}
                             className="cursor-pointer button-hover "
@@ -231,12 +265,6 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
             <div className=" mx-4">
               <Buttons
                 onClick={() => {
-                  setData(() => {
-                    return {
-                      ...data,
-                      substituteOption: selectedOptions,
-                    };
-                  });
                   createEmployee();
                 }}
                 label="Save"

@@ -100,6 +100,11 @@ console.log(isLogged)
               path="/employee/addEmployee"
               element={<AddEmployee />}
             />
+              <Route
+              exact
+              path="/employee/editEmployee/:id"
+              element={<AddEmployee />}
+            />
             <Route exact path="/scheduleSetup" element={<ScheduleSetup />} />
             <Route exact path="/settings" element={<Settings />} />
             <Route

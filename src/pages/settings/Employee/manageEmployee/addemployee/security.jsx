@@ -16,12 +16,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, setErrors }) => {
+
   const [title, setTitle] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handelChange = (name) => (e) => {
+    console.log(e)
     // if (group?.length) {
     //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
     // } else {
@@ -29,7 +31,8 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
       setSelectedTitle(() => {
         return title.find((item) => item._id === e.target.value._id);
       });
-      return setData({ ...data, title: selectedTitle._id });
+
+      return setData({ ...data, title: e.target.value._id });
     }
     return setData({ ...data, [name]: e.target.value || e.value });
     // }
@@ -47,23 +50,20 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
     setErrors(false);
   }, [data]);
 
-  const multiClubClockIn = [
-    { name: "true", value: "true" },
-    { name: "false", value: "false" },
-  ];
+  const multiClubClockIn = ["true", "false"];
 
   const fetchTitle = async () => {
     const res = await api("get", constants.endPoints.JobTitle);
-    console.log(title, "title");
     if (res.success) {
       setTitle(res.data);
+      setSelectedTitle(res.data.find((item) => item._id === data.title));
     } else {
       console.log(res);
     }
   };
   useEffect(() => {
     fetchTitle();
-  }, []);
+  }, [data]);
 
   const itemTemplate = (item) => {
     return (
@@ -121,7 +121,7 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
                         title="Date of Birth"
                         placeholder="11/08/1998"
                         type="date"
-                        value={data.dob}
+                        value={data.dob.split("T")[0]}
                         onChange={handelChange("dob")}
                       ></Input>
                     </div>
@@ -172,18 +172,6 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
                     ></DropDown>
                   </div>
                 </div>
-                {/* <div className="flex mt-3">
-                  <div className="col-3">
-                    <Input
-                      title="Date of Birth"
-                      placeholder="11/08/1998"
-                      type="date"
-                    ></Input>
-                  </div>
-                  <div className="col-3">
-                    <Input title="Social Security #"></Input>
-                  </div>
-                </div> */}
               </div>
             </CardWithTitle>
           </div>
@@ -228,9 +216,8 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
                 <div className="col-4">
                   <DropDown
                     title="Multi-Club Clock In/Out"
-                    value={data.multiClubClockIn}
+                    value={String(data.multiClubClockIn)}
                     options={multiClubClockIn}
-                    optionLabel="value"
                     onChange={handelChange("multiClubClockIn")}
                   ></DropDown>
                 </div>

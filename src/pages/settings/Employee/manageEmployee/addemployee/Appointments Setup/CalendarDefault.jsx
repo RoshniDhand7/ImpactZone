@@ -57,11 +57,32 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
     { field: "", header: "", body: actionTemplate},
   ];
 
+
+
+  const onSelectEvents = (value) => {
+    console.log(value)
+    value = value.map((item, index) => {
+      item = {
+        ...item,
+        orderNumber: index
+      }
+      return item;
+    })
+    setSelectedEvents(value)
+
+    setData(() => {
+      return {
+        ...data,
+        appointmentCalendarDefault: value
+      }
+    });
+  }
+
   useEffect(() => {
-    if(isPayloadReady) {
-      createEmployee();
+    if(data.appointmentCalendarDefault.length) {
+      setSelectedEvents(data.appointmentCalendarDefault)
     }
-  }, [ data ]);
+  }, []);
 
   return (
     <>
@@ -77,13 +98,13 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
           </div>
           <div className="col-3 p-0 flex mb-3">
           <div className="col flex">
-            <div className="mt-4">
+            <div className="mt-4" style={{width: "174px"}}>
               <MuliSelectDropDown
                 title="Events"
                 options={calendarEvents}
                 optionsLabel="event"
                 onChange={(e) => {
-                  setSelectedEvents(e.value);
+                  onSelectEvents(e.value);
                 }}
                 key={"id"}
                 placeholder="Select Events"
@@ -107,18 +128,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
               label="Save"
               className="btn-dark mx-3 border-none"
               onClick={() => {
-                const selectedEventsClone = [ ...selectedEvents ];
-                setData(() => {
-                  return {
-                    ...data,
-                    appointmentCalendarDefault: selectedEventsClone.map((item, index) => {
-                      item.orderNumber = index + 1;
-                      delete item.id;
-                      return item;
-                    })
-                  }
-                });
-                setIsPayloadReady(true);
+                createEmployee();
               }}
             ></Buttons>
           </div>

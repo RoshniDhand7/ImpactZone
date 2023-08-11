@@ -15,7 +15,7 @@ const Navbar = () => {
 
             <div className="border-show pb-3 p-2">
               <NavLink to="/availability" ClassName="nav-bar-link">
-                <span className="text-underline">Avaliability</span>
+                <span className="text-underline">Availability</span>
               </NavLink>
             </div>
             <div className="border-show pb-3 p-2">

@@ -22,6 +22,8 @@ const Input = ({
   width,
   mode,
   minFractionDigits,
+  disabled= false,
+  onKeyDown
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
 
@@ -48,6 +50,8 @@ const Input = ({
             onChange={onChange}
             minFractionDigits={minFractionDigits}
             type="number"
+            disabled={disabled}
+            onKeyDown={type === "date" ? (e) => e.preventDefault() : onKeyDown ? onKeyDown : ''}
           />
         ) : (
           <InputText
@@ -58,6 +62,9 @@ const Input = ({
             value={value}
             maxLength={maxLength}
             onChange={onChange}
+            disabled={disabled}
+            // onKeyDown={onKeyDown}
+            onKeyDown={type === "date" ? (e) => e.preventDefault() : onKeyDown ? onKeyDown : ''}
           ></InputText>
         )}
 

@@ -17,6 +17,7 @@ import constants from "../../../../../../utils/constants";
 import { showToast } from "../../../../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import validation from "../../../../../../utils/Validation";
+import formatFileSize from "../../../../../../utils/helpers/formatFileSize";
 
 const Certifications = ({ setData, data, createEmployee }) => {
   const [dates, setDates] = useState(null);
@@ -24,6 +25,10 @@ const Certifications = ({ setData, data, createEmployee }) => {
   const [errors, setErrors] = useState({});
 
   const [showCertification, setShowAddCertification] = useState(false);
+  const [viewCertification, setViewCertification] = useState(false);
+  const [editCertification, setEditCertification] = useState(false);
+  const [editCertificationIndex, setEditCertificationIndex] = useState(0);
+
   const [certificationsValue, setCertificationsValue] = useState({
     name: "",
     certificationNumber: "",
@@ -37,6 +42,17 @@ const Certifications = ({ setData, data, createEmployee }) => {
   const dispatch = useDispatch();
 
   const showAddCertification = () => {
+    setCertificationsValue({
+      name: "",
+      certificationNumber: "",
+      issuer: "",
+      acquiredDate: null,
+      expirationDate: null,
+      descriptions: "",
+      image: "",
+    });
+    setViewCertification(false);
+    setEditCertification(false);
     setShowAddCertification((prev) => !prev);
   };
 
@@ -46,17 +62,28 @@ const Certifications = ({ setData, data, createEmployee }) => {
     if (Object.keys(validate).length) {
       return setErrors(validate);
     }
-    setData(() => {
-      return {
-        ...data,
-        certifications: [
-          ...data.certifications,
-          {
-            ...certificationsValue,
-          },
-        ],
-      };
-    });
+
+    if (editCertification) {
+      setData(() => {
+        return {
+          ...data,
+          ...(data.certifications[editCertificationIndex] =
+            certificationsValue),
+        };
+      });
+    } else {
+      setData(() => {
+        return {
+          ...data,
+          certifications: [
+            ...data.certifications,
+            {
+              ...certificationsValue,
+            },
+          ],
+        };
+      });
+    }
     setCertificationsValue({
       name: "",
       certificationNumber: "",
@@ -79,18 +106,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
       var preview = document.getElementById("preview");
       preview.innerHTML = event.target.files[0].name;
 
-      const res = await api("post", constants.endPoints.uploadFile, formData, {
-        "Content-Type": "multipart/form-data",
-      });
-      if (res.success) {
-        dispatch(showToast({ severity: "success", summary: res.message }));
-        setCertificationsValue({
-          ...certificationsValue,
-          image: res.data.image,
-        });
-      } else {
-        console.log(res);
-      }
+      certificationsValue.image = event.target.files[0];
+      setCertificationsValue({ ...certificationsValue });
     } catch (error) {
       console.log(error);
     }
@@ -103,19 +120,80 @@ const Certifications = ({ setData, data, createEmployee }) => {
   const drop = () => {
     document.getElementById("uploadFile").parentNode.className = "dragBox";
   };
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
+
+  const onClickCancel = () => {
+    setShowAddCertification(false);
+    setViewCertification(false);
+    setEditCertification(false);
+  };
+
+  const onEditCertificate = (col, row) => {
+    setCertificationsValue({ ...col });
+    setEditCertification(true);
+    setShowAddCertification(true);
+    setViewCertification(false);
+    setEditCertificationIndex(row.rowIndex);
+    var preview = document.getElementById("preview");
+    if (preview) preview.innerHTML = certificationsValue.image.name;
+    return col;
+  };
+
+  const onViewCertificate = (col) => {
+    setCertificationsValue({ ...col });
+    setViewCertification(true);
+    setEditCertification(false);
+    setShowAddCertification(true);
+  };
+
+  const onDeleteCertificate = (row) => {
+    data.certifications.splice(row.rowIndex, 1);
+    setDates({ ...data });
+  };
+
+  const onClickSave = async () => {
+    return await new Promise(async (resolve, reject) => {
+      if (data.certifications.length) {
+        for(let i = 0; i < data.certifications.length; i++) {
+          const formData = new FormData();
+          formData.append("file", data.certifications[i].image);
+
+          const res = await api(
+            "post",
+            constants.endPoints.uploadFile,
+            formData,
+            {
+              "Content-Type": "multipart/form-data",
+            }
+          );
+          if (res.success) {
+            data.certifications[i].image = res.data.image;
+            setData({ ...data });
+            console.log(data)
+          } else {
+            console.log(res);
+            return;
+          }
+        };
+        createEmployee();
+        return resolve();
+      } else {
+        return reject();
+      }
+    })
+  };
+
+  const actionTemplate = (col, row) => {
     return (
       <>
         <div className="flex">
-          <span onClick={showAddCertification}>
+          <span onClick={() => onViewCertificate(col)}>
             <i className="pi pi-eye mr-3 cursor-pointer"></i>
           </span>
-          <span>
+          <span onClick={() => onEditCertificate(col, row)}>
             <i className="pi pi-pencil mr-3 cursor-pointer"></i>
           </span>
-          {/* <span onClick={() => }> */}
-          <span>
+
+          <span onClick={() => onDeleteCertificate(row)}>
             <i className="pi pi-trash cursor-pointer"></i>
           </span>
         </div>
@@ -127,90 +205,6 @@ const Certifications = ({ setData, data, createEmployee }) => {
     return (
       <>
         <div>
-          {/* <div>
-            <CardWithTitle title="General">
-              <div className="p-4">
-                <div className="flex">
-                  <div className="col">
-                    <DropDown title="Status" placeholder="Active"></DropDown>
-                  </div>
-                  <div className="col">
-                    <DropDown title="Search By" placeholder="Active"></DropDown>
-                  </div>
-                  <div className="col">
-                    <Input title="Search Text" placeholder="Active"></Input>
-                  </div>
-                </div>
-                <div className=" flex">
-                  <div className="mt-4 flex ml-2 ">
-                    <div
-                      className="col border-round bg-white  "
-                      style={{ height: "38px" }}
-                    >
-                      Date
-                    </div>
-                    <div className="">
-                      <Calendar
-                        value={dates}
-                        onChange={(e) => setDates(e.value)}
-                        selectionMode="range"
-                        readOnlyInput
-                        icon="pi pi-calendar"
-                        showIcon
-                      />
-                    </div>
-                  </div>
-                  <div className="col-10 mt-2 flex">
-                    <div className="col">
-                      <Buttons
-                        label="Today"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                    <div className="col">
-                      <Buttons
-                        label="Yesterday"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                    <div className="col">
-                      <Buttons
-                        label="This Week"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                    <div className="col">
-                      <Buttons
-                        label="Last Week"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                    <div className="col">
-                      <Buttons
-                        label="This Month"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                    <div className="col">
-                      <Buttons
-                        label="Last Month"
-                        className="bg-white text-sm text-900 border-none"
-                      ></Buttons>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-content-end">
-                  <div className="mr-3">
-                    <Buttons
-                      label="Search"
-                      className="btn-dark text-sm  border-none"
-                    ></Buttons>
-                  </div>
-                </div>
-              </div>
-            </CardWithTitle>
-          </div> */}
-
           <div className="mt-3">
             <DataTable
               value={data.certifications}
@@ -235,7 +229,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
             <div className=" mx-2">
               <Buttons
                 onClick={showAddCertification}
-                label="Add "
+                label="Add"
                 icon="pi pi-plus-circle"
                 className="btn-dark border-none"
               ></Buttons>
@@ -243,7 +237,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
             <div className="">
               <Buttons
                 label="Save"
-                onClick={createEmployee}
+                onClick={onClickSave}
                 className="btn-dark mx-3 border-none"
               ></Buttons>
             </div>
@@ -282,6 +276,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
+                      value={certificationsValue.name}
+                      disabled={viewCertification}
                     ></Input>
                     {errors.name && (
                       <p className="text-red-600 text-xs mt-1">{errors.name}</p>
@@ -302,6 +298,11 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
+                      value={certificationsValue.acquiredDate.split("T")[0] || certificationsValue.acquiredDate}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      disabled={viewCertification}
                     ></Input>
                     {errors.acquiredDate && (
                       <p className="text-red-600 text-xs mt-1">
@@ -326,6 +327,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
+                      value={certificationsValue.certificationNumber}
+                      disabled={viewCertification}
                     ></Input>
                     {errors.certificationNumber && (
                       <p className="text-red-600 text-xs mt-1">
@@ -337,7 +340,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
                     <Input
                       title="Expiration Date"
                       type="date"
-                      placeholder="2345678"
+                      placeholder=""
                       onChange={(e) => {
                         setCertificationsValue({
                           ...certificationsValue,
@@ -349,6 +352,11 @@ const Certifications = ({ setData, data, createEmployee }) => {
                         });
                         setErrors(validate);
                       }}
+                      value={certificationsValue.expirationDate.split("T")[0] || certificationsValue.expirationDate}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
+                      disabled={viewCertification}
                     ></Input>
                     {errors.expirationDate && (
                       <p className="text-red-600 text-xs mt-1">
@@ -371,6 +379,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
                       });
                       setErrors(validate);
                     }}
+                    value={certificationsValue.issuer}
+                    disabled={viewCertification}
                   ></Input>
                   {errors.issuer && (
                     <p className="text-red-600 text-xs mt-1">{errors.issuer}</p>
@@ -394,6 +404,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
                     });
                     setErrors(validate);
                   }}
+                  value={certificationsValue.descriptions}
+                  disabled={viewCertification}
                 ></InputTextarea>
                 {errors.descriptions && (
                   <p className="text-red-600 text-xs mt-1">
@@ -401,70 +413,134 @@ const Certifications = ({ setData, data, createEmployee }) => {
                   </p>
                 )}
               </div>
-              <div className="p-3">
-                <div className=" ">
-                  <span className="text-xl font-semibold">
-                    Upload Certificate
-                  </span>
-                  <div
-                    style={{ height: "235px" }}
-                    className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex justify-content-between "
-                  >
+              {(viewCertification && certificationsValue.image) ||
+              (editCertification && certificationsValue.image) ||
+              (showCertification && certificationsValue.image) ? (
+                <div className="p-3">
+                  <div className="bg-white border-gray-200 border-2 border-round-md w-3 mt-4">
+                    <div className="flex  border-bottom-1 border-gray-100 w-12  justify-content-between p-2">
+                      <span className="text-sm font-semibold">Name</span>
+                      <span className="text-sm font-semibold mr-3">
+                        File size
+                      </span>
+                    </div>
                     <div
-                      id="preview"
-                      style={{ width: "115px", height: "116px" }}
-                    ></div>
-                    <div className=" col-8  flex flex-cloumn justify-content-start align-items-center">
-                      <div class="uploadOuter ml-6 flex flex-column justify-centent-center align-items-center text-center ">
-                        <label for="uploadFile" class="btn btn-primary"></label>
-                        <div
-                          className="flex justify-centent-center align-items-center "
-                          style={{ width: "60px", height: "60px" }}
-                        ></div>
-                        <div
-                          className="cursor-pointer dragBox -mt-8"
-                          style={{ "line-height": "50px" }}
-                        >
-                          <div className="mx-auto" style={{ width: "5rem" }}>
-                            <img src={ImageUpload} alt="" />
-                          </div>
-                          Drag your file here or Browse
-                          <input
-                            type="file"
-                            onChange={dragNdrop}
-                            ondragover={drag}
-                            ondrop={drop}
-                            id="uploadFile"
-                            accept="application/pdf, application/vnd.ms-excel"
-                          />
-                          {/* </p> */}
-                        </div>
+                      className="flex w-12  p-2 justify-content-between "
+                      style={{ height: "60px" }}
+                    >
+                      <span className="text-sm text-gray-300">
+                        {certificationsValue.image.name}
+                      </span>
+                      <div>
+                        {" "}
+                        <span className="text-sm text-gray-300 mr-1 ">
+                          {certificationsValue.image
+                            ? formatFileSize(certificationsValue.image.size, 2)
+                            : ""}
+                        </span>
+                        {(editCertification && !viewCertification) ||
+                        (showCertification && !viewCertification) ? (
+                          <span
+                            className="text-sm text-red-500 font-semibold text-gray-300 ml-2 cursor-pointer"
+                            onClick={() => {
+                              certificationsValue.image = null;
+                              setCertificationsValue({
+                                ...certificationsValue,
+                              });
+                            }}
+                          >
+                            x
+                          </span>
+                        ) : null}
                       </div>
-
-                      <div className="my-3"></div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
+
+              {(!viewCertification && !certificationsValue.image) ||
+              (editCertification && !certificationsValue.image) ? (
+                <div className="p-3">
+                  <div className=" ">
+                    <span className="text-xl font-semibold">
+                      Upload Certificate
+                    </span>
+                    <div
+                      style={{ height: "235px" }}
+                      className="col-12 bg-white border-dashed  my-2 border-gray-100 border-round-sm flex flex justify-content-between "
+                    >
+                      <div
+                        id="preview"
+                        style={{ width: "115px", height: "116px" }}
+                      ></div>
+                      <div className="col-8 flex flex-cloumn justify-content-start align-items-center">
+                        <div class="uploadOuter ml-6 flex flex-column justify-centent-center align-items-center text-center ">
+                          <label
+                            for="uploadFile"
+                            class="btn btn-primary"
+                          ></label>
+                          <div
+                            className="flex justify-centent-center align-items-center "
+                            style={{ width: "60px", height: "60px" }}
+                          ></div>
+                          <div
+                            className="cursor-pointer dragBox -mt-8"
+                            style={{ "line-height": "50px" }}
+                          >
+                            <div className="mx-auto" style={{ width: "5rem" }}>
+                              <img src={ImageUpload} alt="" />
+                            </div>
+                            Drag your file here or Browse
+                            <input
+                              type="file"
+                              onChange={dragNdrop}
+                              ondragover={drag}
+                              ondrop={drop}
+                              id="uploadFile"
+                              accept="application/pdf, application/vnd.ms-excel"
+                            />
+                            {/* </p> */}
+                          </div>
+                        </div>
+
+                        <div className="my-3"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </CardWithTitle>
           </div>
         </div>
         <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
-            <div className="">
-              <Buttons
-                onClick={addCertification}
-                label="Save"
-                className="btn-dark mx-3 border-none"
-              ></Buttons>
+          {viewCertification ? (
+            <div className=" mt-3 flex">
+              <div className="">
+                <Buttons
+                  onClick={() => setShowAddCertification(false)}
+                  label="Back"
+                  className="btn-dark mx-1 border-none"
+                ></Buttons>
+              </div>
             </div>
-            <div className="ml-4 ">
-              <Buttons
-                label="Cancel"
-                className="btn-grey border-none"
-              ></Buttons>
+          ) : (
+            <div className=" mt-3 flex">
+              <div className="">
+                <Buttons
+                  onClick={addCertification}
+                  label="Save"
+                  className="btn-dark mx-3 border-none"
+                ></Buttons>
+              </div>
+              <div className="ml-4 ">
+                <Buttons
+                  label="Cancel"
+                  className="btn-grey border-none"
+                  onClick={onClickCancel}
+                ></Buttons>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </>
     );

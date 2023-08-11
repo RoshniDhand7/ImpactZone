@@ -7,6 +7,7 @@ import RecentCheckIn from "../../../../../../components/cards/Profilecard/recent
 import checkInData from "../../../../../../utils/checkInData";
 import Divide from "../../../../../../assets/icons/box.png";
 import MuliSelectDropDown from "../../../../../../components/dropdown/muliSelectDropDown";
+import { useEffect } from "react";
 
 const Bonus = ({ data, setData, createEmployee }) => {
   const [bonusRows, setBonusRows] = useState([{ name: "" }]);
@@ -19,13 +20,15 @@ const Bonus = ({ data, setData, createEmployee }) => {
       {
         name: "# of Sessions",
         type: "text",
-        key: "numberofSessions",
+        subType: "number",
+        key: "numberOfSessions",
         placeholder: "Enter Days",
         placeholder1: "Enter Value",
       },
       {
         name: "Select Timeframe",
         type: "text",
+        subType: "number",
         key: "timeFrameValue",
       },
       {
@@ -49,22 +52,17 @@ const Bonus = ({ data, setData, createEmployee }) => {
 
   const onSelectBonusType = (e, index) => {
     if (!bonusRows.some((item) => item.name === e.target.value)) {
-      const bonusRowsClone = [...bonusRows];
-      bonusRowsClone[index] = {
+      bonusRows[index] = {
         name: e.target.value,
         ...bonusFields,
       };
-      setBonusRows(bonusRowsClone);
-      setData(() => {
-        return {
-          ...data,
-          appointmentSetupBonus: [
-            ...data.appointmentSetupBonus,
-            {
-              bonusType: e.target.value,
-            },
-          ],
-        };
+      setBonusRows([...bonusRows]);
+      data.appointmentSetupBonus[index] = {
+        bonusType: e.target.value,
+      };
+      setData({
+        ...data,
+        appointmentSetupBonus: data.appointmentSetupBonus,
       });
     }
   };
@@ -102,7 +100,8 @@ const Bonus = ({ data, setData, createEmployee }) => {
 
   const onEnterData = (e, index, keyName) => {
     let appointmentPayload = [...data.appointmentSetupBonus];
-    appointmentPayload[index][keyName] = keyName === 'bonusAmount' ? e.value : e.target.value;
+    appointmentPayload[index][keyName] = e.target.value;
+    console.log(keyName, e.target.value)
     setData(() => {
       return {
         ...data,
@@ -110,6 +109,27 @@ const Bonus = ({ data, setData, createEmployee }) => {
       };
     });
   };
+
+  useEffect(() => {
+    if (data.appointmentSetupBonus.length) {
+      const appointmentRowsKey = data.appointmentSetupBonus.map(
+        (item) => item.bonusType
+      );
+      const addedBonusRows = [];
+      for (let i = 0; i < appointmentRowsKey.length; i++) {
+        bonuTypeOptions.map((item) => {
+          if (appointmentRowsKey[i] === item) {
+            addedBonusRows.push({
+              name: item,
+              ...bonusFields
+            });
+          }
+          return item;
+        });
+      }
+      setBonusRows(addedBonusRows);
+    }
+  }, []);
 
   return (
     <>
@@ -120,6 +140,7 @@ const Bonus = ({ data, setData, createEmployee }) => {
         <CardWithTitle title="Bonus">
           <div className=" pb-0 ">
             {bonusRows.map((item, index) => {
+              console.log(item);
               return (
                 <>
                   <div className="col-12 flex ">
@@ -141,11 +162,14 @@ const Bonus = ({ data, setData, createEmployee }) => {
                               {field.type === "text" ? (
                                 <Input
                                   title=""
-                                  type={field.subtype ? field.subtype : field.type}
+                                  type={
+                                    field.subtype ? field.subtype : field.type
+                                  }
                                   placeholder={field.placeholder}
                                   onChange={(e) => {
                                     onEnterData(e, index, field.key);
                                   }}
+                                  value={data.appointmentSetupBonus[index] && data.appointmentSetupBonus[index][field.key]}
                                 ></Input>
                               ) : field.type === "multiSelectDropDown" ? (
                                 <>

@@ -51,12 +51,23 @@ const validation = () => {
     if (!data.expirationDate) {
       errors.expirationDate = "Expiration date is required.";
     }
+    if (data.expirationDate < data.acquiredDate) {
+      errors.expirationDate = "Expiration date cannot be less than acquired date.";
+    }
     if (!data.descriptions) {
       errors.descriptions = "Description is required.";
     }
     return errors;
   };
 
-  return { loginValidations, securityValidations, certificationValidations };
+  const notesValidation = (data) => {
+    console.log(data)
+    if(!data.note) {
+      errors.note = "Please enter a note"
+    }
+    return errors;
+  }
+
+  return { loginValidations, securityValidations, certificationValidations, notesValidation };
 };
 export default validation;

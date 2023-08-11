@@ -59,17 +59,10 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
       };
       console.log(commissionRowsClone);
       setCommissionRows(commissionRowsClone);
-      setData(() => {
-        return {
-          ...data,
-          salesItemCommission: [
-            ...data.salesItemCommission,
-            {
-              commissionGroup: e.target.value,
-            },
-          ],
-        };
-      });
+      data.salesItemCommission[index] = {
+        commissionGroup: e.target.value
+      }
+      setData({ ...data });
     }
   };
 
@@ -88,10 +81,18 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
   };
 
   useEffect(() => {
-    if (isPayloadReady) {
-      createEmployee();
+    if(data.salesItemCommission.length) {
+      let selectedComm = data.salesItemCommission;
+      selectedComm = selectedComm.map(item => {
+       item = {
+        ...item,
+        ...commissionFields
+       }
+       return item;
+      })
+      setCommissionRows(selectedComm);
     }
-  }, [data]);
+  }, []);
 
   const removeCommissionRow = (item) => {
     const index = commissionRows.indexOf(item);
@@ -149,7 +150,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                                       type={field.subType}
                                       placeholder={field.placeholder}
                                       onChange={(e) => {
-                                        onEnterData(e.value, index, field.key);
+                                        onEnterData(e.value || e.target.value, index, field.key);
                                       }}
                                       value={
                                         data.salesItemCommission[index][
@@ -203,6 +204,8 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                               onClick={() => {
                                 item.isPayTypeDollar = true;
                                 setCommissionRows([...commissionRows]);
+                                data.salesItemCommission[index]["isPayTypeDollar"] = true;
+                                setData({ ...data });
                               }}
                             >
                               $
@@ -217,6 +220,8 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                               onClick={() => {
                                 item.isPayTypeDollar = false;
                                 setCommissionRows([...commissionRows]);
+                                data.salesItemCommission[index]["isPayTypeDollar"] = false;
+                                setData({ ...data });
                               }}
                             >
                               %
@@ -256,14 +261,7 @@ const ItemCommission = ({ setData, data, createEmployee }) => {
                 className="btn-dark mx-3 border-none"
                 // disabled={}
                 onClick={() => {
-                  const salesItemCommissionClone = [...commissionRows];
-                  setData(() => {
-                    return {
-                      ...data,
-                      salesItemCommission: salesItemCommissionClone,
-                    };
-                  });
-                  setIsPayloadReady(true);
+                    createEmployee();
                 }}
               ></Buttons>
             </div>

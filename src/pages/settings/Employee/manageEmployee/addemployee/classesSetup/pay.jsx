@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Checkbox from "../../../../../../components/checkbox/checkbox";
 import Buttons from "../../../../../../components/buttons/button";
@@ -38,12 +37,13 @@ const Pay = ({ data, setData, createEmployee }) => {
     const res = await api("get", constants.endPoints.AddLevel);
     if (res.success) {
       setDropDownLevels(res.data);
+      setSelectedLevel(res.data.find((item) => item._id === data.classLevel));
     } else {
       console.log(res);
     }
   };
 
-  const handleChange = (name, payRow) => (e) => {
+  const handleChange = (name, payRow, index) => (e) => {
     if (name === "classLevel") {
       setSelectedLevel(() => {
         return dropDownLevels.find((item) => item._id === e.target.value._id);
@@ -51,39 +51,30 @@ const Pay = ({ data, setData, createEmployee }) => {
       return setData({ ...data, [name]: e.target.value._id });
     } else if (name === "defaultPay") {
       setPayDefault(e.target.value);
-      return setData({ ...data, [name]: (e.target.value - 1).toString() });
+      console.log(e.target.value);
+      return setData({ ...data, [name]: e.target.value.toString() });
     } else {
-      let selectedPayments = data.payments.map((payment) => {
-        if (payment.name === payRow.key) {
-          payment = {
-            ...payment,
-            [name]: e.target.value,
-          };
-        }
-        return payment;
-      });
+      data.payments[index] = {
+        ...data.payments[index],
+        [name]: e.target.value,
+      };
 
       return setData(() => {
-        return { ...data, payments: selectedPayments };
+        return { ...data };
       });
     }
   };
 
   const onSelectPayMethod = (event, index) => {
-    // if (!payRows.some((item) => item.key === event.value.key)) {
     payRows[index] = event.target.value;
     setPayRows([...payRows]);
-
-    if (!data.payments.some((item) => item.name === event.value.key)) {
-      data.payments[index] = {
-        name: event.value.key,
-      };
-    }
+    data.payments[index] = {
+      name: event.value.key,
+    };
     setData({
       ...data,
       payments: data.payments,
     });
-    // }
   };
 
   const removePayRow = (item) => {
@@ -124,6 +115,19 @@ const Pay = ({ data, setData, createEmployee }) => {
 
   useEffect(() => {
     getLevels();
+    if (data.payments.length) {
+      const payRowsKey = data.payments.map((item) => item.name);
+      const addedPayRows = [];
+      for (let i = 0; i < payRowsKey.length; i++) {
+        paymentOptions.map((item) => {
+          if (payRowsKey[i] === item.key) {
+            addedPayRows.push(item);
+          }
+          return item;
+        });
+      }
+      setPayRows(addedPayRows);
+    }
   }, []);
 
   return (
@@ -150,7 +154,7 @@ const Pay = ({ data, setData, createEmployee }) => {
                   <DropDown
                     title="Default Pay"
                     // optionLabel={"name"}
-                    value={payDefault}
+                    value={data.defaultPay}
                     onChange={handleChange("defaultPay")}
                     options={
                       payRows[0].fields &&
@@ -202,7 +206,15 @@ const Pay = ({ data, setData, createEmployee }) => {
                                       id=""
                                       className="w-12"
                                       type="number"
-                                      onChange={handleChange(field.key, item)}
+                                      onChange={handleChange(
+                                        field.key,
+                                        item,
+                                        index
+                                      )}
+                                      value={
+                                        data.payments[index][field.key] &&
+                                        data.payments[index][field.key]
+                                      }
                                     ></InputText>
 
                                     {field.dollarsign ? (
@@ -251,14 +263,15 @@ const Pay = ({ data, setData, createEmployee }) => {
                                                 )
                                               )
                                         }
-                                        onChange={handleChange(field.key, item)}
+                                        onChange={handleChange(
+                                          field.key,
+                                          item,
+                                          index
+                                        )}
                                         placeholder="Select"
                                         value={
-                                          data.payments.map((payment) => {
-                                            if (payment.name === item.key) {
-                                              return payment[field.key];
-                                            }
-                                          })[0]
+                                          data.payments[index][field.key] &&
+                                          data.payments[index][field.key]
                                         }
                                       ></Dropdown>
                                     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDown from "../../../../../../components/dropdown/dropdown";
 import CardWithTitle from "../../../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../../../components/input/input";
@@ -20,7 +20,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
         name: "# of items",
         type: "input",
         subType: "number",
-        key: "numberofSessions",
+        key: "numberOfSessions",
         placeholder: "Enter Days",
         placeholder1: "Enter Value",
       },
@@ -52,17 +52,10 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
         ...bonusFields,
       };
       setBonusRows(bonusRowsClone);
-      setData(() => {
-        return {
-          ...data,
-          salesCommissionBonus: [
-            ...data.salesCommissionBonus,
-            {
-              bonusType: e.target.value,
-            },
-          ],
-        };
-      });
+      data.salesCommissionBonus[index] = {
+        bonusType: e.target.value
+      }
+      setData({ ...data });
     }
   };
 
@@ -95,6 +88,8 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
         setBonusRows([...bonusRows]);
       }
     }
+    data.salesCommissionBonus.splice(index, 1);
+    setData({ ...data });
   };
 
   const onEnterData = (val, index, keyName) => {
@@ -107,6 +102,20 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
       };
     });
   };
+
+  useEffect(() => {
+    if(data.salesCommissionBonus.length) {
+      let selectedBonus = data.salesCommissionBonus;
+      selectedBonus = selectedBonus.map(item => {
+       item = {
+        name: item.bonusType,
+        ...bonusFields
+       }
+       return item;
+      })
+      setBonusRows(selectedBonus);
+    }
+  }, []);
 
   return (
     <>
@@ -141,8 +150,11 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                                   type={field.subType}
                                   placeholder={field.placeholder}
                                   onChange={(e) => {
-                                    onEnterData(e.value, index, field.key);
+                                    onEnterData(e.target.value, index, field.key);
                                   }}
+                                  value={
+                                    data.salesCommissionBonus[index] && data.salesCommissionBonus[index][field.key]
+                                  }
                                 ></Input>
                               ) : (
                                 <>
@@ -228,7 +240,7 @@ const SalesBonus = ({ data, setData, createEmployee }) => {
                     {item.fields ? (
                       <div
                         className="mt-5 pt-1 cursor-pointer"
-                        onClick={() => removePayRow(item)}
+                        onClick={() => removePayRow(item, index)}
                       >
                         <i className="pi pi-minus-circle"></i>
                       </div>

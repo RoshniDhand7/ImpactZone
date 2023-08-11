@@ -20,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 const Department = ({ data, setData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [departments, setDepartments] = useState([]);
+  let [departments, setDepartments] = useState([]);
+
   let [selectedDepartment, setSelectedDepartment] = useState([]);
   const [allWagesValue, setAllWagesValue] = useState(null);
 
@@ -29,6 +30,11 @@ const Department = ({ data, setData }) => {
     const res = await api("get", constants.endPoints.GetDepartment);
     if (res.success) {
       setDepartments(res.data);
+      if(data.departments.length) {
+        setSelectedDepartment(data.departments);
+        const deptIds = data.departments.map(item => item.departmentId);
+        setDepartments(res.data.filter(item => !deptIds.includes(item._id)));
+      }
       dispatch(hideLoaderAction());
     } else {
       console.log(res);
@@ -39,7 +45,13 @@ const Department = ({ data, setData }) => {
     setData(() => {
       return {
         ...data,
-        departments: departments.map((dept) => dept._id),
+        departments: [
+          ...departments,
+          {
+            departmentId: departments.map((dept) => dept._id),
+            wages: departments.map((dept) => dept.wages),
+          },
+        ],
       };
     });
     const res = await api("post", constants.endPoints.CreateEmployee, data);
@@ -53,23 +65,55 @@ const Department = ({ data, setData }) => {
   const selectAllDepartment = () => {
     let allDept = departments.map((dept) => {
       return {
-        deptId: dept._id,
+        departmentId: dept._id,
         name: dept.name,
-        wage: allWagesValue && allWagesValue !== 0 ? allWagesValue : 0,
+        wages: allWagesValue && allWagesValue !== 0 ? allWagesValue : 0,
       };
     });
 
     setSelectedDepartment(allDept);
+    setData({ ...data, departments: allDept });
+    setDepartments([]);
+  };
+
+  const setDeptData = (id, wages, name) => {
+    setData(() => {
+      return {
+        ...data,
+        departments: [
+          ...data.departments,
+          {
+            name: name,
+            departmentId: id,
+            wages: wages,
+          },
+        ],
+      };
+    });
   };
 
   const removeSelectedDepartment = (index) => {
     const newArr = [...selectedDepartment];
-    newArr.splice(index, 1);
+    const splicedArray = newArr.splice(index, 1);
     setSelectedDepartment(newArr);
+    setDepartments(() => {
+      return [
+        ...departments,
+        ...splicedArray,
+      ];
+    });
+    setData({ ...data, departments: newArr });
   };
 
   const addWages = (dept, event) => {
-    dept.wage = Number(event.value);
+    dept.wages = Number(event.target.value);
+    data.departments.map(item => {
+      if(item.departmentId === dept.departmentId) {
+        item.wages = Number(event.target.value)
+      }
+      return item;
+    })
+    setData({ ...data });
   };
 
   useEffect(() => {
@@ -85,15 +129,8 @@ const Department = ({ data, setData }) => {
               <div>
                 <Input
                   type="number"
-                  onChange={(e) => { 
+                  onChange={(e) => {
                     setAllWagesValue(e.target.value);
-                    selectedDepartment.map(item => {
-                      if(!item.wage) {
-                        item.wage = e.target.value;
-                      }
-                      return item;
-                    });
-                    setSelectedDepartment([...selectedDepartment]);
                   }}
                   value={allWagesValue}
                   title="Default Hourly Wages"
@@ -102,8 +139,7 @@ const Department = ({ data, setData }) => {
                   minFractionDigits={3}
                 ></Input>
               </div>
-              <div className=" flex align-items-center px-3">
-              </div>
+              <div className=" flex align-items-center px-3"></div>
             </div>
           </CardWithTitle>
         </div>
@@ -119,7 +155,20 @@ const Department = ({ data, setData }) => {
                 </div>
                 {selectedDepartment.length ? (
                   <div
-                    onClick={() => setSelectedDepartment([])}
+                    onClick={() => {
+                      setDepartments(() => {
+                        return [
+                          ...departments,
+                          ...selectedDepartment.map((item) => {
+                            item._id = item.departmentId;
+                            delete item.departmentId;
+                            return item;
+                          }),
+                        ];
+                      });
+                      setData({ ...data, departments: [] })
+                      setSelectedDepartment([]);
+                    }}
                     className="text-blue  font-semibold cursor-pointer  text-xs "
                   >
                     Remove All
@@ -144,7 +193,7 @@ const Department = ({ data, setData }) => {
                               </span>
                             </div>
                             <div>
-                              <div className="col-5 ml-8 -m-3 text-center flex justify-content-center">
+                              <div className="col-5 ml-5 -m-3 text-center flex justify-content-center">
                                 <div className="flex  justify-content-center">
                                   <Input
                                     type="number"
@@ -153,7 +202,7 @@ const Department = ({ data, setData }) => {
                                       setAllWagesValue(null);
                                     }}
                                     placeholder="$0.00"
-                                    value={item.wage || null}
+                                    value={item.wages || null}
                                     mode="decimal"
                                     minFractionDigits={3}
                                   ></Input>
@@ -188,17 +237,19 @@ const Department = ({ data, setData }) => {
             <div className="p-3">
               <div className="flex justify-content-between px-3 p-3">
                 <div className="text-xs font-semibold text-dark-gray">Name</div>
-                <div
-                  onClick={selectAllDepartment}
-                  className="text-blue text-xs font-semibold cursor-pointer"
-                >
-                  Add All
-                </div>
+                {departments.length ? (
+                  <div
+                    onClick={selectAllDepartment}
+                    className="text-blue cursor-pointer text-xs font-semibold"
+                  >
+                    Add All
+                  </div>
+                ) : null}
               </div>
 
               <div
                 className=" justify-content-between bg-white py-2 border-round-md"
-                style={{ height: "250px", overflow: "auto" }}
+                style={{ maxHeight: "250px", overflow: "auto" }}
               >
                 {departments?.map((item, index) => {
                   return (
@@ -210,17 +261,32 @@ const Department = ({ data, setData }) => {
                             onClick={() => {
                               if (
                                 !selectedDepartment.some(
-                                  (dept) => dept.deptId === item._id
+                                  (dept) => dept.departmentId === item._id
                                 )
                               ) {
-                                setSelectedDepartment([
+                                setSelectedDepartment(() => [
                                   ...selectedDepartment,
                                   {
-                                    deptId: item._id,
+                                    departmentId: item._id,
                                     name: item.name,
-                                    wage: allWagesValue && allWagesValue !== 0 ? allWagesValue : 0,
+                                    wages:
+                                      allWagesValue && allWagesValue !== 0
+                                        ? allWagesValue
+                                        : 0,
                                   },
                                 ]);
+
+                                departments = departments.filter(
+                                  (option) => option._id !== item._id
+                                );
+                                setDepartments(departments);
+                                setDeptData(
+                                  item._id,
+                                  allWagesValue && allWagesValue !== 0
+                                    ? Number(allWagesValue)
+                                    : 0,
+                                    item.name
+                                );
                               }
                             }}
                             className="cursor-pointer button-hover "

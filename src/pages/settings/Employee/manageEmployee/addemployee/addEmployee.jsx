@@ -1,5 +1,5 @@
 import { TabView, TabPanel } from "primereact/tabview";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import GeneralAddEmployee from "./general";
 import Department from "./Department";
@@ -15,19 +15,17 @@ import constants from "../../../../../utils/constants";
 import { showToast } from "../../../../../redux/actions/toastAction";
 import validation from "../../../../../utils/Validation";
 import api from "../../../../../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import DeleteDailog from "../../../../../components/popup/deleteDailog";
 import AppointmentSetup from "./Appointments Setup/AppointmentSetup";
+import {
+  hideLoaderAction,
+  showLoaderAction,
+} from "../../../../../redux/actions/loaderAction";
 
 const AddEmployee = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { securityValidations } = validation();
-  const [errors, setErrors] = useState({});
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+  const params = useParams();
   const [data, setData] = useState({
     isActive: true,
     firstName: "",
@@ -53,10 +51,11 @@ const AddEmployee = () => {
     city: "",
     state: "",
     zipCode: "",
+    image: "",
     emailNotification: true,
     userName: "",
     notes: "",
-    department: [],
+    departments: [],
     reportDataAccess: [],
     clubs: [],
     classLevel: null,
@@ -69,21 +68,65 @@ const AddEmployee = () => {
     salesItemCommission: [],
     salesCommissionBonus: [],
     notes: [],
-    certifications: []
+    certifications: [],
   });
+
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const { securityValidations } = validation();
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const createEmployee = async () => {
     try {
-      const res = await api("post", constants.endPoints.CreateEmployee, data);
-      if (res.success) {
-        dispatch(showToast({ severity: "success", summary: res.message }));
-        navigate("/employee");
+      data.image = "";
+      setData({ ...data });
+      if (params.id) {
+        const res = await api(
+          "put",
+          constants.endPoints.updateEmployee + "/" + params.id,
+          { ...data }
+        );
+        if (res.success) {
+          dispatch(showToast({ severity: "success", summary: res.message }));
+          navigate("/employee");
+        } else {
+          console.log(res);
+        }
       } else {
-        console.log(res);
+        const res = await api("post", constants.endPoints.CreateEmployee, {
+          ...data,
+        });
+        if (res.success) {
+          dispatch(showToast({ severity: "success", summary: res.message }));
+          navigate("/employee");
+        } else {
+          console.log(res);
+        }
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getEmployeeById = async (id) => {
+    dispatch(showLoaderAction());
+    const res = await api("get", constants.endPoints.getEmployee + "/" + id);
+    if (res.success) {
+      setData(res.data);
+      dispatch(hideLoaderAction());
+    } else {
+      dispatch(hideLoaderAction());
+      console.log(res);
+    }
+  };
+
+  useEffect(() => {
+    if (params.id) {
+      getEmployeeById(params.id);
+    }
+  }, []);
 
   return (
     <>
@@ -188,10 +231,10 @@ const AddEmployee = () => {
                 />
               </TabPanel>
               <TabPanel header="Certifications">
-                <Certifications 
-                setData={setData}
-                data={data}
-                createEmployee={createEmployee}
+                <Certifications
+                  setData={setData}
+                  data={data}
+                  createEmployee={createEmployee}
                 />
               </TabPanel>
             </TabView>

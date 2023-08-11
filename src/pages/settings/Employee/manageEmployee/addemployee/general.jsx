@@ -31,7 +31,11 @@ const GeneralAddEmployee = ({ data, setData }) => {
     // if (group?.length) {
     //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
     // } else {
-    setData({ ...data, [name]: e?.target?.value || e.value });
+    if(name === 'emailNotification') {
+      setData({ ...data, [name]: (e?.target?.value || e.value) === 'Yes' ? true : false });
+    } else {
+      setData({ ...data, [name]: e?.target?.value || e.value });
+    }
     // }
   };
 
@@ -73,7 +77,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Hire Date"
                         type="date"
                         id=""
-                        value={data.hireDate}
+                        value={data.hireDate.split("T")[0]}
                         onChange={handelChange("hireDate")}
                       ></Input>
                     </div>
@@ -160,13 +164,14 @@ const GeneralAddEmployee = ({ data, setData }) => {
                           ></Input>
                         </div>
                         <div className="mt-4">
-                          <Input
-                            title="Email"
+                          <DropDown
+                            title="Email Updates"
                             id=""
                             type="text"
-                            value={data.email}
-                            onChange={handelChange("email")}
-                          ></Input>
+                            options={["Yes", "No"]}                           
+                            value={data.emailNotification ? 'Yes' : 'No'}
+                            onChange={handelChange("emailNotification")}
+                          ></DropDown>
                         </div>
                       </div>
                     </div>
@@ -190,15 +195,6 @@ const GeneralAddEmployee = ({ data, setData }) => {
                             type="text"
                             value={data.state}
                             onChange={handelChange("state")}
-                          ></DropDown>
-                        </div>
-                        <div className="mt-4">
-                          <DropDown
-                            title="Email Updates"
-                            id=""
-                            type="text"
-                            value={data.firstname}
-                            onChange={handelChange("emailNotification")}
                           ></DropDown>
                         </div>
                       </div>
@@ -242,25 +238,23 @@ const GeneralAddEmployee = ({ data, setData }) => {
                   <div className="flex ">
                     <div className="col">
                       <Input
-                        title="User Name"
+                        title="Online Nickname"
                         id=""
                         type="text"
-                        value={data.userName}
-                        onChange={handelChange("userName")}
+                        value={data.onlineNickName}
+                        onChange={handelChange("onlineNickName")}
                       ></Input>
                     </div>
                   </div>
                   <div className="col flex flex-column gap-2">
                     <label className="text-xs text-dark-gray   font-semibold">
-                      Notes
+                      Bio
                     </label>
                     {/* <span className="p-input-icon-left">
         <i className="pi pi-search" /> */}
                     <InputTextarea
-                    // placeholder={placeholder}
-                    // icon={icon}
-                    // type={type}
-                    // onChange={onChange}
+                    onChange={handelChange("bio")}
+                    value={data.bio}
                     ></InputTextarea>
                     {/* </span> */}
                   </div>
@@ -306,6 +300,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                                 ondragover={drag}
                                 ondrop={drop}
                                 id="uploadFile"
+                                value={""}
                               />
                             </p>
                           </div>

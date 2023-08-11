@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import BlackArrow from "../../../../assets/icons/blackarrow.png";
 import { OverlayPanel } from "primereact/overlaypanel";
 import TableData from "../../../../components/cards/dataTable/dataTable";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
@@ -29,6 +29,8 @@ import ViewEmployee from "./viewEmployee";
 const Employee = () => {
   const [ShowEmployee, setShowEmployee] = useState({});
   const [showViewEmployee, setViewEmployee] = useState({});
+  const [data, setData] = useState({});
+
   const [visible, setVisible] = useState(false);
   const [deleteRow, setDeleteRow] = useState({
     id: null,
@@ -38,8 +40,12 @@ const Employee = () => {
   // const [isActiveColor, setIsActiveColor] = useState(false);
   const op = useRef(null);
   const ope = useRef(null);
-  const navigateToAddEmployee = () => {
-    navigate("/employee/addEmployee");
+  const navigateToAddEmployee = (empData) => {
+    navigate("/employee/addEmployee", {empData: empData});
+  };
+
+  const navigateToEditEmployee = (id) => {
+    navigate("/employee/editEmployee" + "/" + id)
   };
   const navigateTOViewEmployee = () => {
     navigate("/viewEmployee");
@@ -48,6 +54,7 @@ const Employee = () => {
   const onClickviewEmployee = () => {
     setViewEmployee((prev) => !prev);
   };
+
   // const tableRowRemove = (index) => {
   //   const dataRow = [...manageEmolyeeData];
   //   dataRow.splice(index, 1);
@@ -56,6 +63,7 @@ const Employee = () => {
   useEffect(() => {
     if (deleteRow.isDelete) deleteEmployee(deleteRow.id);
   }, [deleteRow]);
+
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -64,7 +72,7 @@ const Employee = () => {
           <span onClick={onClickviewEmployee}>
             <i className="pi pi-eye mr-3 cursor-pointer"></i>
           </span>
-          <span>
+          <span onClick={() => navigateToEditEmployee(col._id)}>
             <i className="pi pi-pencil mr-3 cursor-pointer"></i>
           </span>
           {/* <span onClick={() => }> */}
@@ -192,6 +200,7 @@ const Employee = () => {
       console.log(res);
     }
   };
+
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -218,7 +227,7 @@ const Employee = () => {
                   className="btn_custom flex justify-content-between border-round-md  align-items-center  border-none "
                   style={{ height: "36px", width: "258px" }}
                   onClick={(e) => op.current.toggle(e)}
-                  onChange={{}}
+                  // onChange={{}}
                 >
                   General <i className="pi pi-angle-down"></i>
                 </button>
@@ -270,7 +279,7 @@ const Employee = () => {
                   className="btn_custom  flex justify-content-between border-round-md  mx-5  align-items-center border-none "
                   style={{ height: "36px", width: "258px" }}
                   onClick={(e) => ope.current.toggle(e)}
-                  onChange={{}}
+                  // onChange={{}}
                 >
                   Hire Details <i className="pi pi-angle-down"></i>
                 </button>

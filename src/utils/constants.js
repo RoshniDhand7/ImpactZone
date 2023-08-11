@@ -22,7 +22,9 @@ const constants = {
     AddLevel: "levels",
     DeleteLevel: "levels/delete/",
     UpdateLevel: "levels/update/",
-    uploadFile: "upload"
+    uploadFile: "upload",
+    getEmployee: "employee/get-employee",
+    updateEmployee: "employee/update"
   },
 };
 

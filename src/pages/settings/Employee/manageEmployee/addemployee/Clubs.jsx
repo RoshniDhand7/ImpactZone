@@ -18,8 +18,12 @@ const Clubs = ({ setData, data, createEmployee }) => {
   const getClubs = async () => {
     const res = await api("get", constants.endPoints.GetClubs);
     if (res.success) {
-      setReportDataSource(res.data);
+      setreportDataTarget(res.data.filter(item => data.reportDataAccess.includes(item._id)));
+      setReportDataSource(res.data.filter(item => !data.reportDataAccess.includes(item._id)));
       setClubSource(res.data);
+      setClubSource(res.data.filter(item => !data.clubs.includes(item._id)));
+      setClubTarget(res.data.filter(item => data.clubs.includes(item._id)));
+
     } else {
       console.log(res);
     }
