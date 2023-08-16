@@ -121,7 +121,7 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
                         title="Date of Birth"
                         placeholder="11/08/1998"
                         type="date"
-                        value={data.dob.split("T")[0]}
+                        value={data.dob && data.dob.split("T")[0]}
                         onChange={handelChange("dob")}
                       ></Input>
                     </div>

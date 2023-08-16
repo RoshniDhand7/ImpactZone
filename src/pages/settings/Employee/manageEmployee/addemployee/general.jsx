@@ -77,7 +77,7 @@ const GeneralAddEmployee = ({ data, setData }) => {
                         title="Hire Date"
                         type="date"
                         id=""
-                        value={data.hireDate.split("T")[0]}
+                        value={data.hireDate && data.hireDate.split("T")[0]}
                         onChange={handelChange("hireDate")}
                       ></Input>
                     </div>
