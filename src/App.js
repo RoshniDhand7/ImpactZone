@@ -33,6 +33,7 @@ import ToastContainer from "./components/toast";
 import MemberSetup from "./pages/settings/MemberSetup/MemberSetup";
 import AlertsTypes from "./pages/settings/Alert Types/alertsTypes";
 import ViewEmployee from "./pages/settings/Employee/manageEmployee/viewEmployee";
+import AgreementSetup from "./pages/settings/AgreementSetup/agreementSetup";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -43,7 +44,7 @@ function App() {
       setIsLogged(true);
     }
   }, []);
-console.log(isLogged)
+  console.log(isLogged);
   return (
     <>
       <Loader />
@@ -100,7 +101,7 @@ console.log(isLogged)
               path="/employee/addEmployee"
               element={<AddEmployee />}
             />
-              <Route
+            <Route
               exact
               path="/employee/editEmployee/:id"
               element={<AddEmployee />}
@@ -119,6 +120,7 @@ console.log(isLogged)
               }
             />
           </Route>
+          <Route exact path="/agreement-Setup" element={<AgreementSetup />} />
         </Routes>
       </Router>
     </>

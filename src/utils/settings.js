@@ -62,7 +62,7 @@ const settingsCard = [
   },
   {
     img: Agreement,
-    link: "",
+    link: "/agreement-Setup",
     title: "Agreement Setup",
   },
   {
