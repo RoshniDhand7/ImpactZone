@@ -3,7 +3,7 @@ import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTi
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import Navbar from "../../../../layout/Navbar";
-import { InputTextarea } from "primereact/inputtextarea";
+// import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
 
 const AddSecurityRoles = () => {
