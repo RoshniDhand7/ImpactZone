@@ -11,7 +11,7 @@ import AddMembershipPlan from "./AddMembershipPlan";
 const ManagePaymentPlans = () => {
   const [addPaymentPlans, setPaymentPlans] = useState(false);
 
-  const onClickAddFees = () => {
+  const onClickChangePage = () => {
     setPaymentPlans((prev) => !prev);
   };
   const actionTemplate = (col) => {
@@ -51,13 +51,13 @@ const ManagePaymentPlans = () => {
     },
     {
       field: "membershiptype",
-      header: "Membershiptype",
+      header: "Membership Type",
       id: "",
       index: "",
     },
     {
       field: "noofmembers",
-      header: "No.ofMembers",
+      header: "No.of Members",
       id: "",
       index: "",
     },
@@ -131,7 +131,7 @@ const ManagePaymentPlans = () => {
   return (
     <>
       {addPaymentPlans ? (
-        <AddMembershipPlan onClickAddFees={onClickAddFees} />
+        <AddMembershipPlan onClickChangePage={onClickChangePage} />
       ) : (
         <>
           <div>
@@ -141,9 +141,9 @@ const ManagePaymentPlans = () => {
               </span>
               <div className=" px-2 ">
                 <Buttons
-                  onClick={onClickAddFees}
+                  onClick={onClickChangePage}
                   className=" btn-dark border-none"
-                  label="Add Assessed Fees"
+                  label="Add MemberShip Plan"
                   icon="pi pi-plus-circle"
                 ></Buttons>
               </div>

@@ -7,7 +7,7 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import Input from "../../../../components/input/input";
 import { Editor } from "primereact/editor";
 
-const AddMembershipPlan = ({ onClickAddFees }) => {
+const AddMembershipPlan = ({ onClickChangePage }) => {
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -31,9 +31,7 @@ const AddMembershipPlan = ({ onClickAddFees }) => {
     <>
       <div>
         <div className=" flex align-items-center justify-content-between my-3">
-          <span className="text-xl font-bold text-900">
-            Manage Payment Plans
-          </span>
+          <span className="text-xl font-bold text-900">Add Payment Plan</span>
         </div>
         <div className="my-3">
           <CardWithTitle title="General">
@@ -94,7 +92,7 @@ const AddMembershipPlan = ({ onClickAddFees }) => {
                   </span>
                 </div>
                 <div
-                  className="col flex justify-content-end align-items-center  "
+                  className="col flex justify-content-center align-items-center  "
                   style={{ height: "180px" }}
                 >
                   <div className="flex flex-column ">
@@ -137,7 +135,10 @@ const AddMembershipPlan = ({ onClickAddFees }) => {
                   ></DropDown>
                 </div>
                 <div className="col">
-                  <Input title="Time Period" placeholder="Enter Month"></Input>
+                  <Input
+                    title="Time Period (Month)"
+                    placeholder="Enter"
+                  ></Input>
                 </div>
               </div>
               <div className="flex mt-2">
@@ -179,21 +180,17 @@ const AddMembershipPlan = ({ onClickAddFees }) => {
           </CardWithTitle>
         </div>
 
-        <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
+        <div className="flex justify-content-end mt-4">
+          <div className="flex mx-2 ">
+            <div className="mx-4">
+              <Buttons label="Save" className="btn-dark mx-3 border-none " />
+            </div>
             <div className="">
               <Buttons
-                // onClick={nextPage}
-                label="Save"
-                className="btn-dark px-4  border-none"
-              ></Buttons>
-            </div>
-            <div className="ml-3 ">
-              <Buttons
-                onClick={onClickAddFees}
+                onClick={onClickChangePage}
                 label="Cancel"
-                className="btn-grey  border-none"
-              ></Buttons>
+                className="btn-grey  border-none "
+              />
             </div>
           </div>
         </div>

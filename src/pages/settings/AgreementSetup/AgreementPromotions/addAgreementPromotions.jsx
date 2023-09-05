@@ -24,11 +24,7 @@ const AddAgreementPromotions = ({ onClickChangePage }) => {
                   <DropDown title="Name" placeholder=""></DropDown>
                 </div>
                 <div className="col-4">
-                  <DropDown
-                    title="Start Date"
-                    type="date"
-                    placeholder=""
-                  ></DropDown>
+                  <Input title="Start Date" type="date" placeholder=""></Input>
                 </div>
               </div>
               <div className="flex align-items-center ">
@@ -61,21 +57,17 @@ const AddAgreementPromotions = ({ onClickChangePage }) => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
-            <div className="">
-              <Buttons
-                // onClick={nextPage}
-                label="Save"
-                className="btn-dark px-4  border-none"
-              ></Buttons>
+        <div className="flex justify-content-end mt-3">
+          <div className="flex  p-2">
+            <div className="mx-4">
+              <Buttons label="Save" className="btn-dark mx-3 border-none " />
             </div>
-            <div className="ml-3 ">
+            <div className="">
               <Buttons
                 onClick={onClickChangePage}
                 label="Cancel"
-                className="btn-grey  border-none"
-              ></Buttons>
+                className="btn-grey  border-none "
+              />
             </div>
           </div>
         </div>
