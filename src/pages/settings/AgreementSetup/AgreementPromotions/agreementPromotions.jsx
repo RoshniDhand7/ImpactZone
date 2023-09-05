@@ -92,7 +92,7 @@ const AgreementPromotions = () => {
             <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex flex-column">
                 <div className="flex">
-                  <div className="md:col">
+                  <div className="md:col-6">
                     <DropDown title="Status"></DropDown>
                   </div>
                 </div>
