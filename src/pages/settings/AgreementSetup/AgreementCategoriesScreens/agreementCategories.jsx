@@ -83,14 +83,6 @@ const AgreementCategories = () => {
               <span className="text-xl font-bold text-900">
                 Manage Agreement Categories
               </span>
-              <div className=" px-2 ">
-                <Buttons
-                  onClick={onClickChangePage}
-                  className=" btn-dark border-none"
-                  label="Add Agreement Templates"
-                  icon="pi pi-plus-circle"
-                ></Buttons>
-              </div>
             </div>
             <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex flex-column">
@@ -104,12 +96,11 @@ const AgreementCategories = () => {
                 </div>
               </div>
               <div>
-                <div className="p-3 mt-2">
-                  <div className="mt-3">
+                <div className="p-3 mt-3">
+                  <div className=" mr-2 ">
                     <Buttons
-                      // onClick={onClickChangePage}
-                      style={{ width: "118px", height: "37px" }}
-                      className="btn-dark border-none"
+                      onClick={onClickChangePage}
+                      className="btn-dark border-none mx-3 "
                       label="Add"
                     ></Buttons>
                   </div>
@@ -121,6 +112,16 @@ const AgreementCategories = () => {
                 columns={agreementCategoriesColumn}
                 data={agreementCategoriesData}
               />
+            </div>
+          </div>
+          <div className="flex justify-content-end p-2 ">
+            <div className=" mt-3 flex  ">
+              <div className="">
+                <Buttons
+                  label="Close"
+                  className=" px-4 btn-grey  border-none"
+                ></Buttons>
+              </div>
             </div>
           </div>
         </>

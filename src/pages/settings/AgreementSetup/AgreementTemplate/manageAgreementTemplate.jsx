@@ -120,7 +120,7 @@ const ManageAgreementTemplate = () => {
                   <DropDown title="Status"></DropDown>
                 </div>
                 <div className="col-3">
-                  <DropDown title="club"></DropDown>
+                  <DropDown title="Club"></DropDown>
                 </div>
               </div>
               <div>
@@ -148,7 +148,7 @@ const ManageAgreementTemplate = () => {
                 <Buttons
                   onClick={onClickAddFees}
                   label="Close"
-                  className="btn-lightest-gray text-900  border-none"
+                  className="btn-lightest-gray   border-none"
                 ></Buttons>
               </div>
             </div>

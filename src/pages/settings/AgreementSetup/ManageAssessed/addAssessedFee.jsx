@@ -30,10 +30,8 @@ const AddAssessedFee = ({ onClickAddFees }) => {
   return (
     <>
       <div>
-        <div className=" flex align-items-center justify-content-between my-3">
-          <span className="text-xl font-bold text-900">
-            Manage Assessed Fees
-          </span>
+        <div className=" flex align-items-center justify-content-between my-4">
+          <span className="text-xl font-bold text-900">Add Assessed Fees</span>
         </div>
         <div className="my-3">
           <Checkbox title="Active"></Checkbox>
@@ -67,20 +65,12 @@ const AddAssessedFee = ({ onClickAddFees }) => {
         <div className="my-3">
           <CardWithTitle title="Preferred Due Date">
             <div className="p-3">
-              <div className="flex ">
+              <div className="flex align-items-center ">
                 <div className="col-4">
                   <DropDown title="Choose how the preferred due day will be determined:"></DropDown>
                 </div>
-                <div className="Without-tile-inputheight col mt-3">
-                  <Input
-                    placeholder="Select Month and Day "
-                    type="date"
-                    // value={data.dob && data.dob.split("T")[0]}
-                    // onChange={handelChange("dob")}
-                  ></Input>
-                </div>
-                <div className="col-4">
-                  <Input title="Amount"></Input>
+                <div className=" col-4 mt-3">
+                  <Input title="" placeholder="Enter No.of Days"></Input>
                 </div>
               </div>
             </div>
@@ -124,21 +114,19 @@ const AddAssessedFee = ({ onClickAddFees }) => {
             </div>
           </CardWithTitle>
         </div>
-        <div className="flex justify-content-end p-2 ">
-          <div className=" mt-3 flex  ">
-            <div className="">
-              <Buttons
-                // onClick={nextPage}
-                label="Save"
-                className="btn-dark px-4  border-none"
-              ></Buttons>
-            </div>
-            <div className="ml-3 ">
-              <Buttons
-                onClick={onClickAddFees}
-                label="Cancel"
-                className="btn-grey  border-none"
-              ></Buttons>
+        <div className="flex justify-content-end mt-3 ">
+          <div className="flex justify-content-end ">
+            <div className="flex  p-2">
+              <div className="mx-4">
+                <Buttons label="Save" className="btn-dark mx-3 border-none " />
+              </div>
+              <div className="">
+                <Buttons
+                  onClick={onClickAddFees}
+                  label="Cancel"
+                  className="btn-grey  border-none "
+                />
+              </div>
             </div>
           </div>
         </div>

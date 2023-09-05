@@ -12,6 +12,7 @@ const AgreementPromotions = () => {
   const onClickChangePage = () => {
     setAgreementPromotions((prev) => !prev);
   };
+
   const agreementPromotionsColumn = [
     {
       field: "code",
@@ -69,6 +70,7 @@ const AgreementPromotions = () => {
       enddate: "March-14-2023",
     },
   ]);
+
   return (
     <>
       {addAgreementPromotions ? (
@@ -98,11 +100,10 @@ const AgreementPromotions = () => {
                 </div>
               </div>
               <div>
-                <div className="p-3 mt-2">
-                  <div className="mt-3">
+                <div className="p-3 mt-3 mr-2">
+                  <div className="">
                     <Buttons
-                      style={{ width: "118px", height: "37px" }}
-                      className="btn-dark border-none"
+                      className="btn-dark border-none mx-3"
                       label="Add"
                     ></Buttons>
                   </div>
