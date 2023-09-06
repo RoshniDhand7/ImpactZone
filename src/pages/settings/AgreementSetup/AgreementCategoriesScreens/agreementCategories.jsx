@@ -119,7 +119,7 @@ const AgreementCategories = () => {
               <div className="">
                 <Buttons
                   label="Close"
-                  className=" px-4 btn-grey  border-none"
+                  className=" px-4 btn-lightest-gray  border-none"
                 ></Buttons>
               </div>
             </div>
