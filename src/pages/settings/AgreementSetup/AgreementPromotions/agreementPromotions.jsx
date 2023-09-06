@@ -100,11 +100,12 @@ const AgreementPromotions = () => {
                 </div>
               </div>
               <div>
-                <div className="p-3 mt-3 mr-2">
-                  <div className="">
+                <div className="p-3 mt-2">
+                  <div className="mt-3">
                     <Buttons
-                      className="btn-dark border-none mx-3"
-                      label="Add"
+                      style={{ width: "118px", height: "37px" }}
+                      className="btn-dark border-none"
+                      label="Search"
                     ></Buttons>
                   </div>
                 </div>
