@@ -1,14 +1,26 @@
 import React from "react";
 
-const Checkbox = ({ title, className, value, onclick, id = "defaultId" }) => {
-  console.log(id, "checkbox");
+const Checkbox = ({
+  title,
+  className,
+  value,
+  onclick,
+  onChange,
+  name,
+  id = "defaultId",
+}) => {
   return (
     <div className="form-check border-gray-100 custome-checkbox ">
       <input
         className="form-check-input hidden"
         type="checkbox"
         checked={value}
+        name={name}
         onClick={onclick}
+        onChange={(e) =>
+          onChange &&
+          onChange({ ...e, name: e.target.name, value: e.target.checked })
+        }
         id={id}
       />
       <label

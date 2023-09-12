@@ -7,54 +7,68 @@ import checkInData from "../../../utils/checkInData";
 import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../components/input/input";
+import Index from ".";
+import { booleanToString } from "../../../utils/javascript";
+import DeleteDailog from "../../../components/popup/deleteDailog";
+import { deleteLocationType } from "../../../redux/actions/locationsActions";
 
 const LocationTypes = () => {
-  const [showLocationType, setshowLocationType] = useState(false);
+  const {
+    locationTypes,
+    locationType,
+    handleLocationTypeChange,
+    onAddLocationType,
+    showLocationType,
+    setshowLocationType,
+    onEditLocationType,
+    id,
+    setId,
+    setLocationType,
+    showDelete,
+    setShowDelete,
+    setLoading,
+    setDeleteRow,
+  } = Index();
 
-  const locationBookingData = [
-    {
-      name: "Club",
-      allowoverbooking: "Yes",
-    },
-    {
-      name: "Floor Hours",
-      allowoverbooking: "No",
-    },
-    {
-      name: "Front Desk",
-      allowoverbooking: "Yes",
-    },
-    {
-      name: "Sport Zone",
-      allowoverbooking: "Yes",
-    },
-  ];
-  const ActionEditDelete = () => {
+  const allowOverBookingTemplate = (d) => {
+    return <>{d.allowOverBooking ? "Yes" : "No"}</>;
+  };
+
+  const editDeleteLocationType = (data) => {
     return (
       <>
         <div className="flex justify-content-end">
           <span className="mx-2">
-            <i className="pi pi-pencil"></i>
+            <i
+              className="pi pi-pencil"
+              onClick={() => onEditLocationType(data)}
+            ></i>
           </span>
 
           <span>
-            <i className="pi pi-trash"></i>
+            <i
+              className="pi pi-trash"
+              onClick={() => {
+                setShowDelete(true);
+                setId(data._id);
+              }}
+            ></i>
           </span>
         </div>
       </>
     );
   };
 
-  const locationBookingTable = [
+  const locationTypesTable = [
     {
       field: "name",
       header: "Name",
     },
     {
-      field: "allowoverbooking",
       header: "Allow Overbooking",
+      body: allowOverBookingTemplate,
     },
-    { field: "", Header: "", body: ActionEditDelete },
+    { field: "", Header: "", body: editDeleteLocationType },
   ];
 
   const AddLocationType = () => {
@@ -65,16 +79,31 @@ const LocationTypes = () => {
             <Checkbox
               title="Active"
               className="text-900 text-sm font-semibold"
+              name="isActive"
+              value={locationType.isActive}
+              onChange={handleLocationTypeChange}
             ></Checkbox>
           </div>
           <div>
             <CardWithTitle title="Add Location Type">
               <div className="flex p-2">
                 <div className="col-4 mx-3">
-                  <Input title="Name"></Input>
+                  <Input
+                    value={locationType.name}
+                    title="Name"
+                    name="name"
+                    onChange={handleLocationTypeChange}
+                  ></Input>
                 </div>
                 <div className="col-4">
-                  <DropDown title="Allow OverBooking"></DropDown>
+                  <DropDown
+                    title="Allow OverBooking"
+                    value={booleanToString(locationType.allowOverBooking)}
+                    name="allowOverBooking"
+                    placeholder="Select Over Booking"
+                    options={["Yes", "No"]}
+                    onChange={handleLocationTypeChange}
+                  ></DropDown>
                 </div>
               </div>
             </CardWithTitle>
@@ -84,11 +113,19 @@ const LocationTypes = () => {
               <Buttons
                 label="Save"
                 className="btn-dark  mx-3  border-none"
+                onClick={onAddLocationType}
               ></Buttons>
             </div>
             <div className="">
               <Buttons
-                onClick={() => setshowLocationType(false)}
+                onClick={() => {
+                  setshowLocationType(false);
+                  setLocationType({
+                    isActive: null,
+                    name: "",
+                    allowOverBooking: "",
+                  });
+                }}
                 label="Cancel"
                 className="btn-grey   border-none"
               ></Buttons>
@@ -104,6 +141,14 @@ const LocationTypes = () => {
 
   return (
     <>
+      <DeleteDailog
+        visible={showDelete}
+        setVisible={setShowDelete}
+        setDeleteRow={setDeleteRow}
+        deleteRowId={id}
+        onDelete={deleteLocationType}
+        setLoading={setLoading}
+      />
       {showLocationType ? (
         AddLocationType()
       ) : (
@@ -125,7 +170,10 @@ const LocationTypes = () => {
               <div className="mr-5">
                 <div className="">
                   <Buttons
-                    onClick={setshowLocationType}
+                    onClick={() => {
+                      setshowLocationType(true);
+                      setId("");
+                    }}
                     label="Add"
                     className="btn-dark mx-4 border-none  "
                     style={{ height: "36px", top: "10px" }}
@@ -135,8 +183,8 @@ const LocationTypes = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={locationBookingData}
-                columns={locationBookingTable}
+                data={locationTypes}
+                columns={locationTypesTable}
               ></TableData>
             </div>
             <div className=" m-2 mt-3 flex justify-content-end">

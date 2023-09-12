@@ -37,6 +37,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
     expirationDate: null,
     descriptions: "",
     image: "",
+    imageName: ""
   });
 
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
       expirationDate: null,
       descriptions: "",
       image: "",
+      imageName: ""
     });
     setViewCertification(false);
     setEditCertification(false);
@@ -92,6 +94,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
       expirationDate: null,
       descriptions: "",
       image: "",
+      imageName: ""
     });
     showAddCertification(false);
     return setErrors({});
@@ -107,6 +110,8 @@ const Certifications = ({ setData, data, createEmployee }) => {
       preview.innerHTML = event.target.files[0].name;
 
       certificationsValue.image = event.target.files[0];
+      certificationsValue.imageName = event.target.files[0].name;
+
       setCertificationsValue({ ...certificationsValue });
     } catch (error) {
       console.log(error);
@@ -127,14 +132,17 @@ const Certifications = ({ setData, data, createEmployee }) => {
     setEditCertification(false);
   };
 
-  const onEditCertificate = (col, row) => {
+  const onEditCertificate = async (col, row) => {
+    if(col.image) col.image = await (await fetch(col.image)).blob();
     setCertificationsValue({ ...col });
+    console.log(certificationsValue)
     setEditCertification(true);
     setShowAddCertification(true);
     setViewCertification(false);
     setEditCertificationIndex(row.rowIndex);
     var preview = document.getElementById("preview");
-    if (preview) preview.innerHTML = certificationsValue.image.name;
+    console.log(preview)
+    if (preview) preview.innerHTML = certificationsValue.imageName;
     return col;
   };
 
@@ -151,9 +159,12 @@ const Certifications = ({ setData, data, createEmployee }) => {
   };
 
   const onClickSave = async () => {
+    console.log(data.certifications)
     return await new Promise(async (resolve, reject) => {
       if (data.certifications.length) {
         for(let i = 0; i < data.certifications.length; i++) {
+            data.certifications[i].imageName = data.certifications[i].image.name;
+
           const formData = new FormData();
           formData.append("file", data.certifications[i].image);
 
@@ -167,6 +178,7 @@ const Certifications = ({ setData, data, createEmployee }) => {
           );
           if (res.success) {
             data.certifications[i].image = res.data.image;
+
             setData({ ...data });
             console.log(data)
           } else {

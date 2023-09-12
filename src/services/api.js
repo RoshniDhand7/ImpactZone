@@ -1,17 +1,20 @@
 import axios from "axios";
 import constants from "../utils/constants";
+import { isAuthenticated } from "./authService";
 
-const api = (method, urlEndPoint, data, requestHeaders = { "Content-Type": "application/json" }) =>
+const api = (method, urlEndPoint, data = {}, query) =>
   new Promise((myResolve) => {
-    const token = localStorage.getItem("token");
-    let headers = requestHeaders;
-    headers = {
-      ...headers,
-      Authorization: `Bearer ${token}`,
+    let headers = {
+      "Content-Type": "application/json",
     };
-
+    if (isAuthenticated()) {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${isAuthenticated()}`,
+      };
+    }
     axios({
-      method: method,
+      method,
       url: constants.base_url + urlEndPoint,
       data,
       headers,
@@ -21,15 +24,22 @@ const api = (method, urlEndPoint, data, requestHeaders = { "Content-Type": "appl
           message: response.data.message,
           data: response.data.data,
           success: response.data.success,
-          count: response.data.count,
         });
       })
       .catch((err) => {
-        myResolve({
-          message: err.response.data.message,
-          data: err.response.data.data,
-          success: err.response.data.success,
-        });
+        if (err.response) {
+          myResolve({
+            message: err.response.data.message,
+            data: err.response.data.data,
+            success: err.response.data.success,
+          });
+        } else {
+          myResolve({
+            message: err.toString(),
+            data: { ...err },
+            success: false,
+          });
+        }
       });
   });
 

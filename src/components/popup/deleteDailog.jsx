@@ -2,26 +2,16 @@ import React, { useState, useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
+import { useDispatch } from "react-redux";
 
-const DeleteDailog = ({ visible, setVisible, setDeleteRow, deleteRow }) => {
-  console.log("reache dialog comp", visible);
-  // const [visible, setVisible] = useState(false);
-  const toast = useRef(null);
-
-  const accept = () => {
-    setDeleteRow({ ...deleteRow, isDelete: true });
-  };
-
-  //   const confirm1 = () => {
-  //     confirmDialog({
-  //       message: "Are you sure you want to proceed?",
-  //       header: "Confirmation",
-  //       icon: "pi pi-exclamation-triangle",
-  //       accept,
-  //       reject,
-  //     });
-  //   };
-
+const DeleteDailog = ({
+  visible,
+  setVisible,
+  deleteRowId,
+  onDelete,
+  setLoading,
+}) => {
+  const dispatch = useDispatch();
   return (
     <>
       {/* <Toast ref={toast} /> */}
@@ -31,7 +21,7 @@ const DeleteDailog = ({ visible, setVisible, setDeleteRow, deleteRow }) => {
         message="Are you sure you want to proceed?"
         header="Confirmation"
         icon="pi pi-exclamation-triangle"
-        accept={accept}
+        accept={() => dispatch(onDelete(deleteRowId, setLoading))}
       />
     </>
   );

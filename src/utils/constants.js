@@ -1,6 +1,8 @@
 const constants = {
-  base_url: "https://impactzoneapi.appdeft.biz/api/",
-  // base_url: "http://localhost:1102/api/",
+  // base_url: "https://impactzoneapi.appdeft.biz/api/",
+  base_url: "http://localhost:1102/api/",
+  image_base_url: "http://localhost:1102/",
+  // image_base_url: "https://impactzoneapi.appdeft.biz/",
 
   endPoints: {
     Login: "gym-owner/login",
@@ -24,7 +26,13 @@ const constants = {
     UpdateLevel: "levels/update/",
     uploadFile: "upload",
     getEmployee: "employee/get-employee",
-    updateEmployee: "employee/update"
+    updateEmployee: "employee/update",
+    locationTypes: "locations/types",
+    updateLocationType: "locations/types/update/",
+    deleteLocationType: "locations/types/delete/",
+    locations: "locations",
+    updateLocation: "locations/update/",
+    deleteLocation: "locations/delete/"
   },
 };
 

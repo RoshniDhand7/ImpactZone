@@ -9,6 +9,7 @@ const DropDown = ({
   title,
   required,
   onChange,
+  name,
 }) => {
   return (
     <div className="flex flex-column gap-2">
@@ -18,9 +19,13 @@ const DropDown = ({
       <Dropdown
         value={value}
         options={options}
-        onChange={onChange}
+        onChange={(e) =>
+          onChange &&
+          onChange({ ...e, name: e.target.name, value: e.target.value })
+        }
         optionLabel={optionLabel}
         placeholder={placeholder}
+        name={name}
       />
     </div>
   );
