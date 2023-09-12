@@ -45,18 +45,14 @@ export default function Index() {
     }, [dispatch]);
 
     const handleLocationTypeChange = ({ name, value }) => {
-        if (value) {
-            const formErrors = allValidations(name, value, locationType);
-            if (name === "allowOverBooking") value = stringToBoolean(value);
-            setLocationType((prev) => ({ ...prev, [name]: value, formErrors }));
-        }
+        const formErrors = allValidations(name, value, locationType);
+        if (name === "allowOverBooking") value = stringToBoolean(value);
+        setLocationType((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const handleLocationChange = ({ name, value }) => {
-        if (value) {
-            const formErrors = allValidations(name, value, location);
-            setLocation((prev) => ({ ...prev, [name]: value, formErrors }));
-        }
+        const formErrors = allValidations(name, value, location);
+        setLocation((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const onAddLocationType = () => {

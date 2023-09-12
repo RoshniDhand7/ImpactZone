@@ -40,7 +40,7 @@ const Location = () => {
     return (
       <>
         <div className="flex justify-content-end">
-          <span className="mx-2">
+          <span className="mr-3">
             <i
               className="pi pi-pencil"
               onClick={() => onEditLocation(data)}
