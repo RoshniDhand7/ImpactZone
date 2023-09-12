@@ -12,14 +12,14 @@ export default function Index() {
     const dispatch = useDispatch();
 
     const [location, setLocation] = useState({
-        isActive: null,
+        isActive: true,
         name: "",
         locationType: "",
         clubs: []
     });
 
     const [locationType, setLocationType] = useState({
-        isActive: null,
+        isActive: true,
         name: "",
         allowOverBooking: ""
     });
@@ -67,7 +67,12 @@ export default function Index() {
             } else {
                 dispatch(addLocationType(locationType, setLoading, null));
             }
-            return setshowLocationType(false);
+            setshowLocationType(false);
+            return setLocationType({
+                isActive: true,
+                name: "",
+                allowOverBooking: ""
+            });
         }
     };
 
@@ -79,7 +84,13 @@ export default function Index() {
             } else {
                 dispatch(addLocation(location, setLoading, null));
             }
-            return setShowAddLocation(false);
+            setShowAddLocation(false);
+            return setLocation({
+                isActive: true,
+                name: "",
+                locationType: "",
+                clubs: [],
+            });
         }
     };
 

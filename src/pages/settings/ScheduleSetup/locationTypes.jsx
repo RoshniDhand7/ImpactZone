@@ -59,6 +59,10 @@ const LocationTypes = () => {
     );
   };
 
+  const statusTemplate = (data) => {
+    return data.isActive ? "Active" : "Inactive";
+  };
+
   const locationTypesTable = [
     {
       field: "name",
@@ -67,6 +71,10 @@ const LocationTypes = () => {
     {
       header: "Allow Overbooking",
       body: allowOverBookingTemplate,
+    },
+    {
+      body: statusTemplate,
+      header: "Status",
     },
     { field: "", Header: "", body: editDeleteLocationType },
   ];

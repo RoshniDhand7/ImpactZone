@@ -71,6 +71,10 @@ const Location = () => {
     );
   };
 
+  const statusTemplate = (data) => {
+    return data.isActive ? "Active" : "Inactive";
+  };
+
   const locationsTable = [
     {
       field: "name",
@@ -83,6 +87,10 @@ const Location = () => {
     {
       body: clubsTemplate,
       header: "Club",
+    },
+    {
+      body: statusTemplate,
+      header: "Status",
     },
     { field: "", Header: "", body: ActionEditDelete },
   ];
@@ -235,7 +243,9 @@ const Location = () => {
               <div className="mr-2">
                 <div className="mr-4">
                   <Buttons
-                    onClick={setShowAddLocation}
+                    onClick={() => {
+                      setShowAddLocation(true);
+                    }}
                     label="Add"
                     className="btn-dark  mx-4  border-none  "
                     style={{ height: "36px", top: "10px" }}
