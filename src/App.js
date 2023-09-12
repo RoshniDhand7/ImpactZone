@@ -34,6 +34,7 @@ import MemberSetup from "./pages/settings/MemberSetup/MemberSetup";
 import AlertsTypes from "./pages/settings/Alert Types/alertsTypes";
 import ViewEmployee from "./pages/settings/Employee/manageEmployee/viewEmployee";
 import { isAuthenticated } from "./services/authService";
+import AgreementSetup from "./pages/settings/AgreementSetup/agreementSetup";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -115,6 +116,7 @@ function App() {
               }
             />
           </Route>
+          <Route exact path="/agreement-Setup" element={<AgreementSetup />} />
         </Routes>
       </Router>
     </>
