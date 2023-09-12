@@ -95,7 +95,7 @@ const updateLocation = (id, location, setLoading, navigate) => async (dispatch) 
 
     const res = await api("put", constants.endPoints.updateLocation + id, payload);
     if (res.success) {
-        navigate(-1);
+        navigate ? navigate(-1) : dispatch(getLocations(setLoading));
         dispatch(showToast({ severity: "success", summary: res.message }));
     }
     setLoading(false);

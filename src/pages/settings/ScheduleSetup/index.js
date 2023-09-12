@@ -73,14 +73,12 @@ export default function Index() {
 
     const onSaveLocation = () => {
         if (!showFormErrors(location, setLocation)) {
-            console.log(location)
             if (id) {
                 dispatch(updateLocation(id, location, setLoading, null));
                 setId("");
             } else {
                 dispatch(addLocation(location, setLoading, null));
             }
-            return setShowAddLocation(false);
         }
     };
 
@@ -92,7 +90,7 @@ export default function Index() {
 
     const onEditLocation = (data) => {
         setId(data._id);
-        setLocationType({ ...data });
+        setLocation({ ...data });
         return setShowAddLocation(true);
     };
 
