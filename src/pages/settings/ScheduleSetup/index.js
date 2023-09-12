@@ -79,6 +79,7 @@ export default function Index() {
             } else {
                 dispatch(addLocation(location, setLoading, null));
             }
+            return setShowAddLocation(false);
         }
     };
 
