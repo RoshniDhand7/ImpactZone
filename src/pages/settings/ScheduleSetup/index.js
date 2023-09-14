@@ -6,6 +6,7 @@ import { showFormErrors } from "../../../utils/commonFunctions";
 import { allValidations } from "../../../utils/formValidations";
 import { stringToBoolean } from "../../../utils/javascript";
 import { getClubs } from "../../../redux/actions/clubsActions";
+import { getEventsByType } from "../../../redux/actions/eventsActions";
 
 export default function Index() {
     const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function Index() {
     let { locations } = useSelector((state) => state?.locations);
     let { locationTypes } = useSelector((state) => state?.locations);
     let { clubs } = useSelector((state) => state?.clubs);
+    let { eventsByType } = useSelector((state) => state?.events);
 
     const [loading, setLoading] = useState(false);
     const [showLocationType, setshowLocationType] = useState(false);
@@ -42,6 +44,7 @@ export default function Index() {
         dispatch(getLocationTypes(setLoading));
         dispatch(getLocations(setLoading));
         dispatch(getClubs(setLoading));
+        dispatch(getEventsByType(setLoading, "Classes"));
     }, [dispatch]);
 
     const handleLocationTypeChange = ({ name, value }) => {
@@ -144,6 +147,7 @@ export default function Index() {
         onEditLocation,
         locationFilters,
         handleLocationFilters,
-        onCickSearch
+        onCickSearch,
+        eventsByType
     };
 }

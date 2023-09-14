@@ -11,4 +11,8 @@ export const types = {
 
   // CLUBS //
   CLUBS: "CLUBS",
+
+  // EVENTS //
+  EVENTS: "EVENTS",
+  EVENTS_BY_TYPE: "EVENTS_BY_TYPE"
 };

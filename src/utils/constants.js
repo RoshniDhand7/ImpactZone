@@ -1,8 +1,8 @@
 const constants = {
-  base_url: "https://impactzoneapi.appdeft.biz/api/",
-  image_base_url: "https://impactzoneapi.appdeft.biz/",
-  // base_url: "http://localhost:1102/api/",
-  // image_base_url: "http://localhost:1102/",
+  // base_url: "https://impactzoneapi.appdeft.biz/api/",
+  // image_base_url: "https://impactzoneapi.appdeft.biz/",
+  base_url: "http://localhost:1102/api/",
+  image_base_url: "http://localhost:1102/",
 
   endPoints: {
     Login: "gym-owner/login",
@@ -33,6 +33,7 @@ const constants = {
     locations: "locations",
     updateLocation: "locations/update/",
     deleteLocation: "locations/delete/",
+    getEventsByType: "events/getByType/",
   },
 };
 

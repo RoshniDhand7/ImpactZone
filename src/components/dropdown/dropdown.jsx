@@ -10,6 +10,7 @@ const DropDown = ({
   required,
   onChange,
   name,
+  filter = false,
 }) => {
   return (
     <div className="flex flex-column gap-2">
@@ -26,6 +27,7 @@ const DropDown = ({
         optionLabel={optionLabel}
         placeholder={placeholder}
         name={name}
+        filter={filter}
       />
     </div>
   );

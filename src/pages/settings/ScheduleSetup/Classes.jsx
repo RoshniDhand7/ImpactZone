@@ -7,8 +7,11 @@ import Buttons from "../../../components/buttons/button";
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../utils/checkInData";
 import TableData from "../../../components/cards/dataTable/dataTable";
+import Index from ".";
 
 const Classes = () => {
+  const { eventsByType } = Index();
+
   const [showAddClasses, setAddClasses] = useState();
 
   // const actionTemplate = (col) => {
@@ -127,12 +130,12 @@ const Classes = () => {
             <div className="bg-lightest-blue py-2 border-round-lg shadow-2">
               <div className="flex justify-content-between  align-items-center px-3">
                 <div className="col-3 px-0">
-                  <Input
-                    type="search"
-                    title="Class Name"
-                    icon="pi pi-search"
-                    placeholder="Boot Camp"
-                  ></Input>
+                  <DropDown
+                    filter
+                    placeholder="Select Class"
+                    options={eventsByType}
+                    optionLabel="name"
+                  ></DropDown>
                 </div>
               </div>
             </div>
@@ -140,22 +143,22 @@ const Classes = () => {
               <CardWithTitle title="When and Where">
                 <div className="p-3">
                   <div className="flex ">
-                    <div className="col-3">
+                    <div className="col-4">
                       <DropDown title="How often does class meet?"></DropDown>
                     </div>
-                    <div className="col-3">
+                    <div className="col-4">
                       <DropDown title="Class Location"></DropDown>
                     </div>
                   </div>
                   <div className="flex mt-3">
-                    <div className="col-3">
+                    <div className="col-4">
                       <Input
                         type="date"
                         title="Start Date"
                         placeholder="11/08/1998"
                       ></Input>
                     </div>
-                    <div className="col-3">
+                    <div className="col-4">
                       <Input
                         type="date"
                         title="End Date"
@@ -170,14 +173,14 @@ const Classes = () => {
                     </div>
                   </div>
                   <div className="flex align-items-end mt-3">
-                    <div className="col-3">
+                    <div className="col-4">
                       <Input
                         type="time"
                         title="Start Time"
                         placeholder="11/08/1998"
                       ></Input>
                     </div>
-                    <div className="col-3">
+                    <div className="col-4">
                       <DropDown
                         type="date"
                         title="Days"
@@ -195,14 +198,14 @@ const Classes = () => {
                     </div>
                   </div>
                   <div className="flex align-items-end mt-3">
-                    <div className="col-3">
+                    <div className="col-4">
                       <Input
                         type="time"
                         title="Start Time"
                         placeholder="11/08/1998"
                       ></Input>
                     </div>
-                    <div className="col-3">
+                    <div className="col-4">
                       <DropDown
                         type="date"
                         title="Days"
