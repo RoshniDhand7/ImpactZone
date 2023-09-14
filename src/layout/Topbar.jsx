@@ -9,6 +9,7 @@ import { useState } from "react";
 import searchBar from "../pages/popups/searchBar";
 import EmployeeClockIn from "../pages/popups/EmployeeClockIn";
 import { useEffect } from "react";
+import { isAuthenticated } from "../services/authService";
 // import { useDispatch, useSelector } from "react-redux";
 
 export default function TopBar({
@@ -19,14 +20,13 @@ export default function TopBar({
 }) {
   const navigate = useNavigate();
   const logout = () => {
-    console.log("Logout fun");
     localStorage.clear();
-    setIsLogged(false);
+    setIsLogged(isAuthenticated());
     navigate("/login");
   };
   const forgotPassword = () => {
     localStorage.clear();
-    setIsLogged(false);
+    setIsLogged(isAuthenticated());
     navigate("/forgotpassword");
   };
 

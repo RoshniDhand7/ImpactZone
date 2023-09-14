@@ -40,7 +40,6 @@ function App() {
   const [isActive, setIsActive] = useState(false);
   const [isLogged, setIsLogged] = useState(isAuthenticated());
 
-  console.log(isLogged)
   return (
     <>
       <Loader />
@@ -51,7 +50,7 @@ function App() {
             setIsActive={setIsActive}
             isActive={isActive}
             isLogged={isLogged}
-            setIsLogged={isAuthenticated()}
+            setIsLogged={setIsLogged}
           />
         ) : null}
         <Routes>

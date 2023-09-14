@@ -53,7 +53,7 @@ const Login = ({ setIsLogged }) => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    let validate = await loginValidations(data);
+    let validate = loginValidations(data);
     if (validate.email || validate.password) {
       setErrors(validate);
     } else {
