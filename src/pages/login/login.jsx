@@ -32,7 +32,7 @@ const Login = ({ setIsLogged }) => {
     const res = await api("post", constants.endPoints.Login, data);
     if (res.success) {
       const token = res.data.token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("authToken", JSON.stringify(token));
       const firstname = res.data.firstName;
       const email = res.data.email;
       const lastname = res.data.lastName;
@@ -53,7 +53,7 @@ const Login = ({ setIsLogged }) => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    let validate = await loginValidations(data);
+    let validate = loginValidations(data);
     if (validate.email || validate.password) {
       setErrors(validate);
     } else {

@@ -10,18 +10,24 @@ const MuliSelectDropDown = ({
   optionsLabel,
   placeholder,
   optionGroupTemplate,
+  required,
+  name,
 }) => {
   return (
-    <div className="">
+    <div className="flex flex-column gap-2">
+      <label className="text-xs text-dark-gray font-semibold">
+        {title} {required ? <span className="text-red-500">*</span> : null}
+      </label>
       <MultiSelect
         key={key}
+        name={name}
         title={title}
         value={value}
         options={options}
-        onChange={onChange}
+        onChange={(e) =>
+          onChange({ ...e, name: e.target.name, value: e.target.value })
+        }
         optionLabel={optionsLabel}
-        // optionGroupLabel={optionsLabel}
-        // optionGroupChildren="items"
         optionGroupTemplate={optionGroupTemplate}
         placeholder={placeholder}
         display="chip"

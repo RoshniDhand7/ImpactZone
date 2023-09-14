@@ -33,18 +33,13 @@ import ToastContainer from "./components/toast";
 import MemberSetup from "./pages/settings/MemberSetup/MemberSetup";
 import AlertsTypes from "./pages/settings/Alert Types/alertsTypes";
 import ViewEmployee from "./pages/settings/Employee/manageEmployee/viewEmployee";
+import { isAuthenticated } from "./services/authService";
 import AgreementSetup from "./pages/settings/AgreementSetup/agreementSetup";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(isAuthenticated());
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLogged(true);
-    }
-  }, []);
-  console.log(isLogged);
   return (
     <>
       <Loader />

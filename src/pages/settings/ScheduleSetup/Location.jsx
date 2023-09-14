@@ -7,63 +7,101 @@ import Buttons from "../../../components/buttons/button";
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../utils/checkInData";
 import TableData from "../../../components/cards/dataTable/dataTable";
+import Index from ".";
+import { Chip } from "primereact/chip";
+import MuliSelectDropDown from "../../../components/dropdown/muliSelectDropDown";
+import { deleteLocation } from "../../../redux/actions/locationsActions";
+import DeleteDailog from "../../../components/popup/deleteDailog";
 
 const Location = () => {
-  const [showLocation, setshowLocation] = useState(false);
+  const {
+    locations,
+    locationTypes,
+    id,
+    setId,
+    showDelete,
+    setShowDelete,
+    setLoading,
+    setDeleteRow,
+    location,
+    setLocation,
+    clubs,
+    handleLocationChange,
+    onSaveLocation,
+    showAddLocation,
+    setShowAddLocation,
+    onEditLocation,
+    locationFilters,
+    handleLocationFilters,
+    onCickSearch,
+  } = Index();
 
-  const locationBookingData = [
-    {
-      locationname: "Club",
-      locationtype: "Club",
-      club: "Club 30591",
-    },
-    {
-      locationname: "Location-Group-Zone",
-      locationtype: "Club",
-      club: "Club 30591",
-    },
-    {
-      locationname: "Club",
-      locationtype: "Club",
-      club: "Club 30591",
-    },
-    {
-      locationname: "Location-Group-Zone",
-      locationtype: "Club",
-      club: "Club 30591",
-    },
-  ];
-  const ActionEditDelete = () => {
+  const ActionEditDelete = (data) => {
     return (
       <>
         <div className="flex justify-content-end">
-          <span className="mx-2">
-            <i className="pi pi-pencil"></i>
+          <span className="mr-3">
+            <i
+              className="pi pi-pencil"
+              onClick={() => onEditLocation(data)}
+            ></i>
           </span>
 
           <span>
-            <i className="pi pi-trash"></i>
+            <i
+              className="pi pi-trash"
+              onClick={() => {
+                setShowDelete(true);
+                setId(data._id);
+              }}
+            ></i>
           </span>
         </div>
       </>
     );
   };
 
-  const locationBookingTable = [
+  const clubsTemplate = (data) => {
+    return (
+      <div className=" flex flex-wrap gap-2">
+        {data?.clubs.map((item, index) => {
+          return <Chip key={index} label={item.name} />;
+        })}
+      </div>
+    );
+  };
+
+  const statusTemplate = (data) => {
+    return data.isActive ? "Active" : "Inactive";
+  };
+
+  const locationsTable = [
     {
-      field: "locationname",
+      field: "name",
       header: "Location Name",
     },
     {
-      field: "locationtype",
+      field: "locationType.name",
       header: "Location Type",
     },
     {
-      field: "club",
+      body: clubsTemplate,
       header: "Club",
+    },
+    {
+      body: statusTemplate,
+      header: "Status",
     },
     { field: "", Header: "", body: ActionEditDelete },
   ];
+
+  const locationStatus = (value) => {
+    return JSON.stringify(value) === "true"
+      ? "Active"
+      : JSON.stringify(value) === "Inactive"
+      ? "No"
+      : "";
+  };
 
   const AddLocation = () => {
     return (
@@ -73,19 +111,43 @@ const Location = () => {
             <Checkbox
               title="Active"
               className="text-900 text-sm font-semibold"
+              value={location.isActive}
+              name="isActive"
+              onChange={handleLocationChange}
             ></Checkbox>
           </div>
           <div>
             <CardWithTitle title="Add Location Type">
               <div className="flex p-2 mx-3">
                 <div className="col-4">
-                  <Input title="Name"></Input>
+                  <Input
+                    title="Name"
+                    name="name"
+                    value={location.name}
+                    onChange={handleLocationChange}
+                  ></Input>
                 </div>
                 <div className="col-4">
-                  <DropDown title="Location Type"></DropDown>
+                  <DropDown
+                    title="Location Type"
+                    name="locationType"
+                    options={locationTypes}
+                    optionLabel="name"
+                    value={location.locationType}
+                    onChange={handleLocationChange}
+                    placeholder="Select Location Type"
+                  ></DropDown>
                 </div>
                 <div className="col-4">
-                  <DropDown title="Club"></DropDown>
+                  <MuliSelectDropDown
+                    title="Clubs"
+                    name="clubs"
+                    options={clubs}
+                    optionsLabel="name"
+                    onChange={handleLocationChange}
+                    placeholder="Select Clubs"
+                    value={location?.clubs}
+                  ></MuliSelectDropDown>
                 </div>
               </div>
             </CardWithTitle>
@@ -94,12 +156,21 @@ const Location = () => {
             <div className="mx-4">
               <Buttons
                 label="Save"
+                onClick={onSaveLocation}
                 className="btn-dark  mx-3  border-none"
               ></Buttons>
             </div>
             <div className="">
               <Buttons
-                onClick={() => setshowLocation(false)}
+                onClick={() => {
+                  setShowAddLocation(false);
+                  setLocation({
+                    isActive: null,
+                    name: "",
+                    locationType: "",
+                    clubs: [],
+                  });
+                }}
                 label="Cancel"
                 className="btn-grey   border-none"
               ></Buttons>
@@ -115,34 +186,66 @@ const Location = () => {
 
   return (
     <>
-      {showLocation ? (
+      <DeleteDailog
+        visible={showDelete}
+        setVisible={setShowDelete}
+        setDeleteRow={setDeleteRow}
+        deleteRowId={id}
+        onDelete={deleteLocation}
+        setLoading={setLoading}
+      />
+      {showAddLocation ? (
         AddLocation()
       ) : (
         <>
           <div>
             <div className="bg-lightest-blue border-round-lg py-2 px-3 flex justify-content-between align-items-center ">
-              <div className=" flex align-items-center">
+              <div className="flex align-items-center col-4">
                 <div className="col-7">
-                  <DropDown title="Status"></DropDown>
+                  <DropDown
+                    title="Status"
+                    name="status"
+                    // options={["Active", "Inactive"]}
+                    // onChange={handleLocationFilters}
+                    // value={locationStatus(locationFilters.status)}
+                  ></DropDown>
+                </div>
+                <div className="col-7">
+                  <MuliSelectDropDown
+                    title="Clubs"
+                    name="clubs"
+                    // options={clubs}
+                    // optionsLabel="name"
+                    // onChange={handleLocationFilters}
+                    // placeholder="Select Clubs"
+                    // value={locationFilters.clubs}
+                  ></MuliSelectDropDown>
                 </div>
                 <div className="col-7 ">
-                  <DropDown title="Club"></DropDown>
-                </div>
-                <div className="col-7 ">
-                  <DropDown title="Location Type"></DropDown>
+                  <DropDown
+                    title="Location Type"
+                    name="locationType"
+                    // options={locationTypes}
+                    // optionLabel="name"
+                    // onChange={handleLocationFilters}
+                    // value={locationFilters.locationType}
+                  ></DropDown>
                 </div>
                 <div className="">
                   <Buttons
                     label="Search"
                     className="btn-dark  border-none"
                     style={{ height: "36px", top: "10px" }}
+                    onClick={onCickSearch}
                   ></Buttons>
                 </div>
               </div>
               <div className="mr-2">
                 <div className="mr-4">
                   <Buttons
-                    onClick={setshowLocation}
+                    onClick={() => {
+                      setShowAddLocation(true);
+                    }}
                     label="Add"
                     className="btn-dark  mx-4  border-none  "
                     style={{ height: "36px", top: "10px" }}
@@ -151,10 +254,7 @@ const Location = () => {
               </div>
             </div>
             <div className="mt-2">
-              <TableData
-                data={locationBookingData}
-                columns={locationBookingTable}
-              ></TableData>
+              <TableData data={locations} columns={locationsTable}></TableData>
             </div>
             <div className=" m-2 mt-3 flex justify-content-end">
               <div className="">

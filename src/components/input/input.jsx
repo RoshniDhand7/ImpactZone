@@ -22,11 +22,11 @@ const Input = ({
   width,
   mode,
   minFractionDigits,
-  disabled= false,
-  onKeyDown
+  disabled = false,
+  onKeyDown,
+  name,
 }) => {
   // const [showPassword, setShowPassword] = useState(false);
-
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
       <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
@@ -47,24 +47,43 @@ const Input = ({
             // placeholder={placeholder}
             icon={icon}
             value={value}
-            onChange={onChange}
+            onChange={(e) =>
+              onChange &&
+              onChange({ ...e, name: e.target.name, value: e.value })
+            }
             minFractionDigits={minFractionDigits}
             type="number"
             disabled={disabled}
-            onKeyDown={type === "date" ? (e) => e.preventDefault() : onKeyDown ? onKeyDown : ''}
+            onKeyDown={
+              type === "date"
+                ? (e) => e.preventDefault()
+                : onKeyDown
+                ? onKeyDown
+                : ""
+            }
           />
         ) : (
           <InputText
             style={{ width: width ? width : "100%" }}
             placeholder={placeholder}
             icon={icon}
+            name={name}
             type={type}
             value={value}
             maxLength={maxLength}
-            onChange={onChange}
+            onChange={(e) =>
+              onChange &&
+              onChange({ ...e, name: e.target.name, value: e.target.value })
+            }
             disabled={disabled}
             // onKeyDown={onKeyDown}
-            onKeyDown={type === "date" ? (e) => e.preventDefault() : onKeyDown ? onKeyDown : ''}
+            onKeyDown={
+              type === "date"
+                ? (e) => e.preventDefault()
+                : onKeyDown
+                ? onKeyDown
+                : ""
+            }
           ></InputText>
         )}
 
