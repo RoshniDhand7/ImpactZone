@@ -130,6 +130,7 @@ const Classes = () => {
                   <Input
                     type="search"
                     title="Class Name"
+                    icon="pi pi-search"
                     placeholder="Boot Camp"
                   ></Input>
                 </div>
@@ -168,57 +169,49 @@ const Classes = () => {
                       ></Checkbox>
                     </div>
                   </div>
-                  <div className="grid">
-                    <div className="col-12 flex   mt-4">
-                      <div>
-                        <Buttons
-                          label="Sunday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div className="mx-4">
-                        <Buttons
-                          label="Monday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div>
-                        <Buttons
-                          label="Tuesday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div className="mx-4">
-                        <Buttons
-                          label="Wednesday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div>
-                        <Buttons
-                          label="Thursday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div className="mx-4">
-                        <Buttons
-                          label="Friday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
-                      <div>
-                        <Buttons
-                          label="Saturday"
-                          className="bg-white text-gray-200 border-none border-round-lg"
-                          style={{ height: "38px" }}
-                        ></Buttons>
-                      </div>
+                  <div className="flex align-items-end mt-3">
+                    <div className="col-3">
+                      <Input
+                        type="time"
+                        title="Start Time"
+                        placeholder="11/08/1998"
+                      ></Input>
+                    </div>
+                    <div className="col-3">
+                      <DropDown
+                        type="date"
+                        title="Days"
+                        placeholder="Select"
+                      ></DropDown>
+                    </div>
+
+                    <div className="mb-2">
+                      <Buttons
+                        style={{ height: "38px" }}
+                        icon="pi pi-plus-circle"
+                        label="Add New Schedule"
+                        className="btn-dark border-none "
+                      ></Buttons>
+                    </div>
+                  </div>
+                  <div className="flex align-items-end mt-3">
+                    <div className="col-3">
+                      <Input
+                        type="time"
+                        title="Start Time"
+                        placeholder="11/08/1998"
+                      ></Input>
+                    </div>
+                    <div className="col-3">
+                      <DropDown
+                        type="date"
+                        title="Days"
+                        placeholder="Select"
+                      ></DropDown>
+                    </div>
+
+                    <div className="mb-3">
+                      <i className="pi pi-minus-circle text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -234,13 +227,16 @@ const Classes = () => {
                     <div className="col-4">
                       <DropDown title="Pay"></DropDown>
                     </div>
-                    <div className="col-4">
-                      <DropDown title="Assistant 1"></DropDown>
-                    </div>
                   </div>
                   <div className="flex mt-3 ">
                     <div className="col-4">
                       <DropDown title="Assistant 1 Pay"></DropDown>
+                    </div>
+                    <div className="col-4">
+                      <DropDown
+                        title="Assistant 1"
+                        placeholder="List of Employees that teach Boot Camp"
+                      ></DropDown>
                     </div>
                     <div className="pt-4 mt-2">
                       <Buttons
@@ -249,6 +245,20 @@ const Classes = () => {
                         icon="pi pi-plus-circle"
                         label="Add Assistant"
                       ></Buttons>
+                    </div>
+                  </div>
+                  <div className="flex mt-3 ">
+                    <div className="col-4">
+                      <DropDown title="Assistant 1 Pay"></DropDown>
+                    </div>
+                    <div className="col-4">
+                      <DropDown
+                        title="Assistant 1"
+                        placeholder="List of Employees that teach Boot Camp"
+                      ></DropDown>
+                    </div>
+                    <div className="pt-4 mt-3">
+                      <i className="pi pi-minus-circle text-gray-300"></i>
                     </div>
                   </div>
                 </div>
