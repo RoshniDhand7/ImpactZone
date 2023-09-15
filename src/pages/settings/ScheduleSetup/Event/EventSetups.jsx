@@ -6,7 +6,7 @@ import EventOnline from "./EventOnline";
 import EventNotifications from "./EventNotification";
 import EventServices from "./EventServices";
 
-const EventSetup = () => {
+const EventSetup = ({addEventData,handleChange}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
@@ -17,7 +17,7 @@ const EventSetup = () => {
             onTabChange={(e) => setActiveIndex(e.index)}
           >
             <TabPanel header="General">
-              <EventGeneral />
+              <EventGeneral addEventData={addEventData} handleChange={handleChange}/>
             </TabPanel>
             <TabPanel header="Services">
               <EventServices />

@@ -33,6 +33,7 @@ const constants = {
     locations: "locations",
     updateLocation: "locations/update/",
     deleteLocation: "locations/delete/",
+    allEvents: "events",
   },
 };
 

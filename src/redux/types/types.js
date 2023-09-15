@@ -8,6 +8,8 @@ export const types = {
 
   // LOCATIONS //
   LOCATIONS: "LOCATIONS",
+  EVENTS: "EVENTS",
+  EVENT_DURATION:"EVENT_DURATION",
 
   // CLUBS //
   CLUBS: "CLUBS",
