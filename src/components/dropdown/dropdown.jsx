@@ -2,8 +2,9 @@ import React from "react";
 import { Dropdown } from "primereact/dropdown";
 
 const DropDown = ({
+  id,
   value,
-  optionLabel,
+  optionLabel = "",
   options,
   placeholder,
   title,
@@ -18,11 +19,17 @@ const DropDown = ({
         {title} {required ? <span className="text-red-500">*</span> : null}
       </label>
       <Dropdown
+        id={id}
         value={value}
         options={options}
         onChange={(e) =>
           onChange &&
-          onChange({ ...e, name: e.target.name, value: e.target.value })
+          onChange({
+            ...e,
+            name: e.target.name,
+            value: e.target.value,
+            index: id,
+          })
         }
         optionLabel={optionLabel}
         placeholder={placeholder}

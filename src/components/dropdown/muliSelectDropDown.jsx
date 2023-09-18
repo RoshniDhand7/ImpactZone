@@ -2,12 +2,13 @@ import React from "react";
 import { MultiSelect } from "primereact/multiselect";
 
 const MuliSelectDropDown = ({
+  id,
   key,
   title,
   value,
   options,
   onChange,
-  optionsLabel,
+  optionsLabel = "",
   placeholder,
   optionGroupTemplate,
   required,
@@ -19,18 +20,25 @@ const MuliSelectDropDown = ({
         {title} {required ? <span className="text-red-500">*</span> : null}
       </label>
       <MultiSelect
+        id={id}
         key={key}
         name={name}
         title={title}
         value={value}
         options={options}
         onChange={(e) =>
-          onChange({ ...e, name: e.target.name, value: e.target.value })
+          onChange({
+            ...e,
+            name: e.target.name,
+            value: e.target.value,
+            index: id,
+          })
         }
         optionLabel={optionsLabel}
         optionGroupTemplate={optionGroupTemplate}
         placeholder={placeholder}
         display="chip"
+        optionDisabled="disabled"
         className="w-full"
       />
     </div>

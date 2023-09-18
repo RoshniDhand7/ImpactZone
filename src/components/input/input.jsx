@@ -4,6 +4,7 @@ import { useState } from "react";
 import { InputNumber } from "primereact/inputnumber";
 
 const Input = ({
+  id,
   title,
   title1,
   placeholder,
@@ -26,7 +27,6 @@ const Input = ({
   onKeyDown,
   name,
 }) => {
-  // const [showPassword, setShowPassword] = useState(false);
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
       <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
@@ -43,6 +43,7 @@ const Input = ({
 
         {type === "number" ? (
           <InputText
+            id={id}
             style={{ width: "100%" }}
             // placeholder={placeholder}
             icon={icon}
@@ -64,6 +65,7 @@ const Input = ({
           />
         ) : (
           <InputText
+            id={id}
             style={{ width: width ? width : "100%" }}
             placeholder={placeholder}
             icon={icon}
@@ -73,7 +75,12 @@ const Input = ({
             maxLength={maxLength}
             onChange={(e) =>
               onChange &&
-              onChange({ ...e, name: e.target.name, value: e.target.value })
+              onChange({
+                ...e,
+                name: e.target.name,
+                value: e.target.value,
+                index: id,
+              })
             }
             disabled={disabled}
             // onKeyDown={onKeyDown}
