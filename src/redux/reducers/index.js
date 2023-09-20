@@ -4,6 +4,8 @@ import toastReducer from "./toastReducer";
 import locationsReducer from "./locationsReducer";
 import clubsReducer from "./clubsReducer";
 import eventsReducer from "./eventsReducer";
+import stateReducer from "./stateReducer";
+import levelReducer from "./levelsReducer";
 import employeesReducer from "./employeesReducer";
 import classSchedulesReducer from "./classSchedulesReducer";
 
@@ -13,6 +15,8 @@ export default combineReducers({
   locations: locationsReducer,
   clubs: clubsReducer,
   events: eventsReducer,
+  staticData: stateReducer,
+  levelData: levelReducer,
   employees: employeesReducer,
   classSchedules: classSchedulesReducer
 });

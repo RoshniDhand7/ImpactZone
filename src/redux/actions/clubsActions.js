@@ -4,8 +4,12 @@ import { types } from "../types/types";
 import { showToast } from "./toastAction";
 
 const getClubs = (setLoading) => async (dispatch) => {
-    setLoading(true);
+    if(setLoading){
+        setLoading(true);
+    }
+   
     const res = await api("get", constants.endPoints.GetClubs);
+    console.log("resclub",res)
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -14,7 +18,10 @@ const getClubs = (setLoading) => async (dispatch) => {
             });
         }
     }
-    setLoading(false);
+    if(setLoading){
+        setLoading(false);
+    }
+    
 };
 
 export { getClubs };

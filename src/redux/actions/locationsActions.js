@@ -5,7 +5,9 @@ import { showToast } from "./toastAction";
 
 // LOCATION TYPES //
 const getLocationTypes = (setLoading) => async (dispatch) => {
-    setLoading(true);
+    if(setLoading){
+        setLoading(true);
+    }
     const res = await api("get", constants.endPoints.locationTypes);
     if (res.success) {
         if (res.data) {
@@ -15,7 +17,9 @@ const getLocationTypes = (setLoading) => async (dispatch) => {
             });
         }
     }
+    if(setLoading){
     setLoading(false);
+    }
 };
 
 const addLocationType = (locationType, setLoading, navigate) => async (dispatch, getState) => {

@@ -6,24 +6,23 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import { PickList } from "primereact/picklist";
 import itemsbackword from "../../../../assets/icons/itembackward.png";
 import Buttons from "../../../../components/buttons/button";
+import { useSelector } from "react-redux";
 
-const EventGeneral = () => {
+const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle}) => {
+  const EventOptions = useSelector((state)=>state.staticData.EventType)
+  const choiceTypeOptions = useSelector((state)=>state.staticData.choiceType)
+  const NumberchoiceTypeOption = useSelector((state)=>state.staticData.NumberchoiceType)
+  const EventComissionTypeOption = useSelector((state)=>state.staticData.EventComissionType)
+  const locationTypeOptions = useSelector((state)=>state.locations.locationTypes)
+  const WaitExpireTypeOption = useSelector((state)=>state.staticData.WaitExpireType)
+  const durationOptions = useSelector((state)=>state.staticData.duration)
+  console.log("durationOptions",durationOptions)
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
-        <img
-          className="w-4rem shadow-2 flex-shrink-0 border-round"
-          src={itemsbackword}
-          alt={item.name}
-        />
         <div className="flex-1 flex flex-column gap-2">
-          <span className="font-bold">{item.name}</span>
-          <div className="flex align-items-center gap-2">
-            <i className="pi pi-tag text-sm"></i>
-            <span>{item.category}</span>
-          </div>
+          <span className="">{item} minutes</span>
         </div>
-        <span className="font-bold text-900">${item.price}</span>
       </div>
     );
   };
@@ -35,50 +34,54 @@ const EventGeneral = () => {
           <span className="text-xl font-bold text-900 ">Add Event Setups</span>
         </div>
         <div className=" font-semibold text-sm text-900 ">
-          <Checkbox title="Active"></Checkbox>
+          <Checkbox title="Active" value={addEventData.isActive} name="isActive" onChange={isActiveHandle}></Checkbox>
         </div>
         <div className="mt-3">
           <CardWithTitle title="General">
             <div className="p-3 ">
               <div className="flex justify-content-between ">
                 <div className="col">
-                  <Input title="Name"></Input>
+                  <Input title="Name" value={addEventData.name} onChange={handleChange} name="name"></Input>
                 </div>
                 <div className="col">
-                  <DropDown title="Event Type"></DropDown>
+                  <DropDown title="Event Type" value={addEventData.type} options={EventOptions} optionLabel="label" onChange={handleChange} name="type"></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Internal Use"></DropDown>
-                </div>
-              </div>
-              <div className="flex justify-content-between mt-3 ">
-                <div className="col">
-                  <DropDown title="Location Type"></DropDown>
-                </div>
-                <div className="col">
-                  <DropDown title="Default Max Attendees"></DropDown>
-                </div>
-                <div className="col">
-                  <DropDown title="Event Commission Type"></DropDown>
+                  <DropDown title="Internal Use" value={addEventData.internalUse} options={choiceTypeOptions} optionLabel="label" onChange={handleChange} name="internalUse"></DropDown>
                 </div>
               </div>
               <div className="flex justify-content-between mt-3 ">
                 <div className="col">
-                  <DropDown title="Available Online"></DropDown>
+                  <DropDown title="Location Type" options={locationTypeOptions} value={addEventData.locationType} optionLabel="name" onChange={handleChange} name="locationType"></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Track Attendees"></DropDown>
+                  <DropDown title="Default Max Attendees" value={addEventData.defaulatMaxAttendees} options={NumberchoiceTypeOption} optionLabel="label" onChange={handleChange} name="defaulatMaxAttendees"></DropDown>
+                </div>
+                <div className="col">
+                  <DropDown title="Event Commission Type" value={addEventData.eventCommType} options={EventComissionTypeOption} optionLabel="label" onChange={handleChange} name="eventCommType"></DropDown>
+                </div>
+              </div>
+              <div className="flex justify-content-between mt-3 ">
+                <div className="col">
+                  <DropDown title="Available Online" value={addEventData.availableOnline} options={choiceTypeOptions} optionLabel="label" onChange={handleChange} name="availableOnline"></DropDown>
+                </div>
+                <div className="col">
+                  <DropDown title="Track Attendees" value={addEventData.trackAttendees} options={choiceTypeOptions} optionLabel="label" onChange={handleChange} name="trackAttendees"></DropDown>
                 </div>
                 <div className="col">
                   <DropDown
                     title="Maximum Waitlist (Turned off at club level)"
+                    value={addEventData.maxWaitList}
+                    options={NumberchoiceTypeOption} optionLabel="label"
                     disabled
+                    onChange={handleChange}
+                    name="maxWaitList"
                   ></DropDown>
                 </div>
               </div>
               <div className="flex justify-content-between mt-3 ">
                 <div className="col-4">
-                  <DropDown title="Waitlist Expiration (Turned off at club level)"></DropDown>
+                  <DropDown title="Waitlist Expiration (Turned off at club level)" value={addEventData.waitListExpiration} options={WaitExpireTypeOption} optionLabel="label" onChange={handleChange} name="waitListExpiration"></DropDown>
                 </div>
               </div>
             </div>
@@ -88,13 +91,13 @@ const EventGeneral = () => {
           <CardWithTitle title="Required To Create">
             <div className="p-3 flex">
               <div className="col">
-                <DropDown title="Employee"></DropDown>
+                <DropDown title="Employee" name="employee|requiredToCreate" value={addEventData.requiredToCreate.employee} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
               </div>
               <div className="col">
-                <DropDown title="Location"></DropDown>
+                <DropDown title="Location" name="location|requiredToCreate" value={addEventData.requiredToCreate.location} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
               </div>
               <div className="col">
-                <DropDown title="Member"></DropDown>
+                <DropDown title="Member" name="member|requiredToCreate" value={addEventData.requiredToCreate.member} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
               </div>
             </div>
           </CardWithTitle>
@@ -104,24 +107,24 @@ const EventGeneral = () => {
             <div className="p-3">
               <div className="flex justify-content-between ">
                 <div className="col">
-                  <DropDown title="Employee"></DropDown>
+                  <DropDown title="Employee" name="employee|requiredToComplete" value={addEventData.requiredToComplete.employee} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Location"></DropDown>
+                  <DropDown title="Location" name="location|requiredToComplete" value={addEventData.requiredToComplete.location} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Member"></DropDown>
+                  <DropDown title="Member" name="member|requiredToComplete" value={addEventData.requiredToComplete.member} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
               </div>
               <div className="flex justify-content-between mt-3 ">
                 <div className="col">
-                  <DropDown title="Member Verification"></DropDown>
+                  <DropDown title="Member Verification" name="memberVerification|requiredToComplete" value={addEventData.requiredToComplete.memberVerification} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Employee Verification (Turned off at club level)"></DropDown>
+                  <DropDown title="Employee Verification (Turned off at club level)" name="employeeVerification|requiredToComplete" value={addEventData.requiredToComplete.employeeVerification} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Auto Complete"></DropDown>
+                  <DropDown title="Auto Complete" name="autoComplete|requiredToComplete" value={addEventData.requiredToComplete.autoComplete} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
               </div>
             </div>
@@ -132,18 +135,18 @@ const EventGeneral = () => {
             <div className="p-3">
               <div className="flex justify-content-between ">
                 <div className="col">
-                  <DropDown title="Overbooking"></DropDown>
+                  <DropDown title="Overbooking" name="overBooking|bookingAndCancellation" value={addEventData.bookingAndCancellation.overBooking} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Cancel-NC"></DropDown>
+                  <DropDown title="Cancel-NC" name="cancelNoCharge|bookingAndCancellation" value={addEventData.bookingAndCancellation.cancelNoCharge} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
                 <div className="col">
-                  <DropDown title="Cancel-C"></DropDown>
+                  <DropDown title="Cancel-C" name="cancelCharge|bookingAndCancellation" value={addEventData.bookingAndCancellation.cancelCharge} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
               </div>
               <div className="flex justify-content-between mt-3 ">
                 <div className="col-4">
-                  <DropDown title="Rebook"></DropDown>
+                  <DropDown title="Rebook" name="rebook|bookingAndCancellation" value={addEventData.bookingAndCancellation.rebook} options={choiceTypeOptions} optionLabel="label" onChange={handleChange}></DropDown>
                 </div>
               </div>
             </div>
@@ -163,10 +166,11 @@ const EventGeneral = () => {
               </div>
               <div className="card mt-4  ">
                 <PickList
-                  // source={source}
-                  // target={target}
-                  // onChange={onChange}
+                  source={durationOptions}
+                  target={addEventData.durations}
+                  onChange={(event)=>handleChange(event,"durations|picker")}
                   itemTemplate={itemTemplate}
+                  name="durations|picker"
                   breakpoint=""
                   sourceHeader="Available"
                   targetHeader="Selected"
@@ -181,6 +185,7 @@ const EventGeneral = () => {
           <div className="mx-4">
             <Buttons
               label="Next"
+              onClick={()=>setActiveIndex(1)}
               className="btn-dark mx-3 border-none"
             ></Buttons>
           </div>
