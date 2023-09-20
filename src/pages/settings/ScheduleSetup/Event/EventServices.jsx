@@ -7,7 +7,7 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import MuliSelectDropDown from "../../../../components/dropdown/muliSelectDropDown";
 import { useSelector } from "react-redux";
 
-const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition}) => {
+const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition,DeleteAllService}) => {
   const [showAddService, setShowAddService] = useState();
   const levelData = useSelector((state)=>state.levelData.levels)
   const openAddService = (index) => {
@@ -28,7 +28,7 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
           {addEventData.services.map((item,index)=>{
             return(
               <div className="">
-              <CardWithTitle titlee={item.level.name}>
+              <CardWithTitle titlee={item?.level?.name}>
                 <div className="p-3">
                   <div className="flex justify-content-between w-6  p-2  ">
                     <span className="text-xs font-semibold text-gray-600">
@@ -119,6 +119,7 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
                           style={{ width: "128px", height: "35px" }}
                         >
                           <Buttons
+                          onClick={()=>DeleteAllService(index)}
                             className="btn-dark border-none"
                             label="Remove All"
                           ></Buttons>
