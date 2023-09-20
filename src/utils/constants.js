@@ -1,8 +1,8 @@
 const constants = {
-  base_url: "https://impactzoneapi.appdeft.biz/api/",
-  image_base_url: "https://impactzoneapi.appdeft.biz/",
-  // base_url: "http://localhost:1102/api/",
-  // image_base_url: "http://localhost:1102/",
+  // base_url: "https://impactzoneapi.appdeft.biz/api/",
+  // image_base_url: "https://impactzoneapi.appdeft.biz/",
+  base_url: "http://localhost:1102/api/",
+  image_base_url: "http://localhost:1102/",
 
   endPoints: {
     Login: "gym-owner/login",
@@ -37,7 +37,11 @@ const constants = {
     getEventsByType: "events/getByType/",
     classSchedules: "class-schedules",
     updateClassSchedules: "class-schedules/update/",
-    deleteClassSchedule: "class-schedules/delete/"
+    deleteClassSchedule: "class-schedules/delete/",
+    getEventCategories: "events/categories",
+    addEventCategory: "events/category",
+    updatEventCategory: "events/category/update/",
+    deleteEventCategory: "events/category/delete/",
   },
 };
 

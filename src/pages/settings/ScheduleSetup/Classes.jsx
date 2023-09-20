@@ -10,7 +10,7 @@ import TableData from "../../../components/cards/dataTable/dataTable";
 import Index from ".";
 import MuliSelectDropDown from "../../../components/dropdown/muliSelectDropDown";
 import CustomInputNumber from "../../../components/input/inputNumber";
-import * as moment from "moment";
+import moment from "moment";
 import DeleteDailog from "../../../components/popup/deleteDailog";
 import { deleteClassSchedule } from "../../../redux/actions/classSchedulesAction";
 

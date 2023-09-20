@@ -1,7 +1,8 @@
 import { types } from "../types/types";
 const intitalState = {
     events: [],
-    eventsByType: []
+    eventsByType: [],
+    eventCategories: []
 };
 
 const eventsReducer = (state = intitalState, action) => {
@@ -15,6 +16,11 @@ const eventsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 eventsByType: action.payload,
+            };
+        case types.EVENT_CATEGORIES:
+            return {
+                ...state,
+                eventCategories: action.payload,
             };
         default:
             return { ...state };

@@ -1,5 +1,4 @@
 import React from "react";
-import itemsbackword from "../../../assets/icons/itembackward.png";
 import DropDown from "../../../components/dropdown/dropdown";
 import Buttons from "../../../components/buttons/button";
 import TableData from "../../../components/cards/dataTable/dataTable";
@@ -8,53 +7,62 @@ import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import { PickList } from "primereact/picklist";
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
-import { useState } from "react";
 import checkInData from "../../../utils/checkInData";
+import Index from ".";
+import { filterOneArrayFromAnother } from "../../../utils/javascript";
+import DeleteDailog from "../../../components/popup/deleteDailog";
+import { deleteEventCategory } from "../../../redux/actions/eventsActions";
 
 const EventCategories = () => {
-  const [showEventCategories, setEventCategories] = useState(false);
+  let {
+    id,
+    categoryPicklist,
+    eventCategory,
+    handleEventCategoriestChange,
+    setCategoryPickList,
+    eventCategories,
+    onSaveEventCatgory,
+    showEventCategories,
+    setShowEventCategories,
+    onEditEventCategory,
+    setEventCategory,
+    showDelete,
+    setShowDelete,
+    setDeleteRow,
+    setLoading,
+    setId,
+    events,
+  } = Index();
+
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
-        <img
-          className="w-4rem shadow-2 flex-shrink-0 border-round"
-          src={itemsbackword}
-          alt={item.name}
-        />
         <div className="flex-1 flex flex-column gap-2">
           <span className="font-bold">{item.name}</span>
-          <div className="flex align-items-center gap-2">
-            <i className="pi pi-tag text-sm"></i>
-            <span>{item.category}</span>
-          </div>
         </div>
-        <span className="font-bold text-900">${item.price}</span>
       </div>
     );
   };
 
-  const EventCategoriesData = [
-    {
-      name: "All",
-    },
-    {
-      name: "Appointment Only",
-    },
-    {
-      name: "Classes Only",
-    },
-  ];
-
-  const ActionEditDelete = () => {
+  const ActionEditDelete = (row) => {
     return (
       <>
         <div className="flex justify-content-end">
           <span className="mx-2">
-            <i className="pi pi-pencil"></i>
+            <i
+              className="pi pi-pencil"
+              onClick={() => onEditEventCategory(row)}
+            ></i>
           </span>
 
           <span>
-            <i className="pi pi-trash"></i>
+            <i
+              className="pi pi-trash"
+              onClick={() => {
+                setShowDelete(true);
+                setId(row._id);
+              }}
+            ></i>
           </span>
         </div>
       </>
@@ -71,7 +79,7 @@ const EventCategories = () => {
       body: ActionEditDelete,
     },
   ];
-  const eventCategories = () => {
+  const EventCategoriesTable = () => {
     return (
       <>
         <div>
@@ -82,7 +90,9 @@ const EventCategories = () => {
               </div>
               <div className="mx-5">
                 <Buttons
-                  onClick={setEventCategories}
+                  onClick={() => {
+                    setShowEventCategories(false);
+                  }}
                   className="btn-dark mx-4  border-none"
                   label="Add"
                   style={{ height: "36px", top: "10px" }}
@@ -92,7 +102,7 @@ const EventCategories = () => {
           </div>
           <div className="mt-2">
             <TableData
-              data={EventCategoriesData}
+              data={eventCategories}
               columns={EventCategoriescolumn}
             ></TableData>
           </div>
@@ -119,23 +129,40 @@ const EventCategories = () => {
     return (
       <>
         <div className="my-3">
-          <Checkbox title="Active" className="text-900 text-xs font-semibold" />
+          <Checkbox
+            title="Active"
+            className="text-900 text-xs font-semibold"
+            value={eventCategory.isActive}
+            onChange={handleEventCategoriestChange}
+          />
         </div>
         <div className="bg-lightest-blue p-2 border-round-lg ">
           <div className="flex justify-content-between align-items-center px-3">
             <div className="col-3 px-0">
-              <Input title="Name" placeholder="Traning"></Input>
+              <Input
+                title="Name"
+                placeholder="Traning"
+                name="name"
+                value={eventCategory.name}
+                onChange={handleEventCategoriestChange}
+              ></Input>
             </div>
           </div>
         </div>
         <div className="mt-3">
           <CardWithTitle title="Add Event Setups">
             <div className="p-3">
-              <div className="card mt-3  ">
+              <div className="card mt-3">
                 <PickList
-                  // source={source}
-                  // target={target}
-                  // onChange={onChange}
+                  source={categoryPicklist}
+                  target={eventCategory.events}
+                  onChange={(e) => {
+                    setCategoryPickList([...e.source]);
+                    handleEventCategoriestChange({
+                      name: "events",
+                      value: e.target,
+                    });
+                  }}
                   itemTemplate={itemTemplate}
                   breakpoint=""
                   sourceHeader="Available"
@@ -152,11 +179,20 @@ const EventCategories = () => {
             <Buttons
               label="Save"
               className="btn-dark mx-3 border-none"
+              onClick={onSaveEventCatgory}
             ></Buttons>
           </div>
           <div className="">
             <Buttons
               label="Cancel"
+              onClick={() => {
+                setShowEventCategories(true);
+                setEventCategory({
+                  isActive: true,
+                  name: "",
+                  events: [],
+                });
+              }}
               className="btn-grey   border-none"
             ></Buttons>
           </div>
@@ -166,8 +202,15 @@ const EventCategories = () => {
   };
   return (
     <>
-      {showEventCategories ? ADDEventCategories() : eventCategories()}
-
+      <DeleteDailog
+        visible={showDelete}
+        setVisible={setShowDelete}
+        setDeleteRow={setDeleteRow}
+        deleteRowId={id}
+        onDelete={deleteEventCategory}
+        setLoading={setLoading}
+      />
+      {showEventCategories ? EventCategoriesTable() : ADDEventCategories()}
       <div className="mt-5">
         <RecentCheckIn data={checkInData}></RecentCheckIn>
       </div>

@@ -78,3 +78,11 @@ export const customPasswordCheck = (value) => {
 export const stringToBoolean = (value) => ternary(value === "Yes", true, false);
 
 export const booleanToString = (value) => JSON.stringify(value) === "true" ? "Yes" : JSON.stringify(value) === "false" ? "No" : "";
+
+export const filterOneArrayFromAnother = (arr1, arr2) => {
+    const filtered = arr1.filter(el => {
+        console.log(el, arr2.indexOf(el))
+        return arr2.indexOf(el) === -1;
+    });
+    return filtered;
+};
