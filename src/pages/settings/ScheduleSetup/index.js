@@ -37,6 +37,12 @@ export default function Index() {
         assistantPay: null
     }]);
 
+    const [eventCategory, setEventCategory] = useState([{
+        isActive: true,
+        name: "",
+        events: []
+    }]);
+
     const [classes, setClasses] = useState({
         event: null,
         scheduleType: "",
@@ -335,6 +341,7 @@ export default function Index() {
         classSchedules,
         showAddClasses,
         setAddClasses,
-        onEditClassSchedule
+        onEditClassSchedule,
+        eventCategory
     };
 }
