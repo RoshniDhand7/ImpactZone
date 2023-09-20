@@ -1,9 +1,10 @@
 import { types } from "../types/types";
 
-const getStateVAlue = (data) => async (dispatch) => {
-    console.log("dattInAction",data)
+const getStateVAlue = (data,name) => async (dispatch) => {
+    console.log("dattInAction",data,name.toUpperCase())
+    let Type = types[`EVENT_`+name.toUpperCase()]
             dispatch({
-                type: types.EVENT_DURATION,
+                type: Type,
                 payload: data,
             });
 };

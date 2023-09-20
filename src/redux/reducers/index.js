@@ -5,6 +5,7 @@ import locationsReducer from "./locationsReducer";
 import clubsReducer from "./clubsReducer";
 import eventsReducer from "./eventsReducer";
 import stateReducer from "./stateReducer";
+import levelReducer from "./levelsReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   clubs: clubsReducer,
   events: eventsReducer,
   staticData: stateReducer,
+  levelData: levelReducer,
 });

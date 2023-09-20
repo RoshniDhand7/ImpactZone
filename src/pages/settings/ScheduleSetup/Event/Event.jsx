@@ -9,7 +9,9 @@ import EventSetup from "./EventSetups";
 import EventContainer from "./EventContainer";
 
 const EventSetups = () => {
-  const {EventData,Eventcolumn,addEventData,handleChange,} = EventContainer()
+  const {EventData,Eventcolumn,addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,
+    serviceIndex,
+    serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition} = EventContainer()
   const [showEventSetups, setShowEventSetups] = useState(false);
  
   // const eventdata = [
@@ -60,7 +62,7 @@ const EventSetups = () => {
   return (
     <>
       {showEventSetups ? (
-        <EventSetup addEventData={addEventData} handleChange={handleChange}/>
+        <EventSetup addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} isActiveHandle={isActiveHandle} submit={submit}  setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} deployhandle={deployhandle} clubSource={clubSource} DeleteService={DeleteService} changePosition={changePosition}/>
       ) : (
         <>
           <div>

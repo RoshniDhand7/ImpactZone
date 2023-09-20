@@ -16,4 +16,19 @@ const getEvents = () => async (dispatch) => {
     // setLoading(false);
 };
 
-export {getEvents}
+const addEvents = (data) => async (dispatch) => {
+    // setLoading(true);
+    const res = await api("post", constants.endPoints.allEvents,{...data});
+    console.log("address",res)
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.ADD_EVENT,
+                payload: res.data,
+            });
+        }
+    }
+    // setLoading(false);
+};
+
+export {getEvents,addEvents}

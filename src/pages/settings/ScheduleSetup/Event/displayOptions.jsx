@@ -5,27 +5,36 @@ import { PickList } from "primereact/picklist";
 import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
+import { useSelector } from "react-redux";
 
-const DisplayOptions = () => {
+const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,clubSource}) => {
+  const calendarOptions = useSelector((state)=>state.staticData.calendarDisplay)
+  const calendarPopOptions = useSelector((state)=>state.staticData.popupDisplay)
+  // const deployedOptions = useSelector((state)=>state.staticData.deployedClubs)
+  const reebokOptions = useSelector((state)=>state.staticData.rebookingTimeOption)
+  // const allClubs = useSelector((state)=>state.clubs.clubs)
+  //   console.log("clubs",allClubs)
+  console.log("display",calendarOptions)
+  
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
-        <img
-          className="w-4rem shadow-2 flex-shrink-0 border-round"
-          src={itemsbackword}
-          alt={item.name}
-        />
         <div className="flex-1 flex flex-column gap-2">
-          <span className="font-bold">{item.name}</span>
-          <div className="flex align-items-center gap-2">
-            <i className="pi pi-tag text-sm"></i>
-            <span>{item.category}</span>
-          </div>
+            <span>{item}</span>
         </div>
-        <span className="font-bold text-900">${item.price}</span>
       </div>
     );
   };
+
+  const DeployeitemTemplate = (item) => {
+    return (
+      <div className="flex flex-wrap p-2 align-items-center gap-3">
+        <div className="flex-1 flex flex-column gap-2">
+            <span>{item.name}</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div>
@@ -40,10 +49,11 @@ const DisplayOptions = () => {
             <div className="p-3">
               <div className="card mt-3  ">
                 <PickList
-                  // source={source}
-                  // target={target}
-                  // onChange={onChange}
+                  source={calendarOptions}
+                  target={addEventData.calendarDisplay}
+                  onChange={(event)=>handleChange(event,"calendarDisplay|picker")}
                   itemTemplate={itemTemplate}
+                  name="calendarDisplay|picker"
                   breakpoint=""
                   sourceHeader="Available"
                   targetHeader="Selected"
@@ -59,10 +69,11 @@ const DisplayOptions = () => {
             <div className="p-3">
               <div className="card mt-3  ">
                 <PickList
-                  // source={source}
-                  // target={target}
-                  // onChange={onChange}
+                  source={calendarPopOptions}
+                  target={addEventData.popupDisplay}
+                  onChange={(event)=>handleChange(event,"popupDisplay|picker")}
                   itemTemplate={itemTemplate}
+                  name="popupDisplay|picker"
                   breakpoint=""
                   sourceHeader="Available"
                   targetHeader="Selected"
@@ -79,6 +90,9 @@ const DisplayOptions = () => {
               <div className="flex  align-items-center ">
                 <div className="mr-4">
                   <Input
+                  value={addEventData.pendingColor.boxColor} 
+                  onChange={handleChange} 
+                  name="boxColor|pendingColor"
                     title="Select Box Color"
                     type="color"
                     placeholder="color"
@@ -86,6 +100,9 @@ const DisplayOptions = () => {
                 </div>
                 <div className=" ml-4">
                   <Input
+                  value={addEventData.pendingColor.textColor} 
+                  onChange={handleChange} 
+                  name="textColor|pendingColor"
                     title="Select Text Color"
                     placeholder="#fffff"
                     className="border-none "
@@ -108,10 +125,10 @@ const DisplayOptions = () => {
           <CardWithTitle title="Display Preview">
             <div className="p-3">
               <div
-                style={{ background: "#666666" }}
+                style={addEventData.pendingColor.boxColor ? { backgroundColor: addEventData.pendingColor.boxColor } : {backgroundColor:"#666666"}}
                 className="p-3 text-white border-round-md border-none"
               >
-                <p className="text-xs">
+                <p className="text-xs" style={addEventData.pendingColor.textColor ? { color: addEventData.pendingColor.textColor } : {color:"#fff"}}>
                   John Smith, Aga Group 60 Min, Status Pending, Employee Paul
                   Jones, 15/20
                 </p>
@@ -125,6 +142,8 @@ const DisplayOptions = () => {
               <div className="flex  align-items-center ">
                 <div className="mr-4 col-12">
                   <DropDown
+                  value={addEventData.rebookingTimeOption} options={reebokOptions} optionLabel="label" onChange={handleChange}
+                  name="rebookingTimeOption"
                     title="Times Shown"
                     placeholder="Quarter Hour"
                   ></DropDown>
@@ -135,10 +154,33 @@ const DisplayOptions = () => {
                 style={{ height: "38px" }}
               >
                 <p className="mx-3 "> Preview: </p>
+                {addEventData.rebookingTimeOption==="Hour"
+                ?
+                <>
+<p className="text-blue mx-3 flex ">1:00 PM</p>
+                <p className="text-blue mx-3">2:00 PM</p>
+                <p className="text-blue mx-3 ">3:00 PM</p>
+                <p className="text-blue mx-3 ">4:00 PM</p>
+                </>
+                :
+                addEventData.rebookingTimeOption==="Half Hour"
+                ?
+                <>
+<p className="text-blue mx-3 flex ">1:00 PM</p>
+                <p className="text-blue mx-3">1:30 PM</p>
+                <p className="text-blue mx-3 ">2:00 PM</p>
+                <p className="text-blue mx-3 ">2:30 PM</p>
+                </>
+                :
+                <>
                 <p className="text-blue mx-3 flex ">1:00 PM</p>
-                <p className="text-blue mx-3">1:15 PM</p>
-                <p className="text-blue mx-3 ">1:30 PM</p>
-                <p className="text-blue mx-3 ">1:45 PM</p>
+                                <p className="text-blue mx-3">1:15 PM</p>
+                                <p className="text-blue mx-3 ">1:30 PM</p>
+                                <p className="text-blue mx-3 ">1:45 PM</p>
+                                </>
+                
+                }
+                
               </div>
             </div>
           </CardWithTitle>
@@ -148,10 +190,11 @@ const DisplayOptions = () => {
             <div className="p-3">
               <div className="card mt-3  ">
                 <PickList
-                  // source={source}
-                  // target={target}
-                  // onChange={onChange}
-                  itemTemplate={itemTemplate}
+                  source={clubSource}
+                  target={addEventData.deployedClubPickerOption}
+                  onChange={(event)=>deployhandle(event,"deployedClubs|picker")}
+                  name="deployedClubs|picker"
+                  itemTemplate={DeployeitemTemplate}
                   breakpoint=""
                   sourceHeader="Available"
                   targetHeader="Selected"
@@ -165,10 +208,10 @@ const DisplayOptions = () => {
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
         <div className="mx-3">
-          <Buttons label="Next" className="btn-dark   border-none"></Buttons>
+          <Buttons label="Next" className="btn-dark   border-none" onClick={()=>setActiveIndex(3)}></Buttons>
         </div>
         <div className="">
-          <Buttons label="Cancel" className="btn-grey   border-none"></Buttons>
+          <Buttons label="Cancel" className="btn-grey   border-none" onClick={()=>setActiveIndex(1)}></Buttons>
         </div>
       </div>
     </>

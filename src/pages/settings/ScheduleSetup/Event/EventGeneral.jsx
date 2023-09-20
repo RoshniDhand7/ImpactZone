@@ -8,7 +8,7 @@ import itemsbackword from "../../../../assets/icons/itembackward.png";
 import Buttons from "../../../../components/buttons/button";
 import { useSelector } from "react-redux";
 
-const EventGeneral = ({addEventData,handleChange}) => {
+const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle}) => {
   const EventOptions = useSelector((state)=>state.staticData.EventType)
   const choiceTypeOptions = useSelector((state)=>state.staticData.choiceType)
   const NumberchoiceTypeOption = useSelector((state)=>state.staticData.NumberchoiceType)
@@ -21,7 +21,7 @@ const EventGeneral = ({addEventData,handleChange}) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
         <div className="flex-1 flex flex-column gap-2">
-          <span className="">{item.label}</span>
+          <span className="">{item} minutes</span>
         </div>
       </div>
     );
@@ -34,7 +34,7 @@ const EventGeneral = ({addEventData,handleChange}) => {
           <span className="text-xl font-bold text-900 ">Add Event Setups</span>
         </div>
         <div className=" font-semibold text-sm text-900 ">
-          <Checkbox title="Active" value={addEventData.isActive} name="isActive"></Checkbox>
+          <Checkbox title="Active" value={addEventData.isActive} name="isActive" onChange={isActiveHandle}></Checkbox>
         </div>
         <div className="mt-3">
           <CardWithTitle title="General">
@@ -185,6 +185,7 @@ const EventGeneral = ({addEventData,handleChange}) => {
           <div className="mx-4">
             <Buttons
               label="Next"
+              onClick={()=>setActiveIndex(1)}
               className="btn-dark mx-3 border-none"
             ></Buttons>
           </div>
