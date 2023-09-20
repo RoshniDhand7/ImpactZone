@@ -28,7 +28,7 @@ const EventContainer = () => {
       { field: "name", header: "Name" },
       { field: "colors", header: "Colors", body: "SampleText" },
       { field: "locationtype", header: "Location Type", body:"LocationTemplate"},
-      { field: "mappedServices", header: "Mapped To Services" },
+      { field: "mappedServices", header: "Mapped To Services", body:"MappedServiceTemplate"},
       { field: "", header: "", body: "ActionEditDelete" },
     ];
 
@@ -241,12 +241,43 @@ serviceSelectbox:selectedArray
   }
 
 const DeleteService = () => {
-  let allAddEvent = {...addEventData}
-  allAddEvent.services.forEach((item)=> {
-    item.services = item.services.filter((child,index) => index != serviceDetailIndex);
-  });
-  setAddEventData(allAddEvent)
+  let wholeService = [...addEventData.services]
+  let allAddEvent = {...addEventData.services[serviceIndex]}
+ let filterService = allAddEvent.services.filter((item,index)=>{return index!==serviceDetailIndex})
+ let newOuterService = {
+  ...allAddEvent,
+  services:filterService
+ }
+ wholeService.splice(serviceIndex,1,newOuterService)
+ setAddEventData((prev)=>{
+  return{
+    ...prev,
+    services:wholeService
+  }
+ })
+
+  // allAddEvent.services.forEach((item)=> {
+  //   item.services = item.services.filter((child,index) => index != serviceDetailIndex);
+  // });
+  // setAddEventData(allAddEvent)
   // let filterArray =  addEventData.services[serviceIndex].services[serviceDetailIndex]
+}
+
+const DeleteAllService = (index) => {
+  let wholeService = [...addEventData.services]
+  let allAddEvent = {...addEventData.services[serviceIndex]}
+ let newOuterService = {
+  ...allAddEvent,
+  services:[]
+ }
+ wholeService.splice(serviceIndex,1,newOuterService)
+ setAddEventData((prev)=>{
+  return{
+    ...prev,
+    services:wholeService
+  }
+ })
+
 }
 
 const changePosition = (value) => {
@@ -255,11 +286,13 @@ const changePosition = (value) => {
     allData.services[serviceIndex].services.splice(serviceDetailIndex-1, 0, allData.services[serviceIndex].services.splice(serviceDetailIndex, 1)[0]);
     console.log("allData",allData)
     setAddEventData(allData)
+    setServiceDetailIndex(serviceDetailIndex-1)
   }
   else if(value=="down"&&serviceDetailIndex!==allData.services[serviceIndex].services.length-1){
     allData.services[serviceIndex].services.splice(serviceDetailIndex+1, 0, allData.services[serviceIndex].services.splice(serviceDetailIndex, 1)[0]);
     console.log("allData",allData)
     setAddEventData(allData)
+    setServiceDetailIndex(serviceDetailIndex+1)
   }
  
 }
@@ -340,7 +373,8 @@ dispatch(addEvents(addEventData))
     deployhandle,
     clubSource,
     DeleteService,
-    changePosition
+    changePosition,
+    DeleteAllService
   }
 }
 
