@@ -6,6 +6,8 @@ import clubsReducer from "./clubsReducer";
 import eventsReducer from "./eventsReducer";
 import stateReducer from "./stateReducer";
 import levelReducer from "./levelsReducer";
+import employeesReducer from "./employeesReducer";
+import classSchedulesReducer from "./classSchedulesReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -15,4 +17,6 @@ export default combineReducers({
   events: eventsReducer,
   staticData: stateReducer,
   levelData: levelReducer,
+  employees: employeesReducer,
+  classSchedules: classSchedulesReducer
 });

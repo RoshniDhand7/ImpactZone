@@ -1,17 +1,17 @@
 import { types } from "../types/types";
 const intitalState = {
-    clubs: []
+    employees: []
 };
 
-const clubsReducer = (state = intitalState, action) => {
+const employeesReducer = (state = intitalState, action) => {
     switch (action.type) {
-        case types.CLUBS:
+        case types.EMPLOYEES:
             return {
                 ...state,
-                clubs: action.payload,
+                employees: action.payload,
             };
         default:
             return { ...state };
     }
 };
-export default clubsReducer;
+export default employeesReducer;

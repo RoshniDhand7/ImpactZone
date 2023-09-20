@@ -18,4 +18,14 @@ export const types = {
 
   // CLUBS //
   CLUBS: "CLUBS",
+
+  // EVENTS //
+  EVENTS: "EVENTS",
+  EVENTS_BY_TYPE: "EVENTS_BY_TYPE",
+
+  // EMPLOYEES //
+  EMPLOYEES: "EMPLOYEES",
+
+  // CLASS_SCHEDULES //
+  CLASS_SCHEDULES: "CLASS_SCHEDULES"
 };
