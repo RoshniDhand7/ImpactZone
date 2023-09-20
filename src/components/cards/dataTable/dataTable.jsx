@@ -59,6 +59,14 @@ const TableData = ({
     )
   }
 
+  const MappedServiceTemplate = (rowData) => {
+    return(
+      <div>
+        {rowData?.services?.length>0 ? "Yes" : "No"}
+      </div>
+    )
+  }
+
   const LocationTemplate = (rowData) => {
     return (
       <>

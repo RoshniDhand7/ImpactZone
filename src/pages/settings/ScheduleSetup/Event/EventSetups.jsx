@@ -6,7 +6,7 @@ import EventOnline from "./EventOnline";
 import EventNotifications from "./EventNotification";
 import EventServices from "./EventServices";
 
-const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,serviceIndex,serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition}) => {
+const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,serviceIndex,serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition,DeleteAllService}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
@@ -20,7 +20,7 @@ const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex
               <EventGeneral addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} isActiveHandle={isActiveHandle}/>
             </TabPanel>
             <TabPanel header="Services">
-              <EventServices addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} setActiveIndex={setActiveIndex} setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} DeleteService={DeleteService} changePosition={changePosition}/>
+              <EventServices addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} setActiveIndex={setActiveIndex} setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} DeleteService={DeleteService} changePosition={changePosition} DeleteAllService={DeleteAllService}/>
             </TabPanel>
             <TabPanel header="Display Options">
               <DisplayOptions addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} deployhandle={deployhandle} clubSource={clubSource}/>

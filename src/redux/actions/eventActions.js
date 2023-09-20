@@ -1,9 +1,10 @@
 import api from "../../services/api";
 import constants from "../../utils/constants";
 import { types } from "../types/types";
+import { hideLoaderAction, showLoaderAction } from "./loaderAction";
 
 const getEvents = () => async (dispatch) => {
-    // setLoading(true);
+    dispatch(showLoaderAction())
     const res = await api("get", constants.endPoints.allEvents);
     if (res.success) {
         if (res.data) {
@@ -13,11 +14,11 @@ const getEvents = () => async (dispatch) => {
             });
         }
     }
-    // setLoading(false);
+    dispatch(hideLoaderAction())
 };
 
-const addEvents = (data) => async (dispatch) => {
-    // setLoading(true);
+const addEvents = (data) => async (dispatch,setLoading) => {
+    dispatch(showLoaderAction())
     const res = await api("post", constants.endPoints.allEvents,{...data});
     console.log("address",res)
     if (res.success) {
@@ -28,7 +29,7 @@ const addEvents = (data) => async (dispatch) => {
             });
         }
     }
-    // setLoading(false);
+    dispatch(hideLoaderAction())
 };
 
 export {getEvents,addEvents}

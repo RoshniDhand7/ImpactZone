@@ -21,6 +21,7 @@ const EventServices = ({
   serviceDetailIndex,
   DeleteService,
   changePosition,
+  DeleteAllService,
 }) => {
   const [showAddService, setShowAddService] = useState();
   const levelData = useSelector((state) => state.levelData.levels);
@@ -48,7 +49,7 @@ const EventServices = ({
           {addEventData.services.map((item, index) => {
             return (
               <div className="">
-                <CardWithTitle titlee={item.level.name}>
+                <CardWithTitle titlee={item?.level?.name}>
                   <div className="p-3">
                     <div className="flex justify-content-between w-6  p-2  ">
                       <span className="text-xs font-semibold text-gray-600">
@@ -147,6 +148,7 @@ const EventServices = ({
                             style={{ width: "128px", height: "35px" }}
                           >
                             <Buttons
+                              onClick={() => DeleteAllService(index)}
                               className="btn-dark border-none"
                               label="Remove All"
                             ></Buttons>
