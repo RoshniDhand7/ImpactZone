@@ -37,11 +37,11 @@ const TableData = ({
       </>
     );
   };
-  const SampleText = () => {
+  const SampleText = (rowData) => {
     return (
       <>
         <div className="flex ">
-          <div className="border-1 border-300 font-grey-200 text-xs p-2 border-round ">
+          <div className="border-1 border-300 font-grey-200 text-xs p-2 border-round " style={{backgroundColor:`${rowData?.pendingColor?.boxColor}`,color:`${rowData?.pendingColor?.textColor}`}}>
             Sample Text
           </div>
         </div>

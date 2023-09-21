@@ -1,5 +1,6 @@
 import { entries, notEqual, values } from "./javascript";
 import { allValidations } from "./formValidations";
+import FormValidation from "./AllFormValidation";
 
 export const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -39,3 +40,66 @@ export const getSearchedData = (arr, keyword, keys) => {
     }
     return arr;
 };
+
+export const showAllFormErrors = (data, setData,required) => {
+    let formErrors = {};
+    entries(data).forEach(([key, value]) => {
+        formErrors = {
+            ...formErrors,
+            ...FormValidation(key, value, data,required),
+        };
+    });
+
+    console.log("showerror",formErrors)
+    setData({ ...data, formErrors });
+    let bolean ;
+    values(formErrors).map((item)=>{
+        console.log("item",item)
+        if(typeof item ==="object"){
+            if(Array.isArray(item)){
+                if(item.length!=0){
+                    bolean = false;
+                    console.log("boleanInArrayFalse",item,bolean)
+                }
+                else{
+                    bolean = true;
+                    console.log("boleanInArrayTrue",item,bolean)
+                }
+            }
+            else{
+                if(!values(item).some((v) => notEqual(v, ""))){
+                    bolean = true;
+                    console.log("boleanInObjectFalse",item,bolean)
+                }
+                else{
+                    bolean = false;
+                    console.log("boleanInObjectTrue",item,bolean)
+                }
+            }
+        }
+        else{
+            if(item.length==0){
+                console.log("boleanInSimpleFalse",item,bolean)
+                bolean = true;
+            }else{
+                bolean = false;
+                console.log("boleanInSimpleTrue",item,bolean)
+            }
+        }
+    })
+    console.log("bolean",bolean)
+    // return !values(formErrors).some((v) => notEqual(v, ""));
+    return bolean;
+};
+
+// export const removeshowAllFormErrors = (name,value,data, setData,required) => {
+//     let formErrors = {};
+//     entries(data).forEach(([key, value]) => {
+//         formErrors = {
+//             ...formErrors,
+//             ...FormValidation(key, value, data,required),
+//         };
+//     });
+//     setData({ ...data, formErrors });
+//     return !values(formErrors).some((v) => notEqual(v, ""));
+// };

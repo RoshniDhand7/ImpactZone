@@ -26,6 +26,8 @@ const Input = ({
   disabled = false,
   onKeyDown,
   name,
+  state,
+  childState
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -112,6 +114,8 @@ const Input = ({
           ""
         )} */}
       </span>
+      {childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
+      {/* <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div> */}
     </div>
   );
 };

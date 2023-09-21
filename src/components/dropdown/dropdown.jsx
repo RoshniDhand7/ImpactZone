@@ -12,7 +12,10 @@ const DropDown = ({
   onChange,
   name,
   filter = false,
+  state,
+  childState,
 }) => {
+  console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
   return (
     <div className="flex flex-column gap-2">
       <label className="text-xs text-dark-gray font-semibold">
@@ -36,6 +39,8 @@ const DropDown = ({
         name={name}
         filter={filter}
       />
+{childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
+      
     </div>
   );
 };
