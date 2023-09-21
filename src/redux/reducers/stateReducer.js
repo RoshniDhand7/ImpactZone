@@ -21,8 +21,8 @@ const intitalState = {
     { label: "Event End", value: "Event End" },
   ],
   duration: [40,45,50,55,60,65,],
-  calendarDisplay: ["Member Name","Event","Status"],
-  popupDisplay: ["Member Name","Event","Status","Enrolled/Max Attendee"],
+  calendarDisplay: ["Member Name","Event","Status","Employee Name","Enrolled/Max Attendee","Duration","Level","Location"],
+  popupDisplay: ["Member Name","Event","Status","Employee Name","Enrolled/Max Attendee"],
   rebookingTimeOption: [
     { label: "Hour", value: "Hour" },
     { label: "Half Hour", value: "Half Hour" },

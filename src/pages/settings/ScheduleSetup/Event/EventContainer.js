@@ -7,6 +7,8 @@ import { getLocationTypes } from '../../../../redux/actions/locationsActions'
 import { getStateVAlue } from '../../../../redux/actions/stateAction'
 import { getLevels } from '../../../../redux/actions/levelsAction'
 import { getClubs } from '../../../../redux/actions/clubsActions'
+import FormValidation from '../../../../utils/AllFormValidation'
+import { showAllFormErrors } from '../../../../utils/commonFunctions'
 
 const EventContainer = () => {
     const dispatch = useDispatch()
@@ -19,7 +21,11 @@ const EventContainer = () => {
 
     const[serviceIndex,setServiceIndex] = useState();
     const[serviceDetailIndex,setServiceDetailIndex] = useState();
+    const [showEventSetups, setShowEventSetups] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [required,setRequired] = useState(["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"])
     
+    console.log("activeIndex",activeIndex)
     // const [locationType,setLocationType] = useState([])
     // const locationTypeOptions = useSelector((state)=>state.locations.locationTypes)
     const Eventcolumn = [
@@ -34,35 +40,35 @@ const EventContainer = () => {
 
 
 const [addEventData,setAddEventData] = useState(
-  {   isActive:"",
+  {   isActive:true,
     name: "",
     type: "",
-    internalUse: "",
+    internalUse: null,
     locationType: "",
     defaulatMaxAttendees: "",
     eventCommType: "",
-    availableOnline: "",
-    trackAttendees: "",
+    availableOnline: null,
+    trackAttendees: null,
     maxWaitList: "",
     waitListExpiration: "",
     requiredToCreate: {
-        employee: "",
-        location: "",
-        member: ""
+        employee: null,
+        location: null,
+        member: null
     },
     requiredToComplete: {
-        employee: "",
-        location: "",
-        member: "",
-        memberVerification: "",
-        employeeVerification: "",
-        autoComplete: ""
+        employee: null,
+        location: null,
+        member: null,
+        memberVerification: null,
+        employeeVerification: null,
+        autoComplete: null
     },
     bookingAndCancellation: {
-        overBooking: "",
-        cancelNoCharge: "",
-        cancelCharge: "",
-        rebook: ""
+        overBooking: null,
+        cancelNoCharge: null,
+        cancelCharge: null,
+        rebook: null
     },
     durations: [],
     // services: {
@@ -87,50 +93,66 @@ const [addEventData,setAddEventData] = useState(
         lessThan: ""
     },
     bookingCancellation: {
-      cancelOnline: "",
+      cancelOnline: null,
         timeBeforeEvent: ""
     },
     description: "",
     termsAndConditions: "",
     eventReminder: {
-        sendEventNotification: "",
+        sendEventNotification: null,
         timeBeforeEventToSendText: "",
         message: "",
-        sendCancelLink: ""
+        sendCancelLink: null
     }
 }
 )
 
 console.log("addEventData",addEventData)
 
+// const required = ["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","pendingColor","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"]
+
 const handleChange = (e,picklistName) => {
   console.log("e",e)
 const {name,value} = e?.target;
+console.log("nameeeee",name,value)
 if(picklistName?.includes("|picker")){
+  const formErrors = FormValidation(picklistName.split("|")[0], e.target, addEventData,required);
+  
   setAddEventData((prev)=>{
     return {
       ...prev,
-      [picklistName.split("|")[0]]:e.target
+      [picklistName.split("|")[0]]:e.target,
+      formErrors
     }
   })
    dispatch(getStateVAlue(e.source,picklistName.split("|")[0]))
 }
 else if(name.includes('|')){
+  let newValue = {
+    [name.split("|")[0]]:value
+  }
+  const formErrors = FormValidation(name.split("|")[1], newValue, addEventData,required);
+  console.log("formErorsin handlechange",formErrors)
   setAddEventData((prev)=>{
     return{
       ...prev,
+      formErrors,
       [name.split("|")[1]]:{
         ...prev[name.split("|")[1]],
-        [name.split("|")[0]]:value
+        [name.split("|")[0]]:value,
       }
+      
     }
   })
 }
 else{
+  console.log("elseeeename",name,value)
+  const formErrors = FormValidation(name, "notempty", addEventData,required);
   setAddEventData((prev)=>{
     return{
       ...prev,
-      [name]:value
+      [name]:value,
+      formErrors
     }
   })
 }
@@ -139,11 +161,13 @@ else{
 }
 
 const isActiveHandle = (e) => {
- const {name,value} = e;
+  const {name,value} = e;
+  const formErrors = FormValidation(name, value, addEventData,required);
   setAddEventData((prev)=>{
     return{
       ...prev,
-      [name]:value
+      [name]:value,
+      formErrors
     }
   })
 }
@@ -214,7 +238,7 @@ Update.map((item)=> {
   }
   array.push(obj)
 })
-let dashArray = array.filter((item)=>{return !newArray.find((child)=>{return item.level._id===child._id})})
+let dashArray = array.filter((item)=>{return !newArray.find((child)=>{return item.level._id===child.level._id})})
 console.log("dashArray",dashArray)
   // selectedArray.map((item)=>{
   //   let obj = {
@@ -230,12 +254,13 @@ console.log("dashArray",dashArray)
   // array.push(obj)
   // })
 
-
+  const formErrors = FormValidation("services", dashArray, addEventData,required);
   setAddEventData((prev)=>{
     return{
 ...prev,
 services:dashArray,
-serviceSelectbox:selectedArray
+serviceSelectbox:selectedArray,
+formErrors
     }
   })
   }
@@ -306,22 +331,35 @@ const changePosition = (value) => {
   
 
   const submit = () => {
-dispatch(addEvents(addEventData))
+    if(showAllFormErrors(addEventData, setAddEventData,required)){
+      dispatch(addEvents(addEventData)).then((data)=>{console.log("data",data);dispatch(getEvents());setShowEventSetups(false)})
+    }
+    else{
+      window.scrollTo({
+        top: 250,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+
   }
 
 
 
   const deployhandle = (e,picklistName) => {
+  
     let selectedValue = e.target;
     let newValue = []
     selectedValue.map((item)=>{
       newValue.push(item._id)
     })
+    const formErrors = FormValidation(picklistName.split("|")[0], newValue, addEventData,required);
     setAddEventData((prev)=>{
       return {
         ...prev,
         [picklistName.split("|")[0]]:newValue,
-        deployedClubPickerOption:e.target
+        deployedClubPickerOption:e.target,
+        formErrors
       }
     })
     setClubSource(e.source)
@@ -340,6 +378,19 @@ dispatch(addEvents(addEventData))
       setClubSource(allClubs)
       
     }, [allClubs])
+
+    useEffect(() => {
+      if(activeIndex===0){
+        setRequired(["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"])
+      }
+      else if(activeIndex===1){
+        setRequired(["services"])
+      }
+      else if(activeIndex===2){
+        setRequired(["calendarDisplay","popupDisplay","pendingColor","rebookingTimeOption","deployedClubs"])
+      }
+    }, [activeIndex])
+    
     
 
     // useEffect(()=>{
@@ -374,7 +425,13 @@ dispatch(addEvents(addEventData))
     clubSource,
     DeleteService,
     changePosition,
-    DeleteAllService
+    DeleteAllService,
+    setShowEventSetups,
+    showEventSetups,
+    setAddEventData,
+    required,
+    activeIndex,
+    setActiveIndex
   }
 }
 

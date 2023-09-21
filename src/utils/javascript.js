@@ -4,7 +4,7 @@ export const equal = (obj1, obj2 = 0) => obj1 === obj2
 
 export const notEqual = (obj1, obj2) => !equal(obj1, obj2)
 
-export const length = (obj) => obj.length
+export const length = (obj) => obj?.length
 
 export const number = (obj) => Number(obj)
 
@@ -78,3 +78,7 @@ export const customPasswordCheck = (value) => {
 export const stringToBoolean = (value) => ternary(value === "Yes", true, false);
 
 export const booleanToString = (value) => JSON.stringify(value) === "true" ? "Yes" : JSON.stringify(value) === "false" ? "No" : "";
+
+export const FirstletterUpperCase = (value) => spaceBetweenWords(value.charAt(0).toUpperCase() + value.slice(1));
+
+export const spaceBetweenWords = (word) => word.replace(/([a-z])([A-Z])/g, "$1 $2");

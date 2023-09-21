@@ -6,8 +6,8 @@ import EventOnline from "./EventOnline";
 import EventNotifications from "./EventNotification";
 import EventServices from "./EventServices";
 
-const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,serviceIndex,serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition,DeleteAllService}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,serviceIndex,serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition,DeleteAllService,setAddEventData,required,activeIndex,setActiveIndex}) => {
+  // const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
       <div>
@@ -17,13 +17,13 @@ const EventSetup = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex
             onTabChange={(e) => setActiveIndex(e.index)}
           >
             <TabPanel header="General">
-              <EventGeneral addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} isActiveHandle={isActiveHandle}/>
+              <EventGeneral addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} isActiveHandle={isActiveHandle} setAddEventData={setAddEventData} required={required}/>
             </TabPanel>
             <TabPanel header="Services">
-              <EventServices addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} setActiveIndex={setActiveIndex} setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} DeleteService={DeleteService} changePosition={changePosition} DeleteAllService={DeleteAllService}/>
+              <EventServices addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} setActiveIndex={setActiveIndex} setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} DeleteService={DeleteService} changePosition={changePosition} DeleteAllService={DeleteAllService} setAddEventData={setAddEventData} required={required}/>
             </TabPanel>
             <TabPanel header="Display Options">
-              <DisplayOptions addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} deployhandle={deployhandle} clubSource={clubSource}/>
+              <DisplayOptions addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} deployhandle={deployhandle} clubSource={clubSource} setAddEventData={setAddEventData} required={required}/>
             </TabPanel>
             <TabPanel header="Online">
               <EventOnline addEventData={addEventData} handleChange={handleChange} setActiveIndex={setActiveIndex} />

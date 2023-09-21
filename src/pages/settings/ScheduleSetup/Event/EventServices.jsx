@@ -6,8 +6,9 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import MuliSelectDropDown from "../../../../components/dropdown/muliSelectDropDown";
 import { useSelector } from "react-redux";
+import { showAllFormErrors } from "../../../../utils/commonFunctions";
 
-const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition,DeleteAllService}) => {
+const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition,DeleteAllService,setAddEventData,required}) => {
   const [showAddService, setShowAddService] = useState();
   const levelData = useSelector((state)=>state.levelData.levels)
   const openAddService = (index) => {
@@ -16,6 +17,15 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
       setLevelIndex(index)
     }
   };
+
+  const nextFunc = () => {
+    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required))
+    if(showAllFormErrors(addEventData, setAddEventData,required)==true){
+      setActiveIndex(2)
+    }
+  }
+
+
   const AddEventSetup = () => {
     return (
       <>
@@ -142,6 +152,7 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
             </div>
             )
           })}
+           <div className="text-danger" style={{color:"red"}}>{addEventData?.formErrors?.services}</div>
 
           {/* <div className="my-2">
             <CardWithTitle titlee="Level 2">
@@ -388,7 +399,7 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
           <div className="mt-3 mx-4">
             <Buttons
               label="Next"
-              onClick={()=>setActiveIndex(2)}
+              onClick={()=>nextFunc()}
               className="btn-dark mx-3   border-none"
             ></Buttons>
           </div>

@@ -6,8 +6,9 @@ import Input from "../../../../components/input/input";
 import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import { useSelector } from "react-redux";
+import { showAllFormErrors } from "../../../../utils/commonFunctions";
 
-const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,clubSource}) => {
+const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,clubSource,setAddEventData,required}) => {
   const calendarOptions = useSelector((state)=>state.staticData.calendarDisplay)
   const calendarPopOptions = useSelector((state)=>state.staticData.popupDisplay)
   // const deployedOptions = useSelector((state)=>state.staticData.deployedClubs)
@@ -35,6 +36,15 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
       </div>
     );
   }
+
+  const nextFunc = () => {
+    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required))
+    if(showAllFormErrors(addEventData, setAddEventData,required)==true){
+      setActiveIndex(3)
+    }
+  }
+
+
   return (
     <>
       <div>
@@ -60,6 +70,7 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
                   sourceStyle={{ height: "30rem" }}
                   targetStyle={{ height: "30rem" }}
                 />
+                 <div className="text-danger" style={{color:"red"}}>{addEventData?.formErrors?.calendarDisplay}</div>
               </div>
             </div>
           </CardWithTitle>
@@ -80,6 +91,7 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
                   sourceStyle={{ height: "30rem" }}
                   targetStyle={{ height: "30rem" }}
                 />
+                <div className="text-danger" style={{color:"red"}}>{addEventData?.formErrors?.popupDisplay}</div>
               </div>
             </div>
           </CardWithTitle>
@@ -96,27 +108,39 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
                     title="Select Box Color"
                     type="color"
                     placeholder="color"
+                    state={addEventData}
+                    childState={true}
                   ></Input>
                 </div>
                 <div className=" ml-4">
-                  <Input
+                  {/* <Input
                   value={addEventData.pendingColor.textColor} 
                   onChange={handleChange} 
                   name="textColor|pendingColor"
                     title="Select Text Color"
                     placeholder="#fffff"
                     className="border-none "
+                  ></Input> */}
+                  <Input
+                  value={addEventData.pendingColor.textColor} 
+                  onChange={handleChange} 
+                  name="textColor|pendingColor"
+                    title="Select Text Color"
+                    type="color"
+                    placeholder="#fffff"
+                    state={addEventData}
+                    childState={true}
                   ></Input>
                 </div>
               </div>
               <div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <Buttons
                     label="Preview"
                     className="btn-dark border-none"
                     style={{ height: "39px" }}
                   ></Buttons>
-                </div>
+                </div> */}
               </div>
             </div>
           </CardWithTitle>
@@ -146,6 +170,7 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
                   name="rebookingTimeOption"
                     title="Times Shown"
                     placeholder="Quarter Hour"
+                    state={addEventData}
                   ></DropDown>
                 </div>
               </div>
@@ -201,6 +226,7 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
                   sourceStyle={{ height: "30rem" }}
                   targetStyle={{ height: "30rem" }}
                 />
+                <div className="text-danger" style={{color:"red"}}>{addEventData?.formErrors?.deployedClubs}</div>
               </div>
             </div>
           </CardWithTitle>
@@ -208,7 +234,7 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
         <div className="mx-3">
-          <Buttons label="Next" className="btn-dark   border-none" onClick={()=>setActiveIndex(3)}></Buttons>
+          <Buttons label="Next" className="btn-dark   border-none" onClick={()=>nextFunc()}></Buttons>
         </div>
         <div className="">
           <Buttons label="Cancel" className="btn-grey   border-none" onClick={()=>setActiveIndex(1)}></Buttons>
