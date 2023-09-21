@@ -61,8 +61,7 @@ const validation = () => {
   };
 
   const notesValidation = (data) => {
-    console.log(data)
-    if(!data.note) {
+    if (!data.note) {
       errors.note = "Please enter a note"
     }
     return errors;

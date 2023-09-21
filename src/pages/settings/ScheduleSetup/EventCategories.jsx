@@ -91,6 +91,11 @@ const EventCategories = () => {
               <div className="mx-5">
                 <Buttons
                   onClick={() => {
+                    events = events.map((event) => ({
+                      _id: event._id,
+                      name: event.name,
+                    }));
+                    setCategoryPickList([...events]);
                     setShowEventCategories(false);
                   }}
                   className="btn-dark mx-4  border-none"
@@ -105,20 +110,6 @@ const EventCategories = () => {
               data={eventCategories}
               columns={EventCategoriescolumn}
             ></TableData>
-          </div>
-        </div>
-        <div className=" m-2 mt-3 flex justify-content-end">
-          <div className=" mx-4">
-            <Buttons
-              label="Save"
-              className="btn-dark mx-3 border-none"
-            ></Buttons>
-          </div>
-          <div className="">
-            <Buttons
-              label="Cancel"
-              className="btn-grey   border-none"
-            ></Buttons>
           </div>
         </div>
       </>

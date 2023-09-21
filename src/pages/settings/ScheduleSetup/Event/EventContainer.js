@@ -310,8 +310,6 @@ const EventContainer = () => {
     dispatch(addEvents(addEventData));
   }
 
-
-
   const deployhandle = (e, picklistName) => {
     let selectedValue = e.target;
     let newValue = []

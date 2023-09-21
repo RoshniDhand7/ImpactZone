@@ -242,9 +242,8 @@ export default function Index() {
 
     const onEditEventCategory = (data) => {
         setId(data._id);
-        console.log(categoryPicklist, data.events, filterOneArrayFromAnother(categoryPicklist, data.events))
         setCategoryPickList([
-            ...filterOneArrayFromAnother(categoryPicklist, data.events),
+            ...filterOneArrayFromAnother([...categoryPicklist], [...data.events]),
         ]);
         setEventCategory({ ...data });
         return setShowEventCategories(false);
