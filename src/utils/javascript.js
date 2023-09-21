@@ -82,3 +82,11 @@ export const booleanToString = (value) => JSON.stringify(value) === "true" ? "Ye
 export const FirstletterUpperCase = (value) => spaceBetweenWords(value.charAt(0).toUpperCase() + value.slice(1));
 
 export const spaceBetweenWords = (word) => word.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+export const filterOneArrayFromAnother = (arr1, arr2) => {
+    return arr1.filter(object1 => {
+        return !arr2.find(object2 => {
+            return JSON.stringify(object1) === JSON.stringify(object2);
+        });
+    });
+};

@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { addLocation, addLocationType, getLocations, getLocationTypes, updateLocation, updateLocationType } from "../../../redux/actions/locationsActions";
 import { showFormErrors } from "../../../utils/commonFunctions";
 import { allValidations } from "../../../utils/formValidations";
-import { stringToBoolean } from "../../../utils/javascript";
+import { filterOneArrayFromAnother, stringToBoolean } from "../../../utils/javascript";
 import { getClubs } from "../../../redux/actions/clubsActions";
-import { getEventsByType } from "../../../redux/actions/eventsActions";
+import { addEventCategory, getEventCategories, getEventsByType, updateEventCategory } from "../../../redux/actions/eventsActions";
 import { getEmployees } from "../../../redux/actions/employeesAction";
 import { addClassSchedule, getClassSchedules, updateClassSchedule } from "../../../redux/actions/classSchedulesAction";
+import { getEvents } from "../../../redux/actions/eventActions";
 
 export default function Index() {
     const navigate = useNavigate();
@@ -37,11 +38,11 @@ export default function Index() {
         assistantPay: null
     }]);
 
-    const [eventCategory, setEventCategory] = useState([{
+    const [eventCategory, setEventCategory] = useState({
         isActive: true,
         name: "",
         events: []
-    }]);
+    });
 
     const [classes, setClasses] = useState({
         event: null,
@@ -75,9 +76,12 @@ export default function Index() {
     let { employees } = useSelector((state) => state?.employees);
     let { eventsByType } = useSelector((state) => state?.events);
     let { classSchedules } = useSelector((state) => state?.classSchedules);
+    let { events } = useSelector((state) => state?.events);
+    let { eventCategories } = useSelector((state) => state?.events);
 
     let assistantsList = employees;
 
+    const [categoryPicklist, setCategoryPickList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showLocationType, setshowLocationType] = useState(false);
     const [showAddLocation, setShowAddLocation] = useState(false);
@@ -86,6 +90,7 @@ export default function Index() {
     const [deleteRow, setDeleteRow] = useState({});
     const [showDelete, setShowDelete] = useState(false);
     const [showAddClasses, setAddClasses] = useState();
+    const [showEventCategories, setShowEventCategories] = useState(true);
 
     useEffect(() => {
         dispatch(getLocationTypes(setLoading));
@@ -94,7 +99,14 @@ export default function Index() {
         dispatch(getEmployees(setLoading));
         dispatch(getEventsByType(setLoading, "Classes"));
         dispatch(getClassSchedules(setLoading));
+        dispatch(getEvents(setLoading));
+        dispatch(getEventCategories(setLoading));
     }, [dispatch]);
+
+    useEffect(() => {
+        events = events.map(event => ({ _id: event._id, name: event.name }));
+        setCategoryPickList([...events]);
+    }, [events])
 
     const handleLocationTypeChange = ({ name, value }) => {
         const formErrors = allValidations(name, value, locationType);
@@ -192,6 +204,30 @@ export default function Index() {
         }
     };
 
+    const onSaveEventCatgory = () => {
+        if (!showFormErrors(eventCategory, setEventCategory)) {
+            eventCategory.events = eventCategory.events.map(event => event._id)
+            setEventCategory(eventCategory);
+            if (id) {
+                dispatch(updateEventCategory(id, eventCategory, setLoading, null));
+                setId("");
+            } else {
+                dispatch(addEventCategory(eventCategory, setLoading, null));
+            }
+            setShowEventCategories(true);
+            return setEventCategory({
+                isActive: true,
+                name: "",
+                events: [],
+            });
+        }
+    };
+
+    const handleEventCategoriestChange = ({ name, value }) => {
+        const formErrors = allValidations(name, value, eventCategory);
+        setEventCategory((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
+
     const onEditLocationType = (data) => {
         setId(data._id);
         setLocationType({ ...data });
@@ -202,6 +238,15 @@ export default function Index() {
         setId(data._id);
         setLocation({ ...data });
         return setShowAddLocation(true);
+    };
+
+    const onEditEventCategory = (data) => {
+        setId(data._id);
+        setCategoryPickList([
+            ...filterOneArrayFromAnother([...categoryPicklist], [...data.events]),
+        ]);
+        setEventCategory({ ...data });
+        return setShowEventCategories(false);
     };
 
     const onEditClassSchedule = (data) => {
@@ -342,6 +387,16 @@ export default function Index() {
         showAddClasses,
         setAddClasses,
         onEditClassSchedule,
-        eventCategory
+        events,
+        eventCategory,
+        handleEventCategoriestChange,
+        categoryPicklist,
+        setCategoryPickList,
+        eventCategories,
+        onSaveEventCatgory,
+        showEventCategories,
+        setShowEventCategories,
+        onEditEventCategory,
+        setEventCategory
     };
 }

@@ -37,7 +37,11 @@ const constants = {
     getEventsByType: "events/getByType/",
     classSchedules: "class-schedules",
     updateClassSchedules: "class-schedules/update/",
-    deleteClassSchedule: "class-schedules/delete/"
+    deleteClassSchedule: "class-schedules/delete/",
+    getEventCategories: "events/categories",
+    addEventCategory: "events/category",
+    updatEventCategory: "events/category/update/",
+    deleteEventCategory: "events/category/delete/",
   },
 };
 
