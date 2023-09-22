@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addEvents, getEvents } from '../../../../redux/actions/eventActions'
+import { DeleteEvents, UpdateEvents, addEvents, getEvents } from '../../../../redux/actions/eventActions'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { getLocationTypes } from '../../../../redux/actions/locationsActions'
@@ -9,6 +9,7 @@ import { getLevels } from '../../../../redux/actions/levelsAction'
 import { getClubs } from '../../../../redux/actions/clubsActions'
 import FormValidation from '../../../../utils/AllFormValidation'
 import { showAllFormErrors } from '../../../../utils/commonFunctions'
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const EventContainer = () => {
     const dispatch = useDispatch()
@@ -23,22 +24,84 @@ const EventContainer = () => {
     const[serviceDetailIndex,setServiceDetailIndex] = useState();
     const [showEventSetups, setShowEventSetups] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const[isEdit,setIsEdit] = useState(null)
     const [required,setRequired] = useState(["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"])
     
     console.log("activeIndex",activeIndex)
+    console.log("setIsactive",isEdit)
     // const [locationType,setLocationType] = useState([])
     // const locationTypeOptions = useSelector((state)=>state.locations.locationTypes)
+    const deleteConfirm = (id) => {
+      
+      confirmDialog({
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClassName: "p-button-danger",
+        rejectClassName: "cancel-button",
+        accept: () => acceptFunc(id),
+        reject,
+      });
+    };
+    const acceptFunc = (id) => {
+      dispatch(DeleteEvents(id)).then((data)=>{console.log("data",data);if(data.success){dispatch(getEvents());const myTimeout = setTimeout(()=>setShowEventSetups(false), 1000)}})
+    };
+  
+    const reject = () => {};
+    const ActionEditDelete = (rowData) => {
+      return (
+        <>
+          <div className="flex justify-content-end">
+            <span className="mx-2" onClick={()=>setIsEdit(rowData)}>
+              <i className="pi pi-pencil"></i>
+            </span>
+  
+            <span onClick={()=>deleteConfirm(rowData?._id)}>
+              <i className="pi pi-trash"></i>
+            </span>
+          </div>
+        </>
+      );
+    };
+    const InternalTemplate = (rowData) => {
+      return (
+        <>
+        <div className="flex">
+          {rowData.internalUse===true ? "Yes" : "No" }
+        </div>
+        </>
+      )
+    }
+  
+    const MappedServiceTemplate = (rowData) => {
+      return(
+        <div>
+          {rowData?.services?.length>0 ? "Yes" : "No"}
+        </div>
+      )
+    }
+  
+    const LocationTemplate = (rowData) => {
+      return (
+        <>
+        <div className="flex">
+          {rowData?.locationType?.name}
+        </div>
+        </>
+      )
+    }
+
     const Eventcolumn = [
-      { field: "internalUse", header: "Internal Use", body:"InternalTemplate"},
+      { field: "", header: "Internal Use", body:InternalTemplate},
       { field: "type", header: "Category" },
       { field: "name", header: "Name" },
       { field: "colors", header: "Colors", body: "SampleText" },
-      { field: "locationtype", header: "Location Type", body:"LocationTemplate"},
-      { field: "mappedServices", header: "Mapped To Services", body:"MappedServiceTemplate"},
-      { field: "", header: "", body: "ActionEditDelete" },
+      { field: "", header: "Location Type", body:LocationTemplate},
+      { field: "", header: "Mapped To Services", body:MappedServiceTemplate},
+      { field: "", header: "", body: ActionEditDelete },
     ];
 
-
+const [initialData,setInitialData] = useState({})
 const [addEventData,setAddEventData] = useState(
   {   isActive:true,
     name: "",
@@ -107,6 +170,9 @@ const [addEventData,setAddEventData] = useState(
 }
 )
 
+
+console.log("initialDatain container",initialData)
+
 console.log("addEventData",addEventData)
 
 // const required = ["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","pendingColor","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"]
@@ -116,7 +182,7 @@ const handleChange = (e,picklistName) => {
 const {name,value} = e?.target;
 console.log("nameeeee",name,value)
 if(picklistName?.includes("|picker")){
-  const formErrors = FormValidation(picklistName.split("|")[0], e.target, addEventData,required);
+  const formErrors = FormValidation(picklistName.split("|")[0], e.target, addEventData,required,initialData);
   
   setAddEventData((prev)=>{
     return {
@@ -131,7 +197,7 @@ else if(name.includes('|')){
   let newValue = {
     [name.split("|")[0]]:value
   }
-  const formErrors = FormValidation(name.split("|")[1], newValue, addEventData,required);
+  const formErrors = FormValidation(name.split("|")[1], newValue, addEventData,required,initialData);
   console.log("formErorsin handlechange",formErrors)
   setAddEventData((prev)=>{
     return{
@@ -147,7 +213,7 @@ else if(name.includes('|')){
 }
 else{
   console.log("elseeeename",name,value)
-  const formErrors = FormValidation(name, "notempty", addEventData,required);
+  const formErrors = FormValidation(name, value, addEventData,required,initialData);
   setAddEventData((prev)=>{
     return{
       ...prev,
@@ -162,7 +228,7 @@ else{
 
 const isActiveHandle = (e) => {
   const {name,value} = e;
-  const formErrors = FormValidation(name, value, addEventData,required);
+  const formErrors = FormValidation(name, value, addEventData,required,initialData);
   setAddEventData((prev)=>{
     return{
       ...prev,
@@ -254,7 +320,7 @@ console.log("dashArray",dashArray)
   // array.push(obj)
   // })
 
-  const formErrors = FormValidation("services", dashArray, addEventData,required);
+  const formErrors = FormValidation("services", dashArray, addEventData,required,initialData);
   setAddEventData((prev)=>{
     return{
 ...prev,
@@ -331,8 +397,13 @@ const changePosition = (value) => {
   
 
   const submit = () => {
-    if(showAllFormErrors(addEventData, setAddEventData,required)){
-      dispatch(addEvents(addEventData)).then((data)=>{console.log("data",data);dispatch(getEvents());setShowEventSetups(false)})
+    if(showAllFormErrors(addEventData, setAddEventData,required,initialData)){
+      if(isEdit){
+        dispatch(UpdateEvents(addEventData)).then((data)=>{if(data.success){console.log("data",data);dispatch(getEvents());const myTimeout = setTimeout(()=>setShowEventSetups(false), 1000)}})
+      }else{
+        dispatch(addEvents(addEventData)).then((data)=>{if(data.success){console.log("data",data);dispatch(getEvents());const myTimeout = setTimeout(()=>setShowEventSetups(false), 1000)}})
+      }
+      
     }
     else{
       window.scrollTo({
@@ -353,7 +424,7 @@ const changePosition = (value) => {
     selectedValue.map((item)=>{
       newValue.push(item._id)
     })
-    const formErrors = FormValidation(picklistName.split("|")[0], newValue, addEventData,required);
+    const formErrors = FormValidation(picklistName.split("|")[0], newValue, addEventData,required,initialData);
     setAddEventData((prev)=>{
       return {
         ...prev,
@@ -378,6 +449,49 @@ const changePosition = (value) => {
       setClubSource(allClubs)
       
     }, [allClubs])
+
+    useEffect(() => {
+      setInitialData(addEventData)
+    }, [])
+
+    useEffect(() => {
+     if(isEdit){
+      let ServiceSelectBox = []
+      
+      isEdit?.services?.map((item)=>{
+        console.log("itemInside",item)
+        let objLevel = {
+          ...item.level,
+          employees:[]
+        }
+        ServiceSelectBox.push(objLevel)
+      })
+      let objNew = {}
+      Object.keys(isEdit).map((item)=>{
+        console.log("item",item)
+        // if(isEdit[item]==true){
+        //   objNew[item] = "true"
+        // }
+        // else if(isEdit[item]==false){
+        //   objNew[item] = "false"
+        // }
+        // else{
+          objNew[item] = isEdit[item]
+        // }
+      })
+
+let obj = {
+  ...objNew,
+  serviceSelectbox:ServiceSelectBox,
+  deployedClubPickerOption:isEdit.deployedClubs
+}
+console.log("obj",obj)
+setAddEventData(obj)
+setShowEventSetups(true)
+     }
+    }, [isEdit])
+    
+    
 
     useEffect(() => {
       if(activeIndex===0){
@@ -431,7 +545,9 @@ const changePosition = (value) => {
     setAddEventData,
     required,
     activeIndex,
-    setActiveIndex
+    setActiveIndex,
+    initialData,
+    // setIsEdit
   }
 }
 

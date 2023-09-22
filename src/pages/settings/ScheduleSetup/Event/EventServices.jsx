@@ -8,7 +8,7 @@ import MuliSelectDropDown from "../../../../components/dropdown/muliSelectDropDo
 import { useSelector } from "react-redux";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 
-const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition,DeleteAllService,setAddEventData,required}) => {
+const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,setActiveIndex,setIndexFunc,serviceIndex,serviceDetailIndex,DeleteService,changePosition,DeleteAllService,setAddEventData,required,initialData}) => {
   const [showAddService, setShowAddService] = useState();
   const levelData = useSelector((state)=>state.levelData.levels)
   const openAddService = (index) => {
@@ -19,8 +19,8 @@ const EventServices = ({addEventData,handleChange,serviceSelectHandle,setLevelIn
   };
 
   const nextFunc = () => {
-    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required))
-    if(showAllFormErrors(addEventData, setAddEventData,required)==true){
+    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required,initialData))
+    if(showAllFormErrors(addEventData, setAddEventData,required,initialData)==true){
       setActiveIndex(2)
     }
   }

@@ -35,12 +35,12 @@ const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) =
                     HtmlFor=""
                     className="text-xs text-dark-gray   font-semibold "
                   >
-                    Message (100/100)
+                    {`Message (${addEventData?.eventReminder?.message?.length}/100)`}
                   </label>
 
                   <InputTextarea
                     // value={value}
-                    value={addEventData.eventReminder.message} onChange={handleChange} name="message|eventReminder"
+                    value={addEventData.eventReminder.message} onChange={addEventData?.eventReminder?.message?.length==100? null :handleChange} name="message|eventReminder"
                     // onChange={(e) => setValue(e.target.value)}
                     style={{ width: "100%", height: "155px" }}
                   />
