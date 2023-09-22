@@ -9,7 +9,7 @@ import Buttons from "../../../../components/buttons/button";
 import { useSelector } from "react-redux";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 
-const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle,setAddEventData,required}) => {
+const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle,setAddEventData,required,initialData}) => {
   const EventOptions = useSelector((state)=>state.staticData.EventType)
   const choiceTypeOptions = useSelector((state)=>state.staticData.choiceType)
   const NumberchoiceTypeOption = useSelector((state)=>state.staticData.NumberchoiceType)
@@ -20,7 +20,7 @@ const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle,s
   console.log("durationOptions",durationOptions)
   let lessThanOption = []
   for (let i = 0; i <= 30; i++) {
-   let obj = {label:`${i}`,value:`${i}`}
+   let obj = {label:`${i}`,value:i}
    lessThanOption.push(obj)
   }
   const itemTemplate = (item) => {
@@ -34,8 +34,8 @@ const EventGeneral = ({addEventData,handleChange,setActiveIndex,isActiveHandle,s
   };
 
   const nextFunc = () => {
-    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required))
-    if(showAllFormErrors(addEventData, setAddEventData,required)==true){
+    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required,initialData))
+    if(showAllFormErrors(addEventData, setAddEventData,required,initialData)==true){
       setActiveIndex(1)
     }
   }

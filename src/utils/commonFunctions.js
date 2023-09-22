@@ -41,12 +41,13 @@ export const getSearchedData = (arr, keyword, keys) => {
     return arr;
 };
 
-export const showAllFormErrors = (data, setData,required) => {
+export const showAllFormErrors = (data, setData,required,initialData) => {
+    console.log("initialDataa",initialData)
     let formErrors = {};
     entries(data).forEach(([key, value]) => {
         formErrors = {
             ...formErrors,
-            ...FormValidation(key, value, data,required),
+            ...FormValidation(key, value, data,required,initialData),
         };
     });
 
@@ -67,7 +68,10 @@ export const showAllFormErrors = (data, setData,required) => {
                 }
             }
             else{
-                if(!values(item).some((v) => notEqual(v, ""))){
+                if(item==null){
+                    bolean=true
+                }
+                else if(!values(item).some((v) => notEqual(v, ""))){
                     bolean = true;
                     console.log("boleanInObjectFalse",item,bolean)
                 }

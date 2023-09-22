@@ -8,7 +8,7 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import { useSelector } from "react-redux";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 
-const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,clubSource,setAddEventData,required}) => {
+const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,clubSource,setAddEventData,required,initialData}) => {
   const calendarOptions = useSelector((state)=>state.staticData.calendarDisplay)
   const calendarPopOptions = useSelector((state)=>state.staticData.popupDisplay)
   // const deployedOptions = useSelector((state)=>state.staticData.deployedClubs)
@@ -38,8 +38,8 @@ const DisplayOptions = ({addEventData,handleChange,setActiveIndex,deployhandle,c
   }
 
   const nextFunc = () => {
-    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required))
-    if(showAllFormErrors(addEventData, setAddEventData,required)==true){
+    console.log("testinggg",showAllFormErrors(addEventData, setAddEventData,required,initialData))
+    if(showAllFormErrors(addEventData, setAddEventData,required,initialData)==true){
       setActiveIndex(3)
     }
   }

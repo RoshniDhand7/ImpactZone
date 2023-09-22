@@ -49,33 +49,7 @@ const TableData = ({
     );
   };
 
-  const InternalTemplate = (rowData) => {
-    return (
-      <>
-      <div className="flex">
-        {rowData.internalUse===true ? "Yes" : "No" }
-      </div>
-      </>
-    )
-  }
-
-  const MappedServiceTemplate = (rowData) => {
-    return(
-      <div>
-        {rowData?.services?.length>0 ? "Yes" : "No"}
-      </div>
-    )
-  }
-
-  const LocationTemplate = (rowData) => {
-    return (
-      <>
-      <div className="flex">
-        {rowData?.locationType?.name}
-      </div>
-      </>
-    )
-  }
+ 
 
 
   const onPageChangeEvent = (event) => {

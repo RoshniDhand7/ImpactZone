@@ -5,7 +5,7 @@ import Buttons from "../../../../components/buttons/button";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useSelector } from "react-redux";
 
-const EventOnline = ({addEventData,handleChange,setActiveIndex}) => {
+const EventOnline = ({addEventData,handleChange,setActiveIndex,initialData}) => {
   const choiceTypeOptions = useSelector((state)=>state.staticData.choiceType)
   let atLeastOption = []
   for (let i = 0; i <= 24; i++) {

@@ -34,6 +34,8 @@ const constants = {
     updateLocation: "locations/update/",
     deleteLocation: "locations/delete/",
     allEvents: "events",
+    UpdateEvent:"events/update/",
+    DeleteEvent:"events/delete/",
     getEventsByType: "events/getByType/",
     classSchedules: "class-schedules",
     updateClassSchedules: "class-schedules/update/",

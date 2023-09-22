@@ -7,11 +7,12 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import EventSetup from "./EventSetups";
 import EventContainer from "./EventContainer";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 const EventSetups = () => {
   const {EventData,Eventcolumn,addEventData,handleChange,serviceSelectHandle,setLevelIndex,serviceHandleChange,serviceAddRow,selectedRow,isActiveHandle,submit,setIndexFunc,
     serviceIndex,
-    serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition,DeleteAllService,setShowEventSetups,showEventSetups,setAddEventData,required,activeIndex,setActiveIndex} = EventContainer()
+    serviceDetailIndex,deployhandle,clubSource,DeleteService,changePosition,DeleteAllService,setShowEventSetups,showEventSetups,setAddEventData,required,activeIndex,setActiveIndex,initialData} = EventContainer()
   
  
   // const eventdata = [
@@ -62,10 +63,11 @@ const EventSetups = () => {
   return (
     <>
       {showEventSetups ? (
-        <EventSetup addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} isActiveHandle={isActiveHandle} submit={submit}  setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} deployhandle={deployhandle} clubSource={clubSource} DeleteService={DeleteService} changePosition={changePosition} DeleteAllService={DeleteAllService} setAddEventData={setAddEventData} required={required} activeIndex={activeIndex} setActiveIndex={setActiveIndex}/>
+        <EventSetup addEventData={addEventData} handleChange={handleChange} serviceSelectHandle={serviceSelectHandle} setLevelIndex={setLevelIndex} serviceHandleChange={serviceHandleChange} serviceAddRow={serviceAddRow} selectedRow={selectedRow} isActiveHandle={isActiveHandle} submit={submit}  setIndexFunc={setIndexFunc} serviceIndex={serviceIndex} serviceDetailIndex={serviceDetailIndex} deployhandle={deployhandle} clubSource={clubSource} DeleteService={DeleteService} changePosition={changePosition} DeleteAllService={DeleteAllService} setAddEventData={setAddEventData} required={required} activeIndex={activeIndex} setActiveIndex={setActiveIndex} initialData={initialData}/>
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className="bg-lightest-blue border-round-lg px-3 py-2 flex justify-content-between align-items-center ">
               <div className=" flex align-items-center">
                 <div className="col-6 ">
@@ -97,7 +99,7 @@ const EventSetups = () => {
               </div>
             </div>
             <div className="mt-2">
-              <TableData data={EventData} columns={Eventcolumn}></TableData>
+              <TableData data={EventData} columns={Eventcolumn} ></TableData>
             </div>
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">

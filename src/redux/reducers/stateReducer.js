@@ -5,8 +5,8 @@ const intitalState = {
     { label: "Classes", value: "Classes" },
   ],
   choiceType: [
-    { label: "Yes", value: "true" },
-    { label: "No", value: "false" },
+    { label: "Yes", value: true },
+    { label: "No", value: false },
   ],
   NumberchoiceType: [
     { label: "1", value: "1" },
