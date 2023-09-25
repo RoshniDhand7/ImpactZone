@@ -153,7 +153,7 @@ const Classes = () => {
                         title="Start Date"
                         placeholder="11/08/1998"
                         onChange={handleClassesChange}
-                        value={moment(classes.startDate).format("yyyy-MM-DD")}
+                        value={classes.startDate}
                       ></Input>
                     </div>
                     <div className="col-4">
@@ -163,7 +163,8 @@ const Classes = () => {
                         title="End Date"
                         placeholder="11/08/1998"
                         onChange={handleClassesChange}
-                        value={moment(classes.endDate).format("yyyy-MM-DD")}
+                        minDate={classes.startDate}
+                        value={classes.endDate}
                         disabled={classes.indefinite}
                       ></Input>
                     </div>
@@ -178,7 +179,6 @@ const Classes = () => {
                     </div>
                   </div>
                   {schedules.map((schedule, index) => {
-                    console.log(schedule);
                     return (
                       <div className="flex align-items-end mt-3">
                         <div className="col-4">

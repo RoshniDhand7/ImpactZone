@@ -127,9 +127,9 @@ export default function Index() {
         };
         setSchedules([...schedules]);
 
-        if (name === 'days') {
-            disableEnableWeekDays();
-        }
+        // if (name === 'days') {
+        //     disableEnableWeekDays();
+        // }
     };
 
     const handleAssistantChange = ({ name, value, index }) => {
@@ -163,6 +163,10 @@ export default function Index() {
         const formErrors = allValidations(name, value, classes);
         if (name === "staff") {
             classes.pay = value.payments[value.defaultPay - 1];
+        }
+        if (name === 'event') {
+            classes.totalCapacity = value?.defaulatMaxAttendees;
+            classes.waitListCapacity = value?.maxWaitList;
         }
         if (name === "indefinite" && value) classes.endDate = "";
 

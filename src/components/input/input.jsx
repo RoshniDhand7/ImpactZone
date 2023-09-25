@@ -2,6 +2,7 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { InputNumber } from "primereact/inputnumber";
+import { Calendar } from "primereact/calendar";
 
 const Input = ({
   id,
@@ -27,7 +28,8 @@ const Input = ({
   onKeyDown,
   name,
   state,
-  childState
+  childState,
+  minDate,
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -57,6 +59,29 @@ const Input = ({
             minFractionDigits={minFractionDigits}
             type="number"
             disabled={disabled}
+          />
+        ) : type === "date" ? (
+          <Calendar
+            id={id}
+            style={{ width: width ? width : "100%" }}
+            placeholder={placeholder}
+            icon={icon}
+            name={name}
+            type={type}
+            value={value}
+            maxLength={maxLength}
+            onChange={(e) =>
+              onChange &&
+              onChange({
+                ...e,
+                name: e.target.name,
+                value: e.target.value,
+                index: id,
+              })
+            }
+            minDate={minDate}
+            disabled={disabled}
+            // onKeyDown={onKeyDown}
             onKeyDown={
               type === "date"
                 ? (e) => e.preventDefault()
@@ -85,14 +110,6 @@ const Input = ({
               })
             }
             disabled={disabled}
-            // onKeyDown={onKeyDown}
-            onKeyDown={
-              type === "date"
-                ? (e) => e.preventDefault()
-                : onKeyDown
-                ? onKeyDown
-                : ""
-            }
           ></InputText>
         )}
 
@@ -114,7 +131,15 @@ const Input = ({
           ""
         )} */}
       </span>
-      {childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
+      {childState ? (
+        <div className="text-danger" style={{ color: "red" }}>
+          {state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}
+        </div>
+      ) : (
+        <div className="text-danger" style={{ color: "red" }}>
+          {state?.formErrors?.[name]}
+        </div>
+      )}
       {/* <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div> */}
     </div>
   );
