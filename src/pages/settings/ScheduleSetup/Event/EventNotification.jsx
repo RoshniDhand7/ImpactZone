@@ -6,12 +6,17 @@ import { useState } from "react";
 import Buttons from "../../../../components/buttons/button";
 import { useSelector } from "react-redux";
 
-const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) => {
-  const choiceTypeOptions = useSelector((state)=>state.staticData.choiceType)
-  let atLeastOption = []
+const EventNotifications = ({
+  addEventData,
+  handleChange,
+  setActiveIndex,
+  submit,
+}) => {
+  const choiceTypeOptions = useSelector((state) => state.staticData.choiceType);
+  let atLeastOption = [];
   for (let i = 0; i <= 24; i++) {
-   let obj = {label:`${i} Hours`,value:`${i} Hours`}
-   atLeastOption.push(obj)
+    let obj = { label: `${i} Hours`, value: `${i} Hours` };
+    atLeastOption.push(obj);
   }
   const [value, setValue] = useState("");
   return (
@@ -23,10 +28,24 @@ const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) =
             <div className="p-3">
               <div className="flex">
                 <div className="col-3">
-                  <DropDown title="Sent Event Notifications" value={addEventData.eventReminder.sendEventNotification} options={choiceTypeOptions} optionLabel="label" onChange={handleChange} name="sendEventNotification|eventReminder"></DropDown>
+                  <DropDown
+                    title="Sent Event Notifications"
+                    value={addEventData.eventReminder.sendEventNotification}
+                    options={choiceTypeOptions}
+                    optionLabel="label"
+                    onChange={handleChange}
+                    name="sendEventNotification|eventReminder"
+                  ></DropDown>
                 </div>
                 <div className="col-3">
-                  <DropDown title="Time before event to send text" value={addEventData.eventReminder.timeBeforeEventToSendText} options={atLeastOption} optionLabel="label" onChange={handleChange} name="timeBeforeEventToSendText|eventReminder"></DropDown>
+                  <DropDown
+                    title="Time before event to send text"
+                    value={addEventData.eventReminder.timeBeforeEventToSendText}
+                    options={atLeastOption}
+                    optionLabel="label"
+                    onChange={handleChange}
+                    name="timeBeforeEventToSendText|eventReminder"
+                  ></DropDown>
                 </div>
               </div>
               <div className="col">
@@ -40,7 +59,13 @@ const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) =
 
                   <InputTextarea
                     // value={value}
-                    value={addEventData.eventReminder.message} onChange={addEventData?.eventReminder?.message?.length==100? null :handleChange} name="message|eventReminder"
+                    value={addEventData.eventReminder.message}
+                    onChange={
+                      addEventData?.eventReminder?.message?.length == 100
+                        ? null
+                        : handleChange
+                    }
+                    name="message|eventReminder"
                     // onChange={(e) => setValue(e.target.value)}
                     style={{ width: "100%", height: "155px" }}
                   />
@@ -53,7 +78,14 @@ const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) =
           <CardWithTitle title="Cancellation">
             <div className="p-3">
               <div className="col-3">
-                <DropDown title="Send cancel link with text" value={addEventData.eventReminder.sendCancelLink} options={choiceTypeOptions} optionLabel="label" onChange={handleChange} name="sendCancelLink|eventReminder"></DropDown>
+                <DropDown
+                  title="Send cancel link with text"
+                  value={addEventData.eventReminder.sendCancelLink}
+                  options={choiceTypeOptions}
+                  optionLabel="label"
+                  onChange={handleChange}
+                  name="sendCancelLink|eventReminder"
+                ></DropDown>
               </div>
             </div>
           </CardWithTitle>
@@ -63,12 +95,16 @@ const EventNotifications = ({addEventData,handleChange,setActiveIndex,submit}) =
         <div className="mt-3 mx-4">
           <Buttons
             label="Save"
-            onClick={()=>submit()}
+            onClick={() => submit()}
             className="btn-dark mx-3   border-none"
           ></Buttons>
         </div>
         <div className="mt-3">
-          <Buttons label="Cancel" className="btn-grey   border-none" onClick={()=>setActiveIndex(3)}></Buttons>
+          <Buttons
+            label="Cancel"
+            className="btn-grey   border-none"
+            onClick={() => setActiveIndex(3)}
+          ></Buttons>
         </div>
       </div>
     </>
