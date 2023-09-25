@@ -48,7 +48,8 @@ const intitalState = {
     { label: "Event Start", value: "Event Start" },
     { label: "Event End", value: "Event End" },
   ],
-  duration: [40, 45, 50, 55, 60, 65,],
+  // duration: [40, 45, 50, 55, 60, 65,],
+  duration: [],
   calendarDisplay: ["Member Name", "Event", "Status", "Employee Name", "Enrolled / Max Attendee", "Duration", "Level", "Location"],
   popupDisplay: ["Member Name", "Event", "Status", "Employee Name", "Enrolled / Max Attendee", "Duration", "Level", "Location"],
   rebookingTimeOption: [
@@ -58,6 +59,20 @@ const intitalState = {
   ],
   deployedClubs: ["Member Name", "Event", "Status", "Employee Name", "Enrolled / Max Attendee", "Duration", "Level", "Location"],
 };
+
+// let array = [];
+let increment = 1;
+for (let i = 1; i <= 180; i += increment) {
+  if (i < 20) {
+    intitalState.duration.push(i);
+  } else if (i >= 20 && i < 75) {
+    increment = 5;
+    intitalState.duration.push(i);
+  } else {
+    increment = 15;
+    intitalState.duration.push(i);
+  }
+}
 
 const stateReducer = (state = intitalState, action) => {
   switch (action.type) {
