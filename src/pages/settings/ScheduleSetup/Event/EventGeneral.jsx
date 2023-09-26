@@ -41,7 +41,7 @@ const EventGeneral = ({
   );
   const durationOptions = useSelector((state) => state.staticData.duration);
   const [visible, setVisible] = useState(false);
-  console.log("durationOptions", durationOptions);
+  // console.log("durationOptions", durationOptions);
   let lessThanOption = [];
   for (let i = 0; i <= 30; i++) {
     let obj = { label: `${i}`, value: i };
@@ -58,12 +58,13 @@ const EventGeneral = ({
   };
 
   const nextFunc = () => {
-    console.log(
-      "testinggg",
-      showAllFormErrors(addEventData, setAddEventData, required, initialData)
-    );
+    let addEventDataremoveError = {
+      ...addEventData,
+      formErrors:{}
+    }
+    
     if (
-      showAllFormErrors(addEventData, setAddEventData, required, initialData) ==
+      showAllFormErrors(addEventDataremoveError, setAddEventData, required, initialData) ==
       true
     ) {
       setActiveIndex(1);
@@ -71,12 +72,12 @@ const EventGeneral = ({
   };
 
   const backfunct = () => {
-    setAddEventData((prev) => {
-      return {
-        ...prev,
-        formErrors: {},
-      };
-    });
+    // setAddEventData((prev) => {
+    //   return {
+    //     ...prev,
+    //     formErrors: {},
+    //   };
+    // });
     setShowEventSetups(false)
   }
 

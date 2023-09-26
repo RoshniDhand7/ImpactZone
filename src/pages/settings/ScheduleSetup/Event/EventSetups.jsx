@@ -56,18 +56,21 @@ const EventSetup = ({
             onTabChange={(e) => {
               if (activeIndex > e.index) {
                 setActiveIndex(e.index);
-                setAddEventData((prev) => {
-                  return {
-                    ...prev,
-                    formErrors: {},
-                  };
-                });
+                // setAddEventData((prev) => {
+                //   return {
+                //     ...prev,
+                //     formErrors: {},
+                //   };
+                // });
                 //setFormErrorEmpty
               } else {
-                console.log("required", required);
+                let addEventDataremoveError = {
+                  ...addEventData,
+                  formErrors:{}
+                }
                 if (
                   showAllFormErrors(
-                    addEventData,
+                    addEventDataremoveError,
                     setAddEventData,
                     required,
                     initialData
