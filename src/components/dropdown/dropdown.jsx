@@ -15,7 +15,7 @@ const DropDown = ({
   state,
   childState,
 }) => {
-  console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
+  // console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
   return (
     <div className="flex flex-column gap-2">
       <label className="text-xs text-dark-gray font-semibold">

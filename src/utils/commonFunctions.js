@@ -42,7 +42,7 @@ export const getSearchedData = (arr, keyword, keys) => {
 };
 
 export const showAllFormErrors = (data, setData, required, initialData) => {
-  console.log("initialDataa", initialData);
+  // console.log("initialDataa", initialData);
   let formErrors = {};
   entries(data).forEach(([key, value]) => {
     formErrors = {
@@ -51,48 +51,48 @@ export const showAllFormErrors = (data, setData, required, initialData) => {
     };
   });
 
-  console.log("showerror", formErrors);
+  // console.log("showerror", formErrors);
   setData({ ...data, formErrors });
   let bolean;
   values(formErrors).map((item) => {
     if (bolean == false) {
       return;
     }
-    console.log("item", item);
+    // console.log("item", item);
     if (typeof item === "object") {
       if (Array.isArray(item)) {
         if (item.length != 0) {
           bolean = false;
-          console.log("boleanInArrayFalse", item, bolean);
+          // console.log("boleanInArrayFalse", item, bolean);
           return;
         } else {
           bolean = true;
-          console.log("boleanInArrayTrue", item, bolean);
+          // console.log("boleanInArrayTrue", item, bolean);
         }
       } else {
         if (item == null) {
           bolean = true;
         } else if (!values(item).some((v) => notEqual(v, ""))) {
           bolean = true;
-          console.log("boleanInObjectFalse", item, bolean);
+          // console.log("boleanInObjectFalse", item, bolean);
         } else {
           bolean = false;
-          console.log("boleanInObjectTrue", item, bolean);
+          // console.log("boleanInObjectTrue", item, bolean);
           return;
         }
       }
     } else {
       if (item.length == 0) {
-        console.log("boleanInSimpleFalse", item, bolean);
+        // console.log("boleanInSimpleFalse", item, bolean);
         bolean = true;
       } else {
         bolean = false;
-        console.log("boleanInSimpleTrue", item, bolean);
+        // console.log("boleanInSimpleTrue", item, bolean);
         return;
       }
     }
   });
-  console.log("bolean", bolean);
+  // console.log("bolean", bolean);
   // return !values(formErrors).some((v) => notEqual(v, ""));
   return bolean;
 };

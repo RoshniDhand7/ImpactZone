@@ -37,12 +37,12 @@ const EventServices = ({
   };
 
   const nextFunc = () => {
-    console.log(
-      "testinggg",
-      showAllFormErrors(addEventData, setAddEventData, required, initialData)
-    );
+    let addEventDataremoveError = {
+      ...addEventData,
+      formErrors:{}
+    }
     if (
-      showAllFormErrors(addEventData, setAddEventData, required, initialData) ==
+      showAllFormErrors(addEventDataremoveError, setAddEventData, required, initialData) ==
       true
     ) {
       setActiveIndex(2);
@@ -50,12 +50,12 @@ const EventServices = ({
   };
 
   const backFunc = () => {
-    setAddEventData((prev) => {
-      return {
-        ...prev,
-        formErrors: {},
-      };
-    });
+    // setAddEventData((prev) => {
+    //   return {
+    //     ...prev,
+    //     formErrors: {},
+    //   };
+    // });
     setActiveIndex(0);
   };
 
@@ -566,6 +566,8 @@ const EventServices = ({
           <div>
             <TableData
               sorting
+              paginator
+              rows={5}
               // selected={addEventData.services.detail}
               selected={selectedRow}
               // changeSelection={(e)=>serviceHandleChange(e)}

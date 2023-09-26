@@ -26,12 +26,12 @@ const EventOnline = ({
   }
 
   const backFunc = () => {
-    setAddEventData((prev) => {
-      return {
-        ...prev,
-        formErrors: {},
-      };
-    });
+    // setAddEventData((prev) => {
+    //   return {
+    //     ...prev,
+    //     formErrors: {},
+    //   };
+    // });
     setActiveIndex(2);
   };
 

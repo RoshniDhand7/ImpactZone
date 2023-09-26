@@ -18,6 +18,7 @@ const TableData = ({
   first,
   setFirst,
   count,
+  paginator,
 
   setCurrentPage,
 }) => {
@@ -81,6 +82,8 @@ const TableData = ({
       <div className="card shadow-4">
         <DataTable
           value={data}
+          paginator={paginator ? true : false}
+          rows={rows ? rows : null}
           responsiveLayout="scroll"
           selectionMode={"checkbox"}
           delRow={delRow}

@@ -30,7 +30,7 @@ const DisplayOptions = ({
   );
   // const allClubs = useSelector((state)=>state.clubs.clubs)
   //   console.log("clubs",allClubs)
-  console.log("display", calendarOptions);
+  // console.log("display", calendarOptions);
 
   const itemTemplate = (item) => {
     return (
@@ -53,12 +53,12 @@ const DisplayOptions = ({
   };
 
   const nextFunc = () => {
-    console.log(
-      "testinggg",
-      showAllFormErrors(addEventData, setAddEventData, required, initialData)
-    );
+    let addEventDataremoveError = {
+      ...addEventData,
+      formErrors:{}
+    }
     if (
-      showAllFormErrors(addEventData, setAddEventData, required, initialData) ==
+      showAllFormErrors(addEventDataremoveError, setAddEventData, required, initialData) ==
       true
     ) {
       setActiveIndex(3);
@@ -66,12 +66,12 @@ const DisplayOptions = ({
   };
 
   const backFunc = () => {
-    setAddEventData((prev) => {
-      return {
-        ...prev,
-        formErrors: {},
-      };
-    });
+    // setAddEventData((prev) => {
+    //   return {
+    //     ...prev,
+    //     formErrors: {},
+    //   };
+    // });
     setActiveIndex(1);
   };
 

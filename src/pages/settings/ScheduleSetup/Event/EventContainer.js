@@ -15,12 +15,13 @@ import { getClubs } from "../../../../redux/actions/clubsActions";
 import FormValidation from "../../../../utils/AllFormValidation";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { showToast } from "../../../../redux/actions/toastAction";
 
 const EventContainer = () => {
   const dispatch = useDispatch();
   const EventData = useSelector((state) => state.events.events);
   const allClubs = useSelector((state) => state.clubs.clubs);
-  console.log("clubs", allClubs);
+  // console.log("clubs", allClubs);
   const [clubSource, setClubSource] = useState([]);
   const [levelIndex, setLevelIndex] = useState();
   const [selectedRow, setSelectedRow] = useState([]);
@@ -52,8 +53,8 @@ const EventContainer = () => {
     (state) => state.staticData.popupDisplay
   );
 
-  console.log("activeIndex", activeIndex);
-  console.log("setIsactive", isEdit);
+  // console.log("activeIndex", activeIndex);
+  // console.log("setIsactive", isEdit);
   // const [locationType,setLocationType] = useState([])
   // const locationTypeOptions = useSelector((state)=>state.locations.locationTypes)
   const deleteConfirm = (id) => {
@@ -69,7 +70,7 @@ const EventContainer = () => {
   };
   const acceptFunc = (id) => {
     dispatch(DeleteEvents(id)).then((data) => {
-      console.log("data", data);
+      // console.log("data", data);
       if (data.success) {
         dispatch(getEvents());
         const myTimeout = setTimeout(() => setShowEventSetups(false), 1000);
@@ -193,16 +194,16 @@ const EventContainer = () => {
     },
   });
 
-  console.log("initialDatain container", initialData);
+  // console.log("initialDatain container", initialData);
 
-  console.log("addEventData", addEventData);
+  // console.log("addEventData", addEventData);
 
   // const required = ["name","type","internalUse","locationType","defaulatMaxAttendees","eventCommType","availableOnline","pendingColor","requiredToCreate","requiredToComplete","bookingAndCancellation","durations"]
 
   const handleChange = (e, picklistName) => {
-    console.log("e", e);
+    // console.log("e", e);
     const { name, value } = e?.target;
-    console.log("nameeeee", name, value);
+    // console.log("nameeeee", name, value);
     if (picklistName?.includes("|picker")) {
       const formErrors = FormValidation(
         picklistName.split("|")[0],
@@ -231,7 +232,7 @@ const EventContainer = () => {
         required,
         initialData
       );
-      console.log("formErorsin handlechange", formErrors);
+      // console.log("formErorsin handlechange", formErrors);
       setAddEventData((prev) => {
         return {
           ...prev,
@@ -243,7 +244,7 @@ const EventContainer = () => {
         };
       });
     } else {
-      console.log("elseeeename", name, value);
+      // console.log("elseeeename", name, value);
       const formErrors = FormValidation(
         name,
         value,
@@ -286,27 +287,27 @@ const EventContainer = () => {
   const serviceHandleChange = (e) => {
     setSelectedRow(null);
     let selectValue = [...selectedRow];
-    console.log("e", e, levelIndex);
+    // console.log("e", e, levelIndex);
     let wholeService = [...addEventData.services];
     let serviceinitialObject = { ...addEventData.services[levelIndex].level };
     let serviceinitiaArray = [...addEventData.services[levelIndex].services];
     selectValue.map((item) => {
-      console.log("item", item);
+      // console.log("item", item);
       let found = true;
       serviceinitiaArray.map((child) => {
-        console.log("testing");
+        // console.log("testing");
         if (child.id === item.id) {
           found = false;
         }
       });
-      console.log("found", found);
+      // console.log("found", found);
       if (found == true) {
-        console.log("inside");
+        // console.log("inside");
         serviceinitiaArray.push(item);
       }
     });
 
-    console.log("serviceinitiaArray", serviceinitiaArray);
+    // console.log("serviceinitiaArray", serviceinitiaArray);
 
     let newObject = {
       level: { ...serviceinitialObject },
@@ -315,7 +316,7 @@ const EventContainer = () => {
 
     wholeService.splice(levelIndex, 1, newObject);
 
-    console.log("wholeservice", wholeService);
+    // console.log("wholeservice", wholeService);
 
     setAddEventData((prev) => {
       return {
@@ -327,9 +328,9 @@ const EventContainer = () => {
 
   const serviceSelectHandle = (e) => {
     let selectedArray = [...e.value];
-    console.log("e", e);
+    // console.log("e", e);
     let array = [...addEventData.services];
-    console.log("array", array);
+    // console.log("array", array);
 
     let newArray = array.filter((item) => {
       return !selectedArray.find((child) => {
@@ -341,8 +342,8 @@ const EventContainer = () => {
         return item._id == child.level._id;
       });
     });
-    console.log("newArray", newArray);
-    console.log("Update", Update);
+    // console.log("newArray", newArray);
+    // console.log("Update", Update);
 
     Update.map((item) => {
       let obj = {
@@ -356,7 +357,7 @@ const EventContainer = () => {
         return item.level._id === child.level._id;
       });
     });
-    console.log("dashArray", dashArray);
+    // console.log("dashArray", dashArray);
     // selectedArray.map((item)=>{
     //   let obj = {
     //     // catelogPrice: "",
@@ -437,7 +438,7 @@ const EventContainer = () => {
         0,
         allData.services[serviceIndex].services.splice(serviceDetailIndex, 1)[0]
       );
-      console.log("allData", allData);
+      // console.log("allData", allData);
       setAddEventData(allData);
       setServiceDetailIndex(serviceDetailIndex - 1);
     } else if (
@@ -449,14 +450,14 @@ const EventContainer = () => {
         0,
         allData.services[serviceIndex].services.splice(serviceDetailIndex, 1)[0]
       );
-      console.log("allData", allData);
+      // console.log("allData", allData);
       setAddEventData(allData);
       setServiceDetailIndex(serviceDetailIndex + 1);
     }
   };
 
   const setIndexFunc = (index, child) => {
-    console.log("indexxx", index, child);
+    // console.log("indexxx", index, child);
     setServiceIndex(index);
     setServiceDetailIndex(child);
   };
@@ -468,7 +469,7 @@ const EventContainer = () => {
       if (isEdit) {
         dispatch(UpdateEvents(addEventData)).then((data) => {
           if (data.success) {
-            console.log("data", data);
+            // console.log("data", data);
             dispatch(getEvents());
             const myTimeout = setTimeout(() => setShowEventSetups(false), 1000);
           }
@@ -476,13 +477,19 @@ const EventContainer = () => {
       } else {
         dispatch(addEvents(addEventData)).then((data) => {
           if (data.success) {
-            console.log("data", data);
+            // console.log("data", data);
             dispatch(getEvents());
             const myTimeout = setTimeout(() => setShowEventSetups(false), 1000);
           }
         });
       }
     } else {
+      dispatch(
+        showToast({
+          severity: "error",
+          summary: "Please Fill All Required Fields",
+        })
+      );
       window.scrollTo({
         top: 250,
         left: 0,
@@ -559,7 +566,7 @@ const EventContainer = () => {
       let ServiceSelectBox = [];
 
       isEdit?.services?.map((item) => {
-        console.log("itemInside", item);
+        // console.log("itemInside", item);
         let objLevel = {
           ...item.level,
           employees: [],
@@ -568,7 +575,7 @@ const EventContainer = () => {
       });
       let objNew = {};
       Object.keys(isEdit).map((item) => {
-        console.log("item", item);
+        // console.log("item", item);
         // if(isEdit[item]==true){
         //   objNew[item] = "true"
         // }
@@ -599,7 +606,7 @@ const EventContainer = () => {
           return item._id === child._id;
         });
       });
-      console.log("filteredclubSource", filteredclubSource);
+      // console.log("filteredclubSource", filteredclubSource);
       dispatch(getStateVAlue(filteredDuration, "durations"));
       dispatch(getStateVAlue(filteredcalendarOptions, "calendarDisplay"));
       dispatch(getStateVAlue(filteredcalendarPopOptions, "popupDisplay"));
@@ -610,7 +617,7 @@ const EventContainer = () => {
         serviceSelectbox: ServiceSelectBox,
         deployedClubPickerOption: isEdit.deployedClubs,
       };
-      console.log("obj", obj);
+      // console.log("obj", obj);
       setAddEventData(obj);
       setShowEventSetups(true);
     }
@@ -635,6 +642,26 @@ const EventContainer = () => {
       setRequired(["services"]);
     } else if (activeIndex === 2) {
       setRequired([
+        "calendarDisplay",
+        "popupDisplay",
+        "pendingColor",
+        "rebookingTimeOption",
+        "deployedClubs",
+      ]);
+    } else if (activeIndex === 4) {
+      setRequired([
+        "name",
+        "type",
+        "internalUse",
+        "locationType",
+        "defaulatMaxAttendees",
+        "eventCommType",
+        "availableOnline",
+        "requiredToCreate",
+        "requiredToComplete",
+        "bookingAndCancellation",
+        "durations",
+        "services",
         "calendarDisplay",
         "popupDisplay",
         "pendingColor",
