@@ -254,8 +254,15 @@ export default function Index() {
     };
 
     const onEditClassSchedule = (data) => {
+        console.log("data",data)
+        let obj = {
+            ...data,
+            startDate: new Date(data.startDate),
+            endDate: new Date(data.endDate)
+        }
         setId(data._id);
-        setClasses({ ...data });
+        // setClasses({ ...data });
+        setClasses(obj)
         setAssistants([...data.assistants]);
         setSchedules([...data.schedule.map(sc => ({ startTime: sc.startTime, days: sc.days.map(day => ({ name: day, disabled: false })) }))]);
         return setAddClasses(true);
