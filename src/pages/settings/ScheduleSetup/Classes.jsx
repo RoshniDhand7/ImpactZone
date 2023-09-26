@@ -10,7 +10,7 @@ import TableData from "../../../components/cards/dataTable/dataTable";
 import Index from ".";
 import MuliSelectDropDown from "../../../components/dropdown/muliSelectDropDown";
 import CustomInputNumber from "../../../components/input/inputNumber";
-import moment from "moment";
+
 import DeleteDailog from "../../../components/popup/deleteDailog";
 import { deleteClassSchedule } from "../../../redux/actions/classSchedulesAction";
 
@@ -192,7 +192,7 @@ const Classes = () => {
                             value={schedule.startTime}
                           ></Input>
                         </div>
-                        <div className="col-4">
+                        <div className="col-4 mb-2">
                           <MuliSelectDropDown
                             id={index}
                             type="date"
@@ -206,7 +206,7 @@ const Classes = () => {
                           ></MuliSelectDropDown>
                         </div>
                         {index === 0 ? (
-                          <div className="mb-2">
+                          <div className="mb-3">
                             <Buttons
                               style={{ height: "38px" }}
                               icon="pi pi-plus-circle"
@@ -217,7 +217,7 @@ const Classes = () => {
                             ></Buttons>
                           </div>
                         ) : (
-                          <div className="mb-3">
+                          <div className="mb-4 ml-2">
                             <i
                               className="pi pi-minus-circle text-gray-300"
                               onClick={() => onRemoveSchedule(index)}

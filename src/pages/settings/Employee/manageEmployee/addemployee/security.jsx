@@ -15,15 +15,21 @@ import { showToast } from "../../../../../redux/actions/toastAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, setErrors }) => {
-
+const Security = ({
+  setData,
+  data,
+  setActiveTabIndex,
+  createEmployee,
+  errors,
+  setErrors,
+}) => {
   const [title, setTitle] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handelChange = (name) => (e) => {
-    console.log(e)
+    console.log(e);
     // if (group?.length) {
     //   setData({ ...data, [group]: { ...data[group], [name]: e.target.value } });
     // } else {
@@ -35,7 +41,6 @@ const Security = ({ setData, data, setActiveTabIndex, createEmployee, errors, se
       return setData({ ...data, title: e.target.value._id });
     }
     return setData({ ...data, [name]: e.target.value || e.value });
-    // }
   };
 
   const createSecurity = async () => {

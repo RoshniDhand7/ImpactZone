@@ -20,6 +20,7 @@ const MuliSelectDropDown = ({
         {title} {required ? <span className="text-red-500">*</span> : null}
       </label>
       <MultiSelect
+        style={{ height: "40px" }}
         id={id}
         key={key}
         name={name}

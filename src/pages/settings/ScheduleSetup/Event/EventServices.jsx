@@ -79,14 +79,14 @@ const EventServices = ({
               <div className="">
                 <CardWithTitle titlee={item?.level?.name}>
                   <div className="p-3">
-                    <div className="flex justify-content-between w-6  p-2  ">
+                    <div className="flex justify-content-between align-items-center text-center w-7  p-2  ">
                       <span className="text-xs font-semibold text-gray-600">
                         Catalog Price
                       </span>
-                      <span className="text-xs font-semibold text-gray-600">
+                      <span className="text-xs font-semibold text-gray-600 mr-6">
                         Name
                       </span>
-                      <span className="text-xs font-semibold text-gray-600">
+                      <span className="text-xs font-semibold text-gray-600 mr-3 text-center">
                         Size
                       </span>
                       <span className="text-xs font-semibold text-gray-600">
@@ -96,11 +96,11 @@ const EventServices = ({
 
                     <div className="bg-white m-2 border-round-lg flex ">
                       {item.services.length > 0 ? (
-                        <div className="w-6  p-2">
+                        <div className="w-7 align-items-center text-center p-2">
                           {item.services.map((child, childIndex) => {
                             return (
                               <div
-                                className="flex justify-content-between  p-2  "
+                                className="flex justify-content-between text-center p-2  "
                                 onClick={() => setIndexFunc(index, childIndex)}
                                 style={
                                   childIndex == serviceDetailIndex &&
@@ -137,7 +137,7 @@ const EventServices = ({
                       )}
 
                       <div
-                        className="col flex justify-content-end align-items-center mr-3 "
+                        className="col flex justify-content-end align-items-center pr-7 "
                         style={{ height: "290px" }}
                       >
                         <div className="flex flex-column ">
