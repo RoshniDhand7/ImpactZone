@@ -101,6 +101,7 @@ const LocationTypes = () => {
                     title="Name"
                     name="name"
                     onChange={handleLocationTypeChange}
+                      state={locationType}
                   ></Input>
                 </div>
                 <div className="col-4">
@@ -111,6 +112,7 @@ const LocationTypes = () => {
                     placeholder="Select Over Booking"
                     options={["Yes", "No"]}
                     onChange={handleLocationTypeChange}
+                    state={locationType}
                   ></DropDown>
                 </div>
               </div>

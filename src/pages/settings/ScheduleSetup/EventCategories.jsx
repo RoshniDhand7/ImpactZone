@@ -136,6 +136,7 @@ const EventCategories = () => {
                 name="name"
                 value={eventCategory.name}
                 onChange={handleEventCategoriestChange}
+                state={eventCategory}
               ></Input>
             </div>
           </div>
@@ -161,6 +162,9 @@ const EventCategories = () => {
                   sourceStyle={{ height: "30rem" }}
                   targetStyle={{ height: "30rem" }}
                 />
+                <div className="text-danger" style={{ color: "red" }}>
+                  {eventCategory?.formErrors?.events}
+                </div>
               </div>
             </div>
           </CardWithTitle>

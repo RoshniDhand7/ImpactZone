@@ -28,6 +28,8 @@ import {
   booleanToString,
 } from "../../../../utils/helpers/dataTableCommonFunct";
 import { showToast } from "../../../../redux/actions/toastAction";
+import { showAllFormErrors } from "../../../../utils/commonFunctions";
+import FormValidation from "../../../../utils/AllFormValidation";
 
 const ScheduleLevel = () => {
   const op = useRef(null);
@@ -43,6 +45,8 @@ const ScheduleLevel = () => {
     isActive: true,
     employees: [],
   });
+  const [required,setRequired] = useState(["name","employees"])
+  const [initialData, setInitialData] = useState({});
   // check for edit level //
   const [isEdit, setIsEdit] = useState(false);
   const [first, setFirst] = useState(0);
@@ -130,8 +134,20 @@ const ScheduleLevel = () => {
     }
   }, [showEmployeeTable, rows, currentPage]);
 
+  useEffect(() => {
+    setInitialData(payload);
+  }, []);
+
   const handleChange = (name) => (e) => {
-    setPayload({ ...payload, [name]: e.target.value });
+    const {value} = e;
+    const formErrors = FormValidation(
+      name,
+      value,
+      payload,
+      required,
+      initialData
+    );
+    setPayload({ ...payload, [name]: value,formErrors });
   };
 
   // const onClickSave = () => {
@@ -148,7 +164,14 @@ const ScheduleLevel = () => {
   };
 
   const addEmployees = () => {
-    setPayload({ ...payload, employees: empId });
+    const formErrors = FormValidation(
+      "employees",
+      empId,
+      payload,
+      required,
+      initialData
+    );
+    setPayload({ ...payload, employees: empId,formErrors });
     setShowEmployeeTable(false);
   };
 
@@ -204,12 +227,30 @@ const ScheduleLevel = () => {
 
   };
 
+  console.log("payload",payload)
+
   const hitApiButton = () => {
-    if (isEdit) {
-      updateLevel(payload._id);
-    } else {
-      createLevel();
+    if(showAllFormErrors(payload, setPayload, required, initialData)){
+      if (isEdit) {
+        updateLevel(payload._id);
+      } else {
+        createLevel();
+      }
     }
+    else {
+      dispatch(
+        showToast({
+          severity: "error",
+          summary: "Please Fill All Required Fields",
+        })
+      );
+      window.scrollTo({
+        top: 250,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+   
   };
 
   const levelcolumn = [
@@ -293,6 +334,8 @@ const ScheduleLevel = () => {
                       value={payload.name}
                       onChange={handleChange("name")}
                       title="Name"
+                      name="name"
+                      state={payload}
                     ></Input>
                   </div>
                 </div>
@@ -339,6 +382,7 @@ const ScheduleLevel = () => {
                               </div>
                             </>
                           )}
+                 
                         </table>
                       </div>
                     </div>
@@ -375,6 +419,9 @@ const ScheduleLevel = () => {
                 </div>
               </div>
             </CardWithTitle>
+          </div>
+          <div className="text-danger" style={{ color: "red" }}>
+            {payload?.formErrors?.employees}
           </div>
           <div className="flex justify-content-end mt-3 p-2 ">
             <div className=" mx-3" style={{ width: "105px" }}>

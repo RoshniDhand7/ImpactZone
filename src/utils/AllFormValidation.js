@@ -3,7 +3,7 @@ import { FirstletterUpperCase, equal, length } from "./javascript";
 import { emailValidation, passwordValidation } from "./regex";
 
 const FormValidation = (name, value, data, required, initialData) => {
-  // console.log("name Inside form",name,value)
+  console.log("name Inside form",name,value,required,initialData)
   let formErrors = { ...data.formErrors };
   switch (name) {
     case "email":
@@ -30,7 +30,7 @@ const FormValidation = (name, value, data, required, initialData) => {
       break;
 
     case name:
-      if (name != formErrors && required.includes(name)) {
+      if (name != "formErrors" && required.includes(name)) {
         if (
           typeof value === "object" &&
           value != null &&
