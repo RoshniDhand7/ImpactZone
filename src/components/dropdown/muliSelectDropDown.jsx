@@ -13,6 +13,8 @@ const MuliSelectDropDown = ({
   optionGroupTemplate,
   required,
   name,
+  state,
+  childState,
 }) => {
   return (
     <div className="flex flex-column gap-2">
@@ -42,6 +44,7 @@ const MuliSelectDropDown = ({
         optionDisabled="disabled"
         className="w-full"
       />
+      {childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
     </div>
   );
 };

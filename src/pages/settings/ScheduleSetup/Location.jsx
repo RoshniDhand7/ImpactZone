@@ -125,6 +125,7 @@ const Location = () => {
                     name="name"
                     value={location.name}
                     onChange={handleLocationChange}
+                    state={location}
                   ></Input>
                 </div>
                 <div className="col-4">
@@ -136,6 +137,7 @@ const Location = () => {
                     value={location.locationType}
                     onChange={handleLocationChange}
                     placeholder="Select Location Type"
+                    state={location}
                   ></DropDown>
                 </div>
                 <div className="col-4">
@@ -147,6 +149,7 @@ const Location = () => {
                     onChange={handleLocationChange}
                     placeholder="Select Clubs"
                     value={location?.clubs}
+                    state={location}
                   ></MuliSelectDropDown>
                 </div>
               </div>

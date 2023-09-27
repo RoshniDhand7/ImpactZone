@@ -117,6 +117,7 @@ const Classes = () => {
                     onChange={handleClassesChange}
                     value={classes.event}
                     name="event"
+                    state={classes}
                   ></DropDown>
                 </div>
               </div>
@@ -132,6 +133,7 @@ const Classes = () => {
                         options={["One Time", "Repeated"]}
                         value={classes.scheduleType}
                         onChange={handleClassesChange}
+                        state={classes}
                       ></DropDown>
                     </div>
                     <div className="col-4">
@@ -142,6 +144,7 @@ const Classes = () => {
                         optionLabel="name"
                         onChange={handleClassesChange}
                         value={classes.classLocation}
+                        state={classes}
                       ></DropDown>
                     </div>
                   </div>
@@ -154,6 +157,7 @@ const Classes = () => {
                         placeholder="11/08/1998"
                         onChange={handleClassesChange}
                         value={classes.startDate}
+                        state={classes}
                       ></Input>
                     </div>
                     <div className="col-4">
@@ -166,6 +170,7 @@ const Classes = () => {
                         minDate={classes.startDate}
                         value={classes.endDate}
                         disabled={classes.indefinite}
+                        state={classes}
                       ></Input>
                     </div>
                     <div className="col pt-5 mt-2">
@@ -227,6 +232,9 @@ const Classes = () => {
                       </div>
                     );
                   })}
+                  <div className="text-danger" style={{ color: "red" }}>
+                  {classes?.formErrors?.schedule}
+                </div>
                 </div>
               </CardWithTitle>
             </div>
@@ -242,6 +250,7 @@ const Classes = () => {
                         optionLabel="firstName"
                         onChange={handleClassesChange}
                         value={classes.staff}
+                        state={classes}
                       ></DropDown>
                     </div>
                     <div className="col-4">
@@ -252,6 +261,7 @@ const Classes = () => {
                         optionLabel="name"
                         onChange={handleClassesChange}
                         value={classes.pay}
+                        state={classes}
                       ></DropDown>
                     </div>
                   </div>
@@ -315,6 +325,7 @@ const Classes = () => {
                         type="number"
                         onChange={handleClassesChange}
                         value={classes.totalCapacity}
+                        state={classes}
                       ></CustomInputNumber>
                     </div>
                     <div className="col-4">
@@ -324,6 +335,7 @@ const Classes = () => {
                         title="How many people can waitlist?"
                         onChange={handleClassesChange}
                         value={classes.waitListCapacity}
+                        state={classes}
                       ></CustomInputNumber>
                     </div>
                   </div>
@@ -350,6 +362,7 @@ const Classes = () => {
                       type="number"
                       onChange={handleClassesChange}
                       value={classes.onLineCapacity}
+                      state={classes}
                     ></CustomInputNumber>
                   </div>
                 </div>
