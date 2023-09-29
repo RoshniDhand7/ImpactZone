@@ -80,6 +80,30 @@ const AddEmployee = () => {
 
   const createEmployee = async () => {
     try {
+      let validate = securityValidations(data);
+      if (
+        validate.firstName ||
+        validate.lastName ||
+        validate.barCode ||
+        validate.email
+      ) {
+        if (Object.keys(validate).length > 1) {
+          dispatch(
+            showToast({
+              severity: "error",
+              summary: "Please fill required fields first",
+            })
+          );
+        } else {
+          dispatch(
+            showToast({
+              severity: "error",
+              summary: validate[Object.keys(validate)[0]],
+            })
+          );
+        }
+        return setErrors(validate);
+      }
       data.image = "";
       setData({ ...data });
       if (params.id) {
@@ -149,24 +173,24 @@ const AddEmployee = () => {
                   validate.barCode ||
                   validate.email
                 ) {
-                if (Object.keys(validate).length > 1) {
-                  dispatch(
-                    showToast({
-                      severity: "error",
-                      summary: "Please fill required fields first",
-                    })
-                  );
+                  if (Object.keys(validate).length > 1) {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: "Please fill required fields first",
+                      })
+                    );
+                  } else {
+                    dispatch(
+                      showToast({
+                        severity: "error",
+                        summary: validate[Object.keys(validate)[0]],
+                      })
+                    );
+                  }
+                  return setErrors(validate);
                 } else {
-                  dispatch(
-                    showToast({
-                      severity: "error",
-                      summary: validate[Object.keys(validate)[0]],
-                    })
-                  );
-                }
-                return setErrors(validate);
-                } else {
-                return setActiveTabIndex(e.index);
+                  return setActiveTabIndex(e.index);
                 }
               }}
             >

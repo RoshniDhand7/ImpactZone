@@ -94,8 +94,6 @@ export default function Index() {
     attendForFree: false,
   });
 
-  console.log("classes", classes);
-
   const [weekDays, setWeekDays] = useState([
     { name: "Sunday", disabled: false },
     { name: "Monday", disabled: false },
@@ -260,13 +258,13 @@ export default function Index() {
       delete formErrors.totalCapacity;
       delete formErrors.waitListCapacity;
     }
-    if (name === "indefinite" && value) {classes.endDate = ""; delete formErrors.endDate;}
-    if(name === "onLineSignUp" && value == false){
-        delete formErrors.onLineCapacity;
-        // formErrors = {
-        //     ...classes.formErrors,
-        //     onLineCapacity:"",
-        // }
+    if (name === "indefinite" && value) { classes.endDate = ""; delete formErrors.endDate; }
+    if (name === "onLineSignUp" && value == false) {
+      delete formErrors.onLineCapacity;
+      // formErrors = {
+      //     ...classes.formErrors,
+      //     onLineCapacity:"",
+      // }
     }
 
     setClasses((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -466,7 +464,7 @@ export default function Index() {
   const setPayOptions = (index) => {
     assistants[index].assistantPay =
       assistants[index].assistant.payments[
-        assistants[index].assistant.defaultPay - 1
+      assistants[index].assistant.defaultPay - 1
       ];
   };
 

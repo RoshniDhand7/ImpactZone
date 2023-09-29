@@ -6,36 +6,52 @@ import checkInData from "../../../../../../utils/checkInData";
 import TableData from "../../../../../../components/cards/dataTable/dataTable";
 import { useState } from "react";
 import MuliSelectDropDown from "../../../../../../components/dropdown/muliSelectDropDown";
+import { useDispatch, useSelector } from "react-redux";
+import { getEventsByType } from "../../../../../../redux/actions/eventsActions";
 
 const CalendarDefault = ({ setData, data, createEmployee }) => {
   const [selectedEvents, setSelectedEvents] = useState(null);
   const [isPayloadReady, setIsPayloadReady] = useState(false);
 
-  const calendarEvents = [
-    {
-      id: 1,
-      event: "Cardio",
-      orderNumber: null,
-      eventType: "30 min Private",
-    },
-    {
-      id: 2,
-      event: "Yoga",
-      orderNumber: null,
-      eventType: "60 min Private",
-    },
-    {
-      id: 3,
-      event: "Bhangra",
-      orderNumber: null,
-      eventType: "60 min Public",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  let { eventsByType } = useSelector((state) => state?.events);
+
+  let [calendarEvents, setCalendarEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(getEventsByType(setLoading, "Appointments Only"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    eventsByType = eventsByType.map((item) => ({
+      id: item._id,
+      event: item.name,
+      eventType: item.type,
+    }));
+    if (data.appointmentCalendarDefault.length) {
+      const selectedOptIds = data.appointmentCalendarDefault.map(
+        (item) => item.id
+      );
+      setSelectedEvents([...data.appointmentCalendarDefault]);
+
+      const filteredEvents = eventsByType.filter(
+        (item) => !selectedOptIds.includes(item._id)
+      );
+      setCalendarEvents([...filteredEvents]);
+    } else {
+      setCalendarEvents([...eventsByType]);
+    }
+  }, [eventsByType]);
 
   const actionTemplate = (col) => {
     return (
       <>
-        <div className="flex justify-content-end" onClick={() => removeRow(col)}>
+        <div
+          className="flex justify-content-end"
+          onClick={() => removeRow(col)}
+        >
           <span>
             <i className="pi pi-minus-circle mr-3"></i>
           </span>
@@ -48,39 +64,36 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
     const index = selectedEvents.indexOf(item);
     selectedEvents.splice(index, 1); // 2nd parameter means remove one item only
     setSelectedEvents([...selectedEvents]);
-  }
+  };
 
   const eventsHeaders = [
-    { field: "event", header: "Event"},
-    { field: "eventType", header: "Event Type"},
-
-    { field: "", header: "", body: actionTemplate},
+    { field: "event", header: "Event" },
+    { field: "eventType", header: "Event Type" },
+    { field: "", header: "", body: actionTemplate },
   ];
 
-
-
   const onSelectEvents = (value) => {
-    console.log(value)
+    setSelectedEvents(value);
+
     value = value.map((item, index) => {
       item = {
         ...item,
-        orderNumber: index
-      }
+        orderNumber: index,
+      };
       return item;
-    })
-    setSelectedEvents(value)
+    });
 
     setData(() => {
       return {
         ...data,
-        appointmentCalendarDefault: value
-      }
+        appointmentCalendarDefault: value,
+      };
     });
-  }
+  };
 
   useEffect(() => {
-    if(data.appointmentCalendarDefault.length) {
-      setSelectedEvents(data.appointmentCalendarDefault)
+    if (data.appointmentCalendarDefault.length) {
+      setSelectedEvents(data.appointmentCalendarDefault);
     }
   }, []);
 
@@ -89,7 +102,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
       <div>
         <div className="">
           <div className="col-3 p-0 flex">
-          <div className=" col flex">
+            <div className=" col flex">
               <DropDown
                 title="Similar To"
                 placeholder="Select Employee"
@@ -97,27 +110,24 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
             </div>
           </div>
           <div className="col-3 p-0 flex mb-3">
-          <div className="col flex">
-            <div className="mt-4" style={{width: "174px"}}>
-              <MuliSelectDropDown
-                title="Events"
-                options={calendarEvents}
-                optionsLabel="event"
-                onChange={(e) => {
-                  onSelectEvents(e.value);
-                }}
-                key={"id"}
-                placeholder="Select Events"
-                value={selectedEvents}
-              ></MuliSelectDropDown>
+            <div className="col flex">
+              <div className="mt-4" style={{ width: "174px" }}>
+                <MuliSelectDropDown
+                  title="Events"
+                  options={calendarEvents}
+                  optionsLabel="event"
+                  onChange={(e) => {
+                    onSelectEvents(e.value);
+                  }}
+                  key={"id"}
+                  placeholder="Select Events"
+                  value={selectedEvents}
+                ></MuliSelectDropDown>
               </div>
             </div>
-            </div>
+          </div>
           <div className=" mt-2">
-            <TableData
-              columns={eventsHeaders}
-              data={selectedEvents}
-            />
+            <TableData columns={eventsHeaders} data={selectedEvents} />
           </div>
         </div>
       </div>
@@ -133,10 +143,7 @@ const CalendarDefault = ({ setData, data, createEmployee }) => {
             ></Buttons>
           </div>
           <div className=" ">
-            <Buttons
-              label="Cancel"
-              className="btn-grey border-none"
-            ></Buttons>
+            <Buttons label="Cancel" className="btn-grey border-none"></Buttons>
           </div>
         </div>
       </div>

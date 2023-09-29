@@ -9,51 +9,48 @@ import CardWithTitle from "../../../../../../components/cards/cardWithTitle/card
 import Add from "../../../../../../assets/icons/Add.png";
 import Remove from "../../../../../../assets/icons/remove.png";
 import Input from "../../../../../../components/input/input";
+import { useDispatch, useSelector } from "react-redux";
+import { getEventsByType } from "../../../../../../redux/actions/eventsActions";
 
 const SubstituteOption = ({ data, setData, createEmployee }) => {
-  let [exerciseDetail, setExerciseDetail] = useState([
-    {
-      id: 1,
-      name: "Yoga",
-      priority: null,
-    },
-    {
-      id: 2,
-      name: "Zumba",
-      priority: null,
-    },
-    {
-      id: 3,
-      name: "Cardio",
-      priority: null,
-    },
-    {
-      id: 4,
-      name: "Bhangra",
-      priority: null,
-    },
-    {
-      id: 5,
-      name: "Pallate",
-      priority: null,
-    },
-  ]);
+  const dispatch = useDispatch();
+
+  let { eventsByType } = useSelector((state) => state?.events);
+
+  let [exerciseDetail, setExerciseDetail] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(getEventsByType(setLoading, "Classes"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (data.substituteOption.length) {
+      const selectedOptIds = data.substituteOption.map((item) => item.id);
+      setSelectedOptions([...data.substituteOption]);
+
+      const filteredEvents = eventsByType.filter(
+        (item) => !selectedOptIds.includes(item._id)
+      );
+      setExerciseDetail([...filteredEvents]);
+    } else {
+      setExerciseDetail([...eventsByType]);
+    }
+  }, [eventsByType]);
+
   const selectAllOptions = () => {
     let allDept = exerciseDetail.map((item) => {
       return {
-        id: item.id,
+        id: item._id,
         name: item.name,
         priority: item.priority,
       };
     });
-
-    setSelectedOptions(allDept);
+    setSelectedOptions([...allDept]);
     setData(() => {
       return {
         ...data,
-        substituteOption: [
-          ...allDept
-        ]
+        substituteOption: [...allDept],
       };
     });
     setExerciseDetail([]);
@@ -69,7 +66,7 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
     setData(() => {
       return {
         ...data,
-        substituteOption: [ ...newArr ]
+        substituteOption: [...newArr],
       };
     });
   };
@@ -82,14 +79,6 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
   };
 
   const priorities = ["Suggested", "High", "Medium", "Low"];
-
-  useEffect(() => {
-    if (data.substituteOption.length) {
-      const selectedOptIds = data.substituteOption.map(item => item.id);
-      setSelectedOptions([...data.substituteOption]);
-      setExerciseDetail(exerciseDetail.filter(item => !selectedOptIds.includes(item.id)));
-    }
-  }, []);
 
   const tableHeadingPriority = [
     { field: "", id: "" },
@@ -123,8 +112,14 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                     onClick={() => {
                       setExerciseDetail([...selectedOptions]);
                       setSelectedOptions([]);
+                      setData(() => {
+                        return {
+                          ...data,
+                          substituteOption: [],
+                        };
+                      });
                     }}
-                    className="text-blue  font-semibold cursor-pointer  text-xs "
+                    className="text-blue  font-semibold cursor-pointer text-xs "
                   >
                     Remove All
                   </div>
@@ -193,16 +188,18 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
             <div className="p-3">
               <div className="flex justify-content-between px-3 p-3">
                 <div className="text-xs font-semibold text-dark-gray">Name</div>
-                <div
-                  onClick={selectAllOptions}
-                  className="text-blue text-xs font-semibold cursor-pointer"
-                >
-                  Add All
-                </div>
+                {exerciseDetail.length ? (
+                  <div
+                    onClick={selectAllOptions}
+                    className="text-blue text-xs font-semibold cursor-pointer"
+                  >
+                    Add All
+                  </div>
+                ) : null}
               </div>
 
               <div
-                className=" justify-content-between bg-white py-2 border-round-md"
+                className="justify-content-between bg-white py-2 border-round-md"
                 style={{ height: "200px", overflow: "auto" }}
               >
                 {exerciseDetail?.map((item, index) => {
@@ -215,32 +212,32 @@ const SubstituteOption = ({ data, setData, createEmployee }) => {
                             onClick={() => {
                               if (
                                 !selectedOptions.some(
-                                  (option) => option.id === item.id
+                                  (option) => option.id === item._id
                                 )
                               ) {
                                 setSelectedOptions([
                                   ...selectedOptions,
                                   {
-                                    id: item.id,
+                                    id: item._id,
                                     name: item.name,
                                     priority: item.priority,
                                   },
                                 ]);
                                 exerciseDetail = exerciseDetail.filter(
-                                  (option) => option.id !== item.id
+                                  (option) => option._id !== item._id
                                 );
-                                setExerciseDetail(exerciseDetail);
+                                setExerciseDetail([...exerciseDetail]);
                                 setData(() => {
                                   return {
                                     ...data,
                                     substituteOption: [
                                       ...data.substituteOption,
                                       {
-                                        id: item.id,
+                                        id: item._id,
                                         name: item.name,
                                         priority: item.priority,
                                       },
-                                    ]
+                                    ],
                                   };
                                 });
                               }
