@@ -6,8 +6,10 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Checkbox from "../../../../components/checkbox/checkbox";
+import ResourceTypeContainer from "./ResourceTypeContainer";
 
-const AddResourceType = ({ openADDResourceType }) => {
+const AddResourceType = ({ openADDResourceType,resourceType,resourceTypeHandleChange,resourceTypeSubmit }) => {
+  // const {resourceType,resourceTypeHandleChange,resourceTypeSubmit} = ResourceTypeContainer()
   return (
     <>
       <div>
@@ -15,6 +17,9 @@ const AddResourceType = ({ openADDResourceType }) => {
           <Checkbox
             title="Active"
             className="text-900 font-semibold"
+            name="isActive"
+            value={resourceType.isActive}
+            onChange={resourceTypeHandleChange}
           ></Checkbox>
         </div>
         <div className="mt-3">
@@ -22,7 +27,7 @@ const AddResourceType = ({ openADDResourceType }) => {
             <div className=" p-3">
               <div className="flex ">
                 <div className="col">
-                  <Input title="Name"></Input>
+                  <Input title="Name" name="name" value={resourceType.name} onChange={resourceTypeHandleChange} state={resourceType}></Input>
                 </div>
               </div>
               <div>
@@ -34,8 +39,11 @@ const AddResourceType = ({ openADDResourceType }) => {
                     Description (256/256)
                   </label>
                   <div className="">
-                    <InputTextarea value="" style={{ width: "100%" }} />
+                    <InputTextarea name="description" value={resourceType.description} onChange={(e)=>resourceTypeHandleChange({name:e.target.name,value:e.target.value})} style={{ width: "100%" }} />
                   </div>
+                  <div className="text-danger" style={{ color: "red" }}>
+                  {resourceType?.formErrors?.description}
+                </div>
                 </div>
               </div>
             </div>
@@ -44,7 +52,7 @@ const AddResourceType = ({ openADDResourceType }) => {
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
         <div className="mx-3" style={{ width: "105px" }}>
-          <Buttons label="Save" className="btn-dark border-none"></Buttons>
+          <Buttons label="Save" className="btn-dark border-none" onClick={resourceTypeSubmit}></Buttons>
         </div>
         <div className="">
           <Buttons

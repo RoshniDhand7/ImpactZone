@@ -62,7 +62,9 @@ const deleteLocationType = (id, setLoading) => async (dispatch) => {
 
 // LOCATIONS //
 const getLocations = (setLoading, query) => async (dispatch) => {
-    setLoading(true);
+    if(setLoading){
+        setLoading(true);
+    }
     const res = await api("get", `${constants.endPoints.locations}${query ? query : ''}`);
     if (res.success) {
         if (res.data) {
@@ -72,7 +74,10 @@ const getLocations = (setLoading, query) => async (dispatch) => {
             });
         }
     }
-    setLoading(false);
+    if(setLoading){
+        setLoading(false);
+    }
+    
 };
 
 const addLocation = (location, setLoading, navigate) => async (dispatch, getState) => {

@@ -44,6 +44,12 @@ const constants = {
     addEventCategory: "events/category",
     updatEventCategory: "events/category/update/",
     deleteEventCategory: "events/category/delete/",
+    resourceType: "resource-types",
+    DeleteResourceType: "resource-types/delete/",
+    UpdateResourceType: "resource-types/update/",
+    resources:"resources/",
+    UpdateResource:"resources/update/",
+    DeleteResource:"resources/delete/",
   },
 };
 
