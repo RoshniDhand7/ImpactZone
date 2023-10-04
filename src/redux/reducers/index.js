@@ -8,6 +8,8 @@ import stateReducer from "./stateReducer";
 import levelReducer from "./levelsReducer";
 import employeesReducer from "./employeesReducer";
 import classSchedulesReducer from "./classSchedulesReducer";
+import resourceTypeReducer from "./resourceTypeReducer";
+import resourceReducer from "./resourceReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -18,5 +20,7 @@ export default combineReducers({
   staticData: stateReducer,
   levelData: levelReducer,
   employees: employeesReducer,
-  classSchedules: classSchedulesReducer
+  classSchedules: classSchedulesReducer,
+  resourceType: resourceTypeReducer,
+  resources: resourceReducer,
 });

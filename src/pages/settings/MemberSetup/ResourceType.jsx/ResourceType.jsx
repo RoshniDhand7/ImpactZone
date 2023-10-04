@@ -5,86 +5,24 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddResourceType from "./AddResourceType";
+import ResourceTypeContainer from "./ResourceTypeContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const ResourceType = () => {
-  const [showAddResourceType, setAddResourceType] = useState(false);
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end  ">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
+ 
+  const {resourceType,resourceTypeHandleChange,resourceTypeSubmit,ResourceTypeColumn,setAddResourceType,showAddResourceType,openADDResourceType,ResourceTypeData} = ResourceTypeContainer()
 
-  const ResourceTypeColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "description",
-      header: "Description",
-      id: "",
-      index: "",
-    },
 
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [ResourceTypeData, setResourceTypeData] = useState([
-    {
-      name: "All Access",
-      description: "Access on every day at all times.",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Class Pass",
-      description: "Can only use gym when put in class",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Kids Fitness",
-      description: "Can only use gym for kids academy",
-      index: "",
-      id: "",
-    },
-    {
-      name: "No Access",
-      description: "No access on any day at any time",
 
-      index: "",
-      id: "",
-    },
-    {
-      name: "Online Client",
-      description: "",
-      index: "",
-      id: "",
-    },
-  ]);
-
-  const openADDResourceType = () => {
-    setAddResourceType((prev) => !prev);
-  };
 
   return (
     <>
       {showAddResourceType ? (
-        <AddResourceType openADDResourceType={openADDResourceType} />
+        <AddResourceType openADDResourceType={openADDResourceType} resourceType={resourceType} resourceTypeHandleChange={resourceTypeHandleChange} resourceTypeSubmit={resourceTypeSubmit}/>
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className="my-3">
               <span className="text-xl font-bold text-900">Resource Type</span>
             </div>

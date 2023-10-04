@@ -30,6 +30,7 @@ const Input = ({
   state,
   childState,
   minDate,
+  keyfilter
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -50,6 +51,7 @@ const Input = ({
             id={id}
             style={{ width: "100%" }}
             // placeholder={placeholder}
+            keyfilter={keyfilter}
             icon={icon}
             value={value}
             onChange={(e) =>
@@ -97,6 +99,7 @@ const Input = ({
             placeholder={placeholder}
             icon={icon}
             name={name}
+            keyfilter={keyfilter}
             type={type}
             value={value}
             maxLength={maxLength}

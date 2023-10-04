@@ -6,118 +6,73 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 
 import AddResource from "./AddResource";
+import ResourceContainer from "./ResourceContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const Resource = () => {
-  const [showAddResource, setAddResource] = useState(false);
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end  ">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
+  const {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource} = ResourceContainer()
+  // const [showAddResource, setAddResource] = useState(false);
 
-  const ResourceColumn = [
-    {
-      field: "Resource Name",
-      header: "Resource Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "Resource Type",
-      header: "Resource Type",
-      id: "",
-      index: "",
-    },
-    {
-      field: "Location",
-      header: "Location",
-      id: "",
-      index: "",
-    },
-    {
-      field: "Available",
-      header: "Available",
-      id: "",
-      index: "",
-    },
-    {
-      field: "Past Due",
-      header: "Past Due",
-      id: "",
-      index: "",
-    },
+  // const [ResourceData, setResourceData] = useState([
+  //   {
+  //     ResourceName: "Tread Mill",
+  //     ResourceType: "Amenities",
+  //     Location: "",
+  //     Avaliable: "",
+  //     PastDue: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     ResourceName: "Tread Mill",
+  //     ResourceType: "Classes.",
+  //     Location: "",
+  //     Avaliable: "",
+  //     PastDue: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     ResourceName: "Tread Mill",
+  //     ResourceType: "Gym Floor",
+  //     Location: "",
+  //     Avaliable: "",
+  //     PastDue: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     ResourceName: "Tread Mill",
+  //     ResourceType: "Sports",
+  //     Location: "",
+  //     Avaliable: "",
+  //     PastDue: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     ResourceName: "Tread Mill",
+  //     ResourceType: "Maintenance",
+  //     Location: "",
+  //     Avaliable: "",
+  //     PastDue: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  // ]);
 
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [ResourceData, setResourceData] = useState([
-    {
-      ResourceName: "Tread Mill",
-      ResourceType: "Amenities",
-      Location: "",
-      Avaliable: "",
-      PastDue: "",
-      index: "",
-      id: "",
-    },
-    {
-      ResourceName: "Tread Mill",
-      ResourceType: "Classes.",
-      Location: "",
-      Avaliable: "",
-      PastDue: "",
-      index: "",
-      id: "",
-    },
-    {
-      ResourceName: "Tread Mill",
-      ResourceType: "Gym Floor",
-      Location: "",
-      Avaliable: "",
-      PastDue: "",
-      index: "",
-      id: "",
-    },
-    {
-      ResourceName: "Tread Mill",
-      ResourceType: "Sports",
-      Location: "",
-      Avaliable: "",
-      PastDue: "",
-      index: "",
-      id: "",
-    },
-    {
-      ResourceName: "Tread Mill",
-      ResourceType: "Maintenance",
-      Location: "",
-      Avaliable: "",
-      PastDue: "",
-      index: "",
-      id: "",
-    },
-  ]);
-
-  const openAddResource = () => {
-    setAddResource((prev) => !prev);
-  };
+  // const openAddResource = () => {
+  //   setAddResource((prev) => !prev);
+  // };
 
   return (
     <>
       {showAddResource ? (
-        <AddResource openAddResource={openAddResource} />
+        <AddResource openAddResource={openAddResource} resource={resource} ResourceHandleChange={ResourceHandleChange} showAddService={showAddService} setShowAddService={setShowAddService} selectedRow={selectedRow} setSelectedRow={setSelectedRow} removeAll={removeAll} submit={submit}/>
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className="my-3">
               <span className="text-xl font-bold text-900">Resource</span>
             </div>
@@ -142,7 +97,7 @@ const Resource = () => {
               </div>
             </div>
             <div className="mt-2">
-              <TableData columns={ResourceColumn} data={ResourceData} />
+              <TableData columns={ResourceColumn} data={allResources} />
             </div>
           </div>
           {/* <div className=" m-2 mt-3 flex justify-content-end">
