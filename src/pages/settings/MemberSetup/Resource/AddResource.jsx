@@ -9,8 +9,10 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import { useSelector } from "react-redux";
 import MuliSelectDropDown from "../../../../components/dropdown/muliSelectDropDown";
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
-const AddResource = ({ openAddResource,resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit }) => {
+const AddResource = ({ openAddResource,resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,agreementCategoriesColumn,agreementCategoriesData,globalFilterValue,filters,onGlobalFilterChange }) => {
+  console.log("agreementCategoriesData",agreementCategoriesData)
 
   const resourceType = useSelector((state)=>state.resourceType.allResourceType)?.map((item)=> {return {label:item.name,value:item._id}})
   const locations = useSelector((state)=>state.locations.locations)?.map((item)=> {return {label:item.name,value:item._id}})
@@ -67,40 +69,40 @@ const AddResourcesMain = () => {
         <div className="mt-4">
                 <CardWithTitle titlee="Add Services">
                   <div className="p-3">
-                    <div className="flex justify-content-between align-items-center text-center w-7  p-2  ">
-                      <span className="text-xs font-semibold text-gray-600">
+                    <div className="flex justify-content-between align-items-center  w-7  py-2 pl-4 pr-3">
+                      <span className="text-xs font-semibold text-gray-600 w-6rem">
                         Catalog Price
                       </span>
-                      <span className="text-xs font-semibold text-gray-600 mr-6">
+                      <span className="text-xs font-semibold text-gray-600 w-6rem ">
                         Name
                       </span>
-                      <span className="text-xs font-semibold text-gray-600 mr-3 text-center">
+                      <span className="text-xs font-semibold text-gray-600 w-6rem ">
                         Size
                       </span>
-                      <span className="text-xs font-semibold text-gray-600">
+                      <span className="text-xs font-semibold text-gray-600 w-6rem">
                         Status
                       </span>
                     </div>
 
                     <div className="bg-white m-2 border-round-lg flex ">
                       {resource.services.length > 0 ? (
-                        <div className="w-7 align-items-center text-center p-2">
+                        <div className="w-7 align-items-center  p-2">
                           {resource.services.map((child, childIndex) => {
                             return (
                               <div
-                                className="flex justify-content-between text-center p-2  "
+                                className="flex justify-content-between  p-2  "
                               >
-                                <span className="text-xs font-semibold text-gray-600">
+                                <span className="text-xs font-semibold text-gray-600 w-6rem">
                                   {child.catelogPrice}
                                 </span>
-                                <span className="text-xs font-semibold text-gray-600">
+                                <span className="text-xs font-semibold text-gray-600 w-6rem">
                                   {child.name}
                                 </span>
-                                <span className="text-xs font-semibold text-gray-600">
+                                <span className="text-xs font-semibold text-gray-600 w-6rem">
                                   {child.size}
                                 </span>
-                                <span className="text-xs font-semibold text-gray-600">
-                                  {child.status == true ? "true" : "false"}
+                                <span className="text-xs font-semibold text-gray-600 w-6rem">
+                                  {child.status == true ? "Active" : "Inactive"}
                                 </span>
                               </div>
                             );
@@ -150,7 +152,7 @@ const AddResourcesMain = () => {
                 </CardWithTitle>
                 
               </div>
-              <div className="text-danger" style={{ color: "red" }}>
+              <div className="text-danger" style={{ color: "red",marginTop:'0.8rem' }}>
                   {resource?.formErrors?.services}
                 </div>
       </div>
@@ -174,82 +176,83 @@ const AddResourcesMain = () => {
   )
 }
 
-const agreementCategoriesColumn = [
-  {},
-  {
-    field: "name",
-    header: "Item Name",
-    id: "",
-    index: "",
-    sorting: true,
-  },
-  {
-    field: "size",
-    header: "Item UPC",
+// const agreementCategoriesColumn = [
+//   {},
+//   {
+//     field: "name",
+//     header: "Item Name",
+//     id: "",
+//     index: "",
+//     sorting: true,
+//   },
+//   {
+//     field: "size",
+//     header: "Item UPC",
+//     id: "",
+//     index: "",
+//     sorting: true,
+//   },
+//   {
+//     field: "catelogPrice",
+//     header: "Price",
+//     id: "",
+//     index: "",
+//     sorting: true,
+//   },
 
-    id: "",
-    index: "",
-  },
-  {
-    field: "catelogPrice",
-    header: "Price",
-    id: "",
-    index: "",
-    sorting: true,
-  },
+// ];
+// const [agreementCategoriesData, setAgreementCategoriesData] = useState([
+//   {
+//     id: "a1",
+//     catelogPrice: "100",
+//     name: "agreements",
+//     size: "10",
+//     status: true,
+//   },
+//   {
+//     id: "a2",
+//     catelogPrice: "200",
+//     name: "Adults",
+//     size: "15",
+//     status: true,
+//   },
+//   {
+//     id: "a3",
+//     catelogPrice: "200",
+//     name: "Students",
+//     size: "15",
+//     status: true,
+//   },
+//   {
+//     id: "a4",
+//     catelogPrice: "150",
+//     name: "Corporate",
+//     size: "18",
+//     status: false,
+//   },
+//   {
+//     id: "a5",
+//     catelogPrice: "120",
+//     name: "Annual",
+//     size: "25",
+//     status: false,
+//   },
+// ]);
 
-  {
-    field: "status",
-    header: "Status",
+// const [globalFilterValue, setGlobalFilterValue] = useState('');
+// const [filters, setFilters] = useState({
+//   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+// });
 
-    id: "",
-    index: "",
-  },
+// const onGlobalFilterChange = (e) => {
+//   const value = e.target.value;
+//   let _filters = { ...filters };
 
-  // {
-  //   field: "",
-  //   header: "",
-  //   id: "",
-  //   body: actionTemplate,
-  // },
-];
-const [agreementCategoriesData, setAgreementCategoriesData] = useState([
-  {
-    id: "a1",
-    catelogPrice: "100",
-    name: "agreements",
-    size: "10",
-    status: true,
-  },
-  {
-    id: "a2",
-    catelogPrice: "200",
-    name: "Adults",
-    size: "15",
-    status: true,
-  },
-  {
-    id: "a3",
-    catelogPrice: "200",
-    name: "Students",
-    size: "15",
-    status: true,
-  },
-  {
-    id: "a4",
-    catelogPrice: "150",
-    name: "Corporate",
-    size: "18",
-    status: false,
-  },
-  {
-    id: "a5",
-    catelogPrice: "120",
-    name: "Annual",
-    size: "25",
-    status: false,
-  },
-]);
+//   _filters['global'].value = value;
+
+//   setFilters(_filters);
+//   setGlobalFilterValue(value);
+// };
 
 
   const AddServices = () => {
@@ -259,10 +262,11 @@ const [agreementCategoriesData, setAgreementCategoriesData] = useState([
         <div>
           <div className="flex justify-content-between">
             <p className="text-xl font-bold my-3 text-900 ">Add Service</p>
-            <Input placeholder="Search" icon="pi pi-search"></Input>
+            <Input value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" icon="pi pi-search"></Input>
           </div>
           <div>
             <TableData
+            filters={filters}
               sorting
               paginator
               rows={5}

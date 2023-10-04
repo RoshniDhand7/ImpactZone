@@ -10,7 +10,7 @@ import ResourceContainer from "./ResourceContainer";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const Resource = () => {
-  const {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource} = ResourceContainer()
+  const {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource,agreementCategoriesColumn,agreementCategoriesData,globalFilterValue,filters,onGlobalFilterChange} = ResourceContainer()
   // const [showAddResource, setAddResource] = useState(false);
 
   // const [ResourceData, setResourceData] = useState([
@@ -68,7 +68,7 @@ const Resource = () => {
   return (
     <>
       {showAddResource ? (
-        <AddResource openAddResource={openAddResource} resource={resource} ResourceHandleChange={ResourceHandleChange} showAddService={showAddService} setShowAddService={setShowAddService} selectedRow={selectedRow} setSelectedRow={setSelectedRow} removeAll={removeAll} submit={submit}/>
+        <AddResource openAddResource={openAddResource} resource={resource} ResourceHandleChange={ResourceHandleChange} showAddService={showAddService} setShowAddService={setShowAddService} selectedRow={selectedRow} setSelectedRow={setSelectedRow} removeAll={removeAll} submit={submit} agreementCategoriesColumn={agreementCategoriesColumn} agreementCategoriesData={agreementCategoriesData} globalFilterValue={globalFilterValue} filters={filters} onGlobalFilterChange={onGlobalFilterChange}/>
       ) : (
         <>
           <div>

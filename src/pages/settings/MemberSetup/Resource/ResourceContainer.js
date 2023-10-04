@@ -10,6 +10,7 @@ import { confirmDialog } from 'primereact/confirmdialog'
 import { showAllFormErrors } from '../../../../utils/commonFunctions'
 import { showToast } from '../../../../redux/actions/toastAction'
 import FormValidation from '../../../../utils/AllFormValidation'
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 const ResourceContainer = () => {
   const dispatch = useDispatch()
@@ -132,6 +133,7 @@ setResource((prev)=>{
     }
   })
   delete resource?.formErrors?.services;
+  setSelectedRow([])
  }
 
  const openAddResource = () => {
@@ -181,6 +183,89 @@ setResource((prev)=>{
   }
  }
 
+
+ const agreementCategoriesColumn = [
+  {},
+  {
+    field: "name",
+    header: "Item Name",
+    id: "",
+    index: "",
+    sorting: true,
+  },
+  {
+    field: "size",
+    header: "Item UPC",
+    id: "",
+    index: "",
+    sorting: true,
+  },
+  {
+    field: "catelogPrice",
+    header: "Price",
+    id: "",
+    index: "",
+    sorting: true,
+  },
+
+];
+const [agreementCategoriesData, setAgreementCategoriesData] = useState([
+  {
+    id: "a1",
+    catelogPrice: "100",
+    name: "agreements",
+    size: "10",
+    status: true,
+  },
+  {
+    id: "a2",
+    catelogPrice: "200",
+    name: "Adults",
+    size: "15",
+    status: true,
+  },
+  {
+    id: "a3",
+    catelogPrice: "200",
+    name: "Students",
+    size: "15",
+    status: true,
+  },
+  {
+    id: "a4",
+    catelogPrice: "150",
+    name: "Corporate",
+    size: "18",
+    status: false,
+  },
+  {
+    id: "a5",
+    catelogPrice: "120",
+    name: "Annual",
+    size: "25",
+    status: false,
+  },
+]);
+
+const [globalFilterValue, setGlobalFilterValue] = useState('');
+const [filters, setFilters] = useState({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
+
+const onGlobalFilterChange = (e) => {
+  const value = e.target.value;
+  let _filters = { ...filters };
+
+  _filters['global'].value = value;
+
+  setFilters(_filters);
+  setGlobalFilterValue(value);
+};
+
+
+
+
+
  useEffect(() => {
   if(editResource){
     let obj = {
@@ -196,8 +281,11 @@ setResource((prev)=>{
     }
     setResource(obj)
     setAddResource(true)
+    setSelectedRow(editResource.services.map((item)=>{return {id:item.id,catelogPrice:item.catelogPrice,name:item.name,size:item.size.toString(),status:item.status}}))
   }
 }, [editResource])
+
+console.log("selectedrow",selectedRow)
 
 useEffect(() => {
   dispatch(getResourceType())
@@ -214,7 +302,7 @@ useEffect(() => {
 
 
  console.log("resources",resource)
-  return {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource}
+  return {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource,agreementCategoriesColumn,agreementCategoriesData,globalFilterValue,filters,onGlobalFilterChange}
    
 }
 export default ResourceContainer

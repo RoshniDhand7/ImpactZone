@@ -10,7 +10,7 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import { PickList } from "primereact/picklist";
 
-const AddMembershipType = ({ showAddMemebershipTypeScreen }) => {
+const AddMembershipType = ({ showAddMemebershipTypeScreen,memberTypeHandleChange }) => {
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">

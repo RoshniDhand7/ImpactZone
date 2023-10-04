@@ -10,6 +10,7 @@ import employeesReducer from "./employeesReducer";
 import classSchedulesReducer from "./classSchedulesReducer";
 import resourceTypeReducer from "./resourceTypeReducer";
 import resourceReducer from "./resourceReducer";
+import memberShipTypeReducer from "./memberShipTypesReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   classSchedules: classSchedulesReducer,
   resourceType: resourceTypeReducer,
   resources: resourceReducer,
+  memberShip: memberShipTypeReducer,
 });
