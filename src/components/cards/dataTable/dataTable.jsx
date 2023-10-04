@@ -19,6 +19,7 @@ const TableData = ({
   setFirst,
   count,
   paginator,
+  filters,
 
   setCurrentPage,
 }) => {
@@ -83,6 +84,7 @@ const TableData = ({
         <DataTable
           value={data}
           paginator={paginator ? true : false}
+          filters={filters ? filters : null}
           rows={rows ? rows : null}
           responsiveLayout="scroll"
           selectionMode={"checkbox"}

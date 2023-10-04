@@ -6,105 +6,66 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddMembershipType from "./AddMembershipType";
+import MemberShipContainer from "./MemberShipContainer";
+
 
 const ManageMembershipTypes = () => {
-  const [showAddMemebershipType, setAddMemebershipType] = useState(false);
+  const {showAddMemebershipType, showAddMemebershipTypeScreen,ManageMembershipTypesColumn,membershipTypeData,memberTypeHandleChange} = MemberShipContainer()
 
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
 
-  const ManageMembershipTypesColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "description",
-      header: "Description",
-      id: "",
-      index: "",
-    },
-    {
-      field: "discount Type",
-      header: "Discount Type",
-      id: "",
-      index: "",
-    },
-    {
-      field: "members",
-      header: "# Members",
-      id: "",
-      index: "",
-    },
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [ManageMembershipTypesData, setManageMembershipTypesData] = useState([
-    {
-      name: "AthElite",
-      description: "Gym Access & Group X Classes",
-      discountType: "",
-      members: "56",
-      index: "",
-      id: "",
-    },
-    {
-      name: "AWA",
-      description: "-",
-      discountType: "",
-      members: "24",
-      index: "",
-      id: "",
-    },
-    {
-      name: "ClassPass",
-      description: "-",
-      discountType: "",
-      members: "5",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Club Access",
-      description: "GymAccess",
-      discountType: "",
-      members: "76",
-      index: "",
-      id: "",
-    },
-    {
-      name: "COMP",
-      description: "Unassigned",
-      discountType: "",
-      members: "4",
-      index: "",
-      id: "",
-    },
-  ]);
 
-  const showAddMemebershipTypeScreen = () => {
-    setAddMemebershipType((prev) => !prev);
-  };
+ 
+  // const [ManageMembershipTypesData, setManageMembershipTypesData] = useState([
+  //   {
+  //     name: "AthElite",
+  //     description: "Gym Access & Group X Classes",
+  //     discountType: "",
+  //     members: "56",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     name: "AWA",
+  //     description: "-",
+  //     discountType: "",
+  //     members: "24",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     name: "ClassPass",
+  //     description: "-",
+  //     discountType: "",
+  //     members: "5",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     name: "Club Access",
+  //     description: "GymAccess",
+  //     discountType: "",
+  //     members: "76",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     name: "COMP",
+  //     description: "Unassigned",
+  //     discountType: "",
+  //     members: "4",
+  //     index: "",
+  //     id: "",
+  //   },
+  // ]);
+
+  
 
   return (
     <>
       {showAddMemebershipType ? (
         <AddMembershipType
           showAddMemebershipTypeScreen={showAddMemebershipTypeScreen}
+          memberTypeHandleChange={memberTypeHandleChange}
         />
       ) : (
         <>
@@ -142,7 +103,7 @@ const ManageMembershipTypes = () => {
             <div className="mt-2">
               <TableData
                 columns={ManageMembershipTypesColumn}
-                data={ManageMembershipTypesData}
+                data={membershipTypeData}
               />
             </div>
           </div>

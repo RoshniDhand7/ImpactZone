@@ -105,6 +105,23 @@ const ResourceTypeContainer = () => {
     );
   };
 
+  const descriptionTemplate = (col) => {
+    return(
+    <div>
+      {col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+    </div>
+    )
+    
+  }
+
+  // const statusTemplate = (col) => {
+  //   return(
+  //     <div>
+  //       {col.isActive==true ? "Active" : "Inactive"}
+  //     </div>
+  //   )
+  // }
+
   const ResourceTypeColumn = [
     {
       field: "name",
@@ -117,7 +134,15 @@ const ResourceTypeContainer = () => {
       header: "Description",
       id: "",
       index: "",
+      body: descriptionTemplate,
     },
+    // {
+    //   field:"isActive",
+    //   header: "Status",
+    //   id:"",
+    //   index:"",
+    //   body: statusTemplate,
+    // },
 
     { field: "", header: "", body: actionTemplate, id: "", index: "" },
   ];

@@ -7,12 +7,31 @@ import checkInData from "../../../../utils/checkInData";
 import AddResourceType from "./AddResourceType";
 import ResourceTypeContainer from "./ResourceTypeContainer";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 const ResourceType = () => {
  
   const {resourceType,resourceTypeHandleChange,resourceTypeSubmit,ResourceTypeColumn,setAddResourceType,showAddResourceType,openADDResourceType,ResourceTypeData} = ResourceTypeContainer()
 
+  // const [globalFilterValue, setGlobalFilterValue] = useState('');
+  // const [filters, setFilters] = useState({
+  //   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  // });
+  
+  // const onGlobalFilterChange = (e) => {
+  //   const value = e.target.value;
+  //   let _filters = { ...filters };
+  
+  //   _filters['global'].value = value;
+  
+  //   setFilters(_filters);
+  //   setGlobalFilterValue(value);
+  // };
 
+  // const options = [
+  //   {label:"Active",value:true},
+  //   {label:"Inactive",value:false}
+  // ]
 
 
   return (
@@ -29,7 +48,8 @@ const ResourceType = () => {
             <div className=" flex justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex">
                 <div className="col-3">
-                  <DropDown title="Status"></DropDown>
+                  {/* <DropDown title="Status" value={globalFilterValue} onChange={onGlobalFilterChange} options={options} optionLabel="label"></DropDown> */}
+                  <DropDown title="Status"  optionLabel="label"></DropDown>
                 </div>
               </div>
               <div>
@@ -47,6 +67,7 @@ const ResourceType = () => {
               </div>
             </div>
             <div className="mt-2">
+              {/* <TableData filters={filters} columns={ResourceTypeColumn} data={ResourceTypeData} /> */}
               <TableData columns={ResourceTypeColumn} data={ResourceTypeData} />
             </div>
           </div>

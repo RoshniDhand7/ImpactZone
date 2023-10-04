@@ -36,10 +36,10 @@ const AddResourceType = ({ openADDResourceType,resourceType,resourceTypeHandleCh
                     className="text-xs font-semibold text-gray-500 gap-2"
                     htmlFor=""
                   >
-                    Description (256/256)
+                    {`Description (${resourceType.description.length}/256)`}
                   </label>
                   <div className="">
-                    <InputTextarea name="description" value={resourceType.description} onChange={(e)=>resourceTypeHandleChange({name:e.target.name,value:e.target.value})} style={{ width: "100%" }} />
+                    <InputTextarea name="description" value={resourceType.description} onChange={(e)=> e.target.value.length > 256 ? null : resourceTypeHandleChange({name:e.target.name,value:e.target.value})} style={{ width: "100%" }} />
                   </div>
                   <div className="text-danger" style={{ color: "red" }}>
                   {resourceType?.formErrors?.description}
