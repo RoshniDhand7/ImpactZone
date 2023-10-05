@@ -6,11 +6,11 @@ import AccessSchedules from "./Access Schedules/AccessSchedules";
 import ResourceType from "./ResourceType.jsx/ResourceType";
 import Resource from "./Resource/Resource";
 import ManageMembershipTypes from "./ManageMembershipType.jsx/manageMembershipTypes";
-
+import CampaignsGroup from "./CampaignsGroup";
 
 const MemberSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  
+
   return (
     <>
       <div className="my-2 mx-3">
@@ -21,6 +21,9 @@ const MemberSetup = () => {
           >
             <TabPanel header="Manage Membership Types">
               <ManageMembershipTypes />
+            </TabPanel>
+            <TabPanel header="Campaigns Group">
+              <CampaignsGroup />
             </TabPanel>
             <TabPanel header="Campaigns">
               <Campaigns />
