@@ -7,14 +7,38 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AddMembershipType from "./AddMembershipType";
 import MemberShipContainer from "./MemberShipContainer";
-
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const ManageMembershipTypes = () => {
-  const {showAddMemebershipType, showAddMemebershipTypeScreen,ManageMembershipTypesColumn,membershipTypeData,memberTypeHandleChange} = MemberShipContainer()
+  const {
+    showAddMemebershipType,
+    showAddMemebershipTypeScreen,
+    ManageMembershipTypesColumn,
+    membershipTypeData,
+    memberTypeHandleChange,
+    memberShipTypeForm,
+    clubs,
+    memberTypePickerHandleChange,
+    showAddMemberService,
+    setShowAddMemberService,
+    globalFilterValue,
+    setGlobalFilterValue,
+    filters,
+    onGlobalFilterChange,
+    memberShipAddColumn,
+    memberShipAddData,
+    selectedRow,
+    setSelectedRow,
+    removeAll,
+    submit,
+    visible,
+    setVisible,
+    footerContent,
+    newName,
+    newNameHandle,
+    editMemberType,
+  } = MemberShipContainer();
 
-
-
- 
   // const [ManageMembershipTypesData, setManageMembershipTypesData] = useState([
   //   {
   //     name: "AthElite",
@@ -58,18 +82,39 @@ const ManageMembershipTypes = () => {
   //   },
   // ]);
 
-  
-
   return (
     <>
       {showAddMemebershipType ? (
         <AddMembershipType
           showAddMemebershipTypeScreen={showAddMemebershipTypeScreen}
           memberTypeHandleChange={memberTypeHandleChange}
+          memberShipTypeForm={memberShipTypeForm}
+          clubs={clubs}
+          memberTypePickerHandleChange={memberTypePickerHandleChange}
+          membershipTypeData={membershipTypeData}
+          showAddMemberService={showAddMemberService}
+          setShowAddMemberService={setShowAddMemberService}
+          globalFilterValue={globalFilterValue}
+          setGlobalFilterValue={setGlobalFilterValue}
+          filters={filters}
+          onGlobalFilterChange={onGlobalFilterChange}
+          memberShipAddColumn={memberShipAddColumn}
+          memberShipAddData={memberShipAddData}
+          selectedRow={selectedRow}
+          setSelectedRow={setSelectedRow}
+          removeAll={removeAll}
+          submit={submit}
+          visible={visible}
+    setVisible={setVisible}
+    footerContent={footerContent}
+    newName={newName}
+    newNameHandle={newNameHandle}
+    editMemberType={editMemberType}
         />
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className=" flex justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex">
                 <div className="col-3">
@@ -109,10 +154,10 @@ const ManageMembershipTypes = () => {
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="">
-              <Buttons
+              {/* <Buttons
                 label="Close"
                 className="btn-grey text-900  border-none"
-              ></Buttons>
+              ></Buttons> */}
             </div>
           </div>
           <div className="mt-4">

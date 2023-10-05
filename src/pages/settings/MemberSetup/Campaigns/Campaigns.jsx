@@ -134,10 +134,10 @@ const Campaigns = () => {
               ></Buttons>
             </div>
             <div className="">
-              <Buttons
+              {/* <Buttons
                 label="Close"
                 className="btn-grey text-900  border-none"
-              ></Buttons>
+              ></Buttons> */}
             </div>
           </div>
           <div className="mt-4">

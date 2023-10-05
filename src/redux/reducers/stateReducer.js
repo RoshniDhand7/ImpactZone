@@ -58,6 +58,9 @@ const intitalState = {
     { label: "Quarter Hour", value: "Quarter Hour" },
   ],
   deployedClubs: ["Member Name", "Event", "Status", "Employee Name", "Enrolled / Max Attendee", "Duration", "Level", "Location"],
+  scheduleMember:["Schedule 1","Schedule 2"],
+  discountMember:["Discount 1","Discount 2"],
+  memberAge:["By Age","By Location","By Days"],
 };
 
 // let array = [];

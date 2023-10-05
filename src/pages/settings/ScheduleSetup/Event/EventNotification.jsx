@@ -60,10 +60,10 @@ const EventNotifications = ({
                   <InputTextarea
                     // value={value}
                     value={addEventData.eventReminder.message}
-                    onChange={
-                      addEventData?.eventReminder?.message?.length == 100
+                    onChange={(e)=>
+                      e.target.value?.length > 100
                         ? null
-                        : handleChange
+                        : handleChange(e)
                     }
                     name="message|eventReminder"
                     // onChange={(e) => setValue(e.target.value)}
