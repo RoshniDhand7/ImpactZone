@@ -6,6 +6,7 @@ import { useState } from "react";
 import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
+import AccessCalendar from "./AccessCalendar";
 
 const Access = () => {
   const [date, setDate] = useState(null);
@@ -34,16 +35,7 @@ const Access = () => {
       </div>
       <div>
         <div className=" bg-lightest-blue border-round-md mt-3 p-2">
-          <FullCalendar
-            plugins={[timeGridPlugin]}
-            initialView="timeGridFourDay"
-            views={{
-              timeGridFourDay: {
-                type: "timeGrid",
-                duration: { days: 4 },
-              },
-            }}
-          />
+          <AccessCalendar></AccessCalendar>
         </div>
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
