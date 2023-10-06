@@ -10,7 +10,11 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import DropDown from "../../../../components/dropdown/dropdown";
 
-const AddCampaignsGroup = ({ showcomponent }) => {
+const AddCampaignsGroup = ({
+  showcomponent,
+  handleChangeCampaignGroup,
+  campaignGroupData,
+}) => {
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -42,13 +46,22 @@ const AddCampaignsGroup = ({ showcomponent }) => {
           <Checkbox
             title="Active"
             className="text-900 font-semibold"
+            name="isActive"
+            value={campaignGroupData.isActive}
+            onChange={handleChangeCampaignGroup}
           ></Checkbox>
         </div>
         <div className="mt-3">
           <CardWithTitle title="Add Campaign Group">
             <div className=" p-3">
               <div className="col-3">
-                <Input title="Name"></Input>
+                <Input
+                  title="Name"
+                  name="name"
+                  value={campaignGroupData.name}
+                  onChange={handleChangeCampaignGroup}
+                  state={campaignGroupData}
+                ></Input>
               </div>
             </div>
           </CardWithTitle>

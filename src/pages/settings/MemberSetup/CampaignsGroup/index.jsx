@@ -7,76 +7,88 @@ import Input from "../../../../components/input/input";
 import DropDown from "../../../../components/dropdown/dropdown";
 import { useState } from "react";
 import AddCampaignsGroup from "./AddCampaihnsGroup";
+import CampaignsGroupContainer from "./CampaignsGroupContainer";
 
 const CampaignsGroup = () => {
-  const [showAddCampaignsGroup, setAddCampaignsGroup] = useState(false);
+  const {
+    showcomponent,
+    showAddCampaignsGroup,
+    CampaignsColumn,
+    CampaignsData,
+    handleChangeCampaignGroup,
+    campaignGroupData,
+  } = CampaignsGroupContainer()
+  // const [showAddCampaignsGroup, setAddCampaignsGroup] = useState(false);
 
-  const showcomponent = () => {
-    setAddCampaignsGroup((prev) => !prev);
-  };
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end">
-          <span>
-            <i className="pi pi-pencil  mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
+  // const showcomponent = () => {
+  //   setAddCampaignsGroup((prev) => !prev);
+  // };
+  // const actionTemplate = (col) => {
+  //   return (
+  //     <>
+  //       <div className="flex justify-content-end">
+  //         <span>
+  //           <i className="pi pi-pencil  mr-3 cursor-pointer"></i>
+  //         </span>
+  //         <span>
+  //           <i className="pi pi-trash cursor-pointer"></i>
+  //         </span>
+  //       </div>
+  //     </>
+  //   );
+  // };
 
-  const CampaignsColumn = [
-    {
-      field: "CampaignsGroupName",
-      header: "Campaigns Group Name",
-      id: "",
-      index: "",
-    },
+  // const CampaignsColumn = [
+  //   {
+  //     field: "CampaignsGroupName",
+  //     header: "Campaigns Group Name",
+  //     id: "",
+  //     index: "",
+  //   },
 
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [CampaignsData, setCampaignsData] = useState([
-    {
-      CampaignsGroupName: "Black Friday",
-      description: "",
-      index: "",
-      id: "",
-    },
-    {
-      CampaignsGroupName: "Coffee Cup Sleeve",
-      description: "",
-      index: "",
-      id: "",
-    },
-    {
-      CampaignsGroupName: "Direct Mailer",
-      description: "Direct Mail",
-      index: "",
-      id: "",
-    },
-    {
-      CampaignsGroupName: "Google Ad or Search",
-      description: "Google Ad or Search",
-      index: "",
-      id: "",
-    },
-    {
-      CampaignsGroupName: "Grocery Bag",
-      description: "",
-      index: "",
-      id: "",
-    },
-  ]);
+  //   { field: "", header: "", body: actionTemplate, id: "", index: "" },
+  // ];
+  // const [CampaignsData, setCampaignsData] = useState([
+  //   {
+  //     CampaignsGroupName: "Black Friday",
+  //     description: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     CampaignsGroupName: "Coffee Cup Sleeve",
+  //     description: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     CampaignsGroupName: "Direct Mailer",
+  //     description: "Direct Mail",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     CampaignsGroupName: "Google Ad or Search",
+  //     description: "Google Ad or Search",
+  //     index: "",
+  //     id: "",
+  //   },
+  //   {
+  //     CampaignsGroupName: "Grocery Bag",
+  //     description: "",
+  //     index: "",
+  //     id: "",
+  //   },
+  // ]);
 
   return (
     <>
       {showAddCampaignsGroup ? (
-        <AddCampaignsGroup showcomponent={showcomponent} />
+        <AddCampaignsGroup 
+        showcomponent={showcomponent} 
+        handleChangeCampaignGroup={handleChangeCampaignGroup}
+        campaignGroupData={campaignGroupData}
+        />
       ) : (
         <>
           {" "}
