@@ -127,13 +127,13 @@ const AccessSchedules = () => {
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-3">
-              <Buttons
+              {/* <Buttons
                 label="Print"
                 className="bg-yellow  text-900  border-none"
                 icon={
                   <i className="pi pi-print " style={{ fontSize: "1rem" }}></i>
                 }
-              ></Buttons>
+              ></Buttons> */}
             </div>
             <div className="">
               {/* <Buttons

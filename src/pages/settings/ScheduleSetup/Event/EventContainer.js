@@ -471,7 +471,10 @@ const EventContainer = () => {
           if (data.success) {
             // console.log("data", data);
             dispatch(getEvents());
-            const myTimeout = setTimeout(() => setShowEventSetups(false), 1000);
+            const myTimeout = setTimeout(() => {
+              setShowEventSetups(false);
+              setAddEventData({...initialData})
+            }, 1000);
           }
         });
       } else {
@@ -479,7 +482,10 @@ const EventContainer = () => {
           if (data.success) {
             // console.log("data", data);
             dispatch(getEvents());
-            const myTimeout = setTimeout(() => setShowEventSetups(false), 1000);
+            const myTimeout = setTimeout(() => {
+              setShowEventSetups(false);
+              setAddEventData({...initialData})
+            }, 1000);
           }
         });
       }

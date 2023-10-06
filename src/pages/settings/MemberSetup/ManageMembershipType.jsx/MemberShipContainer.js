@@ -126,25 +126,7 @@ const reject = () => {};
     setAddMemebershipType((prev) => !prev);
     if(editMemberType){
       setEditMemberType(null)
-      setMemberShipTypeForm({
-        isActive:true,
-    name: "",
-    description: "",
-    discountType: "",
-    accessRestriction: null,
-    accessSchedule: "",
-    allowRemoteCheckIn: null,
-    clubCreditAmount: "",
-    transferToAnotherType: "",
-    specialRestriction: "",
-    minimumAgeAllowed: "",
-    maximumAgeAllowed: "",
-    maximumDaysAllowed: "",
-    maximumDistanceAllowed:"",
-    clubs: [],
-    clubsOption:[],
-    services: [],
-      })
+      setMemberShipTypeForm({...initialMemberType})
     }
   };
 
@@ -340,6 +322,7 @@ const reject = () => {};
             // setVisible(false);
             setNewName("")
             setAddMemebershipType(false);
+            setMemberShipTypeForm({...initialMemberType})
           }, 1000);
         }
       });
@@ -373,9 +356,17 @@ const submit = () => {
     showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
   ) {
     if(editMemberType){
-      dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data)=>{if(data.success){dispatch(getMemberShipType());setAddMemebershipType(false)}})
+      dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data)=>{if(data.success){
+        dispatch(getMemberShipType());
+        setAddMemebershipType(false);
+        setMemberShipTypeForm({...initialMemberType})
+      }})
     }else{
-      dispatch(addMemberShipType(memberShipTypeForm)).then((data)=>{if(data.success){dispatch(getMemberShipType());setAddMemebershipType(false)}})
+      dispatch(addMemberShipType(memberShipTypeForm)).then((data)=>{if(data.success){
+        dispatch(getMemberShipType());
+        setAddMemebershipType(false);
+        setMemberShipTypeForm({...initialMemberType})
+      }})
     }
   }
   else{

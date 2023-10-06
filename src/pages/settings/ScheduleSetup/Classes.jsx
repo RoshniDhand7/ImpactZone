@@ -43,6 +43,7 @@ const Classes = () => {
     setDeleteRow,
     setLoading,
     setId,
+    initialClassData,
   } = Index();
 
   const actionTemplate = (data) => {
@@ -91,6 +92,7 @@ const Classes = () => {
 
   const onClickShowAddClassic = () => {
     setAddClasses((prev) => !prev);
+    setClasses({...initialClassData})
   };
 
   return (

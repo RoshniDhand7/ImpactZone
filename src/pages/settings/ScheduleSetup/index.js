@@ -492,27 +492,7 @@ export default function Index() {
         dispatch(addClassSchedule(classes, setLoading, null));
       }
       setAddClasses(false);
-      return setClasses({
-        event: null,
-        scheduleType: "",
-        classLocation: "",
-        startDate: null,
-        endDate: null,
-        indefinite: false,
-        schedule: [],
-        staff: "",
-        pay: "",
-        assistants: {
-          assistant: "",
-          assistantPay: "",
-        },
-        totalCapacity: null,
-        waitListCapacity: null,
-        onLineSignUp: false,
-        onLineCapacity: null,
-        allowSignUpAndPaylater: false,
-        attendForFree: false,
-      });
+      return setClasses({...initialClassData});
     } else {
       dispatch(
         showToast({
@@ -626,5 +606,6 @@ export default function Index() {
     setShowEventCategories,
     onEditEventCategory,
     setEventCategory,
+    initialClassData,
   };
 }

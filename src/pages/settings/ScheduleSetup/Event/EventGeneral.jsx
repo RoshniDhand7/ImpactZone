@@ -79,6 +79,7 @@ const EventGeneral = ({
     //   };
     // });
     setShowEventSetups(false)
+    setAddEventData({...initialData})
   }
 
   const nextDisable = () => {
