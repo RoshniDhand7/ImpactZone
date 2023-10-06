@@ -3,11 +3,16 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCampaignGroupAction, getCampaignsGroupAction } from '../../../../redux/actions/campaignsGroupAction';
 import { useEffect } from 'react';
+import { showAllFormErrors } from '../../../../utils/commonFunctions';
+import { showToast } from '../../../../redux/actions/toastAction';
+import FormValidation from '../../../../utils/AllFormValidation';
 
 const CampaignsGroupContainer = () => {
     const dispatch = useDispatch()
     const AllcampaignGroupData = useSelector((state)=>state.campaignsGroup.AllcampaignsGroup)
     const [showAddCampaignsGroup, setAddCampaignsGroup] = useState(false);
+    const [initialCampaignGroupData,setInitialCampaignGroupData] = useState({})
+    const [required,setRequired] = useState(["name"])
     const [campaignGroupData,setCampaignGroupData] = useState({
         isActive:true,
         name:''
@@ -41,54 +46,49 @@ const CampaignsGroupContainer = () => {
     
         { field: "", header: "", body: actionTemplate, id: "", index: "" },
       ];
-      // const [CampaignsData, setCampaignsData] = useState([
-      //   {
-      //     CampaignsGroupName: "Black Friday",
-      //     description: "",
-      //     index: "",
-      //     id: "",
-      //   },
-      //   {
-      //     CampaignsGroupName: "Coffee Cup Sleeve",
-      //     description: "",
-      //     index: "",
-      //     id: "",
-      //   },
-      //   {
-      //     CampaignsGroupName: "Direct Mailer",
-      //     description: "Direct Mail",
-      //     index: "",
-      //     id: "",
-      //   },
-      //   {
-      //     CampaignsGroupName: "Google Ad or Search",
-      //     description: "Google Ad or Search",
-      //     index: "",
-      //     id: "",
-      //   },
-      //   {
-      //     CampaignsGroupName: "Grocery Bag",
-      //     description: "",
-      //     index: "",
-      //     id: "",
-      //   },
-      // ]);
+
 
 const handleChangeCampaignGroup = ({name,value}) => {
+  const formErrors = FormValidation(
+    name,
+    value,
+    campaignGroupData,
+    required,
+    initialCampaignGroupData
+  );
     setCampaignGroupData((prev)=>{
         return {
             ...prev,
-            [name]:value
+            [name]:value,
+            formErrors
         }
     })
 }
 
 const onSubmit = () =>{
-    dispatch(addCampaignGroupAction(campaignGroupData))
+  if (
+    showAllFormErrors(campaignGroupData, setCampaignGroupData, required, initialCampaignGroupData)
+  ) {
+    dispatch(addCampaignGroupAction(campaignGroupData)).then((data)=>{
+      if (data.success) {
+        dispatch(getCampaignsGroupAction());
+        const myTimeout = setTimeout(() => setAddCampaignsGroup(false), 1000);
+      }
+    })
+  }
+  else{
+    dispatch(
+      showToast({
+        severity: "error",
+        summary: "Please Fill All Required Fields",
+      })
+    );
+  } 
 }
 
 useEffect(() => {
- dispatch(getCampaignsGroupAction()) 
+  setInitialCampaignGroupData(campaignGroupData)
+ dispatch(getCampaignsGroupAction())
 }, [])
 
 
