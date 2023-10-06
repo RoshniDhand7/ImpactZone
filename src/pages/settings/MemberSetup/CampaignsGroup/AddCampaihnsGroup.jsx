@@ -14,6 +14,7 @@ const AddCampaignsGroup = ({
   showcomponent,
   handleChangeCampaignGroup,
   campaignGroupData,
+  onSubmit,
 }) => {
   const itemTemplate = (item) => {
     return (
@@ -68,7 +69,7 @@ const AddCampaignsGroup = ({
         </div>
         <div className=" m-2 mt-3 flex justify-content-end">
           <div className="mx-3" style={{ width: "105px" }}>
-            <Buttons label="Save" className="btn-dark border-none"></Buttons>
+            <Buttons label="Save" onClick={onSubmit} className="btn-dark border-none"></Buttons>
           </div>
           <div className="">
             <Buttons

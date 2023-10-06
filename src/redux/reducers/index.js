@@ -11,6 +11,7 @@ import classSchedulesReducer from "./classSchedulesReducer";
 import resourceTypeReducer from "./resourceTypeReducer";
 import resourceReducer from "./resourceReducer";
 import memberShipTypeReducer from "./memberShipTypesReducer";
+import campaignsGroupReducer from "./campaignsGroupReducers";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -25,4 +26,5 @@ export default combineReducers({
   resourceType: resourceTypeReducer,
   resources: resourceReducer,
   memberShip: memberShipTypeReducer,
+  campaignsGroup: campaignsGroupReducer,
 });

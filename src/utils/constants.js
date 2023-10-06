@@ -51,12 +51,9 @@ const constants = {
     UpdateResource:"resources/update/",
     DeleteResource:"resources/delete/",
     MemberShipType:"membership-types",
-<<<<<<< Updated upstream
     UpdateMemberShipType:"membership-types/update/",
     DeleteMemberShipType:"membership-types/delete/",
-=======
     AllCampaignGroups:"campaign-groups",
->>>>>>> Stashed changes
   },
 };
 

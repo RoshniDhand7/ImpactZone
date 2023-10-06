@@ -14,9 +14,10 @@ const CampaignsGroup = () => {
     showcomponent,
     showAddCampaignsGroup,
     CampaignsColumn,
-    CampaignsData,
+    AllcampaignGroupData,
     handleChangeCampaignGroup,
     campaignGroupData,
+    onSubmit,
   } = CampaignsGroupContainer()
   // const [showAddCampaignsGroup, setAddCampaignsGroup] = useState(false);
 
@@ -88,6 +89,7 @@ const CampaignsGroup = () => {
         showcomponent={showcomponent} 
         handleChangeCampaignGroup={handleChangeCampaignGroup}
         campaignGroupData={campaignGroupData}
+        onSubmit={onSubmit}
         />
       ) : (
         <>
@@ -114,7 +116,7 @@ const CampaignsGroup = () => {
               </div>
             </div>
             <div className="mt-2">
-              <TableData columns={CampaignsColumn} data={CampaignsData} />
+              <TableData columns={CampaignsColumn} data={AllcampaignGroupData} />
             </div>
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
