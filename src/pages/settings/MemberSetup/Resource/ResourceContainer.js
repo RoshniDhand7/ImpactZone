@@ -281,7 +281,8 @@ const onGlobalFilterChange = (e) => {
     }
     setResource(obj)
     setAddResource(true)
-    setSelectedRow(editResource.services.map((item)=>{return {id:item.id,catelogPrice:item.catelogPrice,name:item.name,size:item.size.toString(),status:item.status}}))
+   let newSelectedRow = editResource.services.map((item)=>{return {id:item.id,catelogPrice:item.catelogPrice,name:item.name,size:item.size.toString(),status:item.status}})
+    setSelectedRow(newSelectedRow)
   }
 }, [editResource])
 

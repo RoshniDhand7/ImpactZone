@@ -50,7 +50,9 @@ const constants = {
     resources:"resources/",
     UpdateResource:"resources/update/",
     DeleteResource:"resources/delete/",
-    MemberShipType:"membership-types"
+    MemberShipType:"membership-types",
+    UpdateMemberShipType:"membership-types/update/",
+    DeleteMemberShipType:"membership-types/delete/",
   },
 };
 
