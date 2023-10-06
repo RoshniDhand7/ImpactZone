@@ -66,9 +66,6 @@ const AddCampaignsGroup = ({ showcomponent }) => {
           </div>
         </div>
       </div>
-      <div>
-        <RecentCheckIn data={checkInData}></RecentCheckIn>
-      </div>
     </>
   );
 };

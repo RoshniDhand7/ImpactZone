@@ -52,7 +52,7 @@ const RecentCheckIn = ({ data }) => {
 
   return (
     <>
-      <div className="w-100 ">
+      <div className="w-100">
         <div className="">
           <div>
             <h3 className="text-900">Recent Check-Ins</h3>

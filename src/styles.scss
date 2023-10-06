@@ -21,6 +21,10 @@
   border-radius: 5px;
   background: $darkblue;
 }
+.bottom{
+position: absolute !important;
+bottom: 0 !important;
+}
 
 body {
   margin: 0;
