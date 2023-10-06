@@ -184,7 +184,7 @@ const AddMembershipType = ({
                     style={
                       memberShipTypeForm.accessRestriction == true
                         ? {}
-                        : { pointerEvents: "none" }
+                        : { pointerEvents: "none",opacity:"0.5" }
                     }
                   >
                     <DropDown

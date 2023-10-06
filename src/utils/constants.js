@@ -53,6 +53,7 @@ const constants = {
     MemberShipType:"membership-types",
     UpdateMemberShipType:"membership-types/update/",
     DeleteMemberShipType:"membership-types/delete/",
+    AllCampaignGroups:"campaign-groups",
   },
 };
 

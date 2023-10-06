@@ -21,7 +21,7 @@ const MemberShipContainer = () => {
   const [showAddMemberService,setShowAddMemberService] = useState(false)
   const [showAddMemebershipType, setAddMemebershipType] = useState(false);
   const [initialMemberType,setInitialMemberType] = useState({})
-  const [required,setRequired] = useState(["name","description","discountType","allowRemoteCheckIn","clubCreditAmount","transferToAnotherType","services","clubs"])
+  const [required,setRequired] = useState(["name","description","discountType","allowRemoteCheckIn","clubCreditAmount","services","clubs"])
   const [selectedRow,setSelectedRow] = useState([])
   const[editMemberType,setEditMemberType] = useState(null)
   const [visible, setVisible] = useState(false);
@@ -85,6 +85,14 @@ const reject = () => {};
     );
   };
 
+  const descriptionTemplate = (col) => {
+    return (
+      <div>
+{col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+</div>
+    )
+  }
+
   const ManageMembershipTypesColumn = [
     {
       field: "name",
@@ -97,9 +105,10 @@ const reject = () => {};
       header: "Description",
       id: "",
       index: "",
+      body:descriptionTemplate
     },
     {
-      field: "discount Type",
+      field: "discountType",
       header: "Discount Type",
       id: "",
       index: "",
@@ -323,11 +332,13 @@ const reject = () => {};
       _id: null,
     };
     if (showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)) {
+      setVisible(false);
       dispatch(addMemberShipType(payload)).then((data) => {
         if (data.success) {
           dispatch(getMemberShipType());
           const myTimeout = setTimeout(() => {
-            setVisible(false);
+            // setVisible(false);
+            setNewName("")
             setAddMemebershipType(false);
           }, 1000);
         }
