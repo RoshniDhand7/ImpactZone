@@ -20,7 +20,7 @@ const CampaignsGroupContainer = () => {
         name:''
     })
 
-    console.log("campaignGroupData",campaignGroupData)
+
     const showcomponent = () => {
         setAddCampaignsGroup((prev) => !prev);
         if(editCampaignGroup){
@@ -30,7 +30,6 @@ const CampaignsGroupContainer = () => {
       };
 
       const deleteConfirm = (id) => {
-        console.log("test",id)
         confirmDialog({
           message: "Do you want to delete this record?",
           header: "Delete Confirmation",
@@ -43,7 +42,6 @@ const CampaignsGroupContainer = () => {
       };
       const acceptFunc = (id) => {
         dispatch(DeleteCampaignGroupAction(id)).then((data) => {
-          // console.log("data", data);
           if (data.success) {
             dispatch(getCampaignsGroupAction());
           }

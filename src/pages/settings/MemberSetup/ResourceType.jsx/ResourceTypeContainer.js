@@ -74,7 +74,6 @@ const ResourceTypeContainer = () => {
   }
 
   const deleteConfirm = (id) => {
-    console.log("test",id)
     confirmDialog({
       message: "Do you want to delete this record?",
       header: "Delete Confirmation",
@@ -87,7 +86,6 @@ const ResourceTypeContainer = () => {
   };
   const acceptFunc = (id) => {
     dispatch(DeleteResourceType(id)).then((data) => {
-      // console.log("data", data);
       if (data.success) {
         dispatch(getResourceType());
       }
@@ -184,8 +182,7 @@ const ResourceTypeContainer = () => {
 
   
 
-  console.log("resourceType",resourceType)
-  console.log("ResourceTypeData",ResourceTypeData)
+ 
   return { resourceType, resourceTypeHandleChange,resourceTypeSubmit,ResourceTypeColumn,setAddResourceType,showAddResourceType,openADDResourceType,ResourceTypeData };
 };
 

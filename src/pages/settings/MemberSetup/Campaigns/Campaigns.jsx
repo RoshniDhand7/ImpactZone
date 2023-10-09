@@ -8,6 +8,7 @@ import checkInData from "../../../../utils/checkInData";
 import AddCampaigns from "./AddCampaigns";
 import CampaignConatiner from "./CampaignConatiner";
 import { useSelector } from "react-redux";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const Campaigns = () => {
   const CampaignsData = useSelector((state)=>state.campaign.Allcampaigns)
@@ -16,7 +17,11 @@ const {
     showcomponent,
     CampaignsColumn,
     campaignsHandleChange,
-    campaignsForm
+    campaignsForm,
+    campaignPickerHandleChange,
+    AllcampaignGroupData,
+    campaignSubmit,
+    campaignTypeOption,
 } = CampaignConatiner()
 
   return (
@@ -26,10 +31,15 @@ const {
         showcomponent={showcomponent}
         campaignsHandleChange={campaignsHandleChange}
         campaignsForm={campaignsForm}
+        campaignPickerHandleChange={campaignPickerHandleChange}
+        AllcampaignGroupData={AllcampaignGroupData}
+        campaignSubmit={campaignSubmit}
+        campaignTypeOption={campaignTypeOption}
          />
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className=" flex justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex">
                 <div className="col-3">

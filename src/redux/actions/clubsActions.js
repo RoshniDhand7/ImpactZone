@@ -9,7 +9,6 @@ const getClubs = (setLoading) => async (dispatch) => {
     }
    
     const res = await api("get", constants.endPoints.GetClubs);
-    console.log("resclub",res)
     if (res.success) {
         if (res.data) {
             dispatch({

@@ -43,7 +43,6 @@ const addResourceType = (data) => async (dispatch,setLoading) => {
 const UpdateResourceType = (data) => async (dispatch,setLoading) => {
   dispatch(showLoaderAction())
   const res = await api("put", constants.endPoints.UpdateResourceType + data._id,{...data});
-  console.log("address",res)
   if (res.success) {
       if (res.data) {
           dispatch({
@@ -66,7 +65,6 @@ const UpdateResourceType = (data) => async (dispatch,setLoading) => {
 const DeleteResourceType = (id) => async (dispatch,setLoading) => {
   dispatch(showLoaderAction())
   const res = await api("put", constants.endPoints.DeleteResourceType + id,{});
-  console.log("address",res)
   if (res.success) {
       if (res.data) {
           dispatch({

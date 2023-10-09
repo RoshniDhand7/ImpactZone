@@ -42,7 +42,6 @@ const getMemberShipType = () => async (dispatch) => {
   const UpdateMemberShipTypeAction = (data) => async (dispatch,setLoading) => {
     dispatch(showLoaderAction())
     const res = await api("put", constants.endPoints.UpdateMemberShipType + data._id,{...data});
-    console.log("address",res)
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -64,7 +63,6 @@ const getMemberShipType = () => async (dispatch) => {
   const DeleteMemberShipTypeAction = (id) => async (dispatch,setLoading) => {
     dispatch(showLoaderAction())
     const res = await api("put", constants.endPoints.DeleteMemberShipType + id,{});
-    console.log("address",res)
     if (res.success) {
         if (res.data) {
             dispatch({

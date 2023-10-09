@@ -43,7 +43,6 @@ const getCampaignsGroupAction = () => async (dispatch) => {
   const UpdateCampaignGroupAction = (data) => async (dispatch,setLoading) => {
     dispatch(showLoaderAction())
     const res = await api("put", constants.endPoints.UpdateCampaignGroups + data._id,{...data});
-    console.log("address",res)
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -66,7 +65,6 @@ const getCampaignsGroupAction = () => async (dispatch) => {
   const DeleteCampaignGroupAction = (id) => async (dispatch,setLoading) => {
     dispatch(showLoaderAction())
     const res = await api("put", constants.endPoints.DeleteCampaignGroups + id,{});
-    console.log("address",res)
     if (res.success) {
         if (res.data) {
             dispatch({

@@ -61,6 +61,7 @@ const intitalState = {
   scheduleMember:["Schedule 1","Schedule 2"],
   discountMember:["None","Discount 1","Discount 2"],
   memberAge:["By Age","By Location","By Days"],
+  campaignTypes:["Prospect (Fast Add)","Prospect (Online)","Prospect (Kiosk)","Agreement (Online)","Agreement (At Club)","Agreement (Kiosk)","Agreement (Fast Add)"]
 };
 
 // let array = [];
@@ -99,6 +100,11 @@ const stateReducer = (state = intitalState, action) => {
         ...state,
         deployedClubs: action.payload,
       };
+      case types.EVENT_CAMPAIGNTYPES:
+        return {
+          ...state,
+          campaignTypes: action.payload,
+        };
 
     default:
       return { ...state };
