@@ -2,14 +2,14 @@ import React, { useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-
+import moment from "moment";
 import { useState } from "react";
 
 const AccessCalendar = () => {
   const calendarRef = useRef(null);
 
   const handleDateSelect = (selectInfo) => {
-    // console.log(selectInfo.view.type);
+    console.log(moment().day(selectInfo.start.getDay()));
     if (selectInfo.view.type === "timeGridWeek") {
       selectInfo.view.calendar.unselect();
 
@@ -24,8 +24,13 @@ const AccessCalendar = () => {
       let calendarApi = calendarRef.current.getApi();
       // let calendarApi = selectInfo.view.calendar
 
+      getSchedule(newEvent);
       calendarApi.addEvent(newEvent);
     }
+  };
+
+  const getSchedule = (event) => {
+    console.group(event);
   };
 
   return (
