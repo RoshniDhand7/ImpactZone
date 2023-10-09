@@ -45,14 +45,20 @@ const ResourceTypeContainer = () => {
       dispatch(UpdateResourceType(resourceType)).then((data)=>{
         if (data.success) {
           dispatch(getResourceType());
-          const myTimeout = setTimeout(() => setAddResourceType(false), 1000);
+          const myTimeout = setTimeout(() => {
+            setAddResourceType(false);
+            setResourceType({...initialResourceTypeData})
+          }, 1000);
         }
       });
     }else{
       dispatch(addResourceType(resourceType)).then((data)=>{
         if (data.success) {
           dispatch(getResourceType());
-          const myTimeout = setTimeout(() => setAddResourceType(false), 1000);
+          const myTimeout = setTimeout(() => {
+            setAddResourceType(false);
+            setResourceType({...initialResourceTypeData})
+          }, 1000);
         }
       })
     }
@@ -151,11 +157,7 @@ const ResourceTypeContainer = () => {
     setAddResourceType((prev) => !prev);
     if(editResourceTypeData){
       setEditResourceTypeData(null)
-      setResourceType({
-        isActive: true,
-        name: "",
-        description: "",
-      })
+      setResourceType({...initialResourceTypeData})
     }
   };
 

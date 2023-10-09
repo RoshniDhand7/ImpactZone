@@ -54,6 +54,9 @@ const constants = {
     UpdateMemberShipType:"membership-types/update/",
     DeleteMemberShipType:"membership-types/delete/",
     AllCampaignGroups:"campaign-groups",
+    UpdateCampaignGroups:"campaign-groups/update/",
+    DeleteCampaignGroups:"campaign-groups/delete/",
+    AllCampaign:"campaigns",
   },
 };
 

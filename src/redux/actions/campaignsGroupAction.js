@@ -39,4 +39,53 @@ const getCampaignsGroupAction = () => async (dispatch) => {
     return res;
   };
 
-  export {getCampaignsGroupAction,addCampaignGroupAction}
+
+  const UpdateCampaignGroupAction = (data) => async (dispatch,setLoading) => {
+    dispatch(showLoaderAction())
+    const res = await api("put", constants.endPoints.UpdateCampaignGroups + data._id,{...data});
+    console.log("address",res)
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.UPDATE_CAMPAIGN_GROUP,
+                payload: res.data,
+            });
+        }
+        dispatch(hideLoaderAction())
+        dispatch(showToast({ severity: "success", summary: res.message }));
+    }
+    else{
+        dispatch(hideLoaderAction())
+        dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+    
+    return res;
+  };
+
+
+  const DeleteCampaignGroupAction = (id) => async (dispatch,setLoading) => {
+    dispatch(showLoaderAction())
+    const res = await api("put", constants.endPoints.DeleteCampaignGroups + id,{});
+    console.log("address",res)
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.DELETE_CAMPAIGN_GROUP,
+                payload: res.data,
+            });
+        }
+        dispatch(hideLoaderAction())
+        dispatch(showToast({ severity: "success", summary: res.message }));
+    }
+    else{
+        dispatch(hideLoaderAction())
+        dispatch(showToast({ severity: "error", summary: res.message }));
+    }
+    
+    return res;
+  };
+
+
+
+
+  export {getCampaignsGroupAction,addCampaignGroupAction,UpdateCampaignGroupAction,DeleteCampaignGroupAction}

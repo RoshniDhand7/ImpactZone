@@ -8,6 +8,7 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import { useState } from "react";
 import AddCampaignsGroup from "./AddCampaihnsGroup";
 import CampaignsGroupContainer from "./CampaignsGroupContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const CampaignsGroup = () => {
   const {
@@ -95,6 +96,7 @@ const CampaignsGroup = () => {
         <>
           {" "}
           <div>
+          <ConfirmDialog />
             <div className=" flex justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex">
                 <div className="col-3">
@@ -121,19 +123,19 @@ const CampaignsGroup = () => {
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-3">
-              <Buttons
+              {/* <Buttons
                 label="Print"
                 className="bg-yellow  text-900  border-none"
                 icon={
                   <i className="pi pi-print " style={{ fontSize: "1rem" }}></i>
                 }
-              ></Buttons>
+              ></Buttons> */}
             </div>
             <div className="">
-              <Buttons
+              {/* <Buttons
                 label="Close"
                 className="btn-grey text-900  border-none"
-              ></Buttons>
+              ></Buttons> */}
             </div>
           </div>
         </>

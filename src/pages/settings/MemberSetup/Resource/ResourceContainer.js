@@ -140,16 +140,7 @@ setResource((prev)=>{
   setAddResource((prev) => !prev);
   if(editResource){
     setEditResource(null)
-    setResource({
-      isActive:true,
-    name: "",
-    resourceType: "",
-    location: "",
-    availableQuantity: "",
-    usedInEvents: [],
-    pastDue: "",
-    services: []
-    })
+    setResource({...initialResource})
   }
 };
 
@@ -161,14 +152,20 @@ setResource((prev)=>{
   dispatch(UpdateResource(resource)).then((data)=>{
     if (data.success) {
       dispatch(getResource());
-      const myTimeout = setTimeout(() => setAddResource(false), 1000);
+      const myTimeout = setTimeout(() => {
+        setAddResource(false);
+        setResource({...initialResource})
+      }, 1000);
     }
   });
 }else{
   dispatch(addResource(resource)).then((data)=>{
     if (data.success) {
       dispatch(getResource());
-      const myTimeout = setTimeout(() => setAddResource(false), 1000);
+      const myTimeout = setTimeout(() => {
+        setAddResource(false);
+        setResource({...initialResource})
+      }, 1000);
     }
   });
 }

@@ -30,13 +30,13 @@ const MemberShipContainer = () => {
     isActive: true,
     name: "",
     description: "",
-    discountType: "",
+    discountType: "None",
     accessRestriction: null,
     accessSchedule: "",
     allowRemoteCheckIn: null,
     clubCreditAmount: "",
-    transferToAnotherType: "",
-    specialRestriction: "",
+    transferToAnotherType: null,
+    specialRestriction: [],
     minimumAgeAllowed: "",
     maximumAgeAllowed: "",
     maximumDaysAllowed: "",
@@ -126,25 +126,7 @@ const MemberShipContainer = () => {
     setAddMemebershipType((prev) => !prev);
     if (editMemberType) {
       setEditMemberType(null)
-      setMemberShipTypeForm({
-        isActive: true,
-        name: "",
-        description: "",
-        discountType: "",
-        accessRestriction: null,
-        accessSchedule: "",
-        allowRemoteCheckIn: null,
-        clubCreditAmount: "",
-        transferToAnotherType: "",
-        specialRestriction: "",
-        minimumAgeAllowed: "",
-        maximumAgeAllowed: "",
-        maximumDaysAllowed: "",
-        maximumDistanceAllowed: "",
-        clubs: [],
-        clubsOption: [],
-        services: [],
-      })
+      setMemberShipTypeForm({...initialMemberType})
     }
   };
 
@@ -156,7 +138,19 @@ const MemberShipContainer = () => {
       required,
       initialMemberType
     );
-    if (name == "accessRestriction" && value == false) {
+
+    // if(name == "isActive" && value == true){
+    //   setMemberShipTypeForm((prev) => {
+    //     return {
+    //       ...prev,
+    //       [name]: value,
+    //       transferToAnotherType: null,
+    //       formErrors
+    //     };
+    //   });
+    // }
+
+     if (name == "accessRestriction" && value == false) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
@@ -166,37 +160,33 @@ const MemberShipContainer = () => {
         };
       });
     }
-    else if (name == "specialRestriction" && value == "By Age") {
+    else if (name == "specialRestriction" && !value.includes("By Age")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
-          maximumDaysAllowed: "",
-          maximumDistanceAllowed: "",
+          minimumAgeAllowed: "",
+          maximumAgeAllowed: "",
           formErrors,
         };
       });
     }
-    else if (name == "specialRestriction" && value == "By Location") {
+    else if (name == "specialRestriction" && !value.includes("By Location")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
-          minimumAgeAllowed: "",
-          maximumAgeAllowed: "",
-          maximumDaysAllowed: "",
+          maximumDistanceAllowed: "",
           formErrors
         };
       });
     }
-    else if (name == "specialRestriction" && value == "By Days") {
+    else if (name == "specialRestriction" && !value.includes("By Days")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
-          minimumAgeAllowed: "",
-          maximumAgeAllowed: "",
-          maximumDistanceAllowed: "",
+          maximumDaysAllowed: "",
           formErrors
         };
       });
@@ -340,6 +330,7 @@ const MemberShipContainer = () => {
             // setVisible(false);
             setNewName("")
             setAddMemebershipType(false);
+            setMemberShipTypeForm({...initialMemberType})
           }, 1000);
         }
       });
@@ -368,64 +359,24 @@ const MemberShipContainer = () => {
     setNewName(value);
   };
 
-  const submit = () => {
-    if (
-      showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
-    ) {
-      if (editMemberType) {
-        dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data) => {
-          if (data.success) {
-            setMemberShipTypeForm({
-              isActive: true,
-              name: "",
-              description: "",
-              discountType: "",
-              accessRestriction: null,
-              accessSchedule: "",
-              allowRemoteCheckIn: null,
-              clubCreditAmount: "",
-              transferToAnotherType: "",
-              specialRestriction: "",
-              minimumAgeAllowed: "",
-              maximumAgeAllowed: "",
-              maximumDaysAllowed: "",
-              maximumDistanceAllowed: "",
-              clubs: [],
-              clubsOption: [],
-              services: [],
-            });
-            dispatch(getMemberShipType());
-            setAddMemebershipType(false)
-          }
-        });
-      } else {
-        dispatch(addMemberShipType(memberShipTypeForm)).then((data) => {
-          if (data.success) {
-            setMemberShipTypeForm({
-              isActive: true,
-              name: "",
-              description: "",
-              discountType: "",
-              accessRestriction: null,
-              accessSchedule: "",
-              allowRemoteCheckIn: null,
-              clubCreditAmount: "",
-              transferToAnotherType: "",
-              specialRestriction: "",
-              minimumAgeAllowed: "",
-              maximumAgeAllowed: "",
-              maximumDaysAllowed: "",
-              maximumDistanceAllowed: "",
-              clubs: [],
-              clubsOption: [],
-              services: [],
-            });
-            dispatch(getMemberShipType());
-            setAddMemebershipType(false)
-          }
-        })
-      };
+const submit = () => {
+  if (
+    showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
+  ) {
+    if(editMemberType){
+      dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data)=>{if(data.success){
+        dispatch(getMemberShipType());
+        setAddMemebershipType(false);
+        setMemberShipTypeForm({...initialMemberType})
+      }})
+    }else{
+      dispatch(addMemberShipType(memberShipTypeForm)).then((data)=>{if(data.success){
+        dispatch(getMemberShipType());
+        setAddMemebershipType(false);
+        setMemberShipTypeForm({...initialMemberType})
+      }})
     }
+  }
     else {
       dispatch(
         showToast({
