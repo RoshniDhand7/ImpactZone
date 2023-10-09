@@ -30,7 +30,8 @@ const Input = ({
   state,
   childState,
   minDate,
-  keyfilter
+  keyfilter,
+  overlappingText
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -44,7 +45,7 @@ const Input = ({
         style={{ width: "100%", display: "inline-block" }}
         className={"p-input-icon-right"}
       >
-        <i className={icon} />
+       {overlappingText ? <i><label className="text-xs text-dark-gray flex justify-content-between  font-semibold">{overlappingText}</label></i> : <i className={icon} />}
 
         {type === "number" ? (
           <InputText

@@ -15,12 +15,18 @@ const {
   showAddCampaigns,
     showcomponent,
     CampaignsColumn,
+    campaignsHandleChange,
+    campaignsForm
 } = CampaignConatiner()
 
   return (
     <>
       {showAddCampaigns ? (
-        <AddCampaigns showcomponent={showcomponent} />
+        <AddCampaigns 
+        showcomponent={showcomponent}
+        campaignsHandleChange={campaignsHandleChange}
+        campaignsForm={campaignsForm}
+         />
       ) : (
         <>
           <div>

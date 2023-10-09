@@ -7,6 +7,12 @@ import { getCampaignsAction } from '../../../../redux/actions/campaignAction';
 const CampaignConatiner = () => {
 const dispatch = useDispatch()
     const [showAddCampaigns, setAddCampaigns] = useState(false);
+    const [campaignsForm,setCampaignsForm] = useState({
+        name: "",
+        description: "",
+        campaignGroup: "",
+        campaignTypes: []
+    })
     const actionTemplate = (col) => {
       return (
         <>
@@ -48,6 +54,15 @@ const dispatch = useDispatch()
       setAddCampaigns((prev) => !prev);
     };
 
+    const campaignsHandleChange = ({name,value}) => {
+        setCampaignsForm((prev)=>{
+            return {
+                ...prev,
+                [name]:value
+            }
+        })
+    }
+
 
     useEffect(() => {
       dispatch(getCampaignsAction())
@@ -58,6 +73,8 @@ const dispatch = useDispatch()
     showAddCampaigns,
     showcomponent,
     CampaignsColumn,
+    campaignsHandleChange,
+    campaignsForm
   }
 }
 
