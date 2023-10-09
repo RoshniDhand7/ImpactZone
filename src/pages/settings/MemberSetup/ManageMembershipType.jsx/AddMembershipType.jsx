@@ -255,6 +255,7 @@ const AddMembershipType = ({
                             value={memberShipTypeForm.minimumAgeAllowed}
                             onChange={memberTypeHandleChange}
                             state={memberShipTypeForm}
+                            keyfilter="num"
                           ></Input>
                         </div>
                         <div className="col-4">
@@ -264,6 +265,7 @@ const AddMembershipType = ({
                             value={memberShipTypeForm.maximumAgeAllowed}
                             onChange={memberTypeHandleChange}
                             state={memberShipTypeForm}
+                            keyfilter="num"
                           ></Input>
                         </div>
                       </>
@@ -276,6 +278,7 @@ const AddMembershipType = ({
                           value={memberShipTypeForm.maximumDaysAllowed}
                           onChange={memberTypeHandleChange}
                           state={memberShipTypeForm}
+                          keyfilter="num"
                         ></Input>
                       </div>
                     ) : null}
@@ -286,6 +289,8 @@ const AddMembershipType = ({
                         value={memberShipTypeForm.maximumDistanceAllowed}
                         onChange={memberTypeHandleChange}
                         state={memberShipTypeForm}
+                        keyfilter="num"
+                        overlappingText="/Miles"
                         ></Input>
                       </div>
                     ) : null}
