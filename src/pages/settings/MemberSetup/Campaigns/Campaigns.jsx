@@ -6,88 +6,16 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddCampaigns from "./AddCampaigns";
+import CampaignConatiner from "./CampaignConatiner";
+import { useSelector } from "react-redux";
 
 const Campaigns = () => {
-  const [showAddCampaigns, setAddCampaigns] = useState(false);
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
-
-  const CampaignsColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "description",
-      header: "Description",
-      id: "",
-      index: "",
-    },
-    {
-      field: "members",
-      header: "# Members",
-      id: "",
-      index: "",
-    },
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [CampaignsData, setCampaignsData] = useState([
-    {
-      name: "Black Friday",
-      description: "",
-      members: "Signup (EAE)",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Coffee Cup Sleeve",
-      description: "",
-      members:
-        "Prospect (Fast Add), Prospect (Online), Recurring Service, Signup (EAE),Signup(Fast Add) Signup (Kiosk), Signup (Online)",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Direct Mailer",
-      description: "Direct Mail",
-      members: "",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Google Ad or Search",
-      description: "Google Ad or Search",
-      members: "",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Grocery Bag",
-      description: "",
-      members: "",
-      index: "",
-      id: "",
-    },
-  ]);
-
-  const showcomponent = () => {
-    setAddCampaigns((prev) => !prev);
-  };
+  const CampaignsData = useSelector((state)=>state.campaign.Allcampaigns)
+const {
+  showAddCampaigns,
+    showcomponent,
+    CampaignsColumn,
+} = CampaignConatiner()
 
   return (
     <>

@@ -20,7 +20,6 @@ const AccessCalendar = () => {
         end: selectInfo.end.toISOString(),
         // allDay: state.selectInfo?.allDay || false
       };
-      // console.log(newEvent);
 
       let calendarApi = calendarRef.current.getApi();
       // let calendarApi = selectInfo.view.calendar

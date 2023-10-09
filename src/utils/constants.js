@@ -56,6 +56,7 @@ const constants = {
     AllCampaignGroups:"campaign-groups",
     UpdateCampaignGroups:"campaign-groups/update/",
     DeleteCampaignGroups:"campaign-groups/delete/",
+    AllCampaign:"campaigns",
   },
 };
 

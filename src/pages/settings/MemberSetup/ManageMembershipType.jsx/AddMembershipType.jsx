@@ -12,6 +12,7 @@ import { PickList } from "primereact/picklist";
 import { useSelector } from "react-redux";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import { Dialog } from "primereact/dialog";
+import MuliSelectDropDown from "../../../../components/dropdown/muliSelectDropDown";
 
 const AddMembershipType = ({
   showAddMemebershipTypeScreen,
@@ -130,6 +131,7 @@ const AddMembershipType = ({
             <Checkbox
               title="Active"
               className="text-900 font-semibold"
+              name="isActive"
               value={memberShipTypeForm?.isActive}
               onChange={memberTypeHandleChange}
             ></Checkbox>
@@ -181,14 +183,15 @@ const AddMembershipType = ({
                   </div>
                   <div
                     className="col"
-                    style={
-                      memberShipTypeForm.accessRestriction == true
-                        ? {}
-                        : { pointerEvents: "none",opacity:"0.5" }
-                    }
+                    // style={
+                    //   memberShipTypeForm.accessRestriction == true
+                    //     ? {}
+                    //     : { pointerEvents: "none",opacity:"0.5" }
+                    // }
                   >
                     <DropDown
                       title="Select Access Schedule"
+                      disabled={memberShipTypeForm.accessRestriction === true ? false : true}
                       options={scheduleOptions}
                       name="accessSchedule"
                       value={memberShipTypeForm.accessSchedule}
@@ -213,6 +216,7 @@ const AddMembershipType = ({
                     <DropDown
                       title="Transfer to another Type"
                       options={optionmembershipTypeData}
+                      // disabled={memberShipTypeForm.isActive === true ? true : false}
                       optionLabel="label"
                       name="transferToAnotherType"
                       value={memberShipTypeForm.transferToAnotherType}
@@ -230,19 +234,19 @@ const AddMembershipType = ({
                     ></Input>
                   </div>
                   <div className="col-4">
-                    <DropDown
+                    <MuliSelectDropDown
                       title="Special Restriction"
                       options={restrictionOption}
                       name="specialRestriction"
                       value={memberShipTypeForm.specialRestriction}
                       onChange={memberTypeHandleChange}
                       state={memberShipTypeForm}
-                    ></DropDown>
+                    ></MuliSelectDropDown>
                   </div>
                 </div>
                 <div>
-                  <div className=" flex my-3 ">
-                    {memberShipTypeForm.specialRestriction == "By Age" ? (
+                  <div className=" flex flex-wrap my-3 ">
+                    {memberShipTypeForm.specialRestriction.includes("By Age") ? (
                       <>
                         <div className="col-4">
                           <Input
@@ -264,7 +268,7 @@ const AddMembershipType = ({
                         </div>
                       </>
                     ) : null}
-                    {memberShipTypeForm.specialRestriction == "By Days" ? (
+                    {memberShipTypeForm.specialRestriction.includes("By Days") ? (
                       <div className="col-4">
                         <Input
                           title="Maximum Days Allowed"
@@ -275,7 +279,7 @@ const AddMembershipType = ({
                         ></Input>
                       </div>
                     ) : null}
-                    {memberShipTypeForm.specialRestriction == "By Location" ? (
+                    {memberShipTypeForm.specialRestriction.includes("By Location") ? (
                       <div className="col-4">
                         <Input title="Maximum Distance Allowed"
                         name="maximumDistanceAllowed"

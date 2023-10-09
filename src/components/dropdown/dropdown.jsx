@@ -14,6 +14,7 @@ const DropDown = ({
   filter = false,
   state,
   childState,
+  disabled
 }) => {
   // console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
   return (
@@ -24,6 +25,7 @@ const DropDown = ({
       <Dropdown
         id={id}
         value={value}
+        disabled={disabled}
         options={options}
         onChange={(e) =>
           onChange &&
