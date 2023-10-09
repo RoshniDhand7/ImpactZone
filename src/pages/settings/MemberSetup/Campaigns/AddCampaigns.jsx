@@ -10,7 +10,7 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import DropDown from "../../../../components/dropdown/dropdown";
 
-const AddCampaigns = ({ showcomponent }) => {
+const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => {
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
