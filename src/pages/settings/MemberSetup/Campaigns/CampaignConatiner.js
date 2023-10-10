@@ -63,6 +63,8 @@ const CampaignConatiner = () => {
 
   const reject = () => {};
 
+
+
   const actionTemplate = (col) => {
     return (
       <>
@@ -78,6 +80,15 @@ const CampaignConatiner = () => {
     );
   };
 
+  const descriptionTemplate = (col) => {
+    return(
+    <div>
+      {col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+    </div>
+    )
+    
+  }
+
   const CampaignsColumn = [
     {
       field: "name",
@@ -90,6 +101,7 @@ const CampaignConatiner = () => {
       header: "Description",
       id: "",
       index: "",
+      body: descriptionTemplate,
     },
     {
       field: "members",
