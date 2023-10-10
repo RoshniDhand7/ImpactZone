@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 export default function Loader() {
   const isLoading = useSelector((state) => state.loader.isLoading);
-  console.log(isLoading, "Loader");
   return (
     <div
       className="loader-overlay"

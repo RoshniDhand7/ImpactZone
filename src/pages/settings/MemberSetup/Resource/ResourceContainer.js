@@ -21,7 +21,7 @@ const [editResource,setEditResource] = useState(null)
 const [initialResource,setInitialResource] = useState({})
 const [required, setRequired] = useState(["name","resourceType","location","availableQuantity","usedInEvents","pastDue","services"]);
 const allResources = useSelector((state)=>state.resources.allResource)
-console.log("allResources",allResources)
+
 
   const [resource,setResource] = useState({
     isActive:true,
@@ -36,7 +36,6 @@ console.log("allResources",allResources)
 
 
   const deleteConfirm = (id) => {
-    console.log("test",id)
     confirmDialog({
       message: "Do you want to delete this record?",
       header: "Delete Confirmation",
@@ -283,7 +282,7 @@ const onGlobalFilterChange = (e) => {
   }
 }, [editResource])
 
-console.log("selectedrow",selectedRow)
+
 
 useEffect(() => {
   dispatch(getResourceType())
@@ -299,7 +298,7 @@ useEffect(() => {
 
 
 
- console.log("resources",resource)
+
   return {resource,ResourceHandleChange,showAddService,setShowAddService,selectedRow,setSelectedRow,removeAll,submit,allResources,ResourceColumn,openAddResource,showAddResource,setAddResource,agreementCategoriesColumn,agreementCategoriesData,globalFilterValue,filters,onGlobalFilterChange}
    
 }

@@ -9,24 +9,24 @@ import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import DropDown from "../../../../components/dropdown/dropdown";
+import { useSelector } from "react-redux";
 
-const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => {
+const AddCampaigns = ({
+  showcomponent,
+  campaignsHandleChange,
+  campaignsForm,
+  campaignPickerHandleChange,
+  AllcampaignGroupData,
+  campaignSubmit,
+  campaignTypeOption
+}) => {
+  
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
-        <img
-          className="w-4rem shadow-2 flex-shrink-0 border-round"
-          src={itemsbackword}
-          alt={item.name}
-        />
         <div className="flex-1 flex flex-column gap-2">
-          <span className="font-bold">{item.name}</span>
-          <div className="flex align-items-center gap-2">
-            <i className="pi pi-tag text-sm"></i>
-            <span>{item.category}</span>
-          </div>
+          <span className="">{item}</span>
         </div>
-        <span className="font-bold text-900">${item.price}</span>
       </div>
     );
   };
@@ -40,6 +40,9 @@ const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => 
           <Checkbox
             title="Active"
             className="text-900 font-semibold"
+            name="isActive"
+            value={campaignsForm.isActive}
+            onChange={campaignsHandleChange}
           ></Checkbox>
         </div>
         <div className="mt-3">
@@ -47,10 +50,24 @@ const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => 
             <div className=" p-3">
               <div className="flex ">
                 <div className="col-3">
-                  <Input title="Name"></Input>
+                  <Input
+                    title="Name"
+                    name="name"
+                    value={campaignsForm.name}
+                    onChange={campaignsHandleChange}
+                    state={campaignsForm}
+                  ></Input>
                 </div>
                 <div className="col-3">
-                  <DropDown title="Campaign Group"></DropDown>
+                  <DropDown
+                    title="Campaign Group"
+                    name="campaignGroup"
+                    options={AllcampaignGroupData}
+                    optionLabel="label"
+                    value={campaignsForm.campaignGroup}
+                    onChange={campaignsHandleChange}
+                    state={campaignsForm}
+                  ></DropDown>
                 </div>
               </div>
               <div>
@@ -59,11 +76,23 @@ const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => 
                     className="text-xs text-gray-500 font-semibold gap-2"
                     htmlFor=""
                   >
-                    Description (256/256)
+                    Description ({campaignsForm?.description?.length}/256)
                   </label>
                   <div className="">
-                    <InputTextarea value="" style={{ width: "100%" }} />
+                    <InputTextarea
+                      name="description"
+                      value={campaignsForm.description}
+                      onChange={(e)=> e.target.value.length > 256 ? null : campaignsHandleChange({name:e.target.name,value:e.target.value})}
+                      state={campaignsForm}
+                      style={{ width: "100%" }}
+                    />
                   </div>
+                  <div
+            className="text-danger"
+            style={{ color: "red",}}
+          >
+            {campaignsForm?.formErrors?.description}
+          </div>
                 </div>
               </div>
             </div>
@@ -73,9 +102,15 @@ const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => 
           <CardWithTitle title="Campaign Types">
             <div className="card p-3 ">
               <PickList
-                // source={source}
-                // target={target}
-                // onChange={onChange}
+                source={campaignTypeOption}
+                target={campaignsForm.campaignTypes}
+                onChange={(e) =>
+                  campaignPickerHandleChange({
+                    name: "campaignTypes",
+                    value: e.target,
+                    source: e.source,
+                  })
+                }
                 itemTemplate={itemTemplate}
                 breakpoint=""
                 sourceHeader="Available"
@@ -85,10 +120,16 @@ const AddCampaigns = ({ showcomponent,campaignsHandleChange,campaignsForm }) => 
               />
             </div>
           </CardWithTitle>
+          <div
+            className="text-danger"
+            style={{ color: "red", marginTop: "0.8rem" }}
+          >
+            {campaignsForm?.formErrors?.campaignTypes}
+          </div>
         </div>
         <div className=" m-2 mt-3 flex justify-content-end">
           <div className="mx-3" style={{ width: "105px" }}>
-            <Buttons label="Save" className="btn-dark border-none"></Buttons>
+            <Buttons label="Save" onClick={campaignSubmit} className="btn-dark border-none"></Buttons>
           </div>
           <div className="">
             <Buttons

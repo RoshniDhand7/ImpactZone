@@ -1,14 +1,19 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteMemberShipTypeAction, UpdateMemberShipTypeAction, addMemberShipType, getMemberShipType } from "../../../../redux/actions/memberShipTypesAction";
+import {
+  DeleteMemberShipTypeAction,
+  UpdateMemberShipTypeAction,
+  addMemberShipType,
+  getMemberShipType,
+} from "../../../../redux/actions/memberShipTypesAction";
 import { useEffect } from "react";
 import { getClubs } from "../../../../redux/actions/clubsActions";
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 import { showToast } from "../../../../redux/actions/toastAction";
 import FormValidation from "../../../../utils/AllFormValidation";
-import { confirmDialog } from 'primereact/confirmdialog';
+import { confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 
 const MemberShipContainer = () => {
@@ -17,13 +22,21 @@ const MemberShipContainer = () => {
     (state) => state.memberShip.membershipType
   );
   const allClubs = useSelector((state) => state.clubs.clubs);
-  const [clubs, setClubs] = useState([])
-  const [showAddMemberService, setShowAddMemberService] = useState(false)
+  const [clubs, setClubs] = useState([]);
+  const [showAddMemberService, setShowAddMemberService] = useState(false);
   const [showAddMemebershipType, setAddMemebershipType] = useState(false);
-  const [initialMemberType, setInitialMemberType] = useState({})
-  const [required, setRequired] = useState(["name", "description", "discountType", "allowRemoteCheckIn", "clubCreditAmount", "services", "clubs"])
-  const [selectedRow, setSelectedRow] = useState([])
-  const [editMemberType, setEditMemberType] = useState(null)
+  const [initialMemberType, setInitialMemberType] = useState({});
+  const [required, setRequired] = useState([
+    "name",
+    "description",
+    "discountType",
+    "allowRemoteCheckIn",
+    "clubCreditAmount",
+    "services",
+    "clubs",
+  ]);
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [editMemberType, setEditMemberType] = useState(null);
   const [visible, setVisible] = useState(false);
   const [newName, setNewName] = useState("");
   const [memberShipTypeForm, setMemberShipTypeForm] = useState({
@@ -46,10 +59,7 @@ const MemberShipContainer = () => {
     services: [],
   });
 
-  console.log("memberShipTypeForm", memberShipTypeForm)
-
   const deleteConfirm = (id) => {
-    console.log("test", id)
     confirmDialog({
       message: "Do you want to delete this record?",
       header: "Delete Confirmation",
@@ -68,7 +78,7 @@ const MemberShipContainer = () => {
     });
   };
 
-  const reject = () => { };
+  const reject = () => {};
 
   const actionTemplate = (col) => {
     return (
@@ -88,10 +98,12 @@ const MemberShipContainer = () => {
   const descriptionTemplate = (col) => {
     return (
       <div>
-        {col.description.length >= 100 ? col.description.slice(0, 100) + "..." : col.description}
+        {col.description.length >= 100
+          ? col.description.slice(0, 100) + "..."
+          : col.description}
       </div>
-    )
-  }
+    );
+  };
 
   const ManageMembershipTypesColumn = [
     {
@@ -105,7 +117,7 @@ const MemberShipContainer = () => {
       header: "Description",
       id: "",
       index: "",
-      body: descriptionTemplate
+      body: descriptionTemplate,
     },
     {
       field: "discountType",
@@ -125,8 +137,8 @@ const MemberShipContainer = () => {
   const showAddMemebershipTypeScreen = () => {
     setAddMemebershipType((prev) => !prev);
     if (editMemberType) {
-      setEditMemberType(null)
-      setMemberShipTypeForm({...initialMemberType})
+      setEditMemberType(null);
+      setMemberShipTypeForm({ ...initialMemberType });
     }
   };
 
@@ -150,17 +162,16 @@ const MemberShipContainer = () => {
     //   });
     // }
 
-     if (name == "accessRestriction" && value == false) {
+    if (name == "accessRestriction" && value == false) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
           accessSchedule: "",
-          formErrors
+          formErrors,
         };
       });
-    }
-    else if (name == "specialRestriction" && !value.includes("By Age")) {
+    } else if (name == "specialRestriction" && !value.includes("By Age")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
@@ -170,37 +181,33 @@ const MemberShipContainer = () => {
           formErrors,
         };
       });
-    }
-    else if (name == "specialRestriction" && !value.includes("By Location")) {
+    } else if (name == "specialRestriction" && !value.includes("By Location")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
           maximumDistanceAllowed: "",
-          formErrors
+          formErrors,
         };
       });
-    }
-    else if (name == "specialRestriction" && !value.includes("By Days")) {
+    } else if (name == "specialRestriction" && !value.includes("By Days")) {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
           maximumDaysAllowed: "",
-          formErrors
+          formErrors,
         };
       });
-    }
-    else {
+    } else {
       setMemberShipTypeForm((prev) => {
         return {
           ...prev,
           [name]: value,
-          formErrors
+          formErrors,
         };
       });
     }
-
   };
 
   const memberTypePickerHandleChange = ({ name, value, source }) => {
@@ -211,19 +218,19 @@ const MemberShipContainer = () => {
       required,
       initialMemberType
     );
-    let clubsNew = value.map((item) => { return item._id })
+    let clubsNew = value.map((item) => {
+      return item._id;
+    });
     setMemberShipTypeForm((prev) => {
       return {
         ...prev,
         [name]: value,
         clubs: clubsNew,
-        formErrors
-
+        formErrors,
       };
     });
-    setClubs(source)
+    setClubs(source);
   };
-
 
   const memberShipAddColumn = [
     {},
@@ -248,7 +255,6 @@ const MemberShipContainer = () => {
       index: "",
       sorting: true,
     },
-
   ];
   const [memberShipAddData, setMemberShipAddData] = useState([
     {
@@ -288,8 +294,7 @@ const MemberShipContainer = () => {
     },
   ]);
 
-
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
@@ -298,7 +303,7 @@ const MemberShipContainer = () => {
     const value = e.target.value;
     let _filters = { ...filters };
 
-    _filters['global'].value = value;
+    _filters["global"].value = value;
 
     setFilters(_filters);
     setGlobalFilterValue(value);
@@ -308,12 +313,12 @@ const MemberShipContainer = () => {
     setMemberShipTypeForm((prev) => {
       return {
         ...prev,
-        services: []
-      }
-    })
+        services: [],
+      };
+    });
     delete memberShipTypeForm?.formErrors?.services;
-    setSelectedRow([])
-  }
+    setSelectedRow([]);
+  };
 
   const submitNewName = () => {
     let payload = {
@@ -321,16 +326,23 @@ const MemberShipContainer = () => {
       name: newName,
       _id: null,
     };
-    if (showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)) {
+    if (
+      showAllFormErrors(
+        memberShipTypeForm,
+        setMemberShipTypeForm,
+        required,
+        initialMemberType
+      )
+    ) {
       setVisible(false);
       dispatch(addMemberShipType(payload)).then((data) => {
         if (data.success) {
           dispatch(getMemberShipType());
           const myTimeout = setTimeout(() => {
             // setVisible(false);
-            setNewName("")
+            setNewName("");
             setAddMemebershipType(false);
-            setMemberShipTypeForm({...initialMemberType})
+            setMemberShipTypeForm({ ...initialMemberType });
           }, 1000);
         }
       });
@@ -359,25 +371,35 @@ const MemberShipContainer = () => {
     setNewName(value);
   };
 
-const submit = () => {
-  if (
-    showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
-  ) {
-    if(editMemberType){
-      dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data)=>{if(data.success){
-        dispatch(getMemberShipType());
-        setAddMemebershipType(false);
-        setMemberShipTypeForm({...initialMemberType})
-      }})
-    }else{
-      dispatch(addMemberShipType(memberShipTypeForm)).then((data)=>{if(data.success){
-        dispatch(getMemberShipType());
-        setAddMemebershipType(false);
-        setMemberShipTypeForm({...initialMemberType})
-      }})
-    }
-  }
-    else {
+  const submit = () => {
+    if (
+      showAllFormErrors(
+        memberShipTypeForm,
+        setMemberShipTypeForm,
+        required,
+        initialMemberType
+      )
+    ) {
+      if (editMemberType) {
+        dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then(
+          (data) => {
+            if (data.success) {
+              dispatch(getMemberShipType());
+              setAddMemebershipType(false);
+              setMemberShipTypeForm({ ...initialMemberType });
+            }
+          }
+        );
+      } else {
+        dispatch(addMemberShipType(memberShipTypeForm)).then((data) => {
+          if (data.success) {
+            dispatch(getMemberShipType());
+            setAddMemebershipType(false);
+            setMemberShipTypeForm({ ...initialMemberType });
+          }
+        });
+      }
+    } else {
       dispatch(
         showToast({
           severity: "error",
@@ -390,19 +412,17 @@ const submit = () => {
         behavior: "smooth",
       });
     }
-
-  }
-
+  };
 
   useEffect(() => {
-    setInitialMemberType(memberShipTypeForm)
+    setInitialMemberType(memberShipTypeForm);
     dispatch(getMemberShipType());
     dispatch(getClubs());
   }, []);
 
   useEffect(() => {
-    setClubs(allClubs)
-  }, [allClubs])
+    setClubs(allClubs);
+  }, [allClubs]);
 
   useEffect(() => {
     if (editMemberType) {
@@ -422,19 +442,23 @@ const submit = () => {
         maximumAgeAllowed: editMemberType.maximumAgeAllowed,
         maximumDaysAllowed: editMemberType.maximumDaysAllowed,
         maximumDistanceAllowed: editMemberType.maximumDistanceAllowed,
-        clubs: editMemberType.clubs?.map((item) => { return item._id }),
+        clubs: editMemberType.clubs?.map((item) => {
+          return item._id;
+        }),
         clubsOption: editMemberType.clubs,
         services: editMemberType.services,
-      }
-      setMemberShipTypeForm(obj)
-      setAddMemebershipType(true)
-      setSelectedRow(editMemberType.services)
-      let clubSource = clubs.filter((item) => { return !editMemberType.clubs.find((child) => { return item._id == child._id }) })
-      setClubs(clubSource)
+      };
+      setMemberShipTypeForm(obj);
+      setAddMemebershipType(true);
+      setSelectedRow(editMemberType.services);
+      let clubSource = clubs.filter((item) => {
+        return !editMemberType.clubs.find((child) => {
+          return item._id == child._id;
+        });
+      });
+      setClubs(clubSource);
     }
-  }, [editMemberType])
-
-
+  }, [editMemberType]);
 
   return {
     showAddMemebershipType,
