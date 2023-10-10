@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteMemberShipTypeAction, UpdateMemberShipTypeAction, addMemberShipType, getMemberShipType } from "../../../../redux/actions/memberShipTypesAction";
 import { useEffect } from "react";
 import { getClubs } from "../../../../redux/actions/clubsActions";
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
@@ -10,23 +9,22 @@ import { showToast } from "../../../../redux/actions/toastAction";
 import FormValidation from "../../../../utils/AllFormValidation";
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Button } from "primereact/button";
+import { getAccessSchedules } from "../../../../redux/actions/accessSchedulesAction";
 
-const MemberShipContainer = () => {
+const AccessSchedulesContainer = () => {
     const dispatch = useDispatch();
-    const membershipTypeData = useSelector(
-        (state) => state.memberShip.membershipType
-    );
+    let { accessSchedules } = useSelector((state) => state?.accessSchedules);
+
     const allClubs = useSelector((state) => state.clubs.clubs);
     const [clubs, setClubs] = useState([])
-    const [showAddMemberService, setShowAddMemberService] = useState(false)
-    const [showAddMemebershipType, setAddMemebershipType] = useState(false);
-    const [initialMemberType, setInitialMemberType] = useState({})
-    const [required, setRequired] = useState(["name", "description", "discountType", "allowRemoteCheckIn", "clubCreditAmount", "services", "clubs"])
+    const [showAccessShedules, setShowAccessShedules] = useState(true)
+    const [initialAccessSchedules, setInitialAccessSchedules] = useState({})
+    const [required, setRequired] = useState(["name", "color", "schedule"])
     const [selectedRow, setSelectedRow] = useState([])
     const [editMemberType, setEditMemberType] = useState(null)
     const [visible, setVisible] = useState(false);
     const [newName, setNewName] = useState("");
-    const [memberShipTypeForm, setMemberShipTypeForm] = useState({
+    const [accessSchedulesForm, setAccessSchedulesForm] = useState({
         isActive: true,
         name: "",
         shortName: "",
@@ -35,10 +33,7 @@ const MemberShipContainer = () => {
         schedule: []
     });
 
-    console.log("memberShipTypeForm", memberShipTypeForm)
-
     const deleteConfirm = (id) => {
-        console.log("test", id)
         confirmDialog({
             message: "Do you want to delete this record?",
             header: "Delete Confirmation",
@@ -49,12 +44,13 @@ const MemberShipContainer = () => {
             reject,
         });
     };
+
     const acceptFunc = (id) => {
-        dispatch(DeleteMemberShipTypeAction(id)).then((data) => {
-            if (data.success) {
-                dispatch(getMemberShipType());
-            }
-        });
+        // dispatch(DeleteMemberShipTypeAction(id)).then((data) => {
+        //     if (data.success) {
+        //         dispatch(getAccessSchedules());
+        //     }
+        // });
     };
 
     const reject = () => { };
@@ -82,7 +78,7 @@ const MemberShipContainer = () => {
         )
     }
 
-    const ManageMembershipTypesColumn = [
+    const AccessSchedulesColumn = [
         {
             field: "name",
             header: "Name",
@@ -97,14 +93,8 @@ const MemberShipContainer = () => {
             body: descriptionTemplate
         },
         {
-            field: "discountType",
-            header: "Discount Type",
-            id: "",
-            index: "",
-        },
-        {
-            field: "members",
-            header: "# Members",
+            field: "shortName",
+            header: "Short Name",
             id: "",
             index: "",
         },
@@ -112,10 +102,10 @@ const MemberShipContainer = () => {
     ];
 
     const showAddMemebershipTypeScreen = () => {
-        setAddMemebershipType((prev) => !prev);
+        setShowAccessShedules((prev) => !prev);
         if (editMemberType) {
             setEditMemberType(null)
-            setMemberShipTypeForm({
+            setAccessSchedulesForm({
                 isActive: true,
                 name: "",
                 description: "",
@@ -141,12 +131,12 @@ const MemberShipContainer = () => {
         const formErrors = FormValidation(
             name,
             value,
-            memberShipTypeForm,
+            accessSchedulesForm,
             required,
-            initialMemberType
+            initialAccessSchedules
         );
         if (name == "accessRestriction" && value == false) {
-            setMemberShipTypeForm((prev) => {
+            setAccessSchedulesForm((prev) => {
                 return {
                     ...prev,
                     [name]: value,
@@ -156,7 +146,7 @@ const MemberShipContainer = () => {
             });
         }
         else if (name == "specialRestriction" && value == "By Age") {
-            setMemberShipTypeForm((prev) => {
+            setAccessSchedulesForm((prev) => {
                 return {
                     ...prev,
                     [name]: value,
@@ -167,7 +157,7 @@ const MemberShipContainer = () => {
             });
         }
         else if (name == "specialRestriction" && value == "By Location") {
-            setMemberShipTypeForm((prev) => {
+            setAccessSchedulesForm((prev) => {
                 return {
                     ...prev,
                     [name]: value,
@@ -179,7 +169,7 @@ const MemberShipContainer = () => {
             });
         }
         else if (name == "specialRestriction" && value == "By Days") {
-            setMemberShipTypeForm((prev) => {
+            setAccessSchedulesForm((prev) => {
                 return {
                     ...prev,
                     [name]: value,
@@ -191,7 +181,7 @@ const MemberShipContainer = () => {
             });
         }
         else {
-            setMemberShipTypeForm((prev) => {
+            setAccessSchedulesForm((prev) => {
                 return {
                     ...prev,
                     [name]: value,
@@ -206,12 +196,12 @@ const MemberShipContainer = () => {
         const formErrors = FormValidation(
             "clubs",
             value,
-            memberShipTypeForm,
+            accessSchedulesForm,
             required,
-            initialMemberType
+            initialAccessSchedules
         );
         let clubsNew = value.map((item) => { return item._id })
-        setMemberShipTypeForm((prev) => {
+        setAccessSchedulesForm((prev) => {
             return {
                 ...prev,
                 [name]: value,
@@ -222,71 +212,6 @@ const MemberShipContainer = () => {
         });
         setClubs(source)
     };
-
-
-    const memberShipAddColumn = [
-        {},
-        {
-            field: "name",
-            header: "Item Name",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-        {
-            field: "size",
-            header: "Item UPC",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-        {
-            field: "catelogPrice",
-            header: "Price",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-
-    ];
-    const [memberShipAddData, setMemberShipAddData] = useState([
-        {
-            id: "a1",
-            catelogPrice: "100",
-            name: "agreements",
-            size: "10",
-            status: true,
-        },
-        {
-            id: "a2",
-            catelogPrice: "200",
-            name: "Adults",
-            size: "15",
-            status: true,
-        },
-        {
-            id: "a3",
-            catelogPrice: "200",
-            name: "Students",
-            size: "15",
-            status: true,
-        },
-        {
-            id: "a4",
-            catelogPrice: "150",
-            name: "Corporate",
-            size: "18",
-            status: false,
-        },
-        {
-            id: "a5",
-            catelogPrice: "120",
-            name: "Annual",
-            size: "25",
-            status: false,
-        },
-    ]);
-
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
@@ -304,34 +229,34 @@ const MemberShipContainer = () => {
     };
 
     const removeAll = () => {
-        setMemberShipTypeForm((prev) => {
+        setAccessSchedulesForm((prev) => {
             return {
                 ...prev,
                 services: []
             }
         })
-        delete memberShipTypeForm?.formErrors?.services;
+        delete accessSchedulesForm?.formErrors?.services;
         setSelectedRow([])
     }
 
     const submitNewName = () => {
         let payload = {
-            ...memberShipTypeForm,
+            ...accessSchedulesForm,
             name: newName,
             _id: null,
         };
-        if (showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)) {
+        if (showAllFormErrors(accessSchedulesForm, setAccessSchedulesForm, required, initialAccessSchedules)) {
             setVisible(false);
-            dispatch(addMemberShipType(payload)).then((data) => {
-                if (data.success) {
-                    dispatch(getMemberShipType());
-                    const myTimeout = setTimeout(() => {
-                        // setVisible(false);
-                        setNewName("")
-                        setAddMemebershipType(false);
-                    }, 1000);
-                }
-            });
+            // dispatch(addMemberShipType(payload)).then((data) => {
+            //     if (data.success) {
+            //         dispatch(getAccessSchedules());
+            //         const myTimeout = setTimeout(() => {
+            //             // setVisible(false);
+            //             setNewName("")
+            //             setShowAccessShedules(false);
+            //         }, 1000);
+            //     }
+            // });
         }
     };
 
@@ -359,12 +284,12 @@ const MemberShipContainer = () => {
 
     const submit = () => {
         if (
-            showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
+            showAllFormErrors(accessSchedulesForm, setAccessSchedulesForm, required, initialAccessSchedules)
         ) {
             if (editMemberType) {
-                dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data) => { if (data.success) { dispatch(getMemberShipType()); setAddMemebershipType(false) } })
+                // dispatch(UpdateMemberShipTypeAction(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessShedules(false) } })
             } else {
-                dispatch(addMemberShipType(memberShipTypeForm)).then((data) => { if (data.success) { dispatch(getMemberShipType()); setAddMemebershipType(false) } })
+                // dispatch(addMemberShipType(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessShedules(false) } })
             }
         }
         else {
@@ -385,76 +310,48 @@ const MemberShipContainer = () => {
 
 
     useEffect(() => {
-        setInitialMemberType(memberShipTypeForm)
-        dispatch(getMemberShipType());
-        dispatch(getClubs());
+        setInitialAccessSchedules(accessSchedulesForm)
+        dispatch(getAccessSchedules());
     }, []);
 
-    useEffect(() => {
-        setClubs(allClubs)
-    }, [allClubs])
-
-    useEffect(() => {
-        if (editMemberType) {
-            console.log("editMemberType", editMemberType)
-            let obj = {
-                ...editMemberType,
-                isActive: editMemberType.isActive,
-                name: editMemberType.name,
-                description: editMemberType.description,
-                discountType: editMemberType.discountType,
-                accessRestriction: editMemberType.accessRestriction,
-                accessSchedule: editMemberType.accessSchedule,
-                allowRemoteCheckIn: editMemberType.allowRemoteCheckIn,
-                clubCreditAmount: editMemberType.clubCreditAmount,
-                transferToAnotherType: editMemberType.transferToAnotherType?._id,
-                specialRestriction: editMemberType.specialRestriction,
-                minimumAgeAllowed: editMemberType.minimumAgeAllowed,
-                maximumAgeAllowed: editMemberType.maximumAgeAllowed,
-                maximumDaysAllowed: editMemberType.maximumDaysAllowed,
-                maximumDistanceAllowed: editMemberType.maximumDistanceAllowed,
-                clubs: editMemberType.clubs?.map((item) => { return item._id }),
-                clubsOption: editMemberType.clubs,
-                services: editMemberType.services,
-            }
-            setMemberShipTypeForm(obj)
-            setAddMemebershipType(true)
-            setSelectedRow(editMemberType.services)
-            let clubSource = clubs.filter((item) => { return !editMemberType.clubs.find((child) => { return item._id == child._id }) })
-            setClubs(clubSource)
-        }
-    }, [editMemberType])
-
-
+    // useEffect(() => {
+    //     if (editMemberType) {
+    //         console.log("editMemberType", editMemberType)
+    //         let obj = {
+    //             ...editMemberType,
+    //             isActive: editMemberType.isActive,
+    //             name: editMemberType.name,
+    //             description: editMemberType.description,
+    //             discountType: editMemberType.discountType,
+    //             accessRestriction: editMemberType.accessRestriction,
+    //             accessSchedule: editMemberType.accessSchedule,
+    //             allowRemoteCheckIn: editMemberType.allowRemoteCheckIn,
+    //             clubCreditAmount: editMemberType.clubCreditAmount,
+    //             transferToAnotherType: editMemberType.transferToAnotherType?._id,
+    //             specialRestriction: editMemberType.specialRestriction,
+    //             minimumAgeAllowed: editMemberType.minimumAgeAllowed,
+    //             maximumAgeAllowed: editMemberType.maximumAgeAllowed,
+    //             maximumDaysAllowed: editMemberType.maximumDaysAllowed,
+    //             maximumDistanceAllowed: editMemberType.maximumDistanceAllowed,
+    //             clubs: editMemberType.clubs?.map((item) => { return item._id }),
+    //             clubsOption: editMemberType.clubs,
+    //             services: editMemberType.services,
+    //         }
+    //         setAccessSchedulesForm(obj)
+    //         setShowAccessShedules(true)
+    //         setSelectedRow(editMemberType.services)
+    //         let clubSource = clubs.filter((item) => { return !editMemberType.clubs.find((child) => { return item._id == child._id }) })
+    //         setClubs(clubSource)
+    //     }
+    // }, [editMemberType])
 
     return {
-        showAddMemebershipType,
-        showAddMemebershipTypeScreen,
-        ManageMembershipTypesColumn,
-        membershipTypeData,
-        memberTypeHandleChange,
-        memberShipTypeForm,
-        clubs,
-        memberTypePickerHandleChange,
-        showAddMemberService,
-        setShowAddMemberService,
-        globalFilterValue,
-        setGlobalFilterValue,
-        filters,
-        onGlobalFilterChange,
-        memberShipAddColumn,
-        memberShipAddData,
-        selectedRow,
-        setSelectedRow,
-        removeAll,
-        submit,
-        visible,
-        setVisible,
-        footerContent,
-        newName,
-        newNameHandle,
-        editMemberType,
+        showAccessShedules,
+        setShowAccessShedules,
+        AccessSchedulesColumn,
+        accessSchedules,
+        submit
     };
 };
 
-export default MemberShipContainer;
+export default AccessSchedulesContainer;

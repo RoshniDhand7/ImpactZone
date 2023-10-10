@@ -7,9 +7,16 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AddAccessSchedules from "./AddAccessSchedules";
 import TabsAccessSchedules from "./TabsAccessSchedules";
+import AccessSchedulesContainer from "./AccessSchedulesContainer";
 
 const AccessSchedules = () => {
-  const [showAddAccessSchedules, setAddAccessSchedules] = useState(false);
+  const {
+    showAccessShedules,
+    setShowAccessShedules,
+    AccessSchedulesColumn,
+    accessSchedules,
+  } = AccessSchedulesContainer();
+
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -26,69 +33,13 @@ const AccessSchedules = () => {
     );
   };
 
-  const accessSchedulesColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "description",
-      header: "Description",
-      id: "",
-      index: "",
-    },
-    {
-      field: "shortName",
-      header: "Short Name",
-      id: "",
-      index: "",
-    },
-
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [accessSchedulesData, setaccessSchedulesData] = useState([
-    {
-      name: "All Access",
-      description: "Access on every day at all times.",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Class Pass",
-      description: "Can only use gym when put in class",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Kids Fitness",
-      description: "Can only use gym for kids academy",
-      index: "",
-      id: "",
-    },
-    {
-      name: "No Access",
-      description: "No access on any day at any time",
-
-      index: "",
-      id: "",
-    },
-    {
-      name: "Online Client",
-      description: "",
-      index: "",
-      id: "",
-    },
-  ]);
-
   const showcomponent = () => {
-    setAddAccessSchedules((prev) => !prev);
+    setShowAccessShedules((prev) => !prev);
   };
 
   return (
     <>
-      {showAddAccessSchedules ? (
+      {!showAccessShedules ? (
         <TabsAccessSchedules showcomponent={showcomponent} />
       ) : (
         <>
@@ -120,8 +71,8 @@ const AccessSchedules = () => {
             </div>
             <div className="mt-2">
               <TableData
-                columns={accessSchedulesColumn}
-                data={accessSchedulesData}
+                columns={AccessSchedulesColumn}
+                data={accessSchedules}
               />
             </div>
           </div>

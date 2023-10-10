@@ -6,8 +6,11 @@ import { InputTextarea } from "primereact/inputtextarea";
 import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
+import AccessSchedulesContainer from "./AccessSchedulesContainer";
 
 const AddAccessSchedules = ({ showcomponent }) => {
+  const { submit } = AccessSchedulesContainer();
+
   return (
     <>
       <div>
@@ -57,7 +60,11 @@ const AddAccessSchedules = ({ showcomponent }) => {
           ></Buttons>
         </div>
         <div className="mx-3" style={{ width: "105px" }}>
-          <Buttons label="Save" className="btn-dark border-none"></Buttons>
+          <Buttons
+            label="Save"
+            className="btn-dark border-none"
+            onClick={submit}
+          ></Buttons>
         </div>
         <div className="">
           <Buttons
