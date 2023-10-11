@@ -47,16 +47,6 @@ const constants = {
     resourceType: "resource-types",
     DeleteResourceType: "resource-types/delete/",
     UpdateResourceType: "resource-types/update/",
-    resources: "resources/",
-    UpdateResource: "resources/update/",
-    DeleteResource: "resources/delete/",
-    MemberShipType: "membership-types",
-    UpdateMemberShipType: "membership-types/update/",
-    DeleteMemberShipType: "membership-types/delete/",
-    AllCampaignGroups: "campaign-groups",
-    UpdateCampaignGroups: "campaign-groups/update/",
-    DeleteCampaignGroups: "campaign-groups/delete/",
-    AllCampaign: "campaigns",
     UpdateCampaign: "campaigns/update/",
     DeleteCampaign: "campaigns/delete/",
     resources: "resources/",
@@ -69,8 +59,14 @@ const constants = {
     UpdateCampaignGroups: "campaign-groups/update/",
     DeleteCampaignGroups: "campaign-groups/delete/",
     AllCampaign: "campaigns",
-    AccessSchedules: "access-schedules"
+    AccessSchedules: "access-schedules",
+    UpdateAccessSchedule: "access-schedules/update/",
+    DeleteAccessSchedule: "access-schedules/delete/"
   },
+
+  calendarDefaultWeek: {
+    start: "2023-10-01"
+  }
 };
 
 export default constants;

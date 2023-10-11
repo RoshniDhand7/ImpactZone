@@ -5,16 +5,24 @@ import Buttons from "../../../../components/buttons/button";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
-import AddAccessSchedules from "./AddAccessSchedules";
 import TabsAccessSchedules from "./TabsAccessSchedules";
 import AccessSchedulesContainer from "./AccessSchedulesContainer";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const AccessSchedules = () => {
   const {
-    showAccessShedules,
-    setShowAccessShedules,
+    showAccessSchedules,
+    setShowAccessSchedules,
     AccessSchedulesColumn,
     accessSchedules,
+    handleAccessSchedulesChange,
+    accessSchedulesForm,
+    setAccessSchedulesForm,
+    durations,
+    onDurationChange,
+    duration,
+    onClickAllAccess,
+    submit,
   } = AccessSchedulesContainer();
 
   const actionTemplate = (col) => {
@@ -34,13 +42,24 @@ const AccessSchedules = () => {
   };
 
   const showcomponent = () => {
-    setShowAccessShedules((prev) => !prev);
+    setShowAccessSchedules((prev) => !prev);
   };
 
   return (
     <>
-      {!showAccessShedules ? (
-        <TabsAccessSchedules showcomponent={showcomponent} />
+      <ConfirmDialog />
+      {!showAccessSchedules ? (
+        <TabsAccessSchedules
+          showcomponent={showcomponent}
+          handleAccessSchedulesChange={handleAccessSchedulesChange}
+          accessSchedulesForm={accessSchedulesForm}
+          setAccessSchedulesForm={setAccessSchedulesForm}
+          durations={durations}
+          onDurationChange={onDurationChange}
+          duration={duration}
+          onClickAllAccess={onClickAllAccess}
+          submit={submit}
+        />
       ) : (
         <>
           <div>

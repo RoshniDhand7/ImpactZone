@@ -7,10 +7,14 @@ import Buttons from "../../../../components/buttons/button";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AccessSchedulesContainer from "./AccessSchedulesContainer";
+import { ColorPicker } from "primereact/colorpicker";
 
-const AddAccessSchedules = ({ showcomponent }) => {
-  const { submit } = AccessSchedulesContainer();
-
+const AddAccessSchedules = ({
+  accessSchedulesForm,
+  handleAccessSchedulesChange,
+  submit,
+  showcomponent,
+}) => {
   return (
     <>
       <div>
@@ -18,6 +22,10 @@ const AddAccessSchedules = ({ showcomponent }) => {
           <Checkbox
             title="Active"
             className="text-900 font-semibold"
+            name={"isActive"}
+            value={accessSchedulesForm.isActive}
+            onChange={handleAccessSchedulesChange}
+            state={accessSchedulesForm}
           ></Checkbox>
         </div>
         <div className="mt-3">
@@ -25,13 +33,33 @@ const AddAccessSchedules = ({ showcomponent }) => {
             <div className=" p-3">
               <div className="flex ">
                 <div className="col">
-                  <Input title="Name"></Input>
+                  <Input
+                    title="Name"
+                    name="name"
+                    value={accessSchedulesForm.name}
+                    onChange={handleAccessSchedulesChange}
+                    state={accessSchedulesForm}
+                  ></Input>
                 </div>
                 <div className="col">
-                  <Input title="Short Name"></Input>
+                  <Input
+                    title="Short Name"
+                    name="shortName"
+                    value={accessSchedulesForm.shortName}
+                    onChange={handleAccessSchedulesChange}
+                    state={accessSchedulesForm}
+                  ></Input>
                 </div>
                 <div className="col">
-                  <Input title="Color"></Input>
+                  <Input
+                    title="Color"
+                    name="color"
+                    value={accessSchedulesForm.color}
+                    onChange={handleAccessSchedulesChange}
+                    state={accessSchedulesForm}
+                    type="color"
+                    style={{ height: "38px" }}
+                  ></Input>
                 </div>
               </div>
               <div>
@@ -43,7 +71,20 @@ const AddAccessSchedules = ({ showcomponent }) => {
                     Description (256/256)
                   </label>
                   <div className="">
-                    <InputTextarea value="" style={{ width: "100%" }} />
+                    <InputTextarea
+                      style={{ width: "100%" }}
+                      name="description"
+                      value={accessSchedulesForm.description}
+                      onChange={(e) =>
+                        e.target.value.length > 256
+                          ? null
+                          : handleAccessSchedulesChange({
+                              name: e.target.name,
+                              value: e.target.value,
+                            })
+                      }
+                      state={accessSchedulesForm}
+                    />
                   </div>
                 </div>
               </div>
