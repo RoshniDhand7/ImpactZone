@@ -14,6 +14,12 @@ const TabsAccessSchedules = ({
   onDurationChange,
   duration,
   onClickAllAccess,
+  editAccessSchedule,
+  copyModalFooter,
+  openCopyModal,
+  setOpenCopyModal,
+  newName,
+  setNewName,
   submit,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,6 +37,12 @@ const TabsAccessSchedules = ({
                 showcomponent={showcomponent}
                 accessSchedulesForm={accessSchedulesForm}
                 handleAccessSchedulesChange={handleAccessSchedulesChange}
+                editAccessSchedule={editAccessSchedule}
+                copyModalFooter={copyModalFooter}
+                openCopyModal={openCopyModal}
+                setOpenCopyModal={setOpenCopyModal}
+                newName={newName}
+                setNewName={setNewName}
                 submit={submit}
               />
             </TabPanel>

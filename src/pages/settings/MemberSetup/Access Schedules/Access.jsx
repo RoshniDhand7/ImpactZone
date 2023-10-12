@@ -69,7 +69,7 @@ const Access = ({
           <Buttons
             label="Save"
             className="btn-dark border-none"
-            onClick={submit}
+            onClick={() => submit()}
           ></Buttons>
         </div>
         <div className="">

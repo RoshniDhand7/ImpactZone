@@ -8,15 +8,43 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AccessSchedulesContainer from "./AccessSchedulesContainer";
 import { ColorPicker } from "primereact/colorpicker";
+import { Dialog } from "primereact/dialog";
 
 const AddAccessSchedules = ({
   accessSchedulesForm,
   handleAccessSchedulesChange,
+  editAccessSchedule,
+  copyModalFooter,
   submit,
+  openCopyModal,
+  setOpenCopyModal,
+  newName,
+  setNewName,
   showcomponent,
 }) => {
   return (
     <>
+      <Dialog
+        header="Create Access Schedule"
+        visible={openCopyModal}
+        style={{ width: "50vw" }}
+        onHide={() => setOpenCopyModal(false)}
+        footer={copyModalFooter}
+      >
+        <div className="p-3 ">
+          <div className="flex justify-content-between ">
+            <div className="col">
+              <Input
+                title="Name"
+                value={newName}
+                onChange={(e) => setNewName(e.value)}
+                name="name"
+                state={accessSchedulesForm}
+              ></Input>
+            </div>
+          </div>
+        </div>
+      </Dialog>
       <div>
         <div className="mt-3">
           <Checkbox
@@ -68,7 +96,11 @@ const AddAccessSchedules = ({
                     className="text-xs font-semibold text-gray-500 gap-2"
                     htmlFor=""
                   >
-                    Description (256/256)
+                    Description (
+                    {accessSchedulesForm.description
+                      ? accessSchedulesForm.description.length
+                      : 0}
+                    /256)
                   </label>
                   <div className="">
                     <InputTextarea
@@ -94,17 +126,20 @@ const AddAccessSchedules = ({
       </div>
       <div className=" m-2 mt-3 flex justify-content-end">
         <div className="">
-          <Buttons
-            label="Copy"
-            className="btn-dark border-none"
-            style={{ width: "105px" }}
-          ></Buttons>
+          {editAccessSchedule ? (
+            <Buttons
+              label="Copy"
+              className="btn-dark border-none"
+              style={{ width: "105px" }}
+              onClick={() => setOpenCopyModal(true)}
+            ></Buttons>
+          ) : null}
         </div>
         <div className="mx-3" style={{ width: "105px" }}>
           <Buttons
             label="Save"
             className="btn-dark border-none"
-            onClick={submit}
+            onClick={() => submit()}
           ></Buttons>
         </div>
         <div className="">

@@ -9,6 +9,7 @@ import { confirmDialog } from 'primereact/confirmdialog';
 import { addAccessSchedule, deleteAccessSchedul, getAccessSchedules, updateAccessSchedule } from "../../../../redux/actions/accessSchedulesAction";
 import constants from "../../../../utils/constants";
 import moment from "moment";
+import { Button } from "primereact/button";
 
 const AccessSchedulesContainer = () => {
     const dispatch = useDispatch();
@@ -16,14 +17,17 @@ const AccessSchedulesContainer = () => {
 
     const [showAccessSchedules, setShowAccessSchedules] = useState(true);
     const [initialAccessSchedules, setInitialAccessSchedules] = useState({});
-    const [required, setRequired] = useState(["name", "color", "schedule"]);
+    const [required, setRequired] = useState(["name", "color"]);
     const [editAccessSchedule, setEditAccessSchedule] = useState(false);
+    const [openCopyModal, setOpenCopyModal] = useState(false);
+    const [newName, setNewName] = useState("");
+
     const [accessSchedulesForm, setAccessSchedulesForm] = useState({
         isActive: true,
         name: "",
         shortName: "",
         color: "",
-        description: null,
+        description: '',
         schedule: []
     });
 
@@ -76,7 +80,7 @@ const AccessSchedulesContainer = () => {
     const descriptionTemplate = (col) => {
         return (
             <div>
-                {col.description.length >= 100 ? col.description.slice(0, 100) + "..." : col.description}
+                {col.description && col.description.length >= 100 ? col.description.slice(0, 100) + "..." : col.description}
             </div>
         )
     }
@@ -125,12 +129,16 @@ const AccessSchedulesContainer = () => {
         });
     };
 
-    const submit = () => {
+    const submit = (copyRecord) => {
         if (
             showAllFormErrors(accessSchedulesForm, setAccessSchedulesForm, required, initialAccessSchedules)
         ) {
             if (editAccessSchedule) {
-                dispatch(updateAccessSchedule(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true); setEditAccessSchedule(false); } })
+                if (copyRecord) {
+                    dispatch(addAccessSchedule(copyRecord)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true); setOpenCopyModal(false); setNewName("") } })
+                } else {
+                    dispatch(updateAccessSchedule(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true); setEditAccessSchedule(false); } })
+                }
             } else {
                 dispatch(addAccessSchedule(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true) } })
             }
@@ -182,6 +190,32 @@ const AccessSchedulesContainer = () => {
         dispatch(getAccessSchedules());
     }, []);
 
+    const copyAccessSchedule = () => {
+        const copyRecord = {
+            ...accessSchedulesForm,
+            name: newName,
+            _id: null
+        };
+        submit(copyRecord);
+    };
+
+    const copyModalFooter = (
+        <div>
+            <Button
+                label="Cancel"
+                icon=""
+                onClick={() => setOpenCopyModal(false)}
+                className="p-button-text"
+            />
+            <Button
+                label="Create Access Schedule"
+                icon=""
+                onClick={() => copyAccessSchedule()}
+                autoFocus
+            />
+        </div>
+    );
+
     return {
         showAccessSchedules,
         setShowAccessSchedules,
@@ -195,6 +229,13 @@ const AccessSchedulesContainer = () => {
         onDurationChange,
         onClickAllAccess,
         onEditAccessScheduleForm,
+        editAccessSchedule,
+        resetForm,
+        copyModalFooter,
+        openCopyModal,
+        setOpenCopyModal,
+        newName,
+        setNewName,
         submit
     };
 };

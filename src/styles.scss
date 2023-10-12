@@ -76,3 +76,6 @@ a:-webkit-any-link {
     height: 38px;
   }
 }
+.fc-timegrid-event-short .fc-event-time::after {
+    content: none;
+}

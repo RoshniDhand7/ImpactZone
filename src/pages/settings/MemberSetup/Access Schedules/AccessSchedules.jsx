@@ -22,6 +22,13 @@ const AccessSchedules = () => {
     onDurationChange,
     duration,
     onClickAllAccess,
+    editAccessSchedule,
+    resetForm,
+    copyModalFooter,
+    openCopyModal,
+    setOpenCopyModal,
+    newName,
+    setNewName,
     submit,
   } = AccessSchedulesContainer();
 
@@ -43,6 +50,7 @@ const AccessSchedules = () => {
 
   const showcomponent = () => {
     setShowAccessSchedules((prev) => !prev);
+    resetForm();
   };
 
   return (
@@ -58,6 +66,12 @@ const AccessSchedules = () => {
           onDurationChange={onDurationChange}
           duration={duration}
           onClickAllAccess={onClickAllAccess}
+          editAccessSchedule={editAccessSchedule}
+          copyModalFooter={copyModalFooter}
+          openCopyModal={openCopyModal}
+          setOpenCopyModal={setOpenCopyModal}
+          newName={newName}
+          setNewName={setNewName}
           submit={submit}
         />
       ) : (

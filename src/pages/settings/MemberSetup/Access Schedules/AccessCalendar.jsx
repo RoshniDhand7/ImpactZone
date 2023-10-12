@@ -52,6 +52,7 @@ const AccessCalendar = ({
 
   const handleEventResize = (resized) => {
     const dayName = moment(resized.event.end).format("dddd");
+    console.log(resized.event.end.toISOString());
     accessSchedulesForm.schedule.map((item) => {
       if (item.day === dayName) {
         item.endTime = resized.event.end.toISOString();
@@ -103,6 +104,7 @@ const AccessCalendar = ({
         slotDuration={`00:${duration}:00`}
         headerToolbar=""
         selectable={true}
+        expandRows={true}
         editable={true}
         eventStartEditable={false}
         droppable={false}
