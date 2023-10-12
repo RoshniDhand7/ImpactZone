@@ -17,7 +17,7 @@ const AccessSchedulesContainer = () => {
 
     const [showAccessSchedules, setShowAccessSchedules] = useState(true);
     const [initialAccessSchedules, setInitialAccessSchedules] = useState({});
-    const [required, setRequired] = useState(["name", "color"]);
+    const [required, setRequired] = useState(["name"]);
     const [editAccessSchedule, setEditAccessSchedule] = useState(false);
     const [openCopyModal, setOpenCopyModal] = useState(false);
     const [newName, setNewName] = useState("");
@@ -26,7 +26,7 @@ const AccessSchedulesContainer = () => {
         isActive: true,
         name: "",
         shortName: "",
-        color: "",
+        color: "#00000",
         description: '',
         schedule: []
     });
@@ -85,6 +85,14 @@ const AccessSchedulesContainer = () => {
         )
     }
 
+    const shortNameTemplate = (col) => {
+        return (
+            <span style={{ color: col.color }}>
+                {col.shortName}
+            </span>
+        )
+    };
+
     const AccessSchedulesColumn = [
         {
             field: "name",
@@ -104,6 +112,7 @@ const AccessSchedulesContainer = () => {
             header: "Short Name",
             id: "",
             index: "",
+            body: shortNameTemplate
         },
         { field: "", header: "", body: actionTemplate, id: "", index: "" },
     ];
