@@ -37,6 +37,7 @@ const ManageMembershipTypes = () => {
     newName,
     newNameHandle,
     editMemberType,
+    accessSchedules,
   } = MemberShipContainer();
 
   // const [ManageMembershipTypesData, setManageMembershipTypesData] = useState([
@@ -102,19 +103,20 @@ const ManageMembershipTypes = () => {
           memberShipAddData={memberShipAddData}
           selectedRow={selectedRow}
           setSelectedRow={setSelectedRow}
+          accessSchedules={accessSchedules}
           removeAll={removeAll}
           submit={submit}
           visible={visible}
-    setVisible={setVisible}
-    footerContent={footerContent}
-    newName={newName}
-    newNameHandle={newNameHandle}
-    editMemberType={editMemberType}
+          setVisible={setVisible}
+          footerContent={footerContent}
+          newName={newName}
+          newNameHandle={newNameHandle}
+          editMemberType={editMemberType}
         />
       ) : (
         <>
           <div>
-          <ConfirmDialog />
+            <ConfirmDialog />
             <div className=" flex justify-content-between bg-lightest-blue border-round-lg px-2">
               <div className="col-7 flex">
                 <div className="col-3">

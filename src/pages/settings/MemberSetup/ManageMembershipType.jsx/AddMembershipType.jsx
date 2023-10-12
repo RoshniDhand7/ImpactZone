@@ -39,17 +39,16 @@ const AddMembershipType = ({
   newName,
   newNameHandle,
   editMemberType,
+  accessSchedules,
 }) => {
   const choiceTypeOptions = useSelector((state) => state.staticData.choiceType);
-  const scheduleOptions = useSelector(
-    (state) => state.staticData.scheduleMember
-  );
   const discountOptions = useSelector(
     (state) => state.staticData.discountMember
   );
   const restrictionOption = useSelector((state) => state.staticData.memberAge);
-  const optionmembershipTypeData = membershipTypeData.map((item)=>{return {label:item.name,value:item._id}})
-
+  const optionmembershipTypeData = membershipTypeData.map((item) => {
+    return { label: item.name, value: item._id };
+  });
 
   const itemTemplate = (item) => {
     return (
@@ -97,7 +96,10 @@ const AddMembershipType = ({
             <Buttons
               label="Add"
               onClick={(e) => {
-                memberTypeHandleChange({ name: "services", value: selectedRow });
+                memberTypeHandleChange({
+                  name: "services",
+                  value: selectedRow,
+                });
                 setShowAddMemberService(false);
               }}
               className="btn-dark mx-3   border-none"
@@ -191,9 +193,14 @@ const AddMembershipType = ({
                   >
                     <DropDown
                       title="Select Access Schedule"
-                      disabled={memberShipTypeForm.accessRestriction === true ? false : true}
-                      options={scheduleOptions}
+                      disabled={
+                        memberShipTypeForm.accessRestriction === true
+                          ? false
+                          : true
+                      }
+                      options={accessSchedules}
                       name="accessSchedule"
+                      optionLabel="name"
                       value={memberShipTypeForm.accessSchedule}
                       onChange={memberTypeHandleChange}
                       state={memberShipTypeForm}
@@ -246,7 +253,9 @@ const AddMembershipType = ({
                 </div>
                 <div>
                   <div className=" flex flex-wrap my-3 ">
-                    {memberShipTypeForm.specialRestriction.includes("By Age") ? (
+                    {memberShipTypeForm.specialRestriction.includes(
+                      "By Age"
+                    ) ? (
                       <>
                         <div className="col-4">
                           <Input
@@ -270,7 +279,9 @@ const AddMembershipType = ({
                         </div>
                       </>
                     ) : null}
-                    {memberShipTypeForm.specialRestriction.includes("By Days") ? (
+                    {memberShipTypeForm.specialRestriction.includes(
+                      "By Days"
+                    ) ? (
                       <div className="col-4">
                         <Input
                           title="Maximum Days Allowed"
@@ -282,15 +293,18 @@ const AddMembershipType = ({
                         ></Input>
                       </div>
                     ) : null}
-                    {memberShipTypeForm.specialRestriction.includes("By Location") ? (
+                    {memberShipTypeForm.specialRestriction.includes(
+                      "By Location"
+                    ) ? (
                       <div className="col-4">
-                        <Input title="Maximum Distance Allowed"
-                        name="maximumDistanceAllowed"
-                        value={memberShipTypeForm.maximumDistanceAllowed}
-                        onChange={memberTypeHandleChange}
-                        state={memberShipTypeForm}
-                        keyfilter="num"
-                        overlappingText="/Miles"
+                        <Input
+                          title="Maximum Distance Allowed"
+                          name="maximumDistanceAllowed"
+                          value={memberShipTypeForm.maximumDistanceAllowed}
+                          onChange={memberTypeHandleChange}
+                          state={memberShipTypeForm}
+                          keyfilter="num"
+                          overlappingText="/Miles"
                         ></Input>
                       </div>
                     ) : null}
@@ -320,16 +334,14 @@ const AddMembershipType = ({
                   sourceStyle={{ height: "10rem" }}
                   targetStyle={{ height: "10rem" }}
                 />
-                
               </div>
-             
             </CardWithTitle>
             <div
-            className="text-danger"
-            style={{ color: "red", marginTop: "0.8rem" }}
-          >
-            {memberShipTypeForm?.formErrors?.clubs}
-          </div>
+              className="text-danger"
+              style={{ color: "red", marginTop: "0.8rem" }}
+            >
+              {memberShipTypeForm?.formErrors?.clubs}
+            </div>
           </div>
           <div className="my-2">
             <div className=" p-2 mt-4 bg-lightest-blue border-round-md shadow-3">
@@ -369,24 +381,26 @@ const AddMembershipType = ({
                 <div className="bg-white m-2 border-round-lg flex ">
                   {memberShipTypeForm?.services?.length > 0 ? (
                     <div className="w-7 align-items-center  p-2">
-                      {memberShipTypeForm?.services?.map((child, childIndex) => {
-                        return (
-                          <div className="flex justify-content-between  p-2  ">
-                            <span className="text-xs font-semibold text-gray-600 w-6rem">
-                              {child.catelogPrice}
-                            </span>
-                            <span className="text-xs font-semibold text-gray-600 w-6rem">
-                              {child.name}
-                            </span>
-                            <span className="text-xs font-semibold text-gray-600 w-6rem">
-                              {child.size}
-                            </span>
-                            <span className="text-xs font-semibold text-gray-600 w-6rem">
-                              {child.status == true ? "Active" : "Inactive"}
-                            </span>
-                          </div>
-                        );
-                      })}
+                      {memberShipTypeForm?.services?.map(
+                        (child, childIndex) => {
+                          return (
+                            <div className="flex justify-content-between  p-2  ">
+                              <span className="text-xs font-semibold text-gray-600 w-6rem">
+                                {child.catelogPrice}
+                              </span>
+                              <span className="text-xs font-semibold text-gray-600 w-6rem">
+                                {child.name}
+                              </span>
+                              <span className="text-xs font-semibold text-gray-600 w-6rem">
+                                {child.size}
+                              </span>
+                              <span className="text-xs font-semibold text-gray-600 w-6rem">
+                                {child.status == true ? "Active" : "Inactive"}
+                              </span>
+                            </div>
+                          );
+                        }
+                      )}
                     </div>
                   ) : (
                     <div className="col-9 flex justify-content-center align-items-center">
@@ -407,7 +421,7 @@ const AddMembershipType = ({
                       >
                         <Buttons
                           label="Add"
-                          onClick={()=>setShowAddMemberService(true)}
+                          onClick={() => setShowAddMemberService(true)}
                           className="btn-dark border-none "
                         ></Buttons>
                       </div>
@@ -435,19 +449,24 @@ const AddMembershipType = ({
             {memberShipTypeForm?.formErrors?.services}
           </div>
           <div className=" m-2 mt-3 flex justify-content-end">
-            {editMemberType 
-            ?
-            <div className="" style={{ width: "105px" }}>
-              <Buttons label="Copy" className="btn-dark border-none" onClick={() => setVisible(true)}></Buttons>
-            </div>
-            :
-            null
-           }
+            {editMemberType ? (
+              <div className="" style={{ width: "105px" }}>
+                <Buttons
+                  label="Copy"
+                  className="btn-dark border-none"
+                  onClick={() => setVisible(true)}
+                ></Buttons>
+              </div>
+            ) : null}
             {/* <div className="" style={{ width: "105px" }}>
               <Buttons label="Copy" className="btn-dark border-none" onClick={() => setVisible(true)}></Buttons>
             </div> */}
             <div className="mx-3" style={{ width: "105px" }}>
-              <Buttons label="Save" className="btn-dark border-none" onClick={submit}></Buttons>
+              <Buttons
+                label="Save"
+                className="btn-dark border-none"
+                onClick={submit}
+              ></Buttons>
             </div>
             <div className="">
               <Buttons
@@ -462,26 +481,26 @@ const AddMembershipType = ({
           <RecentCheckIn data={checkInData}></RecentCheckIn>
         </div>
         <Dialog
-        header="Create Membership Type"
-        visible={visible}
-        style={{ width: "50vw" }}
-        onHide={() => setVisible(false)}
-        footer={footerContent}
-      >
-        <div className="p-3 ">
-          <div className="flex justify-content-between ">
-            <div className="col">
-              <Input
-                title="Name"
-                value={newName}
-                onChange={newNameHandle}
-                name="name"
-                state={memberShipTypeForm}
-              ></Input>
+          header="Create Membership Type"
+          visible={visible}
+          style={{ width: "50vw" }}
+          onHide={() => setVisible(false)}
+          footer={footerContent}
+        >
+          <div className="p-3 ">
+            <div className="flex justify-content-between ">
+              <div className="col">
+                <Input
+                  title="Name"
+                  value={newName}
+                  onChange={newNameHandle}
+                  name="name"
+                  state={memberShipTypeForm}
+                ></Input>
+              </div>
             </div>
           </div>
-        </div>
-      </Dialog>
+        </Dialog>
       </>
     );
   };
