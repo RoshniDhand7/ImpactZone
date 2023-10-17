@@ -79,3 +79,6 @@ a:-webkit-any-link {
 .fc-timegrid-event-short .fc-event-time::after {
     content: none;
 }
+.fc .fc-view-harness {
+  height: 50vh !important;
+}

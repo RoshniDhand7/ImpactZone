@@ -4,7 +4,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import constants from "../../../../utils/constants";
-import { Menu } from "primereact/menu";
+import { confirmDialog } from "primereact/confirmdialog";
 
 const AccessCalendar = ({
   accessSchedulesForm,
@@ -12,7 +12,6 @@ const AccessCalendar = ({
   duration,
 }) => {
   const calendarRef = useRef(null);
-  const menuDelete = useRef(null);
 
   const handleDateSelect = (selectInfo) => {
     if (selectInfo.view.type === "timeGridWeek") {
@@ -22,6 +21,12 @@ const AccessCalendar = ({
       const dayShortName = moment(selectInfo.start)
         .format("dddd")
         .substring(0, 3);
+
+      const checkIsEventAlreadyPresent = checkIsEventPresent(
+        dayName,
+        selectInfo.end
+      );
+      if (checkIsEventAlreadyPresent) return;
 
       const newEvent = {
         start: selectInfo.start.toISOString(),
@@ -52,9 +57,20 @@ const AccessCalendar = ({
 
   const handleEventResize = (resized) => {
     const dayName = moment(resized.event.end).format("dddd");
-    console.log(resized.event.end.toISOString());
+    const checkIsEventAlreadyPresent = checkIsEventPresent(
+      dayName,
+      resized.event.end
+    );
+
+    if (checkIsEventAlreadyPresent) {
+      return setAccessSchedulesForm({ ...accessSchedulesForm });
+    }
+
     accessSchedulesForm.schedule.map((item) => {
-      if (item.day === dayName) {
+      if (
+        item.day === dayName &&
+        resized.oldEvent.end.toISOString() === item.endTime
+      ) {
         item.endTime = resized.event.end.toISOString();
       }
       return item;
@@ -62,34 +78,43 @@ const AccessCalendar = ({
     setAccessSchedulesForm({ ...accessSchedulesForm });
   };
 
-  const deleteMenuItems = [
-    {
-      labale: "Delete",
-      items: [
-        {
-          label: "Update",
-          icon: "pi pi-refresh",
-        },
-      ],
-    },
-  ];
-  const onClickEvent = (e) => {
+  const onDeleteEvent = (e) => {
     const dayName = moment(e.event.end).format("dddd");
-    console.log(dayName);
 
-    accessSchedulesForm.schedule.filter((item) => item.day !== dayName);
-    setAccessSchedulesForm({ ...accessSchedulesForm });
+    setAccessSchedulesForm({
+      ...accessSchedulesForm,
+      schedule: accessSchedulesForm.schedule.filter(
+        (item) =>
+          e.event.start.toISOString() !== item.startTime &&
+          e.event.end.toISOString() !== item.endTime
+      ),
+    });
+  };
+
+  const checkIsEventPresent = (day, newEventEndtime) => {
+    return accessSchedulesForm.schedule.some(
+      (sc) =>
+        day === sc.day &&
+        newEventEndtime.toISOString() > sc.startTime &&
+        day === sc.day &&
+        newEventEndtime.toISOString() < sc.endTime
+    );
+  };
+
+  const deleteConfirm = (e) => {
+    confirmDialog({
+      message: "Do you want to delete this record?",
+      header: "Delete Confirmation",
+      icon: "pi pi-info-circle",
+      acceptClassName: "p-button-danger",
+      rejectClassName: "cancel-button",
+      accept: () => onDeleteEvent(e),
+      reject: {},
+    });
   };
 
   return (
     <>
-      <Menu
-        model={deleteMenuItems}
-        popup
-        ref={menuDelete}
-        id="popup_menu_left"
-        popupalignment="left"
-      />
       <FullCalendar
         ref={calendarRef}
         plugins={[timeGridPlugin, interactionPlugin]}
@@ -111,7 +136,7 @@ const AccessCalendar = ({
         eventResourceEditable={false}
         eventResize={handleEventResize}
         select={handleDateSelect}
-        // eventClick={onClickEvent}
+        eventClick={deleteConfirm}
         events={[
           ...accessSchedulesForm.schedule.map((item) => ({
             start: item.startTime,
