@@ -63,8 +63,15 @@ const constants = {
     getAllAgreementCategory:"agreement-categories",
     addAgreementCategory:"agreement-categories",
     updateAgreementCategory:"agreement-categories/update/",
-    deleteAgreementCategory:"agreement-categories/delete/"
+    deleteAgreementCategory:"agreement-categories/delete/",
+    AccessSchedules: "access-schedules",
+    UpdateAccessSchedule: "access-schedules/update/",
+    DeleteAccessSchedule: "access-schedules/delete/"
   },
+
+  calendarDefaultWeek: {
+    start: "2023-10-01"
+  }
 };
 
 export default constants;

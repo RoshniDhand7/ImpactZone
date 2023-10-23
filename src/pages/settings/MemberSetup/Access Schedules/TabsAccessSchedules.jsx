@@ -3,9 +3,27 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { useState } from "react";
 import AddAccessSchedules from "./AddAccessSchedules";
 import Access from "./Access";
+import AccessSchedulesContainer from "./AccessSchedulesContainer";
 
-const TabsAccessSchedules = ({ showcomponent }) => {
+const TabsAccessSchedules = ({
+  showcomponent,
+  handleAccessSchedulesChange,
+  accessSchedulesForm,
+  setAccessSchedulesForm,
+  durations,
+  onDurationChange,
+  duration,
+  onClickAllAccess,
+  editAccessSchedule,
+  copyModalFooter,
+  openCopyModal,
+  setOpenCopyModal,
+  newName,
+  setNewName,
+  submit,
+}) => {
   const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <>
       <div className="my-3 p-0">
@@ -15,10 +33,31 @@ const TabsAccessSchedules = ({ showcomponent }) => {
             onTabChange={(e) => setActiveIndex(e.index)}
           >
             <TabPanel header="General">
-              <AddAccessSchedules showcomponent={showcomponent} />
+              <AddAccessSchedules
+                showcomponent={showcomponent}
+                accessSchedulesForm={accessSchedulesForm}
+                handleAccessSchedulesChange={handleAccessSchedulesChange}
+                editAccessSchedule={editAccessSchedule}
+                copyModalFooter={copyModalFooter}
+                openCopyModal={openCopyModal}
+                setOpenCopyModal={setOpenCopyModal}
+                newName={newName}
+                setNewName={setNewName}
+                submit={submit}
+              />
             </TabPanel>
             <TabPanel header="Access">
-              <Access />
+              <Access
+                accessSchedulesForm={accessSchedulesForm}
+                setAccessSchedulesForm={setAccessSchedulesForm}
+                handleAccessSchedulesChange={handleAccessSchedulesChange}
+                durations={durations}
+                duration={duration}
+                showcomponent={showcomponent}
+                onDurationChange={onDurationChange}
+                onClickAllAccess={onClickAllAccess}
+                submit={submit}
+              />
             </TabPanel>
           </TabView>
         </div>

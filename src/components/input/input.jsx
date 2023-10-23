@@ -31,7 +31,7 @@ const Input = ({
   childState,
   minDate,
   keyfilter,
-  overlappingText
+  overlappingText,
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -45,7 +45,15 @@ const Input = ({
         style={{ width: "100%", display: "inline-block" }}
         className={"p-input-icon-right"}
       >
-       {overlappingText ? <i><label className="text-xs text-dark-gray flex justify-content-between  font-semibold">{overlappingText}</label></i> : <i className={icon} />}
+        {overlappingText ? (
+          <i>
+            <label className="text-xs text-dark-gray flex justify-content-between  font-semibold">
+              {overlappingText}
+            </label>
+          </i>
+        ) : (
+          <i className={icon} />
+        )}
 
         {type === "number" ? (
           <InputText
@@ -93,10 +101,39 @@ const Input = ({
                 : ""
             }
           />
+        ) : type === "color" ? (
+          <div
+            className="flex p-inputtext align-items-center"
+            style={{ ...style }}
+          >
+            <InputText
+              id={id}
+              style={{ padding: "0", width: "22px", border: "none" }}
+              placeholder={placeholder}
+              icon={icon}
+              name={name}
+              className="col-2"
+              keyfilter={keyfilter}
+              type={type}
+              value={value}
+              maxLength={maxLength}
+              onChange={(e) =>
+                onChange &&
+                onChange({
+                  ...e,
+                  name: e.target.name,
+                  value: e.target.value,
+                  index: id,
+                })
+              }
+              disabled={disabled}
+            ></InputText>
+            <div className="col">{value ? value : "#000000"}</div>
+          </div>
         ) : (
           <InputText
             id={id}
-            style={{ width: width ? width : "100%" }}
+            style={{ width: width ? width : "100%", ...style }}
             placeholder={placeholder}
             icon={icon}
             name={name}

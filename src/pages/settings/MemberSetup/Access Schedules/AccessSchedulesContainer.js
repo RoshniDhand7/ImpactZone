@@ -1,44 +1,37 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteMemberShipTypeAction, UpdateMemberShipTypeAction, addMemberShipType, getMemberShipType } from "../../../../redux/actions/memberShipTypesAction";
 import { useEffect } from "react";
-import { getClubs } from "../../../../redux/actions/clubsActions";
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 import { showToast } from "../../../../redux/actions/toastAction";
 import FormValidation from "../../../../utils/AllFormValidation";
 import { confirmDialog } from 'primereact/confirmdialog';
+import { addAccessSchedule, deleteAccessSchedul, getAccessSchedules, updateAccessSchedule } from "../../../../redux/actions/accessSchedulesAction";
+import constants from "../../../../utils/constants";
+import moment from "moment";
 import { Button } from "primereact/button";
 
-const MemberShipContainer = () => {
+const AccessSchedulesContainer = () => {
     const dispatch = useDispatch();
-    const membershipTypeData = useSelector(
-        (state) => state.memberShip.membershipType
-    );
-    const allClubs = useSelector((state) => state.clubs.clubs);
-    const [clubs, setClubs] = useState([])
-    const [showAddMemberService, setShowAddMemberService] = useState(false)
-    const [showAddMemebershipType, setAddMemebershipType] = useState(false);
-    const [initialMemberType, setInitialMemberType] = useState({})
-    const [required, setRequired] = useState(["name", "description", "discountType", "allowRemoteCheckIn", "clubCreditAmount", "services", "clubs"])
-    const [selectedRow, setSelectedRow] = useState([])
-    const [editMemberType, setEditMemberType] = useState(null)
-    const [visible, setVisible] = useState(false);
+    let { accessSchedules } = useSelector((state) => state?.accessSchedules);
+
+    const [showAccessSchedules, setShowAccessSchedules] = useState(true);
+    const [initialAccessSchedules, setInitialAccessSchedules] = useState({});
+    const [required, setRequired] = useState(["name"]);
+    const [editAccessSchedule, setEditAccessSchedule] = useState(false);
+    const [openCopyModal, setOpenCopyModal] = useState(false);
     const [newName, setNewName] = useState("");
-    const [memberShipTypeForm, setMemberShipTypeForm] = useState({
+
+    const [accessSchedulesForm, setAccessSchedulesForm] = useState({
         isActive: true,
         name: "",
         shortName: "",
-        color: "",
-        description: null,
+        color: "#00000",
+        description: '',
         schedule: []
     });
 
-    console.log("memberShipTypeForm", memberShipTypeForm)
-
     const deleteConfirm = (id) => {
-        console.log("test", id)
         confirmDialog({
             message: "Do you want to delete this record?",
             header: "Delete Confirmation",
@@ -49,21 +42,31 @@ const MemberShipContainer = () => {
             reject,
         });
     };
+
+    const durations = [15, 30, 60];
+    const [duration, setDuration] = useState(30);
+
     const acceptFunc = (id) => {
-        dispatch(DeleteMemberShipTypeAction(id)).then((data) => {
+        dispatch(deleteAccessSchedul(id)).then((data) => {
             if (data.success) {
-                dispatch(getMemberShipType());
+                dispatch(getAccessSchedules());
             }
         });
     };
 
     const reject = () => { };
 
+    const onEditAccessScheduleForm = (row) => {
+        setAccessSchedulesForm({ ...row });
+        setShowAccessSchedules(false);
+        setEditAccessSchedule(true);
+    };
+
     const actionTemplate = (col) => {
         return (
             <>
                 <div className="flex justify-content-end">
-                    <span onClick={() => setEditMemberType(col)}>
+                    <span onClick={() => onEditAccessScheduleForm(col)}>
                         <i className="pi pi-pencil mr-3 cursor-pointer"></i>
                     </span>
                     <span onClick={() => deleteConfirm(col?._id)}>
@@ -77,12 +80,20 @@ const MemberShipContainer = () => {
     const descriptionTemplate = (col) => {
         return (
             <div>
-                {col.description.length >= 100 ? col.description.slice(0, 100) + "..." : col.description}
+                {col.description && col.description.length >= 100 ? col.description.slice(0, 100) + "..." : col.description}
             </div>
         )
     }
 
-    const ManageMembershipTypesColumn = [
+    const shortNameTemplate = (col) => {
+        return (
+            <span style={{ color: col.color }}>
+                {col.shortName}
+            </span>
+        )
+    };
+
+    const AccessSchedulesColumn = [
         {
             field: "name",
             header: "Name",
@@ -97,275 +108,50 @@ const MemberShipContainer = () => {
             body: descriptionTemplate
         },
         {
-            field: "discountType",
-            header: "Discount Type",
+            field: "shortName",
+            header: "Short Name",
             id: "",
             index: "",
-        },
-        {
-            field: "members",
-            header: "# Members",
-            id: "",
-            index: "",
+            body: shortNameTemplate
         },
         { field: "", header: "", body: actionTemplate, id: "", index: "" },
     ];
 
-    const showAddMemebershipTypeScreen = () => {
-        setAddMemebershipType((prev) => !prev);
-        if (editMemberType) {
-            setEditMemberType(null)
-            setMemberShipTypeForm({
-                isActive: true,
-                name: "",
-                description: "",
-                discountType: "",
-                accessRestriction: null,
-                accessSchedule: "",
-                allowRemoteCheckIn: null,
-                clubCreditAmount: "",
-                transferToAnotherType: "",
-                specialRestriction: "",
-                minimumAgeAllowed: "",
-                maximumAgeAllowed: "",
-                maximumDaysAllowed: "",
-                maximumDistanceAllowed: "",
-                clubs: [],
-                clubsOption: [],
-                services: [],
-            })
-        }
-    };
+    const onDurationChange = (event) => {
+        setDuration(event.value);
+    }
 
-    const memberTypeHandleChange = ({ name, value }) => {
+    const handleAccessSchedulesChange = ({ name, value }) => {
         const formErrors = FormValidation(
             name,
             value,
-            memberShipTypeForm,
+            accessSchedulesForm,
             required,
-            initialMemberType
+            initialAccessSchedules
         );
-        if (name == "accessRestriction" && value == false) {
-            setMemberShipTypeForm((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                    accessSchedule: "",
-                    formErrors
-                };
-            });
-        }
-        else if (name == "specialRestriction" && value == "By Age") {
-            setMemberShipTypeForm((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                    maximumDaysAllowed: "",
-                    maximumDistanceAllowed: "",
-                    formErrors,
-                };
-            });
-        }
-        else if (name == "specialRestriction" && value == "By Location") {
-            setMemberShipTypeForm((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                    minimumAgeAllowed: "",
-                    maximumAgeAllowed: "",
-                    maximumDaysAllowed: "",
-                    formErrors
-                };
-            });
-        }
-        else if (name == "specialRestriction" && value == "By Days") {
-            setMemberShipTypeForm((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                    minimumAgeAllowed: "",
-                    maximumAgeAllowed: "",
-                    maximumDistanceAllowed: "",
-                    formErrors
-                };
-            });
-        }
-        else {
-            setMemberShipTypeForm((prev) => {
-                return {
-                    ...prev,
-                    [name]: value,
-                    formErrors
-                };
-            });
-        }
-
-    };
-
-    const memberTypePickerHandleChange = ({ name, value, source }) => {
-        const formErrors = FormValidation(
-            "clubs",
-            value,
-            memberShipTypeForm,
-            required,
-            initialMemberType
-        );
-        let clubsNew = value.map((item) => { return item._id })
-        setMemberShipTypeForm((prev) => {
+        setAccessSchedulesForm((prev) => {
             return {
                 ...prev,
                 [name]: value,
-                clubs: clubsNew,
                 formErrors
-
             };
         });
-        setClubs(source)
     };
 
-
-    const memberShipAddColumn = [
-        {},
-        {
-            field: "name",
-            header: "Item Name",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-        {
-            field: "size",
-            header: "Item UPC",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-        {
-            field: "catelogPrice",
-            header: "Price",
-            id: "",
-            index: "",
-            sorting: true,
-        },
-
-    ];
-    const [memberShipAddData, setMemberShipAddData] = useState([
-        {
-            id: "a1",
-            catelogPrice: "100",
-            name: "agreements",
-            size: "10",
-            status: true,
-        },
-        {
-            id: "a2",
-            catelogPrice: "200",
-            name: "Adults",
-            size: "15",
-            status: true,
-        },
-        {
-            id: "a3",
-            catelogPrice: "200",
-            name: "Students",
-            size: "15",
-            status: true,
-        },
-        {
-            id: "a4",
-            catelogPrice: "150",
-            name: "Corporate",
-            size: "18",
-            status: false,
-        },
-        {
-            id: "a5",
-            catelogPrice: "120",
-            name: "Annual",
-            size: "25",
-            status: false,
-        },
-    ]);
-
-
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    });
-
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        let _filters = { ...filters };
-
-        _filters['global'].value = value;
-
-        setFilters(_filters);
-        setGlobalFilterValue(value);
-    };
-
-    const removeAll = () => {
-        setMemberShipTypeForm((prev) => {
-            return {
-                ...prev,
-                services: []
-            }
-        })
-        delete memberShipTypeForm?.formErrors?.services;
-        setSelectedRow([])
-    }
-
-    const submitNewName = () => {
-        let payload = {
-            ...memberShipTypeForm,
-            name: newName,
-            _id: null,
-        };
-        if (showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)) {
-            setVisible(false);
-            dispatch(addMemberShipType(payload)).then((data) => {
-                if (data.success) {
-                    dispatch(getMemberShipType());
-                    const myTimeout = setTimeout(() => {
-                        // setVisible(false);
-                        setNewName("")
-                        setAddMemebershipType(false);
-                    }, 1000);
-                }
-            });
-        }
-    };
-
-    const footerContent = (
-        <div>
-            <Button
-                label="Cancel"
-                icon=""
-                onClick={() => setVisible(false)}
-                className="p-button-text"
-            />
-            <Button
-                label="Create Membership Type"
-                icon=""
-                onClick={() => submitNewName()}
-                autoFocus
-            />
-        </div>
-    );
-
-    const newNameHandle = (e) => {
-        const { name, value } = e.target;
-        setNewName(value);
-    };
-
-    const submit = () => {
+    const submit = (copyRecord) => {
         if (
-            showAllFormErrors(memberShipTypeForm, setMemberShipTypeForm, required, initialMemberType)
+            showAllFormErrors(accessSchedulesForm, setAccessSchedulesForm, required, initialAccessSchedules)
         ) {
-            if (editMemberType) {
-                dispatch(UpdateMemberShipTypeAction(memberShipTypeForm)).then((data) => { if (data.success) { dispatch(getMemberShipType()); setAddMemebershipType(false) } })
+            if (editAccessSchedule) {
+                if (copyRecord) {
+                    dispatch(addAccessSchedule(copyRecord)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true); setOpenCopyModal(false); setNewName("") } })
+                } else {
+                    dispatch(updateAccessSchedule(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true); setEditAccessSchedule(false); } })
+                }
             } else {
-                dispatch(addMemberShipType(memberShipTypeForm)).then((data) => { if (data.success) { dispatch(getMemberShipType()); setAddMemebershipType(false) } })
+                dispatch(addAccessSchedule(accessSchedulesForm)).then((data) => { if (data.success) { dispatch(getAccessSchedules()); setShowAccessSchedules(true) } })
             }
+            resetForm();
         }
         else {
             dispatch(
@@ -381,80 +167,86 @@ const MemberShipContainer = () => {
             });
         }
 
+    };
+
+    const resetForm = () => {
+        setAccessSchedulesForm({
+            isActive: true,
+            name: "",
+            shortName: "",
+            color: "",
+            description: null,
+            schedule: []
+        });
     }
 
+    const onClickAllAccess = () => {
+        accessSchedulesForm.schedule = [];
+        setAccessSchedulesForm({ ...accessSchedulesForm });
+        for (let i = 0; i < 7; i++) {
+            accessSchedulesForm.schedule.push({
+                day: moment(constants.calendarDefaultWeek.start).add(i, 'days').format("dddd"),
+                shortName: moment(constants.calendarDefaultWeek.start).add(i, 'days').format("dddd").substring(0, 3),
+                startTime: moment(constants.calendarDefaultWeek.start).add(i, 'days').startOf('day').format(),
+                endTime: moment(constants.calendarDefaultWeek.start).add(i, 'days').endOf('day').format()
+            });
+        }
+        return setAccessSchedulesForm({ ...accessSchedulesForm });
+    };
 
     useEffect(() => {
-        setInitialMemberType(memberShipTypeForm)
-        dispatch(getMemberShipType());
-        dispatch(getClubs());
+        setInitialAccessSchedules({ ...accessSchedulesForm });
+        dispatch(getAccessSchedules());
     }, []);
 
-    useEffect(() => {
-        setClubs(allClubs)
-    }, [allClubs])
+    const copyAccessSchedule = () => {
+        const copyRecord = {
+            ...accessSchedulesForm,
+            name: newName,
+            _id: null
+        };
+        submit(copyRecord);
+    };
 
-    useEffect(() => {
-        if (editMemberType) {
-            console.log("editMemberType", editMemberType)
-            let obj = {
-                ...editMemberType,
-                isActive: editMemberType.isActive,
-                name: editMemberType.name,
-                description: editMemberType.description,
-                discountType: editMemberType.discountType,
-                accessRestriction: editMemberType.accessRestriction,
-                accessSchedule: editMemberType.accessSchedule,
-                allowRemoteCheckIn: editMemberType.allowRemoteCheckIn,
-                clubCreditAmount: editMemberType.clubCreditAmount,
-                transferToAnotherType: editMemberType.transferToAnotherType?._id,
-                specialRestriction: editMemberType.specialRestriction,
-                minimumAgeAllowed: editMemberType.minimumAgeAllowed,
-                maximumAgeAllowed: editMemberType.maximumAgeAllowed,
-                maximumDaysAllowed: editMemberType.maximumDaysAllowed,
-                maximumDistanceAllowed: editMemberType.maximumDistanceAllowed,
-                clubs: editMemberType.clubs?.map((item) => { return item._id }),
-                clubsOption: editMemberType.clubs,
-                services: editMemberType.services,
-            }
-            setMemberShipTypeForm(obj)
-            setAddMemebershipType(true)
-            setSelectedRow(editMemberType.services)
-            let clubSource = clubs.filter((item) => { return !editMemberType.clubs.find((child) => { return item._id == child._id }) })
-            setClubs(clubSource)
-        }
-    }, [editMemberType])
-
-
+    const copyModalFooter = (
+        <div>
+            <Button
+                label="Cancel"
+                icon=""
+                onClick={() => setOpenCopyModal(false)}
+                className="p-button-text"
+            />
+            <Button
+                label="Create Access Schedule"
+                icon=""
+                onClick={() => copyAccessSchedule()}
+                autoFocus
+            />
+        </div>
+    );
 
     return {
-        showAddMemebershipType,
-        showAddMemebershipTypeScreen,
-        ManageMembershipTypesColumn,
-        membershipTypeData,
-        memberTypeHandleChange,
-        memberShipTypeForm,
-        clubs,
-        memberTypePickerHandleChange,
-        showAddMemberService,
-        setShowAddMemberService,
-        globalFilterValue,
-        setGlobalFilterValue,
-        filters,
-        onGlobalFilterChange,
-        memberShipAddColumn,
-        memberShipAddData,
-        selectedRow,
-        setSelectedRow,
-        removeAll,
-        submit,
-        visible,
-        setVisible,
-        footerContent,
+        showAccessSchedules,
+        setShowAccessSchedules,
+        AccessSchedulesColumn,
+        accessSchedules,
+        handleAccessSchedulesChange,
+        accessSchedulesForm,
+        setAccessSchedulesForm,
+        durations,
+        duration,
+        onDurationChange,
+        onClickAllAccess,
+        onEditAccessScheduleForm,
+        editAccessSchedule,
+        resetForm,
+        copyModalFooter,
+        openCopyModal,
+        setOpenCopyModal,
         newName,
-        newNameHandle,
-        editMemberType,
+        setNewName,
+        submit
     };
 };
 
-export default MemberShipContainer;
+export default AccessSchedulesContainer;

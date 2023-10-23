@@ -5,11 +5,33 @@ import Buttons from "../../../../components/buttons/button";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
-import AddAccessSchedules from "./AddAccessSchedules";
 import TabsAccessSchedules from "./TabsAccessSchedules";
+import AccessSchedulesContainer from "./AccessSchedulesContainer";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const AccessSchedules = () => {
-  const [showAddAccessSchedules, setAddAccessSchedules] = useState(false);
+  const {
+    showAccessSchedules,
+    setShowAccessSchedules,
+    AccessSchedulesColumn,
+    accessSchedules,
+    handleAccessSchedulesChange,
+    accessSchedulesForm,
+    setAccessSchedulesForm,
+    durations,
+    onDurationChange,
+    duration,
+    onClickAllAccess,
+    editAccessSchedule,
+    resetForm,
+    copyModalFooter,
+    openCopyModal,
+    setOpenCopyModal,
+    newName,
+    setNewName,
+    submit,
+  } = AccessSchedulesContainer();
+
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -26,70 +48,32 @@ const AccessSchedules = () => {
     );
   };
 
-  const accessSchedulesColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "description",
-      header: "Description",
-      id: "",
-      index: "",
-    },
-    {
-      field: "shortName",
-      header: "Short Name",
-      id: "",
-      index: "",
-    },
-
-    { field: "", header: "", body: actionTemplate, id: "", index: "" },
-  ];
-  const [accessSchedulesData, setaccessSchedulesData] = useState([
-    {
-      name: "All Access",
-      description: "Access on every day at all times.",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Class Pass",
-      description: "Can only use gym when put in class",
-      index: "",
-      id: "",
-    },
-    {
-      name: "Kids Fitness",
-      description: "Can only use gym for kids academy",
-      index: "",
-      id: "",
-    },
-    {
-      name: "No Access",
-      description: "No access on any day at any time",
-
-      index: "",
-      id: "",
-    },
-    {
-      name: "Online Client",
-      description: "",
-      index: "",
-      id: "",
-    },
-  ]);
-
   const showcomponent = () => {
-    setAddAccessSchedules((prev) => !prev);
+    setShowAccessSchedules((prev) => !prev);
+    resetForm();
   };
 
   return (
     <>
-      {showAddAccessSchedules ? (
-        <TabsAccessSchedules showcomponent={showcomponent} />
+      <ConfirmDialog />
+      {!showAccessSchedules ? (
+        <TabsAccessSchedules
+          showcomponent={showcomponent}
+          handleAccessSchedulesChange={handleAccessSchedulesChange}
+          accessSchedulesForm={accessSchedulesForm}
+          setAccessSchedulesForm={setAccessSchedulesForm}
+          durations={durations}
+          onDurationChange={onDurationChange}
+          duration={duration}
+          onClickAllAccess={onClickAllAccess}
+          editAccessSchedule={editAccessSchedule}
+          copyModalFooter={copyModalFooter}
+          openCopyModal={openCopyModal}
+          setOpenCopyModal={setOpenCopyModal}
+          newName={newName}
+          setNewName={setNewName}
+          submit={submit}
+        />
       ) : (
         <>
           <div>
@@ -120,8 +104,8 @@ const AccessSchedules = () => {
             </div>
             <div className="mt-2">
               <TableData
-                columns={accessSchedulesColumn}
-                data={accessSchedulesData}
+                columns={AccessSchedulesColumn}
+                data={accessSchedules}
               />
             </div>
           </div>

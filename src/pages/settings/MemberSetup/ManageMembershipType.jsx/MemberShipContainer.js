@@ -15,6 +15,7 @@ import { showToast } from "../../../../redux/actions/toastAction";
 import FormValidation from "../../../../utils/AllFormValidation";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
+import { getAccessSchedules } from "../../../../redux/actions/accessSchedulesAction";
 
 const MemberShipContainer = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const MemberShipContainer = () => {
     (state) => state.memberShip.membershipType
   );
   const allClubs = useSelector((state) => state.clubs.clubs);
+  let { accessSchedules } = useSelector((state) => state?.accessSchedules);
+
   const [clubs, setClubs] = useState([]);
   const [showAddMemberService, setShowAddMemberService] = useState(false);
   const [showAddMemebershipType, setAddMemebershipType] = useState(false);
@@ -78,7 +81,7 @@ const MemberShipContainer = () => {
     });
   };
 
-  const reject = () => {};
+  const reject = () => { };
 
   const actionTemplate = (col) => {
     return (
@@ -422,6 +425,7 @@ const MemberShipContainer = () => {
 
   useEffect(() => {
     setClubs(allClubs);
+    dispatch(getAccessSchedules());
   }, [allClubs]);
 
   useEffect(() => {
@@ -487,6 +491,7 @@ const MemberShipContainer = () => {
     newName,
     newNameHandle,
     editMemberType,
+    accessSchedules
   };
 };
 

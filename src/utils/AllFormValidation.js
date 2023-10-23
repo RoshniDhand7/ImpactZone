@@ -3,7 +3,6 @@ import { FirstletterUpperCase, equal, length } from "./javascript";
 import { emailValidation, passwordValidation } from "./regex";
 
 const FormValidation = (name, value, data, required, initialData) => {
-  console.log("name Inside form",name,value,required,initialData)
   let formErrors = { ...data.formErrors };
   switch (name) {
     case "email":
