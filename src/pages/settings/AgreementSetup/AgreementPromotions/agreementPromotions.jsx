@@ -5,71 +5,20 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddAgreementPromotions from "./addAgreementPromotions";
+import agreementPromotionContainer from "./agreementPromotionContainer";
 
 const AgreementPromotions = () => {
-  const [addAgreementPromotions, setAgreementPromotions] = useState(false);
+ 
+const {
+  addAgreementPromotions,
+    onClickChangePage,
+    agreementPromotionsColumn,
+    agreementPromotionsData
+} = agreementPromotionContainer()
 
-  const onClickChangePage = () => {
-    setAgreementPromotions((prev) => !prev);
-  };
 
-  const agreementPromotionsColumn = [
-    {
-      field: "code",
-      header: "Code",
-      id: "",
-      index: "",
-    },
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
 
-    {
-      field: "startdate",
-      header: "Start Date",
-      id: "",
-    },
-    {
-      field: "enddate",
-      header: "End Date",
-      id: "",
-    },
-  ];
-  const [agreementPromotionsData, setAgreementPromotionsData] = useState([
-    {
-      code: "1Bf03",
-      name: "Bf03",
-      startdate: "March-14-2023",
-      enddate: "March-14-2023",
-    },
-    {
-      code: "1Bf03",
-      name: "1Bf03",
-      startdate: "March-14-2023",
-      enddate: "March-14-2023",
-    },
-    {
-      code: "1Bf03",
-      name: "Bf03",
-      startdate: "March-14-2023",
-      enddate: "March-14-2023",
-    },
-    {
-      code: "1Bf03",
-      name: "Bf03",
-      startdate: "March-14-2023",
-      enddate: "March-14-2023",
-    },
-    {
-      code: "1Bf03",
-      name: "Bf03",
-      startdate: "March-14-2023",
-      enddate: "March-14-2023",
-    },
-  ]);
+
 
   return (
     <>
@@ -86,7 +35,7 @@ const AgreementPromotions = () => {
                 <Buttons
                   onClick={onClickChangePage}
                   className=" btn-dark border-none"
-                  label="Add Assessed Fees"
+                  label="Add Agreement Promotions"
                   icon="pi pi-plus-circle"
                 ></Buttons>
               </div>
