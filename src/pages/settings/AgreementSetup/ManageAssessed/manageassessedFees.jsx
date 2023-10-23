@@ -5,88 +5,20 @@ import TableData from "../../../../components/cards/dataTable/dataTable";
 import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../../utils/checkInData";
 import AddAssessedFee from "../ManageAssessed/addAssessedFee";
+import AssessedContainer from "./assessedContainer";
 
 const ManageaAssessedFees = () => {
-  const [addAssessedFees, setAddAssessedFee] = useState(false);
+  const {
+    assessedColumn,
+    allAssessedData,
+    onClickAddFees,
+    addAssessedFees
+  } = AssessedContainer()
 
-  const onClickAddFees = () => {
-    setAddAssessedFee((prev) => !prev);
-  };
 
-  const ManageMembershipTypesColumn = [
-    {
-      field: "name",
-      header: "Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "profitcenter",
-      header: "Profit Center",
-      id: "",
-      index: "",
-    },
-    {
-      field: "amount",
-      header: "Amount",
-      id: "",
-      index: "",
-    },
-    {
-      field: "startdate",
-      header: "Start Date",
-      id: "",
-      index: "",
-    },
-    {
-      field: "clubs",
-      header: "Clubs",
-      id: "",
-      index: "",
-    },
-  ];
-  const [ManageMembershipTypesData, setManageMembershipTypesData] = useState([
-    {
-      name: "Annual Fee",
-      profitcenter: "Annual Fee",
-      amount: "$49.99",
-      startdate: "01/03/2022",
-      clubs: "30591",
-      id: "",
-    },
-    {
-      name: "Late Fee",
-      profitcenter: "-",
-      amount: "$49.99",
-      startdate: "01/03/2022",
-      clubs: "30591",
-      id: "",
-    },
-    {
-      name: "Decline Fee",
-      profitcenter: "-",
-      amount: "$49.99",
-      startdate: "01/03/2022",
-      clubs: "30591",
-      id: "",
-    },
-    {
-      name: "No Show Fee",
-      profitcenter: "GymAccess",
-      amount: "$49.99",
-      startdate: "01/03/2022",
-      clubs: "30591",
-      id: "",
-    },
-    {
-      name: "Freeze Fee",
-      profitcenter: "Unassigned",
-      amount: "$49.99",
-      startdate: "01/03/2022",
-      clubs: "30591",
-      id: "",
-    },
-  ]);
+
+ 
+
   return (
     <>
       {addAssessedFees ? (
@@ -133,8 +65,8 @@ const ManageaAssessedFees = () => {
             </div>
             <div className="mt-2">
               <TableData
-                columns={ManageMembershipTypesColumn}
-                data={ManageMembershipTypesData}
+                columns={assessedColumn}
+                data={allAssessedData}
               />
             </div>
           </div>

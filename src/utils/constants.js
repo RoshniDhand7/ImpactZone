@@ -58,7 +58,12 @@ const constants = {
     DeleteCampaignGroups:"campaign-groups/delete/",
     AllCampaign:"campaigns",
     UpdateCampaign:"campaigns/update/",
-    DeleteCampaign:"campaigns/delete/"
+    DeleteCampaign:"campaigns/delete/",
+    getAllAssessed:"assessed-fees/",
+    getAllAgreementCategory:"agreement-categories",
+    addAgreementCategory:"agreement-categories",
+    updateAgreementCategory:"agreement-categories/update/",
+    deleteAgreementCategory:"agreement-categories/delete/"
   },
 };
 

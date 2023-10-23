@@ -6,79 +6,36 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import Input from "../../../../components/input/input";
 import AddAgreementCategories from "../AgreementCategoriesScreens/addAgreementCategories";
+import AgreementCategoriesContainer from "./agreementCategoriesContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const AgreementCategories = () => {
-  const [addAgreementCategories, setAgreementCategories] = useState(false);
+  const{
+    agreementCategoriesColumn,
+    allAgreementCategoryData,
+    addAgreementCategories,
+    onClickChangePage,
+    agreementCategoryForm,
+    handleChangeAgreement,
+    addSubCategory,
+    handleChangeSubCategory,
+    handleChangeSubCategoryDelete,
+    save
+  } = AgreementCategoriesContainer()
 
-  const onClickChangePage = () => {
-    setAgreementCategories((prev) => !prev);
-  };
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
 
-  const agreementCategoriesColumn = [
-    {
-      field: "agreementCategory",
-      header: "Agreement Category",
-      id: "",
-      index: "",
-    },
-    {
-      field: "agreements",
-      header: "Agreements #",
-      id: "",
-      index: "",
-    },
 
-    {
-      field: "",
-      header: "",
-      id: "",
-      body: actionTemplate,
-    },
-  ];
-  const [agreementCategoriesData, setAgreementCategoriesData] = useState([
-    {
-      agreementCategory: "agreements",
-      agreements: "1",
-    },
-    {
-      agreementCategory: "Adults",
-      agreements: "12",
-    },
-    {
-      agreementCategory: "Students",
-      agreements: "3",
-    },
-    {
-      agreementCategory: "Corporate",
-      agreements: "2",
-    },
-    {
-      agreementCategory: "Annual",
-      agreements: "1",
-    },
-  ]);
+
+
+
   return (
     <>
       {addAgreementCategories ? (
-        <AddAgreementCategories onClickChangePage={onClickChangePage} />
+        <AddAgreementCategories onClickChangePage={onClickChangePage} handleChangeAgreement={handleChangeAgreement} agreementCategoryForm={agreementCategoryForm} addSubCategory={addSubCategory} handleChangeSubCategory={handleChangeSubCategory} handleChangeSubCategoryDelete={handleChangeSubCategoryDelete} save={save}/>
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Agreement Categories
@@ -110,7 +67,7 @@ const AgreementCategories = () => {
             <div className="mt-2">
               <TableData
                 columns={agreementCategoriesColumn}
-                data={agreementCategoriesData}
+                data={allAgreementCategoryData}
               />
             </div>
           </div>

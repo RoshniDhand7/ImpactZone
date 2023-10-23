@@ -6,8 +6,10 @@ import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import Input from "../../../../components/input/input";
 import Checkbox from "../../../../components/checkbox/checkbox";
+import { useSelector } from "react-redux";
 
 const AddAssessedFee = ({ onClickAddFees }) => {
+  const typeOption = useSelector((state)=>state.staticData.assessedTypes)
   const itemTemplate = (item) => {
     return (
       <div className="flex flex-wrap p-2 align-items-center gap-3">
@@ -44,7 +46,7 @@ const AddAssessedFee = ({ onClickAddFees }) => {
                   <Input title="Name" type="text"></Input>
                 </div>
                 <div className="col">
-                  <DropDown title="Type"></DropDown>
+                  <DropDown title="Type" options={typeOption}></DropDown>
                 </div>
                 <div className="col">
                   <DropDown title="Profit Center"></DropDown>

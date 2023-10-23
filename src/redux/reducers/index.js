@@ -13,6 +13,8 @@ import resourceReducer from "./resourceReducer";
 import memberShipTypeReducer from "./memberShipTypesReducer";
 import campaignsGroupReducer from "./campaignsGroupReducers";
 import campaignsReducer from "./campaignReducers";
+import assessedReducer from "./assessedReducers";
+import agreementCategoryReducer from "./agreementReducers";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -29,4 +31,6 @@ export default combineReducers({
   memberShip: memberShipTypeReducer,
   campaignsGroup: campaignsGroupReducer,
   campaign: campaignsReducer,
+  Assessed: assessedReducer,
+  AgreementCategory:agreementCategoryReducer
 });

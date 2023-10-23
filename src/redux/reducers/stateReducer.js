@@ -61,7 +61,9 @@ const intitalState = {
   scheduleMember:["Schedule 1","Schedule 2"],
   discountMember:["None","Discount 1","Discount 2"],
   memberAge:["By Age","By Location","By Days"],
-  campaignTypes:["Prospect (Fast Add)","Prospect (Online)","Prospect (Kiosk)","Agreement (Online)","Agreement (At Club)","Agreement (Kiosk)","Agreement (Fast Add)"]
+  campaignTypes:["Prospect (Fast Add)","Prospect (Online)","Prospect (Kiosk)","Agreement (Online)","Agreement (At Club)","Agreement (Kiosk)","Agreement (Fast Add)"],
+  assessedTypes:["Annual Fee","Late Fee","Decline Fee","No Show Fee","Freeze Fee","Cancellation Fee"],
+  
 };
 
 // let array = [];
