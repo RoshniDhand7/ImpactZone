@@ -14,7 +14,7 @@ const DropDown = ({
   filter = false,
   state,
   childState,
-  disabled
+  disabled,
 }) => {
   // console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
   return (
@@ -41,8 +41,15 @@ const DropDown = ({
         name={name}
         filter={filter}
       />
-{childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
-      
+      {childState ? (
+        <div className="text-danger" style={{ color: "red" }}>
+          {state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}
+        </div>
+      ) : (
+        <div className="text-danger" style={{ color: "red" }}>
+          {state?.formErrors?.[name]}
+        </div>
+      )}
     </div>
   );
 };

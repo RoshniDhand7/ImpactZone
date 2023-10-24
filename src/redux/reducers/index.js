@@ -16,6 +16,8 @@ import campaignsReducer from "./campaignReducers";
 import assessedReducer from "./assessedReducers";
 import agreementCategoryReducer from "./agreementReducers";
 import accessSchedulesReducer from "./accessSchedulesReducer";
+import agreementPromotionsReducer from "./agreementPromotionsReducer";
+import membershipPlansReducer from "./membershipPlansReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -33,6 +35,8 @@ export default combineReducers({
   campaignsGroup: campaignsGroupReducer,
   campaign: campaignsReducer,
   Assessed: assessedReducer,
-  AgreementCategory:agreementCategoryReducer,
-  accessSchedules: accessSchedulesReducer
+  AgreementCategory: agreementCategoryReducer,
+  accessSchedules: accessSchedulesReducer,
+  agreementPromotions: agreementPromotionsReducer,
+  membershipPlans: membershipPlansReducer
 });

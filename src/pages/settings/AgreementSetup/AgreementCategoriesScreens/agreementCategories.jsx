@@ -10,7 +10,7 @@ import AgreementCategoriesContainer from "./agreementCategoriesContainer";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const AgreementCategories = () => {
-  const{
+  const {
     agreementCategoriesColumn,
     allAgreementCategoryData,
     addAgreementCategories,
@@ -20,22 +20,25 @@ const AgreementCategories = () => {
     addSubCategory,
     handleChangeSubCategory,
     handleChangeSubCategoryDelete,
-    save
-  } = AgreementCategoriesContainer()
-
-
-
-
-
+    save,
+  } = AgreementCategoriesContainer();
 
   return (
     <>
       {addAgreementCategories ? (
-        <AddAgreementCategories onClickChangePage={onClickChangePage} handleChangeAgreement={handleChangeAgreement} agreementCategoryForm={agreementCategoryForm} addSubCategory={addSubCategory} handleChangeSubCategory={handleChangeSubCategory} handleChangeSubCategoryDelete={handleChangeSubCategoryDelete} save={save}/>
+        <AddAgreementCategories
+          onClickChangePage={onClickChangePage}
+          handleChangeAgreement={handleChangeAgreement}
+          agreementCategoryForm={agreementCategoryForm}
+          addSubCategory={addSubCategory}
+          handleChangeSubCategory={handleChangeSubCategory}
+          handleChangeSubCategoryDelete={handleChangeSubCategoryDelete}
+          save={save}
+        />
       ) : (
         <>
           <div>
-          <ConfirmDialog />
+            <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Agreement Categories
