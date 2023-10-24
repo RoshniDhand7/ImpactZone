@@ -11,3 +11,12 @@
   font-size: 15px !important;
   color: rgba(208, 208, 208, 1) !important;
 }
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #D8DEE9 !important;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: none !important;
+  border-color: #D8DEE9 !important;
+}

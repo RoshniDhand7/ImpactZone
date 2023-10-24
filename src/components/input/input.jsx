@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { InputNumber } from "primereact/inputnumber";
 import { Calendar } from "primereact/calendar";
+import calendarIcon from "../../assets/icons/calendar.png";
 
 const Input = ({
   id,
@@ -61,26 +62,9 @@ const Input = ({
             style={{ width: "100%" }}
             // placeholder={placeholder}
             keyfilter={keyfilter}
-            icon={icon}
-            value={value}
-            onChange={(e) =>
-              onChange &&
-              onChange({ ...e, name: e.target.name, value: e.value })
-            }
-            minFractionDigits={minFractionDigits}
-            type="number"
-            disabled={disabled}
-          />
-        ) : type === "date" ? (
-          <Calendar
-            id={id}
-            style={{ width: width ? width : "100%" }}
-            placeholder={placeholder}
-            icon={icon}
             name={name}
-            type={type}
+            icon={icon}
             value={value}
-            maxLength={maxLength}
             onChange={(e) =>
               onChange &&
               onChange({
@@ -90,17 +74,41 @@ const Input = ({
                 index: id,
               })
             }
-            minDate={minDate}
+            minFractionDigits={minFractionDigits}
+            type="number"
             disabled={disabled}
-            // onKeyDown={onKeyDown}
-            onKeyDown={
-              type === "date"
-                ? (e) => e.preventDefault()
-                : onKeyDown
-                ? onKeyDown
-                : ""
-            }
           />
+        ) : type === "date" ? (
+          <>
+            <div className="custom-icon">
+              <Calendar
+                id={id}
+                style={{ width: width ? width : "100%" }}
+                placeholder={placeholder}
+                name={name}
+                type={type}
+                value={value}
+                maxLength={maxLength}
+                onChange={(e) => console.log(e)}
+                showIcon
+                minDate={minDate}
+                disabled={disabled}
+                // onKeyDown={onKeyDown}
+                onKeyDown={
+                  type === "date"
+                    ? (e) => e.preventDefault()
+                    : onKeyDown
+                    ? onKeyDown
+                    : ""
+                }
+              />
+              {/* <img
+                src={calendarIcon}
+                alt="calendar"
+                style={{ width: "5%", marginRight: "10px" }}
+              /> */}
+            </div>
+          </>
         ) : type === "color" ? (
           <div
             className="flex p-inputtext align-items-center"
@@ -153,24 +161,6 @@ const Input = ({
             disabled={disabled}
           ></InputText>
         )}
-
-        {/* {inputType === "password" ? (
-          <span className="pp-input-icon-right text-xs input100">
-            <i
-              onClick={() => {
-                setShowPassword((perv) => !perv);
-                console.log("hi");
-              }}
-              className={
-                !showPassword
-                  ? `pi cursor-pointer text-xs pi-eye-slash`
-                  : "pi cursor-pointer text-xs pi-eye"
-              }
-            />
-          </span>
-        ) : (
-          ""
-        )} */}
       </span>
       {childState ? (
         <div className="text-danger" style={{ color: "red" }}>

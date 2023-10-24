@@ -6,26 +6,35 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AddAgreementPromotions from "./addAgreementPromotions";
 import agreementPromotionContainer from "./agreementPromotionContainer";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const AgreementPromotions = () => {
- 
-const {
-  addAgreementPromotions,
+  const {
+    addAgreementPromotions,
     onClickChangePage,
     agreementPromotionsColumn,
-    agreementPromotionsData
-} = agreementPromotionContainer()
-
-
-
-
+    allAgreementPromotionsData,
+    handleChangeAgreement,
+    agreementPromotionsForm,
+    promotionsTypes,
+    membershipPlans,
+    save,
+  } = agreementPromotionContainer();
 
   return (
     <>
       {addAgreementPromotions ? (
-        <AddAgreementPromotions onClickChangePage={onClickChangePage} />
+        <AddAgreementPromotions
+          handleChangeAgreement={handleChangeAgreement}
+          onClickChangePage={onClickChangePage}
+          agreementPromotionsForm={agreementPromotionsForm}
+          promotionsTypes={promotionsTypes}
+          membershipPlans={membershipPlans}
+          save={save}
+        />
       ) : (
         <>
+          <ConfirmDialog />
           <div>
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
@@ -63,7 +72,7 @@ const {
             <div className="mt-2">
               <TableData
                 columns={agreementPromotionsColumn}
-                data={agreementPromotionsData}
+                data={allAgreementPromotionsData}
               />
             </div>
           </div>
