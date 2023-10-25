@@ -140,12 +140,6 @@ const AgreementPromotionContainer = () => {
       index: ""
     },
     {
-      field: "amount",
-      header: "Amount",
-      id: "",
-      index: ""
-    },
-    {
       field: "",
       header: "",
       id: "",

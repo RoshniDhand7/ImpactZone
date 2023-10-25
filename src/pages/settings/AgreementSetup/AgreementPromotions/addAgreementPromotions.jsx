@@ -106,20 +106,22 @@ const AddAgreementPromotions = ({
                     state={agreementPromotionsForm}
                   ></DropDown>
                 </div>
-                <div className="col-4">
-                  <Input
-                    title={
-                      agreementPromotionsForm.promotionsType === "Free Months"
-                        ? "Number of months"
-                        : "Amount"
-                    }
-                    name="amount"
-                    type="number"
-                    value={agreementPromotionsForm.amount}
-                    onChange={handleChangeAgreement}
-                    state={agreementPromotionsForm}
-                  ></Input>
-                </div>
+                {agreementPromotionsForm.promotionsType ? (
+                  <div className="col-4">
+                    <Input
+                      title={
+                        agreementPromotionsForm.promotionsType === "Free Months"
+                          ? "Number of months"
+                          : "Amount"
+                      }
+                      name="amount"
+                      type="number"
+                      value={agreementPromotionsForm.amount}
+                      onChange={handleChangeAgreement}
+                      state={agreementPromotionsForm}
+                    ></Input>
+                  </div>
+                ) : null}
               </div>
             </div>
           </CardWithTitle>
