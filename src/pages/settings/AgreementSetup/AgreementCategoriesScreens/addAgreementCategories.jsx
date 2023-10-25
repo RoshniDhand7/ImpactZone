@@ -14,13 +14,20 @@ const AddAgreementCategories = ({
   addSubCategory,
   handleChangeSubCategory,
   handleChangeSubCategoryDelete,
-  save
+  save,
 }) => {
   return (
     <>
       <div>
         <div className="my-4">
-          <Checkbox title="Active" name="isActive" value={agreementCategoryForm.isActive} onChange={(e)=>handleChangeAgreement({name:"isActive",value:e.value})}></Checkbox>
+          <Checkbox
+            title="Active"
+            name="isActive"
+            value={agreementCategoryForm.isActive}
+            onChange={(e) =>
+              handleChangeAgreement({ name: "isActive", value: e.value })
+            }
+          ></Checkbox>
         </div>
         <div>
           <CardWithTitle title="Add Agreement Category ">
@@ -67,13 +74,18 @@ const AddAgreementCategories = ({
                       style={{ width: "25px", height: "25px", display: "flex" }}
                     >
                       {i == 0 ? (
-                        <img src={greenplus} alt="" onClick={addSubCategory} style={{cursor:"pointer"}}/>
+                        <img
+                          src={greenplus}
+                          alt=""
+                          onClick={addSubCategory}
+                          style={{ cursor: "pointer" }}
+                        />
                       ) : (
                         <img
                           src={greenminus}
                           alt=""
-                          onClick={handleChangeSubCategoryDelete}
-                          style={{cursor:"pointer"}}
+                          onClick={() => handleChangeSubCategoryDelete(i)}
+                          style={{ cursor: "pointer" }}
                         />
                       )}
                     </div>
@@ -95,7 +107,11 @@ const AddAgreementCategories = ({
           <div className="flex justify-content-end ">
             <div className="flex  p-2">
               <div className="mx-4">
-                <Buttons label="Save" className="btn-dark mx-3 border-none " onClick={save}/>
+                <Buttons
+                  label="Save"
+                  className="btn-dark mx-3 border-none "
+                  onClick={save}
+                />
               </div>
               <div className="">
                 <Buttons

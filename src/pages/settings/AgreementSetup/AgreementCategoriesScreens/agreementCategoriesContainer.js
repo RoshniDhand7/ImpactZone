@@ -131,15 +131,9 @@ const AgreementCategoriesContainer = () => {
     })
   }
 
-  const handleChangeSubCategoryDelete = ({ index, value }) => {
-    let array = [...agreementCategoryForm.subCategories]
-    array.splice(index, 1)
-    setAgreementCategoryForm((prev) => {
-      return {
-        ...prev,
-        subCategories: array
-      }
-    })
+  const handleChangeSubCategoryDelete = (index) => {
+    agreementCategoryForm.subCategories.splice(index, 1);
+    setAgreementCategoryForm({ ...agreementCategoryForm, subCategories: [...agreementCategoryForm.subCategories] });
   }
 
   const addSubCategory = () => {
@@ -217,8 +211,6 @@ const AgreementCategoriesContainer = () => {
     setInitialAgreementCategoryData(agreementCategoryForm)
     dispatch(getAgreementCategory())
   }, [])
-
-  console.log("form", agreementCategoryForm)
 
   return {
     agreementCategoriesColumn,

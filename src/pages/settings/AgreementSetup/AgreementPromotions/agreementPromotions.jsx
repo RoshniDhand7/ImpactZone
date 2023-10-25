@@ -36,7 +36,7 @@ const AgreementPromotions = () => {
         <>
           <ConfirmDialog />
           <div>
-            <div className=" flex align-items-center justify-content-between my-3">
+            <div className="flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Agreement Promotions
               </span>
@@ -49,22 +49,11 @@ const AgreementPromotions = () => {
                 ></Buttons>
               </div>
             </div>
-            <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
-              <div className="col-7 flex flex-column">
+            <div className="flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
+              <div className="col-4 flex flex-column">
                 <div className="flex">
                   <div className="md:col-6">
                     <DropDown title="Status"></DropDown>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="p-3 mt-2">
-                  <div className="mt-3">
-                    <Buttons
-                      style={{ width: "118px", height: "37px" }}
-                      className="btn-dark border-none"
-                      label="Search"
-                    ></Buttons>
                   </div>
                 </div>
               </div>
