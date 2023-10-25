@@ -89,7 +89,15 @@ const Input = ({
                 type={type}
                 value={value}
                 maxLength={maxLength}
-                onChange={(e) => console.log(e)}
+                onChange={(e) =>
+                  onChange &&
+                  onChange({
+                    ...e,
+                    name: e.target.name,
+                    value: e.target.value,
+                    index: id,
+                  })
+                }
                 showIcon
                 minDate={minDate}
                 disabled={disabled}

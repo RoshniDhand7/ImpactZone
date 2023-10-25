@@ -164,7 +164,7 @@ const AgreementPromotionContainer = () => {
   };
 
   const handleChangeAgreement = ({ name, value }) => {
-    console.log(name, value)
+    // console.log(name, value)
     const formErrors = FormValidation(
       name,
       value,
@@ -214,6 +214,7 @@ const AgreementPromotionContainer = () => {
       }
     }
     else {
+      console.log(agreementPromotionsForm)
       dispatch(
         showToast({
           severity: "error",

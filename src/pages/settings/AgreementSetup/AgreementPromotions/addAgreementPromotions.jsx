@@ -18,7 +18,13 @@ const AddAgreementPromotions = ({
     <>
       <div>
         <div className="my-4">
-          <Checkbox title="Active"></Checkbox>
+          <Checkbox
+            title="Active"
+            name="isActive"
+            value={agreementPromotionsForm.isActive}
+            onChange={handleChangeAgreement}
+            state={agreementPromotionsForm}
+          ></Checkbox>
         </div>
         <div>
           <CardWithTitle title="Add Agreement Category ">
@@ -54,8 +60,8 @@ const AddAgreementPromotions = ({
                   ></DropDown>
                 </div>
               </div>
-              <div className="flex align-items-center ">
-                <div className="col-4 mt-3">
+              <div className="flex mt-3">
+                <div className="col-4">
                   <Input
                     title="Start Date"
                     type="date"
@@ -65,28 +71,30 @@ const AddAgreementPromotions = ({
                     state={agreementPromotionsForm}
                   ></Input>
                 </div>
-                <div className="col-4 mt-3 ">
+                <div className="col-4">
                   <Input
                     title="End Date"
                     type="date"
                     name="endDate"
                     value={agreementPromotionsForm.endDate}
+                    minDate={agreementPromotionsForm.startDate}
                     onChange={handleChangeAgreement}
                     state={agreementPromotionsForm}
                   ></Input>
                 </div>
-                <div className="col-4 mt-3 ">
+                <div className="col-4">
                   <Input
                     title="Uses"
                     name="uses"
+                    type="number"
                     value={agreementPromotionsForm.uses}
                     onChange={handleChangeAgreement}
                     state={agreementPromotionsForm}
                   ></Input>
                 </div>
               </div>
-              <div className="flex align-items-center ">
-                <div className="col-4 mt-3 ">
+              <div className="flex mt-3">
+                <div className="col-4">
                   <DropDown
                     title="Promotions Type"
                     placeholder="Select Promotions Type"
@@ -98,7 +106,7 @@ const AddAgreementPromotions = ({
                     state={agreementPromotionsForm}
                   ></DropDown>
                 </div>
-                <div className="col-4 mt-3 ">
+                <div className="col-4">
                   <Input
                     title={
                       agreementPromotionsForm.promotionsType === "Free Months"

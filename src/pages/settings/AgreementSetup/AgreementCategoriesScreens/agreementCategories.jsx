@@ -45,13 +45,10 @@ const AgreementCategories = () => {
               </span>
             </div>
             <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
-              <div className="col-7 flex flex-column">
+              <div className="col-2 flex flex-column">
                 <div className="flex">
                   <div className="md:col">
                     <DropDown title="Status"></DropDown>
-                  </div>
-                  <div className="col">
-                    <DropDown title="Plan Type"></DropDown>
                   </div>
                 </div>
               </div>
@@ -72,16 +69,6 @@ const AgreementCategories = () => {
                 columns={agreementCategoriesColumn}
                 data={allAgreementCategoryData}
               />
-            </div>
-          </div>
-          <div className="flex justify-content-end p-2 ">
-            <div className=" mt-3 flex  ">
-              <div className="">
-                <Buttons
-                  label="Close"
-                  className=" px-4 btn-lightest-gray  border-none"
-                ></Buttons>
-              </div>
             </div>
           </div>
         </>
