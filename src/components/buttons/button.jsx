@@ -15,9 +15,11 @@ function Buttons({
     <div>
       <Button
         label={label}
-        className={"w-full  text-sm mx-2  p-ripple   " + " " + className}
+        className={
+          "w-full border-none mb-2  text-sm mx-2  p-ripple   " + " " + className
+        }
         onClick={onClick}
-        style={{ padding: "13px 22px 13px 22px", ...style }}
+        style={{ height: "36px", padding: "13px 22px 13px 22px", ...style }}
         icon={icon}
         iconPos={iconPos}
         disabled={disabled}

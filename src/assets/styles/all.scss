@@ -5,6 +5,7 @@
 @import "./layout/_layout.scss";
 @import "./layout/_sidebar.scss";
 @import "./layout/_topbar.scss";
+@import "./layout/_navbar.scss";
 ///////////////////////////////////////////////////////////
 ////// All other style files will be imported below///////
 /////////////////////////////////////////////////////////
@@ -24,6 +25,8 @@
 @import "./pages/addEmployee/_itemcommission.scss";
 @import "./pages/_addAgreementTemplate.scss";
 
+////// All components///////
+
 @import "./components/_loader.scss";
 @import "./components/_button.scss";
 @import "./components/_hightlightcard.scss";
@@ -38,4 +41,4 @@
 @import "./components/_picklist.scss";
 @import "./components/_dropdown.scss";
 @import "./components/_tabview.scss";
-@import "./layout/_navbar.scss";
+@import "./components/_type.scss";

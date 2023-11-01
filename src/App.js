@@ -35,6 +35,7 @@ import AlertsTypes from "./pages/settings/Alert Types/alertsTypes";
 import ViewEmployee from "./pages/settings/Employee/manageEmployee/viewEmployee";
 import { isAuthenticated } from "./services/authService";
 import AgreementSetup from "./pages/settings/AgreementSetup/agreementSetup";
+import InventorySetup from "./pages/settings/InventorySetup";
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -80,7 +81,6 @@ function App() {
             <Route exact path="/manageSetup" element={<MemberSetup />} />
             <Route exact path="/alertsTypes" element={<AlertsTypes />} />
             <Route exact path="/viewEmployee" element={<ViewEmployee />} />
-
             <Route
               exact
               path="/schedulingoptions"
@@ -116,6 +116,7 @@ function App() {
             />
           </Route>
           <Route exact path="/agreement-Setup" element={<AgreementSetup />} />
+          <Route exact path="/inventory-setup" element={<InventorySetup />} />
         </Routes>
       </Router>
     </>
