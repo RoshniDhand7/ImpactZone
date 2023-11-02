@@ -118,7 +118,7 @@ const Type = () => {
   return (
     <>
       <div>
-        <div className="flex justify-content-between align-items-center pr-2">
+        <div className="flex justify-content-between align-items-center pr-2 mt-3">
           <div className=" px-0 flex justify-content-between mx-0">
             <Buttons
               label="Product"
@@ -143,14 +143,21 @@ const Type = () => {
                 placeholder="search"
               ></Input>
             </div>
-            <div className="mx-2">
-              <Buttons label="Filters" className="btn-dark "></Buttons>
+            <div className="mx-2 mt-2">
+              <Buttons
+                style={{ height: "38px" }}
+                label="Filters"
+                className="btn-dark "
+              ></Buttons>
             </div>
-            <Buttons
-              label="Add Catalog Item"
-              icon="pi pi-plus-circle"
-              className="btn-dark"
-            ></Buttons>
+            <div className="mx-2 mt-2">
+              <Buttons
+                style={{ height: "38px" }}
+                label="Add Catalog Item"
+                icon="pi pi-plus-circle"
+                className="btn-dark"
+              ></Buttons>
+            </div>
           </div>
         </div>
         <div>
@@ -162,6 +169,7 @@ const Type = () => {
             />
             <div className="absolute top-0 right-0 margin">
               <Buttons
+                style={{ height: "40px" }}
                 label="Deploy Selected Items"
                 className="bg-transparent mt-1 border-white border-1 "
                 icon="pi pi-sort-alt"
