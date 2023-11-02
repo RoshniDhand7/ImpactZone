@@ -118,7 +118,7 @@ const POSCategory = () => {
   return (
     <>
       <div>
-        <div className="flex justify-content-between align-items-center pr-2">
+        <div className="flex justify-content-between align-items-center pr-2 mt-3">
           <div className=" px-0 flex justify-content-between mx-0 my-2">
             <Buttons
               label="Shakes"
@@ -173,8 +173,9 @@ const POSCategory = () => {
               data={ManagePaymentPlansData}
               selectionMode={"checkbox"}
             />
-            <div className="absolute top-0 right-0 margin">
+            <div className="absolute top-0  right-0 margin">
               <Buttons
+                style={{ height: "39px" }}
                 label="Deploy Selected Items"
                 className="bg-transparent mt-1 border-white border-1 "
                 icon="pi pi-sort-alt"
