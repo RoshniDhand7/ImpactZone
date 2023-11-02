@@ -169,7 +169,7 @@ const Type = () => {
             />
             <div className="absolute top-0 right-0 margin">
               <Buttons
-                style={{ height: "40px" }}
+                style={{ height: "39px" }}
                 label="Deploy Selected Items"
                 className="bg-transparent mt-1 border-white border-1 "
                 icon="pi pi-sort-alt"
