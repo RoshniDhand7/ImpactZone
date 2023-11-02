@@ -5,6 +5,7 @@ import OnlineItems from "./OnlineItems";
 import POS from "./POS";
 import Status from "./Status";
 import POSCategory from "./POSCategory";
+
 const CatalogItem = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (

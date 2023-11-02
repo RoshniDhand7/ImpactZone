@@ -4,7 +4,7 @@ import {
   Routes,
   BrowserRouter,
 } from "react-router-dom";
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import "./styles.scss";
 import TopBar from "./layout/Topbar";

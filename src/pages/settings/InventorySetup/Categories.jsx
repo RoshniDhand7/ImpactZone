@@ -2,21 +2,14 @@ import React, { useState } from "react";
 import DropDown from "../../../components/dropdown/dropdown";
 import Buttons from "../../../components/buttons/button";
 import TableData from "../../../components/cards/dataTable/dataTable";
-import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
-import checkInData from "../../../utils/checkInData";
 import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../components/input/input";
-import Index from ".";
-import { booleanToString } from "../../../utils/javascript";
-import DeleteDailog from "../../../components/popup/deleteDailog";
-import { deleteLocationType } from "../../../redux/actions/locationsActions";
 import CustomTextarea from "../../../components/input/InputTextArea";
 
-const ProfileTypes = () => {
-  const [showAddProfileType, setShowAddProfileType] = useState();
+const Category = () => {
+  const [showAddCategory, setShowAddCategory] = useState();
   const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
     return (
       <>
         <div className="flex justify-content-end">
@@ -31,28 +24,23 @@ const ProfileTypes = () => {
     );
   };
 
-  const ProfileTypesColumn = [
+  const CategoryColumn = [
     {
-      field: "ProfitCenterName",
-      header: "Profit Center Name",
+      field: "Category",
+      header: "Category",
       id: "",
       index: "",
     },
+    {
+      field: "DisplaysinPOS",
+      header: "Displays in POS",
+      id: "",
+      index: "",
+    },
+
     {
       field: "Description",
       header: "Description",
-      id: "",
-      index: "",
-    },
-    {
-      field: "CatalogItemsAssigned",
-      header: "Catalog Items Assigned",
-      id: "",
-      index: "",
-    },
-    {
-      field: "GLCode",
-      header: "GL Code",
       id: "",
       index: "",
     },
@@ -63,40 +51,35 @@ const ProfileTypes = () => {
       body: actionTemplate,
     },
   ];
-  const [ProfileTypesData, setProfileTypesData] = useState([
+  const [CategoryData, setCategoryData] = useState([
     {
-      ProfitCenterName: "Annual Fee",
+      Category: "Annual Fee",
       Description: "Annual Fee",
-      CatalogItemsAssigned: "$49.99",
-      GLCode: "Premium",
+      DisplaysinPOS: "$49.99",
     },
     {
-      ProfitCenterName: "Late Fee",
+      Category: "Late Fee",
       Description: "-",
-      CatalogItemsAssigned: "$49.99",
-      GLCode: "Premium",
+      DisplaysinPOS: "$49.99",
     },
     {
-      ProfitCenterName: "Decline Fee",
+      Category: "Decline Fee",
       Description: "-",
-      CatalogItemsAssigned: "$49.99",
-      GLCode: "Premium",
+      DisplaysinPOS: "$49.99",
     },
     {
-      ProfitCenterName: "No Show Fee",
+      Category: "No Show Fee",
       Description: "GymAccess",
-      CatalogItemsAssigned: "$49.99",
-      GLCode: "Premium",
+      DisplaysinPOS: "$49.99",
     },
     {
-      ProfitCenterName: "Freeze Fee",
+      Category: "Freeze Fee",
       Description: "Unassigned",
       CatalogItemsAssigned: "$49.99",
-      GLCode: "Premium",
     },
   ]);
 
-  const AddProfileType = () => {
+  const AddCategory = () => {
     return (
       <>
         <div>
@@ -108,28 +91,28 @@ const ProfileTypes = () => {
             ></Checkbox>
           </div>
           <div>
-            <CardWithTitle title="General">
+            <CardWithTitle title="Add Category">
               <div className="flex p-2">
                 <div className="col-4 ">
                   <Input title="Name" name="name"></Input>
                 </div>
-                <div className="col-4 ">
-                  <Input title="GL Code" name="name"></Input>
-                </div>
                 <div className="col-4">
                   <DropDown
-                    title="Available Profit Center"
-                    name="Available Profit Center"
+                    title="Display in POS"
+                    name="Display in POS"
                     placeholder="Select one"
                     options={["Yes", "No"]}
                   ></DropDown>
+                </div>
+                <div className="col-4 ">
+                  <Input title="POS Button Label" name="name"></Input>
                 </div>
               </div>
               <div className="flex p-2">
                 <div className="col-4 ">
                   <DropDown
-                    title="Available Profit Center"
-                    name="Available Profit Center"
+                    title="Available Categories"
+                    name="Available Categories"
                     placeholder="Select one"
                     options={["Yes", "No"]}
                   ></DropDown>
@@ -176,11 +159,17 @@ const ProfileTypes = () => {
                         </table>
                       </div>
                     </div>
-                    <div className=" flex flex-column  justify-content-center mx-3 ">
-                      <div className="mx-3 ">
+                    <div className=" flex flex-column  justify-content-center mx-6 ">
+                      <div className="">
                         <Buttons
                           label="Add"
-                          className="btn-dark border-none mx-3  "
+                          className="btn-dark border-none   "
+                        ></Buttons>
+                      </div>
+                      <div className="mt-2 ">
+                        <Buttons
+                          label="Remove All"
+                          className="btn-dark border-none   "
                         ></Buttons>
                       </div>
                     </div>
@@ -191,18 +180,6 @@ const ProfileTypes = () => {
           </div>
         </div>
         <div>
-          <div>
-            <CardWithTitle title="Data Export">
-              <div className="flex p-2">
-                <div className="col-4 mx-3">
-                  <Input title="Profile Center Code" name="name"></Input>
-                </div>
-                <div className="col-4">
-                  <Input title="Earnings Code" name="name"></Input>
-                </div>
-              </div>
-            </CardWithTitle>
-          </div>
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-4">
               <Buttons
@@ -212,7 +189,7 @@ const ProfileTypes = () => {
             </div>
             <div className="">
               <Buttons
-                onClick={() => setShowAddProfileType(false)}
+                onClick={() => setShowAddCategory(false)}
                 label="Cancel"
                 className="btn-grey   border-none"
               ></Buttons>
@@ -225,8 +202,8 @@ const ProfileTypes = () => {
 
   return (
     <>
-      {showAddProfileType ? (
-        AddProfileType()
+      {showAddCategory ? (
+        AddCategory()
       ) : (
         <>
           <div>
@@ -238,9 +215,9 @@ const ProfileTypes = () => {
                 <div className="">
                   <Buttons
                     onClick={() => {
-                      setShowAddProfileType(true);
+                      setShowAddCategory(true);
                     }}
-                    label="Add Profit Center"
+                    label="Add Category"
                     icon="pi pi-plus-circle"
                     className="btn-dark border-none  "
                     style={{ height: "36px", top: "10px" }}
@@ -250,8 +227,8 @@ const ProfileTypes = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={ProfileTypesData}
-                columns={ProfileTypesColumn}
+                data={CategoryData}
+                columns={CategoryColumn}
               ></TableData>
             </div>
             <div className=" m-2 mt-3 flex justify-content-end">
@@ -269,4 +246,4 @@ const ProfileTypes = () => {
   );
 };
 
-export default ProfileTypes;
+export default Category;

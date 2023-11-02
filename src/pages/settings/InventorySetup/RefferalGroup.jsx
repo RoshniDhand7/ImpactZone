@@ -2,21 +2,14 @@ import React, { useState } from "react";
 import DropDown from "../../../components/dropdown/dropdown";
 import Buttons from "../../../components/buttons/button";
 import TableData from "../../../components/cards/dataTable/dataTable";
-import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
-import checkInData from "../../../utils/checkInData";
 import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../components/input/input";
-import Index from ".";
-import { booleanToString } from "../../../utils/javascript";
-import DeleteDailog from "../../../components/popup/deleteDailog";
-import { deleteLocationType } from "../../../redux/actions/locationsActions";
 import CustomTextarea from "../../../components/input/InputTextArea";
 
-const ProfileTypes = () => {
-  const [showAddProfileType, setShowAddProfileType] = useState();
+const ReferralGroup = () => {
+  const [showAddReferralGroup, setShowAddReferralGroup] = useState();
   const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
     return (
       <>
         <div className="flex justify-content-end">
@@ -31,31 +24,26 @@ const ProfileTypes = () => {
     );
   };
 
-  const ProfileTypesColumn = [
+  const ReferralGroupColumn = [
     {
-      field: "ProfitCenterName",
-      header: "Profit Center Name",
+      field: "Name",
+      header: "Name",
       id: "",
       index: "",
     },
     {
-      field: "Description",
-      header: "Description",
+      field: "Amount",
+      header: "Amount",
       id: "",
       index: "",
     },
     {
-      field: "CatalogItemsAssigned",
-      header: "Catalog Items Assigned",
+      field: "No.ofCatalog Items",
+      header: "No.ofCatalogItems",
       id: "",
       index: "",
     },
-    {
-      field: "GLCode",
-      header: "GL Code",
-      id: "",
-      index: "",
-    },
+
     {
       field: "",
       header: "",
@@ -63,7 +51,7 @@ const ProfileTypes = () => {
       body: actionTemplate,
     },
   ];
-  const [ProfileTypesData, setProfileTypesData] = useState([
+  const [ReferralGroupData, setReferralGroupData] = useState([
     {
       ProfitCenterName: "Annual Fee",
       Description: "Annual Fee",
@@ -96,7 +84,7 @@ const ProfileTypes = () => {
     },
   ]);
 
-  const AddProfileType = () => {
+  const AddReferralGroup = () => {
     return (
       <>
         <div>
@@ -108,40 +96,17 @@ const ProfileTypes = () => {
             ></Checkbox>
           </div>
           <div>
-            <CardWithTitle title="General">
+            <CardWithTitle title="Add New Referral Group">
               <div className="flex p-2">
                 <div className="col-4 ">
                   <Input title="Name" name="name"></Input>
                 </div>
-                <div className="col-4 ">
-                  <Input title="GL Code" name="name"></Input>
-                </div>
-                <div className="col-4">
-                  <DropDown
-                    title="Available Profit Center"
-                    name="Available Profit Center"
-                    placeholder="Select one"
-                    options={["Yes", "No"]}
-                  ></DropDown>
-                </div>
-              </div>
-              <div className="flex p-2">
-                <div className="col-4 ">
-                  <DropDown
-                    title="Available Profit Center"
-                    name="Available Profit Center"
-                    placeholder="Select one"
-                    options={["Yes", "No"]}
-                  ></DropDown>
-                </div>
-              </div>
-              <div className="flex p-2">
-                <div className="col-12 ">
-                  <CustomTextarea
-                    classNames="w-full"
-                    rows="5"
-                    label="Description (256/256)"
-                  />
+                <div className="col-4 flex  ">
+                  <Input title="Amount" name="name"></Input>
+                  <div className="flex mt-5">
+                    <i className="pi pi-dollar text-sm mx-2"></i>
+                    <i className="pi pi-percentage text-sm"></i>
+                  </div>
                 </div>
               </div>
             </CardWithTitle>
@@ -176,11 +141,17 @@ const ProfileTypes = () => {
                         </table>
                       </div>
                     </div>
-                    <div className=" flex flex-column  justify-content-center mx-3 ">
-                      <div className="mx-3 ">
+                    <div className=" flex flex-column  justify-content-center mx-6 ">
+                      <div className="">
                         <Buttons
                           label="Add"
-                          className="btn-dark border-none mx-3  "
+                          className="btn-dark border-none"
+                        ></Buttons>
+                      </div>
+                      <div className="">
+                        <Buttons
+                          label="Remove All"
+                          className="btn-dark border-none"
                         ></Buttons>
                       </div>
                     </div>
@@ -191,18 +162,6 @@ const ProfileTypes = () => {
           </div>
         </div>
         <div>
-          <div>
-            <CardWithTitle title="Data Export">
-              <div className="flex p-2">
-                <div className="col-4 mx-3">
-                  <Input title="Profile Center Code" name="name"></Input>
-                </div>
-                <div className="col-4">
-                  <Input title="Earnings Code" name="name"></Input>
-                </div>
-              </div>
-            </CardWithTitle>
-          </div>
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-4">
               <Buttons
@@ -212,7 +171,7 @@ const ProfileTypes = () => {
             </div>
             <div className="">
               <Buttons
-                onClick={() => setShowAddProfileType(false)}
+                onClick={() => setShowAddReferralGroup(false)}
                 label="Cancel"
                 className="btn-grey   border-none"
               ></Buttons>
@@ -225,8 +184,8 @@ const ProfileTypes = () => {
 
   return (
     <>
-      {showAddProfileType ? (
-        AddProfileType()
+      {showAddReferralGroup ? (
+        AddReferralGroup()
       ) : (
         <>
           <div>
@@ -238,9 +197,9 @@ const ProfileTypes = () => {
                 <div className="">
                   <Buttons
                     onClick={() => {
-                      setShowAddProfileType(true);
+                      setShowAddReferralGroup(true);
                     }}
-                    label="Add Profit Center"
+                    label="Add New Referral Group"
                     icon="pi pi-plus-circle"
                     className="btn-dark border-none  "
                     style={{ height: "36px", top: "10px" }}
@@ -250,8 +209,8 @@ const ProfileTypes = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={ProfileTypesData}
-                columns={ProfileTypesColumn}
+                data={ReferralGroupData}
+                columns={ReferralGroupColumn}
               ></TableData>
             </div>
             <div className=" m-2 mt-3 flex justify-content-end">
@@ -269,4 +228,4 @@ const ProfileTypes = () => {
   );
 };
 
-export default ProfileTypes;
+export default ReferralGroup;
