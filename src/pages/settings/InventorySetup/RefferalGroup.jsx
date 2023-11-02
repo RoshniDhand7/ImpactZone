@@ -53,31 +53,31 @@ const ReferralGroup = () => {
   ];
   const [ReferralGroupData, setReferralGroupData] = useState([
     {
-      ProfitCenterName: "Annual Fee",
+      Name: "Annual Fee",
       Description: "Annual Fee",
       CatalogItemsAssigned: "$49.99",
       GLCode: "Premium",
     },
     {
-      ProfitCenterName: "Late Fee",
+      Name: "Late Fee",
       Description: "-",
       CatalogItemsAssigned: "$49.99",
       GLCode: "Premium",
     },
     {
-      ProfitCenterName: "Decline Fee",
+      Name: "Decline Fee",
       Description: "-",
       CatalogItemsAssigned: "$49.99",
       GLCode: "Premium",
     },
     {
-      ProfitCenterName: "No Show Fee",
+      Name: "No Show Fee",
       Description: "GymAccess",
       CatalogItemsAssigned: "$49.99",
       GLCode: "Premium",
     },
     {
-      ProfitCenterName: "Freeze Fee",
+      Name: "Freeze Fee",
       Description: "Unassigned",
       CatalogItemsAssigned: "$49.99",
       GLCode: "Premium",
