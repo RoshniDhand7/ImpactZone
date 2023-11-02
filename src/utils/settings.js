@@ -52,7 +52,7 @@ const settingsCard = [
   },
   {
     img: Inventory,
-    link: "",
+    link: "/inventory-setup",
     title: "Inventory Setup",
   },
   {

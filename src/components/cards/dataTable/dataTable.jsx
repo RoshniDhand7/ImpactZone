@@ -23,7 +23,6 @@ const TableData = ({
 
   setCurrentPage,
 }) => {
-
   const ActionEditDelete = () => {
     return (
       <>
@@ -43,16 +42,19 @@ const TableData = ({
     return (
       <>
         <div className="flex ">
-          <div className="border-1 border-300 font-grey-200 text-xs p-2 border-round " style={{backgroundColor:`${rowData?.pendingColor?.boxColor}`,color:`${rowData?.pendingColor?.textColor}`}}>
+          <div
+            className="border-1 border-300 font-grey-200 text-xs p-2 border-round "
+            style={{
+              backgroundColor: `${rowData?.pendingColor?.boxColor}`,
+              color: `${rowData?.pendingColor?.textColor}`,
+            }}
+          >
             Sample Text
           </div>
         </div>
       </>
     );
   };
-
- 
-
 
   const onPageChangeEvent = (event) => {
     setFirst(event.first);
