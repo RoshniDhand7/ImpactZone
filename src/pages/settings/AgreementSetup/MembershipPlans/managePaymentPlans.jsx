@@ -7,127 +7,17 @@ import checkInData from "../../../../utils/checkInData";
 import AddAssessedFee from "../ManageAssessed/addAssessedFee";
 import Input from "../../../../components/input/input";
 import AddMembershipPlan from "./AddMembershipPlan";
+import MembershipContainer from "./MembershipContainer";
 
 const ManagePaymentPlans = () => {
-  const [addPaymentPlans, setPaymentPlans] = useState(false);
 
-  const onClickChangePage = () => {
-    setPaymentPlans((prev) => !prev);
-  };
-  const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
-    return (
-      <>
-        <div className="flex justify-content-end">
-          <span>
-            <i className="pi pi-pencil mr-3 cursor-pointer"></i>
-          </span>
-          <span>
-            <i className="pi pi-trash cursor-pointer"></i>
-          </span>
-        </div>
-      </>
-    );
-  };
+const {
+  ManagePaymentPlansColumn,
+    addPaymentPlans,
+    onClickChangePage,
+    AllMembershipPlan
+} = MembershipContainer()
 
-  const ManagePaymentPlansColumn = [
-    {
-      field: "planname",
-      header: "Plan Name",
-      id: "",
-      index: "",
-    },
-    {
-      field: "clubs",
-      header: "Clubs",
-      id: "",
-      index: "",
-    },
-    {
-      field: "category",
-      header: "Category",
-      id: "",
-      index: "",
-    },
-    {
-      field: "membershiptype",
-      header: "Membership Type",
-      id: "",
-      index: "",
-    },
-    {
-      field: "noofmembers",
-      header: "No.of Members",
-      id: "",
-      index: "",
-    },
-    {
-      field: "soldonline",
-      header: "Sold Online",
-      id: "",
-      index: "",
-    },
-
-    {
-      field: "availability",
-      header: "Availability",
-      id: "",
-      index: "",
-    },
-    {
-      field: "",
-      header: "",
-      id: "",
-      body: actionTemplate,
-    },
-  ];
-  const [ManagePaymentPlansData, setManagePaymentPlansData] = useState([
-    {
-      planname: "Annual Fee",
-      category: "Annual Fee",
-      membershiptype: "$49.99",
-      noofmembers: "01/03/2022",
-      clubs: "30591",
-      soldonline: "",
-      availability: "",
-    },
-    {
-      planname: "Late Fee",
-      category: "-",
-      membershiptype: "$49.99",
-      noofmembers: "01/03/2022",
-      clubs: "30591",
-      soldonline: "",
-      availability: "",
-    },
-    {
-      planname: "Decline Fee",
-      category: "-",
-      membershiptype: "$49.99",
-      noofmembers: "01/03/2022",
-      clubs: "30591",
-      soldonline: "",
-      availability: "",
-    },
-    {
-      planname: "No Show Fee",
-      category: "GymAccess",
-      membershiptype: "$49.99",
-      noofmembers: "01/03/2022",
-      clubs: "30591",
-      soldonline: "",
-      availability: "",
-    },
-    {
-      planname: "Freeze Fee",
-      category: "Unassigned",
-      membershiptype: "$49.99",
-      noofmembers: "01/03/2022",
-      clubs: "30591",
-      soldonline: "",
-      availability: "",
-    },
-  ]);
   return (
     <>
       {addPaymentPlans ? (
@@ -188,7 +78,7 @@ const ManagePaymentPlans = () => {
             <div className="mt-2">
               <TableData
                 columns={ManagePaymentPlansColumn}
-                data={ManagePaymentPlansData}
+                data={AllMembershipPlan}
               />
             </div>
           </div>

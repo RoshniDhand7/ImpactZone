@@ -60,6 +60,8 @@ const constants = {
     UpdateCampaign: "campaigns/update/",
     DeleteCampaign: "campaigns/delete/",
     getAllAssessed: "assessed-fees/",
+    UpdateAssessed:"assessed-fees/update/",
+    DeleteAssessed:"assessed-fees/delete/",
     getAllAgreementCategory: "agreement-categories",
     addAgreementCategory: "agreement-categories",
     updateAgreementCategory: "agreement-categories/update/",

@@ -63,7 +63,8 @@ const intitalState = {
   memberAge:["By Age","By Location","By Days"],
   campaignTypes:["Prospect (Fast Add)","Prospect (Online)","Prospect (Kiosk)","Agreement (Online)","Agreement (At Club)","Agreement (Kiosk)","Agreement (Fast Add)"],
   assessedTypes:["Annual Fee","Late Fee","Decline Fee","No Show Fee","Freeze Fee","Cancellation Fee"],
-  
+  profitCenter:["Profit Center 1","Profit Center 2"],
+  AssesedDetemined:["Month And Day","Number of Days from Begin Date"],
 };
 
 // let array = [];
