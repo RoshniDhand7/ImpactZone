@@ -5,7 +5,6 @@ import TableData from "../../../components/cards/dataTable/dataTable";
 import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../components/input/input";
-import CustomTextarea from "../../../components/input/InputTextArea";
 
 const ReferralGroup = () => {
   const [showAddReferralGroup, setShowAddReferralGroup] = useState();
@@ -39,7 +38,7 @@ const ReferralGroup = () => {
     },
     {
       field: "No.ofCatalog Items",
-      header: "No.ofCatalogItems",
+      header: "No. of CatalogItems",
       id: "",
       index: "",
     },
@@ -102,7 +101,7 @@ const ReferralGroup = () => {
                   <Input title="Name" name="name"></Input>
                 </div>
                 <div className="col-4 flex  ">
-                  <Input title="Amount" name="name"></Input>
+                  <Input title="Amount" name="name" type="number"></Input>
                   <div className="flex mt-5">
                     <i className="pi pi-dollar text-sm mx-2"></i>
                     <i className="pi pi-percentage text-sm"></i>
@@ -193,7 +192,7 @@ const ReferralGroup = () => {
               <div className="col-2 ">
                 <DropDown title="Status" placeholder={"Active"}></DropDown>
               </div>
-              <div className="mr-5">
+              <div className="mr-3">
                 <div className="">
                   <Buttons
                     onClick={() => {
@@ -212,14 +211,6 @@ const ReferralGroup = () => {
                 data={ReferralGroupData}
                 columns={ReferralGroupColumn}
               ></TableData>
-            </div>
-            <div className=" m-2 mt-3 flex justify-content-end">
-              <div className="">
-                <Buttons
-                  label="Close"
-                  className="btn-lightest-gray text-900   border-none"
-                ></Buttons>
-              </div>
             </div>
           </div>
         </>

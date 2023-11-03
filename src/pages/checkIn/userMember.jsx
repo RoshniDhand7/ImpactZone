@@ -25,12 +25,6 @@ const UserMember = () => {
   });
 
   const showPopUp = async (title, data) => {
-    // dispatch({ type: "SHOW_POPUP", payload: "my payload" });
-    // useDispatch("SHOW_POPUP", {
-    //   isVisible: true,
-    //   title: title,
-    //   show: data,
-    // });
     setPopUp({
       title: title,
       show: data,
@@ -39,9 +33,6 @@ const UserMember = () => {
   };
   const getImage = (el) => {
     var input = document.getElementById("file-input");
-    // var filename = input.files[0];
-    // var textArea = document.getElementById("file-name");
-    // textArea.textContent = fileName;
     document.getElementById("showImage").hidden = false;
     document.getElementById("showImage").src = URL.createObjectURL(
       input.files[0]
