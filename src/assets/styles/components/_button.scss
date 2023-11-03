@@ -28,3 +28,9 @@
   line-height: 16px;
   padding: 9px 10px 9px 10px;
 }
+.p-button:enabled:active,
+.p-button:not(button):not(a):not(.p-disabled):active {
+  background: #252b42 !important;
+  color: #ffffff !important;
+  border-color: #48678c;
+}

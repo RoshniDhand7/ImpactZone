@@ -25,7 +25,7 @@ const CustomInputNumber = ({
   onKeyDown,
   name,
   state,
-  childState
+  childState,
 }) => {
   return (
     <div className={`flex flex-column gap-2 ${extraclassName}`}>
@@ -51,7 +51,15 @@ const CustomInputNumber = ({
           useGrouping={false}
           disabled={disabled}
         />
-        {childState ? <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}</div> : <div className="text-danger" style={{color:"red"}}>{state?.formErrors?.[name]}</div>}
+        {childState ? (
+          <div className="text-danger" style={{ color: "red" }}>
+            {state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]]}
+          </div>
+        ) : (
+          <div className="text-danger" style={{ color: "red" }}>
+            {state?.formErrors?.[name]}
+          </div>
+        )}
       </span>
     </div>
   );

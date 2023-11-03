@@ -52,10 +52,15 @@ const RecentCheckIn = ({ data }) => {
 
   return (
     <>
-      <div className="w-100">
+      <div className="w-100 custom-height">
         <div className="">
-          <div>
+          <div className="flex justify-content-between align-items-center">
             <h3 className="text-900">Recent Check-Ins</h3>
+            <div className="">
+              <button className=" btn-more text-black bg-white border-1 border-round cursor-pointer">
+                More
+              </button>
+            </div>
           </div>
           <div className="flex mt-3 justify-content-between align-items-center">
             <div className="flex mb-3">
@@ -94,11 +99,6 @@ const RecentCheckIn = ({ data }) => {
               <div className="mx-6">
                 <Search placeholder="Search by filter"></Search>
               </div>
-            </div>
-            <div className="">
-              <button className=" btn-more text-black bg-white border-1 border-round cursor-pointer">
-                More
-              </button>
             </div>
           </div>
         </div>
