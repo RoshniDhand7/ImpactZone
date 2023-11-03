@@ -211,7 +211,7 @@ const Category = () => {
               <div className="col-2 ">
                 <DropDown title="Status" placeholder={"Active"}></DropDown>
               </div>
-              <div className="mr-5">
+              <div className="mr-3">
                 <div className="">
                   <Buttons
                     onClick={() => {
@@ -230,14 +230,6 @@ const Category = () => {
                 data={CategoryData}
                 columns={CategoryColumn}
               ></TableData>
-            </div>
-            <div className=" m-2 mt-3 flex justify-content-end">
-              <div className="">
-                <Buttons
-                  label="Close"
-                  className="btn-lightest-gray text-900   border-none"
-                ></Buttons>
-              </div>
             </div>
           </div>
         </>
