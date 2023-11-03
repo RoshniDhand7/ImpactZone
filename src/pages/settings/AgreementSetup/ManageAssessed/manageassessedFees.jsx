@@ -6,13 +6,20 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AddAssessedFee from "../ManageAssessed/addAssessedFee";
 import AssessedContainer from "./assessedContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const ManageaAssessedFees = () => {
   const {
     assessedColumn,
     allAssessedData,
     onClickAddFees,
-    addAssessedFees
+    addAssessedFees,
+    assesedInfo,
+    handleChangeAssessed,
+    clubs,
+    AssessedPickerHandleChange,
+    membershipPlan,
+    save
   } = AssessedContainer()
 
 
@@ -22,10 +29,11 @@ const ManageaAssessedFees = () => {
   return (
     <>
       {addAssessedFees ? (
-        <AddAssessedFee onClickAddFees={onClickAddFees} />
+        <AddAssessedFee onClickAddFees={onClickAddFees} assesedInfo={assesedInfo} handleChangeAssessed={handleChangeAssessed} clubs={clubs} AssessedPickerHandleChange={AssessedPickerHandleChange} membershipPlan={membershipPlan} save={save}/>
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Assessed Fees
