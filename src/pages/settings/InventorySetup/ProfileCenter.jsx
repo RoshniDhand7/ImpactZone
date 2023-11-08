@@ -2,21 +2,14 @@ import React, { useState } from "react";
 import DropDown from "../../../components/dropdown/dropdown";
 import Buttons from "../../../components/buttons/button";
 import TableData from "../../../components/cards/dataTable/dataTable";
-import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
-import checkInData from "../../../utils/checkInData";
 import Checkbox from "../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../components/input/input";
-import Index from ".";
-import { booleanToString } from "../../../utils/javascript";
-import DeleteDailog from "../../../components/popup/deleteDailog";
-import { deleteLocationType } from "../../../redux/actions/locationsActions";
 import CustomTextarea from "../../../components/input/InputTextArea";
 
 const ProfileTypes = () => {
   const [showAddProfileType, setShowAddProfileType] = useState();
   const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
     return (
       <>
         <div className="flex justify-content-end">

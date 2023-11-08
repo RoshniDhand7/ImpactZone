@@ -119,7 +119,7 @@ const POSCategory = () => {
     <>
       <div>
         <div className="flex justify-content-between align-items-center pr-2 mt-3">
-          <div className=" px-0 flex justify-content-between mx-0 my-2">
+          <div className=" px-0 flex justify-content-between mx-0  ">
             <Buttons
               label="Shakes"
               className="bg-white border-none text-900 shadow-1"
@@ -167,7 +167,7 @@ const POSCategory = () => {
           </div>
         </div>
         <div>
-          <div className="mt-2 relative">
+          <div className=" mt-2 relative">
             <TableData
               columns={ManagePaymentPlansColumn}
               data={ManagePaymentPlansData}

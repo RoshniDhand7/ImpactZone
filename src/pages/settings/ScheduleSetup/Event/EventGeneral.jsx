@@ -4,7 +4,6 @@ import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTi
 import Input from "../../../../components/input/input";
 import DropDown from "../../../../components/dropdown/dropdown";
 import { PickList } from "primereact/picklist";
-import itemsbackword from "../../../../assets/icons/itembackward.png";
 import Buttons from "../../../../components/buttons/button";
 import { useSelector } from "react-redux";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
@@ -23,7 +22,7 @@ const EventGeneral = ({
   newName,
   newNameHandle,
   submitNewName,
-  setShowEventSetups
+  setShowEventSetups,
 }) => {
   const EventOptions = useSelector((state) => state.staticData.EventType);
   const choiceTypeOptions = useSelector((state) => state.staticData.choiceType);
@@ -60,12 +59,16 @@ const EventGeneral = ({
   const nextFunc = () => {
     let addEventDataremoveError = {
       ...addEventData,
-      formErrors:{}
-    }
-    
+      formErrors: {},
+    };
+
     if (
-      showAllFormErrors(addEventDataremoveError, setAddEventData, required, initialData) ==
-      true
+      showAllFormErrors(
+        addEventDataremoveError,
+        setAddEventData,
+        required,
+        initialData
+      ) == true
     ) {
       setActiveIndex(1);
     }
@@ -78,9 +81,9 @@ const EventGeneral = ({
     //     formErrors: {},
     //   };
     // });
-    setShowEventSetups(false)
-    setAddEventData({...initialData})
-  }
+    setShowEventSetups(false);
+    setAddEventData({ ...initialData });
+  };
 
   const nextDisable = () => {
     setVisible(false);
@@ -475,7 +478,7 @@ const EventGeneral = ({
           <div className="">
             <Buttons
               label="Cancel"
-              onClick={()=>backfunct()}
+              onClick={() => backfunct()}
               className="btn-grey   border-none"
             ></Buttons>
           </div>
