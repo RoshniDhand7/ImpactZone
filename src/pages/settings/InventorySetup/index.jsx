@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
-import CatalogItem from "./CatalogItem";
+
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../utils/checkInData";
+import CatalogItem from "./CatalogItem/AddCatalog";
 import ProfileTypes from "./ProfileCenter";
-import Category from "./Categories";
 import Vendors from "./Vendor";
-import CommissionGroup from "./CommissionGroup";
 import ReferralGroup from "./RefferalGroup";
+import Category from "./Categories";
+import CommissionGroup from "./CommissionGroup";
+
 const InventorySetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (

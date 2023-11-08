@@ -1,10 +1,13 @@
 import React from "react";
-import Buttons from "../../../../components/buttons/button";
-import Input from "../../../../components/input/input";
-import TableData from "../../../../components/cards/dataTable/dataTable";
+import Buttons from "../../../../../components/buttons/button";
+import Input from "../../../../../components/input/input";
+import TableData from "../../../../../components/cards/dataTable/dataTable";
 import { useState } from "react";
+import AddCatelogGeneral from "../AddCatalog/AddCategoryGeneral";
 
-const Type = () => {
+const Type = ({ openaddcatalogtab }) => {
+  const [ShowADDCatalog, SetshowADDCatalog] = useState();
+
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -20,6 +23,7 @@ const Type = () => {
       </>
     );
   };
+
   const AddEvent = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -83,6 +87,7 @@ const Type = () => {
       body: actionTemplate,
     },
   ];
+
   const [ManagePaymentPlansData, setManagePaymentPlansData] = useState([
     {
       ItemName: "Annual Fee",
@@ -115,6 +120,7 @@ const Type = () => {
       Event: "01/03/2022",
     },
   ]);
+
   return (
     <>
       <div>
@@ -152,6 +158,7 @@ const Type = () => {
             </div>
             <div className="mx-2 mt-2">
               <Buttons
+                onClick={() => openaddcatalogtab()}
                 style={{ height: "38px" }}
                 label="Add Catalog Item"
                 icon="pi pi-plus-circle"
@@ -160,7 +167,7 @@ const Type = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="">
           <div className="mt-2 relative">
             <TableData
               columns={ManagePaymentPlansColumn}

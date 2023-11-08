@@ -18,7 +18,6 @@ import Company from "./pages/settings/BusinessSettings/company/company";
 import ReasonCode from "./pages/settings/BusinessSettings/reason Code/reasonCode";
 import AddReasonCode from "./pages/settings/BusinessSettings/reason Code/addResonCode";
 import BusinessSettings from "./pages/settings/BusinessSettings/BusinessSettings";
-import ManageEmployee from "./pages/settings/Employee/manageEmployee";
 import AddEmployee from "./pages/settings/Employee/manageEmployee/addemployee/addEmployee";
 import Availability from "./pages/settings/Employee/Availability/Availability";
 import TimeSheets from "./pages/settings/Employee/TimeSheets/TimeSheets";

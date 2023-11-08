@@ -4,7 +4,7 @@ import Input from "../../../../components/input/input";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import { useState } from "react";
 
-const OnlineItems = () => {
+const OnlineItems = ({ openaddcatalogtab }) => {
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
     return (
@@ -148,6 +148,7 @@ const OnlineItems = () => {
             </div>
             <div className="mx-2 mt-2">
               <Buttons
+                onClick={() => openaddcatalogtab()}
                 style={{ height: "38px" }}
                 label="Add Catalog Item"
                 icon="pi pi-plus-circle"
