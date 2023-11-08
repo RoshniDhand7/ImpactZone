@@ -1,6 +1,6 @@
 const constants = {
   base_url: "https://impactzoneapi.appdeft.biz/api/",
-  image_base_url: "https://impactzoneapi.appdeft.biz/",
+  // image_base_url: "https://impactzoneapi.appdeft.biz/",
   // base_url: "http://localhost:1102/api/",
   // image_base_url: "http://localhost:1102/",
 
@@ -73,7 +73,9 @@ const constants = {
     addAgreementPromotions: "agreement-promotions",
     updateAgreementPromotions: "agreement-promotions/update/",
     deleteAgreementPromotions: "agreement-promotions/delete/",
-    getMembershipPlans: "membership-plans"
+    getMembershipPlans: "membership-plans",
+    updateMembershipPlan:"membership-plans/update/",
+    deleteMembershipPlan:"membership-plans/delete/"
   },
 
   calendarDefaultWeek: {

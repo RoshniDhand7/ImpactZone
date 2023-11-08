@@ -10,6 +10,8 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { showAllFormErrors } from '../../../../utils/commonFunctions';
 import FormValidation from '../../../../utils/AllFormValidation';
 import { showToast } from '../../../../redux/actions/toastAction';
+import { Tag } from 'primereact/tag';
+
 
 const AssessedContainer = () => {
     const dispatch = useDispatch()
@@ -54,11 +56,13 @@ return (
     }
 
     const clubsBodyTemplate = (col) => {
-    let newClub = col?.clubs?.map((item)=>{return item.name})
+    // let newClub = col?.clubs?.map((item)=>{return item.name})
       return (
         <div>
           {/* {col?.membershipPlans[0]?.name} */}
-          <Chips value={newClub} disabled/>
+         { col?.clubs?.map((item)=>{return <Tag value={item.name}></Tag>})}
+          
+          {/* <Chips value={newClub} disabled/> */}
         </div>
       )
     }
