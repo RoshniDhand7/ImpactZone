@@ -52,7 +52,7 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
                   src={johnsmith}
                   alt=""
                 />
-                <div className="absolute w-full text-center -mb-2  flex justify-content-center algin-content-bottom ">
+                <div className="absolute w-full text-center -mb-3   flex justify-content-center algin-content-bottom ">
                   <div class="image-upload">
                     <label for="file-input">
                       <img
@@ -82,7 +82,7 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
                   ></DropDown>
                 </div>
                 <div className="col-4 ">
-                  <Input title="Name" name="name"></Input>
+                  <Input title="Name" name="name" placeholder="Name"></Input>
                 </div>
                 <div className="col-4 ">
                   <Input title="UPC" name="name"></Input>
@@ -300,7 +300,7 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
                   <Input title="Unit Price" name="name"></Input>
                   <div className="flex justify-content-center">
                     <small className="text-gray-400 text-sm">
-                      Markup: <span className="text-green-500">15% </span>
+                      Markup: <span className="text-green">15% </span>
                     </small>
                   </div>
                 </div>
@@ -316,7 +316,7 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
                   <Input title="Unit Price" name="name"></Input>
                   <div className="flex justify-content-center">
                     <small className="text-gray-400 text-sm">
-                      Markup: <span className="text-green-500">15% </span>
+                      Markup: <span className="text-green">15% </span>
                     </small>
                   </div>
                 </div>
@@ -332,7 +332,7 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
                   <Input title="Unit Price" name="name"></Input>
                   <div className="flex justify-content-center">
                     <small className="text-gray-400 text-sm">
-                      Markup: <span className="text-green-500">15% </span>
+                      Markup: <span className="text-green">15% </span>
                     </small>
                   </div>
                 </div>
@@ -340,18 +340,24 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
             </div>
           </CardWithTitle>
         </div>
-        <div className=" m-2 mt-3 flex justify-content-end">
+        <div className=" m-2 mt-4 mr-2 flex justify-content-end">
+          <div className="">
+            <Buttons
+              label="Copy"
+              className="btn-dark  px-4   border-none"
+            ></Buttons>
+          </div>
           <div className="mx-4">
             <Buttons
               label="Save"
-              className="btn-dark  mx-3  border-none"
+              className="btn-dark  px-4 border-none"
             ></Buttons>
           </div>
           <div className="">
             <Buttons
               onClick={() => openaddcatalogtab()}
               label="Cancel"
-              className="btn-grey   border-none"
+              className="btn-grey px-3 border-none"
             ></Buttons>
           </div>
         </div>

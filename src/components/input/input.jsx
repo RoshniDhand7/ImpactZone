@@ -58,6 +58,7 @@ const Input = ({
 
         {type === "number" ? (
           <InputText
+            className="p-inputtext-xs"
             id={id}
             style={{ width: "100%" }}
             // placeholder={placeholder}

@@ -54,16 +54,16 @@ const Usage = ({ openaddcatalogtab }) => {
                     </table>
                   </div>
                 </div>
-                <div className=" flex flex-column  justify-content-center mx-6 ">
+                <div className=" flex flex-column gap-2  justify-content-center mx-6 ">
                   <div className=" ">
                     <Buttons
                       label="Add"
                       className="btn-dark border-none mx-3  "
                     ></Buttons>
                   </div>
-                  <div className=" ">
+                  <div className="">
                     <Buttons
-                      label="Remove"
+                      label="Remove All"
                       className="btn-dark border-none mx-3  "
                     ></Buttons>
                   </div>
