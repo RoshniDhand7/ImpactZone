@@ -42,6 +42,7 @@ const CustomInputNumber = ({
         <i className={icon} />
         <InputNumber
           id={id}
+          className="p-inputtext-xs"
           style={{ width: "100%" }}
           name={name}
           value={value}

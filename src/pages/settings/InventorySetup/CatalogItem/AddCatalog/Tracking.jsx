@@ -95,8 +95,8 @@ const Tracking = ({ openaddcatalogtab }) => {
                   ></DropDown>
                 </div>
                 <div className="col-4 ">
-                  <div className="flex flex-column p-2">
-                    <small className="text-dark-gray font-semibold mb-2">
+                  <div className="flex flex-column mt-3">
+                    <small className="text-dark-gray font-semibold mb-2 pt-1">
                       Date Created
                     </small>
                     <span className="text-xs text-gray-300">01/31/2022</span>
