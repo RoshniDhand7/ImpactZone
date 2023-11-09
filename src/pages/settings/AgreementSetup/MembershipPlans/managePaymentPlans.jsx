@@ -8,23 +8,66 @@ import AddAssessedFee from "../ManageAssessed/addAssessedFee";
 import Input from "../../../../components/input/input";
 import AddMembershipPlan from "./AddMembershipPlan";
 import MembershipContainer from "./MembershipContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const ManagePaymentPlans = () => {
-
-const {
-  ManagePaymentPlansColumn,
+  const {
+    ManagePaymentPlansColumn,
     addPaymentPlans,
     onClickChangePage,
-    AllMembershipPlan
-} = MembershipContainer()
+    AllMembershipPlan,
+    allAgreementCategoryData,
+    handleChangeMember,
+    membershipForm,
+    subCategoryOption,
+    allClubs,
+    membershipTypeData,
+    allAssessedFee,
+    MemberPickerHandleChange,
+    showAddMemberShipService,
+    setShowAddMemberShipService,
+    globalFilterValue,
+    setGlobalFilterValue,
+    filters,
+    onGlobalFilterChange,
+    memberShipAddColumn,
+    memberShipAddData,
+    selectedRow,
+    setSelectedRow,
+    removeAll,
+    submit
+  } = MembershipContainer();
 
   return (
     <>
       {addPaymentPlans ? (
-        <AddMembershipPlan onClickChangePage={onClickChangePage} />
+        <AddMembershipPlan
+          onClickChangePage={onClickChangePage}
+          allAgreementCategoryData={allAgreementCategoryData}
+          handleChangeMember={handleChangeMember}
+          membershipForm={membershipForm}
+          subCategoryOption={subCategoryOption}
+          allClubs={allClubs}
+          membershipTypeData={membershipTypeData}
+          allAssessedFee={allAssessedFee}
+          MemberPickerHandleChange={MemberPickerHandleChange}
+          showAddMemberShipService={showAddMemberShipService}
+    setShowAddMemberShipService={setShowAddMemberShipService}
+    globalFilterValue={globalFilterValue}
+    setGlobalFilterValue={setGlobalFilterValue}
+    filters={filters}
+    onGlobalFilterChange={onGlobalFilterChange}
+    memberShipAddColumn={memberShipAddColumn}
+    memberShipAddData={memberShipAddData}
+    selectedRow={selectedRow}
+    setSelectedRow={setSelectedRow}
+    removeAll={removeAll}
+    submit={submit}
+        />
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Payment Plans

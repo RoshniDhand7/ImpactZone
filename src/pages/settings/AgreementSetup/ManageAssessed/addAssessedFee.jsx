@@ -96,7 +96,10 @@ const AddAssessedFee = ({
                     state={assesedInfo}
                   ></Input>
                 </div>
-                <div className="col-4">
+                {
+                  assesedInfo.type === "Annual Fee" ||
+                  assesedInfo.type === "Freeze Fee" ?
+<div className="col-4">
                   <DropDown
                     title="Recurring"
                     options={choiceType}
@@ -106,6 +109,10 @@ const AddAssessedFee = ({
                     state={assesedInfo}
                   ></DropDown>
                 </div>
+                :
+                null
+                }
+                
               </div>
             </div>
           </CardWithTitle>

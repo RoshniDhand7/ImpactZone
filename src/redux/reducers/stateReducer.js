@@ -65,6 +65,11 @@ const intitalState = {
   assessedTypes:["Annual Fee","Late Fee","Decline Fee","No Show Fee","Freeze Fee","Cancellation Fee"],
   profitCenter:["Profit Center 1","Profit Center 2"],
   AssesedDetemined:["Month And Day","Number of Days from Begin Date"],
+  AgreementTemplate:["Agreement Template 1","Agreement Template 2","Agreement Template 3","Agreement Template 4"],
+  memberAutoPay:["On a Set Schedule","When the Pricing options run out"],
+  memberOften:["Set Number of Autopays","Month-to-Month"],
+  memberClientCharge:["On the Sale Date","1st of the Month","15th of the Month","Last Day of the Month","1st or 15th of the Month","1st or 16th of the Month","15th or Last day of the Month","specific Date"],
+  memberAfter6Month:["Contract Expires","Contract Automatically renew every 6 payments"]
 };
 
 // let array = [];
@@ -108,6 +113,8 @@ const stateReducer = (state = intitalState, action) => {
           ...state,
           campaignTypes: action.payload,
         };
+
+        
 
     default:
       return { ...state };
