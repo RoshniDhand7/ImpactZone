@@ -70,7 +70,7 @@ const ManagePaymentPlans = () => {
           <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
-                Manage Payment Plans
+                Manage Membership Plans
               </span>
               <div className=" px-2 ">
                 <Buttons
