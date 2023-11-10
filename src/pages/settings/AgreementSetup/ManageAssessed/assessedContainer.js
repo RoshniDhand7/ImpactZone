@@ -275,7 +275,7 @@ return (
         recurring: editAssessedData.recurring,
         // monthAndDate: editAssessedData.recurring,
         membershipPlans: editAssessedData?.membershipPlans?.map((item)=>{return item._id}),
-        pastDue: editAssessedData.pastDue,
+        pastDue: parseInt(editAssessedData.pastDue),
         noOfDays: editAssessedData.noOfDays,
         noOfMonths:editAssessedData.noOfMonths,
         clubsOption:editAssessedData.clubs,
