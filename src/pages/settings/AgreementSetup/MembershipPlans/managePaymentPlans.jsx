@@ -82,7 +82,7 @@ const ManagePaymentPlans = () => {
               </div>
             </div>
             <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
-              <div className="col-7 flex flex-column">
+              <div className="col-9 flex flex-column">
                 <div className="flex">
                   <div className="md:col">
                     <DropDown title="Status"></DropDown>

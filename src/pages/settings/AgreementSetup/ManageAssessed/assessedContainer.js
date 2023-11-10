@@ -41,7 +41,7 @@ const AssessedContainer = () => {
     })
 
     const [editAssessedData, setEditAssessedData] = useState(null)
-    const [required, setRequired] = useState(["name","type","profitCenter","amount","clubs","recurring",]);
+    const [required, setRequired] = useState(["name","type","profitCenter","amount","clubs",]);
 
 console.log("assesedInfo",assesedInfo)
 

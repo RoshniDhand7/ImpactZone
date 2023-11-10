@@ -29,7 +29,7 @@ const [subCategoryOption,setSubCategoryOption] = useState([])
 const [selectedRow, setSelectedRow] = useState([]);
 const [editMemberShip,setEditMemberShip] = useState(null)
 const [initialMemberShip,setInitialMemberShip] = useState([])
-const [required, setRequired] = useState(["category","subCategory","name","clubs","membershipTypes","agreementTemplate","assessedFees","autoPay","clientsChargeCycle","clientsChargeTime","clientsChargeTime","resultAfterSixPayments","sellOnline"])
+const [required, setRequired] = useState(["category","subCategory","name","clubs","membershipType","agreementTemplate","assessedFees","autoPay","clientsChargeCycle","clientsChargeTime","clientsChargeTime","resultAfterSixPayments","sellOnline"])
 // const [memberPlanData,setMemberPlanData] = useState([])
     const [addPaymentPlans, setPaymentPlans] = useState(false);
     const [allAssessedFee,setAllAssessedFee] = useState([])
@@ -136,7 +136,7 @@ const [required, setRequired] = useState(["category","subCategory","name","clubs
     const soldOnlineTemplate = (col) => {
       return (
         <div>
-          {col.soldOnlineTemplate===true ? 'Yes' : 'No'}
+          {col.sellOnline==true ? 'Yes' : 'No'}
         </div>
       )
     }
@@ -171,7 +171,7 @@ const [required, setRequired] = useState(["category","subCategory","name","clubs
         },
         {
           field: "noofmembers",
-          header: "No.of Members",
+          header: "No. of Members",
           id: "",
           index: "",
           body:noofmemberTemplate
@@ -393,7 +393,7 @@ useEffect(() => {
       clientsChargeTime: editMemberShip.clientsChargeTime,
       timePeriod: editMemberShip.timePeriod,
       noOfAutoPays: editMemberShip.noOfAutoPays,
-      date: editMemberShip.date,
+      date: new Date(editMemberShip.date),
       resultAfterSixPayments: editMemberShip.resultAfterSixPayments,
       sellOnline: editMemberShip.sellOnline,
       onlineDescription: editMemberShip.onlineDescription,
