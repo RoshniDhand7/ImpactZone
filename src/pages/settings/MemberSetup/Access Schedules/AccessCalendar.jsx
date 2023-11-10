@@ -26,6 +26,7 @@ const AccessCalendar = ({
         dayName,
         selectInfo.end
       );
+      console.log(checkIsEventAlreadyPresent);
       if (checkIsEventAlreadyPresent) return;
 
       const newEvent = {
@@ -97,7 +98,12 @@ const AccessCalendar = ({
         day === sc.day &&
         newEventEndtime.toISOString() > sc.startTime &&
         day === sc.day &&
-        newEventEndtime.toISOString() < sc.endTime
+        newEventEndtime.toISOString() <= sc.endTime
+      // ||
+      // (day === sc.day &&
+      //   newEventEndtime.toISOString() > sc.startTime &&
+      //   day === sc.day &&
+      //   newEventEndtime.toISOString() > sc.endTime)
     );
   };
 
