@@ -120,6 +120,10 @@ const ManagePaymentPlans = () => {
             </div>
             <div className="mt-2">
               <TableData
+               paginator
+               rows={5}
+               selected={false}
+               selectionMode={false}
                 columns={ManagePaymentPlansColumn}
                 data={AllMembershipPlan}
               />

@@ -75,7 +75,13 @@ const constants = {
     deleteAgreementPromotions: "agreement-promotions/delete/",
     getMembershipPlans: "membership-plans",
     updateMembershipPlan:"membership-plans/update/",
-    deleteMembershipPlan:"membership-plans/delete/"
+    deleteMembershipPlan:"membership-plans/delete/",
+    getProfitCenter:"profit-center",
+    updateProfitCenter:"profit-center/update/",
+    deleteProfitCenter:"profit-center/delete/",
+    getInventoryCategory:"inventory-category",
+    updateInventoryCategory:"inventory-category/update/",
+    deleteInventoryCategory:"inventory-category/delete/"
   },
 
   calendarDefaultWeek: {
