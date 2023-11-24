@@ -75,6 +75,7 @@ const TableData = ({
         field={col.field}
         sortable={col.sorting ? true : false}
         header={col.header}
+        hidden={col.hidden ? col.hidden : false}
         body={col.body ? eval(col.body) : null}
         style={{ paddingLeft: " 50px", paddingRight: "50px" }}
       />

@@ -18,6 +18,8 @@ import agreementCategoryReducer from "./agreementReducers";
 import accessSchedulesReducer from "./accessSchedulesReducer";
 import agreementPromotionsReducer from "./agreementPromotionsReducer";
 import membershipPlansReducer from "./membershipPlansReducer";
+import ProfitCenterReducer from "./profitCenterReducer";
+import InventoryCategoryReducer from "./inventoryCategoryReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -38,5 +40,7 @@ export default combineReducers({
   AgreementCategory: agreementCategoryReducer,
   accessSchedules: accessSchedulesReducer,
   agreementPromotions: agreementPromotionsReducer,
-  membershipPlans: membershipPlansReducer
+  membershipPlans: membershipPlansReducer,
+  profitCenter: ProfitCenterReducer,
+  InventoryCategory: InventoryCategoryReducer,
 });

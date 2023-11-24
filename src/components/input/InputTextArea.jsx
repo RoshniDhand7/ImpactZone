@@ -9,6 +9,7 @@ export default function CustomTextarea({
   classNames,
   style,
   label,
+  name
 }) {
   return (
     <div className="card flex justify-content-center ">
@@ -22,8 +23,9 @@ export default function CustomTextarea({
         <InputTextarea
           style={style}
           className={classNames}
+          name={name}
           value={value}
-          onChange={onChange}
+          onChange={(e)=>onChange({name:e.target.name,value:e.target.value})}
           rows={rows}
           cols={cols}
         />
