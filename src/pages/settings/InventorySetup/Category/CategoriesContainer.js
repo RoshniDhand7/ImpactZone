@@ -18,7 +18,7 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     const [showCatalogItem,setShowCatalogItem] = useState(false)
     const [selectedRow, setSelectedRow] = useState([]);
     const [initialCategory,setInitialCategory] = useState({})
-    const [required,setRequired] = useState(["name","displayInPOS","posButtonLabel","availableCategories","description","catelogItems"])
+    const [required,setRequired] = useState(["name"])
     const [editCategory,setEditCategory] = useState(null)
     const [categoryForm,setCategoryForm] = useState({
         isActive:true,

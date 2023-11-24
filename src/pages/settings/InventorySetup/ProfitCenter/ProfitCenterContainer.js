@@ -14,13 +14,23 @@ const ProfitCenterContainer = () => {
 const dispatch = useDispatch()
 
 const allProfitCenterData = useSelector((state)=>state.profitCenter.allProfitCenter)
+console.log("allProfitCenterData",allProfitCenterData)
 
     const [showAddProfileType, setShowAddProfileType] = useState();
     const [showCatalogItem,setShowCatalogItem] = useState(false)
     const [selectedRow, setSelectedRow] = useState([]);
     const [initialProfitCenter,setInitialProfitCenter] = useState({})
     const [editProfitCenter,setEditProfitCenter] = useState(null)
-    const [required, setRequired] = useState(["name","glCode","availableProfitCenter","parentProfitCenter","description","catelogItems","profitCenterCode","earningsCode"])
+    const [statusData,setStatusData] = useState("")
+    const [required, setRequired] = useState(["name","glCode"])
+
+    const statusOptions = [
+      {label:"All",value:""},
+      {label:"Active",value:true},
+      {label:"InActive",value:false}
+    ]
+
+    console.log("statusData",statusData)
 
 const [profitCenterForm,setProfitCenterForm] = useState({
     isActive: true,
@@ -100,7 +110,7 @@ return (
     const descriptionTemplate = (col) => {
         return(
         <div>
-          {col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+          {col?.description?.length >= 100 ? col?.description.slice(0, 100)+"..." : col?.description}
         </div>
         )
         
@@ -340,7 +350,10 @@ return (
     setSelectedRow,
     removeAll,
     save,
-    Back
+    Back,
+    statusData,
+    setStatusData,
+    statusOptions
   }
 }
 
