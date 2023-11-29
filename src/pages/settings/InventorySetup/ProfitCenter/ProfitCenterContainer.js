@@ -21,15 +21,14 @@ const allProfitCenterData = useSelector((state)=>state.profitCenter.allProfitCen
     const [selectedRow, setSelectedRow] = useState([]);
     const [initialProfitCenter,setInitialProfitCenter] = useState({})
     const [editProfitCenter,setEditProfitCenter] = useState(null)
-    const [statusData,setStatusData] = useState("")
+    const [statusData,setStatusData] = useState(true)
     const [required, setRequired] = useState(["name","glCode"])
     const [availableProfitState,setAvailableProfitState] = useState([])
     const [parentProfitState,setParentProfitState] = useState([])
 
     const statusOptions = [
-      {label:"All",value:null},
-      {label:"Active",value:false},
-      {label:"InActive",value:true}
+      {label:"Active",value:true},
+      {label:"InActive",value:false}
     ]
 
     
@@ -323,16 +322,17 @@ return (
         setProfitCenterForm(obj);
         setShowAddProfileType(true);
         setSelectedRow(editProfitCenter?.catelogItems);
-        let filterAvailableProfit = allProfitCenterData?.filter((item)=>{return item?._id!==editProfitCenter?._id})
-        let parentProfit = allProfitCenterData?.filter((child)=>{return child?._id!==editProfitCenter?._id})
+        let filterAvailableProfit = allProfitCenterData?.filter((item)=>{return item?._id!==editProfitCenter?._id&&item.isActive==true})
+        let parentProfit = allProfitCenterData?.filter((child)=>{return child?._id!==editProfitCenter?._id&&child.isActive==true})
         setAvailableProfitState(filterAvailableProfit)
         setParentProfitState(parentProfit)
       }
     }, [editProfitCenter]);
 
 useEffect(() => {
-  setAvailableProfitState(allProfitCenterData)
-  setParentProfitState(allProfitCenterData)
+  let active = allProfitCenterData.filter((item)=>{return item.isActive==true})
+  setAvailableProfitState(active)
+  setParentProfitState(active)
 }, [allProfitCenterData])
 
 useEffect(() => {

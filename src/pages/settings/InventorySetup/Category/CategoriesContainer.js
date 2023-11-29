@@ -21,7 +21,7 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     const [required,setRequired] = useState(["name"])
     const [editCategory,setEditCategory] = useState(null)
     const [categoryOption,setCategoryOption] = useState([])
-    const [statusData,setStatusData] = useState("")
+    const [statusData,setStatusData] = useState(true)
     const [categoryForm,setCategoryForm] = useState({
         isActive:true,
     name: "",
@@ -33,9 +33,8 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     })
 
     const statusOptions = [
-      {label:"All",value:null},
-      {label:"Active",value:false},
-      {label:"InActive",value:true}
+      {label:"Active",value:true},
+      {label:"InActive",value:false}
     ]
 
 console.log("categoryForm",categoryForm)
@@ -106,7 +105,7 @@ console.log("categoryForm",categoryForm)
       console.log("colindispaly",col.displayInPOS)
       return(
         <div>
-          {col?.displayInPOS!==null ? col.displayInPOS==true ? "true" : "false" : "--"}
+          {col?.displayInPOS!==null ? col.displayInPOS==true ? "Yes" : "No" : "--"}
         </div>
       )
     }
@@ -302,13 +301,14 @@ useEffect(() => {
       setCategoryForm(obj);
       setShowAddCategory(true);
       setSelectedRow(editCategory.catelogItems);
-      let filterCategoryOption = CategoryData.filter((item)=>{return item._id!==editCategory._id})
+      let filterCategoryOption = CategoryData.filter((item)=>{return item._id!==editCategory._id&&item.isActive==true})
       setCategoryOption(filterCategoryOption)
     }
   }, [editCategory]);
 
 useEffect(() => {
-  setCategoryOption(CategoryData)
+  let active = CategoryData.filter((item)=>{return item.isActive==true})
+  setCategoryOption(active)
 }, [CategoryData])
 
 useEffect(() => {

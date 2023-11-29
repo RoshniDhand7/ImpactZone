@@ -294,7 +294,7 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
             </div>
             <div className="mt-2">
               <TableData
-                data={CategoryData.filter((item)=>{return statusData!==item.isActive})}
+                data={CategoryData.filter((item)=>{return statusData===item.isActive})}
                 columns={CategoryColumn}
               ></TableData>
             </div>

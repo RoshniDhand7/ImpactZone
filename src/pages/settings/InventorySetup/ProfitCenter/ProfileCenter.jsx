@@ -311,7 +311,7 @@ const ProfileTypes = () => {
               rows={5}
               selected={false}
               selectionMode={false}
-                data={allProfitCenterData.filter((item)=>{return statusData!==item.isActive})}
+                data={allProfitCenterData.filter((item)=>{return statusData===item.isActive})}
                 columns={ProfileTypesColumn}
               ></TableData>
             </div>
