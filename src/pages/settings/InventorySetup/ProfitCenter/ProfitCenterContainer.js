@@ -38,12 +38,12 @@ const [profitCenterForm,setProfitCenterForm] = useState({
     isActive: true,
     name: "",
     glCode: "",
-    availableProfitCenter: "",
-    parentProfitCenter: "",
+    availableProfitCenter: null,
+    parentProfitCenter: null,
     description: "",
     catelogItems: [],
-    profitCenterCode: "",
-    earningsCode: ""
+    profitCenterCode: null,
+    earningsCode: null
 })
 
 // console.log("profitCenterForm",profitCenterForm)
@@ -104,7 +104,7 @@ const reject = () => { };
     const catalogTemplate = (col) => {
 return (
     <div>
-         { col?.catelogItems?.map((item)=>{return <Tag style={{margin:"0px 2px"}} value={item.name}></Tag>})}
+         {col?.catelogItems?.length>0 ? col?.catelogItems?.map((item)=>{return <Tag style={{margin:"0px 2px"}} value={item.name}></Tag>}) : "--"}
     </div>
 )
     }
@@ -112,7 +112,7 @@ return (
     const descriptionTemplate = (col) => {
         return(
         <div>
-          {col?.description?.length >= 100 ? col?.description.slice(0, 100)+"..." : col?.description}
+          {col.description.length >0 ? (col?.description?.length >= 100 ? col?.description.slice(0, 100)+"..." : col?.description) : "--"}
         </div>
         )
         
@@ -309,22 +309,22 @@ return (
       if (editProfitCenter) {
         let obj = {
           ...editProfitCenter,
-          isActive: editProfitCenter.isActive,
-    name: editProfitCenter.name,
-    glCode: editProfitCenter.glCode,
-    availableProfitCenter: editProfitCenter.availableProfitCenter._id,
-    parentProfitCenter: editProfitCenter.parentProfitCenter._id,
-    description: editProfitCenter.description,
-    catelogItems: editProfitCenter.catelogItems,
-    profitCenterCode: editProfitCenter.profitCenterCode,
-    earningsCode: editProfitCenter.earningsCode
+          isActive: editProfitCenter?.isActive,
+    name: editProfitCenter?.name,
+    glCode: editProfitCenter?.glCode,
+    availableProfitCenter: editProfitCenter?.availableProfitCenter ? editProfitCenter?.availableProfitCenter?._id : null,
+    parentProfitCenter: editProfitCenter?.parentProfitCenter?._id,
+    description: editProfitCenter?.description,
+    catelogItems: editProfitCenter?.catelogItems,
+    profitCenterCode: editProfitCenter?.profitCenterCode ? editProfitCenter?.profitCenterCode : null,
+    earningsCode: editProfitCenter?.earningsCode
         };
         
         setProfitCenterForm(obj);
         setShowAddProfileType(true);
-        setSelectedRow(editProfitCenter.catelogItems);
-        let filterAvailableProfit = allProfitCenterData.filter((item)=>{return item._id!==editProfitCenter._id})
-        let parentProfit = allProfitCenterData.filter((child)=>{return child._id!==editProfitCenter._id})
+        setSelectedRow(editProfitCenter?.catelogItems);
+        let filterAvailableProfit = allProfitCenterData?.filter((item)=>{return item?._id!==editProfitCenter?._id})
+        let parentProfit = allProfitCenterData?.filter((child)=>{return child?._id!==editProfitCenter?._id})
         setAvailableProfitState(filterAvailableProfit)
         setParentProfitState(parentProfit)
       }
@@ -334,6 +334,15 @@ useEffect(() => {
   setAvailableProfitState(allProfitCenterData)
   setParentProfitState(allProfitCenterData)
 }, [allProfitCenterData])
+
+useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
+}, [showAddProfileType])
+
 
 
     useEffect(() => {

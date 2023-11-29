@@ -115,7 +115,7 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
             <CardWithTitle title="Add Category">
               <div className="flex p-2">
                 <div className="col-4 ">
-                  <Input title="Name" name="name" value={categoryForm.name} onChange={categoryHandle} state={categoryForm}></Input>
+                  <Input title="Name" name="name" required={true} value={categoryForm.name} onChange={categoryHandle} state={categoryForm}></Input>
                 </div>
                 <div className="col-4">
                   <DropDown

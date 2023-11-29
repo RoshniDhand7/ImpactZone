@@ -27,7 +27,7 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     name: "",
     displayInPOS: null,
     posButtonLabel: "",
-    availableCategories: "",
+    availableCategories: null,
     description: "",
     catelogItems: []
     })
@@ -96,11 +96,20 @@ console.log("categoryForm",categoryForm)
     const descriptionTemplate = (col) => {
         return(
         <div>
-          {col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+          {col?.description?.length >0 ? (col?.description?.length >= 100 ? col?.description?.slice(0, 100)+"..." : col?.description) : "--"}
         </div>
         )
         
       }
+
+    const displayTemplate = (col) => {
+      console.log("colindispaly",col.displayInPOS)
+      return(
+        <div>
+          {col?.displayInPOS!==null ? col.displayInPOS==true ? "true" : "false" : "--"}
+        </div>
+      )
+    }
   
     const CategoryColumn = [
       {
@@ -114,6 +123,7 @@ console.log("categoryForm",categoryForm)
         header: "Displays in POS",
         id: "",
         index: "",
+        body:displayTemplate
       },
   
       {
@@ -285,7 +295,7 @@ useEffect(() => {
   name: editCategory.name,
   displayInPOS: editCategory.displayInPOS,
   posButtonLabel: editCategory.posButtonLabel,
-  availableCategories: editCategory.availableCategories._id,
+  availableCategories: editCategory.availableCategories ? editCategory.availableCategories._id : null,
   description: editCategory.description,
   catelogItems: editCategory.catelogItems
       };
@@ -300,6 +310,15 @@ useEffect(() => {
 useEffect(() => {
   setCategoryOption(CategoryData)
 }, [CategoryData])
+
+useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
+}, [showAddCategory])
+
 
 
 useEffect(() => {

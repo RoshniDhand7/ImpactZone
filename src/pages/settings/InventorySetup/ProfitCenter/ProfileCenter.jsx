@@ -116,10 +116,10 @@ const ProfileTypes = () => {
             <CardWithTitle title="General">
               <div className="flex p-2">
                 <div className="col-4 ">
-                  <Input title="Name" name="name" value={profitCenterForm.name} onChange={profitCenterHandler} state={profitCenterForm}></Input>
+                  <Input title="Name" name="name" required={true} value={profitCenterForm.name} onChange={profitCenterHandler} state={profitCenterForm}></Input>
                 </div>
                 <div className="col-4 ">
-                  <Input title="GL Code" name="glCode" value={profitCenterForm.glCode} onChange={profitCenterHandler} state={profitCenterForm}></Input>
+                  <Input title="GL Code" name="glCode" required={true} value={profitCenterForm.glCode} onChange={profitCenterHandler} state={profitCenterForm}></Input>
                 </div>
                 <div className="col-4">
                   <DropDown
