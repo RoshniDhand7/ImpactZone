@@ -14,7 +14,7 @@ const ProfitCenterContainer = () => {
 const dispatch = useDispatch()
 
 const allProfitCenterData = useSelector((state)=>state.profitCenter.allProfitCenter)
-console.log("allProfitCenterData",allProfitCenterData)
+
 
     const [showAddProfileType, setShowAddProfileType] = useState();
     const [showCatalogItem,setShowCatalogItem] = useState(false)
@@ -23,14 +23,16 @@ console.log("allProfitCenterData",allProfitCenterData)
     const [editProfitCenter,setEditProfitCenter] = useState(null)
     const [statusData,setStatusData] = useState("")
     const [required, setRequired] = useState(["name","glCode"])
+    const [availableProfitState,setAvailableProfitState] = useState([])
+    const [parentProfitState,setParentProfitState] = useState([])
 
     const statusOptions = [
-      {label:"All",value:""},
-      {label:"Active",value:true},
-      {label:"InActive",value:false}
+      {label:"All",value:null},
+      {label:"Active",value:false},
+      {label:"InActive",value:true}
     ]
 
-    console.log("statusData",statusData)
+    
 
 const [profitCenterForm,setProfitCenterForm] = useState({
     isActive: true,
@@ -44,7 +46,7 @@ const [profitCenterForm,setProfitCenterForm] = useState({
     earningsCode: ""
 })
 
-console.log("profitCenterForm",profitCenterForm)
+// console.log("profitCenterForm",profitCenterForm)
 
 const profitCenterHandler = ({name,value}) => {
   const formErrors = FormValidation(
@@ -317,13 +319,21 @@ return (
     profitCenterCode: editProfitCenter.profitCenterCode,
     earningsCode: editProfitCenter.earningsCode
         };
-        console.log("objjj",obj)
+        
         setProfitCenterForm(obj);
         setShowAddProfileType(true);
         setSelectedRow(editProfitCenter.catelogItems);
+        let filterAvailableProfit = allProfitCenterData.filter((item)=>{return item._id!==editProfitCenter._id})
+        let parentProfit = allProfitCenterData.filter((child)=>{return child._id!==editProfitCenter._id})
+        setAvailableProfitState(filterAvailableProfit)
+        setParentProfitState(parentProfit)
       }
     }, [editProfitCenter]);
 
+useEffect(() => {
+  setAvailableProfitState(allProfitCenterData)
+  setParentProfitState(allProfitCenterData)
+}, [allProfitCenterData])
 
 
     useEffect(() => {
@@ -353,7 +363,9 @@ return (
     Back,
     statusData,
     setStatusData,
-    statusOptions
+    statusOptions,
+    availableProfitState,
+    parentProfitState
   }
 }
 

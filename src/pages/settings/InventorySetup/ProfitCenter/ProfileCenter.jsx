@@ -33,11 +33,14 @@ const ProfileTypes = () => {
     Back,
     statusData,
     setStatusData,
-    statusOptions
+    statusOptions,
+    availableProfitState,
+    parentProfitState
   } = ProfitCenterContainer()
 
-
+  
   const AddCatalogItem = () => {
+    
     return (
       <>
         <div>
@@ -122,7 +125,7 @@ const ProfileTypes = () => {
                   <DropDown
                     title="Available Profit Center"
                     placeholder="Select one"
-                    options={allProfitCenterData?.map((item)=>{return{label:item?.name,value:item?._id}})}
+                    options={availableProfitState?.map((item)=>{return{label:item?.name,value:item?._id}})}
                     name="availableProfitCenter"
                     value={profitCenterForm.availableProfitCenter}
                     onChange={profitCenterHandler}
@@ -135,7 +138,7 @@ const ProfileTypes = () => {
                   <DropDown
                     title="Select Parent Profit Center"
                     placeholder="Select one"
-                    options={allProfitCenterData?.map((item)=>{return{label:item?.name,value:item?._id}})}
+                    options={parentProfitState?.map((item)=>{return{label:item?.name,value:item?._id}})}
                     name="parentProfitCenter"
                     value={profitCenterForm.parentProfitCenter}
                     onChange={profitCenterHandler}
@@ -308,7 +311,7 @@ const ProfileTypes = () => {
               rows={5}
               selected={false}
               selectionMode={false}
-                data={allProfitCenterData}
+                data={allProfitCenterData.filter((item)=>{return statusData!==item.isActive})}
                 columns={ProfileTypesColumn}
               ></TableData>
             </div>
