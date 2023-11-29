@@ -15,12 +15,24 @@ const dispatch = useDispatch()
 
 const allProfitCenterData = useSelector((state)=>state.profitCenter.allProfitCenter)
 
+
     const [showAddProfileType, setShowAddProfileType] = useState();
     const [showCatalogItem,setShowCatalogItem] = useState(false)
     const [selectedRow, setSelectedRow] = useState([]);
     const [initialProfitCenter,setInitialProfitCenter] = useState({})
     const [editProfitCenter,setEditProfitCenter] = useState(null)
-    const [required, setRequired] = useState(["name","glCode","availableProfitCenter","parentProfitCenter","description","catelogItems","profitCenterCode","earningsCode"])
+    const [statusData,setStatusData] = useState("")
+    const [required, setRequired] = useState(["name","glCode"])
+    const [availableProfitState,setAvailableProfitState] = useState([])
+    const [parentProfitState,setParentProfitState] = useState([])
+
+    const statusOptions = [
+      {label:"All",value:null},
+      {label:"Active",value:false},
+      {label:"InActive",value:true}
+    ]
+
+    
 
 const [profitCenterForm,setProfitCenterForm] = useState({
     isActive: true,
@@ -34,7 +46,7 @@ const [profitCenterForm,setProfitCenterForm] = useState({
     earningsCode: ""
 })
 
-console.log("profitCenterForm",profitCenterForm)
+// console.log("profitCenterForm",profitCenterForm)
 
 const profitCenterHandler = ({name,value}) => {
   const formErrors = FormValidation(
@@ -100,7 +112,7 @@ return (
     const descriptionTemplate = (col) => {
         return(
         <div>
-          {col.description.length >= 100 ? col.description.slice(0, 100)+"..." : col.description}
+          {col?.description?.length >= 100 ? col?.description.slice(0, 100)+"..." : col?.description}
         </div>
         )
         
@@ -307,13 +319,21 @@ return (
     profitCenterCode: editProfitCenter.profitCenterCode,
     earningsCode: editProfitCenter.earningsCode
         };
-        console.log("objjj",obj)
+        
         setProfitCenterForm(obj);
         setShowAddProfileType(true);
         setSelectedRow(editProfitCenter.catelogItems);
+        let filterAvailableProfit = allProfitCenterData.filter((item)=>{return item._id!==editProfitCenter._id})
+        let parentProfit = allProfitCenterData.filter((child)=>{return child._id!==editProfitCenter._id})
+        setAvailableProfitState(filterAvailableProfit)
+        setParentProfitState(parentProfit)
       }
     }, [editProfitCenter]);
 
+useEffect(() => {
+  setAvailableProfitState(allProfitCenterData)
+  setParentProfitState(allProfitCenterData)
+}, [allProfitCenterData])
 
 
     useEffect(() => {
@@ -340,7 +360,12 @@ return (
     setSelectedRow,
     removeAll,
     save,
-    Back
+    Back,
+    statusData,
+    setStatusData,
+    statusOptions,
+    availableProfitState,
+    parentProfitState
   }
 }
 

@@ -18,8 +18,10 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     const [showCatalogItem,setShowCatalogItem] = useState(false)
     const [selectedRow, setSelectedRow] = useState([]);
     const [initialCategory,setInitialCategory] = useState({})
-    const [required,setRequired] = useState(["name","displayInPOS","posButtonLabel","availableCategories","description","catelogItems"])
+    const [required,setRequired] = useState(["name"])
     const [editCategory,setEditCategory] = useState(null)
+    const [categoryOption,setCategoryOption] = useState([])
+    const [statusData,setStatusData] = useState("")
     const [categoryForm,setCategoryForm] = useState({
         isActive:true,
     name: "",
@@ -29,6 +31,12 @@ const CategoryData = useSelector((state)=>state.InventoryCategory.allInventoryCa
     description: "",
     catelogItems: []
     })
+
+    const statusOptions = [
+      {label:"All",value:null},
+      {label:"Active",value:false},
+      {label:"InActive",value:true}
+    ]
 
 console.log("categoryForm",categoryForm)
     const categoryHandle = ({name,value}) => {
@@ -281,13 +289,17 @@ useEffect(() => {
   description: editCategory.description,
   catelogItems: editCategory.catelogItems
       };
-      console.log("objjj",obj)
       setCategoryForm(obj);
       setShowAddCategory(true);
       setSelectedRow(editCategory.catelogItems);
+      let filterCategoryOption = CategoryData.filter((item)=>{return item._id!==editCategory._id})
+      setCategoryOption(filterCategoryOption)
     }
   }, [editCategory]);
 
+useEffect(() => {
+  setCategoryOption(CategoryData)
+}, [CategoryData])
 
 
 useEffect(() => {
@@ -317,7 +329,11 @@ useEffect(() => {
     selectedRow,
     setSelectedRow,
     removeAll,
-    save
+    save,
+    categoryOption,
+    statusData,
+    setStatusData,
+    statusOptions,
   }
 }
 

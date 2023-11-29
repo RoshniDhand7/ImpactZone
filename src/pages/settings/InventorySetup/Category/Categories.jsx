@@ -31,7 +31,11 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
     selectedRow,
     setSelectedRow,
     removeAll,
-    save
+    save,
+    categoryOption,
+    statusData,
+    setStatusData,
+    statusOptions,
   } = CategoriesContainer()
 
 
@@ -133,7 +137,7 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
                   <DropDown
                     title="Available Categories"
                     placeholder="Select one"
-                    options={CategoryData?.map((item)=>{return{label:item?.name,value:item?._id}})}
+                    options={categoryOption?.map((item)=>{return{label:item?.name,value:item?._id}})}
                     name="availableCategories"
                     value={categoryForm.availableCategories}
                     onChange={categoryHandle}
@@ -272,7 +276,7 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
           <ConfirmDialog />
             <div className="bg-lightest-blue border-round-lg py-2 px-3 flex justify-content-between align-items-center ">
               <div className="col-2 ">
-                <DropDown title="Status" placeholder={"Active"}></DropDown>
+                <DropDown title="Status" placeholder={"Active"} options={statusOptions} onChange={(e)=>setStatusData(e.value)} value={statusData}></DropDown>
               </div>
               <div className="mr-3">
                 <div className="">
@@ -290,7 +294,7 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
             </div>
             <div className="mt-2">
               <TableData
-                data={CategoryData}
+                data={CategoryData.filter((item)=>{return statusData!==item.isActive})}
                 columns={CategoryColumn}
               ></TableData>
             </div>

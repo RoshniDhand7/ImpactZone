@@ -30,11 +30,17 @@ const ProfileTypes = () => {
     setSelectedRow,
     removeAll,
     save,
-    Back
+    Back,
+    statusData,
+    setStatusData,
+    statusOptions,
+    availableProfitState,
+    parentProfitState
   } = ProfitCenterContainer()
 
-
+  
   const AddCatalogItem = () => {
+    
     return (
       <>
         <div>
@@ -119,7 +125,7 @@ const ProfileTypes = () => {
                   <DropDown
                     title="Available Profit Center"
                     placeholder="Select one"
-                    options={allProfitCenterData?.map((item)=>{return{label:item?.name,value:item?._id}})}
+                    options={availableProfitState?.map((item)=>{return{label:item?.name,value:item?._id}})}
                     name="availableProfitCenter"
                     value={profitCenterForm.availableProfitCenter}
                     onChange={profitCenterHandler}
@@ -130,9 +136,9 @@ const ProfileTypes = () => {
               <div className="flex p-2">
                 <div className="col-4 ">
                   <DropDown
-                    title="Parent Profit Center"
+                    title="Select Parent Profit Center"
                     placeholder="Select one"
-                    options={allProfitCenterData?.map((item)=>{return{label:item?.name,value:item?._id}})}
+                    options={parentProfitState?.map((item)=>{return{label:item?.name,value:item?._id}})}
                     name="parentProfitCenter"
                     value={profitCenterForm.parentProfitCenter}
                     onChange={profitCenterHandler}
@@ -283,7 +289,7 @@ const ProfileTypes = () => {
             <div className="bg-lightest-blue border-round-lg py-2 px-3 flex justify-content-between align-items-center ">
             <ConfirmDialog />
               <div className="col-2 ">
-                <DropDown title="Status" placeholder={"Active"}></DropDown>
+                <DropDown title="Status" placeholder={"Active"} options={statusOptions} onChange={(e)=>setStatusData(e.value)} value={statusData}></DropDown>
               </div>
               <div className="mr-3">
                 <div className="">
@@ -305,7 +311,7 @@ const ProfileTypes = () => {
               rows={5}
               selected={false}
               selectionMode={false}
-                data={allProfitCenterData}
+                data={allProfitCenterData.filter((item)=>{return statusData!==item.isActive})}
                 columns={ProfileTypesColumn}
               ></TableData>
             </div>

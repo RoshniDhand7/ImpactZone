@@ -83,7 +83,7 @@ const TableData = ({
   });
   return (
     <div>
-      <div className="card shadow-4">
+      <div className="card shadow-4 border-round-xl">
         <DataTable
           value={data}
           paginator={paginator ? true : false}
