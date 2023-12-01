@@ -82,3 +82,12 @@ a:-webkit-any-link {
 .fc .fc-view-harness {
   height: 50vh !important;
 }
+.heightMaxContent {
+  height: max-content !important;
+  cursor: pointer;
+}
+.selected-price-type-referal {
+  color: white;
+  background-color: $darkblue;
+  border-radius: 3px;
+}

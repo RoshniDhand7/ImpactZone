@@ -32,7 +32,6 @@ const VendorContainer = () => {
     const [editVendor,setEditVendor] = useState(null)
     const [statusData,setStatusData] = useState(true)
 
-    console.log("vendorForm",vendorForm)
 
     const statusOptions = [
         {label:"Active",value:true},
@@ -200,7 +199,7 @@ const save = () => {
       })
     );
     window.scrollTo({
-      top: 250,
+      top: 0,
       left: 0,
       behavior: "smooth",
     });

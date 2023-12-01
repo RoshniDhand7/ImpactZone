@@ -22,6 +22,7 @@ import ProfitCenterReducer from "./profitCenterReducer";
 import InventoryCategoryReducer from "./inventoryCategoryReducer";
 import VendorReducer from "./VendorReducer";
 import RefferalGroupReducer from "./RefferalGroupReducer";
+import CatalogItemsReducer from "./CatalogItemsReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -47,4 +48,5 @@ export default combineReducers({
   InventoryCategory: InventoryCategoryReducer,
   VendorReducer: VendorReducer,
   RefferalGroupReducer: RefferalGroupReducer,
+  CatalogItemsReducer: CatalogItemsReducer,
 });

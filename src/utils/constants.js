@@ -85,7 +85,10 @@ const constants = {
     getAllVendor:"inventory-vendor",
     updateVendor:"inventory-vendor/update/",
     deleteVendor:"inventory-vendor/delete/",
-    getAllRefferalGroup:"inventory-referral"
+    getAllRefferalGroup:"inventory-referral",
+    updateRefferalGroup:"inventory-referral/update/",
+    deleteRefferalGroup:"inventory-referral/delete/",
+    allCatalogItems:"inventory-catalog-item",
   },
 
   calendarDefaultWeek: {

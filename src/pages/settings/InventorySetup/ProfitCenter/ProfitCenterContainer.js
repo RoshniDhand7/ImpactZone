@@ -45,7 +45,7 @@ const [profitCenterForm,setProfitCenterForm] = useState({
     earningsCode: null
 })
 
-// console.log("profitCenterForm",profitCenterForm)
+
 
 const profitCenterHandler = ({name,value}) => {
   const formErrors = FormValidation(
@@ -289,7 +289,7 @@ return (
         })
       );
       window.scrollTo({
-        top: 250,
+        top: 0,
         left: 0,
         behavior: "smooth",
       });
@@ -341,7 +341,7 @@ useEffect(() => {
     left: 0,
     behavior: "instant",
   });
-}, [showAddProfileType])
+}, [showAddProfileType,showCatalogItem])
 
 
 

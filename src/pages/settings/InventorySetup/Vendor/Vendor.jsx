@@ -151,7 +151,14 @@ const {
               </div>
             </div>
             <div className="mt-2">
-              <TableData data={AllVendorData.filter((item)=>{return statusData===item.isActive})} columns={VendorColumn}></TableData>
+              <TableData 
+              paginator
+              rows={5}
+              selected={false}
+              selectionMode={false}
+              data={AllVendorData.filter((item)=>{return statusData===item.isActive})} 
+              columns={VendorColumn}>
+              </TableData>
             </div>
           </div>
         </>

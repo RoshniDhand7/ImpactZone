@@ -6,6 +6,7 @@ import Checkbox from "../../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../components/input/input";
 import RefferalGroupContainer from "./RefferalGroupContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const ReferralGroup = () => {
   
@@ -23,10 +24,15 @@ const {
   filters,
   onGlobalFilterChange,
   catalogItemAddColumn,
-  catalogItemAddData,
+  allCatalogItemsData,
   selectedRow,
   setSelectedRow,
   removeAll,
+  save,
+  Back,
+  statusData,
+  setStatusData,
+  statusOptions
 } = RefferalGroupContainer()
 
 
@@ -50,7 +56,7 @@ const AddCatalogItem = () => {
             sorting
             paginator
             rows={5}
-            // selected={addEventData.catelogItems.detail}
+            // selected={addEventData.catalogItems.detail}
             selected={selectedRow}
             // changeSelection={(e)=>serviceHandleChange(e)}
             changeSelection={(e) => {
@@ -58,7 +64,7 @@ const AddCatalogItem = () => {
             }}
             selectionMode="checkbox"
             columns={catalogItemAddColumn}
-            data={catalogItemAddData}
+            data={allCatalogItemsData}
           ></TableData>
         </div>
       </div>
@@ -68,7 +74,7 @@ const AddCatalogItem = () => {
             label="Add"
             onClick={(e) => {
               refferalGroupHandleChange({
-                name: "catelogItems",
+                name: "catalogItems",
                 value: selectedRow,
               });
               setShowCatalogItem(false);
@@ -112,8 +118,8 @@ const AddCatalogItem = () => {
                 <div className="col-4 flex  ">
                   <Input title="Amount" name="amount" type="number" required={true} value={refferalGroupForm.amount} onChange={refferalGroupHandleChange} state={refferalGroupForm}></Input>
                   <div className="flex mt-5">
-                    <i className="pi pi-dollar text-sm mx-2"></i>
-                    <i className="pi pi-percentage text-sm"></i>
+                    <i className={refferalGroupForm.isPayTypeDollar==true ? `pi pi-dollar text-sm mx-2 p-1 heightMaxContent selected-price-type-referal` : `pi pi-dollar text-sm mx-2 p-1 heightMaxContent`} onClick={()=>refferalGroupHandleChange({name:"isPayTypeDollar",value:true})}></i>
+                    <i className={refferalGroupForm.isPayTypeDollar==true ? `pi pi-percentage text-sm p-1 heightMaxContent` : `pi pi-percentage text-sm heightMaxContent p-1 selected-price-type-referal`} onClick={()=>refferalGroupHandleChange({name:"isPayTypeDollar",value:false})}></i>
                   </div>
                 </div>
               </div>
@@ -133,9 +139,9 @@ const AddCatalogItem = () => {
                     className="flex justify-content-between  "
                     style={{ height: "190px" }}
                   >
-                      {refferalGroupForm?.catelogItems?.length > 0 ? (
+                      {refferalGroupForm?.catalogItems?.length > 0 ? (
                     <div className="w-7 align-items-center  p-2">
-                      {refferalGroupForm?.catelogItems?.map((child, childIndex) => {
+                      {refferalGroupForm?.catalogItems?.map((child, childIndex) => {
                         return (
                           <div className="flex justify-content-between  p-2  ">
                             <span className="text-xs font-semibold text-gray-600 w-6rem">
@@ -194,13 +200,14 @@ const AddCatalogItem = () => {
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-4">
               <Buttons
+              onClick={save}
                 label="Save"
                 className="btn-dark  mx-3  border-none"
               ></Buttons>
             </div>
             <div className="">
               <Buttons
-                onClick={() => setShowAddReferralGroup(false)}
+                onClick={Back}
                 label="Cancel"
                 className="btn-grey   border-none"
               ></Buttons>
@@ -221,8 +228,9 @@ const AddCatalogItem = () => {
         <>
           <div>
             <div className="bg-lightest-blue border-round-lg py-2 px-3 flex justify-content-between align-items-center ">
+            <ConfirmDialog />
               <div className="col-2 ">
-                <DropDown title="Status" placeholder={"Active"}></DropDown>
+                <DropDown title="Status" placeholder={"Active"} options={statusOptions} onChange={(e)=>setStatusData(e.value)} value={statusData}></DropDown>
               </div>
               <div className="mr-3">
                 <div className="">
@@ -240,7 +248,11 @@ const AddCatalogItem = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={allRefferalGroupData}
+              paginator
+              rows={5}
+              selected={false}
+              selectionMode={false}
+                data={allRefferalGroupData.filter((item)=>{return statusData===item.isActive})}
                 columns={ReferralGroupColumn}
               ></TableData>
             </div>
