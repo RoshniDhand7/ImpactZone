@@ -81,7 +81,15 @@ const constants = {
     deleteProfitCenter:"profit-center/delete/",
     getInventoryCategory:"inventory-category",
     updateInventoryCategory:"inventory-category/update/",
-    deleteInventoryCategory:"inventory-category/delete/"
+    deleteInventoryCategory:"inventory-category/delete/",
+    getAllVendor:"inventory-vendor",
+    updateVendor:"inventory-vendor/update/",
+    deleteVendor:"inventory-vendor/delete/",
+    getAllRefferalGroup:"inventory-referral",
+    updateRefferalGroup:"inventory-referral/update/",
+    deleteRefferalGroup:"inventory-referral/delete/",
+    allCatalogItems:"inventory-catalog-item",
+    allCommissionGroup:"inventory-commission",
   },
 
   calendarDefaultWeek: {

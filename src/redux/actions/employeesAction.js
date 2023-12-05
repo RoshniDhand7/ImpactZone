@@ -4,7 +4,9 @@ import { types } from "../types/types";
 import { showToast } from "./toastAction";
 
 const getEmployees = (setLoading) => async (dispatch) => {
-    setLoading(true);
+    if(setLoading){
+        setLoading(true);
+    }
     const res = await api("get", constants.endPoints.GetEmployeeTableData);
     if (res.success) {
         if (res.data) {
@@ -14,7 +16,9 @@ const getEmployees = (setLoading) => async (dispatch) => {
             });
         }
     }
-    setLoading(false);
+    if(setLoading){
+        setLoading(false);
+    }
 };
 
 export { getEmployees };
