@@ -114,14 +114,13 @@ const VendorContainer = () => {
           index: "",
         },
         {
-          field: "phone",
+          field: "contact",
           header: "Phone no.",
           id: "",
           index: "",
         },
-    
         {
-          field: "contact",
+          field: "phone",
           header: "Alternative no.",
           id: "",
           index: "",
