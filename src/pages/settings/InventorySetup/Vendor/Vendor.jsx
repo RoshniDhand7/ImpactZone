@@ -94,7 +94,7 @@ const {
                   <Input title="Phone no." type="number" name="contact" required={true} value={vendorForm.contact} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
                 <div className="col-4 ">
-                  <Input title="Alternative no." type="number" name="phone" required={true} value={vendorForm.phone} onChange={vendorHandleChange} state={vendorForm}></Input>
+                  <Input title="Alternative no." type="number" name="phone" value={vendorForm.phone} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
                 <div className="col-4 ">
                   <Input title="Email" name="email" required={true} value={vendorForm.email} onChange={vendorHandleChange} state={vendorForm}></Input>

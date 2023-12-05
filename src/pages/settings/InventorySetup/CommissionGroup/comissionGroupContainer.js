@@ -4,7 +4,10 @@ import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { getAllCatalogItems } from "../../../../redux/actions/CatalogItemsAction";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployees } from "../../../../redux/actions/employeesAction";
-import { getAllCommissionGroup } from "../../../../redux/actions/commissionGroupAction";
+import { UpdateCommissionGroup, addCommissionGroup, getAllCommissionGroup } from "../../../../redux/actions/commissionGroupAction";
+import { showAllFormErrors } from "../../../../utils/commonFunctions";
+import FormValidation from "../../../../utils/AllFormValidation";
+import { showToast } from "../../../../redux/actions/toastAction";
 
 const ComissionGroupContainer = () => {
   const dispatch = useDispatch();
@@ -34,6 +37,7 @@ const ComissionGroupContainer = () => {
 
   const [statusData, setStatusData] = useState("Products");
   const [activeStatusData, setActiveStatusData] = useState(true);
+  
 
   const [commissionGroupForm, setCommissionGroupForm] = useState({
     isActive: true,
@@ -42,6 +46,10 @@ const ComissionGroupContainer = () => {
     catalogItems: [],
     assignedEmployees: [],
   });
+
+  const [initialCommissionGroup,setInitialCommissionGroup] = useState({})
+    const [required, setRequired] = useState(["commissionGroup","type"])
+    const [editCommission,setEditCommission] = useState(null)
 
   console.log("commissionGroupForm", commissionGroupForm);
   console.log("allCommissionData", allCommissionData);
@@ -239,13 +247,78 @@ const ComissionGroupContainer = () => {
   };
 
   const CommissionHandleChange = ({ name, value }) => {
+    const formErrors = FormValidation(
+      name,
+      value,
+      commissionGroupForm,
+      required,
+      initialCommissionGroup
+    );
     setCommissionGroupForm((prev) => {
       return {
         ...prev,
         [name]: value,
+        formErrors
       };
     });
   };
+
+  const save = () => {
+    if (
+      showAllFormErrors(
+        commissionGroupForm,
+        setCommissionGroupForm,
+        required,
+        initialCommissionGroup
+      )
+    ) {
+    if(editCommission){
+      dispatch(UpdateCommissionGroup(commissionGroupForm)).then(
+        (data) => {
+          if (data.success) {
+            dispatch(getAllCommissionGroup())
+            setShowAddCommissionGroup(false);
+            setCommissionGroupForm({ ...initialCommissionGroup });
+          }
+        }
+      );
+    }
+    else{
+      dispatch(addCommissionGroup(commissionGroupForm)).then(
+        (data) => {
+          if (data.success) {
+            dispatch(getAllCommissionGroup())
+            setShowAddCommissionGroup(false);
+            setCommissionGroupForm({ ...initialCommissionGroup });
+          }
+        }
+      );
+    }
+  }
+  else {
+    dispatch(
+      showToast({
+        severity: "error",
+        summary: "Please Fill All Required Fields",
+      })
+    );
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+  }
+
+  const Back = () => {
+    setShowAddCommissionGroup((prev) => !prev);
+    if (editCommission) {
+      setEditCommission(null);
+      setCommissionGroupForm({ ...initialCommissionGroup });
+    }
+  };
+
+
 
   useEffect(() => {
     window.scrollTo({
@@ -253,12 +326,13 @@ const ComissionGroupContainer = () => {
       left: 0,
       behavior: "instant",
     });
-  }, [showAddCommissionGroup, showCatalogItem]);
+  }, [showAddCommissionGroup, showCatalogItem,showAssignItem]);
 
   useEffect(() => {
     dispatch(getAllCatalogItems());
     dispatch(getEmployees());
     dispatch(getAllCommissionGroup());
+    setInitialCommissionGroup(commissionGroupForm)
   }, []);
 
   return {
@@ -292,6 +366,8 @@ const ComissionGroupContainer = () => {
     activeStatusOptions,
     activeStatusData,
     setActiveStatusData,
+    save,
+    Back
   };
 };
 

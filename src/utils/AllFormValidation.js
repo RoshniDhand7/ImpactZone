@@ -36,7 +36,7 @@ const FormValidation = (name, value, data, required, initialData) => {
         } else if (zipcodes.lookupByName(data?.city,data?.state)[0]?.zip!=value) {
           formErrors[
             name
-          ] = `Please enter a valid ZipCode`;
+          ] = `Please enter a valid Zip Code`;
         } else {
           formErrors[name] = "";
         }

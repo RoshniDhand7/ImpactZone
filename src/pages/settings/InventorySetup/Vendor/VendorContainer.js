@@ -30,7 +30,7 @@ const VendorContainer = () => {
     })
 
     const [initialVendorForm,setInitialVendorForm] = useState({})
-    const [required, setRequired] = useState(["name","contact","phone","email","zipCode","state","city"])
+    const [required, setRequired] = useState(["name","contact","email","zipCode","state","city"])
     const [editVendor,setEditVendor] = useState(null)
     const [statusData,setStatusData] = useState(true)
     // const [usStates,setUsStates] = useState()
@@ -98,6 +98,14 @@ const VendorContainer = () => {
         )
       }
 
+      const alternateNumberTemplate = (col) => {
+        return (
+          <div>
+            {col?.phone?.length>0 ? col?.phone : "--"}
+          </div>
+        )
+      }
+
       const VendorColumn = [
         {
           field: "name",
@@ -107,16 +115,17 @@ const VendorContainer = () => {
         },
         {
           field: "phone",
-          header: "Phone",
+          header: "Phone no.",
           id: "",
           index: "",
         },
     
         {
           field: "contact",
-          header: "Contact",
+          header: "Alternative no.",
           id: "",
           index: "",
+          body:alternateNumberTemplate
         },
         {
           field: "Disconut",

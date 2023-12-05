@@ -66,6 +66,8 @@ const CommissionGroup = () => {
     activeStatusOptions,
     activeStatusData,
     setActiveStatusData,
+    save,
+    Back
   } = ComissionGroupContainer();
 
   const AddAssignEmployee = () => {
@@ -381,13 +383,14 @@ const CommissionGroup = () => {
           <div className=" m-2 mt-3 flex justify-content-end">
             <div className="mx-4">
               <Buttons
+              onClick={save}
                 label="Save"
                 className="btn-dark  mx-3  border-none"
               ></Buttons>
             </div>
             <div className="">
               <Buttons
-                onClick={() => setShowAddCommissionGroup(false)}
+                onClick={Back}
                 label="Cancel"
                 className="btn-grey border-none"
               ></Buttons>
