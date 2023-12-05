@@ -76,9 +76,25 @@ const ComissionGroupContainer = () => {
     );
   };
 
+  const catalogTemplate = (col) => {
+    return (
+        <div>
+             {col?.catalogItems?.length>0 ? col?.catalogItems?.length : 0}
+        </div>
+    )
+        }
+
+        const AssignTemplate = (col) => {
+          return (
+              <div>
+                   {col?.assignedEmployees?.length>0 ? col?.assignedEmployees?.length : 0}
+              </div>
+          )
+              }
+
   const CommissionGroupColumn = [
     {
-      field: "CommissionGroup",
+      field: "commissionGroup",
       header: "Commission Group",
       id: "",
       index: "",
@@ -88,6 +104,7 @@ const ComissionGroupContainer = () => {
       header: "Items in Group",
       id: "",
       index: "",
+      body:catalogTemplate
     },
 
     {
@@ -95,6 +112,7 @@ const ComissionGroupContainer = () => {
       header: "Employees Assign",
       id: "",
       index: "",
+      body:AssignTemplate
     },
     {
       field: "",
@@ -104,33 +122,33 @@ const ComissionGroupContainer = () => {
     },
   ];
 
-  const [CommissionGroupData, setCommissionGroupData] = useState([
-    {
-      CommissionGroup: "Shakes",
-      ItemsinGroup: "",
-      EmployeesAssign: "",
-    },
-    {
-      CommissionGroup: "Drinks",
-      ItemsinGroup: "-",
-      EmployeesAssign: "",
-    },
-    {
-      CommissionGroup: "Bars",
-      ItemsinGroup: "-",
-      EmployeesAssign: "",
-    },
-    {
-      CommissionGroup: "Supplements",
-      ItemsinGroup: "",
-      EmployeesAssign: "",
-    },
-    {
-      CommissionGroup: "Shakes",
-      ItemsinGroup: "",
-      EmployeesAssign: "",
-    },
-  ]);
+  // const [CommissionGroupData, setCommissionGroupData] = useState([
+  //   {
+  //     CommissionGroup: "Shakes",
+  //     ItemsinGroup: "",
+  //     EmployeesAssign: "",
+  //   },
+  //   {
+  //     CommissionGroup: "Drinks",
+  //     ItemsinGroup: "-",
+  //     EmployeesAssign: "",
+  //   },
+  //   {
+  //     CommissionGroup: "Bars",
+  //     ItemsinGroup: "-",
+  //     EmployeesAssign: "",
+  //   },
+  //   {
+  //     CommissionGroup: "Supplements",
+  //     ItemsinGroup: "",
+  //     EmployeesAssign: "",
+  //   },
+  //   {
+  //     CommissionGroup: "Shakes",
+  //     ItemsinGroup: "",
+  //     EmployeesAssign: "",
+  //   },
+  // ]);
 
   const UPCTemplate = (col) => {
     return <div>{col?.UPC ? col?.UPC : "--"}</div>;
@@ -250,7 +268,7 @@ const ComissionGroupContainer = () => {
     setStatusData,
     statusOptions,
     CommissionGroupColumn,
-    CommissionGroupData,
+    allCommissionData,
     commissionGroupForm,
     CommissionHandleChange,
     showCatalogItem,

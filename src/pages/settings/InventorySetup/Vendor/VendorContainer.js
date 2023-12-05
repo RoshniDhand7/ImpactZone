@@ -7,6 +7,8 @@ import { showToast } from '../../../../redux/actions/toastAction';
 import { showAllFormErrors } from '../../../../utils/commonFunctions';
 import FormValidation from '../../../../utils/AllFormValidation';
 import { confirmDialog } from "primereact/confirmdialog";
+import { Country, State, City } from 'country-state-city';
+// import us from 'us';
 
 const VendorContainer = () => {
     const dispatch = useDispatch()
@@ -28,9 +30,10 @@ const VendorContainer = () => {
     })
 
     const [initialVendorForm,setInitialVendorForm] = useState({})
-    const [required, setRequired] = useState(["name","contact","phone","email"])
+    const [required, setRequired] = useState(["name","contact","phone","email","zipCode","state","city"])
     const [editVendor,setEditVendor] = useState(null)
     const [statusData,setStatusData] = useState(true)
+    // const [usStates,setUsStates] = useState()
 
 
     const statusOptions = [
@@ -38,17 +41,12 @@ const VendorContainer = () => {
         {label:"InActive",value:false}
       ]
 
-    const usStates = [
-        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
-        'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
-        'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-        'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-        'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
-        'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
-        'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
-        'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia',
-        'Wisconsin', 'Wyoming'
-      ];
+// const usStates = []
+// console.log("state",State.getStatesOfCountry("US"))
+// console.log("city",City.getCitiesOfState("US","AK"))
+    // const usStates = Object.values(us.states).map((item)=>{return item.name})
+    // console.log("usStates",us)
+    console.log("form",vendorForm)
 
       const deleteConfirm = (id) => {
         confirmDialog({
@@ -265,7 +263,6 @@ useEffect(() => {
     setShowAddVendor,
     VendorColumn,
     AllVendorData,
-    usStates,
     vendorOptions,
     vendorForm,
     vendorHandleChange,
@@ -273,7 +270,9 @@ useEffect(() => {
     Back,
     statusOptions,
     statusData,
-    setStatusData
+    setStatusData,
+    State,
+    City,
   }
 }
 
