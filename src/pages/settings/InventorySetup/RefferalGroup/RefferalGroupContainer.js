@@ -75,8 +75,16 @@ const RefferalGroupContainer = () => {
       const catalogItemTemplate = (col) => {
         return(
             <div>
-                {col?.catalogItems?.length>0 ? col?.catalogItems?.map((item)=>{return <Tag style={{margin:"0px 2px"}} value={item.name}></Tag>}) : "--"}
+                {col?.catalogItems?.length>0 ? col?.catalogItems?.length : 0}
             </div>
+        )
+      }
+
+      const amountTemplate = (col) => {
+        return(
+          <div>
+            {col?.amount ? col?.isPayTypeDollar==true ? "$"+col?.amount : "%"+col?.amount : "--"}
+          </div>
         )
       }
 
@@ -92,10 +100,11 @@ const RefferalGroupContainer = () => {
           header: "Amount",
           id: "",
           index: "",
+          body:amountTemplate
         },
         {
           field: "No.ofCatalog Items",
-          header: "No. of CatalogItems",
+          header: "No. of Catalog Items",
           id: "",
           index: "",
           body:catalogItemTemplate

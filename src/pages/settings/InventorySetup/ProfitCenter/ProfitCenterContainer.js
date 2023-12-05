@@ -22,7 +22,7 @@ const allProfitCenterData = useSelector((state)=>state.profitCenter.allProfitCen
     const [initialProfitCenter,setInitialProfitCenter] = useState({})
     const [editProfitCenter,setEditProfitCenter] = useState(null)
     const [statusData,setStatusData] = useState(true)
-    const [required, setRequired] = useState(["name","glCode"])
+    const [required, setRequired] = useState(["name"])
     const [availableProfitState,setAvailableProfitState] = useState([])
     const [parentProfitState,setParentProfitState] = useState([])
 
@@ -103,7 +103,7 @@ const reject = () => { };
     const catalogTemplate = (col) => {
 return (
     <div>
-         {col?.catelogItems?.length>0 ? col?.catelogItems?.map((item)=>{return <Tag style={{margin:"0px 2px"}} value={item.name}></Tag>}) : "--"}
+         {col?.catelogItems?.length>0 ? col?.catelogItems?.length : 0}
     </div>
 )
     }
@@ -116,6 +116,13 @@ return (
         )
         
       }
+    const glCodeTemplate = (col) => {
+      return(
+        <div>
+          {col?.glCode?.length>0 ? col?.glCode : "--"}
+        </div>
+      )
+    }
   
     const ProfileTypesColumn = [
       {
@@ -143,6 +150,7 @@ return (
         header: "GL Code",
         id: "",
         index: "",
+        body:glCodeTemplate
       },
       {
         field: "isActive",

@@ -42,7 +42,7 @@ const CommissionGroup = () => {
     setStatusData,
     statusOptions,
     CommissionGroupColumn,
-    CommissionGroupData,
+    allCommissionData,
     commissionGroupForm,
     CommissionHandleChange,
     showCatalogItem,
@@ -448,7 +448,7 @@ const CommissionGroup = () => {
             </div>
             <div className="mt-2">
               <TableData
-                data={CommissionGroupData}
+                data={allCommissionData}
                 columns={CommissionGroupColumn}
               ></TableData>
             </div>

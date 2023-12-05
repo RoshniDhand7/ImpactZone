@@ -319,6 +319,23 @@ useEffect(() => {
   });
 }, [showAddCategory,showCatalogItem])
 
+useEffect(() => {
+  if(categoryForm.displayInPOS==true){
+    setRequired(["name","posButtonLabel"])
+  }
+  else{
+    setRequired(["name"])
+    let formErrors = {...categoryForm.formErrors}
+    delete formErrors.posButtonLabel
+    setCategoryForm((prev)=>{
+      return{
+        ...prev,
+        formErrors
+      }
+    })
+  }
+ 
+}, [categoryForm.displayInPOS])
 
 
 useEffect(() => {
