@@ -10,6 +10,7 @@ import DropDown from "../../../../components/dropdown/dropdown";
 import Buttons from "../../../../components/buttons/button";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import ComissionGroupContainer from "./comissionGroupContainer";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 const CommissionGroup = () => {
   //   const [activeIndex, setActiveIndex] = useState(0);
@@ -67,7 +68,8 @@ const CommissionGroup = () => {
     activeStatusData,
     setActiveStatusData,
     save,
-    Back
+    Back,
+    filterFunction
   } = ComissionGroupContainer();
 
   const AddAssignEmployee = () => {
@@ -414,6 +416,7 @@ const CommissionGroup = () => {
       ) : (
         <>
           <div>
+          <ConfirmDialog />
             <div className="bg-lightest-blue border-round-lg py-2 px-3 flex justify-content-between align-items-center ">
               <div className="col-4 flex">
                 <div className="w-6">
@@ -451,6 +454,10 @@ const CommissionGroup = () => {
             </div>
             <div className="mt-2">
               <TableData
+              paginator
+              rows={5}
+              selected={false}
+              selectionMode={false}
                 data={allCommissionData}
                 columns={CommissionGroupColumn}
               ></TableData>

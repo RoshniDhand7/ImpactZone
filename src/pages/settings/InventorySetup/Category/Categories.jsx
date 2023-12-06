@@ -294,6 +294,10 @@ const choiceType = useSelector((state)=>state.staticData.choiceType)
             </div>
             <div className="mt-2">
               <TableData
+              paginator
+              rows={5}
+              selected={false}
+              selectionMode={false}
                 data={CategoryData.filter((item)=>{return statusData===item.isActive})}
                 columns={CategoryColumn}
               ></TableData>

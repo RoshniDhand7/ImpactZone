@@ -2,11 +2,12 @@ import axios from "axios";
 import constants from "../utils/constants";
 import { isAuthenticated } from "./authService";
 
-const api = (method, urlEndPoint, data = {}, query) =>
+const api = (method, urlEndPoint, data = {},params={}, query) =>
   new Promise((myResolve) => {
     let headers = {
       "Content-Type": "application/json",
     };
+    console.log("paramsapi",params)
     if (isAuthenticated()) {
       headers = {
         ...headers,
@@ -17,6 +18,7 @@ const api = (method, urlEndPoint, data = {}, query) =>
       method,
       url: constants.base_url + urlEndPoint,
       data,
+      params,
       headers,
     })
       .then((response) => {

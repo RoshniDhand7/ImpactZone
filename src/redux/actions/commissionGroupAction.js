@@ -4,9 +4,10 @@ import { types } from "../types/types";
 import { hideLoaderAction, showLoaderAction } from "./loaderAction";
 import { showToast } from "./toastAction";
 
-const getAllCommissionGroup = () => async (dispatch) => {
+const getAllCommissionGroup = (params) => async (dispatch) => {
+    console.log("paramsinaction",params)
     dispatch(showLoaderAction())
-    const res = await api("get", constants.endPoints.allCommissionGroup);
+    const res = await api("get", constants.endPoints.allCommissionGroup,{},params);
     if (res.success) {
         if (res.data) {
             dispatch({
