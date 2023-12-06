@@ -90,6 +90,8 @@ const constants = {
     deleteRefferalGroup:"inventory-referral/delete/",
     allCatalogItems:"inventory-catalog-item",
     allCommissionGroup:"inventory-commission",
+    updateCommissionGroup:"inventory-commission/update/",
+    deleteCommissionGroup:"inventory-commission/delete/",
   },
 
   calendarDefaultWeek: {

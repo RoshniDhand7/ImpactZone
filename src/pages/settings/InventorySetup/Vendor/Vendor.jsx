@@ -64,7 +64,6 @@ const {
                 <div className="col-4 ">
                   <DropDown
                     title="State"
-                    required={true}
                     name="state"
                     placeholder="Select one"
                     options={State.getStatesOfCountry("US").map((item)=>{return{label:item.name,value:item.isoCode}})}
@@ -76,7 +75,6 @@ const {
                 <div className="col-4 ">
                   <DropDown
                     title="City"
-                    required={true}
                     name="city"
                     placeholder="Select one"
                     options={City.getCitiesOfState("US",vendorForm.state).map((item)=>{return item.name})}
@@ -86,18 +84,18 @@ const {
                   ></DropDown>
                 </div>
                 <div className="col-4 ">
-                  <Input title="Zip code" type="number" name="zipCode" required={true} value={vendorForm.zipCode} onChange={vendorHandleChange} state={vendorForm}></Input>
+                  <Input title="Zip code" type="number" disabled={vendorForm?.city?.length>0 ? false : true} name="zipCode" value={vendorForm.zipCode} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
               </div>
               <div className="flex p-2">
                 <div className="col-4 ">
-                  <Input title="Phone no." type="number" name="contact" required={true} value={vendorForm.contact} onChange={vendorHandleChange} state={vendorForm}></Input>
+                  <Input title="Phone no." type="number" name="contact" value={vendorForm.contact} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
                 <div className="col-4 ">
-                  <Input title="Alternative no." type="number" name="phone" required={true} value={vendorForm.phone} onChange={vendorHandleChange} state={vendorForm}></Input>
+                  <Input title="Alternative no." type="number" name="phone" value={vendorForm.phone} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
                 <div className="col-4 ">
-                  <Input title="Email" name="email" required={true} value={vendorForm.email} onChange={vendorHandleChange} state={vendorForm}></Input>
+                  <Input title="Email" name="email"  value={vendorForm.email} onChange={vendorHandleChange} state={vendorForm}></Input>
                 </div>
               </div>
               <div className="flex p-2">

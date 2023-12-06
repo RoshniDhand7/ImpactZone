@@ -30,7 +30,7 @@ const VendorContainer = () => {
     })
 
     const [initialVendorForm,setInitialVendorForm] = useState({})
-    const [required, setRequired] = useState(["name","contact","phone","email","zipCode","state","city"])
+    const [required, setRequired] = useState(["name"])
     const [editVendor,setEditVendor] = useState(null)
     const [statusData,setStatusData] = useState(true)
     // const [usStates,setUsStates] = useState()
@@ -98,6 +98,22 @@ const VendorContainer = () => {
         )
       }
 
+      const alternateNumberTemplate = (col) => {
+        return (
+          <div>
+            {col?.phone?.length>0 ? col?.phone : "--"}
+          </div>
+        )
+      }
+
+      const contactTemplate = (col) => {
+        return (
+          <div>
+            {col?.contact?.length>0 ? col?.contact : "--"}
+          </div>
+        )
+      }
+
       const VendorColumn = [
         {
           field: "name",
@@ -106,17 +122,18 @@ const VendorContainer = () => {
           index: "",
         },
         {
-          field: "phone",
-          header: "Phone",
-          id: "",
-          index: "",
-        },
-    
-        {
           field: "contact",
-          header: "Contact",
+          header: "Phone no.",
           id: "",
           index: "",
+          body:contactTemplate
+        },
+        {
+          field: "phone",
+          header: "Alternative no.",
+          id: "",
+          index: "",
+          body:alternateNumberTemplate
         },
         {
           field: "Disconut",
@@ -241,6 +258,29 @@ useEffect(() => {
     let active = AllVendorData.filter((item)=>{return item.isActive==true})
     setVendorOptions(active)
 }, [AllVendorData])
+
+useEffect(() => {
+  console.log("vendorForm?.state?.length",vendorForm?.state?.length)
+  if(vendorForm?.state?.length > 0){
+    setRequired(["name","zipCode","city"])
+  }
+  else{
+    setRequired(["name"])
+    let formErrors = {...vendorForm.formErrors}
+    delete formErrors.city
+    delete formErrors.zipCode
+    setVendorForm((prev)=>{
+      return{
+        ...prev,
+        formErrors
+      }
+    })
+  }
+  
+}, [vendorForm?.state])
+
+console.log("required",required)
+
 
 useEffect(() => {
     window.scrollTo({
