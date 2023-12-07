@@ -198,9 +198,9 @@ const CatalogItem = () => {
                   </div>
                   <div className="flex justify-content-end px-3">
                     <div className="mx-3">
-                      <Buttons label="Apply" className={"btn-dark"}></Buttons>
+                      <Buttons label="Apply" className="btn-dark"></Buttons>
                     </div>
-                    <Buttons label="Clear" className={"btn-grey"}></Buttons>
+                    <Buttons label="Clear" className="btn-grey"></Buttons>
                   </div>
                 </Overlay>
               </div>
