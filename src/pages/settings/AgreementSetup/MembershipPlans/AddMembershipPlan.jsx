@@ -122,7 +122,7 @@ const AddMembershipPlan = ({
       <>
         <div className="px-4">
           <div className=" flex align-items-center justify-content-between my-3">
-            <span className="text-xl font-bold text-900">Add Payment Plan</span>
+            <span className="text-xl font-bold text-900">Add Membership Plan</span>
           </div>
           <div className="my-3">
             <CardWithTitle title="General">
@@ -334,8 +334,8 @@ const AddMembershipPlan = ({
           <div className="my-3">
             <CardWithTitle title="Contract Options">
               <div className="p-3">
-                <div className="flex  ">
-                  <div className="col">
+                <div className="flex  flex-wrap">
+                  <div className="col-4">
                     <DropDown
                       title="Autopay"
                       placeholder="Select"
@@ -351,7 +351,7 @@ const AddMembershipPlan = ({
                       state={membershipForm}
                     ></DropDown>
                   </div>
-                  <div className="col">
+                  <div className="col-4">
                     <DropDown
                       title="How often will clients be charged?"
                       placeholder="Select"
@@ -369,7 +369,7 @@ const AddMembershipPlan = ({
                   </div>
                   {membershipForm.clientsChargeCycle ===
                   "Set Number of Autopays" ? (
-                    <div className="col">
+                    <div className="col-4">
                       <Input
                         title="Numbers of autopays"
                         placeholder="6"
@@ -384,12 +384,13 @@ const AddMembershipPlan = ({
                         state={membershipForm}
                       ></Input>
                     </div>
-                  ) : (
-                    <div className="col">
+                  ) :  (
+                    <div className="col-4">
                       <Input
                         title="Time Period (Month)"
                         placeholder="Enter"
                         name="timePeriod"
+                        disabled={membershipForm.clientsChargeCycle === "Month-to-Month" ? false : true}
                         value={membershipForm.timePeriod}
                         onChange={(e) =>
                           handleChangeMember({
@@ -400,7 +401,7 @@ const AddMembershipPlan = ({
                         state={membershipForm}
                       ></Input>
                     </div>
-                  )}
+                  ) }
                 </div>
                 <div className="flex flex-wrap mt-2">
                   <div className="col-4">

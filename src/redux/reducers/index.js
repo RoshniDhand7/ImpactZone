@@ -18,6 +18,12 @@ import agreementCategoryReducer from "./agreementReducers";
 import accessSchedulesReducer from "./accessSchedulesReducer";
 import agreementPromotionsReducer from "./agreementPromotionsReducer";
 import membershipPlansReducer from "./membershipPlansReducer";
+import ProfitCenterReducer from "./profitCenterReducer";
+import InventoryCategoryReducer from "./inventoryCategoryReducer";
+import VendorReducer from "./VendorReducer";
+import RefferalGroupReducer from "./RefferalGroupReducer";
+import CatalogItemsReducer from "./CatalogItemsReducer";
+import CommissionGroupReducer from "./commissionGroupReducer";
 
 export default combineReducers({
   loader: loaderReducer,
@@ -38,5 +44,11 @@ export default combineReducers({
   AgreementCategory: agreementCategoryReducer,
   accessSchedules: accessSchedulesReducer,
   agreementPromotions: agreementPromotionsReducer,
-  membershipPlans: membershipPlansReducer
+  membershipPlans: membershipPlansReducer,
+  profitCenter: ProfitCenterReducer,
+  InventoryCategory: InventoryCategoryReducer,
+  VendorReducer: VendorReducer,
+  RefferalGroupReducer: RefferalGroupReducer,
+  CatalogItemsReducer: CatalogItemsReducer,
+  CommissionGroupReducer:CommissionGroupReducer,
 });

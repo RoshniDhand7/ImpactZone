@@ -70,7 +70,7 @@ const ManagePaymentPlans = () => {
             <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
-                Manage Payment Plans
+                Manage Membership Plans
               </span>
               <div className=" px-2 ">
                 <Buttons
@@ -82,7 +82,7 @@ const ManagePaymentPlans = () => {
               </div>
             </div>
             <div className=" flex statusbar-shadow justify-content-between bg-lightest-blue border-round-lg px-2">
-              <div className="col-7 flex flex-column">
+              <div className="col-9 flex flex-column">
                 <div className="flex">
                   <div className="md:col">
                     <DropDown title="Status"></DropDown>
@@ -120,6 +120,10 @@ const ManagePaymentPlans = () => {
             </div>
             <div className="mt-2">
               <TableData
+               paginator
+               rows={5}
+               selected={false}
+               selectionMode={false}
                 columns={ManagePaymentPlansColumn}
                 data={AllMembershipPlan}
               />

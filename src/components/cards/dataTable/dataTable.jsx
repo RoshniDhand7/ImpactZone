@@ -75,6 +75,7 @@ const TableData = ({
         field={col.field}
         sortable={col.sorting ? true : false}
         header={col.header}
+        hidden={col.hidden ? col.hidden : false}
         body={col.body ? eval(col.body) : null}
         style={{ paddingLeft: " 50px", paddingRight: "50px" }}
       />
@@ -82,7 +83,7 @@ const TableData = ({
   });
   return (
     <div>
-      <div className="card shadow-4">
+      <div className="card shadow-4 border-round-xl">
         <DataTable
           value={data}
           paginator={paginator ? true : false}

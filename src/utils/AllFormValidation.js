@@ -1,11 +1,13 @@
 import React from "react";
 import { FirstletterUpperCase, equal, length } from "./javascript";
 import { emailValidation, passwordValidation } from "./regex";
+import zipcodes from 'zipcodes';
 
 const FormValidation = (name, value, data, required, initialData) => {
   let formErrors = { ...data.formErrors };
   switch (name) {
     case "email":
+      if (name != "formErrors" && required.includes(name)) {
       if (equal(length(value))) {
         formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
       } else if (!emailValidation(value)) {
@@ -15,8 +17,12 @@ const FormValidation = (name, value, data, required, initialData) => {
       }
 
       break;
+    } else {
+      break;
+    }
 
     case "password":
+      if (name != "formErrors" && required.includes(name)) {
       if (equal(length(value))) {
         formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
       } else if (!passwordValidation(value)) {
@@ -27,6 +33,26 @@ const FormValidation = (name, value, data, required, initialData) => {
         formErrors[name] = "";
       }
       break;
+    } else {
+      break;
+    }
+
+      case "zipCode":
+        // console.log("lookup",zipcodes.lookupByName(data?.city,data?.state)[0]?.zip==value,zipcodes?.lookupByName(data?.city,data?.state)[0]?.zip,value)
+        if (name != "formErrors" && required.includes(name)) {
+        if (equal(length(value))) {
+          formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
+        } else if (zipcodes.lookupByName(data?.city,data?.state)[0]?.zip!=value) {
+          formErrors[
+            name
+          ] = `Please enter a valid Zip Code`;
+        } else {
+          formErrors[name] = "";
+        }
+        break;
+      } else {
+        break;
+      }
 
     case name:
       if (name != "formErrors" && required.includes(name)) {

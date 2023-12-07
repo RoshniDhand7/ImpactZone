@@ -4,10 +4,10 @@ import { TabView, TabPanel } from "primereact/tabview";
 import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
 import checkInData from "../../../utils/checkInData";
 import CatalogItem from "./CatalogItem/AddCatalog";
-import ProfileTypes from "./ProfileCenter";
-import Vendors from "./Vendor";
-import ReferralGroup from "./RefferalGroup";
-import Category from "./Categories";
+import ProfileTypes from "./ProfitCenter/ProfileCenter";
+import Vendors from "./Vendor/Vendor";
+import ReferralGroup from "./RefferalGroup/RefferalGroup";
+import Category from "./Category/Categories";
 import CommissionGroup from "./CommissionGroup";
 
 const InventorySetup = () => {
