@@ -243,7 +243,7 @@ const save = () => {
         contact: editVendor?.contact,
         phone: editVendor?.phone,
         email: editVendor?.email,
-        alternateVendors: editVendor?.alternateVendors._id,
+        alternateVendors: editVendor?.alternateVendors?._id,
         isActive: editVendor?.isActive,
       };
       
