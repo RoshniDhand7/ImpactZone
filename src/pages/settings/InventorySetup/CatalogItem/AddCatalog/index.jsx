@@ -9,6 +9,7 @@ import Type from "../Type/Type";
 import AddCatelogGeneral from "./AddCategoryGeneral";
 import Tracking from "./Tracking";
 import Usage from "./Usage";
+import Variations from "./Variations";
 
 const CatalogItem = () => {
   const [showtab, setShowtab] = useState();
@@ -34,7 +35,9 @@ const CatalogItem = () => {
             <TabPanel header="Usage">
               <Usage openaddcatalogtab={openaddcatalogtab} />
             </TabPanel>
-            <TabPanel header="Variations"></TabPanel>
+            <TabPanel header="Variations">
+              <Variations />
+            </TabPanel>
           </TabView>
         </div>
       </>

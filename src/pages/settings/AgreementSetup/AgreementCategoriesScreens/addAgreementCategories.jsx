@@ -18,7 +18,7 @@ const AddAgreementCategories = ({
 }) => {
   return (
     <>
-      <div>
+      <div className="px-4">
         <div className="my-4">
           <Checkbox
             title="Active"
