@@ -37,7 +37,7 @@ const AgreementCategories = () => {
         />
       ) : (
         <>
-          <div>
+          <div className="px-4">
             <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
@@ -73,9 +73,6 @@ const AgreementCategories = () => {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <RecentCheckIn data={checkInData} />
-      </div>
     </>
   );
 };

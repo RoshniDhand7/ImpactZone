@@ -35,7 +35,7 @@ const ManagePaymentPlans = () => {
     selectedRow,
     setSelectedRow,
     removeAll,
-    submit
+    submit,
   } = MembershipContainer();
 
   return (
@@ -52,22 +52,22 @@ const ManagePaymentPlans = () => {
           allAssessedFee={allAssessedFee}
           MemberPickerHandleChange={MemberPickerHandleChange}
           showAddMemberShipService={showAddMemberShipService}
-    setShowAddMemberShipService={setShowAddMemberShipService}
-    globalFilterValue={globalFilterValue}
-    setGlobalFilterValue={setGlobalFilterValue}
-    filters={filters}
-    onGlobalFilterChange={onGlobalFilterChange}
-    memberShipAddColumn={memberShipAddColumn}
-    memberShipAddData={memberShipAddData}
-    selectedRow={selectedRow}
-    setSelectedRow={setSelectedRow}
-    removeAll={removeAll}
-    submit={submit}
+          setShowAddMemberShipService={setShowAddMemberShipService}
+          globalFilterValue={globalFilterValue}
+          setGlobalFilterValue={setGlobalFilterValue}
+          filters={filters}
+          onGlobalFilterChange={onGlobalFilterChange}
+          memberShipAddColumn={memberShipAddColumn}
+          memberShipAddData={memberShipAddData}
+          selectedRow={selectedRow}
+          setSelectedRow={setSelectedRow}
+          removeAll={removeAll}
+          submit={submit}
         />
       ) : (
         <>
-          <div>
-          <ConfirmDialog />
+          <div className="px-4">
+            <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Membership Plans
@@ -131,9 +131,6 @@ const ManagePaymentPlans = () => {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <RecentCheckIn data={checkInData} />
-      </div>
     </>
   );
 };

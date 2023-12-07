@@ -6,7 +6,7 @@ import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckI
 import checkInData from "../../../../utils/checkInData";
 import AddAssessedFee from "../ManageAssessed/addAssessedFee";
 import AssessedContainer from "./assessedContainer";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { ConfirmDialog } from "primereact/confirmdialog";
 
 const ManageaAssessedFees = () => {
   const {
@@ -19,21 +19,25 @@ const ManageaAssessedFees = () => {
     clubs,
     AssessedPickerHandleChange,
     membershipPlan,
-    save
-  } = AssessedContainer()
-
-
-
- 
+    save,
+  } = AssessedContainer();
 
   return (
     <>
       {addAssessedFees ? (
-        <AddAssessedFee onClickAddFees={onClickAddFees} assesedInfo={assesedInfo} handleChangeAssessed={handleChangeAssessed} clubs={clubs} AssessedPickerHandleChange={AssessedPickerHandleChange} membershipPlan={membershipPlan} save={save}/>
+        <AddAssessedFee
+          onClickAddFees={onClickAddFees}
+          assesedInfo={assesedInfo}
+          handleChangeAssessed={handleChangeAssessed}
+          clubs={clubs}
+          AssessedPickerHandleChange={AssessedPickerHandleChange}
+          membershipPlan={membershipPlan}
+          save={save}
+        />
       ) : (
         <>
-          <div>
-          <ConfirmDialog />
+          <div className="px-4">
+            <ConfirmDialog />
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Assessed Fees
@@ -73,10 +77,10 @@ const ManageaAssessedFees = () => {
             </div>
             <div className="mt-2">
               <TableData
-              paginator
-              rows={5}
-              selected={false}
-              selectionMode={false}
+                paginator
+                rows={5}
+                selected={false}
+                selectionMode={false}
                 columns={assessedColumn}
                 data={allAssessedData}
               />
@@ -84,9 +88,6 @@ const ManageaAssessedFees = () => {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <RecentCheckIn data={checkInData} />
-      </div>
     </>
   );
 };

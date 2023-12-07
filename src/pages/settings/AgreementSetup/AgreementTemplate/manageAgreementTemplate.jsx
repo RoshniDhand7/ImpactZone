@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import TableData from "../../../../components/cards/dataTable/dataTable";
-import RecentCheckIn from "../../../../components/cards/Profilecard/recentCheckIn";
-import checkInData from "../../../../utils/checkInData";
-import AddAssessedFee from "../ManageAssessed/addAssessedFee";
 import AddAgreementTemplate from "./addAgreementTemplate";
 
 const ManageAgreementTemplate = () => {
@@ -14,7 +11,6 @@ const ManageAgreementTemplate = () => {
     setAgreementTemplate((prev) => !prev);
   };
   const actionTemplate = (col) => {
-    // console.log(col._id, "collllll");
     return (
       <>
         <div className="flex justify-content-end">
@@ -100,7 +96,7 @@ const ManageAgreementTemplate = () => {
         <AddAgreementTemplate />
       ) : (
         <>
-          <div>
+          <div className="px-4">
             <div className=" flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Agreement Templates
@@ -155,9 +151,6 @@ const ManageAgreementTemplate = () => {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <RecentCheckIn data={checkInData} />
-      </div>
     </>
   );
 };

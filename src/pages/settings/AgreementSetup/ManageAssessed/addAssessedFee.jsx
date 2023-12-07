@@ -15,7 +15,7 @@ const AddAssessedFee = ({
   clubs,
   AssessedPickerHandleChange,
   membershipPlan,
-  save
+  save,
 }) => {
   const typeOption = useSelector((state) => state.staticData.assessedTypes);
   const choiceType = useSelector((state) => state.staticData.choiceType);
@@ -38,7 +38,7 @@ const AddAssessedFee = ({
   };
   return (
     <>
-      <div>
+      <div className="px-4">
         <div className=" flex align-items-center justify-content-between my-4">
           <span className="text-xl font-bold text-900">Add Assessed Fees</span>
         </div>
@@ -96,23 +96,19 @@ const AddAssessedFee = ({
                     state={assesedInfo}
                   ></Input>
                 </div>
-                {
-                  assesedInfo.type === "Annual Fee" ||
-                  assesedInfo.type === "Freeze Fee" ?
-<div className="col-4">
-                  <DropDown
-                    title="Recurring"
-                    options={choiceType}
-                    name="recurring"
-                    value={assesedInfo.recurring}
-                    onChange={handleChangeAssessed}
-                    state={assesedInfo}
-                  ></DropDown>
-                </div>
-                :
-                null
-                }
-                
+                {assesedInfo.type === "Annual Fee" ||
+                assesedInfo.type === "Freeze Fee" ? (
+                  <div className="col-4">
+                    <DropDown
+                      title="Recurring"
+                      options={choiceType}
+                      name="recurring"
+                      value={assesedInfo.recurring}
+                      onChange={handleChangeAssessed}
+                      state={assesedInfo}
+                    ></DropDown>
+                  </div>
+                ) : null}
               </div>
             </div>
           </CardWithTitle>
@@ -204,11 +200,11 @@ const AddAssessedFee = ({
             </div>
           </CardWithTitle>
           <div
-              className="text-danger"
-              style={{ color: "red", marginTop: "0.8rem" }}
-            >
-              {assesedInfo?.formErrors?.clubs}
-            </div>
+            className="text-danger"
+            style={{ color: "red", marginTop: "0.8rem" }}
+          >
+            {assesedInfo?.formErrors?.clubs}
+          </div>
         </div>
         {assesedInfo.type === "Annual Fee" ? (
           <div className="mt-3">
@@ -243,7 +239,11 @@ const AddAssessedFee = ({
           <div className="flex justify-content-end ">
             <div className="flex  p-2">
               <div className="mx-4">
-                <Buttons label="Save" className="btn-dark mx-3 border-none " onClick={save}/>
+                <Buttons
+                  label="Save"
+                  className="btn-dark mx-3 border-none "
+                  onClick={save}
+                />
               </div>
               <div className="">
                 <Buttons

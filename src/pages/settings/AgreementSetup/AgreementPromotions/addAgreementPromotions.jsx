@@ -3,7 +3,6 @@ import Checkbox from "../../../../components/checkbox/checkbox";
 import CardWithTitle from "../../../../components/cards/cardWithTitle/cardWithTitle";
 import Input from "../../../../components/input/input";
 import DropDown from "../../../../components/dropdown/dropdown";
-import percentagebox from "../../../../assets/icons/box.png";
 import Buttons from "../../../../components/buttons/button";
 
 const AddAgreementPromotions = ({
@@ -16,7 +15,7 @@ const AddAgreementPromotions = ({
 }) => {
   return (
     <>
-      <div>
+      <div className="px-4">
         <div className="my-4">
           <Checkbox
             title="Active"
