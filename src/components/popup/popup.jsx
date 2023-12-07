@@ -1,12 +1,13 @@
 import React from "react";
 import { Dialog } from "primereact/dialog";
-const PopUp = ({ setIsActive, isActive, title, data }) => {
+
+const PopUp = ({ setIsActive, isActive, title, data, className }) => {
   return (
     <>
       <Dialog
         header={title}
         visible={isActive}
-        style={{ width: "60vw", borderRadius: "22px" }}
+        className={className}
         onHide={() => setIsActive(false)}
       >
         {data}

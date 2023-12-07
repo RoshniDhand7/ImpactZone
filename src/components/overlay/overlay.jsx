@@ -18,7 +18,7 @@ const Overlay = ({ label, children, style }) => {
           <i className="pi pi-angle-down text-xl text-900"></i>
         </div>
       </div>
-      <OverlayPanel property="down" ref={op} showCloseIcon style={style}>
+      <OverlayPanel property="down" ref={op} style={style}>
         {children}
       </OverlayPanel>
     </>
