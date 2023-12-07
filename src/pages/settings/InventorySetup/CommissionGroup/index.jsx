@@ -69,7 +69,8 @@ const CommissionGroup = () => {
     setActiveStatusData,
     save,
     Back,
-    filterFunction
+    filterFunction,
+    AddstatusOptions
   } = ComissionGroupContainer();
 
   const AddAssignEmployee = () => {
@@ -212,7 +213,7 @@ const CommissionGroup = () => {
               <div className="flex p-2">
                 <div className="col-4 ">
                   <Input
-                    title="Commission Group"
+                    title="Commission Group Name"
                     name="commissionGroup"
                     required={true}
                     value={commissionGroupForm.commissionGroup}
@@ -223,9 +224,9 @@ const CommissionGroup = () => {
                 <div className="col-4 ">
                   {/* <Input title="Type of Commission Group" name="Type of Commission Group"></Input> */}
                   <DropDown
-                    title="Type of Commission Group"
+                    title="Commission Group Type"
                     placeholder={"Type"}
-                    options={statusOptions}
+                    options={AddstatusOptions}
                     name="type"
                     required={true}
                     value={commissionGroupForm.type}
@@ -421,7 +422,7 @@ const CommissionGroup = () => {
               <div className="col-4 flex">
                 <div className="w-6">
                   <DropDown
-                    title="Commission Type"
+                    title="Commission Group Type"
                     placeholder={"Product"}
                     options={statusOptions}
                     onChange={(e) => setStatusData(e.value)}
@@ -430,7 +431,7 @@ const CommissionGroup = () => {
                 </div>
                 <div className="ml-4 w-6">
                   <DropDown
-                    title="Type"
+                    title="Status"
                     placeholder={"Type"}
                     options={activeStatusOptions}
                     onChange={(e) => setActiveStatusData(e.value)}

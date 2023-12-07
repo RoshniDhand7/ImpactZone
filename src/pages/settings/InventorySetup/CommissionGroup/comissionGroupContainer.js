@@ -4,7 +4,12 @@ import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { getAllCatalogItems } from "../../../../redux/actions/CatalogItemsAction";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmployees } from "../../../../redux/actions/employeesAction";
-import { DeleteCommissionGroup, UpdateCommissionGroup, addCommissionGroup, getAllCommissionGroup } from "../../../../redux/actions/commissionGroupAction";
+import {
+  DeleteCommissionGroup,
+  UpdateCommissionGroup,
+  addCommissionGroup,
+  getAllCommissionGroup,
+} from "../../../../redux/actions/commissionGroupAction";
 import { showAllFormErrors } from "../../../../utils/commonFunctions";
 import FormValidation from "../../../../utils/AllFormValidation";
 import { showToast } from "../../../../redux/actions/toastAction";
@@ -38,7 +43,6 @@ const ComissionGroupContainer = () => {
 
   const [statusData, setStatusData] = useState("All");
   const [activeStatusData, setActiveStatusData] = useState(true);
-  
 
   const [commissionGroupForm, setCommissionGroupForm] = useState({
     isActive: true,
@@ -48,9 +52,9 @@ const ComissionGroupContainer = () => {
     assignedEmployees: [],
   });
 
-  const [initialCommissionGroup,setInitialCommissionGroup] = useState({})
-    const [required, setRequired] = useState(["commissionGroup","type"])
-    const [editCommission,setEditCommission] = useState(null)
+  const [initialCommissionGroup, setInitialCommissionGroup] = useState({});
+  const [required, setRequired] = useState(["commissionGroup", "type"]);
+  const [editCommission, setEditCommission] = useState(null);
 
   console.log("commissionGroupForm", commissionGroupForm);
   console.log("allCommissionData", allCommissionData);
@@ -61,6 +65,12 @@ const ComissionGroupContainer = () => {
 
   const statusOptions = [
     { label: "All", value: "All" },
+    { label: "Products", value: "Products" },
+    { label: "Services", value: "Services" },
+    { label: "Agreement", value: "Agreement" },
+  ];
+
+  const AddstatusOptions = [
     { label: "Products", value: "Products" },
     { label: "Services", value: "Services" },
     { label: "Agreement", value: "Agreement" },
@@ -85,12 +95,23 @@ const ComissionGroupContainer = () => {
   const acceptFunc = (id) => {
     dispatch(DeleteCommissionGroup(id)).then((data) => {
       if (data.success) {
-        dispatch(getAllCommissionGroup());
+        let params;
+        if (statusData !== "All") {
+          params = {
+            type: statusData,
+            isActive: activeStatusData,
+          };
+        } else {
+          params = {
+            isActive: activeStatusData,
+          };
+        }
+        dispatch(getAllCommissionGroup(params));
       }
     });
   };
-  
-  const reject = () => { };
+
+  const reject = () => {};
 
   const actionTemplate = (col) => {
     return (
@@ -109,24 +130,24 @@ const ComissionGroupContainer = () => {
 
   const catalogTemplate = (col) => {
     return (
-        <div>
-             {col?.catalogItems?.length>0 ? col?.catalogItems?.length : 0}
-        </div>
-    )
-        }
+      <div>{col?.catalogItems?.length > 0 ? col?.catalogItems?.length : 0}</div>
+    );
+  };
 
-        const AssignTemplate = (col) => {
-          return (
-              <div>
-                   {col?.assignedEmployees?.length>0 ? col?.assignedEmployees?.length : 0}
-              </div>
-          )
-              }
+  const AssignTemplate = (col) => {
+    return (
+      <div>
+        {col?.assignedEmployees?.length > 0
+          ? col?.assignedEmployees?.length
+          : 0}
+      </div>
+    );
+  };
 
   const CommissionGroupColumn = [
     {
       field: "commissionGroup",
-      header: "Commission Group",
+      header: "Commission Group Name",
       id: "",
       index: "",
     },
@@ -135,7 +156,7 @@ const ComissionGroupContainer = () => {
       header: "Items in Group",
       id: "",
       index: "",
-      body:catalogTemplate
+      body: catalogTemplate,
     },
 
     {
@@ -143,7 +164,7 @@ const ComissionGroupContainer = () => {
       header: "Employees Assign",
       id: "",
       index: "",
-      body:AssignTemplate
+      body: AssignTemplate,
     },
     {
       field: "",
@@ -281,7 +302,7 @@ const ComissionGroupContainer = () => {
       return {
         ...prev,
         [name]: value,
-        formErrors
+        formErrors,
       };
     });
   };
@@ -295,43 +316,59 @@ const ComissionGroupContainer = () => {
         initialCommissionGroup
       )
     ) {
-    if(editCommission){
-      dispatch(UpdateCommissionGroup(commissionGroupForm)).then(
-        (data) => {
+      if (editCommission) {
+        dispatch(UpdateCommissionGroup(commissionGroupForm)).then((data) => {
           if (data.success) {
-            dispatch(getAllCommissionGroup())
+            let params;
+            if (statusData !== "All") {
+              params = {
+                type: statusData,
+                isActive: activeStatusData,
+              };
+            } else {
+              params = {
+                isActive: activeStatusData,
+              };
+            }
+            dispatch(getAllCommissionGroup(params));
             setShowAddCommissionGroup(false);
             setCommissionGroupForm({ ...initialCommissionGroup });
           }
-        }
-      );
-    }
-    else{
-      dispatch(addCommissionGroup(commissionGroupForm)).then(
-        (data) => {
+        });
+      } else {
+        dispatch(addCommissionGroup(commissionGroupForm)).then((data) => {
           if (data.success) {
-            dispatch(getAllCommissionGroup())
+            let params;
+            if (statusData !== "All") {
+              params = {
+                type: statusData,
+                isActive: activeStatusData,
+              };
+            } else {
+              params = {
+                isActive: activeStatusData,
+              };
+            }
+            dispatch(getAllCommissionGroup(params));
             setShowAddCommissionGroup(false);
             setCommissionGroupForm({ ...initialCommissionGroup });
           }
-        }
+        });
+      }
+    } else {
+      dispatch(
+        showToast({
+          severity: "error",
+          summary: "Please Fill All Required Fields",
+        })
       );
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
     }
-  }
-  else {
-    dispatch(
-      showToast({
-        severity: "error",
-        summary: "Please Fill All Required Fields",
-      })
-    );
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
-  }
+  };
 
   const Back = () => {
     setShowAddCommissionGroup((prev) => !prev);
@@ -349,27 +386,24 @@ const ComissionGroupContainer = () => {
   //       type:e.value
   //     }
   //   }
-   
+
   //   dispatch(getAllCommissionGroup(params));
   // }
 
   useEffect(() => {
-    let params
-    if(statusData!=="All"){
-     params = {
-        type:statusData,
-        isActive:activeStatusData
-      }
-    }
-    else{
+    let params;
+    if (statusData !== "All") {
       params = {
-        isActive:activeStatusData
-      }
+        type: statusData,
+        isActive: activeStatusData,
+      };
+    } else {
+      params = {
+        isActive: activeStatusData,
+      };
     }
     dispatch(getAllCommissionGroup(params));
-  }, [statusData,activeStatusData])
-  
-
+  }, [statusData, activeStatusData]);
 
   useEffect(() => {
     if (editCommission) {
@@ -378,8 +412,21 @@ const ComissionGroupContainer = () => {
         isActive: editCommission.isActive,
         commissionGroup: editCommission.commissionGroup,
         type: editCommission.type,
-  catalogItems: editCommission?.catalogItems.map((item)=>{return {name:item.name,_id:item._id,UPC:item.UPC,unitPrice:item.unitPrice}}),
-  assignedEmployees: editCommission?.assignedEmployees.map((item)=>{return {firstName:item.firstName,lastName:item.lastName,_id:item._id}}),
+        catalogItems: editCommission?.catalogItems.map((item) => {
+          return {
+            name: item.name,
+            _id: item._id,
+            UPC: item.UPC,
+            unitPrice: item.unitPrice,
+          };
+        }),
+        assignedEmployees: editCommission?.assignedEmployees.map((item) => {
+          return {
+            firstName: item.firstName,
+            lastName: item.lastName,
+            _id: item._id,
+          };
+        }),
       };
       setCommissionGroupForm(obj);
       setShowAddCommissionGroup(true);
@@ -387,23 +434,19 @@ const ComissionGroupContainer = () => {
     }
   }, [editCommission]);
 
-
-
-
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: "instant",
     });
-  }, [showAddCommissionGroup, showCatalogItem,showAssignItem]);
+  }, [showAddCommissionGroup, showCatalogItem, showAssignItem]);
 
   useEffect(() => {
     dispatch(getAllCatalogItems());
     dispatch(getEmployees());
     // dispatch(getAllCommissionGroup());
-    setInitialCommissionGroup(commissionGroupForm)
+    setInitialCommissionGroup(commissionGroupForm);
   }, []);
 
   return {
@@ -439,6 +482,7 @@ const ComissionGroupContainer = () => {
     setActiveStatusData,
     save,
     Back,
+    AddstatusOptions,
   };
 };
 
