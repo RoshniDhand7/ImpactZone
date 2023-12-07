@@ -66,6 +66,12 @@ const ComissionGroupContainer = () => {
     { label: "Agreement", value: "Agreement" },
   ];
 
+  const AddstatusOptions = [
+    { label: "Products", value: "Products" },
+    { label: "Services", value: "Services" },
+    { label: "Agreement", value: "Agreement" },
+  ];
+
   const activeStatusOptions = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -126,7 +132,7 @@ const ComissionGroupContainer = () => {
   const CommissionGroupColumn = [
     {
       field: "commissionGroup",
-      header: "Commission Group",
+      header: "Commission Group Name",
       id: "",
       index: "",
     },
@@ -439,6 +445,7 @@ const ComissionGroupContainer = () => {
     setActiveStatusData,
     save,
     Back,
+    AddstatusOptions
   };
 };
 
