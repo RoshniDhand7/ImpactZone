@@ -15,13 +15,29 @@ import Buttons from "../../../../../components/buttons/button";
 import Input from "../../../../../components/input/input";
 import DropDown from "../../../../../components/dropdown/dropdown";
 import Overlay from "../../../../../components/overlay/overlay";
+import deployItems from "../../../../popups/deployItems";
+import PopUp from "../../../../../components/popup/popup";
+import AddEventPopup from "../../../../popups/addEvent";
 
 const CatalogItem = () => {
+  const [isActive, setIsActive] = useState(false);
   const [showtab, setShowtab] = useState();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const openaddcatalogtab = () => {
     setShowtab((prev) => !prev);
+  };
+  const [popUp, setPopUp] = useState({
+    title: "",
+    show: null,
+  });
+
+  const showPopUp = async (title, data) => {
+    setPopUp({
+      title: title,
+      show: data,
+    });
+    setIsActive(true);
   };
   const actionTemplate = (col) => {
     // console.log(col._id, "collllll");
@@ -45,6 +61,7 @@ const CatalogItem = () => {
       <>
         <div className="flex justify-content-end">
           <Buttons
+            onClick={() => showPopUp("Add Event", AddEventPopup)}
             label="Add Event"
             icon="pi pi-plus-circle"
             className="bg-transparent text-blue-900 border-1 border-blue-900"
@@ -167,6 +184,13 @@ const CatalogItem = () => {
         AddCatalogtab()
       ) : (
         <div>
+          <PopUp
+            setIsActive={setIsActive}
+            title={popUp.title}
+            isActive={isActive}
+            className={"col-4 p-0"}
+            data={popUp.show ? popUp.show() : null}
+          />
           <div className="flex justify-content-between align-items-center pr-2 mt-3">
             <div className="col-6  p-0 px-0 flex justify-content-start mx-0">
               <div className="col-6 p-0">
@@ -181,19 +205,34 @@ const CatalogItem = () => {
                   <div className="flex justify-content-between">
                     <div className="col-6">
                       <DropDown title={"Profit Center"}></DropDown>
-                      <DropDown title={"Online Status"}></DropDown>
+                      <DropDown
+                        title={"Online Status"}
+                        extraClass={"my-2"}
+                      ></DropDown>
                       <DropDown title={"Sale Item"}></DropDown>
-                      <DropDown title={"Commission Item"}></DropDown>
+                      <DropDown
+                        title={"Commission Item"}
+                        extraClass={"my-2"}
+                      ></DropDown>
                       <DropDown title={"Pays for Events"}></DropDown>
-                      <DropDown title={"Created Date"}></DropDown>
+                      <DropDown
+                        title={"Created Date"}
+                        extraClass={"my-2"}
+                      ></DropDown>
                     </div>
                     <div className="col-6">
                       <DropDown title={"Item Status"}></DropDown>
-                      <DropDown title={"Club"}></DropDown>
+                      <DropDown title={"Club"} extraClass={"my-2"}></DropDown>
                       <DropDown title={"POS Category"}></DropDown>
-                      <DropDown title={"Discounts Items"}></DropDown>
+                      <DropDown
+                        title={"Discounts Items"}
+                        extraClass={"my-2"}
+                      ></DropDown>
                       <DropDown title={"Created By"}></DropDown>
-                      <DropDown title={"Price Range"}></DropDown>
+                      <DropDown
+                        title={"Price Range"}
+                        extraClass={"my-2"}
+                      ></DropDown>
                     </div>
                   </div>
                   <div className="flex justify-content-end px-3">
@@ -234,6 +273,7 @@ const CatalogItem = () => {
               />
               <div className="absolute top-0 right-0 margin">
                 <Buttons
+                  onClick={() => showPopUp("Deploy Items", deployItems)}
                   style={{ height: "39px" }}
                   label="Deploy Selected Items"
                   className="bg-transparent mt-1 border-white border-1 "

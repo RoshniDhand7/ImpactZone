@@ -10,9 +10,10 @@ function Buttons({
   icon,
   iconPos,
   disabled,
+  extraClass,
 }) {
   return (
-    <div>
+    <div className={extraClass}>
       <Button
         label={label}
         className={
