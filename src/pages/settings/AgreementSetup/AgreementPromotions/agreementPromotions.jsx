@@ -35,7 +35,7 @@ const AgreementPromotions = () => {
       ) : (
         <>
           <ConfirmDialog />
-          <div>
+          <div className="px-4">
             <div className="flex align-items-center justify-content-between my-3">
               <span className="text-xl font-bold text-900">
                 Manage Agreement Promotions
@@ -67,9 +67,6 @@ const AgreementPromotions = () => {
           </div>
         </>
       )}
-      <div className="mt-8">
-        <RecentCheckIn data={checkInData} />
-      </div>
     </>
   );
 };

@@ -31,7 +31,7 @@ const AddMembershipPlan = ({
   selectedRow,
   setSelectedRow,
   removeAll,
-  submit
+  submit,
 }) => {
   const TemplateOption = useSelector(
     (state) => state.staticData.AgreementTemplate
@@ -61,7 +61,7 @@ const AddMembershipPlan = ({
   const AddServices = () => {
     return (
       <>
-        <div>
+        <div className="px-4">
           <div className="flex justify-content-between">
             <p className="text-xl font-bold my-3 text-900 ">Add Service</p>
             <Input
@@ -120,7 +120,7 @@ const AddMembershipPlan = ({
   const MainFunctionMemberShipPlan = () => {
     return (
       <>
-        <div>
+        <div className="px-4">
           <div className=" flex align-items-center justify-content-between my-3">
             <span className="text-xl font-bold text-900">Add Membership Plan</span>
           </div>
@@ -438,7 +438,7 @@ const AddMembershipPlan = ({
                       ></Input>
                     </div>
                   ) : null}
-                                    <div className="col-4">
+                  <div className="col-4">
                     <DropDown
                       title="What happens after 6 payments?"
                       placeholder="Select"
@@ -499,7 +499,11 @@ const AddMembershipPlan = ({
           <div className="flex justify-content-end mt-4">
             <div className="flex mx-2 ">
               <div className="mx-4">
-                <Buttons label="Save" onClick={submit} className="btn-dark mx-3 border-none " />
+                <Buttons
+                  label="Save"
+                  onClick={submit}
+                  className="btn-dark mx-3 border-none "
+                />
               </div>
               <div className="">
                 <Buttons

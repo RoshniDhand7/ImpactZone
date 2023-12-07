@@ -2,6 +2,7 @@ import React from "react";
 import { Dropdown } from "primereact/dropdown";
 
 const DropDown = ({
+  extraClass,
   id,
   value,
   optionLabel = "",
@@ -18,7 +19,7 @@ const DropDown = ({
 }) => {
   // console.log("childsss",childState,state?.formErrors?.[name.split("|")[1]]?.[name.split("|")[0]])
   return (
-    <div className="flex flex-column gap-2">
+    <div className={`flex flex-column gap-2 ${extraClass}`}>
       <label className="text-xs text-dark-gray font-semibold">
         {title} {required ? <span className="text-red-500">*</span> : null}
       </label>

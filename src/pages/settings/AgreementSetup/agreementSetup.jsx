@@ -6,13 +6,15 @@ import ManageAgreementTemplate from "./AgreementTemplate/manageAgreementTemplate
 import ManagePaymentPlans from "./MembershipPlans/managePaymentPlans";
 import AgreementCategories from "./AgreementCategoriesScreens/agreementCategories";
 import AgreementPromotions from "./AgreementPromotions/agreementPromotions";
+import RecentCheckIn from "../../../components/cards/Profilecard/recentCheckIn";
+import checkInData from "../../../utils/checkInData";
 
 const AgreementSetup = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <>
-      <div className="my-2 mx-3">
-        <div className="p-3">
+      <div className="">
+        <div className="agreement-tabview-margin">
           <TabView
             activeIndex={activeIndex}
             onTabChange={(e) => setActiveIndex(e.index)}
@@ -33,6 +35,9 @@ const AgreementSetup = () => {
               <AgreementPromotions />
             </TabPanel>
           </TabView>
+        </div>
+        <div className="mt-8 px-4">
+          <RecentCheckIn data={checkInData} />
         </div>
       </div>
     </>
