@@ -158,6 +158,17 @@ const VendorContainer = () => {
       ];
 
 const vendorHandleChange = ({name,value}) => {
+  if(name=="state"){
+    delete vendorForm?.formErrors?.city
+    delete vendorForm?.formErrors?.zipCode
+    setVendorForm((prev)=>{
+      return{
+          ...prev,
+          city:"",
+          zipCode:""
+      }
+  })
+  }
     const formErrors = FormValidation(
         name,
         value,
