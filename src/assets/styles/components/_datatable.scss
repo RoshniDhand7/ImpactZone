@@ -1,7 +1,7 @@
 .p-datatable .p-datatable-thead {
   tr > th {
     text-align: left;
-    padding: 1rem 1rem;
+    padding: 1rem 1rem !important;
     border: 1px solid #ffffff;
     border-width: 0 0 1px 0;
     font-weight: 400 !important;
@@ -29,6 +29,7 @@
     background-color: $lightestblue;
     font-size: 14px !important;
     font-weight: 400 !important;
+    padding: 1rem 1rem !important;
   }
 
   tr:first-child > td:first-child {
@@ -46,12 +47,12 @@
   box-shadow: none !important;
 }
 
-.p-datatable-wrapper{
+.p-datatable-wrapper {
   border-bottom-left-radius: 0.7rem;
   border-bottom-right-radius: 0.7rem;
 }
 
-.p-datatable .p-paginator-bottom{
+.p-datatable .p-paginator-bottom {
   border-bottom-left-radius: 0.7rem !important;
   border-bottom-right-radius: 0.7rem !important;
 }

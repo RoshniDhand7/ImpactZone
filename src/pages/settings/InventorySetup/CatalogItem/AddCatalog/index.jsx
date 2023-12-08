@@ -120,7 +120,7 @@ const CatalogItem = () => {
     },
   ];
 
-  const [ManagePaymentPlansData, setManagePaymentPlansData] = useState([
+  const [ManagePaymentPlansData] = useState([
     {
       ItemName: "Annual Fee",
       ItemUPC: "Annual Fee",

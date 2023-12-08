@@ -20,8 +20,8 @@ const TableData = ({
   count,
   paginator,
   filters,
-
   setCurrentPage,
+  editMode,
 }) => {
   const ActionEditDelete = () => {
     return (
@@ -81,6 +81,7 @@ const TableData = ({
       />
     );
   });
+
   return (
     <div>
       <div className="card shadow-4 border-round-xl">
@@ -96,8 +97,17 @@ const TableData = ({
           onSelectionChange={changeSelection ? changeSelection : null}
           dataKey={key}
           checked={checked}
+          editMode={editMode}
         >
           {dynamicColumns}
+          {editMode === "row" ? (
+            <Column
+              rowEditor
+              headerStyle={{ width: "10%", minWidth: "3rem" }}
+              bodyStyle={{ textAlign: "start" }}
+              header={"Action"}
+            ></Column>
+          ) : null}
         </DataTable>
       </div>
       {count > rows && (

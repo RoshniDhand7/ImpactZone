@@ -194,7 +194,6 @@ const AddCatelogGeneral = ({ openaddcatalogtab }) => {
             </div>
           </CardWithTitle>
         </div>
-
         <div className="my-3 ">
           <CardWithTitle
             title="Item"
