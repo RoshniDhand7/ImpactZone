@@ -38,11 +38,11 @@ const FormValidation = (name, value, data, required, initialData) => {
     }
 
       case "zipCode":
-        // console.log("lookup",zipcodes.lookupByName(data?.city,data?.state)[0]?.zip==value,zipcodes?.lookupByName(data?.city,data?.state)[0]?.zip,value)
+        // console.log("lookup",zipcodes.lookupByName(data?.city,data?.state).find((item)=>{return item?.zip==value})?.zip==value,zipcodes?.lookup(value)?.state==data?.state,value)
         if (name != "formErrors" && required.includes(name)) {
         if (equal(length(value))) {
           formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
-        } else if (zipcodes.lookupByName(data?.city,data?.state)[0]?.zip!=value) {
+        } else if (zipcodes?.lookup(value)?.state!=data?.state) {
           formErrors[
             name
           ] = `Please enter a valid Zip Code`;
