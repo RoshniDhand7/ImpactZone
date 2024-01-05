@@ -3,6 +3,7 @@ import Buttons from "../../../../components/buttons/button";
 import DropDown from "../../../../components/dropdown/dropdown";
 import TableData from "../../../../components/cards/dataTable/dataTable";
 import AddAgreementTemplate from "./addAgreementTemplate";
+import AddAgreement from "./AddAgreement";
 
 const ManageAgreementTemplate = () => {
   const [showAddAgreementTemplate, setAgreementTemplate] = useState(false);
@@ -93,7 +94,8 @@ const ManageAgreementTemplate = () => {
   return (
     <>
       {showAddAgreementTemplate ? (
-        <AddAgreementTemplate />
+        // <AddAgreementTemplate />
+        <AddAgreement/>
       ) : (
         <>
           <div className="px-4">
