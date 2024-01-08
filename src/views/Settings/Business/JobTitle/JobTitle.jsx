@@ -2,24 +2,27 @@ import React from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 
-export default function ReasonCode() {
+const JobTitle = () => {
     const data = [
         {
-            name: 'Agreement in Queue',
-            type: 'Cancel Pending POS Transaction',
+            name: 'Gym Floor',
+            description: 'Lorem Ipsum',
         },
     ];
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'type', header: 'Type' },
+        { field: 'description', header: 'Description' },
     ];
 
     const onDelete = () => {};
     const onEdit = () => {};
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Reason Code" linkTo="/settings/business/reason-code/add" />
+            <CustomFilterCard buttonTitle="Add Job Title" linkTo="/settings/business/job-title/add" />
             <CustomTable data={data} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
-}
+};
+
+export default JobTitle;

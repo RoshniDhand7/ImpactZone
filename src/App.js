@@ -3,20 +3,19 @@ import './styles.scss';
 // import FormLayout from './shared/Form/FormLayout';
 // import { CustomInput } from './shared/Input/AllInputs';
 import ProtectedRoute from './routes/ProtectedRoute';
-import { Route, Switch } from 'react-router-dom';
-import NotFound from './pages/NotFound';
+import { Switch } from 'react-router-dom';
 
 function App() {
-  return (
-    <>
-      <TopBar />
-      <div className="main-container p-4">
-        <Switch>
-          <ProtectedRoute />
-        </Switch>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <TopBar />
+            <div className="main-container p-4">
+                <Switch>
+                    <ProtectedRoute />
+                </Switch>
+            </div>
+        </>
+    );
 }
 
 export default App;
