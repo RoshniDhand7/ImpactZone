@@ -1,18 +1,18 @@
 export const yesNoOptions = [
     {
         name: 'Yes',
-        value: 'Yes',
+        value: true,
     },
     {
         name: 'No',
-        value: 'No',
+        value: false,
     },
 ];
 
 export const checkInLimitOptions = [
     {
-        name: 'No limit',
-        value: 'No limit',
+        name: 'No Limit',
+        value: 'No Limit',
     },
     {
         name: '1-50',
@@ -22,7 +22,7 @@ export const checkInLimitOptions = [
 export const perOptions = [
     {
         name: 'Week (7 days)',
-        value: 'Week (7 days)',
+        value: 'Week (7 Days)',
     },
     {
         name: 'Month (30 days)',

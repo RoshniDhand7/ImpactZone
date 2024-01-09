@@ -5,23 +5,62 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { checkInLimitOptions, perOptions, restrictionOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllCountries, getCitiesByState, getStatesByCountry } from '../../../../utils/commonFunctions';
-import { InputText } from 'primereact/inputtext';
+import { editCompany, getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
 
 export default function CompanyForm({ history }) {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        dispatch(getCompanyDetails(setLoading));
+    }, [dispatch]);
+    let { allCompany } = useSelector((state) => state?.company);
+
+    useEffect(() => {
+        if (allCompany) {
+            setData({
+                companyId: allCompany?.companyId,
+                billingCountry: allCompany?.billingCountry,
+                companyName: allCompany?.companyName,
+                multiClubInOut: false,
+                clockInRequired: false,
+                country: allCompany?.country,
+                address1: allCompany?.address1,
+                address2: allCompany?.address2,
+                city: allCompany?.city,
+                state: allCompany?.state,
+                zipCode: allCompany?.zipCode,
+                workNumber: allCompany?.workNumber,
+                workExtention: allCompany?.workExtention,
+                faxNumber: allCompany?.faxNumber,
+                primaryEmail: allCompany?.primaryEmail,
+                alternateEmail: allCompany?.alternateEmail,
+                companyUrl: allCompany?.companyUrl,
+                companyCode: allCompany?.companyCode,
+                batchId: allCompany?.batchId,
+                checkInLimit: allCompany?.checkInLimit,
+                per: allCompany?.per,
+                restrictionType: allCompany?.restrictionType,
+            });
+            if (allCompany?.country === 'US') {
+                const cities = getCitiesByState(allCompany.country, allCompany.state);
+                setCities(cities);
+            }
+        }
+    }, [allCompany]);
+
     const [data, setData] = useState({
         companyId: '',
         billingCountry: '',
         companyName: '',
-        multiclubInOut: '',
-        clockInDepartment: '',
-        country: 'US',
+        multiClubInOut: false,
+        clockInRequired: false,
+        country: '',
         address1: '',
         address2: '',
-        state: '',
         city: '',
+        state: '',
         zipCode: '',
         workNumber: '',
         workExtention: '',
@@ -31,9 +70,9 @@ export default function CompanyForm({ history }) {
         companyUrl: '',
         companyCode: '',
         batchId: '',
-        checkInLimit: '',
-        per: '',
-        restrictionType: '',
+        checkInLimit: 'No Limit',
+        per: 'Week (7 Days)',
+        restrictionType: 'Company',
     });
     const [country, setCountry] = useState([]);
     const [states, setStates] = useState([]);
@@ -55,9 +94,12 @@ export default function CompanyForm({ history }) {
             setData((prev) => ({ ...prev, [name]: value }));
         }
     };
-    const [value, setValue] = useState('');
 
-    console.log('data>>', data);
+    const handleSave = () => {
+        dispatch(editCompany(data, setLoading, history));
+    };
+
+    console.log('data>>', data, cities);
     const General = () => {
         return (
             <>
@@ -66,8 +108,20 @@ export default function CompanyForm({ history }) {
                         <CustomInput name="companyId" data={data} onChange={handleChange} />
                         <CustomInput name="billingCountry" data={data} onChange={handleChange} />
                         <CustomInput name="companyName" data={data} onChange={handleChange} />
-                        <CustomDropDown label="Allow Multi-Club Clock In/Out" name="" options={yesNoOptions} data={data} onChange={handleChange} />
-                        <CustomDropDown label="Clock In Department Required" name="inOut" options={yesNoOptions} data={data} onChange={handleChange} />
+                        <CustomDropDown
+                            label="Allow Multi-Club Clock In/Out"
+                            name="multiClubInOut"
+                            options={yesNoOptions}
+                            data={data}
+                            onChange={handleChange}
+                        />
+                        <CustomDropDown
+                            label="Clock In Department Required"
+                            name="clockInRequired"
+                            options={yesNoOptions}
+                            data={data}
+                            onChange={handleChange}
+                        />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Address">
@@ -135,7 +189,7 @@ export default function CompanyForm({ history }) {
         <FormPage backText="Company" backTo="/settings/business?tab=company">
             <CustomTabView tabs={tabs} />
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
             </CustomButtonGroup>
         </FormPage>
