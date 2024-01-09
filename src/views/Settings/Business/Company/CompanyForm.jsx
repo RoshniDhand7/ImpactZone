@@ -63,7 +63,6 @@ export default function CompanyForm({ history }) {
             <>
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
-                        <InputText value={value} onChange={(e) => setValue(e.target.value)} />
                         <CustomInput name="companyId" data={data} onChange={handleChange} />
                         <CustomInput name="billingCountry" data={data} onChange={handleChange} />
                         <CustomInput name="companyName" data={data} onChange={handleChange} />
@@ -128,8 +127,8 @@ export default function CompanyForm({ history }) {
     };
 
     const tabs = [
-        { title: 'General', content: <General /> },
-        { title: 'Online', content: <Online /> },
+        { title: 'General', content: General() },
+        { title: 'Online', content: Online() },
     ];
 
     return (

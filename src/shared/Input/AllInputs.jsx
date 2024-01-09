@@ -24,22 +24,13 @@ export const CustomInput = ({
             <InputText
                 id={name}
                 name={name}
-                value={data?.[name] || value}
-                onChange={(e) => onChange?.({ ...e, name: e.target.name, value: e.target.value })}
-                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
-                disabled={disabled}
-                {...props}
-            />
-            {/* <InputText
-                id={name}
-                name={name}
                 value={value || data?.[name]}
                 type={type}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
                 className={`w-full p-2 my-1 ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 {...props}
-            /> */}
+            />
         </InputLayout>
     );
 };
