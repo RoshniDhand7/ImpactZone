@@ -11,6 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './redux';
 import ToastContainer from './shared/ToastContainer';
 import Loader from './shared/Loader';
+import { ConfirmDialog } from 'primereact/confirmdialog';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <ToastContainer />
+                <ConfirmDialog />
                 <Loader />
                 <HashRouter>
                     <Switch>

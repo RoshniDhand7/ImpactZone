@@ -1,25 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
+import { useHistory } from 'react-router-dom';
+import { confirmDelete } from '../../../../utils/commonFunctions';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteReasonCode, getReasonsDetails } from '../../../../redux/actions/BusinessSettings/reasonActions';
 
 export default function ReasonCode() {
-    const data = [
-        {
-            name: 'Agreement in Queue',
-            type: 'Cancel Pending POS Transaction',
-        },
-    ];
+    const history = useHistory();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getReasonsDetails());
+    }, []);
+
+    const { allReasonCode } = useSelector((state) => state.reasonCode);
     const columns = [
-        { field: 'name', header: 'Name' },
-        { field: 'type', header: 'Type' },
+        { field: 'reasonCode', header: 'Name' },
+        { field: 'reasonCodeType', header: 'Type' },
     ];
 
-    const onDelete = () => {};
-    const onEdit = () => {};
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                dispatch(deleteReasonCode(col._id, () => {}));
+            },
+            'Do you want to delete this Reason Code?',
+            position,
+        );
+    };
+    const onEdit = (col) => {
+        history.push(`/settings/business/reason-code/edit/${col._id}`);
+    };
     return (
         <>
             <CustomFilterCard buttonTitle="Add Reason Code" linkTo="/settings/business/reason-code/add" />
-            <CustomTable data={data} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allReasonCode} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 }

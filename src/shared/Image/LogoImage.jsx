@@ -66,6 +66,7 @@ const CustomLogoImage = ({
             {files.length ? (
                 Object.values(files).map((image, i) => (
                     <>
+                        {console.log(image)}
                         {removeable && <i onClick={() => onDelete(i)} className="pi pi-times cursor-pointer"></i>}
                         <img
                             src={image ? (typeof image === 'string' ? getImageURL(image) : URL.createObjectURL(image)) : ProfileImg}

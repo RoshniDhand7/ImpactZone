@@ -1,26 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteJobTitle, getJobDetails } from '../../../../redux/actions/BusinessSettings/jobActions';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 
 const JobTitle = () => {
-    const data = [
-        {
-            name: 'Gym Floor',
-            description: 'Lorem Ipsum',
-        },
-    ];
+    const history = useHistory();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getJobDetails());
+    }, []);
+
+    const { allJobTitle } = useSelector((state) => state.jobTitle);
+
     const columns = [
-        { field: 'name', header: 'Name' },
+        { field: 'jobTitle', header: 'Name' },
         { field: 'description', header: 'Description' },
     ];
 
-    const onDelete = () => {};
-    const onEdit = () => {};
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                dispatch(deleteJobTitle(col._id, () => {}));
+            },
+            'Do you want to delete this Job Title?',
+            position,
+        );
+    };
+    const onEdit = (col) => {
+        history.push(`/settings/business/job-title/edit/${col._id}`);
+    };
 
     return (
         <>
             <CustomFilterCard buttonTitle="Add Job Title" linkTo="/settings/business/job-title/add" />
-            <CustomTable data={data} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allJobTitle} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

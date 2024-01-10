@@ -11,34 +11,7 @@ export default function Company() {
         dispatch(getCompanyDetails(setLoading));
     }, [dispatch]);
     let { allCompany } = useSelector((state) => state?.company);
-    let data = {
-        companyId: 'DT030591',
-        billingCountry: 'United States',
-        companyName: 'fitX',
-        multiClubInOut: false,
-        clockInRequired: true,
-        country: 'India',
-        address1: 'F-301',
-        address2: 'Sector 74',
-        city: 'Mohali',
-        state: 'Punjab',
-        zipCode: '160055',
-        workNumber: '9876543210',
-        workExtention: '160055',
-        faxNumber: '345623',
-        primaryEmail: 'primary@gmail.com',
-        alternateEmail: 'abc@gmail.com',
-        companyUrl: 'https://url.com',
-        companyCode: 'DT030591',
-        batchId: 'DT03059121',
-        checkInLimit: 'No Limit',
-        per: 'Week (7 Days)',
-        restrictionType: 'Company',
-        bookOutFrom: '14 days',
-        bookOutTo: '2 Days',
-        allowCancelOnline: false,
-        timeBeforeEvent: '12 hours',
-    };
+
     return (
         <>
             <CustomFilterCard buttonTitle="Edit Company Details" linkTo="/settings/business/company/edit" />

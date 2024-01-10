@@ -1,11 +1,12 @@
 import Constants from '../services/endPoints';
 import GalleryImg from '../assets/icons/camera.png';
+import constants from '../constants';
 
 export const getImageURL = (path) => {
     if (path.includes('http')) {
         return path;
     } else {
-        return Constants.HOST + path;
+        return constants.baseUrl + path;
     }
 };
 

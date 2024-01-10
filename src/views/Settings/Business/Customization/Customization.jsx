@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import CustomCard, { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
-import CustomLogoImage from '../../../../shared/Image/LogoImage';
-import LogoImg from '../../../../assets/images/logo.png';
+import { getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
+import { useDispatch, useSelector } from 'react-redux';
+import ProfileImg from '../../../../assets/icons/camera.png';
+import { getImageURL } from '../../../../utils/imageUrl';
 
 const Customization = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCompanyDetails());
+    }, [dispatch]);
+    let { allCompany } = useSelector((state) => state?.company);
     return (
         <>
             <CustomFilterCard buttonTitle="Edit Customization" linkTo="/settings/business/customization/edit" />
             <CustomCard col="12" title="Customization">
                 <label>Logo</label>
-                <img src={LogoImg} alt="logo" style={{ width: '100px' }} />
+                <img
+                    src={
+                        allCompany?.logo
+                            ? typeof allCompany?.logo === 'string'
+                                ? getImageURL(allCompany?.logo)
+                                : URL.createObjectURL(allCompany?.logo)
+                            : ProfileImg
+                    }
+                    alt="logo"
+                    style={{ width: '100px' }}
+                />
             </CustomCard>
         </>
     );

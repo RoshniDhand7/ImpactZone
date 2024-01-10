@@ -75,19 +75,31 @@ export const PrivateRoutes = [
                         component: ReasonCodeForm,
                     },
                     {
+                        path: '/reason-code/edit/:id',
+                        name: 'Business',
+                        exact: true,
+                        component: ReasonCodeForm,
+                    },
+                    {
                         path: '/customization/edit',
                         name: 'Business',
                         exact: true,
                         component: CustomizationForm,
                     },
                     {
-                        path: '/clubs/edit',
+                        path: '/clubs/edit/:id',
                         name: 'Business',
                         exact: true,
                         component: ClubsForm,
                     },
                     {
                         path: '/job-title/add',
+                        name: 'Business',
+                        exact: true,
+                        component: JobTitleForm,
+                    },
+                    {
+                        path: '/job-title/edit/:id',
                         name: 'Business',
                         exact: true,
                         component: JobTitleForm,

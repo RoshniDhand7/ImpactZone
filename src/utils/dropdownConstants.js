@@ -60,3 +60,84 @@ export const restrictionOptions = [
         value: 'Company',
     },
 ];
+
+export const daysOptions = [];
+
+for (let i = 1; i <= 30; i++) {
+    const option = {
+        name: `${i} days`,
+        value: `${i} days`,
+    };
+    daysOptions.push(option);
+}
+
+export const hoursOptions = [];
+
+for (let i = 12; i <= 48; i += 12) {
+    const option = {
+        name: `${i} hours`,
+        value: `${i} hours`,
+    };
+    hoursOptions.push(option);
+}
+
+export const reasonCodeTypeOptions = [
+    'Agreement Hold',
+    'Cancel Pending POS Transaction',
+    'Cancel Agreement',
+    'Cancel Price',
+    'Commission Override',
+    'Drawer Adjustment',
+    'Event Status',
+    'Freeze Agreement',
+    'No Sale',
+    'Void',
+    'Waive Tax',
+].map((name) => ({ name, value: name }));
+
+// export const reasonCodeTypeOptions = [
+//     {
+//         name: 'Agreement Hold',
+//         value: 'Agreement Hold',
+//     },
+//     {
+//         name: 'Cancel Pending POS Transaction',
+//         value: 'Cancel Pending POS Transaction',
+//     },
+//     {
+//         name: 'Cancel Agreement',
+//         value: 'Cancel Agreement',
+//     },
+//     {
+//         name: 'Cancel Price',
+//         value: 'Cancel Price',
+//     },
+//     {
+//         name: 'Commission Override',
+//         value: 'Commission Override',
+//     },
+//     {
+//         name: 'Drawer Adjustment',
+//         value: 'Drawer Adjustment',
+//     },
+//     {
+//         name: 'Event Status',
+//         value: 'Event Status',
+//     },
+//     {
+//         name: 'Freeze Agreement',
+//         value: 'Freeze Agreement',
+//     },
+//     {
+//         name: 'No Sale',
+//         value: 'No Sale',
+//     },
+//     {
+//         name: 'Void',
+//         value: 'Void',
+//     },
+//     {
+//         name: 'Waive Tax',
+//         value: 'Waive Tax',
+//     },
+// ];

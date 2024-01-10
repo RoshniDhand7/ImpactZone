@@ -3,6 +3,7 @@ import InputLayout from '../Form/InputLayout';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
+import { InputMask } from 'primereact/inputmask';
 
 export const CustomInput = ({
     label,
@@ -24,7 +25,7 @@ export const CustomInput = ({
             <InputText
                 id={name}
                 name={name}
-                value={value || data?.[name]}
+                value={value || data?.[name] || ''}
                 type={type}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
                 className={`w-full p-2 my-1 ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
@@ -34,11 +35,44 @@ export const CustomInput = ({
         </InputLayout>
     );
 };
+export const CustomInputMask = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col = 4,
+    inputClass,
+    mask,
+    disabled = false,
+    type = 'text',
+    ...props
+}) => {
+    return (
+        <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <InputMask
+                type={type || 'text'}
+                id={name}
+                name={name}
+                value={value || data?.[name] || ''}
+                onChange={(e) => onChange?.({ ...e, name: e.target.name, value: e.target.value })}
+                className={`border-none bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
+                mask={mask}
+                {...props}
+            ></InputMask>
+        </InputLayout>
+    );
+};
+
 export const CustomTextArea = ({ label, name, onChange, data, value, errorMessage, extraClassName, required, col, inputClass, maxLength, ...props }) => {
     return (
         <InputLayout
             col={col || 12}
-            label={label}
+            label={label || name}
             name={name}
             required={required}
             extraClassName={extraClassName}
@@ -79,7 +113,7 @@ export const CustomDropDown = ({
             <Dropdown
                 id={name}
                 name={name}
-                value={value || data?.[name]}
+                value={value || data?.[name] || ''}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}

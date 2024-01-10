@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { showToast } from '../toastAction';
 
@@ -22,6 +23,12 @@ const getCompanyDetails = (setLoading) => async (dispatch) => {
 };
 const editCompany = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
+    if (data.logo.length) {
+        data.logo = await uploadImages(data.logo);
+        data.logo = data.logo[0];
+    } else {
+        data.logo = '';
+    }
 
     const res = await api('put', EndPoints.COMPANY, data);
     if (res.success) {
