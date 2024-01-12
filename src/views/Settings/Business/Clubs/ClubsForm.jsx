@@ -6,8 +6,10 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getAllCountries, getCitiesByState, getStatesByCountry, mobileFormatted } from '../../../../utils/commonFunctions';
+import { getAllCountries, getCitiesByState, getStatesByCountry, mobileFormatted, showFormErrors } from '../../../../utils/commonFunctions';
 import { editClub, getClub } from '../../../../redux/actions/BusinessSettings/clubsAction';
+import formValidation from '../../../../utils/validations';
+import { InputMask } from 'primereact/inputmask';
 
 const ClubsForm = () => {
     const history = useHistory();
@@ -21,7 +23,7 @@ const ClubsForm = () => {
 
                     setData({
                         ...data,
-                        phoneNumber: formattedPhoneNumber,
+                        phoneNumber: '(999) 999-9999',
                     });
 
                     if (data.country === 'US') {
@@ -50,35 +52,35 @@ const ClubsForm = () => {
     useEffect(() => {
         const allCountryList = getAllCountries();
         const updatedStates = getStatesByCountry('US');
-        console.log('states>>', allCountryList);
         setStates(updatedStates);
         setCountry(allCountryList);
     }, [dispatch]);
 
     const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
         if (name === 'state') {
             const city = getCitiesByState('US', value);
-            console.log('city>>', city);
             setCities(city);
-            setData((prev) => ({ ...prev, [name]: value, city: '' }));
+            setData((prev) => ({ ...prev, [name]: value, city: '', formErrors }));
         } else {
-            setData((prev) => ({ ...prev, [name]: value }));
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
     const [loading, setLoading] = useState(false);
 
     const handleSave = () => {
         if (id) {
-            dispatch(editClub(id, data, setLoading, history));
+            if (showFormErrors(data, setData)) {
+                dispatch(editClub(id, data, setLoading, history));
+            }
         }
     };
-    console.log('data>>', data);
     return (
         <>
             <FormPage backText="Clubs" backTo="/settings/business">
                 <CustomCard col="12" title="Edit Club (Gym Floor)">
                     <CustomGridLayout>
-                        <CustomInputMask name="phoneNumber" mask="(999) 999-9999" data={data} onChange={handleChange} />
+                        <CustomInputMask id="phone" name="phoneNumber" mask="(999) 999-9999" data={data} placeholder="(999) 999-9999" onChange={handleChange} />
                         <CustomInput name="email" data={data} onChange={handleChange} />
                         <CustomInput name="address" data={data} onChange={handleChange} />
                     </CustomGridLayout>

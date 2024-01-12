@@ -6,6 +6,8 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import { editCompany } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useDispatch } from 'react-redux';
+import formValidation from '../../../../utils/validations';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 
 const Online = (allCompany) => {
     const dispatch = useDispatch();
@@ -27,10 +29,13 @@ const Online = (allCompany) => {
         timeBeforeEvent: '',
     });
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
-        dispatch(editCompany(data, setLoading, history));
+        if (showFormErrors(data, setData)) {
+            dispatch(editCompany(data, setLoading, history));
+        }
     };
     // console.log('data>>', data);
     const history = useHistory();

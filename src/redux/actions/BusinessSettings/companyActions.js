@@ -23,7 +23,7 @@ const getCompanyDetails = (setLoading) => async (dispatch) => {
 };
 const editCompany = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
-    if (data.logo.length) {
+    if (data?.logo?.length) {
         data.logo = await uploadImages(data.logo);
         data.logo = data.logo[0];
     } else {

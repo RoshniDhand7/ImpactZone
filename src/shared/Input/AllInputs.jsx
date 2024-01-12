@@ -54,10 +54,9 @@ export const CustomInputMask = ({
     return (
         <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputMask
-                type={type || 'text'}
                 id={name}
                 name={name}
-                value={value || data?.[name] || ''}
+                value={data?.[name] || value}
                 onChange={(e) => onChange?.({ ...e, name: e.target.name, value: e.target.value })}
                 className={`border-none bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
@@ -113,7 +112,7 @@ export const CustomDropDown = ({
             <Dropdown
                 id={name}
                 name={name}
-                value={value || data?.[name] || ''}
+                value={value || data?.[name]}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}

@@ -5,6 +5,8 @@ import CustomLogoImage from '../../../../shared/Image/LogoImage';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { editCompany, getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
+import formValidation from '../../../../utils/validations';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 
 const CustomizationForm = ({ history }) => {
     const dispatch = useDispatch();
@@ -22,15 +24,20 @@ const CustomizationForm = ({ history }) => {
                 logo: allCompany?.logo ? [allCompany?.logo] : [],
             });
         }
-    }, [allCompany]);
+    }, []);
 
     const [loading, setLoading] = useState(false);
+
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
-        dispatch(editCompany(data, setLoading, history));
+        if (showFormErrors(data, setData)) {
+            dispatch(editCompany(data, setLoading, history));
+        }
     };
+
     return (
         <>
             <FormPage backText="Customization" backTo="/settings/business">

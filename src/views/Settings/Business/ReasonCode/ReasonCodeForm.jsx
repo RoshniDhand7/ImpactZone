@@ -7,6 +7,8 @@ import { reasonCodeTypeOptions } from '../../../../utils/dropdownConstants';
 import { addReasonCode, editReasonCode, getReasonCode } from '../../../../redux/actions/BusinessSettings/reasonActions';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import formValidation from '../../../../utils/validations';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 
 export default function ReasonCodeForm({ history }) {
     const dispatch = useDispatch();
@@ -29,18 +31,20 @@ export default function ReasonCodeForm({ history }) {
     }, [id]);
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const [loading, setLoading] = useState(false);
 
     const handleSave = () => {
-        if (id) {
-            dispatch(editReasonCode(id, data, setLoading, history));
-        } else {
-            dispatch(addReasonCode(data, setLoading, history));
+        if (showFormErrors(data, setData)) {
+            if (id) {
+                dispatch(editReasonCode(id, data, setLoading, history));
+            } else {
+                dispatch(addReasonCode(data, setLoading, history));
+            }
         }
     };
-    console.log('data>>', data);
     return (
         <div>
             <FormPage backText="Reason Codes" backTo="/settings/business">

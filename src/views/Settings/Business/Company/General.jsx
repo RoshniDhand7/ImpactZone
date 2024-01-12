@@ -3,10 +3,11 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
 import { checkInLimitOptions, perOptions, restrictionOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCountries, getCitiesByState, getStatesByCountry } from '../../../../utils/commonFunctions';
+import { getAllCountries, getCitiesByState, getStatesByCountry, showFormErrors } from '../../../../utils/commonFunctions';
 import { editCompany, getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
+import formValidation from '../../../../utils/validations';
 
 const General = (allCompany) => {
     const dispatch = useDispatch();
@@ -19,8 +20,8 @@ const General = (allCompany) => {
                 companyId: allCompany?.companyId,
                 billingCountry: allCompany?.billingCountry,
                 companyName: allCompany?.companyName,
-                multiClubInOut: false,
-                clockInRequired: false,
+                multiClubInOut: allCompany?.multiClubInOut,
+                clockInRequired: allCompany?.clockInRequired,
                 country: allCompany?.country,
                 address1: allCompany?.address1,
                 address2: allCompany?.address2,
@@ -74,34 +75,37 @@ const General = (allCompany) => {
     const [country, setCountry] = useState([]);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
+
     useEffect(() => {
         const allCountryList = getAllCountries();
         const updatedStates = getStatesByCountry('US');
-        console.log('states>>', allCountryList);
         setStates(updatedStates);
         setCountry(allCountryList);
     }, [dispatch]);
+
     const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+
         if (name === 'state') {
             const city = getCitiesByState('US', value);
-            console.log('city>>', city);
             setCities(city);
-            setData((prev) => ({ ...prev, [name]: value, city: '' }));
+            setData((prev) => ({ ...prev, [name]: value, city: '', formErrors }));
         } else {
-            setData((prev) => ({ ...prev, [name]: value }));
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
 
     const handleSave = () => {
-        dispatch(editCompany(data, setLoading, history));
+        if (showFormErrors(data, setData)) {
+            dispatch(editCompany(data, setLoading, history));
+        }
     };
 
-    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="General">
                 <CustomGridLayout>
-                    <CustomInput name="companyId" data={data} onChange={handleChange} />
+                    <CustomInput name="companyId" data={data} onChange={handleChange} disabled={true} />
                     <CustomInput name="billingCountry" data={data} onChange={handleChange} />
                     <CustomInput name="companyName" data={data} onChange={handleChange} />
                     <CustomDropDown label="Allow Multi-Club Clock In/Out" name="multiClubInOut" options={yesNoOptions} data={data} onChange={handleChange} />

@@ -1,5 +1,6 @@
 import { FirstletterUpperCase, equal, length } from './javascript';
-import { emailValidation, passwordValidation } from './regex';
+import { emailValidation, firstLetterToUppercase, passwordValidation } from './regex';
+import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, required = []) => {
     let formErrors = { ...data.formErrors };
@@ -22,6 +23,57 @@ const formValidation = (name, value, data, required = []) => {
                 formErrors[name] = '';
             }
             break;
+        case 'billingCountry':
+        case 'companyName':
+        case 'address1':
+        case 'address2':
+        case 'workNumber':
+        case 'address':
+        case 'phoneNumber':
+        case 'jobTitle':
+        case 'workExtention':
+        case 'faxNumber':
+        case 'primaryEmail':
+        case 'reasonCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
+        case 'multiClubInOut':
+        case 'clockInRequired':
+        case 'state':
+        case 'city':
+        case 'bookOutFrom':
+        case 'bookOutTo':
+        case 'allowCancelOnline':
+        case 'timeBeforeEvent':
+        case 'reasonCodeType':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'zipCode':
+            if (value.length === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required.`;
+            } else if (zipcodes?.lookup(value)?.state != data?.state) {
+                formErrors[name] = `Please enter a valid Zip Code`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'logo':
+            if (value.length === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
         default:
             break;
     }

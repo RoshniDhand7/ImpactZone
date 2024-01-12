@@ -3,6 +3,7 @@ import ProfileImg from '../../assets/icons/camera.png';
 // import CameraIcon from '../../assets/icons/Vector.png';
 import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
 import LogoImg from '../../assets/images/logo.png';
+import formValidation from '../../utils/validations';
 
 const CustomLogoImage = ({
     label,
@@ -38,6 +39,8 @@ const CustomLogoImage = ({
             if (files.length) {
                 onFilesChange({ name, value: files });
             }
+        } else {
+            onFilesChange({ name, value: [] });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [files, name]);
@@ -55,6 +58,7 @@ const CustomLogoImage = ({
         });
         setFiles([...uploadedFiles]);
     };
+
     const onDelete = (id) => {
         const s = files.filter((item, index) => index !== id);
         setFiles([...s]);
@@ -66,7 +70,6 @@ const CustomLogoImage = ({
             {files.length ? (
                 Object.values(files).map((image, i) => (
                     <>
-                        {console.log(image)}
                         {removeable && <i onClick={() => onDelete(i)} className="pi pi-times cursor-pointer"></i>}
                         <img
                             src={image ? (typeof image === 'string' ? getImageURL(image) : URL.createObjectURL(image)) : ProfileImg}

@@ -6,6 +6,8 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addJobTitle, editJobTitle, getJobTitle } from '../../../../redux/actions/BusinessSettings/jobActions';
+import formValidation from '../../../../utils/validations';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 
 const JobTitleForm = ({ history }) => {
     const dispatch = useDispatch();
@@ -28,11 +30,15 @@ const JobTitleForm = ({ history }) => {
     }, [id]);
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const [loading, setLoading] = useState(false);
 
     const handleSave = () => {
+        if (showFormErrors(data, setData)) {
+            dispatch(editJobTitle(id, data, setLoading, history));
+        }
         if (id) {
             dispatch(editJobTitle(id, data, setLoading, history));
         } else {

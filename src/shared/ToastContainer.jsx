@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 export default function ToastContainer() {
     const { toastInfo } = useSelector((state) => state?.toast);
     const toast = useRef();
-    console.log('toast>>', toast);
     useEffect(() => {
         if (toastInfo.summary) {
             toast.current.show({ severity: toastInfo.severity, summary: toastInfo.summary, detail: toastInfo.detail, life: 3000 });

@@ -63,7 +63,6 @@ const uploadImages = async (images) => {
             formData.append('file', item);
             const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
             if (res.success && res.data) {
-                console.log('data>>', res.data);
                 return res.data.path;
             }
         }

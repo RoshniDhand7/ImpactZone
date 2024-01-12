@@ -31,7 +31,6 @@ const onLogin = (payload, history, setLoading) => async (dispatch) => {
 
 const getProfile = () => async (dispatch) => {
     const res = await api('get', endPoints.PROFILE);
-    console.log('res>>', res);
     if (res.success) {
         dispatch({ type: types.PROFILE, payload: res.data });
     } else {
