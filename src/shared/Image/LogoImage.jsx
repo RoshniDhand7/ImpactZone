@@ -62,6 +62,7 @@ const CustomLogoImage = ({
     const onDelete = (id) => {
         const s = files.filter((item, index) => index !== id);
         setFiles([...s]);
+        onFilesChange({ name, value: [] });
     };
 
     return (
