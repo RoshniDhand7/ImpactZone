@@ -8,7 +8,7 @@ export default function FormPage({ children, backText, backTo = '/' }) {
         <CustomTransition>
             {backText ? (
                 <div className="flex mb-3 text-dark-gray">
-                    <i className="pi pi-angle-left text-2xl"></i>
+                    <i className="pi pi-angle-left text-2xl cursor-pointer" onClick={() => history.replace(backTo)}></i>
                     <div className=" my-auto font-semibold text-lg cursor-pointer" onClick={() => history.replace(backTo)}>
                         Back to {backText}
                     </div>

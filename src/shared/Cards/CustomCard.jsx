@@ -32,13 +32,13 @@ export function CustomListItem({ label, name, data, value }) {
             value = 'No';
         }
     } else if (!value) {
-        value = data[name];
+        value = data[name] ? data[name] : '-';
         if (typeof data[name] === 'boolean' && data[name]) {
             value = 'Yes';
         } else if (typeof data[name] === 'boolean' && !data[name]) {
             value = 'No';
         } else {
-            value = data[name];
+            value = data[name] ? data[name] : '-';
         }
     } else {
         value = value;

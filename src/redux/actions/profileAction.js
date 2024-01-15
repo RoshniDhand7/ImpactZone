@@ -19,12 +19,7 @@ const onLogin = (payload, history, setLoading) => async (dispatch) => {
             }
         });
     } else {
-        dispatch(
-            showToast({
-                type: 'error',
-                title: res.message,
-            }),
-        );
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     setLoading(false);
 };
@@ -34,12 +29,7 @@ const getProfile = () => async (dispatch) => {
     if (res.success) {
         dispatch({ type: types.PROFILE, payload: res.data });
     } else {
-        dispatch(
-            showToast({
-                type: 'error',
-                title: res.message,
-            }),
-        );
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
 export { onLogin, getProfile };

@@ -17,7 +17,7 @@ const General = (allCompany) => {
     useEffect(() => {
         if (allCompany) {
             setData({
-                companyId: allCompany?.companyId,
+                companyId: allCompany?._id,
                 billingCountry: allCompany?.billingCountry,
                 companyName: allCompany?.companyName,
                 multiClubInOut: allCompany?.multiClubInOut,
@@ -46,6 +46,8 @@ const General = (allCompany) => {
             }
         }
     }, [allCompany]);
+
+    console.log(allCompany);
 
     const [data, setData] = useState({
         companyId: '',
@@ -101,6 +103,8 @@ const General = (allCompany) => {
         }
     };
 
+    console.log('data>>', data);
+
     return (
         <>
             <CustomCard col="12" title="General">
@@ -141,8 +145,14 @@ const General = (allCompany) => {
             <CustomCard col="12" title="Remote Check Ins">
                 <CustomGridLayout>
                     <CustomDropDown name="checkInLimit" options={checkInLimitOptions} data={data} onChange={handleChange} />
-                    <CustomDropDown name="per" options={perOptions} data={data} onChange={handleChange} />
-                    <CustomDropDown name="restrictionType" options={restrictionOptions} data={data} onChange={handleChange} />
+                    <CustomDropDown name="per" options={perOptions} data={data} onChange={handleChange} disabled={data?.checkInLimit ? false : true} />
+                    <CustomDropDown
+                        name="restrictionType"
+                        options={restrictionOptions}
+                        data={data}
+                        onChange={handleChange}
+                        disabled={data?.per ? false : true}
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

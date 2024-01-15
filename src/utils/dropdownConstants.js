@@ -9,16 +9,30 @@ export const yesNoOptions = [
     },
 ];
 
+// export const checkInLimitOptions = [
+//     {
+//         name: 'No Limit',
+//         value: 'No Limit',
+//     },
+//     {
+//         name: '1-50',
+//         value: '1-50',
+//     },
+// ];
 export const checkInLimitOptions = [
     {
         name: 'No Limit',
         value: 'No Limit',
     },
-    {
-        name: '1-50',
-        value: '1-50',
-    },
 ];
+
+for (let i = 1; i <= 50; i++) {
+    const option = {
+        name: `${i}`,
+        value: `${i}`,
+    };
+    checkInLimitOptions.push(option);
+}
 export const perOptions = [
     {
         name: 'Week (7 days)',

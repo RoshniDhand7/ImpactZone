@@ -3,6 +3,7 @@ import { emailValidation, firstLetterToUppercase, passwordValidation } from './r
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, required = []) => {
+    console.log('typeof>>', typeof value, value, equal(length(value)));
     let formErrors = { ...data.formErrors };
     switch (name) {
         case 'email':
@@ -17,12 +18,14 @@ const formValidation = (name, value, data, required = []) => {
         case 'password':
             if (equal(length(value))) {
                 formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
-            } else if (!passwordValidation(value)) {
-                formErrors[name] = `Please enter a password with 8-16 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character`;
+                // } else if (!passwordValidation(value)) {
+                //     formErrors[name] = `Please enter a password with 8-16 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character`;
+                // } else {
             } else {
                 formErrors[name] = '';
             }
             break;
+
         case 'billingCountry':
         case 'companyName':
         case 'address1':
@@ -51,14 +54,16 @@ const formValidation = (name, value, data, required = []) => {
         case 'allowCancelOnline':
         case 'timeBeforeEvent':
         case 'reasonCodeType':
-            if (equal(length(value))) {
+            if (typeof value == 'boolean') {
+                formErrors[name] = '';
+            } else if (!value) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
                 formErrors[name] = '';
             }
             break;
         case 'zipCode':
-            if (value.length === 0) {
+            if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required.`;
             } else if (zipcodes?.lookup(value)?.state != data?.state) {
                 formErrors[name] = `Please enter a valid Zip Code`;

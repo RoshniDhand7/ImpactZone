@@ -18,7 +18,7 @@ export default function Company() {
 
             <CustomGridLayout>
                 <CustomCard title="General Details" height="200px">
-                    <CustomListItem data={allCompany} name="companyId" />
+                    <CustomListItem data={allCompany} name="companyId" value={allCompany?._id} />
                     <CustomListItem data={allCompany} name="billingCountry" />
                     <CustomListItem data={allCompany} name="companyName" />
                     <CustomListItem data={allCompany} label="Allow Multi-Club Clock In/Out" name="multiClubInOut" />
@@ -40,7 +40,7 @@ export default function Company() {
                     <CustomListItem data={allCompany} name="alternateEmail" />
                     <CustomListItem data={allCompany} name="companyUrl" label="Company URL" />
                 </CustomCard>
-                <CustomCard title="allCompany Export Information" height="200px">
+                <CustomCard title="Data Export Information" height="200px">
                     <CustomListItem data={allCompany} name="companyCode" />
                     <CustomListItem data={allCompany} name="batchId" />
                 </CustomCard>

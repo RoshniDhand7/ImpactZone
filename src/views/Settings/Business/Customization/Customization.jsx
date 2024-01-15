@@ -15,18 +15,20 @@ const Customization = () => {
         <>
             <CustomFilterCard buttonTitle="Edit Customization" linkTo="/settings/business/customization/edit" />
             <CustomCard col="12" title="Customization">
-                <label>Logo</label>
-                <img
-                    src={
-                        allCompany?.logo
-                            ? typeof allCompany?.logo === 'string'
-                                ? getImageURL(allCompany?.logo)
-                                : URL.createObjectURL(allCompany?.logo)
-                            : ProfileImg
-                    }
-                    alt="logo"
-                    style={{ width: '100px' }}
-                />
+                <div className="flex">
+                    <label className="text-align-center mt-5">Logo</label>
+                    <img
+                        src={
+                            allCompany?.logo
+                                ? typeof allCompany?.logo === 'string'
+                                    ? getImageURL(allCompany?.logo)
+                                    : URL.createObjectURL(allCompany?.logo)
+                                : ProfileImg
+                        }
+                        alt="logo"
+                        style={{ width: '100px' }}
+                    />
+                </div>
             </CustomCard>
         </>
     );

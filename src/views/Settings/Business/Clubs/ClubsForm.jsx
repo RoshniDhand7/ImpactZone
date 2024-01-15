@@ -23,7 +23,7 @@ const ClubsForm = () => {
 
                     setData({
                         ...data,
-                        phoneNumber: '(999) 999-9999',
+                        phoneNumber: formattedPhoneNumber,
                     });
 
                     if (data.country === 'US') {
