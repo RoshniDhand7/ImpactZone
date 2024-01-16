@@ -13,6 +13,8 @@ import ReasonCodeForm from '../views/Settings/Business/ReasonCode/ReasonCodeForm
 import CustomizationForm from '../views/Settings/Business/Customization/CustomizationForm';
 import ClubsForm from '../views/Settings/Business/Clubs/ClubsForm';
 import JobTitleForm from '../views/Settings/Business/JobTitle/JobTitleForm';
+import Agreement from '../views/Settings/Agreement/Agreement';
+import AgreementTemplateForm from '../views/Settings/Agreement/AgreementTemplate/AgreementTemplateForm';
 
 export const PrivateRoutes = [
     {
@@ -103,6 +105,20 @@ export const PrivateRoutes = [
                         name: 'Business',
                         exact: true,
                         component: JobTitleForm,
+                    },
+                ],
+            },
+            {
+                path: '/agreement',
+                name: 'Agreement',
+                exact: true,
+                component: Agreement,
+                items: [
+                    {
+                        path: '/template/add',
+                        name: 'Agreement Template',
+                        exact: true,
+                        component: AgreementTemplateForm,
                     },
                 ],
             },

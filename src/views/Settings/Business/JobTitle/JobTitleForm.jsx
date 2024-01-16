@@ -47,10 +47,12 @@ const JobTitleForm = ({ history }) => {
     };
     return (
         <>
-            <FormPage backText="Job Title" backTo="/settings/business">
+            <FormPage backText="Job Title">
                 <CustomCard col="12" title="Job Title">
-                    <CustomInput name="jobTitle" data={data} onChange={handleChange} />
-                    <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />
+                    <CustomGridLayout>
+                        <CustomInput name="jobTitle" data={data} onChange={handleChange} required />
+                        <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />
+                    </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />

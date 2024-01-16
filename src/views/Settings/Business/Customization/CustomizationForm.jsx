@@ -40,7 +40,7 @@ const CustomizationForm = ({ history }) => {
 
     return (
         <>
-            <FormPage backText="Customization" backTo="/settings/business">
+            <FormPage backText="Customization">
                 <CustomCard col="12" title="Customization">
                     <CustomLogoImage name="logo" data={data} removeable onFilesChange={handleChange} />
                 </CustomCard>

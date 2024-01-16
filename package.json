@@ -17,6 +17,8 @@
         "country-state-city": "^3.2.1",
         "crypto-js": "^4.2.0",
         "dotenv": "^16.3.1",
+        "grapesjs": "^0.21.8",
+        "grapesjs-preset-newsletter": "^1.0.2",
         "jwt-decode": "^3.1.2",
         "moment": "^2.29.4",
         "otp-input-react": "^0.3.0",
