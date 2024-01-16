@@ -3,7 +3,6 @@ import { emailValidation, firstLetterToUppercase, passwordValidation } from './r
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, required = []) => {
-    console.log('typeof>>', typeof value, value, equal(length(value)));
     let formErrors = { ...data.formErrors };
     switch (name) {
         case 'email':

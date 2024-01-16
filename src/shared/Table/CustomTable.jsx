@@ -1,6 +1,7 @@
 import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import ViewIcon from '../../assets/icons/view.png';
 import EditIcon from '../../assets/icons/edit.png';
 import DeleteIcon from '../../assets/icons/delete.png';
 
@@ -8,8 +9,8 @@ const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
     const ActionTemplate = (col) => {
         return (
             <span className="flex ">
-                {onView && <img src={EditIcon} alt="" width="10px" className="" onClick={() => onView(col)} />}
-                {onEdit && <img src={EditIcon} alt="" style={{ width: '19px', heigth: '15px' }} onClick={() => onEdit(col)} />}
+                {onView && <img src={ViewIcon} alt="" className="mr-2" style={{ width: '20px', height: '20px' }} onClick={() => onView(col)} />}
+                {onEdit && <img src={EditIcon} alt="" className="" style={{ width: '19px', heigth: '15px' }} onClick={() => onEdit(col)} />}
                 {onDelete && (
                     <img src={DeleteIcon} alt="" className="ml-3 cusor-pointer" style={{ width: '15px', heigth: '15px' }} onClick={() => onDelete(col)} />
                 )}

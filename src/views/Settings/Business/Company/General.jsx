@@ -47,8 +47,6 @@ const General = (allCompany) => {
         }
     }, [allCompany]);
 
-    console.log(allCompany);
-
     const [data, setData] = useState({
         companyId: '',
         billingCountry: '',
@@ -102,8 +100,6 @@ const General = (allCompany) => {
             dispatch(editCompany(data, setLoading, history));
         }
     };
-
-    console.log('data>>', data);
 
     return (
         <>
