@@ -86,3 +86,9 @@ a:-webkit-any-link {
     width: 60px;
     height: 60px;
 }
+.upload-image {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    width: 100%;
+    grid-gap: 1rem;
+}

@@ -5,7 +5,6 @@ import Calender from '../views/Calendar/Calendar';
 import PointOfSale from '../views/PointOfSale/PointOfSale';
 import Plans from '../views/Plans/Plans';
 import More from '../views/More/More';
-
 import Business from '../views/Settings/Business/Business';
 import Settings from '../views/Settings/Settings';
 import CompanyForm from '../views/Settings/Business/Company/CompanyForm';
@@ -13,6 +12,12 @@ import ReasonCodeForm from '../views/Settings/Business/ReasonCode/ReasonCodeForm
 import CustomizationForm from '../views/Settings/Business/Customization/CustomizationForm';
 import ClubsForm from '../views/Settings/Business/Clubs/ClubsForm';
 import JobTitleForm from '../views/Settings/Business/JobTitle/JobTitleForm';
+import Employees from '../views/Settings/Employees/Employees';
+import ViewEmployeeForm from '../views/Settings/Employees/ManageEmployee/ViewEmployeeForm';
+import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm';
+import ClassesSetup from '../views/Settings/Employees/ManageEmployee/AddEmployee/Classes/ClassesSetup';
+import Certifications from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/Certifications';
+import CertificationForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm';
 
 export const PrivateRoutes = [
     {
@@ -103,6 +108,27 @@ export const PrivateRoutes = [
                         name: 'Business',
                         exact: true,
                         component: JobTitleForm,
+                    },
+                ],
+            },
+            {
+                path: '/employee',
+                name: 'Employee',
+                exact: true,
+                component: Employees,
+                items: [
+                    {
+                        path: '/manage-employee/add',
+                        name: 'Employee',
+                        exact: true,
+                        component: EmployeeForm,
+                        items: [{ path: '/certifications', name: 'Employee', exact: true, component: CertificationForm }],
+                    },
+                    {
+                        path: '/manage-employee/view/:id',
+                        name: 'Employee',
+                        exact: true,
+                        component: ViewEmployeeForm,
                     },
                 ],
             },

@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 import { InputMask } from 'primereact/inputmask';
+import { Calendar } from 'primereact/calendar';
 
 export const CustomInput = ({
     label,
@@ -121,6 +122,31 @@ export const CustomDropDown = ({
                 {...props}
             />
             {errorMessage ? <small className="p-error">{errorMessage}</small> : null}
+        </InputLayout>
+    );
+};
+export const CustomCalenderInput = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+    return (
+        <InputLayout
+            col={col || 4}
+            label={label || name}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+        >
+            <Calendar
+                id={name}
+                name={name}
+                value={value || data?.[name]}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                showIcon
+                {...props}
+                // icon="pi pi-clock"
+                // timeOnly
+            />
         </InputLayout>
     );
 };
