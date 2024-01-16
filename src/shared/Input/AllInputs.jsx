@@ -29,7 +29,7 @@ export const CustomInput = ({
                 value={value || data?.[name] || ''}
                 type={type}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
-                className={`w-full p-2 my-1 ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 {...props}
             />
