@@ -21,7 +21,7 @@ export default function CompanyForm() {
     ];
 
     return (
-        <FormPage backText="Company" backTo="/settings/business?tab=company">
+        <FormPage backText="Company">
             <CustomTabView tabs={tabs} />
         </FormPage>
     );

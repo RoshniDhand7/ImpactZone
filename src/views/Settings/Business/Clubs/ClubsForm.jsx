@@ -77,7 +77,7 @@ const ClubsForm = () => {
     };
     return (
         <>
-            <FormPage backText="Clubs" backTo="/settings/business">
+            <FormPage backText="Clubs">
                 <CustomCard col="12" title="Edit Club (Gym Floor)">
                     <CustomGridLayout>
                         <CustomInputMask id="phone" name="phoneNumber" mask="(999) 999-9999" data={data} placeholder="(999) 999-9999" onChange={handleChange} />

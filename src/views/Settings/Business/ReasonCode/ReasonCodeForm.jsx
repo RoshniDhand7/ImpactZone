@@ -47,7 +47,7 @@ export default function ReasonCodeForm({ history }) {
     };
     return (
         <div>
-            <FormPage backText="Reason Codes" backTo="/settings/business">
+            <FormPage backText="Reason Codes">
                 <CustomCard col="12" title="Active">
                     <CustomGridLayout>
                         <CustomDropDown name="reasonCodeType" options={reasonCodeTypeOptions} data={data} onChange={handleChange} />

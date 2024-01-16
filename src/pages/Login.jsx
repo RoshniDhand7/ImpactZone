@@ -22,7 +22,7 @@ export default function Login({ history }) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         email: 'goldgym@yopmail.com',
-        password: 'Iz-1384',
+        password: 'f3Le015!PH',
         rememberMe: false,
     });
 

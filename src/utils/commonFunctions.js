@@ -83,4 +83,26 @@ const mobileFormatted = (phoneNumber) => {
     return phoneNumber;
 };
 
-export { capitalizeCamelCase, showFormErrors, getAllCountries, getStatesByCountry, getCitiesByState, confirmDelete, uploadImages, mobileFormatted };
+const spaceToDash = (inputString) => {
+    return inputString.replace(/ /g, '-').toLowerCase();
+};
+
+const dashToSpace = (inputString) => {
+    return inputString
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
+
+export {
+    capitalizeCamelCase,
+    showFormErrors,
+    getAllCountries,
+    getStatesByCountry,
+    getCitiesByState,
+    confirmDelete,
+    uploadImages,
+    mobileFormatted,
+    spaceToDash,
+    dashToSpace,
+};

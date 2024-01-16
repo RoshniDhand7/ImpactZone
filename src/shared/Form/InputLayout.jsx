@@ -12,13 +12,13 @@ export default function InputLayout({ label, name, required, col, extraClassName
                 <div>
                     {label ? capitalizeCamelCase(label) : label}
                     {required ? <span className="text-red-500">*</span> : null}
+                    {maxLength && (
+                        <span>
+                            &nbsp; ({data?.[name].length}/{maxLength})
+                        </span>
+                    )}
                 </div>
             </label>
-            {maxLength && (
-                <div className="">
-                    {data?.[name].length}/{maxLength}
-                </div>
-            )}
 
             {/* <span style={{ width: '100%', display: 'inline-block' }} className={'p-input-icon-right'}> */}
             {children}

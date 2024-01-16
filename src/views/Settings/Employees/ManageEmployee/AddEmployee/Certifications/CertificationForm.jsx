@@ -9,7 +9,7 @@ const CertificationForm = () => {
             <FormPage backText="Certifications" backTo="/settings/employee/manage-employee/add">
                 <CustomCard col="12" title="Personal">
                     <CustomGridLayout>
-                        <CustomInput name="name" col={3} />
+                        <CustomInput name="name" />
                         <CustomInput name="certificationNumber" />
                         <CustomInput name="issuer" required />
                         <CustomCalenderInput name="acquiredDate" />

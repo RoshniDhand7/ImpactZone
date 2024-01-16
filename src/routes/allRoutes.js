@@ -12,6 +12,8 @@ import ReasonCodeForm from '../views/Settings/Business/ReasonCode/ReasonCodeForm
 import CustomizationForm from '../views/Settings/Business/Customization/CustomizationForm';
 import ClubsForm from '../views/Settings/Business/Clubs/ClubsForm';
 import JobTitleForm from '../views/Settings/Business/JobTitle/JobTitleForm';
+import Agreement from '../views/Settings/Agreement/Agreement';
+import AgreementTemplateForm from '../views/Settings/Agreement/AgreementTemplate/AgreementTemplateForm';
 import Employees from '../views/Settings/Employees/Employees';
 import ViewEmployeeForm from '../views/Settings/Employees/ManageEmployee/ViewEmployeeForm';
 import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm';
@@ -129,6 +131,20 @@ export const PrivateRoutes = [
                         name: 'Employee',
                         exact: true,
                         component: ViewEmployeeForm,
+                    },
+                ],
+            },
+            {
+                path: '/agreement',
+                name: 'Agreement',
+                exact: true,
+                component: Agreement,
+                items: [
+                    {
+                        path: '/template/add',
+                        name: 'Agreement Template',
+                        exact: true,
+                        component: AgreementTemplateForm,
                     },
                 ],
             },
