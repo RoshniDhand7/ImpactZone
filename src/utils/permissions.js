@@ -599,7 +599,7 @@ export const allPermissions = [
     },
     {
         department: 'Pos',
-        expended: { 'Catalog Access': true, 'POS Register': true },
+        expended: { 'Catalog Access': true, 'POS Register': true, 'POS Sales': true },
 
         permissions: [
             {
@@ -711,35 +711,102 @@ export const allPermissions = [
                         key: 'INVENTORY-TRACKING-EDIT-WHOLESALE-COSTS',
                         label: 'Inventory Tracking Edit wholesale costs',
                     },
+                ],
+            },
+            {
+                key: 'POS Sales',
+                label: 'POS Sales',
+                children: [
                     {
-                        key: 'POS Register',
-                        label: 'POS Register',
-                        children: [
-                            {
-                                key: 'VIEW-DRAWER-SUMMARY-CURRENT',
-                                label: 'View Drawer Summary Current',
-                            },
-                            {
-                                key: 'VIEW-DRAWER-SUMMARY-ALL',
-                                label: 'View Drawer Summary All',
-                            },
-                            {
-                                key: 'VIEW-PAST-DRAWERS',
-                                label: 'View Past Drawers',
-                            },
-                            {
-                                key: 'PRINT-DRAWER-REPORTS',
-                                label: 'Print Drawer Reports',
-                            },
-                            {
-                                key: 'CLOSE-OUT-REGISTER',
-                                label: 'Close Out Register',
-                            },
-                            {
-                                key: 'ADD-DROP',
-                                label: 'Add/ Drop',
-                            },
-                        ],
+                        key: 'EDIT-SALE-PRICE',
+                        label: 'Edit Sale Price',
+                    },
+                    {
+                        key: 'REQUEST-EDIT-SALE-PRICE',
+                        label: 'Request Edit sale price',
+                    },
+                    {
+                        key: 'EDIT-ITEM-DISCOUNT-AMOUNTS',
+                        label: 'Edit Item Discount Amounts',
+                    },
+                    {
+                        key: 'REQUEST-ITEM-DISCOUNT-AMOUNTS',
+                        label: 'Request item discount amounts',
+                    },
+                    {
+                        key: 'WAIVE-TAX',
+                        label: 'Waive Tax',
+                    },
+                    {
+                        key: 'APPLY-DISCOUNT',
+                        label: 'Apply Discount',
+                    },
+
+                    {
+                        key: 'APPLY-COMMISSIONS',
+                        label: 'Apply Commissions',
+                    },
+                    {
+                        key: 'REQUEST-DISCOUNT',
+                        label: 'Request Discount',
+                    },
+                    {
+                        key: 'REQUEST-COMMISSION',
+                        label: 'Request Commission',
+                    },
+                    {
+                        key: 'REQUEST-WAIVE-TAX',
+                        label: 'Requests waive tax',
+                    },
+                    {
+                        key: 'VOID-SALE',
+                        label: 'Void Sale',
+                    },
+                    {
+                        key: 'POS-ACCESS',
+                        label: 'POS Access',
+                    },
+                    {
+                        key: 'REFUND-SALE',
+                        label: 'Refund Sale',
+                    },
+                    {
+                        key: 'REFUND-SALES-NO-LIMIT',
+                        label: 'Refund sales no Limit',
+                    },
+                    {
+                        key: 'REQUEST-REFUND',
+                        label: 'Request Refund',
+                    },
+                ],
+            },
+            {
+                key: 'POS Register',
+                label: 'POS Register',
+                children: [
+                    {
+                        key: 'VIEW-DRAWER-SUMMARY-CURRENT',
+                        label: 'View Drawer Summary Current',
+                    },
+                    {
+                        key: 'VIEW-DRAWER-SUMMARY-ALL',
+                        label: 'View Drawer Summary All',
+                    },
+                    {
+                        key: 'VIEW-PAST-DRAWERS',
+                        label: 'View Past Drawers',
+                    },
+                    {
+                        key: 'PRINT-DRAWER-REPORTS',
+                        label: 'Print Drawer Reports',
+                    },
+                    {
+                        key: 'CLOSE-OUT-REGISTER',
+                        label: 'Close Out Register',
+                    },
+                    {
+                        key: 'ADD-DROP',
+                        label: 'Add/ Drop',
                     },
                 ],
             },
