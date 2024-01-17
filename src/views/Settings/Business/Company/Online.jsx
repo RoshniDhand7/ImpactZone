@@ -43,14 +43,14 @@ const Online = (allCompany) => {
         <>
             <CustomCard col="12" title="Booking">
                 <CustomGridLayout>
-                    <CustomDropDown name="bookOutFrom" options={daysOptions} data={data} onChange={handleChange} />
-                    <CustomDropDown name="bookOutTo" options={daysOptions} data={data} onChange={handleChange} />
+                    <CustomDropDown name="bookOutFrom" options={daysOptions} data={data} onChange={handleChange} required />
+                    <CustomDropDown name="bookOutTo" options={daysOptions} data={data} onChange={handleChange} required />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Cancellation">
                 <CustomGridLayout>
-                    <CustomDropDown name="allowCancelOnline" options={yesNoOptions} data={data} onChange={handleChange} />
-                    <CustomDropDown name="timeBeforeEvent" options={hoursOptions} data={data} onChange={handleChange} />
+                    <CustomDropDown name="allowCancelOnline" options={yesNoOptions} data={data} onChange={handleChange} required />
+                    <CustomDropDown name="timeBeforeEvent" options={hoursOptions} data={data} onChange={handleChange} required />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

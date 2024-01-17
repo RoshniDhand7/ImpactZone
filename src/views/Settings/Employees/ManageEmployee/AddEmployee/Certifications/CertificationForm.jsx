@@ -6,7 +6,7 @@ import { CustomCalenderInput, CustomInput, CustomTextArea } from '../../../../..
 const CertificationForm = () => {
     return (
         <>
-            <FormPage backText="Certifications" backTo="/settings/employee/manage-employee/add">
+            <FormPage backText="Certifications">
                 <CustomCard col="12" title="Personal">
                     <CustomGridLayout>
                         <CustomInput name="name" />

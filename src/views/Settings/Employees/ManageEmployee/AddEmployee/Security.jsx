@@ -35,7 +35,6 @@ const Security = () => {
             </div>
         );
     };
-    console.log('pickData>>', pickdata);
     return (
         <>
             <CustomCard col="12" title="Personal">

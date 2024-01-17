@@ -105,21 +105,35 @@ const General = (allCompany) => {
         <>
             <CustomCard col="12" title="General">
                 <CustomGridLayout>
-                    <CustomInput name="companyId" data={data} onChange={handleChange} disabled={true} />
-                    <CustomInput name="billingCountry" data={data} onChange={handleChange} />
-                    <CustomInput name="companyName" data={data} onChange={handleChange} />
-                    <CustomDropDown label="Allow Multi-Club Clock In/Out" name="multiClubInOut" options={yesNoOptions} data={data} onChange={handleChange} />
-                    <CustomDropDown label="Clock In Department Required" name="clockInRequired" options={yesNoOptions} data={data} onChange={handleChange} />
+                    <CustomInput name="companyId" data={data} onChange={handleChange} disabled={true} required />
+                    <CustomInput name="billingCountry" data={data} onChange={handleChange} required />
+                    <CustomInput name="companyName" data={data} onChange={handleChange} required />
+                    <CustomDropDown
+                        label="Allow Multi-Club Clock In/Out"
+                        name="multiClubInOut"
+                        options={yesNoOptions}
+                        data={data}
+                        onChange={handleChange}
+                        required
+                    />
+                    <CustomDropDown
+                        label="Clock In Department Required"
+                        name="clockInRequired"
+                        options={yesNoOptions}
+                        data={data}
+                        onChange={handleChange}
+                        required
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Address">
                 <CustomGridLayout>
-                    <CustomDropDown name="country" options={country} data={data} disabled={true} />
-                    <CustomInput name="address1" data={data} onChange={handleChange} />
-                    <CustomInput name="address2" data={data} onChange={handleChange} />
-                    <CustomDropDown name="state" options={states} data={data} onChange={handleChange} />
-                    <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} />
-                    <CustomInput name="zipCode" data={data} onChange={handleChange} />
+                    <CustomDropDown name="country" options={country} data={data} disabled={true} required />
+                    <CustomInput name="address1" data={data} onChange={handleChange} required />
+                    <CustomInput name="address2" data={data} onChange={handleChange} required />
+                    <CustomDropDown name="state" options={states} data={data} onChange={handleChange} required />
+                    <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} required />
+                    <CustomInput name="zipCode" data={data} onChange={handleChange} required />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Contact Information">
@@ -127,7 +141,7 @@ const General = (allCompany) => {
                     <CustomInput name="workNumber" data={data} onChange={handleChange} />
                     <CustomInput name="workExtention" data={data} onChange={handleChange} />
                     <CustomInput name="faxNumber" data={data} onChange={handleChange} />
-                    <CustomInput name="primaryEmail" data={data} onChange={handleChange} />
+                    <CustomInput name="primaryEmail" data={data} onChange={handleChange} required />
                     <CustomInput name="alternateEmail" data={data} onChange={handleChange} />
                     <CustomInput name="companyUrl" data={data} onChange={handleChange} />
                 </CustomGridLayout>

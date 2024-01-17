@@ -20,6 +20,7 @@ import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee
 import ClassesSetup from '../views/Settings/Employees/ManageEmployee/AddEmployee/Classes/ClassesSetup';
 import Certifications from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/Certifications';
 import CertificationForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm';
+import SecurityRolesForm from '../views/Settings/Employees/SecurityRoles/SecurityRolesForm';
 
 export const PrivateRoutes = [
     {
@@ -131,6 +132,12 @@ export const PrivateRoutes = [
                         name: 'Employee',
                         exact: true,
                         component: ViewEmployeeForm,
+                    },
+                    {
+                        path: '/security-roles/add',
+                        name: 'Employee',
+                        exact: true,
+                        component: SecurityRolesForm,
                     },
                 ],
             },

@@ -12,14 +12,13 @@ const TabContent = styled.div`
 export default function CustomTabView({ tabs }) {
     const history = useHistory();
     const { search } = useLocation();
+    console.log('search>>', search);
     const searchParams = new URLSearchParams(search);
     const tab = searchParams.get('tab');
-
     const [activeIndex, setActiveIndex] = useState(0);
     const [tabDirection, setTabDirection] = useState(null);
 
     useEffect(() => {
-        console.log(tab);
         let idx = 0;
         if (tab) {
             let value = dashToSpace(tab);

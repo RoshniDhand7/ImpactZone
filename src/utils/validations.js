@@ -29,12 +29,9 @@ const formValidation = (name, value, data, required = []) => {
         case 'companyName':
         case 'address1':
         case 'address2':
-        case 'workNumber':
         case 'address':
         case 'phoneNumber':
         case 'jobTitle':
-        case 'workExtention':
-        case 'faxNumber':
         case 'primaryEmail':
         case 'reasonCode':
             if (equal(length(value))) {

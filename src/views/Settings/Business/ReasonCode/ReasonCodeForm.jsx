@@ -50,8 +50,8 @@ export default function ReasonCodeForm({ history }) {
             <FormPage backText="Reason Codes">
                 <CustomCard col="12" title="Active">
                     <CustomGridLayout>
-                        <CustomDropDown name="reasonCodeType" options={reasonCodeTypeOptions} data={data} onChange={handleChange} />
-                        <CustomInput name="reasonCode" data={data} onChange={handleChange} />
+                        <CustomDropDown name="reasonCodeType" options={reasonCodeTypeOptions} data={data} onChange={handleChange} required />
+                        <CustomInput name="reasonCode" data={data} onChange={handleChange} required />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

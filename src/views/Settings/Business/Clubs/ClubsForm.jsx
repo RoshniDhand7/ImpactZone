@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import { getAllCountries, getCitiesByState, getStatesByCountry, mobileFormatted, showFormErrors } from '../../../../utils/commonFunctions';
 import { editClub, getClub } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../../../utils/validations';
-import { InputMask } from 'primereact/inputmask';
 
 const ClubsForm = () => {
     const history = useHistory();
@@ -80,17 +79,25 @@ const ClubsForm = () => {
             <FormPage backText="Clubs">
                 <CustomCard col="12" title="Edit Club (Gym Floor)">
                     <CustomGridLayout>
-                        <CustomInputMask id="phone" name="phoneNumber" mask="(999) 999-9999" data={data} placeholder="(999) 999-9999" onChange={handleChange} />
-                        <CustomInput name="email" data={data} onChange={handleChange} />
-                        <CustomInput name="address" data={data} onChange={handleChange} />
+                        <CustomInputMask
+                            id="phone"
+                            name="phoneNumber"
+                            mask="(999) 999-9999"
+                            data={data}
+                            placeholder="(999) 999-9999"
+                            onChange={handleChange}
+                            required
+                        />
+                        <CustomInput name="email" data={data} onChange={handleChange} required />
+                        <CustomInput name="address" data={data} onChange={handleChange} required />
                     </CustomGridLayout>
                     <CustomGridLayout>
-                        <CustomDropDown name="country" options={country} data={data} disabled={true} />
-                        <CustomDropDown name="state" options={states} data={data} onChange={handleChange} />
-                        <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} />
+                        <CustomDropDown name="country" options={country} data={data} disabled={true} required />
+                        <CustomDropDown name="state" options={states} data={data} onChange={handleChange} required />
+                        <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} required />
                     </CustomGridLayout>
                     <CustomGridLayout>
-                        <CustomInput name="zipCode" data={data} onChange={handleChange} />
+                        <CustomInput name="zipCode" data={data} onChange={handleChange} required />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

@@ -8,7 +8,6 @@ const Notes = () => {
     const handleNotesChange = (e) => {
         setNotes(e);
     };
-    console.log('notes>>', notes);
     return (
         <>
             <CustomCard col="12" title="Notes">

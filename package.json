@@ -70,6 +70,7 @@
         ]
     },
     "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@types/react-router-dom": "^5.3.3",
         "cross-env": "^7.0.3",
         "eslint": "^8.53.0",
