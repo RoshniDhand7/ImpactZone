@@ -21,8 +21,8 @@ export default function Login({ history }) {
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
-        email: 'goldgym@yopmail.com',
-        password: 'f3Le015!PH',
+        email: '',
+        password: '',
         rememberMe: false,
     });
 
