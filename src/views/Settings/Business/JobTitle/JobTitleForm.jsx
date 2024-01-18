@@ -27,7 +27,7 @@ const JobTitleForm = ({ history }) => {
                 }),
             );
         }
-    }, [id]);
+    }, [id, dispatch]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -55,7 +55,7 @@ const JobTitleForm = ({ history }) => {
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
                 </CustomButtonGroup>
             </FormPage>

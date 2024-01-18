@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputMask } from '../../../../shared/Input/AllInputs';
 import { checkInLimitOptions, perOptions, restrictionOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAllCountries, getCitiesByState, getStatesByCountry, showFormErrors } from '../../../../utils/commonFunctions';
-import { editCompany, getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
+import { editCompany } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import formValidation from '../../../../utils/validations';
@@ -138,7 +138,7 @@ const General = (allCompany) => {
             </CustomCard>
             <CustomCard col="12" title="Contact Information">
                 <CustomGridLayout>
-                    <CustomInput name="workNumber" data={data} onChange={handleChange} />
+                    <CustomInputMask name="workNumber" id="phone" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} required />
                     <CustomInput name="workExtention" data={data} onChange={handleChange} />
                     <CustomInput name="faxNumber" data={data} onChange={handleChange} />
                     <CustomInput name="primaryEmail" data={data} onChange={handleChange} required />
@@ -166,7 +166,7 @@ const General = (allCompany) => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
             </CustomButtonGroup>
         </>

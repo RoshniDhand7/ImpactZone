@@ -5,11 +5,72 @@ import { CustomCalenderInput, CustomDropDown, CustomInput } from '../../../../..
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 import { ProductService } from './ProductServiceDummy';
+import formValidation from '../../../../../utils/validations';
+import { showFormErrors } from '../../../../../utils/commonFunctions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { addEmployees, editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { useParams } from 'react-router';
+import { getJobDetails } from '../../../../../redux/actions/BusinessSettings/jobActions';
 
 const Security = () => {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+
+    const history = useHistory();
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
-        ProductService.getProductsSmall().then((data) => setPickData({ source: data, target: [] }));
+        dispatch(getJobDetails());
     }, []);
+
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getEmployee(id, (data) => {
+                    setData({
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        middleInitial: data.middleInitial,
+                        jobTitle: data.jobTitle,
+                        dob: new Date(data.dob),
+                        socialSecurity: data.socialSecurity,
+                        barCode: data.barCode,
+                        accessCode: data.accessCode,
+                        email: data.email,
+                        multiClubClockIn: data.multiClubClockIn.toString(),
+                    });
+                }),
+            );
+        }
+    }, [id, dispatch]);
+
+    const { allJobTitle } = useSelector((state) => state.jobTitle);
+    const [data, setData] = useState({
+        firstName: '',
+        lastName: '',
+        middleInitial: '',
+        jobTitle: '',
+        dob: '',
+        socialSecurity: '',
+        barCode: '',
+        accessCode: '',
+        email: '',
+        multiClubClockIn: '',
+    });
+
+    const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
+    const handleSave = () => {
+        if (showFormErrors(data, setData)) {
+            if (id) {
+                dispatch(editEmployee(id, data, setLoading, history));
+            } else {
+                dispatch(addEmployees(data, setLoading, history));
+            }
+        }
+    };
 
     const [pickdata, setPickData] = useState({ source: [], target: [] });
 
@@ -19,40 +80,38 @@ const Security = () => {
     const itemTemplate = (item) => {
         return (
             <div className="flex flex-wrap p-2 align-items-center gap-3">
-                <img
-                    className="w-4rem shadow-2 flex-shrink-0 border-round"
-                    src={`https://primefaces.org/cdn/primereact/images/product/${item.image}`}
-                    alt={item.name}
-                />
-                <div className="flex-1 flex flex-column gap-2">
-                    <span className="font-bold">{item.name}</span>
-                    <div className="flex align-items-center gap-2">
-                        <i className="pi pi-tag text-sm"></i>
-                        <span>{item.category}</span>
-                    </div>
-                </div>
-                <span className="font-bold text-900">${item.price}</span>
+                <h1>Text</h1>
             </div>
         );
     };
+
+    console.log('data>>', data, allJobTitle);
     return (
         <>
             <CustomCard col="12" title="Personal">
                 <CustomGridLayout>
-                    <CustomInput name="firstName" required col={3} />
-                    <CustomInput name="Mi" col={1} />
-                    <CustomInput name="lastName" required />
-                    <CustomInput name="title" />
-                    <CustomCalenderInput name="dateOfBirth" />
-                    <CustomInput name="socialSecurity" />
+                    <CustomInput name="firstName" required col={3} data={data} onChange={handleChange} />
+                    <CustomInput name="middleInitial" col={1} data={data} onChange={handleChange} />
+                    <CustomInput name="lastName" required data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        name="jobTitle"
+                        data={data}
+                        onChange={handleChange}
+                        options={allJobTitle?.map((item, index) => {
+                            return { label: item.jobTitle, value: item._id };
+                        })}
+                        optionLabel="label"
+                    />
+                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} />
+                    <CustomInput name="socialSecurity" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="System">
                 <CustomGridLayout>
-                    <CustomInput name="barcode" required />
-                    <CustomInput name="accessCode" required />
-                    <CustomInput name="email" required />
-                    <CustomDropDown label="Allow Multi-Club Clock In/Out" name="multiClubInOut" options={yesNoOptions} />
+                    <CustomInput name="barCode" required data={data} onChange={handleChange} />
+                    <CustomInput name="accessCode" required data={data} onChange={handleChange} />
+                    <CustomInput name="email" required data={data} onChange={handleChange} />
+                    <CustomDropDown label="Allow Multi-Club Clock In/Out" name="multiClubClockIn" options={yesNoOptions} data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Select Roles">
@@ -73,8 +132,8 @@ const Security = () => {
                 </div>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" />
-                <LightButton label="Cancel" />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>
     );

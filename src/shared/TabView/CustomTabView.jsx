@@ -9,7 +9,7 @@ const TabContent = styled.div`
     animation: ${({ direction }) => (direction ? (direction === 'right' ? SlideInRightAnimation : SlideInLeftAnimation) : fadeInAnimation)} 0.6s both;
 `;
 
-export default function CustomTabView({ tabs }) {
+export default function CustomTabView({ tabs, disabledTabIndices }) {
     const history = useHistory();
     const { search } = useLocation();
     console.log('search>>', search);
@@ -25,6 +25,7 @@ export default function CustomTabView({ tabs }) {
             idx = tabs.findIndex((obj) => obj.title === value);
         }
         setActiveIndex(idx);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tab]);
 
     const handleChange = ({ index }) => {
@@ -37,7 +38,7 @@ export default function CustomTabView({ tabs }) {
     return (
         <TabView activeIndex={activeIndex} onTabChange={handleChange}>
             {tabs?.map((tab, i) => (
-                <TabPanel key={i} header={tab?.title}>
+                <TabPanel key={i} header={tab?.title} disabled={disabledTabIndices?.includes(i)}>
                     <div style={{ overflowX: 'hidden' }}>
                         <TabContent direction={tabDirection}>{tab.content}</TabContent>
                     </div>

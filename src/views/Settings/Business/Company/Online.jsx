@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
@@ -54,7 +54,7 @@ const Online = (allCompany) => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
             </CustomButtonGroup>
         </>

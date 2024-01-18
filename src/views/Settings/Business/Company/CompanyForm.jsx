@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CustomTabView from '../../../../shared/TabView/CustomTabView';
 import FormPage from '../../../../shared/Layout/FormPage';
 import General from './General';
@@ -8,10 +8,9 @@ import { getCompanyDetails } from '../../../../redux/actions/BusinessSettings/co
 
 export default function CompanyForm() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        dispatch(getCompanyDetails(setLoading));
+        dispatch(getCompanyDetails());
     }, [dispatch]);
     let { allCompany } = useSelector((state) => state?.company);
 

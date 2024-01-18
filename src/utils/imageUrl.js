@@ -1,4 +1,3 @@
-import Constants from '../services/endPoints';
 import GalleryImg from '../assets/icons/camera.png';
 import constants from '../constants';
 

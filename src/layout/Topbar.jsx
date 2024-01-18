@@ -11,170 +11,160 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../redux/actions/profileAction';
 
 export default function TopBar() {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getProfile());
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(getProfile());
+    }, [dispatch]);
 
-  const { user } = useSelector((state) => state?.profile);
-  const history = useHistory();
-  const location = useLocation();
-  const menuRight = useRef(null);
-  const active = {
-    fontWeight: '600',
-  };
+    const { user } = useSelector((state) => state?.profile);
+    const history = useHistory();
+    const location = useLocation();
+    const menuRight = useRef(null);
+    const active = {
+        fontWeight: '600',
+    };
 
-  const getNavbar = () => {
-    const items = [
-      {
-        label: 'Dashboard',
-        style: location.pathname.includes('/dashboard') ? active : '',
-        command: () => history.push('/dashboard'),
-      },
-      {
-        label: 'Check-In',
-        style: location.pathname.includes('/check-in') ? active : '',
-        command: () => history.push('/check-in'),
-      },
-      {
-        label: 'Members',
-        style: location.pathname.includes('/members') ? active : '',
-        command: () => history.replace('/members'),
-      },
-      {
-        label: 'Calendar',
-        style: location.pathname.includes('/calender') ? active : '',
-        command: () => history.replace('/calender'),
-      },
-      {
-        label: 'Point of Sale',
-        style: location.pathname.includes('/pos') ? active : '',
-        command: () => history.replace('/pos'),
-      },
-      {
-        label: 'Plans',
-        style: location.pathname.includes('/plans') ? active : '',
-        command: () => history.replace('/plans'),
-      },
-      {
-        label: 'Report',
-        items: [
-          {
-            label: 'Link1',
-          },
-          {
-            label: 'Link2',
-          },
-          {
-            label: 'Link3',
-          },
-        ],
-      },
-      {
-        label: 'More',
-        style: location.pathname.includes('/more') ? active : '',
-        command: () => history.replace('/more'),
-      },
-    ];
-    return items;
-  };
+    const getNavbar = () => {
+        const items = [
+            {
+                label: 'Dashboard',
+                style: location.pathname.includes('/dashboard') ? active : '',
+                command: () => history.push('/dashboard'),
+            },
+            {
+                label: 'Check-In',
+                style: location.pathname.includes('/check-in') ? active : '',
+                command: () => history.push('/check-in'),
+            },
+            {
+                label: 'Members',
+                style: location.pathname.includes('/members') ? active : '',
+                command: () => history.replace('/members'),
+            },
+            {
+                label: 'Calendar',
+                style: location.pathname.includes('/calender') ? active : '',
+                command: () => history.replace('/calender'),
+            },
+            {
+                label: 'Point of Sale',
+                style: location.pathname.includes('/pos') ? active : '',
+                command: () => history.replace('/pos'),
+            },
+            {
+                label: 'Plans',
+                style: location.pathname.includes('/plans') ? active : '',
+                command: () => history.replace('/plans'),
+            },
+            {
+                label: 'Report',
+                items: [
+                    {
+                        label: 'Link1',
+                    },
+                    {
+                        label: 'Link2',
+                    },
+                    {
+                        label: 'Link3',
+                    },
+                ],
+            },
+            {
+                label: 'More',
+                style: location.pathname.includes('/more') ? active : '',
+                command: () => history.replace('/more'),
+            },
+        ];
+        return items;
+    };
 
-  const [items, setItems] = useState([]);
+    const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    setItems(getNavbar());
-  }, [location]);
+    useEffect(() => {
+        setItems(getNavbar());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location]);
 
-  const logoDiv = (
-    <div className="flex justify-content-center">
-      <img alt="logo" src={logo} className="w-6 mr-2" />
-    </div>
-  );
-
-  let iconItems = [
-    {
-      icon: 'pi pi-search',
-      command: () => history.push('/dashboard'),
-    },
-    {
-      icon: 'pi pi-plus-circle',
-      command: () => history.push('/dashboard'),
-    },
-    {
-      icon: 'pi pi-calendar-plus',
-      command: () => history.push('/dashboard'),
-    },
-    {
-      icon: 'pi pi-clock',
-      command: () => history.push('/dashboard'),
-    },
-    {
-      icon: 'pi pi-cog',
-      command: () => history.push('/settings'),
-    },
-    {
-      icon: 'pi pi-question-circle',
-      command: () => history.push('/dashboard'),
-      items: [],
-    },
-  ];
-  const getFirstCharacter = (name = '') => {
-    let words = name.split(' ');
-    let firstLetters = words.map((word) => word?.charAt(0).toUpperCase());
-    firstLetters = firstLetters.slice(0, 2);
-    return firstLetters;
-  };
-  const end = (
-    <div className="flex justify-content-between">
-      <Menubar style={{ border: 'none' }} model={iconItems} />
-      <div
-        className="flex cursor-pointer"
-        onClick={(event) => menuRight.current.toggle(event)}
-      >
-        <Avatar
-          // image={Profile}
-          label={getFirstCharacter(user?.name)}
-          size="large"
-          shape="circle"
-        />
-        <div className="flex">
-          <div className="flex m-2">
-            <span className="font-semibold text-base  ">
-              {user?.name || 'Loading...'}
-            </span>
-            <i className="pi pi-angle-down mt-1 px-2" />
-          </div>
+    const logoDiv = (
+        <div className="flex justify-content-center">
+            <img alt="logo" src={logo} className="w-6 mr-2" />
         </div>
-      </div>
-    </div>
-  );
+    );
 
-  let userItems = [
-    {
-      label: 'Switch User',
-      command: () => history.push('/dashboard'),
-    },
-    {
-      icon: 'pi pi-power-off',
-      label: 'Logout',
-      command: () => {
-        logout(() => history.push('/'));
-      },
-    },
-  ];
-  return (
-    <>
-      <div className="top-bar">
-        <Menubar model={items} start={logoDiv} end={end} />
-        <Menu
-          model={userItems}
-          popup
-          ref={menuRight}
-          id="popup_menu_right"
-          popupAlignment="right"
-        />
-      </div>
-    </>
-  );
+    let iconItems = [
+        {
+            icon: 'pi pi-search',
+            command: () => history.push('/dashboard'),
+        },
+        {
+            icon: 'pi pi-plus-circle',
+            command: () => history.push('/dashboard'),
+        },
+        {
+            icon: 'pi pi-calendar-plus',
+            command: () => history.push('/dashboard'),
+        },
+        {
+            icon: 'pi pi-clock',
+            command: () => history.push('/dashboard'),
+        },
+        {
+            icon: 'pi pi-cog',
+            command: () => history.push('/settings'),
+        },
+        {
+            icon: 'pi pi-question-circle',
+            command: () => history.push('/dashboard'),
+            items: [],
+        },
+    ];
+    const getFirstCharacter = (name = '') => {
+        let words = name.split(' ');
+        let firstLetters = words.map((word) => word?.charAt(0).toUpperCase());
+        firstLetters = firstLetters.slice(0, 2);
+        return firstLetters;
+    };
+    const end = (
+        <div className="flex justify-content-between">
+            <Menubar style={{ border: 'none' }} model={iconItems} />
+            <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>
+                <Avatar
+                    // image={Profile}
+                    label={getFirstCharacter(user?.firstName)}
+                    size="large"
+                    shape="circle"
+                />
+                <div className="flex">
+                    <div className="flex m-2">
+                        <span className="font-semibold text-base  ">{user?.firstName || 'Loading...'}</span>
+                        <i className="pi pi-angle-down mt-1 px-2" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    let userItems = [
+        {
+            label: 'Switch User',
+            command: () => history.push('/dashboard'),
+        },
+        {
+            icon: 'pi pi-power-off',
+            label: 'Logout',
+            command: () => {
+                logout(() => history.push('/'));
+            },
+        },
+    ];
+    return (
+        <>
+            <div className="top-bar">
+                <Menubar model={items} start={logoDiv} end={end} />
+                <Menu model={userItems} popup ref={menuRight} id="popup_menu_right" popupAlignment="right" />
+            </div>
+        </>
+    );
 }

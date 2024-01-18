@@ -11,7 +11,7 @@ const JobTitle = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getJobDetails());
-    }, []);
+    }, [dispatch]);
 
     const { allJobTitle } = useSelector((state) => state.jobTitle);
 

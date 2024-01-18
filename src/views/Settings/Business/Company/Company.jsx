@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import CustomCard, { CustomGridLayout, CustomListItem, CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,9 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Company() {
     const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(false);
     useEffect(() => {
-        dispatch(getCompanyDetails(setLoading));
+        dispatch(getCompanyDetails());
     }, [dispatch]);
     let { allCompany } = useSelector((state) => state?.company);
 

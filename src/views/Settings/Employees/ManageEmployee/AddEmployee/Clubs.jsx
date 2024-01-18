@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import CustomCard, { CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
+import React, { useState } from 'react';
+import CustomCard from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
-import { CustomInput } from '../../../../../shared/Input/AllInputs';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 
 const Clubs = () => {

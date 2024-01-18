@@ -32,7 +32,7 @@ const ClubsForm = () => {
                 }),
             );
         }
-    }, [id]);
+    }, [id, dispatch]);
 
     const [data, setData] = useState({
         phoneNumber: '',
@@ -79,15 +79,7 @@ const ClubsForm = () => {
             <FormPage backText="Clubs">
                 <CustomCard col="12" title="Edit Club (Gym Floor)">
                     <CustomGridLayout>
-                        <CustomInputMask
-                            id="phone"
-                            name="phoneNumber"
-                            mask="(999) 999-9999"
-                            data={data}
-                            placeholder="(999) 999-9999"
-                            onChange={handleChange}
-                            required
-                        />
+                        <CustomInputMask id="phone" name="phoneNumber" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} required />
                         <CustomInput name="email" data={data} onChange={handleChange} required />
                         <CustomInput name="address" data={data} onChange={handleChange} required />
                     </CustomGridLayout>
@@ -101,7 +93,7 @@ const ClubsForm = () => {
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
                 </CustomButtonGroup>
             </FormPage>

@@ -17,10 +17,9 @@ import AgreementTemplateForm from '../views/Settings/Agreement/AgreementTemplate
 import Employees from '../views/Settings/Employees/Employees';
 import ViewEmployeeForm from '../views/Settings/Employees/ManageEmployee/ViewEmployeeForm';
 import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm';
-import ClassesSetup from '../views/Settings/Employees/ManageEmployee/AddEmployee/Classes/ClassesSetup';
-import Certifications from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/Certifications';
 import CertificationForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm';
 import SecurityRolesForm from '../views/Settings/Employees/SecurityRoles/SecurityRolesForm';
+import DepartmentsForm from '../views/Settings/Employees/Departments/DepartmentsForm';
 
 export const PrivateRoutes = [
     {
@@ -128,10 +127,23 @@ export const PrivateRoutes = [
                         items: [{ path: '/certifications', name: 'Employee', exact: true, component: CertificationForm }],
                     },
                     {
+                        path: '/manage-employee/edit/:id',
+                        name: 'Employee',
+                        exact: true,
+                        component: EmployeeForm,
+                        items: [{ path: '/certifications', name: 'Employee', exact: true, component: CertificationForm }],
+                    },
+                    {
                         path: '/manage-employee/view/:id',
                         name: 'Employee',
                         exact: true,
                         component: ViewEmployeeForm,
+                    },
+                    {
+                        path: '/departments/add',
+                        name: 'Employee',
+                        exact: true,
+                        component: DepartmentsForm,
                     },
                     {
                         path: '/security-roles/add',

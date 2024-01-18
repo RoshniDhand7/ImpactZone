@@ -11,7 +11,7 @@ const Notes = () => {
     return (
         <>
             <CustomCard col="12" title="Notes">
-                <CustomEditor onTextChange={handleNotesChange} />
+                <CustomEditor onTextChange={handleNotesChange} value={notes} />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" />

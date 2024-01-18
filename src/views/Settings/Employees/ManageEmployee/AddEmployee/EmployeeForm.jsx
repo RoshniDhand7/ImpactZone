@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormPage from '../../../../../shared/Layout/FormPage';
 import CustomTabView from '../../../../../shared/TabView/CustomTabView';
 import Security from './Security';
@@ -6,8 +6,10 @@ import General from './General';
 import Clubs from './Clubs';
 import Notes from './Notes';
 import Certifications from './Certifications/Certifications';
+import { useParams } from 'react-router-dom';
 
 const EmployeeForm = () => {
+    const { id } = useParams();
     const tabs = [
         { title: 'Security', content: <Security /> },
         { title: 'General', content: <General /> },
@@ -26,7 +28,7 @@ const EmployeeForm = () => {
     return (
         <>
             <FormPage backText="Manage Employees" backTo="/settings/employee">
-                <CustomTabView tabs={tabs} />
+                <CustomTabView tabs={tabs} disabledTabIndices={id ? [] : [1, 2, 3, 4, 5, 6, 7, 8, 9]} />
             </FormPage>
         </>
     );

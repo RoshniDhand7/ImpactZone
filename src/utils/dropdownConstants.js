@@ -1,11 +1,11 @@
 export const yesNoOptions = [
     {
         name: 'Yes',
-        value: 'Yes',
+        value: 'true',
     },
     {
         name: 'No',
-        value: 'No',
+        value: 'false',
     },
 ];
 

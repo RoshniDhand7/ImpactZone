@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
@@ -11,7 +11,7 @@ export default function ReasonCode() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getReasonsDetails());
-    }, []);
+    }, [dispatch]);
 
     const { allReasonCode } = useSelector((state) => state.reasonCode);
     const columns = [

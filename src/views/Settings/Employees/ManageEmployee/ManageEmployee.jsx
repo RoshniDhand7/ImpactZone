@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 
 const ManageEmployee = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
+    useEffect(() => {
+        dispatch(getEmployees());
+    }, []);
+
+    const { allEmployees } = useSelector((state) => state.employees);
     const columns = [
-        { field: 'name', header: 'Name' },
+        {
+            field: 'name',
+            body: (r) => r.firstName + '' + r.lastName,
+            header: 'Name',
+        },
         { field: 'barCode', header: 'BarCode' },
         { field: 'address', header: 'Address' },
         { field: 'primaryPhone', header: 'Primary Phone' },
@@ -14,29 +26,16 @@ const ManageEmployee = () => {
         { field: 'terminationDate', header: 'Termination Date' },
     ];
     const onView = (col) => {
-        history.push(`/settings/employee/manage-employee/view/${3}`);
+        history.push(`/settings/employee/manage-employee/view/${col._id}`);
     };
-    const onEdit = () => {};
+    const onEdit = (col) => {
+        history.push(`/settings/employee/manage-employee/edit/${col._id}`);
+    };
     const onDelete = () => {};
     return (
         <>
             <CustomFilterCard buttonTitle="Add Employee" linkTo="/settings/employee/manage-employee/add" />
-            <CustomTable
-                data={[
-                    {
-                        name: 'John Smith',
-                        barCode: 4587899,
-                        address: 'F-201',
-                        primaryPhone: 7894563214,
-                        hireDate: '21-Jan-2024',
-                        terminationDate: '20-Dec-2025',
-                    },
-                ]}
-                columns={columns}
-                onView={onView}
-                onEdit={onEdit}
-                onDelete={onDelete}
-            />
+            <CustomTable data={allEmployees} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

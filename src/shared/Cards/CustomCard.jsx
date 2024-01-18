@@ -32,7 +32,7 @@ export function CustomListItem({ label, name, data, value }) {
             value = 'No';
         }
     } else if (!value) {
-        value = data[name] ? data[name] : '-';
+        value = '-';
         if (typeof data[name] === 'boolean' && data[name]) {
             value = 'Yes';
         } else if (typeof data[name] === 'boolean' && !data[name]) {

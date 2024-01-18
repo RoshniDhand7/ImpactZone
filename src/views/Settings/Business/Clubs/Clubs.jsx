@@ -9,7 +9,7 @@ const Clubs = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getClubsDetails());
-    }, []);
+    }, [dispatch]);
 
     const { allClubs } = useSelector((state) => state.clubs);
 

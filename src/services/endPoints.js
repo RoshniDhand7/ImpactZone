@@ -6,5 +6,6 @@ const endPoints = {
     UPLOAD_FILES: 'api/upload',
     JOB_TITLE: 'api/user/title/',
     CLUBS: 'api/user/clubs/',
+    EMPLOYEE: 'api/user/employee/',
 };
 export default endPoints;

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ProfileImg from '../../assets/icons/camera.png';
 // import CameraIcon from '../../assets/icons/Vector.png';
 import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
-import LogoImg from '../../assets/images/logo.png';
-import formValidation from '../../utils/validations';
 
 const CustomLogoImage = ({
     label,
@@ -70,15 +68,15 @@ const CustomLogoImage = ({
             <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept="image/*" hidden {...props} />
             {files.length ? (
                 Object.values(files).map((image, i) => (
-                    <>
+                    <div key={i} className="photoDiv">
                         {removeable && <i onClick={() => onDelete(i)} className="pi pi-times cursor-pointer"></i>}
                         <img
                             src={image ? (typeof image === 'string' ? getImageURL(image) : URL.createObjectURL(image)) : ProfileImg}
                             onError={(e) => (e.target.src = getDefaultImage())}
-                            alt="Image"
+                            alt="pic"
                             className={`profile-img relative btn-border-color ${imgclass}`}
                         />
-                    </>
+                    </div>
                 ))
             ) : (
                 <div

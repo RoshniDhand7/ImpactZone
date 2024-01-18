@@ -24,6 +24,7 @@ const CustomizationForm = ({ history }) => {
                 logo: allCompany?.logo ? [allCompany?.logo] : [],
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const CustomizationForm = ({ history }) => {
                     <CustomLogoImage name="logo" data={data} removeable onFilesChange={handleChange} />
                 </CustomCard>
                 <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
                 </CustomButtonGroup>
             </FormPage>

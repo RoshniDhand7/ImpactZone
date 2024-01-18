@@ -92,3 +92,12 @@ a:-webkit-any-link {
     width: 100%;
     grid-gap: 1rem;
 }
+.photoDiv {
+    position: relative;
+    i {
+        border-radius: 50%;
+        position: absolute;
+        left: 59px;
+        bottom: 53px;
+    }
+}

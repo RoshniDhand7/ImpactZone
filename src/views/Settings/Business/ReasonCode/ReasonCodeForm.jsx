@@ -28,7 +28,7 @@ export default function ReasonCodeForm({ history }) {
                 }),
             );
         }
-    }, [id]);
+    }, [id, dispatch]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

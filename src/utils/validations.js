@@ -1,5 +1,5 @@
 import { FirstletterUpperCase, equal, length } from './javascript';
-import { emailValidation, firstLetterToUppercase, passwordValidation } from './regex';
+import { emailValidation, firstLetterToUppercase } from './regex';
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, required = []) => {
@@ -31,6 +31,7 @@ const formValidation = (name, value, data, required = []) => {
         case 'address2':
         case 'address':
         case 'phoneNumber':
+        case 'workNumber':
         case 'jobTitle':
         case 'primaryEmail':
         case 'reasonCode':
@@ -61,7 +62,7 @@ const formValidation = (name, value, data, required = []) => {
         case 'zipCode':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required.`;
-            } else if (zipcodes?.lookup(value)?.state != data?.state) {
+            } else if (zipcodes?.lookup(value)?.state !== data?.state) {
                 formErrors[name] = `Please enter a valid Zip Code`;
             } else {
                 formErrors[name] = '';

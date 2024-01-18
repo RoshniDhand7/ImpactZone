@@ -6,6 +6,7 @@ import companyReducer from './BusinessSettings/companyReducer';
 import reasonCodeReducer from './BusinessSettings/reasonReducer';
 import jobTitleReducer from './BusinessSettings/jobReducer';
 import clubsReducer from './BusinessSettings/clubsReducer';
+import employeesReducer from './EmployeesSettings/employeesReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
     reasonCode: reasonCodeReducer,
     jobTitle: jobTitleReducer,
     clubs: clubsReducer,
+    employees: employeesReducer,
 });

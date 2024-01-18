@@ -21,7 +21,7 @@ const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
         <>
             <DataTable value={data} tableStyle={{ minWidth: '50rem' }}>
                 {columns.map((col, i) => (
-                    <Column key={col.field} field={col.field} header={col.header} />
+                    <Column key={col.field} field={col.field} body={col.body} header={col.header} />
                 ))}
                 <Column field={ActionTemplate} header="" />
             </DataTable>

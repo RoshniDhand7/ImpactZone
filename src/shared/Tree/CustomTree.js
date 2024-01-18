@@ -1,4 +1,5 @@
 import { Tree } from 'primereact/tree';
+import React from 'react';
 
 const CustomTree = ({ values, expandedKeys, selectionKeys, onSelectionChange }) => {
     return (

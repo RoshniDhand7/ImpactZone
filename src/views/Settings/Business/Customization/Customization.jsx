@@ -16,7 +16,7 @@ const Customization = () => {
             <CustomFilterCard buttonTitle="Edit Customization" linkTo="/settings/business/customization/edit" />
             <CustomCard col="12" title="Customization">
                 <div className="flex">
-                    <label className="text-align-center mt-5">Logo</label>
+                    <label className="text-align-center mt-2 mr-2">Logo</label>
                     <img
                         src={
                             allCompany?.logo
