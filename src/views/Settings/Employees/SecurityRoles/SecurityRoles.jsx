@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSecurityRoles } from '../../../../redux/actions/EmployeeSettings/securityRolesAction';
+import { useHistory } from 'react-router-dom';
 
 const SecurityRoles = () => {
-    const onEdit = () => {};
+    const dispatch = useDispatch();
+    const history = useHistory();
+    let { allSecurityRoles } = useSelector((state) => state?.securityRole);
+    useEffect(() => {
+        dispatch(getSecurityRoles());
+    }, []);
+
+    const onEdit = (col) => {
+        history.push(`/settings/employee/security-roles/edit/${col._id}`);
+    };
     const onDelete = () => {};
     const columns = [
         { field: 'name', header: 'Name' },
@@ -12,17 +24,7 @@ const SecurityRoles = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Security Roles" linkTo="/settings/employee/security-roles/add" />
-            <CustomTable
-                data={[
-                    {
-                        name: 'John Smith',
-                        description: 4587899,
-                    },
-                ]}
-                columns={columns}
-                onEdit={onEdit}
-                onDelete={onDelete}
-            />
+            <CustomTable data={allSecurityRoles} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

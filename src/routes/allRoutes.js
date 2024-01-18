@@ -151,6 +151,12 @@ export const PrivateRoutes = [
                         exact: true,
                         component: SecurityRolesForm,
                     },
+                    {
+                        path: '/security-roles/edit/:id',
+                        name: 'Employee',
+                        exact: true,
+                        component: SecurityRolesForm,
+                    },
                 ],
             },
             {

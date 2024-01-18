@@ -7,5 +7,7 @@ const endPoints = {
     JOB_TITLE: 'api/user/title/',
     CLUBS: 'api/user/clubs/',
     EMPLOYEE: 'api/user/employee/',
+    GET_PERMISSIONS: 'api/user/permissions/',
+    SECURITY_ROLE: 'api/user/security-role/',
 };
 export default endPoints;

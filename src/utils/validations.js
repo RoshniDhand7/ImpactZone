@@ -25,6 +25,7 @@ const formValidation = (name, value, data, required = []) => {
             }
             break;
 
+        case 'name':
         case 'billingCountry':
         case 'companyName':
         case 'address1':
