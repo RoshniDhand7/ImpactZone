@@ -21,6 +21,7 @@ const CustomPickList = ({
             setSource(_source);
             setTarget(_target);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sourceData, selected?.length]);
 
     const [source, setSource] = useState([]);
@@ -43,6 +44,7 @@ const CustomPickList = ({
             let _values = target.map((item) => item.value);
             onPickListChange({ name, value: _values });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [target?.length, name]);
 
     return (

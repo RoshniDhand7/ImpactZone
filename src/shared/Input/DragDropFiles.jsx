@@ -1,8 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-const PhotoUpload = () => {
+const PhotoUpload = ({ name, value, onDropChange }) => {
     const [selectedImages, setSelectedImages] = useState([]);
+
+    useEffect(() => {
+        if (onDropChange) {
+            onDropChange({ name, value: selectedImages });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedImages, name]);
+
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         if (rejectedFiles.length > 0) {
             console.log('Rejected Files:', rejectedFiles);

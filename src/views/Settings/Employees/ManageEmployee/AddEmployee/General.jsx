@@ -14,16 +14,14 @@ const General = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
-    const [country, setCountry] = useState([]);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const allCountryList = getAllCountries();
+        getAllCountries();
         const updatedStates = getStatesByCountry('US');
         setStates(updatedStates);
-        setCountry(allCountryList);
     }, [dispatch]);
 
     useEffect(() => {
@@ -74,6 +72,7 @@ const General = () => {
         emailNotification: true,
         onlineNickName: '',
         bio: '',
+        photo: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -92,6 +91,8 @@ const General = () => {
             }
         }
     };
+    console.log(data);
+
     return (
         <>
             <CustomCard col="12" title="Employement">
@@ -119,11 +120,11 @@ const General = () => {
                 <CustomTextArea name="bio" onChange={handleChange} data={data} />
             </CustomCard>
             <CustomCard col="12" title="Photo">
-                <PhotoUpload />
+                <PhotoUpload name="photo" onDropChange={handleChange} />
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
-                <LightButton label="Cancel" />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>
     );

@@ -11,7 +11,7 @@ const ManageEmployee = () => {
     const history = useHistory();
     useEffect(() => {
         dispatch(getEmployees());
-    }, []);
+    }, [dispatch]);
 
     const { allEmployees } = useSelector((state) => state.employees);
     const columns = [

@@ -21,11 +21,8 @@ const Security = () => {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         dispatch(getJobDetails());
-    }, []);
-
-    useEffect(() => {
         dispatch(getSecurityRoles());
-    }, []);
+    }, [dispatch]);
 
     let { allSecurityRoles } = useSelector((state) => state?.securityRole);
     allSecurityRoles = allSecurityRoles?.map((item) => ({ name: item.name, value: item._id }));
@@ -45,7 +42,7 @@ const Security = () => {
                         accessCode: data.accessCode,
                         email: data.email,
                         multiClubClockIn: data.multiClubClockIn.toString(),
-                        roles: [],
+                        securityRoles: data.securityRoles,
                     });
                 }),
             );
@@ -64,7 +61,7 @@ const Security = () => {
         accessCode: '',
         email: '',
         multiClubClockIn: '',
-        roles: [],
+        securityRoles: [],
     });
 
     const handleChange = ({ name, value }) => {
@@ -82,8 +79,6 @@ const Security = () => {
             }
         }
     };
-
-    console.log(data);
 
     return (
         <>
@@ -115,7 +110,7 @@ const Security = () => {
             </CustomCard>
             <CustomCard col="12" title="Select Roles">
                 <div col={12}>
-                    <CustomPickList name="roles" selected={data.roles} sourceData={allSecurityRoles} onPickListChange={handleChange} />
+                    <CustomPickList name="securityRoles" selected={data?.securityRoles} sourceData={allSecurityRoles} onPickListChange={handleChange} />
                 </div>
             </CustomCard>
             <CustomButtonGroup>

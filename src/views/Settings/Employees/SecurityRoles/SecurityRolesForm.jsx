@@ -3,7 +3,7 @@ import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomInput, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import Permissions from './Permissions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addSecurityRole, editSecurityRole, getPermissions, getSecurityRole } from '../../../../redux/actions/EmployeeSettings/securityRolesAction';
 import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -32,7 +32,7 @@ const SecurityRolesForm = () => {
 
     useEffect(() => {
         dispatch(getPermissions());
-    }, []);
+    }, [dispatch]);
 
     const [data, setData] = useState({
         name: '',

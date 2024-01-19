@@ -12,7 +12,7 @@ const SecurityRoles = () => {
     let { allSecurityRoles } = useSelector((state) => state?.securityRole);
     useEffect(() => {
         dispatch(getSecurityRoles());
-    }, []);
+    }, [dispatch]);
 
     const onEdit = (col) => {
         history.push(`/settings/employee/security-roles/edit/${col._id}`);
