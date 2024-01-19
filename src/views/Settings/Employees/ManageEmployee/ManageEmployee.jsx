@@ -19,6 +19,10 @@ const ManageEmployee = () => {
     }, [dispatch, pageNo]);
 
     const { allEmployees } = useSelector((state) => state.employees);
+
+    const address = (r) => {
+        return r?.street || '' + r?.state || '' + r?.city || '' + ',' + r?.zipCode || '';
+    };
     const columns = [
         {
             field: 'name',
@@ -26,7 +30,7 @@ const ManageEmployee = () => {
             header: 'Name',
         },
         { field: 'barCode', header: 'BarCode' },
-        { field: 'address', body: (r) => r.street + '' + r.state + '' + r.city + ',' + r.zipCode, header: 'Address' },
+        { field: 'address', body: address, header: 'Address' },
         { field: 'primaryPhone', header: 'Primary Phone' },
         { field: 'hireDate', header: 'Hire Date' },
         { field: 'terminationDate', header: 'Termination Date' },
