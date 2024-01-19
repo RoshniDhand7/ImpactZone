@@ -9,5 +9,6 @@ const endPoints = {
     EMPLOYEE: 'api/user/employee/',
     GET_PERMISSIONS: 'api/user/permissions/',
     SECURITY_ROLE: 'api/user/security-role/',
+    DEPARTMENTS: 'api/user/department/',
 };
 export default endPoints;

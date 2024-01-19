@@ -399,7 +399,7 @@ export const allPermissions = [
     },
     {
         department: 'Pos',
-        expended: { 'Catalog Access': true, 'POS Register': true, 'POS Sales': true },
+        // expended: { 'Catalog Access': true, 'POS Register': true, 'POS Sales': true },
 
         permissions: [
             {
@@ -721,7 +721,7 @@ export const allPermissions = [
     },
     {
         department: 'Resources',
-        expended: { 'Reserve Resources': true },
+        // expended: { 'Reserve Resources': true },
         permissions: [
             { key: 'VIEW-RESOURCE-TYPE', label: 'View Resource Type' },
             { key: 'CREATE-RESOURCE-TYPE', label: 'Create Resurce Type' },

@@ -3,7 +3,7 @@ import constants from '../constants';
 import { isAuthenticated } from './auth';
 // import { decrypt, encrypt } from '../utils/crypto';
 
-const api = async (method, urlEndPoint, data = {}, query) => {
+const api = async (method, urlEndPoint, data = {}, params = {}) => {
     try {
         let headers = {
             'Content-Type': 'application/json',
@@ -25,6 +25,7 @@ const api = async (method, urlEndPoint, data = {}, query) => {
             url: constants.baseUrl + urlEndPoint,
             data: req,
             headers,
+            params,
         });
 
         let res = response.data;

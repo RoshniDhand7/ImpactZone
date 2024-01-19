@@ -5,16 +5,17 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getEmployees = (setLoading) => async (dispatch) => {
+const getEmployees = (pageNo, setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE);
+    const params = { pageNo: pageNo + 1, itemsPerPage: 10 };
+    const res = await api('get', EndPoints.EMPLOYEE, {}, params);
     if (res.success) {
         if (res.data) {
             dispatch({
                 type: types.CHANGE_EMPLOYEES,
-                payload: res.data,
+                payload: res,
             });
         }
     }
@@ -22,20 +23,28 @@ const getEmployees = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
-const addEmployees = (data, setLoading, history) => async (dispatch) => {
-    setLoading(true);
-    const payload = {
-        ...data,
-        dob: moment(data.dob).format('MM/DD/YYYY'),
-    };
+const addEmployees =
+    (data, setLoading, history, tab = '') =>
+    async (dispatch) => {
+        console.log('tab>>', tab);
+        setLoading(true);
+        const payload = {
+            ...data,
+            dob: moment(data.dob).format('MM/DD/YYYY'),
+        };
 
-    const res = await api('post', EndPoints.EMPLOYEE, payload);
-    if (res.success) {
-        history.replace(`/settings/employee/manage-employee/edit/${res.data._id}`);
-        dispatch(showToast({ severity: 'success', summary: res.message }));
-    }
-    setLoading(false);
-};
+        const res = await api('post', EndPoints.EMPLOYEE, payload);
+        if (res.success) {
+            console.log(res);
+            if (tab) {
+                history.replace(`/settings/employee/manage-employee/edit/${res.data._id}/${tab}`);
+            } else {
+                history.goBack();
+            }
+            dispatch(showToast({ severity: 'success', summary: res.message }));
+        }
+        setLoading(false);
+    };
 const getEmployee = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.EMPLOYEE + id);
@@ -48,24 +57,32 @@ const getEmployee = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-const editEmployee = (id, data, setLoading, history) => async (dispatch) => {
-    setLoading(true);
-    const payload = {
-        ...data,
-        ...(data?.dob && { dob: moment(data.dob).format('MM/DD/YYYY') }),
-        ...(data?.hireDate && { hireDate: moment(data.hireDate).format('MM/DD/YYYY') }),
-        ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
-        ...(data?.workPhone && { workPhone: data?.workPhone?.replace(/\D/g, '') }),
-        ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
-        ...(data?.faxPhone && { faxPhone: data?.faxPhone?.replace(/\D/g, '') }),
-        ...(data?.emergencyPhone && { emergencyPhone: data?.emergencyPhone?.replace(/\D/g, '') }),
+const editEmployee =
+    (id, data, setLoading, history, tab = '') =>
+    async (dispatch) => {
+        console.log('tab>>', tab);
+        setLoading(true);
+        const payload = {
+            ...data,
+            ...(data?.dob && { dob: moment(data.dob).format('MM/DD/YYYY') }),
+            ...(data?.hireDate && { hireDate: moment(data.hireDate).format('MM/DD/YYYY') }),
+            ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
+            ...(data?.workPhone && { workPhone: data?.workPhone?.replace(/\D/g, '') }),
+            ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
+            ...(data?.faxPhone && { faxPhone: data?.faxPhone?.replace(/\D/g, '') }),
+            ...(data?.emergencyPhone && { emergencyPhone: data?.emergencyPhone?.replace(/\D/g, '') }),
+        };
+        const res = await api('put', EndPoints.EMPLOYEE + id, payload);
+        if (res.success) {
+            if (tab) {
+                history.replace(`/settings/employee/manage-employee/edit/${res.data._id}/${tab}`);
+            } else {
+                history.goBack();
+            }
+            dispatch(showToast({ severity: 'success', summary: res.message }));
+        }
+        setLoading(false);
     };
-    const res = await api('put', EndPoints.EMPLOYEE + id, payload);
-    if (res.success) {
-        dispatch(showToast({ severity: 'success', summary: res.message }));
-    }
-    setLoading(false);
-};
 const deleteEmployee = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.EMPLOYEE + id);
     if (res.success) {

@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Editor } from 'primereact/editor';
 
-const CustomEditor = ({ value, onTextChange, height = '320px' }) => {
-    const [text, setText] = useState(value || '');
-
-    const handleTextChange = (e) => {
-        setText(e.htmlValue);
-        if (onTextChange) {
-            onTextChange(e.htmlValue);
-        }
-    };
-
+const CustomEditor = ({ name, data, value, onTextChange, height = '320px' }) => {
     return (
         <div className="custom-editor">
-            <Editor value={text} onTextChange={handleTextChange} style={{ height }} />
+            <Editor
+                value={value || data?.[name]}
+                onTextChange={(e) => onTextChange && onTextChange({ ...e, name: name, value: e.htmlValue })}
+                style={{ height }}
+            />
         </div>
     );
 };

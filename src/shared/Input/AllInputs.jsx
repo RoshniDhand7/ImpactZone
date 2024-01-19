@@ -125,7 +125,7 @@ export const CustomDropDown = ({
         </InputLayout>
     );
 };
-export const CustomCalenderInput = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+export const CustomCalenderInput = ({ id, label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
         <InputLayout
             col={col || 4}
@@ -137,7 +137,7 @@ export const CustomCalenderInput = ({ label, name, data, value, onChange, errorM
             errorMessage={errorMessage}
         >
             <Calendar
-                id={name}
+                inputId={name}
                 name={name}
                 value={value || data?.[name]}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}

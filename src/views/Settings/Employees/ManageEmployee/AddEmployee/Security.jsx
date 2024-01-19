@@ -68,14 +68,14 @@ const Security = () => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
-    const handleSave = () => {
+    const handleSave = (tab) => {
         let ignore = ['jobTitle'];
 
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
-                dispatch(editEmployee(id, data, setLoading, history));
+                dispatch(editEmployee(id, data, setLoading, history, tab));
             } else {
-                dispatch(addEmployees(data, setLoading, history));
+                dispatch(addEmployees(data, setLoading, history, tab));
             }
         }
     };
@@ -114,7 +114,8 @@ const Security = () => {
                 </div>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
+                <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=general')} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>

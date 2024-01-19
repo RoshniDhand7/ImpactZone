@@ -35,6 +35,7 @@ const ClubsForm = () => {
     }, [id, dispatch]);
 
     const [data, setData] = useState({
+        name: '',
         phoneNumber: '',
         email: '',
         address: '',
@@ -79,6 +80,7 @@ const ClubsForm = () => {
             <FormPage backText="Clubs">
                 <CustomCard col="12" title="Edit Club (Gym Floor)">
                     <CustomGridLayout>
+                        <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomInputMask id="phone" name="phoneNumber" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} required />
                         <CustomInput name="email" data={data} onChange={handleChange} required />
                         <CustomInput name="address" data={data} onChange={handleChange} required />

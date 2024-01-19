@@ -17,6 +17,8 @@ const General = () => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(false);
+    const params = useParams();
+    console.log(params);
 
     useEffect(() => {
         getAllCountries();
@@ -97,7 +99,7 @@ const General = () => {
         <>
             <CustomCard col="12" title="Employement">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="hireDate" onChange={handleChange} data={data} />
+                    <CustomCalenderInput id="hireDate" name="hireDate" onChange={handleChange} data={data} />
                     <CustomInput name="adpId" onChange={handleChange} data={data} />
                 </CustomGridLayout>
             </CustomCard>
@@ -123,7 +125,8 @@ const General = () => {
                 <PhotoUpload name="photo" onDropChange={handleChange} />
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
+                <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=departments')} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>

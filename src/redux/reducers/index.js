@@ -8,6 +8,7 @@ import jobTitleReducer from './BusinessSettings/jobReducer';
 import clubsReducer from './BusinessSettings/clubsReducer';
 import employeesReducer from './EmployeesSettings/employeesReducer';
 import securityRolesReducer from './EmployeesSettings/securityRolesReducer';
+import departmentReducer from './EmployeesSettings/departmentsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
     clubs: clubsReducer,
     employees: employeesReducer,
     securityRole: securityRolesReducer,
+    department: departmentReducer,
 });
