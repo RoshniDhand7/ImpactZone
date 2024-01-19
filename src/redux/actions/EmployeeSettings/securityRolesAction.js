@@ -3,6 +3,7 @@ import EndPoints from '../../../services/endPoints';
 import { convertToBackendPermissions } from '../../../utils/permissions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
+import { showToast } from '../toastAction';
 
 const getPermissions = () => async (dispatch) => {
     const res = await api('get', EndPoints.GET_PERMISSIONS);
@@ -89,5 +90,14 @@ const editSecurityRole = (id, data, selectedPermissions, setLoading, history) =>
     }
     setLoading(false);
 };
+const deleteSecurityRole = (id) => async (dispatch) => {
+    const res = await api('delete', EndPoints.SECURITY_ROLE + id);
+    if (res.success) {
+        dispatch(getSecurityRoles(() => {}));
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
-export { getPermissions, addSecurityRole, getSecurityRoles, getSecurityRole, editSecurityRole };
+export { getPermissions, addSecurityRole, getSecurityRoles, getSecurityRole, editSecurityRole, deleteSecurityRole };

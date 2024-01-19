@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSecurityRoles } from '../../../../redux/actions/EmployeeSettings/securityRolesAction';
+import { deleteSecurityRole, getSecurityRoles } from '../../../../redux/actions/EmployeeSettings/securityRolesAction';
 import { useHistory } from 'react-router-dom';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 
 const SecurityRoles = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,15 @@ const SecurityRoles = () => {
     const onEdit = (col) => {
         history.push(`/settings/employee/security-roles/edit/${col._id}`);
     };
-    const onDelete = () => {};
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                dispatch(deleteSecurityRole(col._id, () => {}));
+            },
+            'Do you want to delete this Security Role?',
+            position,
+        );
+    };
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'description', header: 'Description' },

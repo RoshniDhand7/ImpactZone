@@ -3,7 +3,8 @@ import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { deleteEmployee, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 
 const ManageEmployee = () => {
     const dispatch = useDispatch();
@@ -31,7 +32,15 @@ const ManageEmployee = () => {
     const onEdit = (col) => {
         history.push(`/settings/employee/manage-employee/edit/${col._id}`);
     };
-    const onDelete = () => {};
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                dispatch(deleteEmployee(col._id, () => {}));
+            },
+            'Do you want to delete this Employee ?',
+            position,
+        );
+    };
     return (
         <>
             <CustomFilterCard buttonTitle="Add Employee" linkTo="/settings/employee/manage-employee/add" />

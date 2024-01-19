@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import PhotoUpload from '../../../../../shared/Input/DragDropFiles';
 import formValidation from '../../../../../utils/validations';
-import { editEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useHistory, useParams } from 'react-router';
 
 const General = () => {
@@ -25,6 +25,36 @@ const General = () => {
         setStates(updatedStates);
         setCountry(allCountryList);
     }, [dispatch]);
+
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getEmployee(id, (data) => {
+                    setData({
+                        hireDate: new Date(data.hireDate),
+                        terminationDate: data.terminationDate,
+                        adpId: data.adpId,
+                        primaryPhone: data.primaryPhone,
+                        workPhone: data.workPhone,
+                        workPhoneExt: data.workPhoneExt,
+                        mobilePhone: data.mobilePhone,
+                        faxPhone: data.faxPhone,
+                        emergencyPhone: data.emergencyPhone,
+                        emergencyPhoneExt: data.emergencyPhoneExt,
+                        street: data.street,
+                        city: data.city,
+                        state: data.state,
+                        zipCode: data.zipCode,
+                        emailNotification: data.emailNotification?.toString(),
+                        onlineNickName: data.onlineNickName,
+                        bio: data.bio,
+                    });
+                    const cities = getCitiesByState('US', data.state);
+                    setCities(cities);
+                }),
+            );
+        }
+    }, [id, dispatch]);
 
     const [data, setData] = useState({
         hireDate: '',
@@ -72,33 +102,12 @@ const General = () => {
             </CustomCard>
             <CustomCard col="12" title="Contact">
                 <CustomGridLayout>
-                    <CustomInputMask
-                        id="primaryPhone"
-                        name="primaryPhone"
-                        mask="(999) 999-9999"
-                        placeholder="(999) 999-9999"
-                        onChange={handleChange}
-                        data={data}
-                    />
-                    <CustomInputMask id="workPhone" name="workPhone" mask="(999) 999-9999" placeholder="(999) 999-9999" onChange={handleChange} data={data} />
-                    <CustomInputMask
-                        id="mobilePhone"
-                        name="mobilePhone"
-                        mask="(999) 999-9999"
-                        placeholder="(999) 999-9999"
-                        onChange={handleChange}
-                        data={data}
-                    />
-                    <CustomInputMask id="faxPhone" name="faxPhone" mask="(999) 999-9999" placeholder="(999) 999-9999" onChange={handleChange} data={data} />
-                    <CustomInputMask
-                        id="emergencyPhone"
-                        name="emergencyPhone"
-                        mask="(999) 999-9999"
-                        placeholder="(999) 999-9999"
-                        onChange={handleChange}
-                        data={data}
-                    />
-                    <CustomInput name="street" />
+                    <CustomInputMask id="primaryPhone" name="primaryPhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />
+                    <CustomInputMask id="workPhone" name="workPhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />
+                    <CustomInputMask id="mobilePhone" name="mobilePhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />
+                    <CustomInputMask id="faxPhone" name="faxPhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />
+                    <CustomInputMask id="emergencyPhone" name="emergencyPhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />
+                    <CustomInput name="street" onChange={handleChange} data={data} />
                     <CustomDropDown name="state" options={states} onChange={handleChange} data={data} />
                     <CustomDropDown name="city" options={cities} onChange={handleChange} data={data} />
                     <CustomInput name="zipCode" onChange={handleChange} data={data} />

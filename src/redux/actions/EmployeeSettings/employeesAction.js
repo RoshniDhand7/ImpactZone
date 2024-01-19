@@ -53,6 +53,12 @@ const editEmployee = (id, data, setLoading, history) => async (dispatch) => {
     const payload = {
         ...data,
         ...(data?.dob && { dob: moment(data.dob).format('MM/DD/YYYY') }),
+        ...(data?.hireDate && { hireDate: moment(data.hireDate).format('MM/DD/YYYY') }),
+        ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
+        ...(data?.workPhone && { workPhone: data?.workPhone?.replace(/\D/g, '') }),
+        ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
+        ...(data?.faxPhone && { faxPhone: data?.faxPhone?.replace(/\D/g, '') }),
+        ...(data?.emergencyPhone && { emergencyPhone: data?.emergencyPhone?.replace(/\D/g, '') }),
     };
     const res = await api('put', EndPoints.EMPLOYEE + id, payload);
     if (res.success) {

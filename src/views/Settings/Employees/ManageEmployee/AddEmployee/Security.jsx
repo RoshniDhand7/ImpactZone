@@ -132,7 +132,7 @@ const Security = () => {
                 </div>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>
