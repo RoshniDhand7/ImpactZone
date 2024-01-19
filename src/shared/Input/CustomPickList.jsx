@@ -2,36 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { PickList } from 'primereact/picklist';
 
 const CustomPickList = ({
-    sourceData,
-    targetData,
+    selected = [],
+    name,
+    sourceData = [],
     onPickListChange,
-    itemTemplate,
-    breakpoint,
-    sourceHeader,
-    targetHeader,
-    sourceStyle,
-    targetStyle,
-    showSourceControls,
-    showTargetControls,
+    breakpoint = '1280px',
+    sourceHeader = 'Available',
+    targetHeader = 'Selected',
+    sourceStyle = { height: '24rem' },
+    targetStyle = { height: '24rem' },
+    showSourceControls = false,
+    showTargetControls = false,
 }) => {
-    const [source, setSource] = useState(sourceData || []);
-    const [target, setTarget] = useState(targetData || []);
+    useEffect(() => {
+        if (sourceData.length && selected) {
+            let _target = sourceData.filter((item) => selected.includes(item.value));
+            let _source = sourceData.filter((item) => !selected.includes(item.value));
+            setSource(_source);
+            setTarget(_target);
+        }
+    }, [sourceData, selected?.length]);
+
+    const [source, setSource] = useState([]);
+    const [target, setTarget] = useState([]);
+
+    const itemTemplate = (item) => {
+        return (
+            <div className="flex flex-wrap p-2 align-items-center gap-3">
+                <h6>{item.name}</h6>
+            </div>
+        );
+    };
+    const handlePickListChange = ({ target, source }) => {
+        setSource(source);
+        setTarget(target);
+    };
 
     useEffect(() => {
-        setSource(sourceData || []);
-        setTarget(targetData || []);
-    }, [sourceData, targetData]);
-
-    useEffect(() => {});
-
-    const handlePickListChange = (event) => {
-        setSource(event.source);
-        setTarget(event.target);
-
         if (onPickListChange) {
-            onPickListChange(event);
+            let _values = target.map((item) => item.value);
+            onPickListChange({ name, value: _values });
         }
-    };
+    }, [target?.length, name]);
 
     return (
         <div className="card">

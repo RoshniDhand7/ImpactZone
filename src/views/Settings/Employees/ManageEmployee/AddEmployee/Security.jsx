@@ -4,7 +4,6 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../sh
 import { CustomCalenderInput, CustomDropDown, CustomInput } from '../../../../../shared/Input/AllInputs';
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
-import { ProductService } from './ProductServiceDummy';
 import formValidation from '../../../../../utils/validations';
 import { showFormErrors } from '../../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +11,7 @@ import { useHistory } from 'react-router';
 import { addEmployees, editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useParams } from 'react-router';
 import { getJobDetails } from '../../../../../redux/actions/BusinessSettings/jobActions';
+import { getSecurityRoles } from '../../../../../redux/actions/EmployeeSettings/securityRolesAction';
 
 const Security = () => {
     const dispatch = useDispatch();
@@ -22,6 +22,13 @@ const Security = () => {
     useEffect(() => {
         dispatch(getJobDetails());
     }, []);
+
+    useEffect(() => {
+        dispatch(getSecurityRoles());
+    }, []);
+
+    let { allSecurityRoles } = useSelector((state) => state?.securityRole);
+    allSecurityRoles = allSecurityRoles?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
         if (id) {
@@ -38,6 +45,7 @@ const Security = () => {
                         accessCode: data.accessCode,
                         email: data.email,
                         multiClubClockIn: data.multiClubClockIn.toString(),
+                        roles: [],
                     });
                 }),
             );
@@ -56,6 +64,7 @@ const Security = () => {
         accessCode: '',
         email: '',
         multiClubClockIn: '',
+        roles: [],
     });
 
     const handleChange = ({ name, value }) => {
@@ -63,7 +72,9 @@ const Security = () => {
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
-        if (showFormErrors(data, setData)) {
+        let ignore = ['jobTitle'];
+
+        if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(editEmployee(id, data, setLoading, history));
             } else {
@@ -72,20 +83,8 @@ const Security = () => {
         }
     };
 
-    const [pickdata, setPickData] = useState({ source: [], target: [] });
+    console.log(data);
 
-    const handlePickListChange = (event) => {
-        setPickData(event);
-    };
-    const itemTemplate = (item) => {
-        return (
-            <div className="flex flex-wrap p-2 align-items-center gap-3">
-                <h1>Text</h1>
-            </div>
-        );
-    };
-
-    console.log('data>>', data, allJobTitle);
     return (
         <>
             <CustomCard col="12" title="Personal">
@@ -116,19 +115,7 @@ const Security = () => {
             </CustomCard>
             <CustomCard col="12" title="Select Roles">
                 <div col={12}>
-                    <CustomPickList
-                        sourceData={pickdata?.source}
-                        targetData={pickdata?.target}
-                        onPickListChange={handlePickListChange}
-                        itemTemplate={itemTemplate}
-                        breakpoint="1280px"
-                        sourceHeader="Available"
-                        targetHeader="Selected"
-                        sourceStyle={{ height: '24rem' }}
-                        targetStyle={{ height: '24rem' }}
-                        showSourceControls={false}
-                        showTargetControls={false}
-                    />
+                    <CustomPickList name="roles" selected={data.roles} sourceData={allSecurityRoles} onPickListChange={handleChange} />
                 </div>
             </CustomCard>
             <CustomButtonGroup>

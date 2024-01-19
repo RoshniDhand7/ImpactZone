@@ -2,8 +2,12 @@ import { FirstletterUpperCase, equal, length } from './javascript';
 import { emailValidation, firstLetterToUppercase } from './regex';
 import zipcodes from 'zipcodes';
 
-const formValidation = (name, value, data, required = []) => {
+const formValidation = (name, value, data, ignore = []) => {
     let formErrors = { ...data.formErrors };
+    if (ignore.includes(name)) {
+        if (formErrors[name]) formErrors[name] = '';
+        return formErrors;
+    }
     switch (name) {
         case 'email':
             if (equal(length(value))) {
@@ -26,6 +30,10 @@ const formValidation = (name, value, data, required = []) => {
             break;
 
         case 'name':
+        case 'firstName':
+        case 'lastName':
+        case 'barCode':
+        case 'accessCode':
         case 'billingCountry':
         case 'companyName':
         case 'address1':

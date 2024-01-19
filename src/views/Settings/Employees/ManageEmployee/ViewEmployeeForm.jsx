@@ -26,19 +26,24 @@ const ViewEmployeeForm = () => {
                         socialSecurity: data.socialSecurity,
                         email: data.email,
                         multiClubClockIn: data.multiClubClockIn,
+                        hireDate: data.hireDate,
+                        adpId: data.adpId,
+                        primaryPhone: data.primaryPhone,
+                        workPhone: data.workPhone,
+                        mobilePhone: data.mobilePhone,
+                        faxPhone: data.faxPhone,
+                        emergencyPhone: data.emergencyPhone,
+                        streetAddress: data.streetAddress,
+                        city: data.city,
+                        state: data.state,
+                        zipCode: data.zipCode,
+                        emailUpdates: data.emailUpdates,
                     });
                 }),
             );
         }
     }, [id, dispatch]);
-    // const  = {
-    //     timeZone: 'GTTYY7643',
-    //     dateOfBirth: '11/09/1998',
-    //     socialSecurity: 'Unknown',
-    //     email: 'roshni@yopmail.com',
-    //     multiClubInOut: '',
-    //     available: '',
-    // };
+
     return (
         <>
             <FormPage backText="Manage Employees" backTo="/settings/employee">
@@ -51,23 +56,24 @@ const ViewEmployeeForm = () => {
                         {/* <CustomListItem label="Available" name="available" />
                         <CustomListItem label="Selected" name="available" /> */}
                     </CustomCard>
-                    {/* <CustomCard title="General Details" height="200px">
-                        <CustomListItem name="hireDate" />
-                        <CustomListItem name="appId" />
-                        <CustomListItem name="primaryPhone" />
-                        <CustomListItem name="workPhone" />
-                        <CustomListItem name="mobilePhone" />
-                        <CustomListItem name="faxPhone" />
-                        <CustomListItem name="emergencyPhone" />
-                        <CustomListItem name="streetAddress" />
-                        <CustomListItem name="city" />
-                        <CustomListItem name="state" />
-                        <CustomListItem name="zipCode" />
-                        <CustomListItem name="emailUpdates" />
-                        <CustomListItem name="userName" />
-                        <CustomListItem name="notes" />
-                        <CustomListItem name="departments" />
+                    <CustomCard title="General Details" height="200px">
+                        <CustomListItem name="hireDate" data={data} />
+                        <CustomListItem name="adpId" data={data} />
+                        <CustomListItem name="primaryPhone" data={data} />
+                        <CustomListItem name="workPhone" data={data} />
+                        <CustomListItem name="mobilePhone" data={data} />
+                        <CustomListItem name="faxPhone" data={data} />
+                        <CustomListItem name="emergencyPhone" data={data} />
+                        <CustomListItem name="streetAddress" data={data} />
+                        <CustomListItem name="city" data={data} />
+                        <CustomListItem name="state" data={data} />
+                        <CustomListItem name="zipCode" data={data} />
+                        <CustomListItem name="emailUpdates" data={data} />
+                        <CustomListItem name="userName" data={data} />
+                        {/* <CustomListItem name="notes" data={data} />
+                        <CustomListItem name="departments" data={data} /> */}
                     </CustomCard>
+                    {/* 
                     <CustomCard title="Club Details" height="200px">
                         <CustomListItem name="available" />
                         <CustomListItem name="selected" />

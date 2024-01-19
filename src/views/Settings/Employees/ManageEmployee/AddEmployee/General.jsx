@@ -115,7 +115,7 @@ const General = () => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Online">
-                <CustomInput name="onlineNickname" onChange={handleChange} data={data} />
+                <CustomInput name="onlineNickName" onChange={handleChange} data={data} />
                 <CustomTextArea name="bio" onChange={handleChange} data={data} />
             </CustomCard>
             <CustomCard col="12" title="Photo">
