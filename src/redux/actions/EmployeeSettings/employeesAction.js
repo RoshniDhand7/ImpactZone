@@ -4,6 +4,7 @@ import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
+import { uploadFiles } from '../../../utils/commonFunctions';
 
 const getEmployees = (pageNo, setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -26,7 +27,6 @@ const getEmployees = (pageNo, setLoading) => async (dispatch) => {
 const addEmployees =
     (data, setLoading, history, tab = '') =>
     async (dispatch) => {
-        console.log('tab>>', tab);
         setLoading(true);
         const payload = {
             ...data,
@@ -35,7 +35,6 @@ const addEmployees =
 
         const res = await api('post', EndPoints.EMPLOYEE, payload);
         if (res.success) {
-            console.log(res);
             if (tab) {
                 history.replace(`/settings/employee/manage-employee/edit/${res.data._id}/${tab}`);
             } else {
@@ -60,7 +59,12 @@ const getEmployee = (id, returnData) => async (dispatch) => {
 const editEmployee =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
-        console.log('tab>>', tab);
+        if (data.photo.length) {
+            data.photo = await uploadFiles(data.photo);
+            data.photo = data.photo[0];
+        } else {
+            data.photo = '';
+        }
         setLoading(true);
         const payload = {
             ...data,

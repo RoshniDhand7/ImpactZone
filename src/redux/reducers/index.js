@@ -9,6 +9,9 @@ import clubsReducer from './BusinessSettings/clubsReducer';
 import employeesReducer from './EmployeesSettings/employeesReducer';
 import securityRolesReducer from './EmployeesSettings/securityRolesReducer';
 import departmentReducer from './EmployeesSettings/departmentsReducer';
+import levelReducer from './ScheduleSettings/levelReducer';
+import locationTypeReducer from './ScheduleSettings/locationTypesReducer';
+import locationsReducer from './ScheduleSettings/locationReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -21,4 +24,7 @@ export default combineReducers({
     employees: employeesReducer,
     securityRole: securityRolesReducer,
     department: departmentReducer,
+    level: levelReducer,
+    locationType: locationTypeReducer,
+    locations: locationsReducer,
 });

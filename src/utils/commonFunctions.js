@@ -53,6 +53,18 @@ const confirmDelete = (onDeleteAction, confirmationMessage, position, confirmati
         reject: () => {},
     });
 };
+const uploadFile = async (file) => {
+    if (typeof file === 'string') {
+        return file;
+    } else {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
+        if (res.success && res.data) {
+            return res.data.path;
+        }
+    }
+};
 
 const uploadImages = async (images) => {
     const promises = images?.map(async (item) => {
@@ -71,6 +83,25 @@ const uploadImages = async (images) => {
     const urls = await Promise.all(promises);
     return urls;
 };
+
+const uploadFiles = async (files) => {
+    const promises = files.map(async (item) => {
+        if (typeof item === 'string') {
+            return item;
+        } else {
+            const formData = new FormData();
+            formData.append('file', item);
+            const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
+            if (res.success && res.data) {
+                return res.data[0];
+            }
+        }
+    });
+
+    const filesArray = await Promise.all(promises);
+    return filesArray;
+};
+
 const mobileFormatted = (phoneNumber) => {
     if (phoneNumber) {
         const cleaned = phoneNumber?.toString().replace(/\D/g, '');
@@ -101,8 +132,10 @@ export {
     getStatesByCountry,
     getCitiesByState,
     confirmDelete,
-    uploadImages,
     mobileFormatted,
     spaceToDash,
     dashToSpace,
+    uploadFile,
+    uploadFiles,
+    uploadImages,
 };

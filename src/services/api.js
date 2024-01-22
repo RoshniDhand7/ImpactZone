@@ -22,7 +22,7 @@ const api = async (method, urlEndPoint, data = {}, params = {}) => {
 
         let response = await axios({
             method,
-            url: constants.baseUrl + urlEndPoint,
+            url: constants.endPointUrl + urlEndPoint,
             data: req,
             headers,
             params,
@@ -62,7 +62,7 @@ export const multipartApi = async (method, urlEndPoint, data = {}, query) => {
 
         let response = await axios({
             method,
-            url: constants.baseUrl + urlEndPoint,
+            url: constants.endPointUrl + urlEndPoint,
             data: req,
             headers,
         });

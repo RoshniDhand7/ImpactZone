@@ -61,8 +61,6 @@ const addSecurityRole = (data, selectedPermissions, setLoading, history) => asyn
         rawPermissions: selectedPermissions,
     };
 
-    console.log(payload);
-
     const res = await api('post', EndPoints.SECURITY_ROLE, payload);
     if (res.success) {
         history.goBack();
@@ -81,8 +79,6 @@ const editSecurityRole = (id, data, selectedPermissions, setLoading, history) =>
         permissions,
         rawPermissions: selectedPermissions,
     };
-
-    console.log(payload);
 
     const res = await api('put', EndPoints.SECURITY_ROLE + id, payload);
     if (res.success) {

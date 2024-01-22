@@ -17,8 +17,6 @@ const General = () => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(false);
-    const params = useParams();
-    console.log(params);
 
     useEffect(() => {
         getAllCountries();
@@ -76,6 +74,7 @@ const General = () => {
         bio: '',
         photo: [],
     });
+
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         if (name === 'state') {
@@ -93,7 +92,7 @@ const General = () => {
             }
         }
     };
-    console.log(data);
+    console.log('data>>', data);
 
     return (
         <>
@@ -122,7 +121,7 @@ const General = () => {
                 <CustomTextArea name="bio" onChange={handleChange} data={data} />
             </CustomCard>
             <CustomCard col="12" title="Photo">
-                <PhotoUpload name="photo" onDropChange={handleChange} />
+                <PhotoUpload name="photo" onDropChange={handleChange} data={data} />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />

@@ -35,7 +35,6 @@ const Notes = () => {
         }
     };
 
-    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Notes">
@@ -43,7 +42,7 @@ const Notes = () => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" loading={loading} onClick={handleSave} />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
             </CustomButtonGroup>
         </>
     );

@@ -9,7 +9,6 @@ const CustomPaginator = ({ data, setPageNo }) => {
     const [totalRecords, setTotalRecords] = useState(0);
 
     const onPageChange = (e) => {
-        console.log(e);
         setPageNo(e.page);
         setFirst(e.first);
         setRows(e.rows);
@@ -20,8 +19,6 @@ const CustomPaginator = ({ data, setPageNo }) => {
             setTotalRecords(Math.floor(data?.paginationAndSort?.totalPages * rows));
         }
     }, [data, rows]);
-
-    console.log(totalRecords, data);
 
     const template1 = {
         layout: 'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown ',

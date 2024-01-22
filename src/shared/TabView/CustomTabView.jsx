@@ -12,7 +12,6 @@ const TabContent = styled.div`
 export default function CustomTabView({ tabs, disabledTabIndices }) {
     const history = useHistory();
     const { search } = useLocation();
-    console.log('search>>', search);
     const searchParams = new URLSearchParams(search);
     const tab = searchParams.get('tab');
     const [activeIndex, setActiveIndex] = useState(0);

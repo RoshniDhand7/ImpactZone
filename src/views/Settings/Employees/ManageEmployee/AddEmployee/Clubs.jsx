@@ -44,7 +44,6 @@ const Clubs = () => {
         }
     };
 
-    console.log(data);
     return (
         <>
             <CustomCard col="12" title="Report Data Access">

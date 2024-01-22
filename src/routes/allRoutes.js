@@ -20,6 +20,10 @@ import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee
 import CertificationForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm';
 import SecurityRolesForm from '../views/Settings/Employees/SecurityRoles/SecurityRolesForm';
 import DepartmentsForm from '../views/Settings/Employees/Departments/DepartmentsForm';
+import ScheduleSetup from '../views/Settings/ScheduleSetup/ScheduleSetup';
+import LevelForm from '../views/Settings/ScheduleSetup/Level/LevelForm';
+import LocationType from '../views/Settings/ScheduleSetup/LocationType/LocationType';
+import LocationForm from '../views/Settings/ScheduleSetup/LocationType/LocationForm';
 
 export const PrivateRoutes = [
     {
@@ -162,6 +166,50 @@ export const PrivateRoutes = [
                         name: 'Employee',
                         exact: true,
                         component: SecurityRolesForm,
+                    },
+                ],
+            },
+            {
+                path: '/schedule',
+                name: 'Schedule',
+                exact: true,
+                component: ScheduleSetup,
+                items: [
+                    {
+                        path: '/levels/add',
+                        name: 'Schedule',
+                        exact: true,
+                        component: LevelForm,
+                    },
+                    {
+                        path: '/levels/edit/:id',
+                        name: 'Business',
+                        exact: true,
+                        component: LevelForm,
+                    },
+                    {
+                        path: '/location-type/add',
+                        name: 'Schedule',
+                        exact: true,
+                        component: LocationForm,
+                    },
+                    {
+                        path: '/location-type/edit/:id',
+                        name: 'Schedule',
+                        exact: true,
+                        component: LocationForm,
+                    },
+                    {
+                        path: '/locations/add',
+                        name: 'Schedule',
+                        exact: true,
+                        component: LocationForm,
+                    },
+                    {
+                        path: '/locations/edit/:id',
+                        name: 'Schedule',
+                        exact: true,
+                        component: LocationForm,
                     },
                 ],
             },

@@ -12,7 +12,6 @@ const ManageEmployee = () => {
     const history = useHistory();
 
     const [pageNo, setPageNo] = useState(0);
-    console.log('pageNo>>', pageNo);
 
     useEffect(() => {
         dispatch(getEmployees(pageNo));
@@ -21,7 +20,13 @@ const ManageEmployee = () => {
     const { allEmployees } = useSelector((state) => state.employees);
 
     const address = (r) => {
-        return r?.street || '' + r?.state || '' + r?.city || '' + ',' + r?.zipCode || '';
+        return (
+            <>
+                {r?.street}
+                {r?.state}
+                {r?.city} {r?.zipCode ? `, ${r?.zipCode}` : ''}
+            </>
+        );
     };
     const columns = [
         {
