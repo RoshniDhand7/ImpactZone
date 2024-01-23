@@ -4,7 +4,7 @@ import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
-import { uploadFiles } from '../../../utils/commonFunctions';
+import { uploadFiles, uploadImages } from '../../../utils/commonFunctions';
 
 const getEmployees = (pageNo, setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -59,11 +59,14 @@ const getEmployee = (id, returnData) => async (dispatch) => {
 const editEmployee =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
-        if (data.photo.length) {
-            data.photo = await uploadFiles(data.photo);
-            data.photo = data.photo[0];
+        console.log(data.image)
+        if (data.image.length) {
+            data.image = await uploadImages(data.image);
+
+            console.log(data.image,"fi")
+            data.image = data.image[0];
         } else {
-            data.photo = '';
+            data.image = '';
         }
         setLoading(true);
         const payload = {

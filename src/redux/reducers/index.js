@@ -12,6 +12,10 @@ import departmentReducer from './EmployeesSettings/departmentsReducer';
 import levelReducer from './ScheduleSettings/levelReducer';
 import locationTypeReducer from './ScheduleSettings/locationTypesReducer';
 import locationsReducer from './ScheduleSettings/locationReducer';
+import comapignGroupReducer from './MembersSettings/compaignGroupReducer';
+import camapignReducer from './MembersSettings/campaignReducer';
+import resourceTypeReducer from './MembersSettings/resourceTypeReducer';
+import resourcesReducer from './MembersSettings/resourcesReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -27,4 +31,8 @@ export default combineReducers({
     level: levelReducer,
     locationType: locationTypeReducer,
     locations: locationsReducer,
+    compaignGroups:comapignGroupReducer,
+    campaign:camapignReducer,
+    resourceType:resourceTypeReducer,
+    resources:resourcesReducer
 });

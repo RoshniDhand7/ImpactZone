@@ -14,7 +14,7 @@ export default function InputLayout({ label, name, required, col, extraClassName
                     {required ? <span className="text-red-500">*</span> : null}
                     {maxLength && (
                         <span>
-                            &nbsp; ({data?.[name].length}/{maxLength})
+                            &nbsp; ({data?.[name]?.length??0}/{maxLength})
                         </span>
                     )}
                 </div>

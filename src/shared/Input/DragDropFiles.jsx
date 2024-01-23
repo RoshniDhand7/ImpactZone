@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { getImageURL } from '../../utils/imageUrl';
 
 const PhotoUpload = ({ name, value, data, onDropChange }) => {
     const [selectedImages, setSelectedImages] = useState(value || data?.[name] || []);
@@ -70,7 +71,7 @@ const PhotoUpload = ({ name, value, data, onDropChange }) => {
                 {selectedImages?.length > 0 &&
                     selectedImages?.map((image, index) => (
                         <div key={index} className="flex">
-                            <img src={`${URL.createObjectURL(image)}`} alt="" />
+                            <img src={image ? (typeof image === 'string' ? getImageURL(image) : URL.createObjectURL(image)) : []} alt="" />
                             <i className="pi pi-times" onClick={() => removeImage(index)}></i>
                         </div>
                     ))}

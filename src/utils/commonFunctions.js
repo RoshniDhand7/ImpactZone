@@ -18,6 +18,18 @@ const showFormErrors = (data, setData, ignore) => {
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
 
+export const convertBooleanValues=(data)=> {
+    return data?.map((item) => {
+        const convertedItem = { ...item };
+        Object.keys(item).forEach((key) => {
+            if (typeof item[key] === 'boolean') {
+                convertedItem[key] = item[key] ? 'Yes' : 'No';
+            }
+        });
+        return convertedItem;
+    });
+}
+
 const capitalizeCamelCase = (str) => {
     let words = str.split(/(?=[A-Z])/);
     let capitalizedWords = words.map(function (word) {

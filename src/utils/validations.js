@@ -57,7 +57,13 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'city':
         case 'bookOutFrom':
         case 'bookOutTo':
+        case 'club':
+        case 'campaignGroup':
+        case 'locationType':
         case 'allowCancelOnline':
+        case 'resourceType':
+        case 'location':
+        case 'pastDue':
         case 'timeBeforeEvent':
         case 'reasonCodeType':
             if (typeof value == 'boolean') {

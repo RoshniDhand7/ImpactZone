@@ -36,7 +36,7 @@ const api = async (method, urlEndPoint, data = {}, params = {}) => {
         return res;
     } catch (error) {
         console.log(error);
-        let res = error.response.data;
+        let res =error?.response? error.response.data:error.toString();
         //If encription is added on backend, uncomment the code below
         // res = decrypt(res.payload);
         // console.log(`Res=${method}=${urlEndPoint}\n`, res);
@@ -75,7 +75,8 @@ export const multipartApi = async (method, urlEndPoint, data = {}, query) => {
         return res;
     } catch (error) {
         console.log(error);
-        let res = error.response.data;
+        let res =error?.response? error.response.data:error.toString();
+
         //If encription is added on backend, uncomment the code below
         // res = decrypt(res.payload);
         // console.log(`Res=${method}=${urlEndPoint}\n`, res);

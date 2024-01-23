@@ -3,7 +3,6 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
-import { deleteLevel, getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteLocationType, getLocationTypes } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 

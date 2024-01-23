@@ -3,9 +3,7 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
-import { deleteLevel, getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteLocationType } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 import { deleteLocation, getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 
 const Locations = () => {
@@ -15,17 +13,21 @@ const Locations = () => {
         dispatch(getLocations());
     }, [dispatch]);
 
-    const { allLocation } = useSelector((state) => state.locations);
+    const { allLocations } = useSelector((state) => state.locations);
 
     const columns = [
         { field: 'name', header: ' Location Name' },
         { field: 'locationType', header: 'Location Type' },
         { field: 'club', header: 'Club' },
+        { field: 'isActive', header: 'isActive' },
+
     ];
 
     const onEdit = (col) => {
         history.push(`/settings/schedule/locations/edit/${col._id}`);
     };
+
+    console.log("AllLocation>>",allLocations)
 
     const onDelete = (col, position) => {
         confirmDelete(
@@ -39,7 +41,7 @@ const Locations = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Locations" linkTo="/settings/schedule/locations/add" />
-            <CustomTable data={allLocation} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allLocations} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

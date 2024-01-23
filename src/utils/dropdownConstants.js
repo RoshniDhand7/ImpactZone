@@ -87,7 +87,7 @@ for (let i = 1; i <= 30; i++) {
 
 export const hoursOptions = [];
 
-for (let i = 12; i <= 48; i += 12) {
+for (let i = 12; i <= 72; i += 12) {
     const option = {
         name: `${i} hours`,
         value: `${i} hours`,

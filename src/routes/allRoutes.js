@@ -22,8 +22,13 @@ import SecurityRolesForm from '../views/Settings/Employees/SecurityRoles/Securit
 import DepartmentsForm from '../views/Settings/Employees/Departments/DepartmentsForm';
 import ScheduleSetup from '../views/Settings/ScheduleSetup/ScheduleSetup';
 import LevelForm from '../views/Settings/ScheduleSetup/Level/LevelForm';
-import LocationType from '../views/Settings/ScheduleSetup/LocationType/LocationType';
-import LocationForm from '../views/Settings/ScheduleSetup/LocationType/LocationForm';
+import LocationsForm from '../views/Settings/ScheduleSetup/Locations/LocationsForm';
+import LocationTypeForm from '../views/Settings/ScheduleSetup/LocationType/LocationTypeForm';
+import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
+import CampaignGroupForm from '../views/Settings/MembersSetup/CampaignsGroup/CampaignGroupsForm';
+import CompaignsForm from '../views/Settings/MembersSetup/Campaigns/CompaignsForm';
+import ResourceTypeForm from '../views/Settings/MembersSetup/ResourceType/ResourceTypeForm';
+import ResourcesForm from '../views/Settings/MembersSetup/Resources/ResourcesForm';
 
 export const PrivateRoutes = [
     {
@@ -191,25 +196,25 @@ export const PrivateRoutes = [
                         path: '/location-type/add',
                         name: 'Schedule',
                         exact: true,
-                        component: LocationForm,
+                        component: LocationTypeForm,
                     },
                     {
                         path: '/location-type/edit/:id',
                         name: 'Schedule',
                         exact: true,
-                        component: LocationForm,
+                        component: LocationTypeForm,
                     },
                     {
                         path: '/locations/add',
                         name: 'Schedule',
                         exact: true,
-                        component: LocationForm,
+                        component: LocationsForm,
                     },
                     {
                         path: '/locations/edit/:id',
                         name: 'Schedule',
                         exact: true,
-                        component: LocationForm,
+                        component: LocationsForm,
                     },
                 ],
             },
@@ -224,6 +229,62 @@ export const PrivateRoutes = [
                         name: 'Agreement Template',
                         exact: true,
                         component: AgreementTemplateForm,
+                    },
+                ],
+            },
+            {
+                path: '/members',
+                name: 'Members',
+                exact: true,
+                component: MembersSetup,
+                items: [
+                    {
+                        path: '/campaign-group/add',
+                        name: 'Members',
+                        exact: true,
+                        component: CampaignGroupForm,
+                    },
+                    {
+                        path: '/campaign-group/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: CampaignGroupForm,
+                    },
+                    {
+                        path: '/campaigns/add',
+                        name: 'Members',
+                        exact: true,
+                        component: CompaignsForm,
+                    },
+                    {
+                        path: '/campaigns/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: CompaignsForm,
+                    },
+                    {
+                        path: '/resource-type/add',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourceTypeForm,
+                    },
+                    {
+                        path: '/resource-type/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourceTypeForm,
+                    },
+                    {
+                        path: '/resources/add',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourcesForm,
+                    },
+                    {
+                        path: '/resources/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourcesForm,
                     },
                 ],
             },

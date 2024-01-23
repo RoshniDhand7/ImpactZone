@@ -46,6 +46,7 @@ const General = () => {
                         emailNotification: data.emailNotification?.toString(),
                         onlineNickName: data.onlineNickName,
                         bio: data.bio,
+                        image:data.image?[data.image]:[]
                     });
                     const cities = getCitiesByState('US', data.state);
                     setCities(cities);
@@ -72,7 +73,7 @@ const General = () => {
         emailNotification: true,
         onlineNickName: '',
         bio: '',
-        photo: [],
+        image: [],
     });
 
     const handleChange = ({ name, value }) => {
@@ -85,10 +86,10 @@ const General = () => {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
-    const handleSave = () => {
+    const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
             if (id) {
-                dispatch(editEmployee(id, data, setLoading, history));
+                dispatch(editEmployee(id, data, setLoading, history,tab));
             }
         }
     };
@@ -121,7 +122,7 @@ const General = () => {
                 <CustomTextArea name="bio" onChange={handleChange} data={data} />
             </CustomCard>
             <CustomCard col="12" title="Photo">
-                <PhotoUpload name="photo" onDropChange={handleChange} data={data} />
+                <PhotoUpload name="image" onDropChange={handleChange} data={data} />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />

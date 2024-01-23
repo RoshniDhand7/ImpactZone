@@ -17,6 +17,9 @@ const getLocationTypes = (setLoading) => async (dispatch) => {
             });
         }
     }
+    else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
     if (setLoading) {
         setLoading(false);
     }

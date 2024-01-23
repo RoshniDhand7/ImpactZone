@@ -4,12 +4,13 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import { CustomInput, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { addJobTitle, editJobTitle, getJobTitle } from '../../../../redux/actions/BusinessSettings/jobActions';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 
-const JobTitleForm = ({ history }) => {
+const JobTitleForm = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
     const [data, setData] = useState({
@@ -37,16 +38,15 @@ const JobTitleForm = ({ history }) => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(editJobTitle(id, data, setLoading, history));
-        }
         if (id) {
             dispatch(editJobTitle(id, data, setLoading, history));
         } else {
             dispatch(addJobTitle(data, setLoading, history));
         }
+    }
+
     };
     return (
-        <>
             <FormPage backText="Job Title">
                 <CustomCard col="12" title="Job Title">
                     <CustomGridLayout>
@@ -59,7 +59,6 @@ const JobTitleForm = ({ history }) => {
                     <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
                 </CustomButtonGroup>
             </FormPage>
-        </>
     );
 };
 
