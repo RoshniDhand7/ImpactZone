@@ -21,7 +21,7 @@ const CompaignGroups = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/compaign-group/edit/${col._id}`);
+        history.push(`/settings/members/campaign-group/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
@@ -35,7 +35,7 @@ const CompaignGroups = () => {
     };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Compaigns Group" linkTo="/settings/members/compaign-group/add" />
+            <CustomFilterCard buttonTitle="Add Compaigns Group" linkTo="/settings/members/campaign-group/add" />
             <CustomTable data={allCompaignGroups} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
