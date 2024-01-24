@@ -15,23 +15,23 @@ import { ConfirmDialog } from 'primereact/confirmdialog';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <PersistGate persistor={persistor}>
-                <ToastContainer />
-                <ConfirmDialog />
-                <Loader />
-                <HashRouter>
-                    <Switch>
-                        <Route key="/" path="/" exact={true} component={Login} />
-                        <Route key="/403" path="/403" exact={true} component={AccessDenied} />
-                        <ScrollToTop>
-                            <App />
-                        </ScrollToTop>
-                    </Switch>
-                </HashRouter>
-            </PersistGate>
-        </Provider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
+            <ToastContainer />
+            <ConfirmDialog />
+            <Loader />
+            <HashRouter>
+                <Switch>
+                    <Route key="/" path="/" exact={true} component={Login} />
+                    <Route key="/403" path="/403" exact={true} component={AccessDenied} />
+                    <ScrollToTop>
+                        <App />
+                    </ScrollToTop>
+                </Switch>
+            </HashRouter>
+        </PersistGate>
+    </Provider>,
+    // </React.StrictMode>,
 );
 reportWebVitals();

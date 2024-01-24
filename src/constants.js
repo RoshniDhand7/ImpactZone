@@ -1,8 +1,7 @@
-const constants = {
-    baseUrl: 'https://impactzoneapi.appdeft.biz/',
-    endPointUrl: '',
-    // baseUrl: 'http://localhost:1102/',
-};
-constants.endPointUrl = `${constants.baseUrl}api/user`;
+// const baseUrl = 'http://localhost:1102/';
+const baseUrl = 'https://impactzoneapi.appdeft.biz/';
+const endPointUrl = baseUrl + 'api/user';
+
+const constants = { baseUrl, endPointUrl };
 
 export default constants;
