@@ -15,8 +15,8 @@ const Clubs = () => {
         dispatch(getClubsDetails());
     }, [dispatch]);
 
-    let { allClubs } = useSelector((state) => state.clubs);
-    allClubs = allClubs?.map((item) => ({ name: item.name, value: item._id }));
+    let { clubsDropdown } = useSelector((state) => state.clubs);
+
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         if (id) {
@@ -47,10 +47,10 @@ const Clubs = () => {
     return (
         <>
             <CustomCard col="12" title="Report Data Access">
-                <CustomPickList name="reportDataAccess" selected={data?.reportDataAccess} sourceData={allClubs} onPickListChange={handleChange} />
+                <CustomPickList name="reportDataAccess" selected={data?.reportDataAccess} sourceData={clubsDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Clubs">
-                <CustomPickList name="clubs" selected={data?.clubs} sourceData={allClubs} onPickListChange={handleChange} />
+                <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
             </CustomCard>
 
             <CustomButtonGroup>

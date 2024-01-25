@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allClubs: [],
+    clubsDropdown: [],
 };
 
 const clubsReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const clubsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allClubs: action.payload,
+                clubsDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };
