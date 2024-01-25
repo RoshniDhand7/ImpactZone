@@ -22,7 +22,7 @@ const LocationsForm = () => {
         dispatch(getClubsDetails());
     }, []);
     const { allClubs } = useSelector((state) => state.clubs);
-    const { allLocationType } = useSelector((state) => state.locationType);
+    const { locationTypeDropdown } = useSelector((state) => state.locationType);
 
     useEffect(() => {
         if (id) {
@@ -32,7 +32,7 @@ const LocationsForm = () => {
                         name: data.name,
                         locationType: data.locationType,
                         club: data.club,
-                        isActive:data.isActive
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -61,16 +61,7 @@ const LocationsForm = () => {
             <CustomCard col="12" title="Add Locations">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                    <CustomDropDown
-                        name="locationType"
-                        options={allLocationType?.map((item) => {
-                            return { label: item.name, value: item._id };
-                        })}
-                        data={data}
-                        optionLabel="label"
-                        onChange={handleChange}
-                        required
-                    />
+                    <CustomDropDown name="locationType" options={locationTypeDropdown} data={data} onChange={handleChange} required />
                     <CustomDropDown
                         name="club"
                         options={allClubs?.map((item) => {

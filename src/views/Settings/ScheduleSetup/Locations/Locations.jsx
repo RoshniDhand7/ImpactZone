@@ -19,15 +19,14 @@ const Locations = () => {
         { field: 'name', header: ' Location Name' },
         { field: 'locationType', header: 'Location Type' },
         { field: 'club', header: 'Club' },
-        { field: 'isActive', header: 'isActive' },
-
+        { field: 'isActive', header: 'Active' },
     ];
 
     const onEdit = (col) => {
         history.push(`/settings/schedule/locations/edit/${col._id}`);
     };
 
-    console.log("AllLocation>>",allLocations)
+    console.log('AllLocation>>', allLocations);
 
     const onDelete = (col, position) => {
         confirmDelete(

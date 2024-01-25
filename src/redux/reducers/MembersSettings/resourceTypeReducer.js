@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allResourceType: [],
+    resourceTypeDropdown: [],
 };
 
 const resourceTypeReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const resourceTypeReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allResourceType: action.payload,
+                resourceTypeDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

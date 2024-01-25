@@ -20,10 +20,9 @@ const ResourcesForm = () => {
     useEffect(() => {
         dispatch(getResourceTypes());
         dispatch(getLocations());
-
     }, [dispatch]);
     const { allLocations } = useSelector((state) => state.locations);
-    const { allResourceType } = useSelector((state) => state.resourceType);
+    const { resourceTypeDropdown } = useSelector((state) => state.resourceType);
     useEffect(() => {
         if (id) {
             dispatch(
@@ -68,16 +67,7 @@ const ResourcesForm = () => {
             <CustomCard col="12" title="Resource">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                    <CustomDropDown
-                        name="resourceType"
-                        options={allResourceType?.map((item) => {
-                            return { label: item.name, value: item._id };
-                        })}
-                        data={data}
-                        optionLabel="label"
-                        onChange={handleChange}
-                        required
-                    />
+                    <CustomDropDown name="resourceType" options={resourceTypeDropdown} data={data} onChange={handleChange} required />
                     <CustomDropDown
                         name="location"
                         options={allLocations?.map((item) => {
@@ -88,15 +78,9 @@ const ResourcesForm = () => {
                         onChange={handleChange}
                         required
                     />
-                    <CustomInput name="availableQuantity" data={data} onChange={handleChange}  />
-                    <CustomInput name="usedInEvents" data={data} onChange={handleChange}  />
-                    <CustomDropDown
-                        name="pastDue"
-                        options={hoursOptions}
-                        data={data}
-                        onChange={handleChange}
-                        required
-                    />
+                    <CustomInput name="availableQuantity" data={data} onChange={handleChange} />
+                    <CustomInput name="usedInEvents" data={data} onChange={handleChange} />
+                    <CustomDropDown name="pastDue" options={hoursOptions} data={data} onChange={handleChange} required />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>

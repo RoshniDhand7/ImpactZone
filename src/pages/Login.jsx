@@ -10,6 +10,7 @@ import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 import { onLogin } from '../redux/actions/profileAction';
 import { isAuthenticated } from '../services/auth';
+import { CustomGridLayout } from '../shared/Cards/CustomCard';
 
 export default function Login({ history }) {
     useEffect(() => {
@@ -48,16 +49,18 @@ export default function Login({ history }) {
                         <div className="text-3xl text-dark-gray font-bold my-3">Welcome Back!</div>
                         <div className="col-9">
                             <FormLayout onSubmit={onSubmit}>
-                                <CustomInput data={data} name="email" onChange={handleChange} col={12} />
-                                <CustomInput data={data} name="password" type="password" onChange={handleChange} col={12} />
-                                <div className="flex justify-content-between w-full">
-                                    <Checkbox data={data} label="Remember Me" name="rememberMe" onChange={handleChange} />
-                                    <Link to="/forgot-password" className="underline cursor-pointer text-xs text-dark-gray  font-semibold">
-                                        Forgot Password?
-                                    </Link>
-                                </div>
+                                <CustomGridLayout>
+                                    <CustomInput data={data} name="email" onChange={handleChange} col={12} />
+                                    <CustomInput data={data} name="password" type="password" onChange={handleChange} col={12} />
+                                    <div className="flex justify-content-between w-full">
+                                        <Checkbox data={data} label="Remember Me" name="rememberMe" onChange={handleChange} />
+                                        <Link to="/forgot-password" className="underline cursor-pointer text-xs text-dark-gray  font-semibold">
+                                            Forgot Password?
+                                        </Link>
+                                    </div>
 
-                                <PrimaryButton className="w-full" label="Login" loading={loading} type="submit" />
+                                    <PrimaryButton className="w-full" label="Login" loading={loading} type="submit" />
+                                </CustomGridLayout>
                             </FormLayout>
                         </div>
                     </div>
