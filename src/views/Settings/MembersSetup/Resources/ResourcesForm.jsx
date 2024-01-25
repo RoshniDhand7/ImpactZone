@@ -21,7 +21,7 @@ const ResourcesForm = () => {
         dispatch(getResourceTypes());
         dispatch(getLocations());
     }, [dispatch]);
-    const { allLocations } = useSelector((state) => state.locations);
+    const { locationDropdown } = useSelector((state) => state.locations);
     const { resourceTypeDropdown } = useSelector((state) => state.resourceType);
     useEffect(() => {
         if (id) {
@@ -68,16 +68,7 @@ const ResourcesForm = () => {
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomDropDown name="resourceType" options={resourceTypeDropdown} data={data} onChange={handleChange} required />
-                    <CustomDropDown
-                        name="location"
-                        options={allLocations?.map((item) => {
-                            return { label: item.name, value: item._id };
-                        })}
-                        data={data}
-                        optionLabel="label"
-                        onChange={handleChange}
-                        required
-                    />
+                    <CustomDropDown name="location" options={locationDropdown} data={data} onChange={handleChange} required />
                     <CustomInput name="availableQuantity" data={data} onChange={handleChange} />
                     <CustomInput name="usedInEvents" data={data} onChange={handleChange} />
                     <CustomDropDown name="pastDue" options={hoursOptions} data={data} onChange={handleChange} required />

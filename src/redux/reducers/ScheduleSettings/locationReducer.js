@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allLocations: [],
+    locationDropdown: [],
 };
 
 const locationsReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const locationsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allLocations: action.payload,
+                locationDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:
