@@ -9,7 +9,6 @@ import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 import { onLogin } from '../redux/actions/profileAction';
 import { isAuthenticated } from '../services/auth';
-import { CustomGridLayout } from '../shared/Cards/CustomCard';
 
 export default function Login({ history }) {
     useEffect(() => {
@@ -25,8 +24,6 @@ export default function Login({ history }) {
         password: '',
         rememberMe: false,
     });
-
-    console.log(data);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

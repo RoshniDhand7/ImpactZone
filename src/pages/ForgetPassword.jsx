@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Logo from '../assets/images/logo.png';
-import { Link } from 'react-router-dom';
-import { CustomCheckbox, CustomInput } from '../shared/Input/AllInputs';
+import { CustomInput } from '../shared/Input/AllInputs';
 import FormLayout from '../shared/Form/FormLayout';
 import PrimaryButton from '../shared/Button/CustomButton';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
-import { onChangeForgotPassword, onForgotPassword, onLogin } from '../redux/actions/profileAction';
+import { onChangeForgotPassword, onForgotPassword } from '../redux/actions/profileAction';
 import { isAuthenticated } from '../services/auth';
-import { CustomGridLayout } from '../shared/Cards/CustomCard';
 
 export default function ForgetPassword({ history }) {
     useEffect(() => {
