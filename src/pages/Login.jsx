@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Logo from '../assets/images/logo.png';
 import { Link } from 'react-router-dom';
-import { CustomInput } from '../shared/Input/AllInputs';
+import { CustomCheckbox, CustomInput } from '../shared/Input/AllInputs';
 import FormLayout from '../shared/Form/FormLayout';
 import PrimaryButton from '../shared/Button/CustomButton';
-import Checkbox from '../shared/Input/Checkbox';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 import { onLogin } from '../redux/actions/profileAction';
@@ -26,6 +25,8 @@ export default function Login({ history }) {
         password: '',
         rememberMe: false,
     });
+
+    console.log(data);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -49,18 +50,16 @@ export default function Login({ history }) {
                         <div className="text-3xl text-dark-gray font-bold my-3">Welcome Back!</div>
                         <div className="col-9">
                             <FormLayout onSubmit={onSubmit}>
-                                <CustomGridLayout>
-                                    <CustomInput data={data} name="email" onChange={handleChange} col={12} />
-                                    <CustomInput data={data} name="password" type="password" onChange={handleChange} col={12} />
-                                    <div className="flex justify-content-between w-full">
-                                        <Checkbox data={data} label="Remember Me" name="rememberMe" onChange={handleChange} />
-                                        <Link to="/forgot-password" className="underline cursor-pointer text-xs text-dark-gray  font-semibold">
-                                            Forgot Password?
-                                        </Link>
-                                    </div>
+                                <CustomInput data={data} name="email" onChange={handleChange} col={12} />
+                                <CustomInput data={data} name="password" type="password" onChange={handleChange} col={12} />
+                                <div className="flex justify-content-between w-full">
+                                    <CustomCheckbox data={data} label="Remember Me" name="rememberMe" onChange={handleChange} />
+                                    <Link to="/forgot-password" className="underline cursor-pointer text-xs text-dark-gray  font-semibold my-auto">
+                                        Forgot Password?
+                                    </Link>
+                                </div>
 
-                                    <PrimaryButton className="w-full" label="Login" loading={loading} type="submit" />
-                                </CustomGridLayout>
+                                <PrimaryButton className="w-full" label="Login" loading={loading} type="submit" />
                             </FormLayout>
                         </div>
                     </div>

@@ -23,6 +23,30 @@ const onLogin = (payload, history, setLoading) => async (dispatch) => {
     }
     setLoading(false);
 };
+const onForgotPassword = (payload, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+    payload = { email: payload.email };
+    const res = await api('post', endPoints.FORGOT_PASSWORD, payload);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
+
+const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch) => {
+    setLoading(true);
+    const res = await api('post', endPoints.CHANGE_FORGOT_PASSWORD, payload);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        history.push('/');
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
 
 const getProfile = () => async (dispatch) => {
     const res = await api('get', endPoints.PROFILE);
@@ -32,4 +56,4 @@ const getProfile = () => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { onLogin, getProfile };
+export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword };

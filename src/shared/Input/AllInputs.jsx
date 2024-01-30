@@ -6,6 +6,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputMask } from 'primereact/inputmask';
 import { Calendar } from 'primereact/calendar';
 import { InputSwitch } from 'primereact/inputswitch';
+import { Checkbox } from 'primereact/checkbox';
+import { capitalizeCamelCase } from '../../utils/commonFunctions';
 
 export const CustomInput = ({
     label,
@@ -170,6 +172,24 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
                 className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 {...props}
             />
+        </InputLayout>
+    );
+};
+export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+    return (
+        <InputLayout col={col || 6} name={name} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Checkbox
+                id={name}
+                name={name}
+                inputId={label}
+                checked={value || data?.[name]}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked })}
+                className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                {...props}
+            />
+            <label htmlFor={label} className="ml-2 text-xs text-dark-gray font-semibold">
+                {label ? capitalizeCamelCase(label) : label}
+            </label>
         </InputLayout>
     );
 };

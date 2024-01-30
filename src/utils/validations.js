@@ -1,5 +1,5 @@
 import { FirstletterUpperCase, equal, length } from './javascript';
-import { emailValidation, firstLetterToUppercase } from './regex';
+import { emailValidation, firstLetterToUppercase, passwordValidation } from './regex';
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, ignore = []) => {
@@ -21,9 +21,8 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'password':
             if (equal(length(value))) {
                 formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
-                // } else if (!passwordValidation(value)) {
-                //     formErrors[name] = `Please enter a password with 8-16 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character`;
-                // } else {
+            } else if (!passwordValidation(value)) {
+                formErrors[name] = `Please enter a password with 8-16 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character`;
             } else {
                 formErrors[name] = '';
             }
@@ -48,6 +47,14 @@ const formValidation = (name, value, data, ignore = []) => {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
                 formErrors[name] = '';
+            }
+            break;
+
+        case 'otpCode':
+            if (value.length === 4) {
+                formErrors[name] = '';
+            } else {
+                formErrors[name] = 'OTP is required';
             }
             break;
 
