@@ -16,6 +16,11 @@ import comapignGroupReducer from './MembersSettings/compaignGroupReducer';
 import camapignReducer from './MembersSettings/campaignReducer';
 import resourceTypeReducer from './MembersSettings/resourceTypeReducer';
 import resourcesReducer from './MembersSettings/resourcesReducer';
+import agreementCategoriesReducer from './AgreementSettings/agreementCategoriesReducer';
+import referralGroupReducer from './InventorySettings/referralGroupsReducer';
+import commissionGroupReducer from './InventorySettings/commissionGroupsReducer';
+import VendorsReducer from './InventorySettings/vendorsReducer';
+import categoryReducer from './InventorySettings/categoryReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -31,8 +36,13 @@ export default combineReducers({
     level: levelReducer,
     locationType: locationTypeReducer,
     locations: locationsReducer,
-    compaignGroups:comapignGroupReducer,
-    campaign:camapignReducer,
-    resourceType:resourceTypeReducer,
-    resources:resourcesReducer
+    compaignGroups: comapignGroupReducer,
+    campaign: camapignReducer,
+    resourceType: resourceTypeReducer,
+    resources: resourcesReducer,
+    agreementCategories: agreementCategoriesReducer,
+    referralGroup: referralGroupReducer,
+    commissionGroup: commissionGroupReducer,
+    vendors: VendorsReducer,
+    category: categoryReducer,
 });

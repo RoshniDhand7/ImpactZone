@@ -8,6 +8,8 @@ import { Calendar } from 'primereact/calendar';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Checkbox } from 'primereact/checkbox';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
+import { Chips } from 'primereact/chips';
+import { InputNumber } from 'primereact/inputnumber';
 
 export const CustomInput = ({
     label,
@@ -111,6 +113,7 @@ export const CustomDropDown = ({
     optionLabel = 'name',
     ...props
 }) => {
+    console.log('label>>', label, name);
     return (
         <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Dropdown
@@ -190,6 +193,79 @@ export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessag
             <label htmlFor={label} className="ml-2 text-xs text-dark-gray font-semibold">
                 {label ? capitalizeCamelCase(label) : label}
             </label>
+        </InputLayout>
+    );
+};
+
+export const CustomChipInput = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    keyFilter = null,
+    disabled = false,
+    onRemove,
+    onAdd,
+    onKeyUp,
+    ...props
+}) => {
+    return (
+        <InputLayout
+            col={col || 6}
+            label={label || name}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+        >
+            <Chips
+                id={name}
+                onAdd={(e) => onAdd && onAdd({ ...e, name: name, currentValue: e.value })}
+                name={name}
+                onKeyUp={(e) => {
+                    if (e.key === 'Enter') return e.preventDefault();
+                    onKeyUp && onKeyUp({ ...e, name: e.target.name, value: e.target.value });
+                }}
+                value={value || data?.[name]}
+                onRemove={(e) => onRemove && onRemove({ e, name: name, currentValue: e.value })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: [...new Set(e.value)] })}
+                className={`w-full p-fluid ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                placeholder="Press enter to add value."
+                disabled={disabled}
+                keyfilter={keyFilter}
+                {...props}
+            />
+        </InputLayout>
+    );
+};
+
+export const CustomInputNumber = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+    return (
+        <InputLayout
+            col={col || 6}
+            label={label || name}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+        >
+            <InputNumber
+                id={name}
+                name={name}
+                value={value || data?.[name] || 0}
+                onValueChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                useGrouping={props.useGrouping || false}
+                {...props}
+            />
         </InputLayout>
     );
 };

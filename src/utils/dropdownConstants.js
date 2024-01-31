@@ -9,16 +9,18 @@ export const yesNoOptions = [
     },
 ];
 
-// export const checkInLimitOptions = [
-//     {
-//         name: 'No Limit',
-//         value: 'No Limit',
-//     },
-//     {
-//         name: '1-50',
-//         value: '1-50',
-//     },
-// ];
+export const amountTypeOptions = [
+    {
+        name: '$',
+        value: 'FIXED',
+    },
+    {
+        name: '%',
+        value: 'PERCENTAGE',
+    },
+];
+export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));
+
 export const checkInLimitOptions = [
     {
         name: 'No Limit',

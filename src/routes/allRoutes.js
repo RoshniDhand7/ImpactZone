@@ -1,3 +1,5 @@
+import { lazy } from 'react';
+
 import Dashboard from '../views/Dashboard/Dashboard';
 import CheckIn from '../views/CheckIn/CheckIn';
 import Members from '../views/Members/Members';
@@ -7,28 +9,36 @@ import Plans from '../views/Plans/Plans';
 import More from '../views/More/More';
 import Business from '../views/Settings/Business/Business';
 import Settings from '../views/Settings/Settings';
-import CompanyForm from '../views/Settings/Business/Company/CompanyForm';
-import ReasonCodeForm from '../views/Settings/Business/ReasonCode/ReasonCodeForm';
-import CustomizationForm from '../views/Settings/Business/Customization/CustomizationForm';
-import ClubsForm from '../views/Settings/Business/Clubs/ClubsForm';
-import JobTitleForm from '../views/Settings/Business/JobTitle/JobTitleForm';
 import Agreement from '../views/Settings/Agreement/Agreement';
-import AgreementTemplateForm from '../views/Settings/Agreement/AgreementTemplate/AgreementTemplateForm';
 import Employees from '../views/Settings/Employees/Employees';
-import ViewEmployeeForm from '../views/Settings/Employees/ManageEmployee/ViewEmployeeForm';
-import EmployeeForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm';
-import CertificationForm from '../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm';
-import SecurityRolesForm from '../views/Settings/Employees/SecurityRoles/SecurityRolesForm';
-import DepartmentsForm from '../views/Settings/Employees/Departments/DepartmentsForm';
 import ScheduleSetup from '../views/Settings/ScheduleSetup/ScheduleSetup';
-import LevelForm from '../views/Settings/ScheduleSetup/Level/LevelForm';
-import LocationsForm from '../views/Settings/ScheduleSetup/Locations/LocationsForm';
-import LocationTypeForm from '../views/Settings/ScheduleSetup/LocationType/LocationTypeForm';
 import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
-import CampaignGroupForm from '../views/Settings/MembersSetup/CampaignsGroup/CampaignGroupsForm';
-import CompaignsForm from '../views/Settings/MembersSetup/Campaigns/CompaignsForm';
-import ResourceTypeForm from '../views/Settings/MembersSetup/ResourceType/ResourceTypeForm';
-import ResourcesForm from '../views/Settings/MembersSetup/Resources/ResourcesForm';
+import Inventory from '../views/Settings/Inventory/Inventory';
+
+const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
+const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
+const CustomizationForm = lazy(() => import('../views/Settings/Business/Customization/CustomizationForm'));
+const ClubsForm = lazy(() => import('../views/Settings/Business/Clubs/ClubsForm'));
+const JobTitleForm = lazy(() => import('../views/Settings/Business/JobTitle/JobTitleForm'));
+const AgreementTemplateForm = lazy(() => import('../views/Settings/Agreement/AgreementTemplate/AgreementTemplateForm'));
+const ViewEmployeeForm = lazy(() => import('../views/Settings/Employees/ManageEmployee/ViewEmployeeForm'));
+const EmployeeForm = lazy(() => import('../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm'));
+const CertificationForm = lazy(() => import('../views/Settings/Employees/ManageEmployee/AddEmployee/Certifications/CertificationForm'));
+const SecurityRolesForm = lazy(() => import('../views/Settings/Employees/SecurityRoles/SecurityRolesForm'));
+const DepartmentsForm = lazy(() => import('../views/Settings/Employees/Departments/DepartmentsForm'));
+const LevelForm = lazy(() => import('../views/Settings/ScheduleSetup/Level/LevelForm'));
+const LocationsForm = lazy(() => import('../views/Settings/ScheduleSetup/Locations/LocationsForm'));
+const LocationTypeForm = lazy(() => import('../views/Settings/ScheduleSetup/LocationType/LocationTypeForm'));
+const CampaignGroupForm = lazy(() => import('../views/Settings/MembersSetup/CampaignsGroup/CampaignGroupsForm'));
+const CompaignsForm = lazy(() => import('../views/Settings/MembersSetup/Campaigns/CompaignsForm'));
+const ResourceTypeForm = lazy(() => import('../views/Settings/MembersSetup/ResourceType/ResourceTypeForm'));
+const ResourcesForm = lazy(() => import('../views/Settings/MembersSetup/Resources/ResourcesForm'));
+const AgreementCategoriesForm = lazy(() => import('../views/Settings/Agreement/AgreementCategories/AgreementCategoriesForm'));
+const ProfitCenterForm = lazy(() => import('../views/Settings/Inventory/ProfitCenter/ProfitCenterForm'));
+const CategoriesForm = lazy(() => import('../views/Settings/Inventory/Categories/CategoriesForm'));
+const VendorForm = lazy(() => import('../views/Settings/Inventory/Vendors/VendorForm'));
+const ReferralGroupForm = lazy(() => import('../views/Settings/Inventory/ReferralGroup/ReferralGroupForm'));
+const CommissionGroupForm = lazy(() => import('../views/Settings/Inventory/CommissionGroup/CommissionGroupForm'));
 
 export const PrivateRoutes = [
     {
@@ -119,6 +129,74 @@ export const PrivateRoutes = [
                         name: 'Business',
                         exact: true,
                         component: JobTitleForm,
+                    },
+                ],
+            },
+            {
+                path: '/inventory',
+                name: 'Inventory',
+                exact: true,
+                component: Inventory,
+                items: [
+                    {
+                        path: '/profit-center/add',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: ProfitCenterForm,
+                    },
+                    {
+                        path: '/profit-center/edit/:id',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: ProfitCenterForm,
+                    },
+                    {
+                        path: '/categories/add',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: CategoriesForm,
+                    },
+                    {
+                        path: '/categories/edit/:id',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: CategoriesForm,
+                    },
+                    {
+                        path: '/vendor/add',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: VendorForm,
+                    },
+                    {
+                        path: '/vendor/edit/:id',
+                        name: 'Profit Center',
+                        exact: true,
+                        component: VendorForm,
+                    },
+                    {
+                        path: '/referral-group/add',
+                        name: 'Referral Group',
+                        exact: true,
+                        component: ReferralGroupForm,
+                    },
+                    {
+                        path: '/referral-group/edit/:id',
+                        name: 'Referral Group',
+                        exact: true,
+                        component: ReferralGroupForm,
+                    },
+                    {
+                        path: '/commission-group/add',
+                        name: 'Commission Group',
+                        exact: true,
+                        component: CommissionGroupForm,
+                    },
+                    {
+                        path: '/commission-group/edit/:id',
+                        name: 'Commission Group',
+                        exact: true,
+                        component: CommissionGroupForm,
                     },
                 ],
             },
@@ -229,6 +307,18 @@ export const PrivateRoutes = [
                         name: 'Agreement Template',
                         exact: true,
                         component: AgreementTemplateForm,
+                    },
+                    {
+                        path: '/categories/add',
+                        name: 'Agreement Categories',
+                        exact: true,
+                        component: AgreementCategoriesForm,
+                    },
+                    {
+                        path: '/categories/edit/:id',
+                        name: 'Agreement Categories',
+                        exact: true,
+                        component: AgreementCategoriesForm,
                     },
                 ],
             },

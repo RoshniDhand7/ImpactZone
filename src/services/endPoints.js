@@ -19,5 +19,10 @@ const endPoints = {
     COMPAIGN: '/campaign/',
     RESOURCE_TYPE: '/resource-type/',
     RESOURCES: '/resource/',
+    AGREEMENT_CATEGORY: '/agreement-category/',
+    REFERRAL_GROUPS: '/referral-group/',
+    COMMISSION_GROUPS: '/commission-group/',
+    VENDORS: '/vendor/',
+    CATEGORIES: '/inventory-category/',
 };
 export default endPoints;
