@@ -1,5 +1,7 @@
 const endPoints = {
     LOGIN: '/login',
+    FORGOT_PASSWORD: '/forgot-password',
+    CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
     PROFILE: '/profile',
     COMPANY: '/company',
     REASON_CODE: '/reason-code/',
@@ -13,9 +15,9 @@ const endPoints = {
     LEVELS: '/level/',
     LOCATION_TYPE: '/location-type/',
     LOCATIONS: '/location/',
-    COMPAIGNS_GROUP:"/campaign-group/",
-    COMPAIGN:"/campaign/",
-    RESOURCE_TYPE:"/resource-type/",
-    RESOURCES:"/resource/"
+    COMPAIGNS_GROUP: '/campaign-group/',
+    COMPAIGN: '/campaign/',
+    RESOURCE_TYPE: '/resource-type/',
+    RESOURCES: '/resource/',
 };
 export default endPoints;

@@ -12,6 +12,7 @@ import store, { persistor } from './redux';
 import ToastContainer from './shared/ToastContainer';
 import Loader from './shared/Loader';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import ForgetPassword from './pages/ForgetPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
             <HashRouter>
                 <Switch>
                     <Route key="/" path="/" exact={true} component={Login} />
+                    <Route key="/forgot-password" path="/forgot-password" exact={true} component={ForgetPassword} />
                     <Route key="/403" path="/403" exact={true} component={AccessDenied} />
                     <ScrollToTop>
                         <App />
