@@ -25,5 +25,6 @@ const endPoints = {
     VENDORS: '/vendor/',
     CATEGORIES: '/inventory-category/',
     PROFIT_CENTERS: '/profit-center/',
+    MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
 };
 export default endPoints;

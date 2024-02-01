@@ -211,14 +211,14 @@ export const PrivateRoutes = [
                         name: 'Employee',
                         exact: true,
                         component: EmployeeForm,
-                        items: [{ path: '/certifications', name: 'Employee', exact: true, component: CertificationForm }],
+                        items: [{ path: '/certifications/:employeeId', name: 'Employee', exact: true, component: CertificationForm }],
                     },
                     {
                         path: '/manage-employee/edit/:id',
                         name: 'Employee',
                         exact: true,
                         component: EmployeeForm,
-                        items: [{ path: '/certifications', name: 'Employee', exact: true, component: CertificationForm }],
+                        items: [{ path: '/certifications/:employeeId', name: 'Employee', component: CertificationForm }],
                     },
                     {
                         path: '/manage-employee/view/:id',
