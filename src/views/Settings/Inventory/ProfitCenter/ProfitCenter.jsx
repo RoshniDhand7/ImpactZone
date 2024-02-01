@@ -4,27 +4,28 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteProfitCenters, getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 
 export default function ProfitCenter() {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        // dispatch(getReasonsDetails());
+        dispatch(getProfitCenters());
     }, [dispatch]);
 
-    // const { allProfitCenter } = useSelector((state) => state.ProfitCenter);
+    const { allProfitCenters } = useSelector((state) => state.profitCenter);
     const columns = [
-        { field: 'ProfitCenter', header: 'Profit Center Name' },
-        { field: 'ProfitCenterType', header: 'Description' },
+        { field: 'name', header: 'Name' },
+        { field: 'description', header: 'Description' },
         { field: 'ProfitCenterType', header: 'Catelog Items Assigned' },
-        { field: 'ProfitCenterType', header: 'GL Code' },
+        { field: 'glCode', header: 'GL Code' },
         { field: 'isActive', header: 'Active' },
     ];
 
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                // dispatch(deleteProfitCenter(col._id, () => {}));
+                dispatch(deleteProfitCenters(col._id, () => {}));
             },
             'Do you want to delete this Profit Center?',
             position,
@@ -36,7 +37,7 @@ export default function ProfitCenter() {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Profit Center" linkTo="/settings/inventory/profit-center/add" />
-            <CustomTable data={[]} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allProfitCenters} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 }

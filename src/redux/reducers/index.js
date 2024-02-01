@@ -21,6 +21,7 @@ import referralGroupReducer from './InventorySettings/referralGroupsReducer';
 import commissionGroupReducer from './InventorySettings/commissionGroupsReducer';
 import VendorsReducer from './InventorySettings/vendorsReducer';
 import categoryReducer from './InventorySettings/categoryReducer';
+import profitCenterReducer from './InventorySettings/profitCenterReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -45,4 +46,5 @@ export default combineReducers({
     commissionGroup: commissionGroupReducer,
     vendors: VendorsReducer,
     category: categoryReducer,
+    profitCenter: profitCenterReducer,
 });

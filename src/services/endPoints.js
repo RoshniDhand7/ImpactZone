@@ -24,5 +24,6 @@ const endPoints = {
     COMMISSION_GROUPS: '/commission-group/',
     VENDORS: '/vendor/',
     CATEGORIES: '/inventory-category/',
+    PROFIT_CENTERS: '/profit-center/',
 };
 export default endPoints;
