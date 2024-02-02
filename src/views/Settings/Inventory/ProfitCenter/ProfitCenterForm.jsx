@@ -62,7 +62,7 @@ const ProfitCenterForm = () => {
             <CustomCard col="12" title="General">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                    <CustomInput name="glCode" data={data} onChange={handleChange} required />
+                    <CustomInput name="glCode" data={data} onChange={handleChange} />
                     <CustomDropDown name="availableProfitCenter" options={profitCenterDropdown} data={data} optionLabel="name" onChange={handleChange} />
                     <CustomDropDown name="parentProfitCenter" options={profitCenterDropdown} data={data} onChange={handleChange} optionLabel="name" />
                     <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { convertBooleanValues } from '../../utils/commonFunctions';
+import { convertBooleanValues, truncateDescription } from '../../utils/commonFunctions';
 
 const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
+    const [showFullDescription, setShowFullDescription] = useState(false);
     const actionTemplate = (data) => {
         return (
             <span className="flex ">

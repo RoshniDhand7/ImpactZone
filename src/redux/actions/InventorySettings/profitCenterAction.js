@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { removeUnusedKeys } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -39,17 +40,19 @@ const getProfitCenter = (id, returnData) => async (dispatch) => {
 
 const addProfitCenters = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
+    const payload = removeUnusedKeys({ ...data });
 
-    const res = await api('post', EndPoints.PROFIT_CENTERS, data);
+    const res = await api('post', EndPoints.PROFIT_CENTERS, payload);
     if (res.success) {
         history.goBack();
     }
     setLoading(false);
 };
-const editProfitCenters = (id, data, setLoading, history) => async (dispatch, getState) => {
+const editProfitCenters = (id, data, setLoading, history) => async () => {
     setLoading(true);
+    const payload = removeUnusedKeys({ ...data });
 
-    const res = await api('put', EndPoints.PROFIT_CENTERS + id, data);
+    const res = await api('put', EndPoints.PROFIT_CENTERS + id, payload);
     if (res.success) {
         history.goBack();
     }
