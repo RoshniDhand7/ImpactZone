@@ -9,7 +9,6 @@ const getCommissionGroups = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
     const res = await api('get', EndPoints.COMMISSION_GROUPS);
-    console.log(res);
     if (res.success) {
         if (res.data) {
             dispatch({

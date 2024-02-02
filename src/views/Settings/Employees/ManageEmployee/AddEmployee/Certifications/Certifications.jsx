@@ -18,7 +18,6 @@ const Certifications = () => {
 
     const { allCertificates } = useSelector((state) => state.certificates);
 
-    console.log(allCertificates);
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'certificateNumber', header: 'Cerificate Number' },

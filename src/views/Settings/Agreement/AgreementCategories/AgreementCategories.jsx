@@ -19,7 +19,7 @@ const AgreementCategories = () => {
         { field: 'name', header: 'Agreement Categories' },
         {
             field: 'subCategories',
-            body: (r) => (r.subCategories ? r.subCategories?.join(',') : '-'),
+            body: (r) => (r.subCategories ? r.subCategories?.join(' , ') : '-'),
             header: 'Sub Categories',
         },
         { field: 'isActive', header: 'Active' },

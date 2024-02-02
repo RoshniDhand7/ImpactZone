@@ -9,7 +9,6 @@ const getAgreementCategories = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
     const res = await api('get', EndPoints.AGREEMENT_CATEGORY);
-    console.log(res);
     if (res.success) {
         if (res.data) {
             dispatch({

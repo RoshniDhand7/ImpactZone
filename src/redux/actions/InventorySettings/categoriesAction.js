@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { removeUnusedKeys } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -9,7 +10,6 @@ const getCategories = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
     const res = await api('get', EndPoints.CATEGORIES);
-    console.log(res);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -40,8 +40,9 @@ const getCategory = (id, returnData) => async (dispatch) => {
 
 const addCategory = (data, setLoading, history) => async () => {
     setLoading(true);
+    const payload = removeUnusedKeys({ ...data });
 
-    const res = await api('post', EndPoints.CATEGORIES, data);
+    const res = await api('post', EndPoints.CATEGORIES, payload);
     if (res.success) {
         history.goBack();
     }

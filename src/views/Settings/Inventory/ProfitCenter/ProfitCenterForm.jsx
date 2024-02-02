@@ -16,8 +16,6 @@ const ProfitCenterForm = () => {
     const [loading, setLoading] = useState(false);
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
 
-    console.log('profitCenterDropdown>>', profitCenterDropdown);
-
     useEffect(() => {
         if (id) {
             dispatch(

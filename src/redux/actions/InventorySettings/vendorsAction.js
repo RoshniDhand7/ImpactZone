@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { removeUnusedKeys } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -9,7 +10,6 @@ const getVendors = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
     const res = await api('get', EndPoints.VENDORS);
-    console.log(res);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -40,17 +40,21 @@ const getVendor = (id, returnData) => async (dispatch) => {
 
 const addVendors = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
+    const payload = removeUnusedKeys({ ...data, ...(data?.phone && { phone: data?.phone?.replace(/\D/g, '') }) });
+    // const payload = {  };
 
-    const res = await api('post', EndPoints.VENDORS, data);
+    const res = await api('post', EndPoints.VENDORS, payload);
     if (res.success) {
         history.goBack();
     }
     setLoading(false);
 };
-const editVendors = (id, data, setLoading, history) => async (dispatch, getState) => {
+const editVendors = (id, data, setLoading, history) => async () => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.VENDORS + id, data);
+    const payload = { ...data, ...(data?.phone && { phone: data?.phone?.replace(/\D/g, '') }) };
+
+    const res = await api('put', EndPoints.VENDORS + id, payload);
     if (res.success) {
         history.goBack();
     }

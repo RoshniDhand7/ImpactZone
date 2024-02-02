@@ -26,8 +26,6 @@ const Locations = () => {
         history.push(`/settings/schedule/locations/edit/${col._id}`);
     };
 
-    console.log('AllLocation>>', allLocations);
-
     const onDelete = (col, position) => {
         confirmDelete(
             () => {

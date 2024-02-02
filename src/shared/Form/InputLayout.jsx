@@ -10,7 +10,7 @@ export default function InputLayout({ label, name, required, col, extraClassName
         <div className={`col-12  md:col-${col} ${extraClassName}`}>
             <label htmlFor={name} className="text-sm font-semibold">
                 <div className="mb-1">
-                    {label ? capitalizeCamelCase(label) : label}
+                    {label ? label : capitalizeCamelCase(name)}
                     {required ? <span className="text-red-500">*</span> : null}
                     {maxLength && (
                         <span>

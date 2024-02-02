@@ -9,7 +9,6 @@ const getResourceTypes = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
     const res = await api('get', EndPoints.RESOURCE_TYPE);
-    console.log(res)
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -17,9 +16,8 @@ const getResourceTypes = (setLoading) => async (dispatch) => {
                 payload: res.data,
             });
         }
-    }
-    else {
-        dispatch(showToast({ severity: 'error', summary: res.message??res }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
     if (setLoading) {
         setLoading(false);

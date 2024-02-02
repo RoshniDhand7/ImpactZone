@@ -137,6 +137,14 @@ const dashToSpace = (inputString) => {
         .join(' ');
 };
 
+const removeUnusedKeys = (payload) => {
+    return Object.fromEntries(
+        Object.entries(payload).filter(([key, value]) => {
+            return value !== undefined && value !== null && value !== '' && value !== 0; // Check for truthy values, including 0
+        }),
+    );
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -150,4 +158,5 @@ export {
     uploadFile,
     uploadFiles,
     uploadImages,
+    removeUnusedKeys,
 };

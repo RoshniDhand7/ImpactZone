@@ -27,7 +27,7 @@ export const CustomInput = ({
     ...props
 }) => {
     return (
-        <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputText
                 id={name}
                 name={name}
@@ -58,7 +58,7 @@ export const CustomInputMask = ({
     ...props
 }) => {
     return (
-        <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputMask
                 id={name}
                 name={name}
@@ -77,7 +77,7 @@ export const CustomTextArea = ({ label, name, onChange, data, value, errorMessag
     return (
         <InputLayout
             col={col || 12}
-            label={label || name}
+            label={label}
             name={name}
             required={required}
             extraClassName={extraClassName}
@@ -113,9 +113,8 @@ export const CustomDropDown = ({
     optionLabel = 'name',
     ...props
 }) => {
-    console.log('label>>', label, name);
     return (
-        <InputLayout col={col} label={label || name} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Dropdown
                 id={name}
                 name={name}
@@ -133,15 +132,7 @@ export const CustomDropDown = ({
 };
 export const CustomCalenderInput = ({ id, label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
-        <InputLayout
-            col={col || 4}
-            label={label || name}
-            name={name}
-            required={required}
-            extraClassName={extraClassName}
-            data={data}
-            errorMessage={errorMessage}
-        >
+        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Calendar
                 inputId={name}
                 name={name}
@@ -158,15 +149,7 @@ export const CustomCalenderInput = ({ id, label, name, data, value, onChange, er
 };
 export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
-        <InputLayout
-            col={col || 6}
-            label={label || name}
-            name={name}
-            required={required}
-            extraClassName={extraClassName}
-            data={data}
-            errorMessage={errorMessage}
-        >
+        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputSwitch
                 id={name}
                 name={name}
@@ -216,15 +199,7 @@ export const CustomChipInput = ({
     ...props
 }) => {
     return (
-        <InputLayout
-            col={col || 6}
-            label={label || name}
-            name={name}
-            required={required}
-            extraClassName={extraClassName}
-            data={data}
-            errorMessage={errorMessage}
-        >
+        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Chips
                 id={name}
                 onAdd={(e) => onAdd && onAdd({ ...e, name: name, currentValue: e.value })}
@@ -248,15 +223,7 @@ export const CustomChipInput = ({
 
 export const CustomInputNumber = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
-        <InputLayout
-            col={col || 6}
-            label={label || name}
-            name={name}
-            required={required}
-            extraClassName={extraClassName}
-            data={data}
-            errorMessage={errorMessage}
-        >
+        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputNumber
                 id={name}
                 name={name}

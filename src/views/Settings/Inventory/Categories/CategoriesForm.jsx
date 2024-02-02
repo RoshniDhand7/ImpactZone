@@ -23,7 +23,7 @@ const CategoriesForm = () => {
                 getCategory(id, (data) => {
                     setData({
                         name: data.name,
-                        displayInPos: data.displayInPos,
+                        displayInPos: data.displayInPos.toString(),
                         posButtonLabel: data.posButtonLabel,
                         availableCategory: data.availableCategory,
                         description: data.description,
@@ -59,9 +59,9 @@ const CategoriesForm = () => {
             <CustomCard col="12" title="Add Categories">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                    <CustomDropDown name="displayInPOS" options={yesNoOptions} data={data} onChange={handleChange} />
-                    <CustomInput label="POS Button Label" name="POS Button Label" data={data} onChange={handleChange} />
-                    <CustomDropDown name="availableCategories" options={categoryDropdown} data={data} />
+                    <CustomDropDown name="displayInPos" label="Display In POS" options={yesNoOptions} data={data} onChange={handleChange} />
+                    <CustomInput label="POS Button Label" name="posButtonLabel" data={data} onChange={handleChange} />
+                    <CustomDropDown name="availableCategory" options={categoryDropdown} data={data} onChange={handleChange} />
                     <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>

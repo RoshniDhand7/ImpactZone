@@ -93,7 +93,6 @@ const General = () => {
             }
         }
     };
-    console.log('data>>', data);
 
     return (
         <>
