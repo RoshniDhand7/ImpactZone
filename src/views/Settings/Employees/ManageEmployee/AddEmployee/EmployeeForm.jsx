@@ -7,13 +7,14 @@ import Clubs from './Clubs';
 import Notes from './Notes';
 import Certifications from './Certifications/Certifications';
 import { useParams } from 'react-router-dom';
+import EmployeeDepartments from './EmployeeDepartments';
 
 const EmployeeForm = () => {
     const { id } = useParams();
     const tabs = [
         { title: 'Security', content: <Security /> },
         { title: 'General', content: <General /> },
-        { title: 'Departments', content: <h1>Department</h1> },
+        { title: 'Departments', content: <EmployeeDepartments /> },
         { title: 'Clubs', content: <Clubs /> },
         { title: 'Classes Setup', content: <></> },
         { title: 'Appointment Setup', content: <h1>Tab 6</h1> },

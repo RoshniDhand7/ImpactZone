@@ -10,6 +10,7 @@ import { Checkbox } from 'primereact/checkbox';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
+import { MultiSelect } from 'primereact/multiselect';
 
 export const CustomInput = ({
     label,
@@ -123,6 +124,37 @@ export const CustomDropDown = ({
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
                 // placeholder={props.placeholder || `Select ${label}`}
+                disabled={disabled}
+                {...props}
+            />
+            {errorMessage ? <small className="p-error">{errorMessage}</small> : null}
+        </InputLayout>
+    );
+};
+export const CustomMultiselect = ({
+    label,
+    name,
+    onChange,
+    data,
+    value,
+    errorMessage,
+    extraClassName,
+    required,
+    col = 4,
+    inputClass,
+    disabled = false,
+    optionLabel = 'name',
+    ...props
+}) => {
+    return (
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <MultiSelect
+                id={name}
+                name={name}
+                value={value || data?.[name]}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                optionLabel={optionLabel}
                 disabled={disabled}
                 {...props}
             />

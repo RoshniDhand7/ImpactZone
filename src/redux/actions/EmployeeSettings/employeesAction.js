@@ -4,7 +4,7 @@ import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
-import { uploadFiles, uploadImages } from '../../../utils/commonFunctions';
+import { uploadImages } from '../../../utils/commonFunctions';
 
 const getEmployees = (pageNo, setLoading) => async (dispatch) => {
     if (setLoading) {
