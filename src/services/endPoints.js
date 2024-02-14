@@ -13,6 +13,7 @@ const endPoints = {
     SECURITY_ROLE: '/security-role/',
     DEPARTMENTS: '/department/',
     EMPLOYEE_DEPARTMENTS: '/employee-department/',
+    EMPLOYEE_CLASSES: '/employee-classes/',
     LEVELS: '/level/',
     LOCATION_TYPE: '/location-type/',
     LOCATIONS: '/location/',
