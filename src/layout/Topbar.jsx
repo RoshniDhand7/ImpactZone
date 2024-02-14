@@ -148,6 +148,10 @@ export default function TopBar() {
 
     let userItems = [
         {
+            label: 'Profile Setting',
+            command: () => history.push('/profile'),
+        },
+        {
             label: 'Switch User',
             command: () => history.push('/dashboard'),
         },

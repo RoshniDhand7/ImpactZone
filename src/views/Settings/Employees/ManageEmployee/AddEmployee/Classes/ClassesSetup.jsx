@@ -1,14 +1,16 @@
 import React from 'react';
 import CustomTabView from '../../../../../../shared/TabView/CustomTabView';
+import PaySetup from './PaySetup';
+import SubstituteOptionSetup from './SubstituteOptionSetup';
 
 const ClassesSetup = () => {
     const tabs = [
-        { title: 'Pay', content: <h1>Pay</h1> },
-        { title: 'Substitute Option', content: <h1>Substitute Option</h1> },
+        { title: 'Pay', content: <PaySetup /> },
+        { title: 'Substitute Option', content: <SubstituteOptionSetup /> },
     ];
     return (
         <>
-            <CustomTabView tabs={tabs} />
+            <CustomTabView name="classes" tabs={tabs} useIndex={true} />
         </>
     );
 };

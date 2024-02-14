@@ -9,11 +9,11 @@ const TabContent = styled.div`
     animation: ${({ direction }) => (direction ? (direction === 'right' ? SlideInRightAnimation : SlideInLeftAnimation) : fadeInAnimation)} 0.6s both;
 `;
 
-export default function CustomTabView({ tabs, disabledTabIndices }) {
+export default function CustomTabView({ name = 'tab', tabs, disabledTabIndices, useIndex = false }) {
     const history = useHistory();
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
-    const tab = searchParams.get('tab');
+    const tab = searchParams.get(name);
     const [activeIndex, setActiveIndex] = useState(0);
     const [tabDirection, setTabDirection] = useState(null);
 
@@ -29,10 +29,14 @@ export default function CustomTabView({ tabs, disabledTabIndices }) {
 
     const handleChange = ({ index }) => {
         setTabDirection(() => (activeIndex < index ? 'right' : 'left'));
-        let tab = spaceToDash(tabs[index].title);
-        history.replace({
-            search: '?tab=' + tab,
-        });
+        if (useIndex) {
+            setActiveIndex(index);
+        } else {
+            let tab = spaceToDash(tabs[index].title);
+            history.replace({
+                search: `?${name}=` + tab,
+            });
+        }
     };
     return (
         <TabView activeIndex={activeIndex} onTabChange={handleChange}>
