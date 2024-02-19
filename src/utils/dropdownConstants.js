@@ -111,49 +111,39 @@ export const reasonCodeTypeOptions = [
     'Waive Tax',
 ].map((name) => ({ name, value: name }));
 
-// export const reasonCodeTypeOptions = [
-//     {
-//         name: 'Agreement Hold',
-//         value: 'Agreement Hold',
-//     },
-//     {
-//         name: 'Cancel Pending POS Transaction',
-//         value: 'Cancel Pending POS Transaction',
-//     },
-//     {
-//         name: 'Cancel Agreement',
-//         value: 'Cancel Agreement',
-//     },
-//     {
-//         name: 'Cancel Price',
-//         value: 'Cancel Price',
-//     },
-//     {
-//         name: 'Commission Override',
-//         value: 'Commission Override',
-//     },
-//     {
-//         name: 'Drawer Adjustment',
-//         value: 'Drawer Adjustment',
-//     },
-//     {
-//         name: 'Event Status',
-//         value: 'Event Status',
-//     },
-//     {
-//         name: 'Freeze Agreement',
-//         value: 'Freeze Agreement',
-//     },
-//     {
-//         name: 'No Sale',
-//         value: 'No Sale',
-//     },
-//     {
-//         name: 'Void',
-//         value: 'Void',
-//     },
-//     {
-//         name: 'Waive Tax',
-//         value: 'Waive Tax',
-//     },
-// ];
+export const classesPayTypeOptions = [
+    {
+        name: 'Incremental Pay',
+        value: 'INCREMENTAL_PAY',
+    },
+    {
+        name: 'Pay Per Class',
+        value: 'PAY_PER_CLASS',
+    },
+    {
+        name: 'Pay Per Client',
+        value: 'PAY_PER_CLIENT',
+    },
+    {
+        name: '% Rate',
+        value: 'PERCENTAGE_RATE',
+    },
+];
+export const substitutionPriorityOptions = [
+    {
+        name: 'Suggested',
+        value: 'SUGGESTED',
+    },
+    {
+        name: 'High',
+        value: 'HIGH',
+    },
+    {
+        name: 'Medium',
+        value: 'MEDIUM',
+    },
+    {
+        name: 'Low',
+        value: 'LOW',
+    },
+];

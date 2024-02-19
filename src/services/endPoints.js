@@ -28,5 +28,6 @@ const endPoints = {
     CATEGORIES: '/inventory-category/',
     PROFIT_CENTERS: '/profit-center/',
     MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
+    SUSTITITION_OPTIONS: '/employee-substitute-option/',
 };
 export default endPoints;
