@@ -29,5 +29,6 @@ const endPoints = {
     PROFIT_CENTERS: '/profit-center/',
     MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
     SUSTITITION_OPTIONS: '/employee-substitute-option/',
+    EMPLOYEE_APPOINTMENT: '/employee-appointment/',
 };
 export default endPoints;

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
-import { getEmployeeSubstitutionOptions } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
+import {
+    addEmployeeSubstitutionOptions,
+    deleteSubstitutionOption,
+    editEmployeeSubstitutionOptions,
+    getEmployeeSubstitutionOptions,
+    getSubstitutionOption,
+} from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput } from '../../../../../../shared/Input/AllInputs';
 import { substitutionPriorityOptions } from '../../../../../../utils/dropdownConstants';
+import { confirmDelete } from '../../../../../../utils/commonFunctions';
 
 export default function SubstituteOptionSetup() {
     const { id } = useParams();
@@ -15,6 +22,12 @@ export default function SubstituteOptionSetup() {
     const [Substitute, setSubstitute] = useState([]);
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
+    const [data, setData] = useState({
+        name: '',
+        priority: 'MEDIUM',
+    });
+
+    const [substitutionOptionsId, setSubstituteOptionsId] = useState('');
     useEffect(() => {
         funcGetEmpSubstitution(id);
     }, []);
@@ -25,33 +38,78 @@ export default function SubstituteOptionSetup() {
             }),
         );
     };
+    const onEdit = (col) => {
+        setSubstituteOptionsId(col?._id);
+        setVisible(true);
+    };
+    useEffect(() => {
+        console.log(substitutionOptionsId);
+        if (substitutionOptionsId) {
+            dispatch(
+                getSubstitutionOption(substitutionOptionsId, (data) => {
+                    setData({
+                        name: data.name,
+                        priority: data.priority,
+                    });
+                }),
+            );
+        }
+    }, [substitutionOptionsId, dispatch]);
+
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'priority', header: 'Priority' },
     ];
 
-    const [data, setData] = useState({
-        name: '',
-        priority: 'MEDIUM',
-    });
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
     const onClose = () => {
         setVisible(false);
+        setData({
+            name: '',
+            priority: 'MEDIUM',
+        });
+        setSubstituteOptionsId(null);
     };
 
-    const handleSave = () => {};
+    const handleSave = () => {
+        if (substitutionOptionsId) {
+            dispatch(
+                editEmployeeSubstitutionOptions(substitutionOptionsId, { ...data, employee: id }, setLoading, () => {
+                    funcGetEmpSubstitution(id);
+                    onClose();
+                }),
+            );
+        } else {
+            dispatch(
+                addEmployeeSubstitutionOptions({ ...data, employee: id }, setLoading, () => {
+                    funcGetEmpSubstitution(id);
+                    onClose();
+                }),
+            );
+        }
+    };
 
-    console.log('s>>', Substitute);
+    const onDelete = (col) => {
+        confirmDelete(() => {
+            dispatch(
+                deleteSubstitutionOption(col._id, () => {
+                    funcGetEmpSubstitution(id);
+                    onClose();
+                }),
+            );
+        }, 'Do you want to delete this Substitution Option?');
+    };
+
     return (
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
             <CustomCard col="12" title="Classes">
-                <CustomTable data={Substitute} columns={columns} />
+                <CustomTable data={Substitute} columns={columns} onEdit={onEdit} onDelete={onDelete} />
             </CustomCard>
-            <CustomDialog title="Add" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog title={substitutionOptionsId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={substitutionPriorityOptions} col={12} />

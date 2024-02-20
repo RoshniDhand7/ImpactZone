@@ -19,7 +19,23 @@ export const amountTypeOptions = [
         value: 'PERCENTAGE',
     },
 ];
+
+export const bonusTypeConstantsOptions = [
+    {
+        name: 'Single Client',
+        value: 'SINGLE_CLIENT',
+    },
+    {
+        name: 'Service Value',
+        value: 'SERVICE_VALUE',
+    },
+];
+
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));
+
+export const durationOptions = ['Days', 'Weeks', 'Months', 'Years'].map((name) => ({ name, value: name.toUpperCase() }));
+
+export const servicesOptions = ['Private Sessions', 'Yoga Sessions', 'Reformer', 'Etc'].map((name) => ({ name, value: name }));
 
 export const checkInLimitOptions = [
     {
@@ -145,5 +161,15 @@ export const substitutionPriorityOptions = [
     {
         name: 'Low',
         value: 'LOW',
+    },
+];
+export const AppointmentPayPriorityOptions = [
+    {
+        name: 'Per Event',
+        value: 'PER-EVENT',
+    },
+    {
+        name: 'Person',
+        value: 'PERSON',
     },
 ];

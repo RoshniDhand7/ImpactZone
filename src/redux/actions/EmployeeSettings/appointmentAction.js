@@ -3,11 +3,11 @@ import EndPoints from '../../../services/endPoints';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getEmployeeClasses = (employee, setLoading, returnData) => async (dispatch) => {
+const getEmployeeAppointmentPay = (employee, type, setLoading, returnData) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_CLASSES, '', { employee });
+    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT, '', { employee, type: type });
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -20,10 +20,10 @@ const getEmployeeClasses = (employee, setLoading, returnData) => async (dispatch
     }
 };
 
-const addEmployeeClasses = (data, setLoading, next) => async (dispatch) => {
+const addEmployeeAppointmentPay = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.EMPLOYEE_CLASSES, data);
+    const res = await api('post', EndPoints.EMPLOYEE_APPOINTMENT, data);
     if (res.success) {
         next();
     } else {
@@ -31,10 +31,10 @@ const addEmployeeClasses = (data, setLoading, next) => async (dispatch) => {
     }
     setLoading(false);
 };
-const editEmployeeClasses = (id, data, setLoading, next) => async (dispatch) => {
+const editEmployeeAppointmentPay = (id, data, setLoading, next) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.EMPLOYEE_CLASSES + id, data);
+    const res = await api('put', EndPoints.EMPLOYEE_APPOINTMENT + id, data);
     if (res.success) {
         next();
     } else {
@@ -43,11 +43,11 @@ const editEmployeeClasses = (id, data, setLoading, next) => async (dispatch) => 
     setLoading(false);
 };
 
-const getEmployeeClaases = (employee, setLoading, returnData) => async (dispatch) => {
+const getEmployeeAppartment = (employee, setLoading, returnData) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_CLASSES + employee);
+    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT + employee);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -59,8 +59,8 @@ const getEmployeeClaases = (employee, setLoading, returnData) => async (dispatch
         setLoading(false);
     }
 };
-const deleteEmployeeClasses = (id, next) => async (dispatch) => {
-    const res = await api('delete', EndPoints.EMPLOYEE_CLASSES + id);
+const deletetEmployeeAppartment = (id, next) => async (dispatch) => {
+    const res = await api('delete', EndPoints.EMPLOYEE_APPOINTMENT + id);
     if (res.success) {
         next();
     } else {
@@ -85,10 +85,10 @@ const getEmployeeSubstitutionOptions = (employee, setLoading, returnData) => asy
     }
 };
 
-const addEmployeeSubstitutionOptions = (data, setLoading, next) => async (dispatch) => {
+const addEmployeeAppartmentBonus = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.SUSTITITION_OPTIONS, data);
+    const res = await api('post', EndPoints.EMPLOYEE_APPOINTMENT, data);
     if (res.success) {
         next();
     } else {
@@ -100,15 +100,15 @@ const addEmployeeSubstitutionOptions = (data, setLoading, next) => async (dispat
 const editEmployeeSubstitutionOptions = (id, data, setLoading, next) => async () => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.SUSTITITION_OPTIONS + id, data);
+    const res = await api('put', EndPoints.EMPLOYEE_APPOINTMENT + id, data);
     if (res.success) {
         next();
     }
     setLoading(false);
 };
-const getSubstitutionOption = (substitutionOptionsId, returnData) => async (dispatch) => {
+const getEmployeeAppartmentBonus = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.SUSTITITION_OPTIONS + substitutionOptionsId);
+    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT + id);
 
     console.log('res>>', res);
     if (res.success) {
@@ -132,14 +132,14 @@ const deleteSubstitutionOption = (id, next) => async (dispatch) => {
 };
 
 export {
-    getEmployeeClasses,
-    addEmployeeClasses,
-    getEmployeeClaases,
-    editEmployeeClasses,
-    deleteEmployeeClasses,
+    getEmployeeAppointmentPay,
+    addEmployeeAppointmentPay,
+    getEmployeeAppartment,
+    editEmployeeAppointmentPay,
+    deletetEmployeeAppartment,
     getEmployeeSubstitutionOptions,
-    addEmployeeSubstitutionOptions,
-    getSubstitutionOption,
+    addEmployeeAppartmentBonus,
+    getEmployeeAppartmentBonus,
     deleteSubstitutionOption,
     editEmployeeSubstitutionOptions,
 };

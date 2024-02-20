@@ -9,16 +9,17 @@ import Certifications from './Certifications/Certifications';
 import { useParams } from 'react-router-dom';
 import EmployeeDepartments from './EmployeeDepartments';
 import ClassesSetup from './Classes/ClassesSetup';
+import AppointmentSetup from './AppointmentSetup/AppointmentSetup';
 
 const EmployeeForm = () => {
     const { id } = useParams();
-    const tabs = [  
+    const tabs = [
         { title: 'Security', content: <Security /> },
         { title: 'General', content: <General /> },
         { title: 'Departments', content: <EmployeeDepartments /> },
         { title: 'Clubs', content: <Clubs /> },
         { title: 'Classes Setup', content: <ClassesSetup /> },
-        { title: 'Appointment Setup', content: <h1>Tab 6</h1> },
+        { title: 'Appointment Setup', content: <AppointmentSetup /> },
         { title: 'Sales Commision', content: <h1>Tab 7</h1> },
         { title: 'Time Sheet', content: <h1>Tab 8</h1> },
         { title: 'Notes', content: <Notes /> },

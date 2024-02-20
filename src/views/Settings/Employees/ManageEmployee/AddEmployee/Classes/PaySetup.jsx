@@ -33,8 +33,6 @@ export default function PaySetup() {
         },
     ]);
 
-    console.log(employeeClasses);
-
     const funcGetEmpClasses = (id) => {
         dispatch(
             getEmployeeClasses(id, setLoading, (data) => {
