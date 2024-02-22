@@ -1,4 +1,4 @@
-import api from '../../../services/api';
+import api, { multipartApi } from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
@@ -23,7 +23,6 @@ const getAgreementCategories = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
-
 const getAgreementCategory = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.AGREEMENT_CATEGORY + id);
@@ -36,7 +35,6 @@ const getAgreementCategory = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-
 const addAgreementCategories = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 

@@ -13,7 +13,7 @@ const AgreementCategories = () => {
         dispatch(getAgreementCategories());
     }, [dispatch]);
 
-    const { allAgreementCategories } = useSelector((state) => state.agreementCategories);
+    const { allAgreementCategories } = useSelector((state) => state.agreement);
 
     const columns = [
         { field: 'name', header: 'Agreement Categories' },

@@ -16,7 +16,7 @@ import comapignGroupReducer from './MembersSettings/compaignGroupReducer';
 import camapignReducer from './MembersSettings/campaignReducer';
 import resourceTypeReducer from './MembersSettings/resourceTypeReducer';
 import resourcesReducer from './MembersSettings/resourcesReducer';
-import agreementCategoriesReducer from './AgreementSettings/agreementCategoriesReducer';
+import agreementReducer from './AgreementSettings/agreementReducer';
 import referralGroupReducer from './InventorySettings/referralGroupsReducer';
 import commissionGroupReducer from './InventorySettings/commissionGroupsReducer';
 import VendorsReducer from './InventorySettings/vendorsReducer';
@@ -42,7 +42,7 @@ export default combineReducers({
     campaign: camapignReducer,
     resourceType: resourceTypeReducer,
     resources: resourcesReducer,
-    agreementCategories: agreementCategoriesReducer,
+    agreement: agreementReducer,
     referralGroup: referralGroupReducer,
     commissionGroup: commissionGroupReducer,
     vendors: VendorsReducer,
