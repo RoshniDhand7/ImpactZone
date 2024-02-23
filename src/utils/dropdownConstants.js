@@ -173,3 +173,14 @@ export const AppointmentPayPriorityOptions = [
         value: 'PERSON',
     },
 ];
+
+export const EmployeeCommissionType = [
+    {
+        name: 'Per Sale',
+        value: 'PER_SALE',
+    },
+    {
+        name: 'Per Item',
+        value: 'PER_ITEM',
+    },
+];

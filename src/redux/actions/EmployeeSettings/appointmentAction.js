@@ -97,7 +97,7 @@ const addEmployeeAppartmentBonus = (data, setLoading, next) => async (dispatch) 
     setLoading(false);
 };
 
-const editEmployeeSubstitutionOptions = (id, data, setLoading, next) => async () => {
+const editEmployeeAppartmentBonus = (id, data, setLoading, next) => async () => {
     setLoading(true);
 
     const res = await api('put', EndPoints.EMPLOYEE_APPOINTMENT + id, data);
@@ -121,8 +121,8 @@ const getEmployeeAppartmentBonus = (id, returnData) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
-const deleteSubstitutionOption = (id, next) => async (dispatch) => {
-    const res = await api('delete', EndPoints.SUSTITITION_OPTIONS + id);
+const deleteEmployeeAppartmentBonus = (id, next) => async (dispatch) => {
+    const res = await api('delete', EndPoints.EMPLOYEE_APPOINTMENT + id);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
@@ -140,6 +140,6 @@ export {
     getEmployeeSubstitutionOptions,
     addEmployeeAppartmentBonus,
     getEmployeeAppartmentBonus,
-    deleteSubstitutionOption,
-    editEmployeeSubstitutionOptions,
+    deleteEmployeeAppartmentBonus,
+    editEmployeeAppartmentBonus,
 };

@@ -1,5 +1,5 @@
 import { FirstletterUpperCase, equal, length } from './javascript';
-import { emailValidation, firstLetterToUppercase, passwordValidation } from './regex';
+import { emailValidation, firstLetterToUppercase, passwordValidation, number } from './regex';
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, data, ignore = []) => {
@@ -74,6 +74,7 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'pastDue':
         case 'timeBeforeEvent':
         case 'reasonCodeType':
+        case 'commissionGroup':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
@@ -94,6 +95,29 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'logo':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'oneToFiveClients':
+        case 'sixToTenClients':
+        case 'elevenToFifteenClients':
+        case 'sixteenToTwentyClients':
+        case 'twentyOneToTwentyFiveClients':
+        case 'twentySixPlusClients':
+        case 'noRegistrationPay':
+        case 'payPerClassRate':
+        case 'baseRate':
+        case 'payPerClientRate':
+        case 'maxPayPerClient':
+        case 'percentage':
+        case 'sessionsValue':
+        case 'ofSessions':
+        case 'over':
+        case 'bonusAmount':
+        case 'pay':
+            if (!number(value) || value === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {
                 formErrors[name] = '';
             }

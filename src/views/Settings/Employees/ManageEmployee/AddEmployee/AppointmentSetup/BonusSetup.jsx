@@ -6,11 +6,15 @@ import { CustomDropDown, CustomInput, CustomInputNumber, CustomMultiselect } fro
 import { amountTypeOptions, bonusTypeConstantsOptions, durationOptions, servicesOptions } from '../../../../../../utils/dropdownConstants';
 import {
     addEmployeeAppartmentBonus,
+    deleteEmployeeAppartmentBonus,
+    editEmployeeAppartmentBonus,
     getEmployeeAppartmentBonus,
     getEmployeeAppointmentPay,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import { useParams } from 'react-router-dom';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
+import formValidation from '../../../../../../utils/validations';
+import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 
 const BonusSetup = () => {
     const dispatch = useDispatch();
@@ -25,7 +29,7 @@ const BonusSetup = () => {
         bonusAmount: 0,
         type: 'BONUS',
         amountType: 'FIXED',
-        services: [],
+        services: ['Private Sessions'],
     };
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -35,7 +39,8 @@ const BonusSetup = () => {
     const [data, setData] = useState(initialState);
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     useEffect(() => {
@@ -82,36 +87,64 @@ const BonusSetup = () => {
     };
 
     const handleSave = () => {
-        const { over, duration, ...rest } = data;
-        if (employeeAppartBonusId) {
-            // dispatch(
-            //     editEmployeeAppointmentPay(employeeAppartBonusId, { ...data }, setLoading, () => {
-            //         funcGetEmpAppointment(id);
-            //         onClose();
-            //     }),
-            // );
+        let ignore = [];
+        if (data?.bonusType === 'SINGLE_CLIENT') {
+            ignore = ['sessionsValue'];
         } else {
-            dispatch(
-                addEmployeeAppartmentBonus(
-                    {
-                        ...rest,
-                        selectTimeframe: {
-                            over,
-                            duration,
+            ignore = ['ofSessions'];
+        }
+        if (showFormErrors(data, setData, ignore)) {
+            const { over, duration, ...rest } = data;
+            if (employeeAppartBonusId) {
+                dispatch(
+                    editEmployeeAppartmentBonus(
+                        employeeAppartBonusId,
+                        {
+                            ...rest,
+                            selectTimeframe: {
+                                over,
+                                duration,
+                            },
                         },
-                        employee: id,
-                    },
-                    setLoading,
-                    () => {
-                        funcGetEmpAppointment(id);
-                        onClose();
-                    },
-                ),
-            );
+                        setLoading,
+                        () => {
+                            funcGetEmpAppointment(id);
+                            onClose();
+                        },
+                    ),
+                );
+            } else {
+                dispatch(
+                    addEmployeeAppartmentBonus(
+                        {
+                            ...rest,
+                            selectTimeframe: {
+                                over,
+                                duration,
+                            },
+                            employee: id,
+                        },
+                        setLoading,
+                        () => {
+                            funcGetEmpAppointment(id);
+                            onClose();
+                        },
+                    ),
+                );
+            }
         }
     };
 
-    const onDelete = () => {};
+    const onDelete = (col) => {
+        confirmDelete(() => {
+            dispatch(
+                deleteEmployeeAppartmentBonus(col._id, () => {
+                    funcGetEmpAppointment(id);
+                    onClose();
+                }),
+            );
+        }, 'Do you want to delete this Bonus?');
+    };
     const columns = [
         { field: 'bonusType', header: 'Bonus Type' },
         { field: 'services', body: (r) => r.services.join(','), header: 'Services' },
@@ -129,7 +162,7 @@ const BonusSetup = () => {
                     ) : (
                         <CustomInputNumber col={6} name="sessionsValue" data={data} onChange={handleChange} />
                     )}
-                    <CustomInput col="6" name="over" data={data} onChange={handleChange} />
+                    <CustomInputNumber col="6" name="over" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="duration" data={data} onChange={handleChange} col={6} options={durationOptions} />
                     <CustomInputNumber col={8} name="bonusAmount" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

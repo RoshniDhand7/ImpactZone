@@ -32,5 +32,7 @@ const endPoints = {
     EMPLOYEE_APPOINTMENT: '/employee-appointment/',
     AGREEMENT_TEMPLATE: '/agreement-template/',
     ASSETS: '/asset/',
+    SALES_COMMISSION:"/sales-commission/",
+    NOTES:"/notes",
 };
 export default endPoints;

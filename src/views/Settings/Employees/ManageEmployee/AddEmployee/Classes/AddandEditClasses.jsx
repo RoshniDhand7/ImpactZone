@@ -5,6 +5,8 @@ import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { addEmployeeClasses, editEmployeeClasses, getEmployeeClaases } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useDispatch } from 'react-redux';
+import formValidation from '../../../../../../utils/validations';
+import { showFormErrors } from '../../../../../../utils/commonFunctions';
 
 const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmployeeClassId }) => {
     console.log('id>>', id, employeeClassId);
@@ -160,7 +162,8 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
     }, [employeeClasses]);
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
     };
 
     const handleChange1 = (index, key, value) => {
@@ -170,6 +173,17 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
     };
 
     const handleSave = () => {
+        let ignore =[]
+        if(data?.payType === 'INCREMENTAL_PAY'){
+             ignore=['payPerClassRate','baseRate','payPerClientRate','maxPayPerClient','percentage'];
+        }else if(data?.payType==='PAY_PER_CLASS'){
+            ignore =['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','baseRate','payPerClientRate','maxPayPerClient','percentage']
+        }else if(data?.payType==='PAY_PER_CLIENT'){
+            ignore =['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','percentage',"payPerClassRate"]
+        }else{
+            ignore= ['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','baseRate','payPerClientRate','maxPayPerClient','payPerClassRate']
+        }
+        if (showFormErrors(data, setData, ignore)) {
         if (employeeClassId) {
             dispatch(
                 editEmployeeClasses(employeeClassId, data, setLoading, () => {
@@ -182,6 +196,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                 onClose();
             }),
         );
+        }
     };
 
     console.log('data>>', data);
