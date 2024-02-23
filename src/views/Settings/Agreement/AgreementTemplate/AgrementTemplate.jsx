@@ -11,6 +11,7 @@ const AgreementCategories = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAgreementTemplates());
+        localStorage.removeItem('gjsProject');
     }, [dispatch]);
 
     const { allAgreementTemplates } = useSelector((state) => state.agreement);
