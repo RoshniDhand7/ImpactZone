@@ -1,14 +1,31 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import 'grapesjs/dist/css/grapes.min.css';
 import './PageBuilder.css';
 import grapesjs from 'grapesjs';
 import plugin from 'grapesjs-preset-newsletter';
 import constants from '../../constants';
-import { addAssets, deleteAsset, getAssets } from '../../redux/actions/AgreementSettings/AgreementTemplate';
-import { useDispatch } from 'react-redux';
+import {
+    addAgreementTemplate,
+    addAssets,
+    deleteAsset,
+    editAgreementTemplate,
+    editAgreementTemplates,
+    getAgreementTemplate,
+    getAssets,
+} from '../../redux/actions/AgreementSettings/AgreementTemplate';
+import { useDispatch, useSelector } from 'react-redux';
+import CustomDialog from '../Overlays/CustomDialog';
+import { CustomGridLayout } from '../Cards/CustomCard';
+import { CustomDropDown, CustomInput } from '../Input/AllInputs';
+import { getClubs } from '../../redux/actions/BusinessSettings/clubsAction';
+import formValidation from '../../utils/validations';
+import { showFormErrors } from '../../utils/commonFunctions';
+import { useHistory } from 'react-router-dom';
 
-export default function PageBuilder() {
+export default function PageBuilder({ id }) {
+    const history = useHistory();
     const dispatch = useDispatch();
+    const { clubsDropdown } = useSelector((state) => state.clubs);
     const editorRef = useRef(null);
     useEffect(() => {
         const initEditor = () => {
@@ -36,7 +53,7 @@ export default function PageBuilder() {
             });
 
             const commands = editor.Commands;
-            commands.add('onSave', handleSaveHTML);
+            commands.add('onSave', onSave);
 
             panelManager.removeButton('devices-c', 'set-device-desktop');
             panelManager.removeButton('devices-c', 'set-device-tablet');
@@ -68,6 +85,7 @@ export default function PageBuilder() {
     }, []);
     useEffect(() => {
         onGetAssets();
+        dispatch(getClubs());
     }, []);
 
     const onGetAssets = () => {
@@ -111,34 +129,79 @@ export default function PageBuilder() {
         );
     };
 
-    let con = {
+    let initialTemplate = {
         htmlContent:
-            '<body id="i0pi"><div id="inqx">hello Insert your text here</div><table id="ia8e"><tbody><tr><td id="ipaq"><table class="grid-item-row"><tbody><tr><td class="grid-item-cell2-l"><table class="grid-item-card"><tbody><tr><td class="grid-item-card-cell"><img src="https://via.placeholder.com/250x150/78c5d6/fff/" alt="Image" class="grid-item-image"/><table class="grid-item-card-body"><tbody><tr><td class="grid-item-card-content"><h1 class="card-title">Title here</h1><p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p><a class="button">Button</a></td></tr></tbody></table></td></tr></tbody></table></td><td class="grid-item-cell2-r"><table class="grid-item-card"><tbody><tr><td class="grid-item-card-cell"><img src="https://via.placeholder.com/250x150/78c5d6/fff/" alt="Image" class="grid-item-image"/><table class="grid-item-card-body"><tbody><tr><td class="grid-item-card-content"><h1 class="card-title">Title here</h1><p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></td><td id="ikvh"><img id="ituf" src="https://impactzoneapi.appdeft.biz/public/uploads/1708595963701.png"/></td></tr></tbody></table><table id="i6mal"><tbody><tr><td class="divider"></td></tr></tbody></table></body>',
+            '<body><table id="i7mg"><tbody><tr><td id="isf3"><table id="ib67"><tbody><tr><td id="ixft"><table id="ib2u2"><tbody><tr><td id="iz5hj"><img id="ishaz" src="https://impactzoneapi.appdeft.biz/public/static/dummy-logo.png"/></td></tr></tbody></table><h1 class="heading">Its time to design your Contract.</h1><p class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua\n      <br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua<br/></p></td></tr></tbody></table><table id="i8jsj"><tbody><tr><td id="idfyu"><img id="ib46g" src="https://impactzoneapi.appdeft.biz/public/static/twitter.png"/><img src="https://impactzoneapi.appdeft.biz/public/static/facebook.png" id="ivccx"/><img src="https://impactzoneapi.appdeft.biz/public/static/link.png" id="ijlgh"/></td></tr></tbody></table><table id="ivqzu"><tbody><tr><td class="divider"></td></tr></tbody></table><div id="i6st6">Copyright | 2024 | impact Zone | All rights reserved</div></td></tr></tbody></table></body>',
         cssContent:
-            '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}#inqx{padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;}#ia8e{height:150px;margin-top:0px;margin-right:auto;margin-bottom:10px;margin-left:auto;padding-top:5px;padding-right:5px;padding-bottom:5px;padding-left:5px;width:100%;}#ipaq{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:top;width:50%;}#ikvh{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:top;width:50%;}#ituf{color:black;width:394px;height:330px;}.divider{background-color:rgba(0, 0, 0, 0.1);height:1px;}#i6mal{width:100%;margin-top:10px;margin-bottom:10px;}.button{background-color:#ac2222;border-radius:3px 3px 0px 4px;border:0px solid #250a0a;padding:5px 5px 5px 10px;}',
+            '* { box-sizing: border-box; } body {margin: 0;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}#i7mg{height:150px;margin-top:0px;margin-right:auto;margin-bottom:10px;margin-left:auto;padding-top:30px;padding-right:30px;padding-bottom:30px;padding-left:30px;width:100%;background-color:rgb(242, 245, 254);}#isf3{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:top;}#ib67{height:150px;padding-top:50px;padding-right:50px;padding-bottom:50px;padding-left:50px;width:100%;background-color:rgb(255, 255, 255);border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-right-radius:10px;border-bottom-left-radius:10px;}#ixft{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:top;}#ib2u2{height:150px;margin-top:0px;margin-right:auto;margin-bottom:10px;margin-left:auto;padding-top:5px;padding-right:5px;padding-bottom:5px;padding-left:5px;width:100%;}#iz5hj{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:middle;text-align:center;}#ishaz{color:black;width:200px;height:74px;}.heading{text-align:center;}.paragraph{text-align:center;font-size:20px;color:rgb(81, 81, 81);}#i8jsj{height:150px;margin-top:0px;margin-right:auto;margin-bottom:10px;margin-left:auto;padding-top:5px;padding-right:5px;padding-bottom:5px;padding-left:5px;width:100%;}#idfyu{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;vertical-align:middle;text-align:center;}#ib46g{color:black;width:40px;height:40px;margin-top:0px;margin-right:10px;margin-bottom:0px;margin-left:10px;}#ijlgh{color:black;width:40px;height:40px;margin-top:0px;margin-right:10px;margin-bottom:0px;margin-left:10px;}#ivccx{color:black;width:40px;height:40px;margin-top:0px;margin-right:10px;margin-bottom:0px;margin-left:10px;}.divider{background-color:rgba(0, 0, 0, 0.1);height:1px;}#ivqzu{width:100%;margin-top:10px;margin-bottom:10px;}#i6st6{padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;text-align:center;color:rgb(71, 69, 69);}',
     };
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         console.log('worked');
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getAgreementTemplate(id, (data) => {
+                    editorRef.current.setComponents(data.htmlContent);
+                    editorRef.current.setStyle(data.cssContent);
+                    setData({ name: data.name, club: data.club });
+                }),
+            );
+        } else {
+            editorRef.current.setComponents(initialTemplate.htmlContent);
+            editorRef.current.setStyle(initialTemplate.cssContent);
+        }
+    }, []);
 
-    //         editorRef.current.setComponents(con.htmlContent);
-    //         editorRef.current.setStyle(con.cssContent);
-    //     }, 5000);
-    // }, []);
+    const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState({ name: '', club: '' });
+
+    const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
+
+    const onSave = () => {
+        setVisible(true);
+    };
+
+    const onClose = () => {
+        setVisible(false);
+        setData({
+            name: '',
+            club: '',
+        });
+    };
 
     const handleSaveHTML = async () => {
-        const htmlContent = editorRef.current.getHtml();
-        const cssContent = editorRef.current.getCss();
-        try {
-            console.log({ htmlContent, cssContent });
-        } catch (error) {
-            console.error('Error saving HTML content:', error);
+        if (showFormErrors(data, setData)) {
+            const htmlContent = editorRef.current.getHtml();
+            const cssContent = editorRef.current.getCss();
+            if (id) {
+                dispatch(
+                    editAgreementTemplate(id, { ...data, htmlContent, cssContent }, setLoading, () => {
+                        localStorage.removeItem('gjsProject');
+                        history.goBack();
+                    }),
+                );
+            } else {
+                dispatch(
+                    addAgreementTemplate({ ...data, htmlContent, cssContent }, setLoading, () => {
+                        localStorage.removeItem('gjsProject');
+                        history.goBack();
+                    }),
+                );
+            }
         }
     };
 
     return (
         <>
+            <CustomDialog title={id ? 'Update' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSaveHTML}>
+                <CustomGridLayout>
+                    <CustomInput col="12" name="name" data={data} onChange={handleChange} />
+                    <CustomDropDown col="12" name="club" data={data} onChange={handleChange} options={clubsDropdown} />
+                </CustomGridLayout>
+            </CustomDialog>
             <div className="gpj" ref={editorRef}></div>
         </>
     );

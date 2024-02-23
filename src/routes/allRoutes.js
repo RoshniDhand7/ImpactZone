@@ -309,6 +309,12 @@ export const PrivateRoutes = [
                         component: AgreementTemplateForm,
                     },
                     {
+                        path: '/template/edit/:id',
+                        name: 'Agreement Template',
+                        exact: true,
+                        component: AgreementTemplateForm,
+                    },
+                    {
                         path: '/categories/add',
                         name: 'Agreement Categories',
                         exact: true,

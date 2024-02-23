@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClubsDetails } from '../../../../redux/actions/BusinessSettings/clubsAction';
+import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 
 const Clubs = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getClubsDetails());
+        dispatch(getClubs());
     }, [dispatch]);
 
     const { allClubs } = useSelector((state) => state.clubs);

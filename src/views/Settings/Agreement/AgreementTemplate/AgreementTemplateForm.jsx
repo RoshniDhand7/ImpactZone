@@ -8,7 +8,7 @@ export default function AgreementTemplateForm() {
     return (
         <div>
             <FormPage backText="Agreement Template">
-                <PageBuilder />
+                <PageBuilder id={id} />
             </FormPage>
         </div>
     );

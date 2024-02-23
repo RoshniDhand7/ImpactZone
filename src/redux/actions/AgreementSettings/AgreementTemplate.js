@@ -35,21 +35,21 @@ const getAgreementTemplate = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-const addAgreementTemplates = (data, setLoading, history) => async (dispatch) => {
+const addAgreementTemplate = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);
 
     const res = await api('post', EndPoints.AGREEMENT_TEMPLATE, data);
     if (res.success) {
-        history.goBack();
+        next();
     }
     setLoading(false);
 };
-const editAgreementTemplates = (id, data, setLoading, history) => async (dispatch, getState) => {
+const editAgreementTemplate = (id, data, setLoading, next) => async (dispatch, getState) => {
     setLoading(true);
 
     const res = await api('put', EndPoints.AGREEMENT_TEMPLATE + id, data);
     if (res.success) {
-        history.goBack();
+        next();
     }
     setLoading(false);
 };
@@ -98,9 +98,9 @@ const deleteAsset = (id, next) => async (dispatch) => {
 
 export {
     getAgreementTemplates,
-    addAgreementTemplates,
+    addAgreementTemplate,
     getAgreementTemplate,
-    editAgreementTemplates,
+    editAgreementTemplate,
     deleteAgreementTemplates,
     addAssets,
     getAssets,

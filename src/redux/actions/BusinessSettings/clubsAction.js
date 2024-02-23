@@ -4,7 +4,7 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getClubsDetails = (setLoading) => async (dispatch) => {
+const getClubs = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
@@ -49,4 +49,4 @@ const editClub = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(false);
 };
 
-export { getClubsDetails, getClub, editClub };
+export { getClubs, getClub, editClub };
