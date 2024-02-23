@@ -3,7 +3,7 @@ import CustomCard from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 import { useSelector, useDispatch } from 'react-redux';
-import { getClubsDetails } from '../../../../../redux/actions/BusinessSettings/clubsAction';
+import { getClubs } from '../../../../../redux/actions/BusinessSettings/clubsAction';
 import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const Clubs = () => {
     const { id } = useParams();
     const history = useHistory();
     useEffect(() => {
-        dispatch(getClubsDetails());
+        dispatch(getClubs());
     }, [dispatch]);
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
