@@ -13,7 +13,8 @@ import { useDispatch } from 'react-redux';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput } from '../../../../../../shared/Input/AllInputs';
 import { substitutionPriorityOptions } from '../../../../../../utils/dropdownConstants';
-import { confirmDelete } from '../../../../../../utils/commonFunctions';
+import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
+import formValidation from '../../../../../../utils/validations';
 
 export default function SubstituteOptionSetup() {
     const { id } = useParams();
@@ -62,7 +63,8 @@ export default function SubstituteOptionSetup() {
     ];
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const onClose = () => {
@@ -75,20 +77,22 @@ export default function SubstituteOptionSetup() {
     };
 
     const handleSave = () => {
-        if (substitutionOptionsId) {
-            dispatch(
-                editEmployeeSubstitutionOptions(substitutionOptionsId, { ...data, employee: id }, setLoading, () => {
-                    funcGetEmpSubstitution(id);
-                    onClose();
-                }),
-            );
-        } else {
-            dispatch(
-                addEmployeeSubstitutionOptions({ ...data, employee: id }, setLoading, () => {
-                    funcGetEmpSubstitution(id);
-                    onClose();
-                }),
-            );
+        if (showFormErrors(data, setData)) {
+            if (substitutionOptionsId) {
+                dispatch(
+                    editEmployeeSubstitutionOptions(substitutionOptionsId, { ...data, employee: id }, setLoading, () => {
+                        funcGetEmpSubstitution(id);
+                        onClose();
+                    }),
+                );
+            } else {
+                dispatch(
+                    addEmployeeSubstitutionOptions({ ...data, employee: id }, setLoading, () => {
+                        funcGetEmpSubstitution(id);
+                        onClose();
+                    }),
+                );
+            }
         }
     };
 

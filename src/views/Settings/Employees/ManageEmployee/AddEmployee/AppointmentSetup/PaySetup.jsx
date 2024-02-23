@@ -13,7 +13,8 @@ import {
     getEmployeeAppointmentPay,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
-import { confirmDelete } from '../../../../../../utils/commonFunctions';
+import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
+import formValidation from '../../../../../../utils/validations';
 
 const PaySetup = () => {
     const dispatch = useDispatch();
@@ -69,7 +70,8 @@ const PaySetup = () => {
     };
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
     };
 
     const columns = [
@@ -94,6 +96,7 @@ const PaySetup = () => {
     };
 
     const handleSave = () => {
+        if (showFormErrors(data, setData)) {
         if (employeeAppartId) {
             dispatch(
                 editEmployeeAppointmentPay(employeeAppartId, { ...data }, setLoading, () => {
@@ -109,6 +112,7 @@ const PaySetup = () => {
                 }),
             );
         }
+    }
     };
 
     console.log('data>>', data);

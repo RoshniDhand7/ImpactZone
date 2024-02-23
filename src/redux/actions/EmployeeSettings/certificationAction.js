@@ -86,4 +86,35 @@ const deleteCertificates = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getCertificates, addCertificates, editCertificates, deleteCertificates, getCertificate };
+
+const getEmployeeNotes = (employee, setLoading, returnData) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.NOTES, '', { employee });
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
+const addEmployeeNotes = (data, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+
+    const res = await api('post', EndPoints.NOTES, data);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
+export { getCertificates, addCertificates, editCertificates, deleteCertificates, getCertificate,getEmployeeNotes,addEmployeeNotes };
