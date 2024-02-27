@@ -5,8 +5,8 @@ import BonusSetup from '../AppointmentSetup/BonusSetup';
 
 const SalesCommission = () => {
     const tabs = [
-        { title: 'Item Commission', content: <ItemCommission/> },
-        { title: 'Bonus', content: <BonusSetup/> },
+        { title: 'Item Commission', content: <ItemCommission /> },
+        { title: 'Bonus', content: <BonusSetup type="salesCommission" /> },
     ];
     return (
         <>

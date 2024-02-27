@@ -85,10 +85,15 @@ const getEmployeeSubstitutionOptions = (employee, setLoading, returnData) => asy
     }
 };
 
-const addEmployeeAppartmentBonus = (data, setLoading, next) => async (dispatch) => {
+const addEmployeeBonus = (type, data, setLoading, next) => async (dispatch) => {
     setLoading(true);
+    let res;
+    if (type === 'appointment') {
+        res = await api('post', EndPoints.EMPLOYEE_APPOINTMENT, data);
+    } else {
+        res = await api('post', EndPoints.SALES_COMMISSION, data);
+    }
 
-    const res = await api('post', EndPoints.EMPLOYEE_APPOINTMENT, data);
     if (res.success) {
         next();
     } else {
@@ -97,18 +102,29 @@ const addEmployeeAppartmentBonus = (data, setLoading, next) => async (dispatch) 
     setLoading(false);
 };
 
-const editEmployeeAppartmentBonus = (id, data, setLoading, next) => async () => {
+const editEmployeeBonus = (type, id, data, setLoading, next) => async () => {
     setLoading(true);
+    let res;
+    if (type === 'appointment') {
+        res = await api('put', EndPoints.EMPLOYEE_APPOINTMENT + id, data);
+    } else {
+        res = await api('put', EndPoints.SALES_COMMISSION + id, data);
+    }
 
-    const res = await api('put', EndPoints.EMPLOYEE_APPOINTMENT + id, data);
     if (res.success) {
         next();
     }
     setLoading(false);
 };
-const getEmployeeAppartmentBonus = (id, returnData) => async (dispatch) => {
+const getEmployeeBonus = (type, id, returnData) => async (dispatch) => {
+    console.log(type);
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT + id);
+    let res;
+    if (type === 'appointment') {
+        res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT + id);
+    } else {
+        res = await api('get', EndPoints.SALES_COMMISSION + id);
+    }
 
     console.log('res>>', res);
     if (res.success) {
@@ -121,8 +137,13 @@ const getEmployeeAppartmentBonus = (id, returnData) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
-const deleteEmployeeAppartmentBonus = (id, next) => async (dispatch) => {
-    const res = await api('delete', EndPoints.EMPLOYEE_APPOINTMENT + id);
+const deleteEmployeeBonus = (type, id, next) => async (dispatch) => {
+    let res;
+    if (type === 'appointment') {
+        res = await api('delete', EndPoints.EMPLOYEE_APPOINTMENT + id);
+    } else {
+        res = await api('delete', EndPoints.SALES_COMMISSION + id);
+    }
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
@@ -138,8 +159,8 @@ export {
     editEmployeeAppointmentPay,
     deletetEmployeeAppartment,
     getEmployeeSubstitutionOptions,
-    addEmployeeAppartmentBonus,
-    getEmployeeAppartmentBonus,
-    deleteEmployeeAppartmentBonus,
-    editEmployeeAppartmentBonus,
+    addEmployeeBonus,
+    getEmployeeBonus,
+    deleteEmployeeBonus,
+    editEmployeeBonus,
 };

@@ -6,7 +6,7 @@ import BonusSetup from './BonusSetup';
 const AppointmentSetup = () => {
     const tabs = [
         { title: 'Pay', content: <PaySetup /> },
-        { title: 'Bonus', content: <BonusSetup /> },
+        { title: 'Bonus', content: <BonusSetup type="appointment" /> },
         { title: 'Calendar Default', content: <></> },
     ];
     return (

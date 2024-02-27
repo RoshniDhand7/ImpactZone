@@ -14,30 +14,30 @@ const Notes = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const user= useSelector((state)=>state.profile.user)
+    const user = useSelector((state) => state.profile.user);
 
-    useEffect(()=>{
-        if(user){
-            setData({...data,takenBy:user.firstName})   
+    useEffect(() => {
+        if (user) {
+            setData({ ...data, takenBy: user.firstName });
         }
-    },[user])
+    }, [user]);
     const [data, setData] = useState({
-        takenBy:user?.firstName,
-        dateTime:moment(new Date()).format("YYYY-MM-DD"),
+        takenBy: user?.firstName,
+        dateTime: moment(new Date()).format('YYYY-MM-DD'),
         notes: '',
     });
     const [visible, setVisible] = useState(false);
     const [notesData, setNotesData] = useState([]);
     const funcGetNotes = (id) => {
         dispatch(
-            getEmployeeNotes(id,  setLoading, (data) => {
+            getEmployeeNotes(id, setLoading, (data) => {
                 setNotesData(data);
             }),
         );
     };
     useEffect(() => {
         if (id) {
-            funcGetNotes(id)   
+            funcGetNotes(id);
         }
     }, [id, dispatch]);
 
@@ -47,10 +47,12 @@ const Notes = () => {
     };
     const handleSave = () => {
         if (id) {
-            dispatch(addEmployeeNotes({ ...data }, setLoading, () => {
-                funcGetNotes(id);
-                onClose();
-            }));
+            dispatch(
+                addEmployeeNotes({ ...data, employee: id }, setLoading, () => {
+                    funcGetNotes(id);
+                    onClose();
+                }),
+            );
         }
     };
     const columns = [
@@ -59,20 +61,19 @@ const Notes = () => {
         { field: 'notes', header: 'Notes' },
     ];
     const onClose = () => {
-        setData({ notes: '',});
+        setData({ notes: '' });
         setVisible(false);
     };
 
     return (
         <>
-         <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
-            <CustomTable data={notesData} columns={columns}  />
-            <CustomDialog width="100vh" title={ 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
+            <CustomTable data={notesData} columns={columns} />
+            <CustomDialog width="100vh" title={'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                <CustomEditor name="notes" onTextChange={handleChange} data={data} />
+                    <CustomEditor name="notes" onTextChange={handleChange} data={data} />
                 </CustomGridLayout>
             </CustomDialog>
-           
         </>
     );
 };

@@ -5,18 +5,20 @@ import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import { amountTypeOptions, bonusTypeConstantsOptions, durationOptions, servicesOptions } from '../../../../../../utils/dropdownConstants';
 import {
-    addEmployeeAppartmentBonus,
-    deleteEmployeeAppartmentBonus,
-    editEmployeeAppartmentBonus,
-    getEmployeeAppartmentBonus,
+    addEmployeeBonus,
+    deleteEmployeeBonus,
+    editEmployeeBonus,
     getEmployeeAppointmentPay,
+    getEmployeeBonus,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import { useParams } from 'react-router-dom';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import formValidation from '../../../../../../utils/validations';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
+import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 
-const BonusSetup = () => {
+const BonusSetup = ({ type }) => {
+    console.log('type>>', type);
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -47,18 +49,26 @@ const BonusSetup = () => {
         funcGetEmpAppointment(id);
     }, []);
     const funcGetEmpAppointment = (id) => {
-        dispatch(
-            getEmployeeAppointmentPay(id, 'BONUS', setLoading, (data) => {
-                setAppointmentData(data);
-            }),
-        );
+        if (type === 'appointment') {
+            dispatch(
+                getEmployeeAppointmentPay(id, 'BONUS', setLoading, (data) => {
+                    setAppointmentData(data);
+                }),
+            );
+        } else {
+            dispatch(
+                getEmployeeSalesItem(id, 'BONUS', setLoading, (data) => {
+                    setAppointmentData(data);
+                }),
+            );
+        }
     };
 
     useEffect(() => {
         console.log(employeeAppartBonusId);
         if (employeeAppartBonusId) {
             dispatch(
-                getEmployeeAppartmentBonus(employeeAppartBonusId, (data) => {
+                getEmployeeBonus(type, employeeAppartBonusId, (data) => {
                     setData({
                         bonusType: data.bonusType,
                         sessionsValue: data.sessionsValue,
@@ -97,7 +107,8 @@ const BonusSetup = () => {
             const { over, duration, ...rest } = data;
             if (employeeAppartBonusId) {
                 dispatch(
-                    editEmployeeAppartmentBonus(
+                    editEmployeeBonus(
+                        type,
                         employeeAppartBonusId,
                         {
                             ...rest,
@@ -115,7 +126,8 @@ const BonusSetup = () => {
                 );
             } else {
                 dispatch(
-                    addEmployeeAppartmentBonus(
+                    addEmployeeBonus(
+                        type,
                         {
                             ...rest,
                             selectTimeframe: {
@@ -138,7 +150,7 @@ const BonusSetup = () => {
     const onDelete = (col) => {
         confirmDelete(() => {
             dispatch(
-                deleteEmployeeAppartmentBonus(col._id, () => {
+                deleteEmployeeBonus(type, col._id, () => {
                     funcGetEmpAppointment(id);
                     onClose();
                 }),

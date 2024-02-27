@@ -155,6 +155,7 @@ export default function PaySetup() {
                             <div className="font-medium">No Registration Pay</div>
                             <div>${item?.noRegistrationPay}</div>
                         </div>
+                        <hr className="text-100" />
                         <div className="mx-2">
                             <div className="font-medium">Max Pay</div>
                             <div>${item?.noRegistrationPay}</div>
@@ -216,7 +217,7 @@ export default function PaySetup() {
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
             <CustomCard col="12" title="Pay">
-                <DataView value={employeeClasses} itemTemplate={itemTemplate} />
+                <DataView value={employeeClasses} itemTemplate={itemTemplate} paginator rows={5} />
                 <AddandEditClasses
                     visible={visible}
                     setVisible={setVisible}

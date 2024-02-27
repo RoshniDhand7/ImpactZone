@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown,  CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
-import {  EmployeeCommissionType, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
+import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { EmployeeCommissionType, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
-import { addEmployeeSalesItem, deletetEmployeeSaleItem, editEmployeeSalesItem, getEmployeeSaleItem, getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
+import {
+    addEmployeeSalesItem,
+    deletetEmployeeSaleItem,
+    editEmployeeSalesItem,
+    getEmployeeSaleItem,
+    getEmployeeSalesItem,
+} from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCommissionGroups } from '../../../../../../redux/actions/InventorySettings/commissionGroupAction';
 import formValidation from '../../../../../../utils/validations';
 
@@ -38,7 +44,7 @@ const ItemCommission = () => {
     const { commissionGroupsDropdown } = useSelector((state) => state?.commissionGroup);
     const funcGetEmpSalesItem = (id) => {
         dispatch(
-            getEmployeeSalesItem(id, 'ITEM', setLoading, (data) => {
+            getEmployeeSalesItem(id, 'ITEM_COMMISSION', setLoading, (data) => {
                 setItemCommissionData(data);
             }),
         );
@@ -51,9 +57,9 @@ const ItemCommission = () => {
                 getEmployeeSaleItem(employeeSalesItemId, setLoading, (data) => {
                     setData({
                         commissionGroup: data.commissionGroup,
-                        type: data.type, 
-                        commissionType: data.commissionType, 
-                        amountType: data.amountType, 
+                        type: data.type,
+                        commissionType: data.commissionType,
+                        amountType: data.amountType,
                         pay: data.pay,
                     });
                 }),
