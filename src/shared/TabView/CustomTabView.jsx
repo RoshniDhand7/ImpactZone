@@ -9,7 +9,7 @@ const TabContent = styled.div`
     animation: ${({ direction }) => (direction ? (direction === 'right' ? SlideInRightAnimation : SlideInLeftAnimation) : fadeInAnimation)} 0.6s both;
 `;
 
-export default function CustomTabView({ name = 'tab', tabs, disabledTabIndices, useIndex = false }) {
+export default function CustomTabView({ name = 'tab', tabs, disabledTabIndices, useIndex = false, scrollable = false }) {
     const history = useHistory();
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
@@ -39,7 +39,7 @@ export default function CustomTabView({ name = 'tab', tabs, disabledTabIndices, 
         }
     };
     return (
-        <TabView activeIndex={activeIndex} onTabChange={handleChange}>
+        <TabView activeIndex={activeIndex} onTabChange={handleChange} scrollable={scrollable}>
             {tabs?.map((tab, i) => (
                 <TabPanel key={i} header={tab?.title} disabled={disabledTabIndices?.includes(i)}>
                     <div style={{ overflowX: 'hidden' }}>

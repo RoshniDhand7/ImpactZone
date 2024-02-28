@@ -19,7 +19,7 @@ const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
         );
     };
     return (
-        <DataTable value={convertBooleanValues(data)} tableStyle={{ minWidth: '50rem' }}>
+        <DataTable value={convertBooleanValues(data)} tableStyle={{ minWidth: '50rem' }} paginator rows={5}>
             {columns.map((col, i) => (
                 <Column key={col.field} field={col.field} body={col.body} header={col.header} />
             ))}

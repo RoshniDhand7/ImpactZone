@@ -4,7 +4,6 @@ import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
-import { uploadFiles, uploadImages } from '../../../utils/commonFunctions';
 
 const getCertificates = (id, setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -77,11 +76,11 @@ const editCertificates =
         }
         setLoading(false);
     };
-const deleteCertificates = (id) => async (dispatch) => {
+const deleteCertificates = (id, next) => async (dispatch) => {
     const res = await api('delete', EndPoints.MANAGE_EMPLOYEE_CERTIFICATES + id);
     if (res.success) {
-        dispatch(getCertificates(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
@@ -117,4 +116,4 @@ const addEmployeeNotes = (data, setLoading, next) => async (dispatch) => {
     }
     setLoading(false);
 };
-export { getCertificates, addCertificates, editCertificates, deleteCertificates, getCertificate,getEmployeeNotes,addEmployeeNotes };
+export { getCertificates, addCertificates, editCertificates, deleteCertificates, getCertificate, getEmployeeNotes, addEmployeeNotes };

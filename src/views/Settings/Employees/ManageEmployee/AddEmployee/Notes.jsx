@@ -3,7 +3,6 @@ import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../s
 import CustomEditor from '../../../../../shared/Input/CustomEditor';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { addEmployeeNotes, getEmployeeNotes } from '../../../../../redux/actions/EmployeeSettings/certificationAction';
@@ -23,7 +22,7 @@ const Notes = () => {
     }, [user]);
     const [data, setData] = useState({
         takenBy: user?.firstName,
-        dateTime: moment(new Date()).format('YYYY-MM-DD'),
+        dateTime: new Date(),
         notes: '',
     });
     const [visible, setVisible] = useState(false);
@@ -57,7 +56,7 @@ const Notes = () => {
     };
     const columns = [
         { field: 'takenBy', header: 'Taken By' },
-        { field: 'dateTime', header: 'Date/Time' },
+        { field: 'dateTime', body: (r) => moment(r.dateTime).format('MM-DD-YYYY hh:mm a'), header: 'Date/Time' },
         { field: 'notes', header: 'Notes' },
     ];
     const onClose = () => {
@@ -69,7 +68,7 @@ const Notes = () => {
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
             <CustomTable data={notesData} columns={columns} />
-            <CustomDialog width="100vh" title={'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog width="100vh" title={'Add Note'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomEditor name="notes" onTextChange={handleChange} data={data} />
                 </CustomGridLayout>

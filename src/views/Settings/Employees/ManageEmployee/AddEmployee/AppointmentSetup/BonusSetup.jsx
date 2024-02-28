@@ -158,7 +158,11 @@ const BonusSetup = ({ type }) => {
         }, 'Do you want to delete this Bonus?');
     };
     const columns = [
-        { field: 'bonusType', header: 'Bonus Type' },
+        { field: 'bonusType', body: (r) => (r.bonusType === 'SERVICE_VALUE' ? 'Service Value' : 'Single Client'), header: 'Bonus Type' },
+        { field: 'Session', body: (r) => (r.bonusType === 'SERVICE_VALUE' ? r.sessionsValue : r.ofSessions), header: 'Value' },
+        { field: 'selectTimeframe.over', body: (r) => r.selectTimeframe.over + ' ' + r.selectTimeframe.duration.toLowerCase(), header: 'Time Frame' },
+        { field: 'bonusAmount', body: (r) => (r.amountType === 'FIXED' ? '$' + r.bonusAmount : r.bonusAmount + '%'), header: 'Bonus Amount' },
+
         { field: 'services', body: (r) => r.services.join(','), header: 'Services' },
     ];
     return (
@@ -166,11 +170,18 @@ const BonusSetup = ({ type }) => {
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
             <CustomTable data={appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
 
-            <CustomDialog title={employeeAppartBonusId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog
+                title={employeeAppartBonusId ? 'Edit' : 'Add'}
+                visible={visible}
+                onCancel={onClose}
+                loading={loading}
+                onSave={handleSave}
+                width="90vh"
+            >
                 <CustomGridLayout>
                     <CustomDropDown label="" name="bonusType" data={data} onChange={handleChange} options={bonusTypeConstantsOptions} col={6} />
                     {data?.bonusType === 'SINGLE_CLIENT' ? (
-                        <CustomInputNumber col={6} name="ofSessions" data={data} onChange={handleChange} />
+                        <CustomInputNumber col={6} label="No of Sessions" name="ofSessions" data={data} onChange={handleChange} />
                     ) : (
                         <CustomInputNumber col={6} name="sessionsValue" data={data} onChange={handleChange} />
                     )}

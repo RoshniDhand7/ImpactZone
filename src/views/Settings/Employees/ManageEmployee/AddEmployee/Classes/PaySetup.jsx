@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { DataView } from 'primereact/dataview';
-import { useDispatch } from 'react-redux';
-import CustomCard, { CustomFilterCard } from '../../../../../../shared/Cards/CustomCard';
+import { useDispatch, useSelector } from 'react-redux';
+import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { deleteEmployeeClasses, getEmployeeClasses } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
 import AddandEditClasses from './AddandEditClasses';
 import { confirmDelete } from '../../../../../../utils/commonFunctions';
+import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
+import PrimaryButton from '../../../../../../shared/Button/CustomButton';
+import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
+import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 
 export default function PaySetup() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
+    const [openSimilar, setOpenSimilarTo] = useState(false);
+
     useEffect(() => {
         funcGetEmpClasses(id);
     }, [dispatch]);
+    useEffect(() => {
+        dispatch(getEmployees(0));
+    }, [dispatch]);
+
+    const { employeesDropdown } = useSelector((state) => state.employees);
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -213,9 +224,16 @@ export default function PaySetup() {
                 );
         }
     };
+
+    const handleSave = () => {};
     return (
         <div>
-            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
+            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end ">
+                <div className=" flex justify-content-between align-items-end">
+                    <CustomDropDown name="Class Level" col={6} />
+                    <PrimaryButton name="Similar To" col="6" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
+                </div>
+            </CustomFilterCard>
             <CustomCard col="12" title="Pay">
                 <DataView value={employeeClasses} itemTemplate={itemTemplate} paginator rows={5} />
                 <AddandEditClasses
@@ -226,6 +244,11 @@ export default function PaySetup() {
                     setEmployeeClassId={setEmployeeClassId}
                 />
             </CustomCard>
+            <CustomDialog title={'Similar To'} visible={openSimilar} onCancel={() => setOpenSimilarTo(false)} loading={loading} onSave={handleSave}>
+                <CustomGridLayout>
+                    <CustomDropDown name="employee" col={12} />
+                </CustomGridLayout>
+            </CustomDialog>
         </div>
     );
 }

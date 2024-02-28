@@ -52,11 +52,11 @@ export function CustomListItem({ label, name, data, value }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass }) {
     const history = useHistory();
     return (
         <div className="bg-lightest-blue border-round p-2 mt-2 mb-3">
-            <div className="flex justify-content-between">
+            <div className={`flex justify-content-between ${extraClass}`}>
                 <div>{children}</div>
                 {buttonTitle ? (
                     linkTo ? (

@@ -32,7 +32,11 @@ const Certifications = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                dispatch(deleteCertificates(col._id, () => {}));
+                dispatch(
+                    deleteCertificates(col._id, () => {
+                        dispatch(getCertificates(id));
+                    }),
+                );
             },
             'Do you want to delete this Certificates ?',
             position,
