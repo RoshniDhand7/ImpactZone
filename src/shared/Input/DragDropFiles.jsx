@@ -26,7 +26,6 @@ const PhotoUpload = ({ name, value, data, onDropChange, multiple = true }) => {
     const onDrop = useCallback(
         (acceptedFiles, rejectedFiles) => {
             if (rejectedFiles.length > 0) {
-                console.log('Rejected Files:', rejectedFiles);
             } else {
                 acceptedFiles.forEach((file) => {
                     const isFileAlreadySelected = selectedImages.some((selectedFile) => selectedFile.name === file.name);

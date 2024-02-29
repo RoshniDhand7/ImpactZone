@@ -110,7 +110,6 @@ const getEmployeeAppartmentBonus = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT + id);
 
-    console.log('res>>', res);
     if (res.success) {
         dispatch(hideLoaderAction());
 

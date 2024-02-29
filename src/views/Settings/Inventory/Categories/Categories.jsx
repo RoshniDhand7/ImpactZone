@@ -17,7 +17,6 @@ export default function Categories() {
     const { allCategory } = useSelector((state) => state.category);
 
     const DescriptionComponent = (r, index) => {
-        console.log('des>>', r.description, index.rowIndex);
         const truncatedDescription = truncateDescription(r.description);
         return (
             <>

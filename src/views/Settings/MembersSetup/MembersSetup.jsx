@@ -10,7 +10,7 @@ const MembersSetup = () => {
         { title: 'Manage Membership Types', content: <></> },
         { title: 'Campaigns Group', content: <CampaignGroups /> },
         { title: 'Campaigns', content: <Campaigns /> },
-        { title: 'Access Schedules', content: <></> },
+        { title: 'Access Schedules', content: <Access /> },
         { title: 'Resource Type', content: <ResourceType /> },
         { title: 'Resource', content: <Resources /> },
     ];

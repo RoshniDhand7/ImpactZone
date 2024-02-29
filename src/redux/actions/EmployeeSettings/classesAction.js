@@ -110,7 +110,6 @@ const getSubstitutionOption = (substitutionOptionsId, returnData) => async (disp
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SUSTITITION_OPTIONS + substitutionOptionsId);
 
-    console.log('res>>', res);
     if (res.success) {
         dispatch(hideLoaderAction());
 

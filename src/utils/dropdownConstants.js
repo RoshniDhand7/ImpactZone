@@ -19,6 +19,20 @@ export const amountTypeOptions = [
         value: 'PERCENTAGE',
     },
 ];
+export const durationTypeOptions = [
+    {
+        name: '15 mins',
+        value: 15,
+    },
+    {
+        name: '30 mins',
+        value: 30,
+    },
+    {
+        name: '60 mins',
+        value: 60,
+    },
+];
 
 export const bonusTypeConstantsOptions = [
     {

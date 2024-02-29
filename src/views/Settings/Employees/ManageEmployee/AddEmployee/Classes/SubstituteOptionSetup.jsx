@@ -44,7 +44,6 @@ export default function SubstituteOptionSetup() {
         setVisible(true);
     };
     useEffect(() => {
-        console.log(substitutionOptionsId);
         if (substitutionOptionsId) {
             dispatch(
                 getSubstitutionOption(substitutionOptionsId, (data) => {

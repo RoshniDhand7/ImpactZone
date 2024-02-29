@@ -47,7 +47,6 @@ const PaySetup = () => {
     };
 
     useEffect(() => {
-        console.log(employeeAppartId);
         if (employeeAppartId) {
             dispatch(
                 getEmployeeAppartment(employeeAppartId, setLoading, (data) => {
@@ -71,7 +70,7 @@ const PaySetup = () => {
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const columns = [
@@ -97,25 +96,23 @@ const PaySetup = () => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-        if (employeeAppartId) {
-            dispatch(
-                editEmployeeAppointmentPay(employeeAppartId, { ...data }, setLoading, () => {
-                    funcGetEmpAppointment(id);
-                    onClose();
-                }),
-            );
-        } else {
-            dispatch(
-                addEmployeeAppointmentPay({ ...data, employee: id }, setLoading, () => {
-                    funcGetEmpAppointment(id);
-                    onClose();
-                }),
-            );
+            if (employeeAppartId) {
+                dispatch(
+                    editEmployeeAppointmentPay(employeeAppartId, { ...data }, setLoading, () => {
+                        funcGetEmpAppointment(id);
+                        onClose();
+                    }),
+                );
+            } else {
+                dispatch(
+                    addEmployeeAppointmentPay({ ...data, employee: id }, setLoading, () => {
+                        funcGetEmpAppointment(id);
+                        onClose();
+                    }),
+                );
+            }
         }
-    }
     };
-
-    console.log('data>>', data);
 
     return (
         <>

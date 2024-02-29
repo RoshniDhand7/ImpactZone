@@ -36,6 +36,7 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'billingCountry':
         case 'companyName':
         case 'address1':
+        case 'notes':
         case 'address2':
         case 'address':
         case 'phoneNumber':

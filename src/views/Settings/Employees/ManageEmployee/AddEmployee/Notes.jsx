@@ -7,6 +7,9 @@ import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { addEmployeeNotes, getEmployeeNotes } from '../../../../../redux/actions/EmployeeSettings/certificationAction';
 import moment from 'moment';
+import { CustomTextArea } from '../../../../../shared/Input/AllInputs';
+import formValidation from '../../../../../utils/validations';
+import { showFormErrors } from '../../../../../utils/commonFunctions';
 
 const Notes = () => {
     const { id } = useParams();
@@ -17,7 +20,7 @@ const Notes = () => {
 
     useEffect(() => {
         if (user) {
-            setData({ ...data, takenBy: user.firstName });
+            setData({ ...data, takenBy: user.firstName, dateTime: new Date() });
         }
     }, [user]);
     const [data, setData] = useState({
@@ -42,16 +45,19 @@ const Notes = () => {
 
     const [loading, setLoading] = useState(false);
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
-        if (id) {
-            dispatch(
-                addEmployeeNotes({ ...data, employee: id }, setLoading, () => {
-                    funcGetNotes(id);
-                    onClose();
-                }),
-            );
+        if (showFormErrors(data, setData)) {
+            if (id) {
+                dispatch(
+                    addEmployeeNotes({ ...data, employee: id }, setLoading, () => {
+                        funcGetNotes(id);
+                        onClose();
+                    }),
+                );
+            }
         }
     };
     const columns = [
@@ -70,7 +76,7 @@ const Notes = () => {
             <CustomTable data={notesData} columns={columns} />
             <CustomDialog width="100vh" title={'Add Note'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomEditor name="notes" onTextChange={handleChange} data={data} />
+                    <CustomTextArea name="notes" maxLength="266" data={data} onChange={handleChange} inputClass="h-17rem	" />
                 </CustomGridLayout>
             </CustomDialog>
         </>

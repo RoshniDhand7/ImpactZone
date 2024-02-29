@@ -47,7 +47,6 @@ const AgreementCategoriesForm = () => {
         }
     };
 
-    console.log('datat>>', data);
     return (
         <>
             <FormPage backText="Agreement Categories">

@@ -31,12 +31,9 @@ export const convertBooleanValues = (data) => {
 };
 
 export const truncateDescription = (description) => {
-    console.log('Sed>>', description);
-
     if (description?.length > 20) {
         return description?.substring(0, 20) + '...';
     } else {
-        console.log('Sed>>', description);
         return description;
     }
 };

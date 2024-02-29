@@ -51,7 +51,6 @@ const ItemCommission = () => {
     };
 
     useEffect(() => {
-        console.log(employeeSalesItemId);
         if (employeeSalesItemId) {
             dispatch(
                 getEmployeeSaleItem(employeeSalesItemId, setLoading, (data) => {
@@ -118,8 +117,6 @@ const ItemCommission = () => {
             }
         }
     };
-
-    console.log('data>>', data);
 
     return (
         <>

@@ -18,7 +18,6 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 
 const BonusSetup = ({ type }) => {
-    console.log('type>>', type);
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -65,7 +64,6 @@ const BonusSetup = ({ type }) => {
     };
 
     useEffect(() => {
-        console.log(employeeAppartBonusId);
         if (employeeAppartBonusId) {
             dispatch(
                 getEmployeeBonus(type, employeeAppartBonusId, (data) => {

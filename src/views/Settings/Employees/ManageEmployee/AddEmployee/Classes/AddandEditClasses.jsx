@@ -9,7 +9,6 @@ import formValidation from '../../../../../../utils/validations';
 import { showFormErrors } from '../../../../../../utils/commonFunctions';
 
 const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmployeeClassId }) => {
-    console.log('id>>', id, employeeClassId);
     const [loading, setLoading] = useState(false);
     const [employeeClasses, setEmployeeClassesData] = useState({});
     const dispatch = useDispatch();
@@ -163,7 +162,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const handleChange1 = (index, key, value) => {
@@ -173,34 +172,62 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
     };
 
     const handleSave = () => {
-        let ignore =[]
-        if(data?.payType === 'INCREMENTAL_PAY'){
-             ignore=['payPerClassRate','baseRate','payPerClientRate','maxPayPerClient','percentage'];
-        }else if(data?.payType==='PAY_PER_CLASS'){
-            ignore =['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','baseRate','payPerClientRate','maxPayPerClient','percentage']
-        }else if(data?.payType==='PAY_PER_CLIENT'){
-            ignore =['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','percentage',"payPerClassRate"]
-        }else{
-            ignore= ['oneToFiveClients','sixToTenClients','elevenToFifteenClients','sixteenToTwentyClients','twentyOneToTwentyFiveClients','twentySixPlusClients','baseRate','payPerClientRate','maxPayPerClient','payPerClassRate']
+        let ignore = [];
+        if (data?.payType === 'INCREMENTAL_PAY') {
+            ignore = ['payPerClassRate', 'baseRate', 'payPerClientRate', 'maxPayPerClient', 'percentage'];
+        } else if (data?.payType === 'PAY_PER_CLASS') {
+            ignore = [
+                'oneToFiveClients',
+                'sixToTenClients',
+                'elevenToFifteenClients',
+                'sixteenToTwentyClients',
+                'twentyOneToTwentyFiveClients',
+                'twentySixPlusClients',
+                'baseRate',
+                'payPerClientRate',
+                'maxPayPerClient',
+                'percentage',
+            ];
+        } else if (data?.payType === 'PAY_PER_CLIENT') {
+            ignore = [
+                'oneToFiveClients',
+                'sixToTenClients',
+                'elevenToFifteenClients',
+                'sixteenToTwentyClients',
+                'twentyOneToTwentyFiveClients',
+                'twentySixPlusClients',
+                'percentage',
+                'payPerClassRate',
+            ];
+        } else {
+            ignore = [
+                'oneToFiveClients',
+                'sixToTenClients',
+                'elevenToFifteenClients',
+                'sixteenToTwentyClients',
+                'twentyOneToTwentyFiveClients',
+                'twentySixPlusClients',
+                'baseRate',
+                'payPerClientRate',
+                'maxPayPerClient',
+                'payPerClassRate',
+            ];
         }
         if (showFormErrors(data, setData, ignore)) {
-        if (employeeClassId) {
+            if (employeeClassId) {
+                dispatch(
+                    editEmployeeClasses(employeeClassId, data, setLoading, () => {
+                        onClose();
+                    }),
+                );
+            }
             dispatch(
-                editEmployeeClasses(employeeClassId, data, setLoading, () => {
+                addEmployeeClasses({ ...data, employee: id }, setLoading, () => {
                     onClose();
                 }),
             );
         }
-        dispatch(
-            addEmployeeClasses({ ...data, employee: id }, setLoading, () => {
-                onClose();
-            }),
-        );
-        }
     };
-
-    console.log('data>>', data);
-    console.log('employeeClasses>>', employeeClasses);
 
     return (
         <div>

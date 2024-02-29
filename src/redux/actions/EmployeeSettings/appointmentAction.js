@@ -117,7 +117,6 @@ const editEmployeeBonus = (type, id, data, setLoading, next) => async () => {
     setLoading(false);
 };
 const getEmployeeBonus = (type, id, returnData) => async (dispatch) => {
-    console.log(type);
     dispatch(showLoaderAction());
     let res;
     if (type === 'appointment') {
@@ -126,7 +125,6 @@ const getEmployeeBonus = (type, id, returnData) => async (dispatch) => {
         res = await api('get', EndPoints.SALES_COMMISSION + id);
     }
 
-    console.log('res>>', res);
     if (res.success) {
         dispatch(hideLoaderAction());
 
