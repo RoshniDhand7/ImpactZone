@@ -119,6 +119,8 @@ const AccessCalendar = ({
     });
   };
 
+  console.log("accessSchedule>>",accessSchedulesForm)
+
   return (
     <>
       <FullCalendar
@@ -126,6 +128,7 @@ const AccessCalendar = ({
         plugins={[timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
         initialDate={constants.calendarDefaultWeek.start}
+        selectOverlap={false}
         views={{
           timeGridWeek: {
             type: "timeGrid",
