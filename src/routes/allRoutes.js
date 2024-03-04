@@ -14,6 +14,7 @@ import Employees from '../views/Settings/Employees/Employees';
 import ScheduleSetup from '../views/Settings/ScheduleSetup/ScheduleSetup';
 import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
 import Inventory from '../views/Settings/Inventory/Inventory';
+import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGeneral';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -381,6 +382,18 @@ export const PrivateRoutes = [
                         name: 'Members',
                         exact: true,
                         component: ResourcesForm,
+                    },
+                    {
+                        path: '/access-schedule/add',
+                        name: 'Access Schedule',
+                        exact: true,
+                        component: AcessGeneral,
+                    },
+                    {
+                        path: '/access-schedule/edit/:id',
+                        name: 'Access Schedule',
+                        exact: true,
+                        component: AcessGeneral,
                     },
                 ],
             },

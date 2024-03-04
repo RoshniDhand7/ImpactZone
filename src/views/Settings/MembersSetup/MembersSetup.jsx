@@ -1,5 +1,5 @@
 import CustomTabView from '../../../shared/TabView/CustomTabView';
-import Access from './AccessSchedule/Access';
+import AcessSchedule from './AccessSchedule/AccessSchedule';
 import Campaigns from './Campaigns/Campaigns';
 import CampaignGroups from './CampaignsGroup/CampaignGroups';
 import ResourceType from './ResourceType/ResourceType';
@@ -10,7 +10,7 @@ const MembersSetup = () => {
         { title: 'Manage Membership Types', content: <></> },
         { title: 'Campaigns Group', content: <CampaignGroups /> },
         { title: 'Campaigns', content: <Campaigns /> },
-        { title: 'Access Schedules', content: <Access /> },
+        { title: 'Access Schedules', content: <AcessSchedule /> },
         { title: 'Resource Type', content: <ResourceType /> },
         { title: 'Resource', content: <Resources /> },
     ];

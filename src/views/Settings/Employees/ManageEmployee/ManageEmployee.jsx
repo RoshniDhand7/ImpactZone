@@ -5,7 +5,6 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import CustomPaginator from '../../../../shared/Paginator/CustomPaginator';
 
 const ManageEmployee = () => {
     const dispatch = useDispatch();

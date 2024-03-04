@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -7,21 +7,41 @@ import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { durationTypeOptions } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup } from '../../../../shared/Button/CustomButton';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/MembersSettings/accessSchedule';
 
 const Access = () => {
     const [access, setAccess] = useState({
         duration: 30,
         schedule: [],
     });
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
     const calendarRef = useRef(null);
     const handleChange = ({ name, value }) => {
         setAccess((prev) => ({ ...prev, [name]: value }));
     };
+
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getAccessSchedule(id, (data) => {
+                    setAccess(() => ({
+                        duration: data.duration ?? 30,
+                        schedule: data.schedule ?? [],
+                    }));
+                }),
+            );
+        }
+    }, [id, dispatch]);
+
     const handleDateSelect = (selectInfo) => {
         console.log('selectInfo>>', selectInfo);
         if (selectInfo.view.type === 'timeGridWeek') {
             const dayName = moment(selectInfo.start).format('dddd');
-            const dayShortName = moment(selectInfo.start).format('ddd');
             selectInfo.view.calendar.unselect();
             const newEvent = {
                 start: selectInfo.start.toISOString(),
@@ -29,18 +49,17 @@ const Access = () => {
             };
             const calendarApi = selectInfo.view.calendar;
             console.log(calendarApi.addEvent);
-            getSchedule(newEvent, dayName, dayShortName);
+            getSchedule(newEvent, dayName);
             calendarApi.addEvent(newEvent);
         }
     };
-    const getSchedule = (event, dayName, shortName) => {
+    const getSchedule = (event, dayName) => {
         setAccess((prevAccess) => ({
             ...prevAccess,
             schedule: [
                 ...prevAccess.schedule,
                 {
                     day: dayName,
-                    shortName: shortName,
                     startTime: event.start,
                     endTime: event.end,
                 },
@@ -103,7 +122,6 @@ const Access = () => {
                 const currentDate = momentStartDate.clone().add(i, 'days');
                 updatedForm.schedule.push({
                     day: currentDate.format('dddd'),
-                    shortName: currentDate.format('ddd'),
                     startTime: currentDate.startOf('day').format(),
                     endTime: currentDate.endOf('day').format(),
                 });
@@ -116,6 +134,11 @@ const Access = () => {
 
     console.log(access);
 
+    const handleSave = () => {
+        if (id) {
+            dispatch(editAccessSchedule(id, access, setLoading, history));
+        }
+    };
     console.log('initialDate>>', moment(new Date()).format('YYYY-MM-DD'));
 
     return (
@@ -162,7 +185,7 @@ const Access = () => {
                         })
                     }
                 />
-                <PrimaryButton label="Save" className="" />
+                <PrimaryButton label="Save" className="" onClick={handleSave} />
             </CustomButtonGroup>
         </>
     );

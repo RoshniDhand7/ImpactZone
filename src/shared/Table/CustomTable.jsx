@@ -3,7 +3,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { convertBooleanValues } from '../../utils/commonFunctions';
 
-const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
+const CustomTable = ({ data, columns, onView, onEdit, onDelete, onCopy }) => {
     const actionTemplate = (data) => {
         return (
             <span className="flex ">
@@ -13,6 +13,7 @@ const CustomTable = ({ data, columns, onView, onEdit, onDelete }) => {
                     <img src={DeleteIcon} alt="" className="mx-1 cursor-pointer" style={{ width: '15px', heigth: '15px' }} onClick={() => onDelete(data)} />
                 )} */}
                 {onView && <i className="mx-2 cursor-pointer pi pi-eye" onClick={() => onView(data)} />}
+                {onCopy && <i className="mx-2 cursor-pointer pi pi-copy" onClick={() => onCopy(data)} />}
                 {onEdit && <i className="mx-2 cursor-pointer pi pi-pencil" onClick={() => onEdit(data)} />}
                 {onDelete && <i className="mx-2 cursor-pointer pi pi-trash" onClick={() => onDelete(data)} />}
             </span>
