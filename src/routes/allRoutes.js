@@ -15,6 +15,7 @@ import ScheduleSetup from '../views/Settings/ScheduleSetup/ScheduleSetup';
 import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
 import Inventory from '../views/Settings/Inventory/Inventory';
 import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGeneral';
+import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -139,6 +140,18 @@ export const PrivateRoutes = [
                 exact: true,
                 component: Inventory,
                 items: [
+                    {
+                        path: '/catalog-item/add',
+                        name: 'Catalog Item',
+                        exact: true,
+                        component: AddCatalogItems,
+                    },
+                    {
+                        path: '/catalog-item/edit/:id',
+                        name: 'Catalog Item',
+                        exact: true,
+                        component: AddCatalogItems,
+                    },
                     {
                         path: '/profit-center/add',
                         name: 'Profit Center',

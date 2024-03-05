@@ -5,10 +5,11 @@ import Categories from './Categories/Categories';
 import Vendors from './Vendors/Vendors';
 import ReferralGroup from './ReferralGroup/ReferralGroup';
 import CommissionGroup from './CommissionGroup/CommissionGroup';
+import CatalogItems from './CatalogItems/CatalogItems';
 
 export default function Inventory() {
     const tabs = [
-        { title: 'Catalog Item', content: <>Catelog Item</> },
+        { title: 'Catalog Item', content: <CatalogItems /> },
         { title: 'Profit Center', content: <ProfitCenter /> },
         { title: 'Categories', content: <Categories /> },
         { title: 'Vendors', content: <Vendors /> },

@@ -198,3 +198,31 @@ export const EmployeeCommissionType = [
         value: 'PER_ITEM',
     },
 ];
+export const catalogProductTypeOptions = [
+    {
+        name: 'Product',
+        value: 'PRODUCT',
+    },
+    {
+        name: 'Service',
+        value: 'SERVICE',
+    },
+];
+export const itemSoldOptions = [
+    {
+        name: 'POS Only',
+        value: 'POS_ONLY',
+    },
+    {
+        name: 'Agreements Only',
+        value: 'AGGREMENT_ONLY',
+    },
+    {
+        name: 'POS and Agreements',
+        value: 'POS_AND_AGREEMENTS',
+    },
+    {
+        name: 'Non-sale Item',
+        value: 'NON_SALE_ITEM',
+    },
+];

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProfileImg from '../../assets/icons/camera.png';
 // import CameraIcon from '../../assets/icons/Vector.png';
 import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
+import InputLayout from '../Form/InputLayout';
 
 const CustomLogoImage = ({
     label,
@@ -64,7 +65,7 @@ const CustomLogoImage = ({
     };
 
     return (
-        <div>
+        <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept="image/*" hidden {...props} />
             {files.length ? (
                 Object.values(files).map((image, i) => (
@@ -101,7 +102,7 @@ const CustomLogoImage = ({
             <div className="text-left ">
                 {errorMessage || data?.formErrors?.[name] ? <small className="p-error">{errorMessage || data?.formErrors?.[name]}</small> : null}
             </div>
-        </div>
+        </InputLayout>
     );
 };
 

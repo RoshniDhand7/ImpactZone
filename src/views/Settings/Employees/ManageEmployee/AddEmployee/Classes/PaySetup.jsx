@@ -2,40 +2,59 @@ import React, { useState, useEffect } from 'react';
 import { DataView } from 'primereact/dataview';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import { deleteEmployeeClasses, getEmployeeClasses } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
+import { deleteEmployeeClasses, editEmployeeClasses, getEmployeeClasses } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
 import AddandEditClasses from './AddandEditClasses';
 import { confirmDelete } from '../../../../../../utils/commonFunctions';
-import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInputSwitch } from '../../../../../../shared/Input/AllInputs';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
 
 export default function PaySetup() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
     const [openSimilar, setOpenSimilarTo] = useState(false);
-
+    const [data, setData] = useState({
+        isClassLevel: '',
+        isDefaultPay: '',
+    });
     useEffect(() => {
-        funcGetEmpClasses(id);
-    }, [dispatch]);
+        funcGetEmpClasses(id, data?.isClassLevel);
+    }, [dispatch, data?.isClassLevel]);
     useEffect(() => {
         dispatch(getEmployees(0));
     }, [dispatch]);
+    useEffect(() => {
+        dispatch(getLevels());
+    }, [dispatch]);
+
+    const { levelDropdown } = useSelector((state) => state.level);
 
     const { employeesDropdown } = useSelector((state) => state.employees);
+
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+        funcGetEmpClasses(id, value);
+    };
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeClassId, setEmployeeClassId] = useState(null);
     const [employeeClasses, setEmployeeClasses] = useState([]);
+    // useEffect(() => {
+    //     setData({ isClassLevel: employeeClasses?.[0]?.isClassLevel });
+    // }, [employeeClasses]);
+    console.log(employeeClasses, 'employeeClasses');
 
-    const funcGetEmpClasses = (id) => {
+    const funcGetEmpClasses = (id, classLevel) => {
         dispatch(
-            getEmployeeClasses(id, setLoading, (data) => {
-                data = data.map((item, index) => ({ ...item, index: index + 1 }));
+            getEmployeeClasses(id, classLevel, setLoading, (data) => {
+                data = data.list.map((item, index) => ({ ...item, index: index + 1 }));
                 setEmployeeClasses(data);
+                // setData({ isClassLevel: data?.[0]?.isClassLevel });
             }),
         );
     };
@@ -50,16 +69,36 @@ export default function PaySetup() {
         confirmDelete(() => {
             dispatch(
                 deleteEmployeeClasses(col._id, () => {
-                    funcGetEmpClasses(id);
+                    funcGetEmpClasses(id, data?.isClassLevel);
                 }),
             );
         }, 'Do you want to delete this Employee Classes?');
+    };
+    const handleSwitchChange = (id, active) => {
+        setEmployeeClasses(
+            employeeClasses?.map((artwork) => {
+                if (artwork._id === id) {
+                    dispatch(editEmployeeClasses(artwork?._id, { isDefaultPay: active }, setLoading, () => {}));
+                    return { ...artwork, isDefaultPay: active };
+                } else {
+                    return { ...artwork, isDefaultPay: false };
+                }
+            }),
+        );
     };
 
     const itemTemplate = (item) => {
         return (
             <div className="col-12 grid py-2" key={item.id}>
-                <div className="col-11">{renderRow(item)}</div>
+                <div className="col-10">{renderRow(item)}</div>
+                <div className="col-1 my-auto">
+                    <CustomInputSwitch
+                        name="isDefaultPay"
+                        label="Default Pay"
+                        checked={item?.isDefaultPay}
+                        onChange={(e) => handleSwitchChange(item._id, e.value)}
+                    />
+                </div>
                 <div className="col-1 my-auto">
                     <i className="mx-3 cursor-pointer pi pi-pencil" onClick={() => onEdit(item)} />
                     <i className="mx-3 cursor-pointer pi pi-trash" onClick={() => onDelete(item)} />
@@ -230,7 +269,7 @@ export default function PaySetup() {
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end ">
                 <div className=" flex justify-content-between align-items-end">
-                    <CustomDropDown name="Class Level" col={6} />
+                    <CustomDropDown name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
                     <PrimaryButton name="Similar To" col="6" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
                 </div>
             </CustomFilterCard>

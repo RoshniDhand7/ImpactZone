@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allLevels: [],
+    levelDropdown: [],
 };
 
 const levelReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const levelReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allLevels: action.payload,
+                levelDropdown: action.payload?.map((item) => ({ value: item._id, name: item.name })),
             };
 
         default:

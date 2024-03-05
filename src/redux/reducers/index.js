@@ -24,6 +24,7 @@ import categoryReducer from './InventorySettings/categoryReducer';
 import profitCenterReducer from './InventorySettings/profitCenterReducer';
 import certificateReducer from './EmployeesSettings/certificationReducer';
 import accessScheduleReducer from './MembersSettings/accessScheduleReducer';
+import catalogItemsReducer from './InventorySettings/catalogItemsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -51,4 +52,5 @@ export default combineReducers({
     profitCenter: profitCenterReducer,
     certificates: certificateReducer,
     accessSchedule: accessScheduleReducer,
+    catalogItems: catalogItemsReducer,
 });

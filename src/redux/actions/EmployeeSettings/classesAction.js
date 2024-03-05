@@ -3,11 +3,11 @@ import EndPoints from '../../../services/endPoints';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getEmployeeClasses = (employee, setLoading, returnData) => async (dispatch) => {
+const getEmployeeClasses = (employee, isClassLevel, setLoading, returnData) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_CLASSES, '', { employee });
+    const res = await api('get', EndPoints.EMPLOYEE_CLASSES, '', { employee, isClassLevel });
     if (res.success) {
         if (res.data) {
             if (returnData) {
