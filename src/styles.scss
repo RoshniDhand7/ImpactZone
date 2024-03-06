@@ -101,3 +101,9 @@ a:-webkit-any-link {
         bottom: 53px;
     }
 }
+
+//override grapesjs class
+.gjs-rte-action {
+    width: auto !important;
+    min-width: 25px;
+}

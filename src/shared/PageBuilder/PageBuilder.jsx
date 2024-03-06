@@ -23,6 +23,81 @@ import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
 
 export default function PageBuilder({ id }) {
+    const mergeFields = [
+        {
+            name: 'Membership Type',
+            value: '{{Membership_Type}}',
+        },
+        {
+            name: 'Services',
+            value: '{{Services}}',
+        },
+        {
+            name: 'Assessed_Fees',
+            value: '{{Assessed Fees}}',
+        },
+        {
+            name: 'Membership Name',
+            value: '{{Membership_Name}}',
+        },
+        {
+            name: 'Title',
+            value: '{{Title}}',
+        },
+        {
+            name: 'First Name',
+            value: '{{First_Name}}',
+        },
+        {
+            name: 'Last Name',
+            value: '{{Last_Name}}',
+        },
+        {
+            name: 'Company Name',
+            value: '{{Company_Name}}',
+        },
+        {
+            name: 'Address Line 1',
+            value: '{{Address_Line_1}}',
+        },
+        {
+            name: 'Address Line 2',
+            value: '{{Address_Line_2}}',
+        },
+        {
+            name: 'City',
+            value: '{{City}}',
+        },
+        {
+            name: 'State',
+            value: '{{State}}',
+        },
+        {
+            name: 'Zip Code',
+            value: '{{Zip_Code}}',
+        },
+        {
+            name: 'Country or Region',
+            value: '{{Country_or_Region}}',
+        },
+        {
+            name: 'Phone',
+            value: '{{Phone}}',
+        },
+        {
+            name: 'Email',
+            value: '{{Email}}',
+        },
+        {
+            name: 'Salesperson',
+            value: '{{Salesperson}}',
+        },
+        {
+            name: 'Campaign',
+            value: '{{Campaign}}',
+        },
+    ];
+
     const history = useHistory();
     const dispatch = useDispatch();
     const { clubsDropdown } = useSelector((state) => state.clubs);
@@ -61,7 +136,6 @@ export default function PageBuilder({ id }) {
                 </defs>
                 </svg>`,
             });
-
             editor.BlockManager.add('services', {
                 id: 'services',
                 label: 'Services',
@@ -110,6 +184,18 @@ export default function PageBuilder({ id }) {
                 </clipPath>
                 </defs>
                 </svg>`,
+            });
+
+            editor.RichTextEditor.add('custom-vars', {
+                icon: `<select>
+                      <option value="">- Merge Fields -</option>
+                      ${mergeFields.map((item) => `<option value=${item.value}>${item.name}</option>`)}
+                    </select>`,
+                event: 'change',
+                result: (rte, action) => rte.insertHTML(action.btn.firstChild.value),
+                update: (rte, action) => {
+                    action.btn.firstChild.value = '';
+                },
             });
 
             panelManager.addButton('options', {
