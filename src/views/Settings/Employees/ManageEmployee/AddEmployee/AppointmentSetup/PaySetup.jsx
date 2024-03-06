@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
-import { AppointmentPayPriorityOptions, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
-import { useDispatch } from 'react-redux';
+import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-    addEmployeeAppointmentPay,
     deletetEmployeeAppartment,
     editEmployeeAppointmentPay,
-    getEmployeeAppartment,
     getEmployeeAppointmentPay,
+    isDefaultAppointmentPay,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
-import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
+import { confirmDelete } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
+import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
+import PrimaryButton from '../../../../../../shared/Button/CustomButton';
+import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 
 const PaySetup = () => {
     const dispatch = useDispatch();
@@ -23,49 +24,35 @@ const PaySetup = () => {
     const [employeeAppartId, setEmployeeAppartId] = useState(null);
     const [appointmentData, setAppointmentData] = useState([]);
 
-    const initialState = {
-        name: '',
-        priority: 'PER-EVENT',
-        type: 'PAY',
-        pay: 0,
-        amountType: 'FIXED',
-    };
-
-    const [data, setData] = useState(initialState);
+    const [defaultPay, setDefaultPay] = useState(false);
 
     const { id } = useParams();
+    const [data, setData] = useState({
+        isDefaultPay: '',
+        isClassLevel: '',
+    });
 
     useEffect(() => {
         funcGetEmpAppointment(id);
-    }, []);
+    }, [data?.isClassLevel]);
     const funcGetEmpAppointment = (id) => {
         dispatch(
-            getEmployeeAppointmentPay(id, 'PAY', setLoading, (data) => {
+            getEmployeeAppointmentPay(id, data?.isClassLevel, 'PAY', setLoading, (data) => {
                 setAppointmentData(data);
             }),
         );
     };
-
     useEffect(() => {
-        if (employeeAppartId) {
-            dispatch(
-                getEmployeeAppartment(employeeAppartId, setLoading, (data) => {
-                    setData({
-                        name: data.name,
-                        priority: data.priority,
-                        type: 'PAY',
-                        pay: data.pay,
-                        amountType: data.amountType,
-                    });
-                }),
-            );
-        }
-    }, [employeeAppartId, dispatch]);
+        dispatch(getLevels());
+    }, [dispatch]);
+    useEffect(() => {
+        setData((prev) => ({ ...prev, isClassLevel: appointmentData?.isClassLevel }));
+    }, [appointmentData?.isClassLevel]);
+    const { levelDropdown } = useSelector((state) => state.level);
 
     const onClose = () => {
-        setEmployeeAppartId(null);
-        setData(initialState);
-        setVisible(false);
+        setData((prev) => ({ ...prev, isDefaultPay: '' }));
+        setDefaultPay(false);
     };
 
     const handleChange = ({ name, value }) => {
@@ -84,7 +71,7 @@ const PaySetup = () => {
             dispatch(
                 deletetEmployeeAppartment(col._id, () => {
                     funcGetEmpAppointment(id);
-                    onClose();
+                    setVisible(false);
                 }),
             );
         }, 'Do you want to delete this Appartment Pay?');
@@ -95,36 +82,36 @@ const PaySetup = () => {
     };
 
     const handleSave = () => {
-        if (showFormErrors(data, setData)) {
-            if (employeeAppartId) {
-                dispatch(
-                    editEmployeeAppointmentPay(employeeAppartId, { ...data }, setLoading, () => {
-                        funcGetEmpAppointment(id);
-                        onClose();
-                    }),
-                );
-            } else {
-                dispatch(
-                    addEmployeeAppointmentPay({ ...data, employee: id }, setLoading, () => {
-                        funcGetEmpAppointment(id);
-                        onClose();
-                    }),
-                );
-            }
-        }
+        setAppointmentData((prevData) => ({
+            ...prevData,
+            list: prevData.list.map((item) => ({
+                ...item,
+                pay: data?.isDefaultPay,
+            })),
+        }));
+        dispatch(
+            isDefaultAppointmentPay({ pay: data.isDefaultPay }, () => {
+                funcGetEmpAppointment(id);
+                onClose();
+            }),
+        );
     };
+
+    console.log('data>>', appointmentData?.list);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
-            <CustomTable data={appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
-
-            <CustomDialog title={employeeAppartId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end">
+                <div className="flex align-items-end">
+                    <CustomDropDown name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                    <PrimaryButton name="" className="w-12rem" label="Default Pay" onClick={() => setDefaultPay(true)} />
+                </div>
+            </CustomFilterCard>
+            <CustomTable data={appointmentData?.list} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <AddandEditAppointmentPay funcGetEmpAppointment={funcGetEmpAppointment} id={id} setVisible={setVisible} visible={visible} />
+            <CustomDialog title="Default Pay" visible={defaultPay} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomInput col="12" name="name" data={data} onChange={handleChange} />
-                    <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
-                    <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
-                    <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
+                    <CustomInputNumber col="12" name="isDefaultPay" label="Default" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
         </>

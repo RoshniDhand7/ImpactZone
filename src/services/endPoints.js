@@ -30,6 +30,7 @@ const endPoints = {
     MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
     SUSTITITION_OPTIONS: '/employee-substitute-option/',
     EMPLOYEE_APPOINTMENT: '/employee-appointment/',
+    EMPLOYEE_APPOINTMENT_IS_DEFAULT: '/employee-appointment-default-pay/',
     AGREEMENT_TEMPLATE: '/agreement-template/',
     ASSETS: '/asset/',
     SALES_COMMISSION: '/sales-commission/',

@@ -50,7 +50,7 @@ const BonusSetup = ({ type }) => {
     const funcGetEmpAppointment = (id) => {
         if (type === 'appointment') {
             dispatch(
-                getEmployeeAppointmentPay(id, 'BONUS', setLoading, (data) => {
+                getEmployeeAppointmentPay(id, '', 'BONUS', setLoading, (data) => {
                     setAppointmentData(data);
                 }),
             );
@@ -166,7 +166,7 @@ const BonusSetup = ({ type }) => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
-            <CustomTable data={appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={type === 'appointment' ? appointmentData?.list : appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
 
             <CustomDialog
                 title={employeeAppartBonusId ? 'Edit' : 'Add'}

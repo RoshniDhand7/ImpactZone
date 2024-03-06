@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import { DataView } from 'primereact/dataview';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
@@ -21,6 +21,7 @@ export default function PaySetup() {
         isClassLevel: '',
         isDefaultPay: '',
     });
+
     useEffect(() => {
         funcGetEmpClasses(id, data?.isClassLevel);
     }, [dispatch, data?.isClassLevel]);
@@ -32,29 +33,29 @@ export default function PaySetup() {
     }, [dispatch]);
 
     const { levelDropdown } = useSelector((state) => state.level);
+    const uniqueId = useId();
 
     const { employeesDropdown } = useSelector((state) => state.employees);
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
-        funcGetEmpClasses(id, value);
     };
+
+    console.log(data, 'data');
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeClassId, setEmployeeClassId] = useState(null);
     const [employeeClasses, setEmployeeClasses] = useState([]);
-    // useEffect(() => {
-    //     setData({ isClassLevel: employeeClasses?.[0]?.isClassLevel });
-    // }, [employeeClasses]);
+    useEffect(() => {
+        setData((prev) => ({ ...prev, isClassLevel: employeeClasses?.isClassLevel }));
+    }, [employeeClasses?.isClassLevel]);
     console.log(employeeClasses, 'employeeClasses');
 
     const funcGetEmpClasses = (id, classLevel) => {
         dispatch(
             getEmployeeClasses(id, classLevel, setLoading, (data) => {
-                data = data.list.map((item, index) => ({ ...item, index: index + 1 }));
                 setEmployeeClasses(data);
-                // setData({ isClassLevel: data?.[0]?.isClassLevel });
             }),
         );
     };
@@ -76,12 +77,12 @@ export default function PaySetup() {
     };
     const handleSwitchChange = (id, active) => {
         setEmployeeClasses(
-            employeeClasses?.map((artwork) => {
-                if (artwork._id === id) {
-                    dispatch(editEmployeeClasses(artwork?._id, { isDefaultPay: active }, setLoading, () => {}));
-                    return { ...artwork, isDefaultPay: active };
+            employeeClasses?.list?.map((item) => {
+                if (item._id === id) {
+                    dispatch(editEmployeeClasses(item?._id, { isDefaultPay: active }, setLoading, () => {}));
+                    return { ...item, isDefaultPay: active };
                 } else {
-                    return { ...artwork, isDefaultPay: false };
+                    return { ...item, isDefaultPay: false };
                 }
             }),
         );
@@ -89,7 +90,7 @@ export default function PaySetup() {
 
     const itemTemplate = (item) => {
         return (
-            <div className="col-12 grid py-2" key={item.id}>
+            <div className="col-12 grid py-2" key={uniqueId}>
                 <div className="col-10">{renderRow(item)}</div>
                 <div className="col-1 my-auto">
                     <CustomInputSwitch
@@ -270,11 +271,11 @@ export default function PaySetup() {
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end ">
                 <div className=" flex justify-content-between align-items-end">
                     <CustomDropDown name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
-                    <PrimaryButton name="Similar To" col="6" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
+                    <PrimaryButton name="Similar To" className="w-12rem" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
                 </div>
             </CustomFilterCard>
             <CustomCard col="12" title="Pay">
-                <DataView value={employeeClasses} itemTemplate={itemTemplate} paginator rows={5} />
+                <DataView value={employeeClasses?.list} itemTemplate={itemTemplate} paginator rows={5} />
                 <AddandEditClasses
                     visible={visible}
                     setVisible={setVisible}

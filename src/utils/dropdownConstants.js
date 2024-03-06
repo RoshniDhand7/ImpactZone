@@ -208,6 +208,16 @@ export const catalogProductTypeOptions = [
         value: 'SERVICE',
     },
 ];
+export const productTypeOptions = [
+    {
+        name: 'General',
+        value: 'GENERAL',
+    },
+    {
+        name: 'Donation',
+        value: 'DONATION',
+    },
+];
 export const itemSoldOptions = [
     {
         name: 'POS Only',

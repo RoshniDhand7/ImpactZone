@@ -73,7 +73,7 @@ const editAccessSchedule =
 const deleteAccessSchedule = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.ACCESS_SCHEDULE + id);
     if (res.success) {
-        dispatch(getAccessSchedule(() => {}));
+        dispatch(getAccessSchedules(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
