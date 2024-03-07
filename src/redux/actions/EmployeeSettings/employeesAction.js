@@ -59,7 +59,7 @@ const getEmployee = (id, returnData) => async (dispatch) => {
 const editEmployee =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
-        if (data.image.length) {
+        if (data?.image?.length) {
             data.image = await uploadImages(data.image);
 
             data.image = data.image[0];

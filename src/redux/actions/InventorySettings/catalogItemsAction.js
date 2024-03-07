@@ -1,6 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
-import { removeUnusedKeys } from '../../../utils/commonFunctions';
+import { removeUnusedKeys, uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -9,11 +9,11 @@ const getCatalogItems = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.CATEGORIES);
+    const res = await api('get', EndPoints.INVENTORY_CATALOG);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_CATEGORIES,
+                type: types.CHANGE_CATALOG_ITEMS,
                 payload: res.data,
             });
         }
@@ -38,16 +38,31 @@ const getCatalogItem = (id, returnData) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
-const addCatalogItem = (data, setLoading, history) => async () => {
-    setLoading(true);
-    const payload = removeUnusedKeys({ ...data });
+const addCatalogItem =
+    (data, history, tab = '') =>
+    async (dispatch) => {
+        dispatch(showLoaderAction());
+        if (data.catalogImage.length) {
+            data.catalogImage = await uploadImages(data.catalogImage);
 
-    const res = await api('post', EndPoints.CATEGORIES, payload);
-    if (res.success) {
-        history.goBack();
-    }
-    setLoading(false);
-};
+            data.catalogImage = data.catalogImage[0];
+        } else {
+            data.catalogImage = '';
+        }
+        const payload = {
+            ...data,
+        };
+
+        const res = await api('post', EndPoints.INVENTORY_CATALOG, payload);
+        if (res.success) {
+            if (tab) {
+                history.replace(`/settings/employee/catalog-item/edit/${res.data._id}/${tab}`);
+            } else {
+                history.goBack();
+            }
+        }
+        dispatch(hideLoaderAction());
+    };
 const editCatalogItem = (id, data, setLoading, history) => async () => {
     setLoading(true);
 

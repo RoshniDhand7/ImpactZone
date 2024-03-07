@@ -36,5 +36,6 @@ const endPoints = {
     SALES_COMMISSION: '/sales-commission/',
     NOTES: '/notes',
     ACCESS_SCHEDULE: '/access-schedule/',
+    INVENTORY_CATALOG: '/inventory-catalog/',
 };
 export default endPoints;

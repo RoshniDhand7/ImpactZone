@@ -13,11 +13,13 @@ const CatalogItems = () => {
         dispatch(getCatalogItems());
     }, [dispatch]);
 
-    const { allCategory } = useSelector((state) => state.category);
+    const { allCatalogItems } = useSelector((state) => state.catalogItems);
 
     const columns = [
-        { field: 'name', header: 'Name' },
-        { field: 'displayInPos', header: 'Displays in POS' },
+        { field: 'name', header: 'Item Name' },
+        { field: 'upc', header: 'Item UPC' },
+        { field: 'unitPrice', header: 'Price' },
+        { field: 'displayInPos', header: 'Event' },
         { field: 'isActive', header: 'Active' },
     ];
 
@@ -36,7 +38,7 @@ const CatalogItems = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add" />
-            <CustomTable data={allCategory} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allCatalogItems} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

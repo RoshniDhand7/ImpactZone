@@ -45,6 +45,7 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'jobTitle':
         case 'primaryEmail':
         case 'reasonCode':
+        case 'upc':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -76,6 +77,8 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'timeBeforeEvent':
         case 'reasonCodeType':
         case 'commissionGroup':
+        case 'profitCenter':
+        case 'category':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {

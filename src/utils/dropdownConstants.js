@@ -8,6 +8,12 @@ export const yesNoOptions = [
         value: 'false',
     },
 ];
+export const defaultDiscountOptions = [
+    {
+        name: 'None',
+        value: 'None',
+    },
+];
 
 export const amountTypeOptions = [
     {
@@ -65,6 +71,15 @@ for (let i = 1; i <= 50; i++) {
     };
     checkInLimitOptions.push(option);
 }
+
+export const unitPricingOptions = [];
+for (let i = 1; i <= 100; i++) {
+    const option = {
+        name: i,
+        value: i,
+    };
+    unitPricingOptions.push(option);
+}
 export const perOptions = [
     {
         name: 'Week (7 days)',
@@ -116,6 +131,15 @@ for (let i = 1; i <= 30; i++) {
     };
     daysOptions.push(option);
 }
+export const monthOptions = [];
+
+for (let i = 1; i <= 48; i++) {
+    const option = {
+        name: `${i} months`,
+        value: `${i} months`,
+    };
+    monthOptions.push(option);
+}
 
 export const hoursOptions = [];
 
@@ -140,6 +164,8 @@ export const reasonCodeTypeOptions = [
     'Void',
     'Waive Tax',
 ].map((name) => ({ name, value: name }));
+
+export const itemStartOptions = ['Upon Purchase', 'Upon next visit', 'Upon first use'].map((name) => ({ name, value: name.toUpperCase() }));
 
 export const classesPayTypeOptions = [
     {
