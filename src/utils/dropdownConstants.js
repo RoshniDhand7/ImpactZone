@@ -141,6 +141,8 @@ for (let i = 1; i <= 48; i++) {
     monthOptions.push(option);
 }
 
+export const trackSizes = ['Extra Small', 'Small', 'Medium', 'Large', 'Extra Large', 'XXL'].map((name) => ({ name, value: name }));
+
 export const hoursOptions = [];
 
 for (let i = 12; i <= 72; i += 12) {

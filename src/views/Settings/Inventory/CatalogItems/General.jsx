@@ -19,21 +19,22 @@ import { getCategories } from '../../../../redux/actions/InventorySettings/categ
 import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
 
 const General = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const { id } = useParams();
     const loading = useSelector((state) => state.loader.isLoading);
     const [data, setData] = useState({
         catalogImage: [],
         type: 'PRODUCT',
         name: '',
         upc: '',
-        profitCenter: '',
+        profitCentre: '',
         category: '',
         itemCaption: '',
         itemSold: 'POS_ONLY',
@@ -76,6 +77,53 @@ const General = () => {
     const { categoryDropdown } = useSelector((state) => state.category);
     let { clubsDropdown } = useSelector((state) => state.clubs);
 
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getCatalogItem(id, (data) => {
+                    setData({
+                        catalogImage: data.catalogImage ? [data.catalogImage] : [],
+                        type: data.type,
+                        name: data.name,
+                        upc: data.upc,
+                        profitCentre: data.profitCentre,
+                        category: data.category,
+                        itemCaption: data.itemCaption,
+                        itemSold: data.itemSold,
+                        itemRecurring: data.itemRecurring.toString(),
+                        itemBeRedeemed: data.itemBeRedeemed.toString(),
+                        itemPurchasedOneTime: data.itemPurchasedOneTime.toString(),
+                        itemSoldOnline: data.itemSoldOnline,
+                        productType: data.productType.toString(),
+                        clubs: data.clubs,
+                        taxes: data.taxes,
+                        unitPrice: data.unitPrice,
+                        fixed: data.fixed.toString(),
+                        promptForPrice: data.promptForPrice.toString(),
+                        allowDiscount: data.allowDiscount.toString(),
+                        defaultDiscount: data.defaultDiscount,
+                        overRideDiscount: data.overRideDiscount,
+                        moreThan1: data.moreThan1,
+                        moreThan2: data.moreThan2,
+                        moreThan3: data.moreThan3,
+                        unitPrice1: data.unitPrice1,
+                        unitPrice2: data.unitPrice2,
+                        unitPrice3: data.unitPrice3,
+                        stockable: data.stockable,
+                        allowUnlimited: data.allowUnlimited.toString(),
+                        minimumQuantity: data.minimumQuantity,
+                        maximumQuantity: data.maximumQuantity,
+                        defaultQuantity: data.defaultQuantity,
+                        expiration: data.expiration.toString(),
+                        days: data.days,
+                        month: data.month,
+                        itemStart: data.itemStart,
+                    });
+                }),
+            );
+        }
+    }, [id, dispatch]);
+
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
 
@@ -101,12 +149,11 @@ const General = () => {
 
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
-            dispatch(addCatalogItem(data, history, tab));
-            // if (id) {
-            //     dispatch(editEmployee(id, data, setLoading, history, tab));
-            // } else {
-            //     dispatch(addEmployees(data, setLoading, history, tab));
-            // }
+            if (id) {
+                dispatch(editCatalogItem(id, data, history, tab));
+            } else {
+                dispatch(addCatalogItem(data, history, tab));
+            }
         }
     };
 
@@ -119,7 +166,7 @@ const General = () => {
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
                     <CustomInput name="name" onChange={handleChange} data={data} />
                     <CustomInput name="upc" label="UPC" onChange={handleChange} data={data} />
-                    <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} />
+                    <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} />
                     <CustomDropDown name="category" options={categoryDropdown} onChange={handleChange} data={data} />
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} />
                     <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} />

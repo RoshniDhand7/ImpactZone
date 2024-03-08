@@ -52,7 +52,7 @@ export function CustomListItem({ label, name, data, value }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass }) {
+export function CustomFilterCard({ children, buttonTitle, buttonTitle1, onClick1, linkTo, onClick, extraClass }) {
     const history = useHistory();
     return (
         <div className="bg-lightest-blue border-round p-2 mt-2 mb-3">
@@ -65,6 +65,11 @@ export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extra
                         <PrimaryButton label={buttonTitle} onClick={onClick} />
                     )
                 ) : null}
+                {buttonTitle1 && (
+                    <div className="grid">
+                        <PrimaryButton label={buttonTitle1} onClick={onClick1} />
+                    </div>
+                )}
             </div>
         </div>
     );

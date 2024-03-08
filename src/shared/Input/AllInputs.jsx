@@ -162,7 +162,21 @@ export const CustomMultiselect = ({
         </InputLayout>
     );
 };
-export const CustomCalenderInput = ({ id, label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+export const CustomCalenderInput = ({
+    id,
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    ...props
+}) => {
     return (
         <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Calendar
@@ -171,6 +185,7 @@ export const CustomCalenderInput = ({ id, label, name, data, value, onChange, er
                 value={value || data?.[name]}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
                 showIcon
                 {...props}
                 // icon="pi pi-clock"

@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allCatalogItems: [],
+    catalogTypeFilterItems: [],
 };
 
 const catalogItemsReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const catalogItemsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCatalogItems: action.payload,
+                catalogTypeFilterItems: action.payload?.filter((item) => item.type === 'PRODUCT'),
             };
         default:
             return { ...state };

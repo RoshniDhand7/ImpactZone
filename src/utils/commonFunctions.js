@@ -153,6 +153,10 @@ const removeUnusedKeys = (payload) => {
     );
 };
 
+const getIds = (item) => {
+    return item.map((list) => list._id);
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -167,4 +171,5 @@ export {
     uploadFiles,
     uploadImages,
     removeUnusedKeys,
+    getIds,
 };

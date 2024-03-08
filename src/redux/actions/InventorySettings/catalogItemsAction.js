@@ -1,6 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
-import { removeUnusedKeys, uploadImages } from '../../../utils/commonFunctions';
+import { uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -27,7 +27,7 @@ const getCatalogItems = (setLoading) => async (dispatch) => {
 
 const getCatalogItem = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.CATEGORIES + id);
+    const res = await api('get', EndPoints.INVENTORY_CATALOG + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -56,22 +56,38 @@ const addCatalogItem =
         const res = await api('post', EndPoints.INVENTORY_CATALOG, payload);
         if (res.success) {
             if (tab) {
-                history.replace(`/settings/employee/catalog-item/edit/${res.data._id}/${tab}`);
+                history.replace(`/settings/inventory/catalog-item/edit/${res.data._id}/${tab}`);
             } else {
                 history.goBack();
             }
         }
         dispatch(hideLoaderAction());
     };
-const editCatalogItem = (id, data, setLoading, history) => async () => {
-    setLoading(true);
+const editCatalogItem =
+    (id, data, history, tab = '') =>
+    async (dispatch) => {
+        dispatch(showLoaderAction());
+        if (data?.catalogImage?.length) {
+            data.catalogImage = await uploadImages(data.catalogImage);
 
-    const res = await api('put', EndPoints.CATEGORIES + id, data);
-    if (res.success) {
-        history.goBack();
-    }
-    setLoading(false);
-};
+            data.catalogImage = data.catalogImage[0];
+        } else {
+            data.catalogImage = '';
+        }
+        const payload = {
+            ...data,
+        };
+
+        const res = await api('put', EndPoints.INVENTORY_CATALOG + id, payload);
+        if (res.success) {
+            if (tab) {
+                history.replace(`/settings/inventory/catalog-item/edit/${res.data._id}/${tab}`);
+            } else {
+                history.goBack();
+            }
+        }
+        dispatch(hideLoaderAction());
+    };
 const deleteCatalogItem = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.CATEGORIES + id);
     if (res.success) {

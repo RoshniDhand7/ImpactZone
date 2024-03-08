@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allReferralGroups: [],
+    referralGroupDropdown: [],
 };
 
 const referralGroupReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const referralGroupReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allReferralGroups: action.payload,
+                referralGroupDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

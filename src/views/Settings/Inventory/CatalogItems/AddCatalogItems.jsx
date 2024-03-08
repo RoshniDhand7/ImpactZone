@@ -3,14 +3,16 @@ import CustomTabView from '../../../../shared/TabView/CustomTabView';
 import FormPage from '../../../../shared/Layout/FormPage';
 import General from './General';
 import { useParams } from 'react-router-dom';
+import Tracking from './Tracking';
+import Usage from './Usage';
 
 const AddCatalogItems = () => {
     const { id } = useParams();
 
     const tabs = [
         { title: 'General', content: <General /> },
-        { title: 'Tracking', content: <></> },
-        { title: 'Usage', content: <></> },
+        { title: 'Tracking', content: <Tracking /> },
+        { title: 'Usage', content: <Usage /> },
         { title: 'Variations', content: <></> },
     ];
     return (
