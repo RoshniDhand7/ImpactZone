@@ -65,11 +65,28 @@ export function CustomFilterCard({ children, buttonTitle, buttonTitle1, onClick1
                         <PrimaryButton label={buttonTitle} onClick={onClick} />
                     )
                 ) : null}
-                {buttonTitle1 && (
+                {/* {buttonTitle1 && (
                     <div className="grid">
                         <PrimaryButton label={buttonTitle1} onClick={onClick1} />
                     </div>
-                )}
+                )} */}
+            </div>
+        </div>
+    );
+}
+export function CustomFilterCard1({ children, buttonTitle, linkTo, onClick, extraClass }) {
+    const history = useHistory();
+    return (
+        <div className="bg-lightest-blue border-round p-2 mt-2 mb-3">
+            <div className={`flex ${extraClass}`}>
+                {buttonTitle ? (
+                    linkTo ? (
+                        <PrimaryButton label={buttonTitle} onClick={() => history.push(linkTo)} />
+                    ) : (
+                        <PrimaryButton label={buttonTitle} onClick={onClick} />
+                    )
+                ) : null}
+                <div>{children}</div>
             </div>
         </div>
     );

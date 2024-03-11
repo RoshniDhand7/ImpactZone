@@ -88,6 +88,47 @@ const editCatalogItem =
         }
         dispatch(hideLoaderAction());
     };
+
+const editUsageItem =
+    (id, data, history, tab = '') =>
+    async (dispatch) => {
+        dispatch(showLoaderAction());
+
+        const payload = {
+            ...data,
+        };
+
+        const res = await api('put', EndPoints.INVENTORY_CATALOG_USAGE + id, payload);
+        console.log(res);
+        if (res.success) {
+            if (tab) {
+                history.replace(`/settings/inventory/catalog-item/edit/${res.data.catalog}/${tab}`);
+            } else {
+                history.goBack();
+            }
+        }
+        dispatch(hideLoaderAction());
+    };
+const getUsageItem = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.INVENTORY_CATALOG_USAGE + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+const deleteUsageItem = (id, type) => async (dispatch) => {
+    const res = await api('delete', EndPoints.INVENTORY_CATALOG_USAGE + id, { type });
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 const deleteCatalogItem = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.CATEGORIES + id);
     if (res.success) {
@@ -98,4 +139,4 @@ const deleteCatalogItem = (id) => async (dispatch) => {
     }
 };
 
-export { getCatalogItems, addCatalogItem, getCatalogItem, editCatalogItem, deleteCatalogItem };
+export { getCatalogItems, addCatalogItem, getCatalogItem, editCatalogItem, deleteCatalogItem, editUsageItem, getUsageItem, deleteUsageItem };

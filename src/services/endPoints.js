@@ -37,5 +37,6 @@ const endPoints = {
     NOTES: '/notes',
     ACCESS_SCHEDULE: '/access-schedule/',
     INVENTORY_CATALOG: '/inventory-catalog/',
+    INVENTORY_CATALOG_USAGE: '/inventory-usage/',
 };
 export default endPoints;

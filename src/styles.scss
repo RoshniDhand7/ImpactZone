@@ -107,3 +107,20 @@ a:-webkit-any-link {
     width: auto !important;
     min-width: 25px;
 }
+.custom-accordion .p-accordion-header a {
+    border: 0 !important;
+    flex-direction: row-reverse;
+    background-color: $primaryDark !important;
+    color: white !important;
+    .p-accordion-header-text {
+        width: 100%;
+    }
+}
+
+// .custom-accordion .p-accordion-content {
+//     border: 0 !important;
+// }
+// .custom-accordion .p-accordion-toggle-icon {
+//     position: absolute;
+//     right: 10px;
+// }
