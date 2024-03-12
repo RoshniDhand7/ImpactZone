@@ -20,7 +20,7 @@ import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { showFormErrors } from '../../../../utils/commonFunctions';
+import { PercentageDifference, showFormErrors, usePercentageDifference } from '../../../../utils/commonFunctions';
 import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
 
@@ -135,17 +135,10 @@ const General = () => {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
-    const usePercentageDifference = (previousValue, newValue) => {
-        const percentageDifference = useMemo(() => {
-            return ((newValue - previousValue) / previousValue) * 100;
-        }, [previousValue, newValue]);
 
-        return percentageDifference.toFixed(2);
-    };
-
-    const val1 = usePercentageDifference(data?.unitPrice, data?.unitPrice1);
-    const val2 = usePercentageDifference(data?.unitPrice, data?.unitPrice2);
-    const val3 = usePercentageDifference(data?.unitPrice, data?.unitPrice3);
+    const val1 = PercentageDifference(data?.unitPrice, data?.unitPrice1);
+    const val2 = PercentageDifference(data?.unitPrice, data?.unitPrice2);
+    const val3 = PercentageDifference(data?.unitPrice, data?.unitPrice3);
 
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { multipartApi } from '../services/api';
 import EndPoints from '../services/endPoints';
 import { islandStates } from './constant';
@@ -60,7 +61,7 @@ const getCitiesByState = (countryCode, stateCode) => {
     const cities = City?.getCitiesOfState(countryCode, stateCode)?.map((item) => ({ name: item.name, value: item.name })) || [];
     return cities;
 };
-const confirmDelete = (onDeleteAction, confirmationMessage, position, confirmationHeader = 'Delete Confirmation') => {
+const confirmDelete = (onDeleteAction, confirmationMessage, position = 'center', confirmationHeader = 'Delete Confirmation') => {
     confirmDialog({
         message: confirmationMessage,
         icon: 'pi pi-info-circle',
@@ -156,7 +157,13 @@ const removeUnusedKeys = (payload) => {
 const getIds = (item) => {
     return item.map((list) => list._id);
 };
+const PercentageDifference = (previousValue, newValue) => {
+    const percentageDifference = useMemo(() => {
+        return ((newValue - previousValue) / previousValue) * 100;
+    }, [previousValue, newValue]);
 
+    return percentageDifference.toFixed(2);
+};
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -172,4 +179,5 @@ export {
     uploadImages,
     removeUnusedKeys,
     getIds,
+    PercentageDifference,
 };

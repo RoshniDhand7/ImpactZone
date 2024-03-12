@@ -38,5 +38,10 @@ const endPoints = {
     ACCESS_SCHEDULE: '/access-schedule/',
     INVENTORY_CATALOG: '/inventory-catalog/',
     INVENTORY_CATALOG_USAGE: '/inventory-usage/',
+    INVENTORY_CATALOG_VARIATION: '/inventory-variation/',
+    INVENTORY_CATALOG_VARIATION_DETAIL: '/inventory-variation-detail/',
+    INVENTORY_CATALOG_VARIATION_ALL: '/inventory-variation-all/',
+    INVENTORY_SUB_VARIATION: '/inventory-sub-variation/',
+    SUB_VARIATION_DELETE: '/inventory-sub-variation/',
 };
 export default endPoints;

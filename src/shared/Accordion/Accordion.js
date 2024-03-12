@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import InputLayout from '../Form/InputLayout';
 
 export default function CustomAccordion({ children, isActive, extraClassName, title, col = 12 }) {
     const [activeIndex, setActiveIndex] = useState(0);

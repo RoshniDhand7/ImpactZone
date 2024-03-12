@@ -1,26 +1,55 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomChipInput, CustomInput } from '../../../../shared/Input/AllInputs';
+import { editVariationCatalog, getCatalogVariations, getVariationCatalog } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 
-const AddandEditVariatons = ({ visible, setVisible, onData }) => {
+const AddandEditVariatons = ({ visible, onClose, variationId, catalogId }) => {
     const [data, setData] = useState({
-        name: '',
+        variationName: '',
         subVariation: [],
     });
+
+    const dispatch = useDispatch();
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+    useEffect(() => {
+        if (variationId) {
+            dispatch(
+                getVariationCatalog(variationId, (data) => {
+                    if (variationId) {
+                        setData({
+                            variationName: data.variationName,
+                        });
+                    }
+                }),
+            );
+        }
+    }, [variationId, dispatch]);
+
+    console.log(data, 'data');
     const handleSave = () => {
-        onData(data);
+        if (catalogId) {
+            dispatch(
+                editVariationCatalog(catalogId, { ...data, _id: variationId }, () => {
+                    onClose();
+                    setData({
+                        variationName: '',
+                        subVariation: [],
+                    });
+                    dispatch(getCatalogVariations(catalogId));
+                }),
+            );
+        }
     };
     const loading = useSelector((state) => state.loader.isLoading);
     return (
-        <CustomDialog title="Add Variations" visible={visible} onCancel={() => setVisible(false)} loading={loading} onSave={handleSave}>
+        <CustomDialog title={variationId ? 'Edit Variations' : 'Add Variations'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
             <CustomGridLayout>
-                <CustomInput name="name" col={12} data={data} onChange={handleChange} />
+                <CustomInput name="variationName" col={12} data={data} onChange={handleChange} />
                 <CustomChipInput data={data} name="subVariation" onChange={handleChange} col={12} />
             </CustomGridLayout>
         </CustomDialog>
