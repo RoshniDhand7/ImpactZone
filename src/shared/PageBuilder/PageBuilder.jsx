@@ -9,14 +9,13 @@ import {
     addAssets,
     deleteAsset,
     editAgreementTemplate,
-    editAgreementTemplates,
     getAgreementTemplate,
     getAssets,
 } from '../../redux/actions/AgreementSettings/AgreementTemplate';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../Overlays/CustomDialog';
 import { CustomGridLayout } from '../Cards/CustomCard';
-import { CustomDropDown, CustomInput } from '../Input/AllInputs';
+import { CustomInput, CustomMultiselect } from '../Input/AllInputs';
 import { getClubs } from '../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../utils/validations';
 import { showFormErrors } from '../../utils/commonFunctions';
@@ -361,7 +360,7 @@ export default function PageBuilder({ id }) {
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ name: '', club: '' });
+    const [data, setData] = useState({ name: '', club: [] });
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -407,7 +406,7 @@ export default function PageBuilder({ id }) {
             <CustomDialog title={id ? 'Update' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSaveHTML}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
-                    <CustomDropDown col="12" name="club" data={data} onChange={handleChange} options={clubsDropdown} />
+                    <CustomMultiselect col="12" name="club" data={data} onChange={handleChange} options={clubsDropdown} />
                 </CustomGridLayout>
             </CustomDialog>
             <div className="gpj" ref={editorRef}></div>
