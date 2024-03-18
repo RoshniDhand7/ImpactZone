@@ -2,6 +2,7 @@ import React from 'react';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import PrimaryButton from '../Button/CustomButton';
 import { useHistory } from 'react-router-dom';
+import { OverlayPanel } from 'primereact/overlaypanel';
 
 export default function CustomCard({ title, children, col = 6, height }) {
     return (
@@ -15,6 +16,19 @@ export default function CustomCard({ title, children, col = 6, height }) {
         </div>
     );
 }
+
+export const CustomOverlay = React.forwardRef(({ children, col }, ref) => {
+    console.log(ref, children);
+    return (
+        <div className={`col-6 md:col-${col}`}>
+            <div className={` flex justify-content-center `}>
+                <OverlayPanel ref={ref} style={{ width: '50%' }}>
+                    {children}
+                </OverlayPanel>
+            </div>
+        </div>
+    );
+});
 export function CustomGridLayout({ children }) {
     return <div className="grid">{children}</div>;
 }
@@ -52,7 +66,7 @@ export function CustomListItem({ label, name, data, value }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, buttonTitle1, onClick1, linkTo, onClick, extraClass }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass }) {
     const history = useHistory();
     return (
         <div className="bg-lightest-blue border-round p-2 mt-2 mb-3">
@@ -65,11 +79,6 @@ export function CustomFilterCard({ children, buttonTitle, buttonTitle1, onClick1
                         <PrimaryButton label={buttonTitle} onClick={onClick} />
                     )
                 ) : null}
-                {/* {buttonTitle1 && (
-                    <div className="grid">
-                        <PrimaryButton label={buttonTitle1} onClick={onClick1} />
-                    </div>
-                )} */}
             </div>
         </div>
     );

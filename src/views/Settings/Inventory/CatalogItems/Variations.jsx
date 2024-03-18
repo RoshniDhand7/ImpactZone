@@ -99,6 +99,9 @@ const Variations = () => {
     const priceEditor = (options) => {
         return <InputNumber value={options.value} onValueChange={(e) => options.editorCallback(e.value)} mode="currency" currency="USD" locale="en-US" />;
     };
+    const numberEditor = (options) => {
+        return <InputNumber value={options.value} onValueChange={(e) => options.editorCallback(e.value)} />;
+    };
 
     const onClose = () => {
         setOpen(false);
@@ -132,7 +135,7 @@ const Variations = () => {
                 <>
                     {products[0]?.markupPrice && (
                         <div className="text-center">
-                            <span className="text-green"> Markup:</span>
+                            <span className=""> Markup:</span>
                             {PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}
                         </div>
                     )}
@@ -166,7 +169,7 @@ const Variations = () => {
                                             editor={(options) => textEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
-                                        <Column field="sku" header="Sku" editor={(options) => priceEditor(options)} style={{ width: '20%' }}></Column>
+                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
                                         <Column
                                             field="unitPrice"
                                             header="Unit Price"
@@ -177,13 +180,13 @@ const Variations = () => {
                                         <Column
                                             field="variationMinQuantity"
                                             header="Minimum Quantity"
-                                            editor={(options) => priceEditor(options)}
+                                            editor={(options) => numberEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column
                                             field="variationMaxQuantity"
                                             header="Maximum Quantity"
-                                            editor={(options) => priceEditor(options)}
+                                            editor={(options) => numberEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column
@@ -195,7 +198,7 @@ const Variations = () => {
                                         <Column
                                             field="reorderQuantity"
                                             header="Reorder Quantity"
-                                            editor={(options) => priceEditor(options)}
+                                            editor={(options) => numberEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
 

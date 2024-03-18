@@ -190,7 +190,7 @@ const deleteUsageItem = (id, type) => async (dispatch) => {
     }
 };
 const deleteCatalogItem = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.CATEGORIES + id);
+    const res = await api('delete', EndPoints.INVENTORY_CATALOG + id);
     if (res.success) {
         dispatch(getCatalogItems(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));

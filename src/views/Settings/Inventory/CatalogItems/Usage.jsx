@@ -16,6 +16,10 @@ const Usage = () => {
     const history = useHistory();
     const { loading, setLoading } = useState(false);
     const [selected, setSelected] = useState([]);
+    const [selected1, setSelected1] = useState([]);
+
+    const [selected2, setSelected2] = useState([]);
+
     const [payTo, setPayTo] = useState([]);
     const [payFor, setPayFor] = useState([]);
     const [bundled, setBundled] = useState([]);
@@ -45,20 +49,20 @@ const Usage = () => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
-    console.log(selected);
+
     const handleSave = () => {
         if (open === 'payTo') {
             setPayTo(selected);
             setOpen('');
             setSelected('');
         } else if (open === 'payFor') {
-            setPayFor(selected);
+            setPayFor(selected1);
             setOpen('');
-            setSelected('');
+            setSelected1('');
         } else if (open === 'bundleRecipe') {
-            setBundled(selected);
+            setBundled(selected2);
             setOpen('');
-            setSelected('');
+            setSelected1('');
         }
     };
 
@@ -78,6 +82,17 @@ const Usage = () => {
             );
         }
     }, [id, dispatch]);
+    useEffect(() => {
+        if (id) {
+            if (open === 'payTo' && payTo) {
+                setSelected(payTo);
+            } else if (open === 'payFor' && payFor) {
+                setSelected1(payFor);
+            } else if (open === 'bundleRecipe' && bundled) {
+                setSelected2(bundled);
+            }
+        }
+    }, [payTo, payFor, bundled, id, open]);
 
     const handleSave1 = (tab) => {
         if (id) {
@@ -91,6 +106,8 @@ const Usage = () => {
             );
         }
     };
+    console.log(selected, selected1, selected2, 'selected');
+    console.log(catalogTypeFilterItems);
 
     return (
         <>
@@ -149,19 +166,33 @@ const Usage = () => {
                 visible={open}
                 onCancel={() => {
                     setOpen('');
-                    setSelected('');
                 }}
                 loading={loading}
                 onSave={handleSave}
                 width="auto"
             >
                 <CustomGridLayout>
-                    <CustomTable
-                        data={open === 'payTo' || open === 'payFor' ? catalogTypeFilterItems : allCatalogItems}
-                        columns={columns}
-                        selectedRow={selected}
-                        setSelectedRow={setSelected}
-                    />
+                    {open === 'payTo' && (
+                        <CustomTable
+                            convertToboolean={false}
+                            data={open === 'payTo' && catalogTypeFilterItems}
+                            columns={columns}
+                            selectedRow={selected}
+                            setSelectedRow={setSelected}
+                        />
+                    )}
+                    {open === 'payFor' && (
+                        <CustomTable
+                            data={open === 'payFor' && catalogTypeFilterItems}
+                            columns={columns}
+                            selectedRow={selected1}
+                            convertToboolean={false}
+                            setSelectedRow={setSelected1}
+                        />
+                    )}
+                    {open === 'bundleRecipe' && (
+                        <CustomTable convertToboolean={false} data={allCatalogItems} columns={columns} selectedRow={selected2} setSelectedRow={setSelected2} />
+                    )}
                 </CustomGridLayout>
             </CustomDialog>
         </>

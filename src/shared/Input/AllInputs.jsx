@@ -11,6 +11,7 @@ import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
+import { Password } from 'primereact/password';
 
 export const CustomInput = ({
     label,
@@ -37,6 +38,38 @@ export const CustomInput = ({
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
+                {...props}
+            />
+        </InputLayout>
+    );
+};
+export const CustomPassword = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col = 4,
+    inputClass,
+    disabled = false,
+    type = 'text',
+    ...props
+}) => {
+    return (
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Password
+                id={name}
+                name={name}
+                value={value || data?.[name] || ''}
+                feedback={false}
+                type={type}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
+                inputClassName={`w-full justify-content-center${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
+                toggleMask
                 {...props}
             />
         </InputLayout>

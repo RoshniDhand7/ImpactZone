@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomLogoImage from '../../../../shared/Image/LogoImage';
-import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import {
     catalogProductTypeOptions,
     daysOptions,
@@ -37,7 +37,7 @@ const General = () => {
         profitCentre: '',
         category: '',
         itemCaption: '',
-        itemSold: 'POS_ONLY',
+        itemSold: '',
         itemRecurring: 'false',
         itemBeRedeemed: 'false',
         itemPurchasedOneTime: 'false',
@@ -66,6 +66,7 @@ const General = () => {
         days: '',
         month: '',
         itemStart: '',
+        isActive: false,
     });
     useEffect(() => {
         dispatch(getProfitCenters());
@@ -118,6 +119,7 @@ const General = () => {
                         days: data.days,
                         month: data.month,
                         itemStart: data.itemStart,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -141,19 +143,31 @@ const General = () => {
     const val3 = PercentageDifference(data?.unitPrice, data?.unitPrice3);
 
     const handleSave = (tab) => {
+        console.log(showFormErrors(data, setData), 'show');
         if (showFormErrors(data, setData)) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));
             } else {
                 dispatch(addCatalogItem(data, history, tab));
             }
+        } else {
+            console.log('bye');
+            const element = document.getElementById('main-content');
+            console.log(element);
+            element.scroll({
+                top: 100,
+                left: 100,
+                behavior: 'smooth',
+            });
         }
     };
 
     console.log(data, unitPricingOptions);
     return (
-        <>
+        <div id="main-content">
             <CustomCard col="12" title="General">
+                <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
+
                 <CustomGridLayout>
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
@@ -227,8 +241,8 @@ const General = () => {
                         <CustomInputNumber name="unitPrice1" onChange={handleChange} data={data} />
                         {data?.unitPrice && (
                             <div className="text-center">
-                                <span className="text-green"> Markup:</span>
-                                {val1}
+                                <span className=""> Markup:</span>
+                                {data?.unitPrice1 ? val1 : 0}
                             </div>
                         )}
                     </div>
@@ -245,8 +259,8 @@ const General = () => {
 
                         {data?.unitPrice && (
                             <div className="text-center">
-                                <span className="text-green"> Markup:</span>
-                                {val2}
+                                <span className=""> Markup:</span>
+                                {data?.unitPrice2 ? val2 : 0}
                             </div>
                         )}
                     </div>
@@ -263,8 +277,8 @@ const General = () => {
                         <CustomInputNumber name="unitPrice3" onChange={handleChange} data={data} />
                         {data?.unitPrice && (
                             <div className="text-center">
-                                <span className="text-green"> Markup:</span>
-                                {val3}
+                                <span className=""> Markup:</span>
+                                {data?.unitPrice3 ? val3 : 0}
                             </div>
                         )}
                     </div>
@@ -275,7 +289,7 @@ const General = () => {
                     </CustomButtonGroup>
                 </CustomGridLayout>
             </CustomCard>
-        </>
+        </div>
     );
 };
 

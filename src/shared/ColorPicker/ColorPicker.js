@@ -12,7 +12,7 @@ export default function CustomPicker({ label, name, data, value, onChange, error
                     format="hex"
                     value={value || data?.[name] || ''}
                     onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
-                    className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                    inputClassName={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                     {...props}
                 />
             </InputLayout>

@@ -92,17 +92,24 @@ const Tracking = () => {
             </CustomCard>
             <CustomCard col="12" title="Details">
                 <CustomGridLayout>
-                    <CustomDropDown name="memberRequired" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="memberRequired" options={yesNoOptions} onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="caseQuantity" onChange={handleChange} data={data} col={4} />
-                    <CustomDropDown name="size" options={trackSizes} onChange={handleChange} data={data} />
-                    <CustomPicker name="color" data={data} onChange={handleChange} col={1} />
-                    <CustomDropDown name="vendor" options={vendorsDropdown} onChange={handleChange} data={data} col={3} />
-                    <CustomInputNumber name="trackingMinimumQuantity" onChange={handleChange} data={data} col={3} />
-                    <CustomInputNumber name="trackingMaximumQuantity" onChange={handleChange} data={data} col={3} />
-                    <CustomInputNumber name="recorderLevel" onChange={handleChange} data={data} col={2} />
+                    <CustomDropDown name="size" options={trackSizes} onChange={handleChange} data={data} col={4} />
+                    <CustomPicker name="color" data={data} onChange={handleChange} col={4} />
+                    <CustomDropDown name="vendor" options={vendorsDropdown} onChange={handleChange} data={data} col={4} />
+                    <CustomInputNumber name="trackingMinimumQuantity" label="Minimum Quantity" onChange={handleChange} data={data} col={4} />
+                    <CustomInputNumber name="trackingMaximumQuantity" label="Maximum Quantity" onChange={handleChange} data={data} col={4} />
+                    <CustomInputNumber name="recorderLevel" onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="wholesaleCost" onChange={handleChange} data={data} col={4} />
-                    <CustomDropDown name="trackingAlternateVendors" options={vendorsDropdown} onChange={handleChange} data={data} col={4} />
-                    <CustomCalenderInput name="time" data={data} disabled={true} />
+                    <CustomDropDown
+                        name="trackingAlternateVendors"
+                        label="Alternate Vendors"
+                        options={vendorsDropdown}
+                        onChange={handleChange}
+                        data={data}
+                        col={4}
+                    />
+                    <CustomCalenderInput name="time" label="Date Created" data={data} disabled={true} />
                     <CustomTextArea name="note" maxLength="266" data={data} onChange={handleChange} inputClass="h-17rem" />
                     <CustomButtonGroup>
                         <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />

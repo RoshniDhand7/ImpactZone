@@ -24,7 +24,7 @@ export const convertBooleanValues = (data) => {
         const convertedItem = { ...item };
         Object.keys(item).forEach((key) => {
             if (typeof item[key] === 'boolean') {
-                convertedItem[key] = item[key] ? 'Yes' : 'No';
+                convertedItem[key] = item[key] ? 'true' : 'false';
             }
         });
         return convertedItem;
@@ -161,8 +161,13 @@ const PercentageDifference = (previousValue, newValue) => {
     const percentageDifference = useMemo(() => {
         return ((newValue - previousValue) / previousValue) * 100;
     }, [previousValue, newValue]);
+    const isProfit = percentageDifference >= 0;
 
-    return percentageDifference.toFixed(2);
+    return isProfit ? (
+        <span className="text-green">{percentageDifference.toFixed(2) + '%'}</span>
+    ) : (
+        <span className="text-red">{percentageDifference.toFixed(2) + '%'}</span>
+    );
 };
 export {
     capitalizeCamelCase,

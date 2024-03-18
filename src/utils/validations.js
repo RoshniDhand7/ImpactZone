@@ -77,6 +77,8 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'timeBeforeEvent':
         case 'reasonCodeType':
         case 'commissionGroup':
+        case 'profitCentre':
+        case 'itemSold':
         case 'profitCenter':
         case 'category':
             if (typeof value == 'boolean') {

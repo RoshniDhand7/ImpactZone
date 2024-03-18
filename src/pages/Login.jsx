@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Logo from '../assets/images/logo.png';
 import { Link } from 'react-router-dom';
-import { CustomCheckbox, CustomInput } from '../shared/Input/AllInputs';
+import { CustomCheckbox, CustomInput, CustomPassword } from '../shared/Input/AllInputs';
 import FormLayout from '../shared/Form/FormLayout';
 import PrimaryButton from '../shared/Button/CustomButton';
 import formValidation from '../utils/validations';
@@ -48,7 +48,7 @@ export default function Login({ history }) {
                         <div className="col-9">
                             <FormLayout onSubmit={onSubmit}>
                                 <CustomInput data={data} name="email" onChange={handleChange} col={12} />
-                                <CustomInput data={data} name="password" type="password" onChange={handleChange} col={12} />
+                                <CustomPassword data={data} name="password" type="password" onChange={handleChange} col={12} extraClassName="w-full" />
                                 <div className="flex justify-content-between w-full">
                                     <CustomCheckbox data={data} label="Remember Me" name="rememberMe" onChange={handleChange} />
                                     <Link to="/forgot-password" className="underline cursor-pointer text-xs text-dark-gray  font-semibold my-auto">
