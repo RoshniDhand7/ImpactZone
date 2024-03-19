@@ -106,8 +106,6 @@ const Usage = () => {
             );
         }
     };
-    console.log(selected, selected1, selected2, 'selected');
-    console.log(catalogTypeFilterItems);
 
     return (
         <>

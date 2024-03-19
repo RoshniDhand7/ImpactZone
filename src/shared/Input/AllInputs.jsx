@@ -67,7 +67,8 @@ export const CustomPassword = ({
                 feedback={false}
                 type={type}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
-                inputClassName={`w-full justify-content-center${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                className={`w-full justify-content-center${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                inputClassName="w-full"
                 disabled={disabled}
                 toggleMask
                 {...props}
