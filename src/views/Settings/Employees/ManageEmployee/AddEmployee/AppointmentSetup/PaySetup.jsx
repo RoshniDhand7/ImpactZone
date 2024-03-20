@@ -97,8 +97,6 @@ const PaySetup = () => {
         );
     };
 
-    console.log('data>>', appointmentData?.list);
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end">

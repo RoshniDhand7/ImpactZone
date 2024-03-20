@@ -30,7 +30,6 @@ const AddandEditVariatons = ({ visible, onClose, variationId, catalogId }) => {
         }
     }, [variationId, dispatch]);
 
-    console.log(data, 'data');
     const handleSave = () => {
         if (catalogId) {
             dispatch(

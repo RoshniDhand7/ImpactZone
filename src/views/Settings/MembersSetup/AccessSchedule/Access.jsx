@@ -39,7 +39,6 @@ const Access = () => {
     }, [id, dispatch]);
 
     const handleDateSelect = (selectInfo) => {
-        console.log('selectInfo>>', selectInfo);
         if (selectInfo.view.type === 'timeGridWeek') {
             const dayName = moment(selectInfo.start).format('dddd');
             selectInfo.view.calendar.unselect();
@@ -48,7 +47,6 @@ const Access = () => {
                 end: selectInfo.end.toISOString(),
             };
             const calendarApi = selectInfo.view.calendar;
-            console.log(calendarApi.addEvent);
             getSchedule(newEvent, dayName);
             calendarApi.addEvent(newEvent);
         }
@@ -114,7 +112,6 @@ const Access = () => {
         if (calendarRef.current) {
             const startDate = calendarRef.current.getApi().view.currentStart;
             const momentStartDate = moment(startDate);
-            console.log('startDate>>', startDate, momentStartDate.clone());
             const updatedForm = { ...access };
             updatedForm.schedule = [];
 
@@ -132,14 +129,11 @@ const Access = () => {
         }
     };
 
-    console.log(access);
-
     const handleSave = () => {
         if (id) {
             dispatch(editAccessSchedule(id, access, setLoading, history));
         }
     };
-    console.log('initialDate>>', moment(new Date()).format('YYYY-MM-DD'));
 
     return (
         <>

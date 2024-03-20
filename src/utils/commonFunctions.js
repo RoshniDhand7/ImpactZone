@@ -24,7 +24,7 @@ export const convertBooleanValues = (data) => {
         const convertedItem = { ...item };
         Object.keys(item).forEach((key) => {
             if (typeof item[key] === 'boolean') {
-                convertedItem[key] = item[key] ? 'true' : 'false';
+                convertedItem[key] = item[key] ? 'Yes' : 'No';
             }
         });
         return convertedItem;

@@ -328,7 +328,6 @@ export default function PageBuilder({ id }) {
         );
     };
     const onRemoveAsset = async ({ attributes }) => {
-        console.log(attributes);
         dispatch(
             deleteAsset(attributes.id, () => {
                 editorRef.current.AssetManager.remove(attributes.src);

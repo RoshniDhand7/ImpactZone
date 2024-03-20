@@ -41,8 +41,6 @@ export default function PaySetup() {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    console.log(data, 'data');
-
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeClassId, setEmployeeClassId] = useState(null);
@@ -50,7 +48,6 @@ export default function PaySetup() {
     useEffect(() => {
         setData((prev) => ({ ...prev, isClassLevel: employeeClasses?.isClassLevel }));
     }, [employeeClasses?.isClassLevel]);
-    console.log(employeeClasses, 'employeeClasses');
 
     const funcGetEmpClasses = (id, classLevel) => {
         dispatch(

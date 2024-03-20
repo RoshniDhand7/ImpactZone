@@ -264,3 +264,30 @@ export const itemSoldOptions = [
         value: 'NON_SALE_ITEM',
     },
 ];
+export const defaultMaxAttendesOptions = [];
+for (let i = 1; i <= 50; i++) {
+    const option = {
+        name: i,
+        value: i,
+    };
+    defaultMaxAttendesOptions.push(option);
+}
+export const EventTypeOptions = ['Class', 'Appointments'].map((name) => ({ name, value: name }));
+export const EventCommissionGroupOptions = ['Per Event', 'Per Person'].map((name) => ({ name, value: name }));
+export const waitListExpirationOptions = ['Event Start', 'Event End'].map((name) => ({ name, value: name }));
+export const generateSequence = () => {
+    let sequence = [];
+
+    for (let i = 1; i <= 20; i++) {
+        sequence.push({ name: `${i} minutes`, value: i });
+    }
+
+    for (let i = 25; i <= 75; i += 5) {
+        sequence.push({ name: `${i} minutes`, value: i });
+    }
+    for (let i = 90; i <= 180; i += 15) {
+        sequence.push({ name: `${i} minutes`, value: i });
+    }
+
+    return sequence;
+};

@@ -143,7 +143,6 @@ const General = () => {
     const val3 = PercentageDifference(data?.unitPrice, data?.unitPrice3);
 
     const handleSave = (tab) => {
-        console.log(showFormErrors(data, setData), 'show');
         if (showFormErrors(data, setData)) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));
@@ -151,9 +150,7 @@ const General = () => {
                 dispatch(addCatalogItem(data, history, tab));
             }
         } else {
-            console.log('bye');
             const element = document.getElementById('main-content');
-            console.log(element);
             element.scroll({
                 top: 100,
                 left: 100,
@@ -162,7 +159,6 @@ const General = () => {
         }
     };
 
-    console.log(data, unitPricingOptions);
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">

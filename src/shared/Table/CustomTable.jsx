@@ -14,6 +14,7 @@ const CustomTable = ({ convertToboolean = true, data, columns, onView, onEdit, o
             </span>
         );
     };
+
     return (
         <DataTable
             value={convertToboolean ? convertBooleanValues(data) : data}

@@ -33,8 +33,6 @@ const Variations = () => {
         setProducts(categoryVariations);
     }, [categoryVariations]);
 
-    console.log(categoryVariations, 'categoryVariations');
-
     const customHeader = (item) => {
         return (
             <div className="flex align-items-center justify-content-between gap-2 w-full ml-auto">
@@ -145,7 +143,6 @@ const Variations = () => {
         [products],
     );
 
-    console.log('products>>', products);
     return (
         <>
             <CustomCard col="12" title="General">

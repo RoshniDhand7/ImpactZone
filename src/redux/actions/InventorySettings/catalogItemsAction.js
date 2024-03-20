@@ -117,7 +117,6 @@ const editVariationCatalog = (id, data, next) => async (dispatch) => {
     };
 
     const res = await api('put', EndPoints.INVENTORY_CATALOG_VARIATION + id, payload);
-    console.log(res);
     if (res.success) {
         next();
     }
@@ -131,7 +130,6 @@ const editSubVariationCatalog = (id, data, next) => async (dispatch) => {
     };
 
     const res = await api('put', EndPoints.INVENTORY_SUB_VARIATION + id, payload);
-    console.log(res);
     if (res.success) {
         next();
     }
@@ -180,6 +178,19 @@ const getUsageItem = (id, returnData) => async (dispatch) => {
         }
     }
     dispatch(hideLoaderAction());
+};
+
+const singleUsageDelete = (usageId, typeId, type, next) => async (dispatch) => {
+    const res = await api('put', EndPoints.INVENTORY_CATALOG_USAGE_TYPE + usageId, {
+        [type]: true,
+        typeId,
+    });
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
 };
 const deleteUsageItem = (id, type) => async (dispatch) => {
     const res = await api('delete', EndPoints.INVENTORY_CATALOG_USAGE + id, { type });
@@ -232,4 +243,5 @@ export {
     deleteCatalogVariation,
     deleteAllCatalogVariation,
     editSubVariationCatalog,
+    singleUsageDelete,
 };

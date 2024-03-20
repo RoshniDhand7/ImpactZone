@@ -41,7 +41,6 @@ const CatalogItems = () => {
         history.push(`/settings/inventory/catalog-item/edit/${col._id}`);
     };
 
-    console.log(openOverlay);
     return (
         <>
             <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add">

@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { deleteUsageItem, editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import {
+    deleteUsageItem,
+    editUsageItem,
+    getCatalogItems,
+    getUsageItem,
+    singleUsageDelete,
+} from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
-import { getIds } from '../../../../utils/commonFunctions';
+import { confirmDelete, getIds } from '../../../../utils/commonFunctions';
 
 const Usage = () => {
     const [open, setOpen] = useState('');
@@ -24,12 +30,14 @@ const Usage = () => {
     const [payFor, setPayFor] = useState([]);
     const [bundled, setBundled] = useState([]);
 
+    const [usageId, setUsageId] = useState('');
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCatalogItems());
     }, [dispatch]);
 
-    const { allCatalogItems, catalogTypeFilterItems } = useSelector((state) => state.catalogItems);
+    const { allCatalogItemsFilter, catalogTypeFilterItems } = useSelector((state) => state.catalogItems);
 
     const [data, setData] = useState({
         checkInDeduction: 'false',
@@ -66,20 +74,25 @@ const Usage = () => {
         }
     };
 
+    const getUsageItems = () => {
+        dispatch(
+            getUsageItem(id, (data) => {
+                if (data.checkInDeduction) {
+                    setData({
+                        checkInDeduction: data.checkInDeduction.toString(),
+                    });
+                    setPayTo(data.paysTo);
+                    setPayFor(data.paysFor);
+                    setBundled(data.bundleRecipe);
+                    setUsageId(data._id);
+                }
+            }),
+        );
+    };
+
     useEffect(() => {
         if (id) {
-            dispatch(
-                getUsageItem(id, (data) => {
-                    if (data.checkInDeduction) {
-                        setData({
-                            checkInDeduction: data.checkInDeduction.toString(),
-                        });
-                        setPayTo(data.paysTo);
-                        setPayFor(data.paysFor);
-                        setBundled(data.bundleRecipe);
-                    }
-                }),
-            );
+            getUsageItems();
         }
     }, [id, dispatch]);
     useEffect(() => {
@@ -107,6 +120,16 @@ const Usage = () => {
         }
     };
 
+    const handleUsageDelete = (id, col, type) => {
+        confirmDelete(
+            () => {
+                dispatch(singleUsageDelete(usageId, col?._id, type, () => getUsageItems()));
+            },
+            `Do you want to delete this ${type} ?`,
+            'center',
+        );
+    };
+
     return (
         <>
             <CustomDropDown name="checkInDeduction" options={yesNoOptions} onChange={handleChange} data={data} />
@@ -123,7 +146,7 @@ const Usage = () => {
                         />
                     </div>
                 </CustomFilterCard1>
-                <CustomTable data={payTo} columns={columns1} showSelectionElement={false} />
+                <CustomTable data={payTo} columns={columns1} showSelectionElement={false} onDelete={(col) => handleUsageDelete(usageId, col, 'paysTo')} />
             </CustomCard>
             <CustomCard col="12" title="Pays For">
                 <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen('payFor')} extraClass="justify-content-end gap-2">
@@ -137,7 +160,7 @@ const Usage = () => {
                         />
                     </div>
                 </CustomFilterCard1>
-                <CustomTable data={payFor} columns={columns1} />
+                <CustomTable data={payFor} columns={columns1} onDelete={(col) => handleUsageDelete(usageId, col, 'paysFor')} />
             </CustomCard>
             <CustomCard col="12" title="Bundle/Recipe">
                 <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen('bundleRecipe')} extraClass="justify-content-end gap-2">
@@ -151,7 +174,7 @@ const Usage = () => {
                         />
                     </div>
                 </CustomFilterCard1>
-                <CustomTable data={bundled} columns={columns1} />
+                <CustomTable data={bundled} columns={columns1} onDelete={(col) => handleUsageDelete(usageId, col, 'bundleRecipe')} />
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave1('')} loading={loading} />
                     <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave1('?tab=variations')} loading={loading} />
@@ -189,7 +212,13 @@ const Usage = () => {
                         />
                     )}
                     {open === 'bundleRecipe' && (
-                        <CustomTable convertToboolean={false} data={allCatalogItems} columns={columns} selectedRow={selected2} setSelectedRow={setSelected2} />
+                        <CustomTable
+                            convertToboolean={false}
+                            data={allCatalogItemsFilter}
+                            columns={columns}
+                            selectedRow={selected2}
+                            setSelectedRow={setSelected2}
+                        />
                     )}
                 </CustomGridLayout>
             </CustomDialog>

@@ -38,10 +38,12 @@ const endPoints = {
     ACCESS_SCHEDULE: '/access-schedule/',
     INVENTORY_CATALOG: '/inventory-catalog/',
     INVENTORY_CATALOG_USAGE: '/inventory-usage/',
+    INVENTORY_CATALOG_USAGE_TYPE: '/inventory-usage-type/',
     INVENTORY_CATALOG_VARIATION: '/inventory-variation/',
     INVENTORY_CATALOG_VARIATION_DETAIL: '/inventory-variation-detail/',
     INVENTORY_CATALOG_VARIATION_ALL: '/inventory-variation-all/',
     INVENTORY_SUB_VARIATION: '/inventory-sub-variation/',
     SUB_VARIATION_DELETE: '/inventory-sub-variation/',
+    SCHEDULE_EVENTS: '/event-setup/',
 };
 export default endPoints;

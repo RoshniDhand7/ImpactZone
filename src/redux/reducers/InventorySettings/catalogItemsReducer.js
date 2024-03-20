@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allCatalogItems: [],
+    allCatalogItemsFilter: [],
     catalogTypeFilterItems: [],
     allCategoryVariations: [],
 };
@@ -11,7 +12,10 @@ const catalogItemsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCatalogItems: action.payload,
-                catalogTypeFilterItems: action.payload?.filter((item) => item.type === 'PRODUCT'),
+                allCatalogItemsFilter: action.payload?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
+                catalogTypeFilterItems: action.payload
+                    ?.filter((item) => item.type === 'PRODUCT')
+                    ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
             };
         case types.CHANGE_INVENTORY_CATALOG_VARIATION:
             return {
