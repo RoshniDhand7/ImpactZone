@@ -291,3 +291,7 @@ export const generateSequence = () => {
 
     return sequence;
 };
+export const calendarDisplayOptions = ['Duration', 'Level', 'Location', 'Member Name', 'Event', 'Status', 'Employee Name', 'Enrolled /Max Attendee'].map(
+    (name) => ({ name, value: name }),
+);
+export const timeShownOptions = ['Quarter Hour', 'Hour', 'Half Hour'].map((name) => ({ name, value: name }));

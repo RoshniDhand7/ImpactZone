@@ -77,6 +77,7 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'timeBeforeEvent':
         case 'reasonCodeType':
         case 'commissionGroup':
+        case 'level':
         case 'profitCentre':
         case 'itemSold':
         case 'profitCenter':
@@ -99,6 +100,7 @@ const formValidation = (name, value, data, ignore = []) => {
             }
             break;
         case 'logo':
+        case 'services':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {

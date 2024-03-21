@@ -99,8 +99,14 @@ const EventGeneral = () => {
 
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
+            const { employee, location, member, employee1, location1, member1, memberVerification, employeeVerification, autoComplete, ...rest } = data;
+            const payload = {
+                ...rest,
+                requiredToCreate: { employee, location, member },
+                requiredtoComplete: { employee: employee1, location: location1, member: member1, memberVerification, employeeVerification, autoComplete },
+            };
             if (id) {
-                dispatch(editScheduledEvent(id, data, setLoading, history, tab));
+                dispatch(editScheduledEvent(id, payload, setLoading, history, tab));
             } else {
                 dispatch(addScheduledEvent(data, setLoading, history, tab));
             }
@@ -156,7 +162,7 @@ const EventGeneral = () => {
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
                 <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=services')} loading={loading} />
-                <LightButton label="Cancel" onClick={() => history.replace('/settings/employee')} />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/schedule')} />
             </CustomButtonGroup>
         </>
     );

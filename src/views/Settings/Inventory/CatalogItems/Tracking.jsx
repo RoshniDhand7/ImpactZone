@@ -11,6 +11,7 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import formValidation from '../../../../utils/validations';
 
 const Tracking = () => {
     const dispatch = useDispatch();
@@ -35,7 +36,8 @@ const Tracking = () => {
     });
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     useEffect(() => {
         dispatch(getCommissionGroups());

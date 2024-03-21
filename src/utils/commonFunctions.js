@@ -169,6 +169,38 @@ const PercentageDifference = (previousValue, newValue) => {
         <span className="text-red">{percentageDifference.toFixed(2) + '%'}</span>
     );
 };
+
+const calculateTimes = (type) => {
+    const times = [];
+    let currentTime = 60;
+    let increment;
+
+    switch (type) {
+        case 'Quarter Hour':
+            increment = 15;
+            break;
+        case 'Hour':
+            increment = 60;
+            break;
+        case 'Half Hour':
+            increment = 30;
+            break;
+        default:
+            console.error('Invalid interval type');
+            return '';
+    }
+
+    for (let i = 0; i < 5; i++) {
+        const hours = Math.floor(currentTime / 60);
+        const minutes = currentTime % 60;
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        times.push(formattedTime);
+        currentTime += increment;
+    }
+
+    return times.join(' ');
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -185,4 +217,5 @@ export {
     removeUnusedKeys,
     getIds,
     PercentageDifference,
+    calculateTimes,
 };

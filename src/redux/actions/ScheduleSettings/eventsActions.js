@@ -63,13 +63,8 @@ const editScheduledEvent =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
         setLoading(true);
-        const { employee, location, member, employee1, location1, member1, memberVerification, employeeVerification, autoComplete, ...rest } = data;
-        const payload = {
-            ...rest,
-            requiredToCreate: { employee, location, member },
-            requiredtoComplete: { employee: employee1, location: location1, member: member1, memberVerification, employeeVerification, autoComplete },
-        };
-        const res = await api('put', EndPoints.SCHEDULE_EVENTS + id, payload);
+
+        const res = await api('put', EndPoints.SCHEDULE_EVENTS + id, data);
         if (res.success) {
             if (tab) {
                 history.replace(`/settings/schedule/events/edit/${res.data._id}/${tab}`);
