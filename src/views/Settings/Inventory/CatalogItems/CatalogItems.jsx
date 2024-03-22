@@ -25,7 +25,7 @@ const CatalogItems = () => {
         { field: 'unitPrice', header: 'Price' },
         { field: 'displayInPos', header: 'Event' },
         { field: 'isActive', header: 'Active' },
-        { field: '', header: <PrimaryButton name="Deploy" className={'text-white'} label="Deploy  Selected Items" outlined /> },
+        // { field: '', header: <PrimaryButton name="Deploy" className={'text-white'} label="Deploy  Selected Items" outlined /> },
     ];
 
     const onDelete = (col, position) => {
@@ -44,10 +44,10 @@ const CatalogItems = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add">
-                <div className="col-12 flex  align-item-center p-0">
+                {/* <div className="col-12 flex  align-item-center p-0">
                     <CustomDropDown name="productType" col={8} />
                     <PrimaryButton label="Advanced Filters" col={4} onClick={(e) => openOverlay.current.toggle(e)} />
-                </div>
+                </div> */}
             </CustomFilterCard>
             <CustomOverlay ref={openOverlay} col={6}>
                 <div className="grid">
