@@ -45,5 +45,6 @@ const endPoints = {
     INVENTORY_SUB_VARIATION: '/inventory-sub-variation/',
     SUB_VARIATION_DELETE: '/inventory-sub-variation/',
     SCHEDULE_EVENTS: '/event-setup/',
+    SCHEDULE_EVENTS_LEVEL: '/event-setup-level-sevices/',
 };
 export default endPoints;

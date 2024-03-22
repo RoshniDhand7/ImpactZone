@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { deleteScheduledEvent, getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 
@@ -32,9 +32,9 @@ const EventSetup = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                // dispatch(deleteLevel(col._id, () => {}));
+                dispatch(deleteScheduledEvent(col._id, () => {}));
             },
-            'Do you want to delete this Level ?',
+            'Do you want to delete this Event ?',
             position,
         );
     };

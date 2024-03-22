@@ -30,27 +30,27 @@ const EventGeneral = () => {
         isActive: false,
         name: '',
         eventType: '',
-        internalUse: '',
+        internalUse: 'false',
         locationType: '',
         defaultMaxAttendes: '',
         eventCommissionType: '',
-        availableOnline: '',
-        trackAttendees: '',
+        availableOnline: 'false',
+        trackAttendees: 'false',
         maximumWaitlist: '',
         waitListExpiration: '',
-        employee: '',
-        location: '',
-        member: '',
-        employee1: '',
-        location1: '',
-        member1: '',
-        memberVerification: '',
-        employeeVerification: '',
-        autoComplete: '',
-        overBooking: '',
-        cancelNc: '',
-        cancelC: '',
-        rebook: '',
+        employee: 'false',
+        location: 'false',
+        member: 'false',
+        employee1: 'false',
+        location1: 'false',
+        member1: 'false',
+        memberVerification: 'false',
+        employeeVerification: 'false',
+        autoComplete: 'false',
+        overBooking: 'false',
+        cancelNc: 'false',
+        cancelC: 'false',
+        rebook: 'false',
         duration: [],
     });
     const [loading, setLoading] = useState(false);
@@ -158,11 +158,12 @@ const EventGeneral = () => {
             </CustomCard>
             <CustomCard col="12" title="Durations">
                 <CustomPickList name="duration" selected={data?.duration} sourceData={durationList} onPickListChange={handleChange} />
+                {<div className="text-red text-sm">{data?.formErrors?.duration}</div>}
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
                 <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=services')} loading={loading} />
-                <LightButton label="Cancel" onClick={() => history.replace('/settings/schedule')} />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/schedule?tab=events-setups')} />
             </CustomButtonGroup>
         </>
     );

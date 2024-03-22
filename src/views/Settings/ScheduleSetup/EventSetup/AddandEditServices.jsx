@@ -11,7 +11,7 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { useHistory, useParams } from 'react-router-dom';
 import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
-import { editScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { editScheduledEvent, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const AddandEditServices = () => {
     const dispatch = useDispatch();
@@ -28,6 +28,12 @@ const AddandEditServices = () => {
         dispatch(getLevels());
         dispatch(getCatalogItems());
     }, [dispatch]);
+    useEffect(() => {
+        dispatch(getServicesEvents());
+    }, [dispatch]);
+    const { allServicesEventsLevels } = useSelector((state) => state.event);
+
+    console.log(allServicesEventsLevels);
 
     useEffect(() => {
         if (id) {
@@ -37,9 +43,11 @@ const AddandEditServices = () => {
         }
     }, [data.services, open]);
 
-    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
-
     const { levelDropdown, allLevels } = useSelector((state) => state.level);
+    let filterdLevelsDropdown = levelDropdown.filter((item) => !allServicesEventsLevels.map((ed) => ed).includes(item.name));
+    console.log(filterdLevelsDropdown);
+
+    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -74,7 +82,7 @@ const AddandEditServices = () => {
     return (
         <>
             <FormPage backText="Services">
-                <CustomDropDown name="level" options={levelDropdown} onChange={handleChange} data={data} />
+                <CustomDropDown name="level" options={filterdLevelsDropdown} onChange={handleChange} data={data} />
 
                 <CustomCard col="12" title={`Level ${data?.level && levelDropdown[levelIndex]?.name}`}>
                     <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">

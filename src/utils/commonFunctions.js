@@ -198,7 +198,13 @@ const calculateTimes = (type) => {
         currentTime += increment;
     }
 
-    return times.join(' ');
+    return times.map((item) => <span className="mx-2 text-blue-500">{item}</span>);
+};
+
+const convertArrayToObjectArray = (array) => {
+    return array?.map((item) => {
+        return { name: item, value: item };
+    });
 };
 
 export {
@@ -218,4 +224,5 @@ export {
     getIds,
     PercentageDifference,
     calculateTimes,
+    convertArrayToObjectArray,
 };

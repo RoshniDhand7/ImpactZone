@@ -65,7 +65,13 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'clockInRequired':
         case 'state':
         case 'city':
+        case 'eventType':
+        case 'internalUse':
         case 'bookOutFrom':
+        case 'defaultMaxAttendes':
+        case 'eventCommissionType':
+        case 'maximumWaitlist':
+        case 'waitListExpiration':
         case 'bookOutTo':
         case 'club':
         case 'campaignGroup':
@@ -101,6 +107,7 @@ const formValidation = (name, value, data, ignore = []) => {
             break;
         case 'logo':
         case 'services':
+        case 'duration':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {

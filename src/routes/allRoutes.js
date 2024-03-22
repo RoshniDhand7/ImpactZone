@@ -321,7 +321,10 @@ export const PrivateRoutes = [
                         name: 'Schedule',
                         exact: true,
                         component: EventsForm,
-                        items: [{ path: '/services/add', name: 'Services', component: AddandEditServices }],
+                        items: [
+                            { path: '/services/add', name: 'Services', component: AddandEditServices },
+                            { path: '/services/edit/:id', name: 'Services', component: AddandEditServices },
+                        ],
                     },
                 ],
             },

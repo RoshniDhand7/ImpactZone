@@ -23,6 +23,26 @@ const getEvents = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
+
+const getServicesEvents = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.SCHEDULE_EVENTS_LEVEL);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_SCHEDULE_SERVICES_EVENTS,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 const getScheduledEvent = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SCHEDULE_EVENTS + id);
@@ -75,4 +95,13 @@ const editScheduledEvent =
         }
         setLoading(false);
     };
-export { getEvents, addScheduledEvent, getScheduledEvent, editScheduledEvent };
+const deleteScheduledEvent = (id) => async (dispatch) => {
+    const res = await api('delete', EndPoints.SCHEDULE_EVENTS + id);
+    if (res.success) {
+        dispatch(getEvents(() => {}));
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+export { getEvents, addScheduledEvent, getScheduledEvent, editScheduledEvent, getServicesEvents, deleteScheduledEvent };

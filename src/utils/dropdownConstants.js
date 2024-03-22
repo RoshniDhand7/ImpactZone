@@ -127,7 +127,7 @@ export const daysOptions = [];
 for (let i = 1; i <= 30; i++) {
     const option = {
         name: `${i} days`,
-        value: `${i} days`,
+        value: i,
     };
     daysOptions.push(option);
 }
@@ -148,7 +148,7 @@ export const hoursOptions = [];
 for (let i = 12; i <= 72; i += 12) {
     const option = {
         name: `${i} hours`,
-        value: `${i} hours`,
+        value: i,
     };
     hoursOptions.push(option);
 }
