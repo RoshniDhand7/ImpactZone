@@ -323,7 +323,7 @@ export const PrivateRoutes = [
                         component: EventsForm,
                         items: [
                             { path: '/services/add', name: 'Services', component: AddandEditServices },
-                            { path: '/services/edit/:id', name: 'Services', component: AddandEditServices },
+                            { path: '/services/edit/:eventId', name: 'Services', component: AddandEditServices },
                         ],
                     },
                 ],

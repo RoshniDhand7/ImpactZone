@@ -29,8 +29,8 @@ export const CustomOverlay = React.forwardRef(({ children, col }, ref) => {
         </div>
     );
 });
-export function CustomGridLayout({ children }) {
-    return <div className="grid">{children}</div>;
+export function CustomGridLayout({ children, extraClass }) {
+    return <div className={`grid ${extraClass}`}>{children}</div>;
 }
 export function CustomListItem({ label, name, data, value }) {
     if (!label) {

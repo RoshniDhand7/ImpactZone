@@ -198,7 +198,7 @@ const calculateTimes = (type) => {
         currentTime += increment;
     }
 
-    return times.map((item) => <span className="mx-2 text-blue-500">{item}</span>);
+    return times.map((item) => <span className="mx-3 text-blue-500">{item}</span>);
 };
 
 const convertArrayToObjectArray = (array) => {

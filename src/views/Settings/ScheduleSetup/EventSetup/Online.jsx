@@ -55,7 +55,7 @@ const Online = () => {
             <CustomCard col="12" title="Allow Booking an Appointment">
                 <CustomGridLayout>
                     <CustomDropDown options={hoursOptions} name="appointmentAtLeast" data={data} onChange={handleChange} />
-                    <CustomDropDown options={daysOptions} name="appointmentFuture" data={data} onChange={handleChange} />
+                    <CustomDropDown options={daysOptions} name="appointmentFuture" label="Appointment Until" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Cancellation">

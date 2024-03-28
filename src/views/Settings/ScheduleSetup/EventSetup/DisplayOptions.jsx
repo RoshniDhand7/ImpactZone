@@ -83,13 +83,12 @@ const DisplayOptions = () => {
                 </div>
             </CustomCard>
             <CustomCard col="12" title="Rebooking Time Option">
-                <CustomGridLayout>
+                <CustomGridLayout extraClass="align-items-center gap-4">
                     <CustomDropDown name="timesShown" options={timeShownOptions} data={data} onChange={handleChange} col={6} />
-                    <div col={6} className="border-round bg-white text-center mx-auto">
-                        <div className="p-2 flex justify-content-between mx-auto">
-                            <h4>Preview:</h4>
-                            <div className="mx-4"> {calculateTimes(data?.timesShown)}</div>
-                        </div>
+
+                    <div className="p-3 flex gap-2 border-round-md mt-4 bg-white   ">
+                        <h4>Preview:</h4>
+                        <div className="mx-4"> {calculateTimes(data?.timesShown)}</div>
                     </div>
                 </CustomGridLayout>
             </CustomCard>

@@ -27,7 +27,7 @@ const EventGeneral = () => {
     }, []);
     const { locationTypeDropdown } = useSelector((state) => state.locationType);
     const [data, setData] = useState({
-        isActive: false,
+        isActive: true,
         name: '',
         eventType: '',
         internalUse: 'false',
@@ -140,9 +140,9 @@ const EventGeneral = () => {
             </CustomCard>
             <CustomCard col="12" title="Required To Complete">
                 <CustomGridLayout>
-                    <CustomDropDown name="employee1" options={yesNoOptions} onChange={handleChange} data={data} />
-                    <CustomDropDown name="location1" options={yesNoOptions} onChange={handleChange} data={data} />
-                    <CustomDropDown name="member1" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="employee1" label="Employee" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="location1" label="Location" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="member1" label="Member" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="memberVerification" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="employeeVerification" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="autoComplete" options={yesNoOptions} onChange={handleChange} data={data} />

@@ -9,9 +9,16 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { useHistory, useParams } from 'react-router-dom';
-import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
+import { confirmDelete, getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
-import { editScheduledEvent, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import {
+    deleteAllServices,
+    editScheduledEvent,
+    editScheduledEventServices,
+    getScheduledEventService,
+    getServicesEvents,
+    singleServiceDelete,
+} from '../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const AddandEditServices = () => {
     const dispatch = useDispatch();
@@ -19,7 +26,7 @@ const AddandEditServices = () => {
     const history = useHistory();
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState([]);
-    const { id } = useParams();
+    const { id, eventId } = useParams();
     const [data, setData] = useState({
         level: '',
         services: [],
@@ -31,6 +38,24 @@ const AddandEditServices = () => {
     useEffect(() => {
         dispatch(getServicesEvents());
     }, [dispatch]);
+
+    const getServiceList = () => {
+        dispatch(
+            getScheduledEventService(eventId, (data) => {
+                console.log('d>>', data);
+                setData({
+                    level: data.eventLevel,
+                    services: data.services,
+                });
+            }),
+        );
+    };
+    useEffect(() => {
+        if (eventId) {
+            getServiceList();
+        }
+    }, [eventId, dispatch]);
+
     const { allServicesEventsLevels } = useSelector((state) => state.event);
 
     console.log(allServicesEventsLevels);
@@ -57,12 +82,12 @@ const AddandEditServices = () => {
         { selectionMode: 'multiple', headerStyle: '' },
         { field: 'unitPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
-        // { field: 'size', header: 'Size' },
+        { field: 'upc', header: 'UPC' },
     ];
     const columns1 = [
         { field: 'unitPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
-        // { field: 'upc', header: 'Size' },
+        { field: 'upc', header: 'UPC' },
     ];
 
     const levelIndex = allLevels?.findIndex((item) => item._id === data.level);
@@ -74,15 +99,39 @@ const AddandEditServices = () => {
     };
     const handleSave1 = (tab) => {
         if (showFormErrors(data, setData)) {
-            dispatch(editScheduledEvent(id, { ...data, services: getIds(data.services) }, setLoading, history, tab));
+            if (eventId) {
+                dispatch(editScheduledEventServices(eventId, { ...data, services: getIds(data.services) }, setLoading, history));
+            } else {
+                dispatch(editScheduledEvent(id, { ...data, services: getIds(data.services) }, setLoading, history));
+            }
         }
     };
-    console.log(data);
+
+    const handleServiceDelete = (col) => {
+        confirmDelete(
+            () => {
+                dispatch(
+                    singleServiceDelete(eventId, col?._id, () => {
+                        getServiceList();
+                    }),
+                );
+            },
+            `Do you want to delete this Service ?`,
+            'center',
+        );
+    };
+    console.log(data, 'data');
 
     return (
         <>
             <FormPage backText="Services">
-                <CustomDropDown name="level" options={filterdLevelsDropdown} onChange={handleChange} data={data} />
+                <CustomDropDown
+                    name="level"
+                    options={eventId ? levelDropdown : filterdLevelsDropdown}
+                    onChange={handleChange}
+                    data={data}
+                    disabled={eventId ? true : false}
+                />
 
                 <CustomCard col="12" title={`Level ${data?.level && levelDropdown[levelIndex]?.name}`}>
                     <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">
@@ -91,18 +140,12 @@ const AddandEditServices = () => {
                                 label={'Remove All'}
                                 onClick={() => {
                                     setData((prev) => ({ ...prev, services: [] }));
-                                    // dispatch(deleteUsageItem(id, 'paysTo'));
+                                    dispatch(deleteAllServices(eventId));
                                 }}
                             />
                         </div>
                     </CustomFilterCard1>
-                    <CustomTable
-                        data={data?.services}
-                        columns={columns1}
-                        showSelectionElement={false}
-
-                        // onDelete={(col) => handleUsageDelete(usageId, col, 'paysTo')}
-                    />
+                    <CustomTable data={data?.services} columns={columns1} showSelectionElement={false} onDelete={(col) => handleServiceDelete(col)} />
                     {<div className="text-red text-sm">{data?.formErrors?.services}</div>}
                 </CustomCard>
                 <CustomButtonGroup>

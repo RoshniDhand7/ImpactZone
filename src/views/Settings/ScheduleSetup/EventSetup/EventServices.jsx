@@ -25,6 +25,7 @@ const EventServices = () => {
     console.log(allServicesEvents);
 
     const customHeader = (item) => {
+        console.log('item>>', item);
         return (
             <div className="flex align-items-center justify-content-between gap-2 w-full ml-auto">
                 <div> Level {item?.eventLevel?.name}</div>
@@ -32,7 +33,7 @@ const EventServices = () => {
                     <i
                         className="pi pi-pencil"
                         onClick={() => {
-                            history.push(`/settings/schedule/events/edit/${item._id}/services/edit/${item._id}`);
+                            history.push(`/settings/schedule/events/edit/${id}/services/edit/${item._id}`);
                         }}
                     ></i>
                     <i

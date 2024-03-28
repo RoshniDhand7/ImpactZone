@@ -55,6 +55,18 @@ const getScheduledEvent = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+const getScheduledEventService = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.SCHEDULE_EVENTS_LEVEL + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
 const addScheduledEvent =
     (data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -79,6 +91,16 @@ const addScheduledEvent =
         }
         setLoading(false);
     };
+const editScheduledEventServices = (id, data, setLoading, history) => async (dispatch) => {
+    setLoading(true);
+
+    const res = await api('put', EndPoints.SCHEDULE_EVENTS_LEVEL + id, data);
+    if (res.success) {
+        history.goBack();
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    }
+    setLoading(false);
+};
 const editScheduledEvent =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -95,6 +117,17 @@ const editScheduledEvent =
         }
         setLoading(false);
     };
+const singleServiceDelete = (eventId, colId, next) => async (dispatch) => {
+    const res = await api('put', EndPoints.SCHEDULE_EVENT_LEVEL + eventId, {
+        serviceId: colId,
+    });
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 const deleteScheduledEvent = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.SCHEDULE_EVENTS + id);
     if (res.success) {
@@ -104,4 +137,23 @@ const deleteScheduledEvent = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getEvents, addScheduledEvent, getScheduledEvent, editScheduledEvent, getServicesEvents, deleteScheduledEvent };
+const deleteAllServices = (id) => async (dispatch) => {
+    const res = await api('delete', EndPoints.SCHEDULE_EVENTS_LEVEL + id);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+export {
+    getEvents,
+    addScheduledEvent,
+    getScheduledEvent,
+    editScheduledEvent,
+    getServicesEvents,
+    deleteScheduledEvent,
+    getScheduledEventService,
+    editScheduledEventServices,
+    deleteAllServices,
+    singleServiceDelete,
+};
