@@ -8,6 +8,7 @@ import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
 
 const showFormErrors = (data, setData, ignore) => {
+    console.log(ignore, 'ig');
     let formErrors = {};
     entries(data).forEach(([key, value]) => {
         formErrors = {

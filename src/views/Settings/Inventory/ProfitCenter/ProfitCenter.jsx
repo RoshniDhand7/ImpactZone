@@ -15,10 +15,10 @@ export default function ProfitCenter() {
 
     const { allProfitCenters } = useSelector((state) => state.profitCenter);
     const columns = [
-        { field: 'name', header: 'Name' },
+        { field: 'name', header: 'Name', sortable: true },
         { field: 'description', header: 'Description' },
         { field: 'ProfitCenterType', header: 'Catelog Items Assigned' },
-        { field: 'glCode', header: 'GL Code' },
+        { field: 'glCode', header: 'GL Code', sortable: true },
         { field: 'isActive', header: 'Active' },
     ];
 

@@ -27,7 +27,15 @@ const CustomTable = ({ convertToboolean = true, data, columns, onView, onEdit, o
             showSelectionElement={showSelectionElement}
         >
             {columns.map((col) => (
-                <Column key={col.field} field={col.field} body={col.body} header={col.header} selectionMode={col.selectionMode} />
+                <Column
+                    key={col.field}
+                    field={col.field}
+                    body={col.body}
+                    header={col.header}
+                    selectionMode={col.selectionMode}
+                    sortable={col.sortable}
+                    sortField={col.field}
+                />
             ))}
             {onView || onEdit || onDelete ? <Column body={actionTemplate} style={{ width: '100px' }} /> : null}
         </DataTable>

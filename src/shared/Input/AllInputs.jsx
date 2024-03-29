@@ -148,13 +148,14 @@ export const CustomDropDown = ({
     optionLabel = 'name',
     ...props
 }) => {
+    console.log(value || data?.[value]);
     return (
         <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Dropdown
                 id={name}
                 name={name}
-                value={value || data?.[name]}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                value={value || data?.[name]}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
                 // placeholder={props.placeholder || `Select ${label}`}
@@ -302,7 +303,7 @@ export const CustomChipInput = ({
     );
 };
 
-export const CustomInputNumber = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+export const CustomInputNumber = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, disabled, ...props }) => {
     return (
         <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputNumber
@@ -312,6 +313,7 @@ export const CustomInputNumber = ({ label, name, data, value, onChange, errorMes
                 onValueChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 useGrouping={props.useGrouping || false}
+                disabled={disabled}
                 {...props}
             />
         </InputLayout>

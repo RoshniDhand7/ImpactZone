@@ -28,7 +28,7 @@ const DisplayOptions = () => {
         popupDisplay: [],
         boxColor: 'fc1c1c',
         textColor: 'fcfcfc',
-        timesShown: '',
+        timesShown: 'Quarter Hour',
         club: [],
     });
 
@@ -41,7 +41,7 @@ const DisplayOptions = () => {
                         popupDisplay: data.popupDisplay ? data.popupDisplay : '',
                         boxColor: data.boxColor,
                         textColor: data.textColor ?? 'fc1c1c',
-                        timesShown: data.timesShown ?? 'fcfcfc',
+                        timesShown: data.timesShown ? data.timesShown : 'Quarter Hour',
                         club: data.club,
                     });
                 }),
@@ -62,26 +62,40 @@ const DisplayOptions = () => {
         }
     };
 
-    console.log('data>>', data, calendarDisplayOptions);
+    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Calendar Display">
-                <CustomPickList name="calanderDisplay" selected={data?.calanderDisplay} sourceData={calendarDisplayOptions} onPickListChange={handleChange} />
+                <CustomPickList
+                    name="calanderDisplay"
+                    selected={data?.calanderDisplay}
+                    sourceData={calendarDisplayOptions}
+                    onPickListChange={handleChange}
+                    showTargetControls={true}
+                />
             </CustomCard>
             <CustomCard col="12" title="PopUp Display">
-                <CustomPickList name="popupDisplay" selected={data?.popupDisplay} sourceData={calendarDisplayOptions} onPickListChange={handleChange} />
+                <CustomPickList
+                    name="popupDisplay"
+                    selected={data?.popupDisplay}
+                    sourceData={calendarDisplayOptions}
+                    onPickListChange={handleChange}
+                    showTargetControls={true}
+                />
             </CustomCard>
             <CustomCard col="12" title="Pending Color">
                 <CustomGridLayout>
                     <CustomPicker name="boxColor" data={data} onChange={handleChange} col={4} />
                     <CustomPicker name="textColor" data={data} onChange={handleChange} col={4} />
+                    <div className="bg-white border-round-lg p-4 ml-auto" style={{ width: '230px', height: '270px' }}>
+                        <h3 className="mb-3">Display Preview</h3>
+                        <div style={{ backgroundColor: `#${data?.boxColor}`, color: `#${data?.textColor}`, height: '182px' }} className="p-3 border-round ">
+                            John Smith, Aga Group 60 Min, Status Pending, Employee Paul Jones, 15/20
+                        </div>
+                    </div>
                 </CustomGridLayout>
             </CustomCard>
-            <CustomCard col="12" title="Display Preview">
-                <div style={{ backgroundColor: `#${data?.boxColor}`, color: `#${data?.textColor}` }} className="p-3 border-round">
-                    John Smith, Aga Group 60 Min, Status Pending, Employee Paul Jones, 15/20
-                </div>
-            </CustomCard>
+
             <CustomCard col="12" title="Rebooking Time Option">
                 <CustomGridLayout extraClass="align-items-center gap-4">
                     <CustomDropDown name="timesShown" options={timeShownOptions} data={data} onChange={handleChange} col={6} />

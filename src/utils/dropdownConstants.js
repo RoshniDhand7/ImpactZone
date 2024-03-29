@@ -265,10 +265,10 @@ export const itemSoldOptions = [
     },
 ];
 export const defaultMaxAttendesOptions = [];
-for (let i = 1; i <= 50; i++) {
+for (let i = 0; i <= 50; i++) {
     const option = {
-        name: i,
-        value: i,
+        name: i == 0 ? '0' : i,
+        value: i == 0 ? '0' : i,
     };
     defaultMaxAttendesOptions.push(option);
 }

@@ -17,6 +17,7 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addScheduledEvent, getScheduledEvent, editScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { Dropdown } from 'primereact/dropdown';
 
 const EventGeneral = () => {
     const dispatch = useDispatch();
@@ -32,11 +33,11 @@ const EventGeneral = () => {
         eventType: '',
         internalUse: 'false',
         locationType: '',
-        defaultMaxAttendes: '',
+        defaultMaxAttendes: '0',
         eventCommissionType: '',
         availableOnline: 'false',
         trackAttendees: 'false',
-        maximumWaitlist: '',
+        maximumWaitlist: '0',
         waitListExpiration: '',
         employee: 'false',
         location: 'false',
@@ -69,11 +70,11 @@ const EventGeneral = () => {
                         eventType: data.eventType,
                         internalUse: data.internalUse,
                         locationType: data.locationType,
-                        defaultMaxAttendes: data.defaultMaxAttendes,
+                        defaultMaxAttendes: data.defaultMaxAttendes === 0 ? '0' : data.defaultMaxAttendes,
                         eventCommissionType: data.eventCommissionType,
                         availableOnline: data.availableOnline,
                         trackAttendees: data.trackAttendees,
-                        maximumWaitlist: data.maximumWaitlist,
+                        maximumWaitlist: data.maximumWaitlist === 0 ? '0' : data.maximumWaitlist,
                         waitListExpiration: data.waitListExpiration,
                         employee: data.requiredToCreate.employee,
                         location: data.requiredToCreate.location,
@@ -99,9 +100,24 @@ const EventGeneral = () => {
 
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
-            const { employee, location, member, employee1, location1, member1, memberVerification, employeeVerification, autoComplete, ...rest } = data;
+            const {
+                employee,
+                location,
+                member,
+                employee1,
+                location1,
+                member1,
+                memberVerification,
+                employeeVerification,
+                maximumWaitlist,
+                defaultMaxAttendes,
+                autoComplete,
+                ...rest
+            } = data;
             const payload = {
                 ...rest,
+                defaultMaxAttendes: defaultMaxAttendes === '0' ? 0 : defaultMaxAttendes,
+                maximumWaitlist: maximumWaitlist === '0' ? 0 : maximumWaitlist,
                 requiredToCreate: { employee, location, member },
                 requiredtoComplete: { employee: employee1, location: location1, member: member1, memberVerification, employeeVerification, autoComplete },
             };
@@ -112,6 +128,8 @@ const EventGeneral = () => {
             }
         }
     };
+
+    console.log('data>>', data, defaultMaxAttendesOptions);
 
     return (
         <>

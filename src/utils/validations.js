@@ -2,8 +2,8 @@ import { FirstletterUpperCase, equal, length } from './javascript';
 import { emailValidation, firstLetterToUppercase, passwordValidation, number } from './regex';
 import zipcodes from 'zipcodes';
 
-const formValidation = (name, value, data, ignore = []) => {
-    let formErrors = { ...data.formErrors };
+const formValidation = (name, value, state, ignore = []) => {
+    let formErrors = { ...state.formErrors };
     if (ignore.includes(name)) {
         if (formErrors[name]) formErrors[name] = '';
         return formErrors;
@@ -60,6 +60,15 @@ const formValidation = (name, value, data, ignore = []) => {
                 formErrors[name] = 'OTP is required';
             }
             break;
+        case 'zipCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required.`;
+            } else if (zipcodes?.lookup(value)?.state !== state?.state) {
+                formErrors[name] = `Please enter a valid Zip Code`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
 
         case 'multiClubInOut':
         case 'clockInRequired':
@@ -70,7 +79,7 @@ const formValidation = (name, value, data, ignore = []) => {
         case 'bookOutFrom':
         case 'defaultMaxAttendes':
         case 'eventCommissionType':
-        case 'maximumWaitlist':
+        // case 'maximumWaitlist':
         case 'waitListExpiration':
         case 'bookOutTo':
         case 'club':
@@ -96,15 +105,7 @@ const formValidation = (name, value, data, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
-        case 'zipCode':
-            if (equal(length(value))) {
-                formErrors[name] = `${firstLetterToUppercase(name)} is required.`;
-            } else if (zipcodes?.lookup(value)?.state !== data?.state) {
-                formErrors[name] = `Please enter a valid Zip Code`;
-            } else {
-                formErrors[name] = '';
-            }
-            break;
+
         case 'logo':
         case 'services':
         case 'duration':

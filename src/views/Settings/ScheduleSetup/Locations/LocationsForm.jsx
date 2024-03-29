@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -41,7 +41,7 @@ const LocationsForm = () => {
     const [data, setData] = useState({
         name: '',
         locationType: '',
-        club: '',
+        club: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -62,7 +62,7 @@ const LocationsForm = () => {
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomDropDown name="locationType" options={locationTypeDropdown} data={data} onChange={handleChange} required />
-                    <CustomDropDown
+                    <CustomMultiselect
                         name="club"
                         options={allClubs?.map((item) => {
                             return { label: item.name, value: item._id };
@@ -70,7 +70,6 @@ const LocationsForm = () => {
                         data={data}
                         optionLabel="label"
                         onChange={handleChange}
-                        required
                     />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>

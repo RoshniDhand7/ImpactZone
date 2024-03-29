@@ -39,7 +39,7 @@ const getCatalogItem = (id, returnData) => async (dispatch) => {
 };
 
 const addCatalogItem =
-    (data, history, tab = '') =>
+    (data, history, tab = '', next) =>
     async (dispatch) => {
         dispatch(showLoaderAction());
         if (data.catalogImage.length) {
@@ -51,12 +51,15 @@ const addCatalogItem =
         }
         const payload = {
             ...data,
+            category: data?.category === 'NONE' ? null : data?.category,
         };
 
         const res = await api('post', EndPoints.INVENTORY_CATALOG, payload);
         if (res.success) {
             if (tab) {
                 history.replace(`/settings/inventory/catalog-item/edit/${res.data._id}/${tab}`);
+            } else if (next) {
+                next();
             } else {
                 history.goBack();
             }
@@ -76,6 +79,7 @@ const editCatalogItem =
         }
         const payload = {
             ...data,
+            category: data?.category === 'NONE' ? null : data?.category,
         };
 
         const res = await api('put', EndPoints.INVENTORY_CATALOG + id, payload);

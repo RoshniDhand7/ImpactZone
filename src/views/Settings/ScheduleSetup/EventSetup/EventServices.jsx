@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { useHistory, useParams } from 'react-router-dom';
-import { getEvents, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { deleteAllServicesList, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import CustomAccordion from '../../../../shared/Accordion/Accordion';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 
 const EventServices = () => {
     const { id } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getServicesEvents());
+        dispatch(getServicesEvents(id));
     }, [dispatch]);
     const columns = [
         { field: 'unitPrice', header: 'Catalog Price' },
@@ -38,15 +39,15 @@ const EventServices = () => {
                     ></i>
                     <i
                         className="pi pi-trash"
-                        // onClick={() =>
-                        //     confirmDelete(() => {
-                        //         dispatch(
-                        //             deleteAllCatalogVariation(item._id, () => {
-                        //                 dispatch(getCatalogVariations(id));
-                        //             }),
-                        //         );
-                        //     }, 'Do you want to delete this Variation?')
-                        // }
+                        onClick={() =>
+                            confirmDelete(() => {
+                                dispatch(
+                                    deleteAllServicesList(item._id, () => {
+                                        dispatch(getServicesEvents(id));
+                                    }),
+                                );
+                            }, 'Do you want to delete this Service?')
+                        }
                     ></i>
                 </div>
             </div>

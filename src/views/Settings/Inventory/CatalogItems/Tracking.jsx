@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getReferralGroups } from '../../../../redux/actions/InventorySettings/referralGroupAction';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomPicker from '../../../../shared/ColorPicker/ColorPicker';
 import { CustomCalenderInput, CustomDropDown, CustomInputNumber, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { getVendors } from '../../../../redux/actions/InventorySettings/vendorsAction';
 import { getCommissionGroups } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
-import { trackSizes, yesNoOptions } from '../../../../utils/dropdownConstants';
+import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
@@ -23,13 +22,10 @@ const Tracking = () => {
         referralGroup: '',
         memberRequired: '',
         caseQuantity: '',
-        size: '',
-        color: '',
         vendor: '',
         trackingMinimumQuantity: '',
         trackingMaximumQuantity: '',
         recorderLevel: '',
-        wholesaleCost: '',
         trackingAlternateVendors: '',
         time: new Date(),
         note: '',
@@ -55,13 +51,10 @@ const Tracking = () => {
                         referralGroup: data.referralGroup,
                         memberRequired: data.memberRequired.toString(),
                         caseQuantity: data.caseQuantity,
-                        size: data.size,
-                        color: data.color,
                         vendor: data.vendor,
                         trackingMinimumQuantity: data.trackingMinimumQuantity,
                         trackingMaximumQuantity: data.trackingMaximumQuantity,
                         recorderLevel: data.recorderLevel,
-                        wholesaleCost: data.wholesaleCost,
                         trackingAlternateVendors: data.trackingAlternateVendors,
                         time: data.createdAt ? new Date(data.createdAt) : new Date(),
                         note: data.note,
@@ -76,7 +69,8 @@ const Tracking = () => {
     const { vendorsDropdown } = useSelector((state) => state.vendors);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     const handleSave = (tab) => {
-        if (showFormErrors(data, setData)) {
+        const ignore = ['commissionGroup'];
+        if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));
             }
@@ -96,13 +90,11 @@ const Tracking = () => {
                 <CustomGridLayout>
                     <CustomDropDown name="memberRequired" options={yesNoOptions} onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="caseQuantity" onChange={handleChange} data={data} col={4} />
-                    <CustomDropDown name="size" options={trackSizes} onChange={handleChange} data={data} col={4} />
-                    <CustomPicker name="color" data={data} onChange={handleChange} col={4} />
                     <CustomDropDown name="vendor" options={vendorsDropdown} onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="trackingMinimumQuantity" label="Minimum Quantity" onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="trackingMaximumQuantity" label="Maximum Quantity" onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="recorderLevel" onChange={handleChange} data={data} col={4} />
-                    <CustomInputNumber name="wholesaleCost" onChange={handleChange} data={data} col={4} />
+
                     <CustomDropDown
                         name="trackingAlternateVendors"
                         label="Alternate Vendors"
