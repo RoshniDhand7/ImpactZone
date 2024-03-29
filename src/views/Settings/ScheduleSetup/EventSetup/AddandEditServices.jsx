@@ -36,7 +36,7 @@ const AddandEditServices = () => {
         dispatch(getCatalogItems());
     }, [dispatch]);
     useEffect(() => {
-        dispatch(getServicesEvents());
+        dispatch(getServicesEvents(id));
     }, [dispatch]);
 
     const getServiceList = () => {
