@@ -134,8 +134,9 @@ const EventGeneral = () => {
     return (
         <>
             <CustomCard col="12" title="Personal">
-                <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
-
+                <CustomGridLayout extraClass="justify-content-end ">
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
+                </CustomGridLayout>
                 <CustomGridLayout>
                     <CustomInput name="name" required data={data} onChange={handleChange} />
                     <CustomDropDown name="eventType" options={EventTypeOptions} onChange={handleChange} data={data} />

@@ -14,12 +14,17 @@ const EventSetup = () => {
     }, [dispatch]);
 
     const { allEvents } = useSelector((state) => state.event);
+    const modifiedEvents = allEvents?.map((item) => ({
+        ...item,
+        internalUse: item.internalUse === 'true' ? true : false,
+    }));
+
+    console.log(modifiedEvents);
 
     const columns = [
         { field: 'internalUse', header: 'Internal Use' },
         { field: 'eventType', header: 'Type' },
         { field: 'name', header: 'Name' },
-        { field: 'color', header: 'Colors' },
         { field: 'locationType', header: 'Location Type' },
         { field: 'color', header: 'Mapped to Services' },
         { field: 'isActive', header: 'Active' },
@@ -42,7 +47,7 @@ const EventSetup = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Events" linkTo="/settings/schedule/events/add" />
-            <CustomTable data={allEvents} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={modifiedEvents} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

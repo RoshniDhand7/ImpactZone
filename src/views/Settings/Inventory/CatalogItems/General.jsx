@@ -65,7 +65,7 @@ const General = () => {
         days: '',
         month: '',
         itemStart: '',
-        isActive: false,
+        isActive: true,
         wholesaleCost: '',
     });
     useEffect(() => {
@@ -171,8 +171,9 @@ const General = () => {
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">
-                <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
-
+                <CustomGridLayout extraClass="justify-content-end ">
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
+                </CustomGridLayout>
                 <CustomGridLayout>
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />

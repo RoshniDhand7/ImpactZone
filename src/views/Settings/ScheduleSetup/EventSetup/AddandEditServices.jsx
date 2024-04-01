@@ -110,11 +110,13 @@ const AddandEditServices = () => {
     const handleServiceDelete = (col) => {
         confirmDelete(
             () => {
-                dispatch(
-                    singleServiceDelete(eventId, col?._id, () => {
-                        getServiceList();
-                    }),
-                );
+                const services = data?.services?.filter((item) => item?._id !== col?._id);
+                setData((prev) => ({ ...prev, services }));
+                // dispatch(
+                //     singleServiceDelete(eventId, col?._id, () => {
+                //         getServiceList();
+                //     }),
+                // );
             },
             `Do you want to delete this Service ?`,
             'center',
