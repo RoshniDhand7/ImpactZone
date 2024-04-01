@@ -57,7 +57,7 @@ const getScheduledEvent = (id, returnData) => async (dispatch) => {
 };
 const getScheduledEventService = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.SCHEDULE_EVENTS_LEVEL + id);
+    const res = await api('get', EndPoints.SCHEDULE_EVENT_LEVEL + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
