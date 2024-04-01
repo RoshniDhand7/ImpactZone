@@ -80,7 +80,6 @@ const VendorForm = () => {
         }
     };
 
-    console.log(data);
     return (
         <FormPage backText="Vendor">
             <CustomCard col="12" title="Add Vendor">

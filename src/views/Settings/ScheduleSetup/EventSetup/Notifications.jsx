@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
+import { BookingHours, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import { CustomDropDown, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import { useHistory, useParams } from 'react-router-dom';
 import formValidation from '../../../../utils/validations';
@@ -50,13 +50,19 @@ const Notifications = () => {
             <CustomCard col="12" title="Event Reminders">
                 <CustomGridLayout>
                     <CustomDropDown options={yesNoOptions} name="eventNotification" data={data} onChange={handleChange} />
-                    <CustomDropDown options={hoursOptions} name="timeBeforeEventReminder" data={data} onChange={handleChange} />
+                    <CustomDropDown options={BookingHours} name="timeBeforeEventReminder" data={data} onChange={handleChange} />
                     <CustomTextArea name="message" data={data} onChange={handleChange} maxLength={100} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Cancellation">
                 <CustomGridLayout>
-                    <CustomDropDown options={yesNoOptions} name="cancelLink" data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        options={yesNoOptions}
+                        name="cancelLink"
+                        label="Send cancellation link with reminder text"
+                        data={data}
+                        onChange={handleChange}
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

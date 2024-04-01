@@ -129,8 +129,6 @@ const EventGeneral = () => {
         }
     };
 
-    console.log('data>>', data, defaultMaxAttendesOptions);
-
     return (
         <>
             <CustomCard col="12" title="Personal">

@@ -26,6 +26,7 @@ import certificateReducer from './EmployeesSettings/certificationReducer';
 import accessScheduleReducer from './MembersSettings/accessScheduleReducer';
 import catalogItemsReducer from './InventorySettings/catalogItemsReducer';
 import eventReducer from './ScheduleSettings/eventsReducer';
+import eventCategoryReducer from './ScheduleSettings/eventCategories';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -55,4 +56,5 @@ export default combineReducers({
     accessSchedule: accessScheduleReducer,
     catalogItems: catalogItemsReducer,
     event: eventReducer,
+    eventCategory: eventCategoryReducer,
 });

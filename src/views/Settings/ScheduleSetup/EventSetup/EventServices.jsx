@@ -23,10 +23,7 @@ const EventServices = () => {
 
     const { allServicesEvents } = useSelector((state) => state.event);
 
-    console.log(allServicesEvents);
-
     const customHeader = (item) => {
-        console.log('item>>', item);
         return (
             <div className="flex align-items-center justify-content-between gap-2 w-full ml-auto">
                 <div> Level {item?.eventLevel?.name}</div>

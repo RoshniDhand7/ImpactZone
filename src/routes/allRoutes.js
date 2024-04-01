@@ -18,6 +18,8 @@ import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGen
 import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 import EventsForm from '../views/Settings/ScheduleSetup/EventSetup/EventsForm';
 import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/AddandEditServices';
+import EventCategoriesForm from '../views/Settings/ScheduleSetup/EventCategories/EventCategoriesForm';
+import EventClassesForm from '../views/Settings/ScheduleSetup/EventClasses/EventClassesForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -325,6 +327,30 @@ export const PrivateRoutes = [
                             { path: '/services/add', name: 'Services', component: AddandEditServices },
                             { path: '/services/edit/:eventId', name: 'Services', component: AddandEditServices },
                         ],
+                    },
+                    {
+                        path: '/event-categories/add',
+                        name: 'Schedule',
+                        exact: true,
+                        component: EventCategoriesForm,
+                    },
+                    {
+                        path: '/event-categories/edit/:id',
+                        name: 'Schedule',
+                        exact: true,
+                        component: EventCategoriesForm,
+                    },
+                    {
+                        path: '/classes/add',
+                        name: 'Schedule',
+                        exact: true,
+                        component: EventClassesForm,
+                    },
+                    {
+                        path: '/classes/edit/:id',
+                        name: 'Schedule',
+                        exact: true,
+                        component: EventClassesForm,
                     },
                 ],
             },

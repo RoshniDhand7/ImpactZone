@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const yesNoOptions = [
     {
         name: 'Yes',
@@ -264,6 +266,40 @@ export const itemSoldOptions = [
         value: 'NON_SALE_ITEM',
     },
 ];
+
+const timeToMinutes = (time, unit) => {
+    let duration = moment.duration(time, unit);
+    return duration.asMinutes();
+};
+
+export const BookingHours = [
+    { name: '15 minutes', value: 15 },
+    { name: '30 minutes', value: 30 },
+    { name: '45 minutes', value: 45 },
+];
+
+for (let i = 1; i <= 47; i++) {
+    BookingHours.push({
+        name: `${i} ${i === 1 ? 'hour' : 'hours'}`,
+        value: timeToMinutes(i, 'hours'),
+    });
+}
+
+const additionalHoursOptions = [
+    { name: '49 hours', value: timeToMinutes(49, 'hours') },
+    { name: '73 hours', value: timeToMinutes(73, 'hours') },
+];
+
+BookingHours.push(...additionalHoursOptions);
+
+for (let j = 2; j <= 30; j++) {
+    BookingHours.push({ name: `${j} days`, value: timeToMinutes(j, 'days') });
+}
+
+for (let k = 5; k <= 12; k++) {
+    BookingHours.push({ name: `${k} weeks`, value: timeToMinutes(k, 'weeks') });
+}
+
 export const defaultMaxAttendesOptions = [];
 for (let i = 0; i <= 50; i++) {
     const option = {
@@ -295,3 +331,8 @@ export const calendarDisplayOptions = ['Duration', 'Level', 'Location', 'Member 
     (name) => ({ name, value: name }),
 );
 export const timeShownOptions = ['Quarter Hour', 'Hour', 'Half Hour'].map((name) => ({ name, value: name }));
+
+export const classMeet = ['One Time', 'Two Time', 'Three Time', 'Four Time', 'Five Time', 'Six Time', 'Seven Time'].map((name, index) => ({
+    name,
+    value: index + 1,
+}));

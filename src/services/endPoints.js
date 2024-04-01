@@ -48,5 +48,6 @@ const endPoints = {
     SCHEDULE_EVENTS_LEVEL: '/event-setup-level-services/',
     SCHEDULE_EVENT_LEVEL: '/event-setup-level-service/',
     SCHEDULE_EVENT_CLEAR: '/event-setup-level-services-clear/',
+    EVENT_CATEGORY: '/event-category/',
 };
 export default endPoints;

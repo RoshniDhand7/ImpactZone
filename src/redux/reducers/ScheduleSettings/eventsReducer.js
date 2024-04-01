@@ -1,8 +1,10 @@
 import { types } from '../../types/types';
 const intitalState = {
     allEvents: [],
+    allEventsDropDown: [],
     allServicesEvents: [],
     allServicesEventsLevels: [],
+    allEventClassesDropDown: [],
 };
 
 const eventReducer = (state = intitalState, action) => {
@@ -11,6 +13,8 @@ const eventReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEvents: action.payload,
+                allEventsDropDown: action.payload.map((item) => ({ name: item.name, value: item._id })),
+                allEventClassesDropDown: action.payload.filter((item) => item.eventType === 'Class').map((item) => ({ name: item.name, value: item._id })),
             };
         case types.CHANGE_SCHEDULE_SERVICES_EVENTS:
             return {

@@ -19,8 +19,6 @@ const EventSetup = () => {
         internalUse: item.internalUse === 'true' ? true : false,
     }));
 
-    console.log(modifiedEvents);
-
     const columns = [
         { field: 'internalUse', header: 'Internal Use' },
         { field: 'eventType', header: 'Type' },

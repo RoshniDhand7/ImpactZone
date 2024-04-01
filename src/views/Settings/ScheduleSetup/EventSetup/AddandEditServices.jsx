@@ -42,7 +42,6 @@ const AddandEditServices = () => {
     const getServiceList = () => {
         dispatch(
             getScheduledEventService(eventId, (data) => {
-                console.log('d>>', data);
                 setData({
                     level: data.eventLevel,
                     services: data.services,
@@ -58,8 +57,6 @@ const AddandEditServices = () => {
 
     const { allServicesEventsLevels } = useSelector((state) => state.event);
 
-    console.log(allServicesEventsLevels);
-
     useEffect(() => {
         if (id) {
             if (open && data.services) {
@@ -70,7 +67,6 @@ const AddandEditServices = () => {
 
     const { levelDropdown, allLevels } = useSelector((state) => state.level);
     let filterdLevelsDropdown = levelDropdown.filter((item) => !allServicesEventsLevels.map((ed) => ed).includes(item.name));
-    console.log(filterdLevelsDropdown);
 
     const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
 
@@ -122,7 +118,6 @@ const AddandEditServices = () => {
             'center',
         );
     };
-    console.log(data, 'data');
 
     return (
         <>

@@ -53,7 +53,6 @@ const DisplayOptions = () => {
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
-    console.log(data);
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
             if (id) {
@@ -62,7 +61,6 @@ const DisplayOptions = () => {
         }
     };
 
-    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Calendar Display">

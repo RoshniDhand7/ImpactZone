@@ -15,11 +15,9 @@ const CustomPickList = ({
     showTargetControls = false,
 }) => {
     useEffect(() => {
-        console.log(sourceData.length && selected);
         if (sourceData.length && selected) {
             let _target = sourceData.filter((item) => selected.includes(item.value));
 
-            console.log(_target);
             let _source = sourceData.filter((item) => !selected.includes(item.value));
             setSource(_source);
             setTarget(_target);

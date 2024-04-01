@@ -148,7 +148,6 @@ export const CustomDropDown = ({
     optionLabel = 'name',
     ...props
 }) => {
-    console.log(value || data?.[value]);
     return (
         <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Dropdown
@@ -158,6 +157,7 @@ export const CustomDropDown = ({
                 value={value || data?.[name]}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
+                filter={true}
                 // placeholder={props.placeholder || `Select ${label}`}
                 disabled={disabled}
                 {...props}

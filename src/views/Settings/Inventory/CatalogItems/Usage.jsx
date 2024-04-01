@@ -120,17 +120,13 @@ const Usage = () => {
         }
     };
 
-    console.log(usageId);
-
     const handleUsageDelete = (id, col, type) => {
-        console.log(col);
         confirmDelete(
             () => {
                 if (type === 'paysTo') {
                     // dispatch(singleUsageDelete(usageId, col?._id, type, () => getUsageItems()));
                     setPayTo(payTo?.filter((item) => item._id !== col?._id));
                 } else if (type === 'paysFor') {
-                    console.log(payFor);
                     setPayFor(payFor?.filter((item) => item._id !== col?._id));
                     // dispatch(singleUsageDelete(usageId, col?._id, type, () => getUsageItems()));
                 } else if (type === 'bundleRecipe') {

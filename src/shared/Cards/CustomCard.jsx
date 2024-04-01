@@ -18,7 +18,6 @@ export default function CustomCard({ title, children, col = 6, height }) {
 }
 
 export const CustomOverlay = React.forwardRef(({ children, col }, ref) => {
-    console.log(ref, children);
     return (
         <div className={`col-6 md:col-${col}`}>
             <div className={` flex justify-content-center `}>

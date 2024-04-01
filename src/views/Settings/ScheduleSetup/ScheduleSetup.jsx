@@ -4,6 +4,8 @@ import Level from './Level/Level';
 import LocationType from './LocationType/LocationType';
 import Locations from './Locations/Locations';
 import EventSetup from './EventSetup/EventSetup';
+import EventCategories from './EventCategories/EventCategories';
+import EventClasses from './EventClasses/EventClasses';
 
 const ScheduleSetup = () => {
     const tabs = [
@@ -11,7 +13,7 @@ const ScheduleSetup = () => {
         { title: 'Location Types', content: <LocationType /> },
         { title: 'Locations', content: <Locations /> },
         { title: 'Events Setups', content: <EventSetup /> },
-        { title: 'Event Categories', content: <></> },
+        { title: 'Event Categories', content: <EventCategories /> },
         { title: 'Classes', content: <></> },
     ];
     return <CustomTabView tabs={tabs} />;

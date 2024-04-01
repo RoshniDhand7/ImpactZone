@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CustomDropDown, CustomTextArea } from '../../../../shared/Input/AllInputs';
-import { daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
+import { BookingHours, daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import formValidation from '../../../../utils/validations';
@@ -50,18 +50,19 @@ const Online = () => {
             }
         }
     };
+
     return (
         <>
             <CustomCard col="12" title="Allow Booking an Appointment">
                 <CustomGridLayout>
-                    <CustomDropDown options={hoursOptions} name="appointmentAtLeast" data={data} onChange={handleChange} />
-                    <CustomDropDown options={daysOptions} name="appointmentFuture" label="Appointment Until" data={data} onChange={handleChange} />
+                    <CustomDropDown options={BookingHours} name="appointmentAtLeast" data={data} onChange={handleChange} />
+                    <CustomDropDown options={BookingHours} name="appointmentFuture" label="Appointment Until" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Cancellation">
                 <CustomGridLayout>
                     <CustomDropDown options={yesNoOptions} name="cancelOnline" data={data} onChange={handleChange} />
-                    <CustomDropDown options={hoursOptions} name="timeBeforeEvent" data={data} onChange={handleChange} />
+                    <CustomDropDown options={BookingHours} name="timeBeforeEvent" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Description">
