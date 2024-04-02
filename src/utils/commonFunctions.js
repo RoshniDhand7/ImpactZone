@@ -18,6 +18,24 @@ const showFormErrors = (data, setData, ignore) => {
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
+const showArrayFormErrors = (array) => {
+    let isValid = true;
+    let res = array.map((data) => {
+        let formErrors = {};
+        entries(data).forEach(([key, value]) => {
+            formErrors = {
+                ...formErrors,
+                ...formValidation(key, value, data),
+            };
+        });
+        if (values(formErrors).some((v) => notEqual(v, ''))) {
+            isValid = false;
+        }
+        return { ...data, formErrors };
+    });
+
+    return { isValid, data: res };
+};
 
 export const convertBooleanValues = (data) => {
     return data?.map((item) => {
@@ -225,4 +243,5 @@ export {
     PercentageDifference,
     calculateTimes,
     convertArrayToObjectArray,
+    showArrayFormErrors,
 };

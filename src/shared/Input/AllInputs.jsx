@@ -179,6 +179,7 @@ export const CustomMultiselect = ({
     inputClass,
     disabled = false,
     optionLabel = 'name',
+    customIndex,
     ...props
 }) => {
     return (
@@ -187,7 +188,7 @@ export const CustomMultiselect = ({
                 id={name}
                 name={name}
                 value={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
                 disabled={disabled}
@@ -210,6 +211,7 @@ export const CustomCalenderInput = ({
     col,
     inputClass,
     disabled,
+    customIndex,
     ...props
 }) => {
     return (
@@ -218,7 +220,7 @@ export const CustomCalenderInput = ({
                 inputId={name}
                 name={name}
                 value={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value, customIndex })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 showIcon

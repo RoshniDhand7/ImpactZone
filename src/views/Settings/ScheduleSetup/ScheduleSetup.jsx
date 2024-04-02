@@ -14,7 +14,7 @@ const ScheduleSetup = () => {
         { title: 'Locations', content: <Locations /> },
         { title: 'Events Setups', content: <EventSetup /> },
         { title: 'Event Categories', content: <EventCategories /> },
-        { title: 'Classes', content: <></> },
+        { title: 'Classes', content: <EventClasses /> },
     ];
     return <CustomTabView tabs={tabs} />;
 };
