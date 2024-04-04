@@ -10,8 +10,8 @@ const getEmployees = (pageNo, setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const params = { pageNo: pageNo + 1, itemsPerPage: 10 };
-    const res = await api('get', EndPoints.EMPLOYEE, {}, params);
+    // const params = { pageNo: pageNo + 1, itemsPerPage: 10 };
+    const res = await api('get', EndPoints.EMPLOYEE, {});
     if (res.success) {
         if (res.data) {
             dispatch({

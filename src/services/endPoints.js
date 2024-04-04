@@ -15,6 +15,7 @@ const endPoints = {
     DEPARTMENTS: '/department/',
     EMPLOYEE_DEPARTMENTS: '/employee-department/',
     EMPLOYEE_CLASSES: '/employee-classes/',
+    UPDATE_CLASS_LEVEL: '/employee-classes-level/',
     LEVELS: '/level/',
     LOCATION_TYPE: '/location-type/',
     LOCATIONS: '/location/',

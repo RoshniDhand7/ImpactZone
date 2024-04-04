@@ -9,12 +9,13 @@ import {
     getSubstitutionOption,
 } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput } from '../../../../../../shared/Input/AllInputs';
 import { substitutionPriorityOptions } from '../../../../../../utils/dropdownConstants';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
+import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 
 export default function SubstituteOptionSetup() {
     const { id } = useParams();
@@ -31,7 +32,9 @@ export default function SubstituteOptionSetup() {
     const [substitutionOptionsId, setSubstituteOptionsId] = useState('');
     useEffect(() => {
         funcGetEmpSubstitution(id);
+        dispatch(getEvents());
     }, []);
+    const { allEventClassesDropDown } = useSelector((state) => state.event);
     const funcGetEmpSubstitution = (id) => {
         dispatch(
             getEmployeeSubstitutionOptions(id, setLoading, (data) => {
@@ -114,7 +117,7 @@ export default function SubstituteOptionSetup() {
             </CustomCard>
             <CustomDialog title={substitutionOptionsId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomInput col="12" name="name" data={data} onChange={handleChange} />
+                    <CustomDropDown name="name" data={data} onChange={handleChange} options={allEventClassesDropDown} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={substitutionPriorityOptions} col={12} />
                 </CustomGridLayout>
             </CustomDialog>

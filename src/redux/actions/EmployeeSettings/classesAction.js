@@ -1,23 +1,42 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getEmployeeClasses = (employee, isClassLevel, setLoading, returnData) => async (dispatch) => {
+const getEmployeeClasses = (employee, setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_CLASSES, '', { employee, isClassLevel });
+    const res = await api('get', EndPoints.EMPLOYEE_CLASSES, {}, { employee });
     if (res.success) {
         if (res.data) {
-            if (returnData) {
-                returnData(res.data);
-            }
+            dispatch({
+                type: types.CHANGE_EMPLOYEE_CLASSES,
+                payload: res.data,
+            });
         }
     }
     if (setLoading) {
         setLoading(false);
     }
+};
+
+const updateEmployeeLevel = (id, level, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+
+    const payload = {
+        employee: id,
+        isClassLevel: level,
+    };
+
+    const res = await api('post', EndPoints.UPDATE_CLASS_LEVEL, payload);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
 };
 
 const addEmployeeClasses = (data, setLoading, next) => async (dispatch) => {
@@ -141,4 +160,5 @@ export {
     getSubstitutionOption,
     deleteSubstitutionOption,
     editEmployeeSubstitutionOptions,
+    updateEmployeeLevel,
 };

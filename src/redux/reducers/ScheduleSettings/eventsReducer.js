@@ -5,6 +5,7 @@ const intitalState = {
     allServicesEvents: [],
     allServicesEventsLevels: [],
     allEventClassesDropDown: [],
+    allEventAppointmentDropdown: [],
 };
 
 const eventReducer = (state = intitalState, action) => {
@@ -15,6 +16,9 @@ const eventReducer = (state = intitalState, action) => {
                 allEvents: action.payload,
                 allEventsDropDown: action.payload.map((item) => ({ name: item.name, value: item._id })),
                 allEventClassesDropDown: action.payload.filter((item) => item.eventType === 'Class').map((item) => ({ name: item.name, value: item._id })),
+                allEventAppointmentDropDown: action.payload
+                    .filter((item) => item.eventType === 'Appointments')
+                    .map((item) => ({ name: item.name, value: item._id })),
             };
         case types.CHANGE_SCHEDULE_SERVICES_EVENTS:
             return {

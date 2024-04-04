@@ -3,10 +3,16 @@ import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Inpu
 import { classesPayTypeOptions } from '../../../../../../utils/dropdownConstants';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import { addEmployeeClasses, editEmployeeClasses, getEmployeeClaases } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
+import {
+    addEmployeeClasses,
+    editEmployeeClasses,
+    getEmployeeClaases,
+    getEmployeeClasses,
+} from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../../../utils/validations';
 import { showFormErrors } from '../../../../../../utils/commonFunctions';
+import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 
 const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmployeeClassId }) => {
     const [loading, setLoading] = useState(false);
@@ -217,12 +223,15 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
             if (employeeClassId) {
                 dispatch(
                     editEmployeeClasses(employeeClassId, data, setLoading, () => {
+                        dispatch(getEmployeeClasses(id));
+
                         onClose();
                     }),
                 );
             }
             dispatch(
                 addEmployeeClasses({ ...data, employee: id }, setLoading, () => {
+                    dispatch(getEmployeeClasses(id));
                     onClose();
                 }),
             );

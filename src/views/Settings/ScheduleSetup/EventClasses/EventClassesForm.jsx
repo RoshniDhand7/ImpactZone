@@ -12,6 +12,7 @@ import { getEvents, getServicesEvents } from '../../../../redux/actions/Schedule
 import { convertToDateTime, showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
 import { getEmployeePay, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/ScheduleSettings/eventClassesAction';
+import { types } from '../../../../redux/types/types';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
@@ -46,13 +47,13 @@ const EventClassesForm = () => {
     useEffect(() => {
         dispatch(getLocations());
         dispatch(getEvents());
-        dispatch(getEmployees(0));
+        dispatch(getEmployees());
     }, []);
 
     useEffect(() => {
         if (id) {
             dispatch(
-                getEventClass(id, (data) => {
+                getEventClass(id, async (data) => {
                     setData({
                         event: data.event,
                         classMeet: data.classMeet,
@@ -70,10 +71,33 @@ const EventClassesForm = () => {
                         clientPaylater: data.clientPaylater,
                         clientClassFree: data.clientClassFree,
                     });
+                    if (data.instructor && data.instructor.length > 0) {
+                        for (const instructorItem of data.instructor) {
+                            await fetchAssistantPayOptions(instructorItem.assistant);
+                        }
+                    }
                 }),
             );
         }
     }, [id, dispatch]);
+
+    const fetchAssistantPayOptions = async (assistantId) => {
+        const employeeWithLevel = allEmployees.find((employee) => employee._id === assistantId);
+        if (employeeWithLevel) {
+            const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
+            const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
+            const defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
+
+            setData((prev) => ({
+                ...prev,
+                instructor: prev.instructor.map((inst) =>
+                    inst.assistant === assistantId
+                        ? { ...inst, assistantPayOptions: uniquePayTypeOptions, assistantPay: defaultPay ? defaultPay.payType : inst.assistantPay }
+                        : inst,
+                ),
+            }));
+        }
+    };
 
     const { allEmployees, employeePayType } = useSelector((state) => state.employees);
     const { locationDropdown } = useSelector((state) => state.locations);
@@ -124,44 +148,90 @@ const EventClassesForm = () => {
             value: employee._id,
         }));
 
-    console.log(data, ':data');
-
     useEffect(() => {
         if (data?.staff) {
             dispatch(getEmployeePay(data?.staff));
         }
-    }, [data?.staff]);
+        return () => {
+            dispatch({
+                type: types.CHANGE_EMPLOYEES_PAY_TYPE,
+                payload: [],
+            });
+        };
+    }, [data?.staff, dispatch]);
 
     useEffect(() => {
         if (employeePayType) {
-            let pay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
-            console.log(pay, 'pay');
-            setData((prev) => ({ ...prev, payType: pay ? pay?.payType : null }));
+            let defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
+            console.log(defaultPay, 'defaultPaySingle');
+            setData((prev) => ({ ...prev, payType: defaultPay ? defaultPay.payType : null }));
         }
     }, [employeePayType]);
 
-    const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
+    const handleChangeDynamicField = async ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
         let obj = _newData[fieldName][customIndex];
         obj[name] = value;
+
         if (name === 'assistant') {
             _newData[fieldName][customIndex] = obj;
             setData(() => ({
                 ..._newData,
             }));
-            dispatch(getEmployeePay(value));
+            await dispatch(getEmployeePay(value)); // Wait for the dispatch to complete
         }
+
         const formErrors = formValidation(name, value, obj);
         obj.formErrors = formErrors;
         _newData[fieldName][customIndex] = obj;
         setData(() => ({
             ..._newData,
         }));
+
+        // Update pay type options for the current assistant
+        if (name === 'assistant') {
+            const selectedAssistant = value;
+            const employeeWithLevel = allEmployees.find((employee) => employee._id === selectedAssistant);
+            if (employeeWithLevel) {
+                const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
+                const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
+                const defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
+
+                setData((prev) => ({
+                    ...prev,
+                    instructor: prev.instructor.map((inst, idx) =>
+                        idx === customIndex
+                            ? { ...inst, assistantPayOptions: uniquePayTypeOptions, assistantPay: defaultPay ? defaultPay.payType : null }
+                            : inst,
+                    ),
+                }));
+            }
+        }
     };
+
+    console.log(data, 'data');
+
+    // const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
+    //     const _newData = { ...data };
+    //     let obj = _newData[fieldName][customIndex];
+    //     obj[name] = value;
+    //     if (name === 'assistant') {
+    //         _newData[fieldName][customIndex] = obj;
+    //         setData(() => ({
+    //             ..._newData,
+    //         }));
+    //         dispatch(getEmployeePay(value));
+    //     }
+    //     const formErrors = formValidation(name, value, obj);
+    //     obj.formErrors = formErrors;
+    //     _newData[fieldName][customIndex] = obj;
+    //     setData(() => ({
+    //         ..._newData,
+    //     }));
+    // };
 
     const getAvailableOptions = (index) => {
         const selectedDays = data.schedule?.flatMap((item, idx) => (idx !== index ? item.days : []));
-        console.log('selectedDays>>', selectedDays);
         return WeekDaysOption.filter((day) => !selectedDays.includes(day.value));
     };
 
@@ -260,6 +330,29 @@ const EventClassesForm = () => {
                                 <CustomDropDown
                                     name="assistantPay"
                                     customIndex={index}
+                                    options={inst.assistantPayOptions} // Use assistant pay options for each assistant
+                                    fieldName="instructor"
+                                    onChange={handleChangeDynamicField}
+                                    data={inst}
+                                />
+                                {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'instructor')}></i>}
+                            </CustomGridLayout>
+                        </div>
+                    ))}
+                    {/* {data?.instructor?.map((inst, index) => (
+                        <div key={index}>
+                            <CustomGridLayout extraClass="align-items-center">
+                                <CustomDropDown
+                                    name="assistant"
+                                    customIndex={index}
+                                    options={getAssistantOptions(index)}
+                                    fieldName="instructor"
+                                    onChange={handleChangeDynamicField}
+                                    data={inst}
+                                />
+                                <CustomDropDown
+                                    name="assistantPay"
+                                    customIndex={index}
                                     options={getPayOptions()}
                                     fieldName="instructor"
                                     onChange={handleChangeDynamicField}
@@ -268,7 +361,7 @@ const EventClassesForm = () => {
                                 {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'instructor')}></i>}
                             </CustomGridLayout>
                         </div>
-                    ))}
+                    ))} */}
                 </CustomCard>
                 <CustomCard title="Participants" col="12">
                     <CustomGridLayout>

@@ -2,7 +2,12 @@ import React, { useState, useEffect, useId } from 'react';
 import { DataView } from 'primereact/dataview';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import { deleteEmployeeClasses, editEmployeeClasses, getEmployeeClasses } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
+import {
+    deleteEmployeeClasses,
+    editEmployeeClasses,
+    getEmployeeClasses,
+    updateEmployeeLevel,
+} from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
 import AddandEditClasses from './AddandEditClasses';
 import { confirmDelete } from '../../../../../../utils/commonFunctions';
@@ -23,10 +28,10 @@ export default function PaySetup() {
     });
 
     useEffect(() => {
-        funcGetEmpClasses(id, data?.isClassLevel);
-    }, [dispatch, data?.isClassLevel]);
+        funcGetEmpClasses();
+    }, [dispatch]);
     useEffect(() => {
-        dispatch(getEmployees(0));
+        dispatch(getEmployees());
     }, [dispatch]);
     useEffect(() => {
         dispatch(getLevels());
@@ -44,17 +49,25 @@ export default function PaySetup() {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeClassId, setEmployeeClassId] = useState(null);
-    const [employeeClasses, setEmployeeClasses] = useState([]);
     useEffect(() => {
-        setData((prev) => ({ ...prev, isClassLevel: employeeClasses?.isClassLevel }));
-    }, [employeeClasses?.isClassLevel]);
+        if (data?.isClassLevel) {
+            dispatch(
+                updateEmployeeLevel(id, data?.isClassLevel, () => {
+                    funcGetEmpClasses();
+                }),
+            );
+        }
+    }, [data?.isClassLevel]);
+    let { allEmployeeClasses } = useSelector((state) => state?.employees);
 
-    const funcGetEmpClasses = (id, classLevel) => {
-        dispatch(
-            getEmployeeClasses(id, classLevel, setLoading, (data) => {
-                setEmployeeClasses(data);
-            }),
-        );
+    useEffect(() => {
+        if (allEmployeeClasses) {
+            setData((prev) => ({ ...prev, isClassLevel: allEmployeeClasses?.isClassLevel }));
+        }
+    }, [allEmployeeClasses]);
+
+    const funcGetEmpClasses = () => {
+        dispatch(getEmployeeClasses(id));
     };
 
     const onEdit = (id) => {
@@ -67,23 +80,35 @@ export default function PaySetup() {
         confirmDelete(() => {
             dispatch(
                 deleteEmployeeClasses(col._id, () => {
-                    funcGetEmpClasses(id, data?.isClassLevel);
+                    funcGetEmpClasses();
                 }),
             );
         }, 'Do you want to delete this Employee Classes?');
     };
     const handleSwitchChange = (id, active) => {
-        setEmployeeClasses(
-            employeeClasses?.list?.map((item) => {
-                if (item._id === id) {
-                    dispatch(editEmployeeClasses(item?._id, { isDefaultPay: active }, setLoading, () => {}));
-                    return { ...item, isDefaultPay: active };
-                } else {
-                    return { ...item, isDefaultPay: false };
-                }
-            }),
-        );
+        allEmployeeClasses = allEmployeeClasses?.list?.map((item) => {
+            if (item._id === id) {
+                dispatch(
+                    editEmployeeClasses(item?._id, { isDefaultPay: active }, setLoading, () => {
+                        funcGetEmpClasses();
+                    }),
+                );
+                return { ...item, isDefaultPay: active };
+            } else {
+                return { ...item, isDefaultPay: false };
+            }
+        });
     };
+    // const handleSwitchChange = (id, active) => {
+    //         allEmployeeClasses?.list?.map((item) => {
+    //             if (item._id === id) {
+    //                 dispatch(editEmployeeClasses(item?._id, { isDefaultPay: active }, setLoading, () => {}));
+    //                 return { ...item, isDefaultPay: active };
+    //             } else {
+    //                 return { ...item, isDefaultPay: false };
+    //             }
+    //         }),
+    // };
 
     const itemTemplate = (item) => {
         return (
@@ -262,6 +287,8 @@ export default function PaySetup() {
         }
     };
 
+    console.log(data?.isClassLevel);
+
     const handleSave = () => {};
     return (
         <div>
@@ -272,7 +299,7 @@ export default function PaySetup() {
                 </div>
             </CustomFilterCard>
             <CustomCard col="12" title="Pay">
-                <DataView value={employeeClasses?.list} itemTemplate={itemTemplate} paginator rows={5} />
+                <DataView value={allEmployeeClasses?.list} itemTemplate={itemTemplate} paginator rows={5} />
                 <AddandEditClasses
                     visible={visible}
                     setVisible={setVisible}

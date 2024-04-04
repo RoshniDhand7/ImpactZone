@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     addEmployeeAppointmentPay,
     editEmployeeAppointmentPay,
@@ -11,6 +11,7 @@ import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
 import { AppointmentPayPriorityOptions, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
+import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible }) => {
     const dispatch = useDispatch();
@@ -25,6 +26,12 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
 
     const [loading, setLoading] = useState(false);
     const [employeeAppartId, setEmployeeAppartId] = useState(null);
+
+    useEffect(() => {
+        dispatch(getEvents());
+    }, []);
+
+    const { allEventAppointmentDropDown } = useSelector((state) => state.event);
     useEffect(() => {
         if (employeeAppartId) {
             dispatch(
@@ -73,7 +80,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
         <>
             <CustomDialog title={employeeAppartId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomInput col="12" name="name" data={data} onChange={handleChange} />
+                    <CustomDropDown name="name" data={data} onChange={handleChange} options={allEventAppointmentDropDown} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
                     <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

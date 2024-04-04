@@ -13,8 +13,8 @@ const ManageEmployee = () => {
     const [pageNo, setPageNo] = useState(0);
 
     useEffect(() => {
-        dispatch(getEmployees(pageNo));
-    }, [dispatch, pageNo]);
+        dispatch(getEmployees());
+    }, [dispatch]);
 
     const { allEmployees } = useSelector((state) => state.employees);
 
