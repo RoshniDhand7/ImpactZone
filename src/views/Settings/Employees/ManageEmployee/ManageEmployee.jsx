@@ -57,7 +57,7 @@ const ManageEmployee = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Employee" linkTo="/settings/employee/manage-employee/add" />
-            <CustomTable data={allEmployees?.data} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allEmployees} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
             {/* <CustomPaginator setPageNo={setPageNo} data={allEmployees} /> */}
         </>
     );

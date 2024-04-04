@@ -27,6 +27,7 @@ import accessScheduleReducer from './MembersSettings/accessScheduleReducer';
 import catalogItemsReducer from './InventorySettings/catalogItemsReducer';
 import eventReducer from './ScheduleSettings/eventsReducer';
 import eventCategoryReducer from './ScheduleSettings/eventCategories';
+import eventClassesReducer from './ScheduleSettings/eventClassesReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -57,4 +58,5 @@ export default combineReducers({
     catalogItems: catalogItemsReducer,
     event: eventReducer,
     eventCategory: eventCategoryReducer,
+    eventClasses: eventClassesReducer,
 });

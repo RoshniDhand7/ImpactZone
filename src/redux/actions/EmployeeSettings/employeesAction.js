@@ -16,7 +16,7 @@ const getEmployees = (pageNo, setLoading) => async (dispatch) => {
         if (res.data) {
             dispatch({
                 type: types.CHANGE_EMPLOYEES,
-                payload: res,
+                payload: res.data,
             });
         }
     }
@@ -56,6 +56,21 @@ const getEmployee = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+
+const getEmployeePay = (id) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.EMPLOYEE_PAY_TYPE + id);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_EMPLOYEES_PAY_TYPE,
+                payload: res.data,
+            });
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+
 const editEmployee =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -97,4 +112,4 @@ const deleteEmployee = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee };
+export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay };

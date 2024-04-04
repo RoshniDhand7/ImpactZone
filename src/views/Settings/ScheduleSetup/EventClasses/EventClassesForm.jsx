@@ -3,31 +3,79 @@ import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber,
 import { WeekDaysOption, classMeet } from '../../../../utils/dropdownConstants';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
-import { getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
-import { showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
+import { getEvents, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { convertToDateTime, showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
+import { getEmployeePay, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/ScheduleSettings/eventClassesAction';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
+    const { id } = useParams();
     const [data, setData] = useState({
-        name: '',
-        isActive: true,
+        event: '',
         classMeet: '',
+        classLocation: '',
+        startDate: '',
+        endDate: '',
         schedule: [
             {
                 days: [],
                 startTime: '',
             },
         ],
+        instructor: [
+            {
+                assistant: '',
+                assistantPay: '',
+            },
+        ],
+        staff: '',
+        payType: '',
+        totalCapacity: null,
+        waitlistPeople: null,
+        clientSignupClass: false,
+        onlineCapacity: null,
+        clientPaylater: false,
+        clientClassFree: false,
     });
     useEffect(() => {
         dispatch(getLocations());
         dispatch(getEvents());
+        dispatch(getEmployees(0));
     }, []);
+
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getEventClass(id, (data) => {
+                    setData({
+                        event: data.event,
+                        classMeet: data.classMeet,
+                        classLocation: data.classLocation,
+                        startDate: new Date(data.startDate),
+                        endDate: new Date(data.endDate),
+                        schedule: data.schedule?.map((item) => ({ ...item, startTime: convertToDateTime(item.startTime) })),
+                        instructor: data.instructor,
+                        staff: data.staff,
+                        payType: data.pay,
+                        totalCapacity: data.totalCapacity,
+                        waitlistPeople: data.waitlistPeople,
+                        clientSignupClass: data.clientSignupClass,
+                        onlineCapacity: data.onlineCapacity,
+                        clientPaylater: data.clientPaylater,
+                        clientClassFree: data.clientClassFree,
+                    });
+                }),
+            );
+        }
+    }, [id, dispatch]);
+
+    const { allEmployees, employeePayType } = useSelector((state) => state.employees);
     const { locationDropdown } = useSelector((state) => state.locations);
     const { allEventClassesDropDown } = useSelector((state) => state.event);
     const history = useHistory();
@@ -36,6 +84,12 @@ const EventClassesForm = () => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
+
+    useEffect(() => {
+        if (data?.event) {
+            dispatch(getServicesEvents(data?.event));
+        }
+    }, [data?.event]);
 
     const handleAddSchedule = () => {
         const newSchedule = {
@@ -47,37 +101,100 @@ const EventClassesForm = () => {
             schedule: [...prevData.schedule, newSchedule],
         }));
     };
+    const handleAddAssistant = () => {
+        const newAssistant = {
+            assistant: '',
+            assistantPay: '',
+        };
+        setData((prevData) => ({
+            ...prevData,
+            instructor: [...prevData.instructor, newAssistant],
+        }));
+    };
+    const { allServicesEvents } = useSelector((state) => state.event);
 
-    const handleChangeDynamicField = ({ name, value, customIndex }) => {
+    const eventLevels = allServicesEvents && allServicesEvents?.EventService?.map((item) => item.eventLevel?._id);
+
+    const employeesWithLevel = allEmployees
+        .filter((employee) => {
+            return employee.employeeClassData.some((classData) => eventLevels?.includes(classData.isClassLevel));
+        })
+        .map((employee) => ({
+            name: employee.firstName,
+            value: employee._id,
+        }));
+
+    console.log(data, ':data');
+
+    useEffect(() => {
+        if (data?.staff) {
+            dispatch(getEmployeePay(data?.staff));
+        }
+    }, [data?.staff]);
+
+    useEffect(() => {
+        if (employeePayType) {
+            let pay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
+            console.log(pay, 'pay');
+            setData((prev) => ({ ...prev, payType: pay ? pay?.payType : null }));
+        }
+    }, [employeePayType]);
+
+    const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
-        let obj = _newData.schedule[customIndex];
+        let obj = _newData[fieldName][customIndex];
         obj[name] = value;
-
+        if (name === 'assistant') {
+            _newData[fieldName][customIndex] = obj;
+            setData(() => ({
+                ..._newData,
+            }));
+            dispatch(getEmployeePay(value));
+        }
         const formErrors = formValidation(name, value, obj);
         obj.formErrors = formErrors;
-        _newData.schedule[customIndex] = obj;
+        _newData[fieldName][customIndex] = obj;
         setData(() => ({
             ..._newData,
         }));
     };
 
     const getAvailableOptions = (index) => {
-        const selectedDays = data.schedule.flatMap((item, idx) => (idx !== index ? item.days : []));
+        const selectedDays = data.schedule?.flatMap((item, idx) => (idx !== index ? item.days : []));
         console.log('selectedDays>>', selectedDays);
         return WeekDaysOption.filter((day) => !selectedDays.includes(day.value));
     };
 
-    const handleRemoveSchedule = (indexToRemove) => {
+    const getPayOptions = () => {
+        let payType = employeePayType?.employeeClassData?.map((item) => ({ name: item.label, value: item.payType }));
+        const uniqueOptionsSet = new Set(payType?.map((option) => JSON.stringify(option)));
+        const uniqueOptions = Array.from(uniqueOptionsSet)?.map((optionString) => JSON.parse(optionString));
+        return uniqueOptions;
+    };
+    const getAssistantOptions = (index) => {
+        const existingAssistants = data.instructor.filter((_, idx) => idx !== index)?.flatMap((item) => item.assistant);
+        const optionsToExclude = [data.staff, ...existingAssistants];
+        return employeesWithLevel.filter((level) => !optionsToExclude.includes(level.value));
+    };
+
+    const handleRemove = (indexToRemove, fieldName) => {
         setData((prevData) => ({
             ...prevData,
-            schedule: prevData.schedule.filter((_, index) => index !== indexToRemove),
+            [fieldName]: prevData[fieldName].filter((_, index) => index !== indexToRemove),
         }));
     };
+
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
             let validatedSchedule = showArrayFormErrors(data.schedule);
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, schedule: validatedSchedule.data }));
+                dispatch(addClasses(data, history));
+            }
+            if (id) {
+                dispatch(editClasses(id, data, history));
+            } else {
+                dispatch(addClasses(data, history));
             }
         }
     };
@@ -86,13 +203,13 @@ const EventClassesForm = () => {
         <>
             <FormPage backText="Classes">
                 <CustomGridLayout>
-                    <CustomDropDown name="name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
+                    <CustomDropDown name="event" label="Class Name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
                 </CustomGridLayout>
 
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>
-                        <CustomDropDown name="classMeet" options={classMeet} onChange={handleChange} data={data} />
-                        <CustomDropDown name="location" options={locationDropdown} onChange={handleChange} data={data} />
+                        <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
+                        <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} col="6" />
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
                         <CustomCalenderInput name="endDate" onChange={handleChange} data={data} />
                     </CustomGridLayout>
@@ -105,6 +222,7 @@ const EventClassesForm = () => {
                                     customIndex={index}
                                     onChange={handleChangeDynamicField}
                                     data={scheduleItem}
+                                    fieldName="schedule"
                                     timeOnly
                                     placeholder="Select Time"
                                 />
@@ -114,32 +232,60 @@ const EventClassesForm = () => {
                                     options={getAvailableOptions(index)}
                                     onChange={handleChangeDynamicField}
                                     data={scheduleItem}
+                                    fieldName="schedule"
                                     col={4}
                                 />
-                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemoveSchedule(index)}></i>}
+                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
                             </CustomGridLayout>
                         </div>
                     ))}
                 </CustomCard>
                 <CustomCard title="Instructor" col="12">
-                    <CustomDropDown name="staff" options={classMeet} onChange={handleChange} data={data} />
+                    <CustomGridLayout>
+                        <CustomDropDown name="staff" options={employeesWithLevel} onChange={handleChange} data={data} />
+                        <CustomDropDown name="payType" options={getPayOptions()} onChange={handleChange} data={data} />
+                    </CustomGridLayout>
+                    <PrimaryButton label="Add Assistant" className="mx-2" onClick={handleAddAssistant} loading={loading} />
+                    {data?.instructor?.map((inst, index) => (
+                        <div key={index}>
+                            <CustomGridLayout extraClass="align-items-center">
+                                <CustomDropDown
+                                    name="assistant"
+                                    customIndex={index}
+                                    options={getAssistantOptions(index)}
+                                    fieldName="instructor"
+                                    onChange={handleChangeDynamicField}
+                                    data={inst}
+                                />
+                                <CustomDropDown
+                                    name="assistantPay"
+                                    customIndex={index}
+                                    options={getPayOptions()}
+                                    fieldName="instructor"
+                                    onChange={handleChangeDynamicField}
+                                    data={inst}
+                                />
+                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'instructor')}></i>}
+                            </CustomGridLayout>
+                        </div>
+                    ))}
                 </CustomCard>
                 <CustomCard title="Participants" col="12">
                     <CustomGridLayout>
                         <CustomInputNumber name="totalCapacity" onChange={handleChange} data={data} />
-                        <CustomInputNumber name="waitList" label="How many people can waitlist" onChange={handleChange} data={data} />
+                        <CustomInputNumber name="waitlistPeople" label="How many people can waitlist" onChange={handleChange} data={data} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard title="Online Scheduling" col="12">
                     <CustomGridLayout>
-                        <CustomCheckbox name="allowOnline" label="Allow clients to sign up for this class online" onChange={handleChange} data={data} />
+                        <CustomCheckbox name="clientSignupClass" label="Allow clients to sign up for this class online" onChange={handleChange} data={data} />
                         <CustomInputNumber name="onlineCapacity" label="Online Capacity" onChange={handleChange} data={data} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard title="Pricing" col="12">
                     <CustomGridLayout>
-                        <CustomCheckbox name="allowClients" label="Allow clients to sign up now and pay later" onChange={handleChange} data={data} />
-                        <CustomCheckbox name="classfree" label="Clients can attend this class for free" onChange={handleChange} data={data} />
+                        <CustomCheckbox name="clientPaylater" label="Allow clients to sign up now and pay later" onChange={handleChange} data={data} />
+                        <CustomCheckbox name="clientClassFree" label="Clients can attend this class for free" onChange={handleChange} data={data} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

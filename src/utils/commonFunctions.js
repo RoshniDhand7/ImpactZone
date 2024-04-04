@@ -6,6 +6,7 @@ import { entries, notEqual, values } from './javascript';
 import formValidation from './validations';
 import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
+import moment from 'moment';
 
 const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -224,6 +225,19 @@ const convertArrayToObjectArray = (array) => {
         return { name: item, value: item };
     });
 };
+const getTime = (date) => {
+    return moment(new Date(date)).format('H:mm');
+};
+
+const convertToDateTime = (timeString) => {
+    var parts = timeString.split(':');
+    var hours = parseInt(parts[0], 10);
+    var minutes = parseInt(parts[1], 10);
+    var newDate = new Date();
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
+    return newDate;
+};
 
 export {
     capitalizeCamelCase,
@@ -244,4 +258,6 @@ export {
     calculateTimes,
     convertArrayToObjectArray,
     showArrayFormErrors,
+    getTime,
+    convertToDateTime,
 };

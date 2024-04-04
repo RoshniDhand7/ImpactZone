@@ -7,7 +7,6 @@ import { InputMask } from 'primereact/inputmask';
 import { Calendar } from 'primereact/calendar';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Checkbox } from 'primereact/checkbox';
-import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
@@ -146,6 +145,8 @@ export const CustomDropDown = ({
     inputClass,
     disabled = false,
     optionLabel = 'name',
+    customIndex,
+    fieldName,
     ...props
 }) => {
     return (
@@ -153,7 +154,7 @@ export const CustomDropDown = ({
             <Dropdown
                 id={name}
                 name={name}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
                 value={value || data?.[name]}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
@@ -180,6 +181,7 @@ export const CustomMultiselect = ({
     disabled = false,
     optionLabel = 'name',
     customIndex,
+    fieldName,
     ...props
 }) => {
     return (
@@ -188,7 +190,7 @@ export const CustomMultiselect = ({
                 id={name}
                 name={name}
                 value={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 optionLabel={optionLabel}
                 disabled={disabled}
@@ -212,6 +214,7 @@ export const CustomCalenderInput = ({
     inputClass,
     disabled,
     customIndex,
+    fieldName,
     ...props
 }) => {
     return (
@@ -220,7 +223,7 @@ export const CustomCalenderInput = ({
                 inputId={name}
                 name={name}
                 value={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value, customIndex })}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 showIcon
@@ -247,7 +250,7 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
 };
 export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
-        <InputLayout col={col || 6} name={name} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout col={col || 6} label={label} name={name} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Checkbox
                 id={name}
                 name={name}
@@ -257,9 +260,6 @@ export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessag
                 className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 {...props}
             />
-            <label htmlFor={label} className="ml-2 text-xs text-dark-gray font-semibold">
-                {label ? capitalizeCamelCase(label) : label}
-            </label>
         </InputLayout>
     );
 };

@@ -9,6 +9,7 @@ const endPoints = {
     JOB_TITLE: '/title/',
     CLUBS: '/clubs/',
     EMPLOYEE: '/employee/',
+    EMPLOYEE_PAY_TYPE: '/employee-class/',
     GET_PERMISSIONS: '/permissions/',
     SECURITY_ROLE: '/security-role/',
     DEPARTMENTS: '/department/',
@@ -49,5 +50,6 @@ const endPoints = {
     SCHEDULE_EVENT_LEVEL: '/event-setup-level-service/',
     SCHEDULE_EVENT_CLEAR: '/event-setup-level-services-clear/',
     EVENT_CATEGORY: '/event-category/',
+    CLASSES: '/schedule-classes/',
 };
 export default endPoints;
