@@ -1,18 +1,20 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getEmployeeAppointmentPay = (employee, isClassLevel, type, setLoading, returnData) => async (dispatch) => {
+const getEmployeeAppointmentPay = (employee, type, setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT, '', { employee, type: type, isClassLevel });
+    const res = await api('get', EndPoints.EMPLOYEE_APPOINTMENT, {}, { employee, type });
     if (res.success) {
         if (res.data) {
-            if (returnData) {
-                returnData(res.data);
-            }
+            dispatch({
+                type: types.CHANGE_EMPLOYEE_APPOINTMENT_PAY,
+                payload: res.data,
+            });
         }
     }
     if (setLoading) {
@@ -35,6 +37,22 @@ const isDefaultAppointmentPay = (data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
 
     const res = await api('post', EndPoints.EMPLOYEE_APPOINTMENT_IS_DEFAULT, data);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
+};
+const updateEmployeeAppointmentPayLevel = (id, level, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+
+    const payload = {
+        employee: id,
+        isClassLevel: level,
+    };
+
+    const res = await api('post', EndPoints.UPDATE_APPOINTMENT_CLASS_LEVEL, payload);
     if (res.success) {
         next();
     } else {
@@ -173,4 +191,5 @@ export {
     deleteEmployeeBonus,
     editEmployeeBonus,
     isDefaultAppointmentPay,
+    updateEmployeeAppointmentPayLevel,
 };

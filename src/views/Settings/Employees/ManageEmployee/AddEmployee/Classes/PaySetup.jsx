@@ -32,32 +32,24 @@ export default function PaySetup() {
     }, [dispatch]);
     useEffect(() => {
         dispatch(getEmployees());
-    }, [dispatch]);
-    useEffect(() => {
         dispatch(getLevels());
     }, [dispatch]);
 
     const { levelDropdown } = useSelector((state) => state.level);
     const uniqueId = useId();
 
-    const { employeesDropdown } = useSelector((state) => state.employees);
-
     const handleChange = ({ name, value }) => {
+        dispatch(
+            updateEmployeeLevel(id, value, () => {
+                funcGetEmpClasses();
+            }),
+        );
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeClassId, setEmployeeClassId] = useState(null);
-    useEffect(() => {
-        if (data?.isClassLevel) {
-            dispatch(
-                updateEmployeeLevel(id, data?.isClassLevel, () => {
-                    funcGetEmpClasses();
-                }),
-            );
-        }
-    }, [data?.isClassLevel]);
     let { allEmployeeClasses } = useSelector((state) => state?.employees);
 
     useEffect(() => {
@@ -65,6 +57,8 @@ export default function PaySetup() {
             setData((prev) => ({ ...prev, isClassLevel: allEmployeeClasses?.isClassLevel }));
         }
     }, [allEmployeeClasses]);
+
+    console.log(allEmployeeClasses, 'allEmployeeClasses');
 
     const funcGetEmpClasses = () => {
         dispatch(getEmployeeClasses(id));
@@ -99,16 +93,6 @@ export default function PaySetup() {
             }
         });
     };
-    // const handleSwitchChange = (id, active) => {
-    //         allEmployeeClasses?.list?.map((item) => {
-    //             if (item._id === id) {
-    //                 dispatch(editEmployeeClasses(item?._id, { isDefaultPay: active }, setLoading, () => {}));
-    //                 return { ...item, isDefaultPay: active };
-    //             } else {
-    //                 return { ...item, isDefaultPay: false };
-    //             }
-    //         }),
-    // };
 
     const itemTemplate = (item) => {
         return (

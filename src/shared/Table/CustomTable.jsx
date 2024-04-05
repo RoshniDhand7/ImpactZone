@@ -3,7 +3,20 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { convertBooleanValues } from '../../utils/commonFunctions';
 
-const CustomTable = ({ convertToboolean = true, data, columns, onView, onEdit, onDelete, onCopy, selectedRow, setSelectedRow, showSelectionElement }) => {
+const CustomTable = ({
+    convertToboolean = true,
+    data,
+    columns,
+    onView,
+    onEdit,
+    onDelete,
+    onCopy,
+    selectedRow,
+    setSelectedRow,
+    showSelectionElement,
+    reorderableRows,
+    onRowReorder,
+}) => {
     const actionTemplate = (data) => {
         return (
             <span className="flex ">
@@ -22,10 +35,13 @@ const CustomTable = ({ convertToboolean = true, data, columns, onView, onEdit, o
             paginator
             rows={5}
             selection={selectedRow}
+            reorderableRows={reorderableRows}
             onSelectionChange={setSelectedRow ? (e) => setSelectedRow(e.value) : ''}
+            onRowReorder={onRowReorder}
             selectionMode="checkbox"
             showSelectionElement={showSelectionElement}
         >
+            {reorderableRows && <Column rowReorder style={{ width: '3rem' }} />}
             {columns.map((col) => (
                 <Column
                     key={col.field}

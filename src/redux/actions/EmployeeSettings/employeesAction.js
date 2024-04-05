@@ -71,6 +71,19 @@ const getEmployeePay = (id) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
+const CalendarDefaultSorting = (arr, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const payload = { list: arr?.map((item) => item._id) };
+
+    const res = await api('post', EndPoints.DEFAULT_CALENDAR, payload);
+    if (res.success) {
+        if (res.data) {
+            next();
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+
 const editEmployee =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -112,4 +125,4 @@ const deleteEmployee = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay };
+export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay, CalendarDefaultSorting };

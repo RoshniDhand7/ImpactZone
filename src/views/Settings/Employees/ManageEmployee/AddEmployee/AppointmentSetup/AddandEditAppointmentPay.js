@@ -9,11 +9,11 @@ import formValidation from '../../../../../../utils/validations';
 import { showFormErrors } from '../../../../../../utils/commonFunctions';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
 import { AppointmentPayPriorityOptions, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
 import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 
-const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible }) => {
+const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible, employeeAppartId, setEmployeeAppartId }) => {
     const dispatch = useDispatch();
     const initialState = {
         name: '',
@@ -25,7 +25,6 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
     const [data, setData] = useState(initialState);
 
     const [loading, setLoading] = useState(false);
-    const [employeeAppartId, setEmployeeAppartId] = useState(null);
 
     useEffect(() => {
         dispatch(getEvents());
@@ -59,14 +58,14 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
             if (employeeAppartId) {
                 dispatch(
                     editEmployeeAppointmentPay(employeeAppartId, { ...data }, setLoading, () => {
-                        funcGetEmpAppointment(id);
+                        funcGetEmpAppointment();
                         onClose();
                     }),
                 );
             } else {
                 dispatch(
                     addEmployeeAppointmentPay({ ...data, employee: id }, setLoading, () => {
-                        funcGetEmpAppointment(id);
+                        funcGetEmpAppointment();
                         onClose();
                     }),
                 );

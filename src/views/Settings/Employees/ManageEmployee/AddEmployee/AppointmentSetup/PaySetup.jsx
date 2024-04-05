@@ -6,9 +6,9 @@ import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Inpu
 import { useDispatch, useSelector } from 'react-redux';
 import {
     deletetEmployeeAppartment,
-    editEmployeeAppointmentPay,
     getEmployeeAppointmentPay,
     isDefaultAppointmentPay,
+    updateEmployeeAppointmentPayLevel,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { confirmDelete } from '../../../../../../utils/commonFunctions';
@@ -22,7 +22,6 @@ const PaySetup = () => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeAppartId, setEmployeeAppartId] = useState(null);
-    const [appointmentData, setAppointmentData] = useState([]);
 
     const [defaultPay, setDefaultPay] = useState(false);
 
@@ -31,23 +30,22 @@ const PaySetup = () => {
         isDefaultPay: '',
         isClassLevel: '',
     });
-
+    let { allAppointmentPay } = useSelector((state) => state?.employees);
     useEffect(() => {
-        funcGetEmpAppointment(id);
-    }, [data?.isClassLevel]);
-    const funcGetEmpAppointment = (id) => {
-        dispatch(
-            getEmployeeAppointmentPay(id, data?.isClassLevel, 'PAY', setLoading, (data) => {
-                setAppointmentData(data);
-            }),
-        );
+        funcGetEmpAppointment();
+    }, []);
+    const funcGetEmpAppointment = () => {
+        dispatch(getEmployeeAppointmentPay(id, 'PAY'));
     };
     useEffect(() => {
         dispatch(getLevels());
     }, [dispatch]);
     useEffect(() => {
-        setData((prev) => ({ ...prev, isClassLevel: appointmentData?.isClassLevel }));
-    }, [appointmentData?.isClassLevel]);
+        if (allAppointmentPay) {
+            setData((prev) => ({ ...prev, isClassLevel: allAppointmentPay?.isClassLevel }));
+        }
+    }, [allAppointmentPay]);
+
     const { levelDropdown } = useSelector((state) => state.level);
 
     const onClose = () => {
@@ -57,6 +55,15 @@ const PaySetup = () => {
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
+
+        if (name === 'isClassLevel') {
+            dispatch(
+                updateEmployeeAppointmentPayLevel(id, value, () => {
+                    funcGetEmpAppointment();
+                }),
+            );
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        }
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
@@ -70,7 +77,7 @@ const PaySetup = () => {
         confirmDelete(() => {
             dispatch(
                 deletetEmployeeAppartment(col._id, () => {
-                    funcGetEmpAppointment(id);
+                    funcGetEmpAppointment();
                     setVisible(false);
                 }),
             );
@@ -82,16 +89,14 @@ const PaySetup = () => {
     };
 
     const handleSave = () => {
-        setAppointmentData((prevData) => ({
-            ...prevData,
-            list: prevData.list.map((item) => ({
-                ...item,
-                pay: data?.isDefaultPay,
-            })),
+        allAppointmentPay = allAppointmentPay?.list?.map((item) => ({
+            ...item,
+            pay: data?.isDefaultPay,
         }));
+
         dispatch(
             isDefaultAppointmentPay({ pay: data.isDefaultPay }, () => {
-                funcGetEmpAppointment(id);
+                funcGetEmpAppointment();
                 onClose();
             }),
         );
@@ -105,8 +110,15 @@ const PaySetup = () => {
                     <PrimaryButton name="" className="w-12rem" label="Default Pay" onClick={() => setDefaultPay(true)} />
                 </div>
             </CustomFilterCard>
-            <CustomTable data={appointmentData?.list} columns={columns} onEdit={onEdit} onDelete={onDelete} />
-            <AddandEditAppointmentPay funcGetEmpAppointment={funcGetEmpAppointment} id={id} setVisible={setVisible} visible={visible} />
+            <CustomTable data={allAppointmentPay?.list} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <AddandEditAppointmentPay
+                funcGetEmpAppointment={funcGetEmpAppointment}
+                id={id}
+                setVisible={setVisible}
+                visible={visible}
+                employeeAppartId={employeeAppartId}
+                setEmployeeAppartId={setEmployeeAppartId}
+            />
             <CustomDialog title="Default Pay" visible={defaultPay} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInputNumber col="12" name="isDefaultPay" label="Default" data={data} onChange={handleChange} />
