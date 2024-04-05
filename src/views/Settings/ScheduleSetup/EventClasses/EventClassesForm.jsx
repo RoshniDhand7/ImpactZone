@@ -17,6 +17,8 @@ import { types } from '../../../../redux/types/types';
 const EventClassesForm = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const { allEmployees, employeePayType } = useSelector((state) => state.employees);
+
     const [data, setData] = useState({
         event: '',
         classMeet: '',
@@ -53,7 +55,7 @@ const EventClassesForm = () => {
     useEffect(() => {
         if (id) {
             dispatch(
-                getEventClass(id, async (data) => {
+                getEventClass(id, (data) => {
                     setData({
                         event: data.event,
                         classMeet: data.classMeet,
@@ -73,13 +75,13 @@ const EventClassesForm = () => {
                     });
                     if (data.instructor && data.instructor.length > 0) {
                         for (const instructorItem of data.instructor) {
-                            await fetchAssistantPayOptions(instructorItem.assistant);
+                            fetchAssistantPayOptions(instructorItem.assistant);
                         }
                     }
                 }),
             );
         }
-    }, [id, dispatch]);
+    }, [id, dispatch, allEmployees]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
         const employeeWithLevel = allEmployees.find((employee) => employee._id === assistantId);
@@ -99,7 +101,6 @@ const EventClassesForm = () => {
         }
     };
 
-    const { allEmployees, employeePayType } = useSelector((state) => state.employees);
     const { locationDropdown } = useSelector((state) => state.locations);
     const { allEventClassesDropDown } = useSelector((state) => state.event);
     const history = useHistory();
