@@ -337,3 +337,4 @@ export const classMeet = ['One Time', 'Two Time', 'Three Time', 'Four Time', 'Fi
     value: index + 1,
 }));
 export const WeekDaysOption = ['Sunday', 'Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((name) => ({ name, value: name }));
+export const SpecialRestrictionOptions = ['None', 'By Age', 'By Location', 'By Days'].map((name) => ({ name, value: name }));

@@ -77,7 +77,7 @@ const General = () => {
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
     let { categoryDropdown } = useSelector((state) => state.category);
 
-    categoryDropdown = [...categoryDropdown, { name: 'NONE', value: 'NONE' }];
+    categoryDropdown = [...categoryDropdown, defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
 

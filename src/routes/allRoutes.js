@@ -16,10 +16,7 @@ import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
 import Inventory from '../views/Settings/Inventory/Inventory';
 import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGeneral';
 import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
-import EventsForm from '../views/Settings/ScheduleSetup/EventSetup/EventsForm';
 import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/AddandEditServices';
-import EventCategoriesForm from '../views/Settings/ScheduleSetup/EventCategories/EventCategoriesForm';
-import EventClassesForm from '../views/Settings/ScheduleSetup/EventClasses/EventClassesForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -45,6 +42,10 @@ const CategoriesForm = lazy(() => import('../views/Settings/Inventory/Categories
 const VendorForm = lazy(() => import('../views/Settings/Inventory/Vendors/VendorForm'));
 const ReferralGroupForm = lazy(() => import('../views/Settings/Inventory/ReferralGroup/ReferralGroupForm'));
 const CommissionGroupForm = lazy(() => import('../views/Settings/Inventory/CommissionGroup/CommissionGroupForm'));
+const MembershipTypeForm = lazy(() => import('../views/Settings/MembersSetup/MembershipTypes/MembershipTypeForm'));
+const EventClassesForm = lazy(() => import('../views/Settings/ScheduleSetup/EventClasses/EventClassesForm'));
+const EventCategoriesForm = lazy(() => import('../views/Settings/ScheduleSetup/EventCategories/EventCategoriesForm'));
+const EventsForm = lazy(() => import('../views/Settings/ScheduleSetup/EventSetup/EventsForm'));
 
 export const PrivateRoutes = [
     {
@@ -392,6 +393,18 @@ export const PrivateRoutes = [
                 exact: true,
                 component: MembersSetup,
                 items: [
+                    {
+                        path: '/membership-types/add',
+                        name: 'Members',
+                        exact: true,
+                        component: MembershipTypeForm,
+                    },
+                    {
+                        path: '/membership-types/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: MembershipTypeForm,
+                    },
                     {
                         path: '/campaign-group/add',
                         name: 'Members',

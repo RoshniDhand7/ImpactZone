@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import CustomTable from '../../../../shared/Table/CustomTable';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
-import { addAccessSchedule, deleteAccessSchedule, getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
+import CustomTable from '../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMembershipType, getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
+import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 
-const AcessSchedule = () => {
+const MembershipTypes = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAccessSchedules());
+        // dispatch(getMembersipTypes());
     }, [dispatch]);
 
-    const { allAccessSchedule } = useSelector((state) => state.accessSchedule);
+    const { allMembershipTypes } = useSelector((state) => state.membershipTypes);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     const [visible, setVisible] = useState(false);
 
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'description', header: 'Description' },
-        { field: 'shortName', header: 'Short Name' },
+        { field: 'shortName', header: 'Discount Type' },
+        { field: 'shortName', header: '# Members' },
         { field: 'isActive', header: 'Active' },
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/access-schedule/edit/${col._id}`);
+        history.push(`/settings/members/membership-types/edit/${col._id}`);
     };
     const onCopy = (col) => {
         setVisible(col);
@@ -37,9 +38,9 @@ const AcessSchedule = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                dispatch(deleteAccessSchedule(col._id, () => {}));
+                dispatch(deleteMembershipType(col._id, () => {}));
             },
-            'Do you want to delete this Access Schedule ?',
+            'Do you want to delete this Membership Type ?',
             position,
         );
     };
@@ -54,12 +55,6 @@ const AcessSchedule = () => {
                 schedule: visible?.schedule,
                 duration: visible?.duration,
             };
-            dispatch(
-                addAccessSchedule(payload, history, '', () => {
-                    onClose();
-                    dispatch(getAccessSchedules());
-                }),
-            );
         }
     };
 
@@ -80,9 +75,9 @@ const AcessSchedule = () => {
     };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Access Schedule" linkTo="/settings/members/access-schedule/add" />
-            <CustomTable data={allAccessSchedule} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
-            <CustomDialog title={'Copy Access Schedule'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomFilterCard buttonTitle="Add Membership Types" linkTo="/settings/members/membership-types/add" />
+            <CustomTable data={allMembershipTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomDialog title="Copy Membership Types" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                 </CustomGridLayout>
@@ -91,4 +86,4 @@ const AcessSchedule = () => {
     );
 };
 
-export default AcessSchedule;
+export default MembershipTypes;
