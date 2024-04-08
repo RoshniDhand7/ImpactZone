@@ -68,7 +68,7 @@ const PaySetup = () => {
     };
 
     const columns = [
-        { field: 'name', header: 'Name' },
+        { field: 'event', header: 'Name' },
         { field: 'priority', header: 'Priority' },
         { field: 'pay', header: 'Pay' },
     ];
