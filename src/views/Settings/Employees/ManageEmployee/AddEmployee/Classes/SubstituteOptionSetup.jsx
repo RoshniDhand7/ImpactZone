@@ -25,7 +25,7 @@ export default function SubstituteOptionSetup() {
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const [data, setData] = useState({
-        name: '',
+        event: '',
         priority: 'MEDIUM',
     });
 
@@ -51,7 +51,7 @@ export default function SubstituteOptionSetup() {
             dispatch(
                 getSubstitutionOption(substitutionOptionsId, (data) => {
                     setData({
-                        name: data.name,
+                        event: data.event,
                         priority: data.priority,
                     });
                 }),
@@ -60,7 +60,7 @@ export default function SubstituteOptionSetup() {
     }, [substitutionOptionsId, dispatch]);
 
     const columns = [
-        { field: 'name', header: 'Name' },
+        { field: 'event', header: 'Name' },
         { field: 'priority', header: 'Priority' },
     ];
 
@@ -72,7 +72,7 @@ export default function SubstituteOptionSetup() {
     const onClose = () => {
         setVisible(false);
         setData({
-            name: '',
+            event: '',
             priority: 'MEDIUM',
         });
         setSubstituteOptionsId(null);
@@ -109,6 +109,8 @@ export default function SubstituteOptionSetup() {
         }, 'Do you want to delete this Substitution Option?');
     };
 
+    console.log(data);
+
     return (
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
@@ -117,7 +119,7 @@ export default function SubstituteOptionSetup() {
             </CustomCard>
             <CustomDialog title={substitutionOptionsId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="name" data={data} onChange={handleChange} options={allEventClassesDropDown} col={12} />
+                    <CustomDropDown name="event" data={data} onChange={handleChange} options={allEventClassesDropDown} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={substitutionPriorityOptions} col={12} />
                 </CustomGridLayout>
             </CustomDialog>

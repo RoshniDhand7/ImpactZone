@@ -174,7 +174,7 @@ const EventGeneral = () => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Durations">
-                <CustomPickList name="duration" selected={data?.duration} sourceData={durationList} onPickListChange={handleChange} />
+                <CustomPickList name="duration" selected={data?.duration} sourceData={durationList} onPickListChange={handleChange} showTargetControls={true} />
                 {<div className="text-red text-sm">{data?.formErrors?.duration}</div>}
             </CustomCard>
             <CustomButtonGroup>

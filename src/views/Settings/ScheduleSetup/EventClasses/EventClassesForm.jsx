@@ -56,6 +56,7 @@ const EventClassesForm = () => {
         if (id) {
             dispatch(
                 getEventClass(id, (data) => {
+                    dispatch(getEmployeePay(data?.staff));
                     setData({
                         event: data.event,
                         classMeet: data.classMeet,
@@ -88,7 +89,7 @@ const EventClassesForm = () => {
         if (employeeWithLevel) {
             const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
             const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
-            const defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
+            const defaultPay = employeeWithLevel?.employeeClassData?.find((item) => item.isDefaultPay);
 
             setData((prev) => ({
                 ...prev,
@@ -164,10 +165,10 @@ const EventClassesForm = () => {
     useEffect(() => {
         if (employeePayType) {
             let defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
-            console.log(defaultPay, 'defaultPaySingle');
+            console.log(defaultPay, employeePayType, 'defaultPaySingle');
             setData((prev) => ({ ...prev, payType: defaultPay ? defaultPay.payType : null }));
         }
-    }, [employeePayType]);
+    }, [employeePayType, allEmployees]);
 
     const handleChangeDynamicField = async ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
@@ -179,7 +180,7 @@ const EventClassesForm = () => {
             setData(() => ({
                 ..._newData,
             }));
-            await dispatch(getEmployeePay(value)); // Wait for the dispatch to complete
+            await dispatch(getEmployeePay(value));
         }
 
         const formErrors = formValidation(name, value, obj);
@@ -189,15 +190,16 @@ const EventClassesForm = () => {
             ..._newData,
         }));
 
-        // Update pay type options for the current assistant
         if (name === 'assistant') {
             const selectedAssistant = value;
             const employeeWithLevel = allEmployees.find((employee) => employee._id === selectedAssistant);
+
+            console.log(employeeWithLevel, 'employeeWithLevel');
             if (employeeWithLevel) {
                 const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
                 const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
-                const defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
-
+                const defaultPay = employeeWithLevel?.employeeClassData?.find((item) => item.isDefaultPay);
+                console.log('defaultPayMul>>', uniquePayTypeOptions, defaultPay, employeePayType);
                 setData((prev) => ({
                     ...prev,
                     instructor: prev.instructor.map((inst, idx) =>
@@ -284,7 +286,9 @@ const EventClassesForm = () => {
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
                         <CustomCalenderInput name="endDate" onChange={handleChange} data={data} />
                     </CustomGridLayout>
-                    <PrimaryButton label="Add New Schedule" className="mx-2" onClick={handleAddSchedule} loading={loading} />
+                    <CustomGridLayout extraClass="justify-content-end">
+                        <PrimaryButton label="Add New Schedule" className="mx-2 " onClick={handleAddSchedule} loading={loading} />
+                    </CustomGridLayout>
                     {data?.schedule?.map((scheduleItem, index) => (
                         <div key={index}>
                             <CustomGridLayout extraClass="align-items-center">
@@ -316,7 +320,9 @@ const EventClassesForm = () => {
                         <CustomDropDown name="staff" options={employeesWithLevel} onChange={handleChange} data={data} />
                         <CustomDropDown name="payType" options={getPayOptions()} onChange={handleChange} data={data} />
                     </CustomGridLayout>
-                    <PrimaryButton label="Add Assistant" className="mx-2" onClick={handleAddAssistant} loading={loading} />
+                    <CustomGridLayout extraClass="justify-content-end">
+                        <PrimaryButton label="Add Assistant" className="mx-2" onClick={handleAddAssistant} loading={loading} />
+                    </CustomGridLayout>
                     {data?.instructor?.map((inst, index) => (
                         <div key={index}>
                             <CustomGridLayout extraClass="align-items-center">
@@ -331,7 +337,7 @@ const EventClassesForm = () => {
                                 <CustomDropDown
                                     name="assistantPay"
                                     customIndex={index}
-                                    options={inst.assistantPayOptions} // Use assistant pay options for each assistant
+                                    options={inst.assistantPayOptions}
                                     fieldName="instructor"
                                     onChange={handleChangeDynamicField}
                                     data={inst}
@@ -340,29 +346,6 @@ const EventClassesForm = () => {
                             </CustomGridLayout>
                         </div>
                     ))}
-                    {/* {data?.instructor?.map((inst, index) => (
-                        <div key={index}>
-                            <CustomGridLayout extraClass="align-items-center">
-                                <CustomDropDown
-                                    name="assistant"
-                                    customIndex={index}
-                                    options={getAssistantOptions(index)}
-                                    fieldName="instructor"
-                                    onChange={handleChangeDynamicField}
-                                    data={inst}
-                                />
-                                <CustomDropDown
-                                    name="assistantPay"
-                                    customIndex={index}
-                                    options={getPayOptions()}
-                                    fieldName="instructor"
-                                    onChange={handleChangeDynamicField}
-                                    data={inst}
-                                />
-                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'instructor')}></i>}
-                            </CustomGridLayout>
-                        </div>
-                    ))} */}
                 </CustomCard>
                 <CustomCard title="Participants" col="12">
                     <CustomGridLayout>

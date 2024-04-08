@@ -53,6 +53,13 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
+        case 'endDate':
+            if (value < state?.startDate) {
+                formErrors[name] = `End date should not be less than start date`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
 
         case 'otpCode':
             if (value.length === 4) {
@@ -110,6 +117,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'logo':
         case 'services':
         case 'duration':
+        case 'event':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {

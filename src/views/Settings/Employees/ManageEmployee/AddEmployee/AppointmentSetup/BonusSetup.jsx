@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
@@ -49,11 +49,7 @@ const BonusSetup = ({ type }) => {
     }, []);
     const funcGetEmpAppointment = (id) => {
         if (type === 'appointment') {
-            dispatch(
-                getEmployeeAppointmentPay(id, '', 'BONUS', setLoading, (data) => {
-                    setAppointmentData(data);
-                }),
-            );
+            dispatch(getEmployeeAppointmentPay(id, 'BONUS', setLoading));
         } else {
             dispatch(
                 getEmployeeSalesItem(id, 'BONUS', setLoading, (data) => {
@@ -62,6 +58,7 @@ const BonusSetup = ({ type }) => {
             );
         }
     };
+    let { allAppointmentPay } = useSelector((state) => state?.employees);
 
     useEffect(() => {
         if (employeeAppartBonusId) {
@@ -163,10 +160,12 @@ const BonusSetup = ({ type }) => {
 
         { field: 'services', body: (r) => r.services.join(','), header: 'Services' },
     ];
+
+    console.log('appointmentData>>', appointmentData);
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
-            <CustomTable data={type === 'appointment' ? appointmentData?.list : appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={type === 'appointment' ? allAppointmentPay?.list : appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
 
             <CustomDialog
                 title={employeeAppartBonusId ? 'Edit' : 'Add'}

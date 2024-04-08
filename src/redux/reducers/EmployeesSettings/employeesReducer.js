@@ -5,6 +5,7 @@ const intitalState = {
     employeePayType: [],
     allEmployeeClasses: [],
     allAppointmentPay: [],
+    isClassLevel: '',
 };
 
 const employeesReducer = (state = intitalState, action) => {
@@ -24,6 +25,7 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEmployeeClasses: action.payload,
+                isClassLevel: action.payload.isClassLevel,
             };
         case types.CHANGE_EMPLOYEE_APPOINTMENT_PAY:
             return {

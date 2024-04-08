@@ -16,7 +16,7 @@ import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/even
 const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible, employeeAppartId, setEmployeeAppartId }) => {
     const dispatch = useDispatch();
     const initialState = {
-        name: '',
+        event: '',
         priority: 'PER-EVENT',
         type: 'PAY',
         pay: 0,
@@ -36,7 +36,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
             dispatch(
                 getEmployeeAppartment(employeeAppartId, setLoading, (data) => {
                     setData({
-                        name: data.name,
+                        event: data.event,
                         priority: data.priority,
                         type: 'PAY',
                         pay: data.pay,
@@ -81,7 +81,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
         <>
             <CustomDialog title={employeeAppartId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="name" data={data} onChange={handleChange} options={allEventAppointmentDropDown} col={12} />
+                    <CustomDropDown name="event" data={data} onChange={handleChange} options={allEventAppointmentDropDown} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
                     <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

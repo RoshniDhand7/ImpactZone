@@ -58,8 +58,6 @@ const EventCategoriesForm = () => {
             <FormPage backText="Event Categories">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                </CustomGridLayout>
-                <CustomGridLayout extraClass="justify-content-end ">
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                 </CustomGridLayout>
                 <CustomCard title="Add Event Setups" col="12">
