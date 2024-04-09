@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
-import Counter from './Counter';
-import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { getEmployeeAppointmentPay } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import { useParams } from 'react-router-dom';
 import { CalendarDefaultSorting } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
@@ -17,7 +15,7 @@ const CalendarDefault = () => {
     }, [dispatch]);
 
     let { allEvents } = useSelector((state) => state.event);
-    let { isClassLevel } = useSelector((state) => state?.employees);
+    let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
     const columns = [
         { field: 'name', header: 'Event' },
@@ -27,12 +25,12 @@ const CalendarDefault = () => {
     const [reorderd, setReorderd] = useState([]);
     useEffect(() => {
         if (allEvents) {
-            const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Appointments');
+            const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
 
             setReorderd(filteredEvents);
-            console.log(filteredEvents, 'allEvent');
+            console.log(allEvents, filteredEvents, isAppointmentLevel, 'allEvent');
         }
-    }, [isClassLevel, allEvents]);
+    }, [isAppointmentLevel, allEvents]);
 
     const handleRowReorder = (reorderedData) => {
         setReorderd(reorderedData.value);
@@ -43,7 +41,7 @@ const CalendarDefault = () => {
         );
     };
 
-    console.log(isClassLevel);
+    console.log(isAppointmentLevel);
 
     return (
         <>

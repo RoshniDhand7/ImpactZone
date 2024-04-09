@@ -114,6 +114,17 @@ const EventClassesForm = () => {
     useEffect(() => {
         if (data?.event) {
             dispatch(getServicesEvents(data?.event));
+            setData((prev) => ({
+                ...prev,
+                staff: '',
+                payType: '',
+                instructor: [
+                    {
+                        assistant: null,
+                        assistantPay: '',
+                    },
+                ],
+            }));
         }
     }, [data?.event]);
 

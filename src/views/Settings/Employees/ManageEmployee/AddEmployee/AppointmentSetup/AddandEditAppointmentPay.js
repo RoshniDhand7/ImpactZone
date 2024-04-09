@@ -32,7 +32,9 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
     let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
     const { allEvents } = useSelector((state) => state.event);
-    const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
+    const filteredEvents = allEvents
+        ?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments')
+        ?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
         if (employeeAppartId) {

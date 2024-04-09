@@ -16,6 +16,7 @@ import CustomTable from '../../../../../../shared/Table/CustomTable';
 import formValidation from '../../../../../../utils/validations';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
+import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
 
 const BonusSetup = ({ type }) => {
     const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const BonusSetup = ({ type }) => {
         bonusAmount: 0,
         type: 'BONUS',
         amountType: 'FIXED',
-        services: ['Private Sessions'],
+        services: [],
     };
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -43,6 +44,11 @@ const BonusSetup = ({ type }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
+    useEffect(() => {
+        dispatch(getCatalogItems());
+    }, [dispatch]);
+
+    const { catalogServiceDropdown } = useSelector((state) => state.catalogItems);
 
     useEffect(() => {
         funcGetEmpAppointment(id);
@@ -158,7 +164,7 @@ const BonusSetup = ({ type }) => {
         { field: 'selectTimeframe.over', body: (r) => r.selectTimeframe.over + ' ' + r.selectTimeframe.duration.toLowerCase(), header: 'Time Frame' },
         { field: 'bonusAmount', body: (r) => (r.amountType === 'FIXED' ? '$' + r.bonusAmount : r.bonusAmount + '%'), header: 'Bonus Amount' },
 
-        { field: 'services', body: (r) => r.services.join(','), header: 'Services' },
+        { field: 'services', body: (r) => r.services?.map((item) => item.name)?.join(','), header: 'Services' },
     ];
 
     console.log('appointmentData>>', appointmentData);
@@ -186,7 +192,7 @@ const BonusSetup = ({ type }) => {
                     <CustomDropDown label="" name="duration" data={data} onChange={handleChange} col={6} options={durationOptions} />
                     <CustomInputNumber col={8} name="bonusAmount" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
-                    <CustomMultiselect col="12" name="services" data={data} onChange={handleChange} options={servicesOptions} />
+                    <CustomMultiselect col="12" name="services" data={data} onChange={handleChange} options={catalogServiceDropdown} />
                 </CustomGridLayout>
             </CustomDialog>
         </>

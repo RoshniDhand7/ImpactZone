@@ -18,8 +18,8 @@ const EventClasses = () => {
     const columns = [
         { field: 'event', header: 'Name' },
         { field: 'classLocation', header: 'Location' },
-        { field: 'days', body: (r) => r.schedule[0]?.days, header: 'Schedule' },
-        { field: 'instructor', body: (r) => r.instructor[0]?.assistant, header: 'Instructor' },
+        { field: 'days', body: (r) => r.schedule[0]?.days?.join(','), header: 'Schedule' },
+        { field: 'instructor', body: (r) => r.instructor[0]?.firstName, header: 'Instructor' },
         { field: 'totalCapacity', header: 'Capacity' },
         { field: 'isActive', header: 'Active' },
     ];

@@ -40,7 +40,9 @@ export default function SubstituteOptionSetup() {
     const { allEvents } = useSelector((state) => state.event);
 
     console.log(allEvents);
-    const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Class');
+    const filteredEvents = allEvents
+        ?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Class')
+        ?.map((item) => ({ name: item.name, value: item._id }));
 
     const funcGetEmpSubstitution = (id) => {
         dispatch(
