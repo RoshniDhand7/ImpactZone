@@ -29,8 +29,11 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
     useEffect(() => {
         dispatch(getEvents());
     }, []);
+    let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
-    const { allEventAppointmentDropDown } = useSelector((state) => state.event);
+    const { allEvents } = useSelector((state) => state.event);
+    const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
+
     useEffect(() => {
         if (employeeAppartId) {
             dispatch(
@@ -81,7 +84,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
         <>
             <CustomDialog title={employeeAppartId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="event" data={data} onChange={handleChange} options={allEventAppointmentDropDown} col={12} />
+                    <CustomDropDown name="event" data={data} onChange={handleChange} options={filteredEvents} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
                     <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

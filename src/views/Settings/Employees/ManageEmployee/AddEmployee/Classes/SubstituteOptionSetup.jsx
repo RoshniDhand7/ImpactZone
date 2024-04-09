@@ -30,11 +30,18 @@ export default function SubstituteOptionSetup() {
     });
 
     const [substitutionOptionsId, setSubstituteOptionsId] = useState('');
+    let { isClassLevel } = useSelector((state) => state?.employees);
+
     useEffect(() => {
         funcGetEmpSubstitution(id);
+        // dispatch(getEmployees());
         dispatch(getEvents());
     }, []);
-    const { allEventClassesDropDown } = useSelector((state) => state.event);
+    const { allEvents } = useSelector((state) => state.event);
+
+    console.log(allEvents);
+    const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Class');
+
     const funcGetEmpSubstitution = (id) => {
         dispatch(
             getEmployeeSubstitutionOptions(id, setLoading, (data) => {
@@ -119,7 +126,7 @@ export default function SubstituteOptionSetup() {
             </CustomCard>
             <CustomDialog title={substitutionOptionsId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="event" data={data} onChange={handleChange} options={allEventClassesDropDown} col={12} />
+                    <CustomDropDown name="event" data={data} onChange={handleChange} options={filteredEvents} col={12} />
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={substitutionPriorityOptions} col={12} />
                 </CustomGridLayout>
             </CustomDialog>

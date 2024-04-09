@@ -33,7 +33,7 @@ const EventClassesForm = () => {
         ],
         instructor: [
             {
-                assistant: '',
+                assistant: null,
                 assistantPay: '',
             },
         ],
@@ -355,14 +355,20 @@ const EventClassesForm = () => {
                 </CustomCard>
                 <CustomCard title="Online Scheduling" col="12">
                     <CustomGridLayout>
-                        <CustomCheckbox name="clientSignupClass" label="Allow clients to sign up for this class online" onChange={handleChange} data={data} />
-                        <CustomInputNumber name="onlineCapacity" label="Online Capacity" onChange={handleChange} data={data} />
+                        <CustomCheckbox
+                            name="clientSignupClass"
+                            label="Allow clients to sign up for this class online"
+                            onChange={handleChange}
+                            data={data}
+                            col="12"
+                        />
+                        <CustomInputNumber name="onlineCapacity" label="Online Capacity" onChange={handleChange} data={data} col="6" />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard title="Pricing" col="12">
                     <CustomGridLayout>
-                        <CustomCheckbox name="clientPaylater" label="Allow clients to sign up now and pay later" onChange={handleChange} data={data} />
-                        <CustomCheckbox name="clientClassFree" label="Clients can attend this class for free" onChange={handleChange} data={data} />
+                        <CustomCheckbox name="clientPaylater" label="Allow clients to sign up now and pay later" onChange={handleChange} data={data} col="12" />
+                        <CustomCheckbox name="clientClassFree" label="Clients can attend this class for free" onChange={handleChange} data={data} col="12" />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

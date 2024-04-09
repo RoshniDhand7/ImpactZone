@@ -28,7 +28,7 @@ const PaySetup = () => {
     const { id } = useParams();
     const [data, setData] = useState({
         isDefaultPay: '',
-        isClassLevel: '',
+        isAppointmentLevel: '',
     });
     let { allAppointmentPay } = useSelector((state) => state?.employees);
     useEffect(() => {
@@ -42,7 +42,7 @@ const PaySetup = () => {
     }, [dispatch]);
     useEffect(() => {
         if (allAppointmentPay) {
-            setData((prev) => ({ ...prev, isClassLevel: allAppointmentPay?.isClassLevel }));
+            setData((prev) => ({ ...prev, isAppointmentLevel: allAppointmentPay?.isAppointmentLevel }));
         }
     }, [allAppointmentPay]);
 
@@ -56,7 +56,7 @@ const PaySetup = () => {
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
 
-        if (name === 'isClassLevel') {
+        if (name === 'isAppointmentLevel') {
             dispatch(
                 updateEmployeeAppointmentPayLevel(id, value, () => {
                     funcGetEmpAppointment();
@@ -106,7 +106,7 @@ const PaySetup = () => {
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end">
                 <div className="flex align-items-end">
-                    <CustomDropDown name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                    <CustomDropDown name="isAppointmentLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
                     <PrimaryButton name="" className="w-12rem" label="Default Pay" onClick={() => setDefaultPay(true)} />
                 </div>
             </CustomFilterCard>

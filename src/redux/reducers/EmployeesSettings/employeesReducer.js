@@ -6,6 +6,7 @@ const intitalState = {
     allEmployeeClasses: [],
     allAppointmentPay: [],
     isClassLevel: '',
+    isAppointmentLevel: '',
 };
 
 const employeesReducer = (state = intitalState, action) => {
@@ -31,7 +32,7 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allAppointmentPay: action.payload,
-                isClassLevel: action.payload.isClassLevel,
+                isAppointmentLevel: action.payload.isAppointmentLevel,
             };
         default:
             return { ...state };

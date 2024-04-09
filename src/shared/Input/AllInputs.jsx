@@ -11,6 +11,7 @@ import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
+import { capitalizeCamelCase } from '../../utils/commonFunctions';
 
 export const CustomInput = ({
     label,
@@ -250,17 +251,22 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
 };
 export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
-        <InputLayout col={col || 6} label={label} name={name} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
-            <Checkbox
-                id={name}
-                name={name}
-                inputId={label}
-                checked={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked })}
-                className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
-                {...props}
-            />
-        </InputLayout>
+        <>
+            <div className={`col-12  md:col-${col} ${extraClassName}`}>
+                <Checkbox
+                    id={name}
+                    name={name}
+                    inputId={label}
+                    checked={value || data?.[name]}
+                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked })}
+                    className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                    {...props}
+                />
+                <label htmlFor={label} className="ml-2 text-xs text-dark-gray font-semibold">
+                    {label ? capitalizeCamelCase(label) : label}
+                </label>
+            </div>
+        </>
     );
 };
 

@@ -11,11 +11,11 @@ const AppointmentSetup = () => {
         { title: 'Bonus', content: <BonusSetup type="appointment" /> },
         { title: 'Calendar Default', content: <CalendarDefault /> },
     ];
-    let { isClassLevel } = useSelector((state) => state?.employees);
+    let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
     return (
         <>
-            <CustomTabView name="appointment" tabs={tabs} useIndex={true} disabledTabIndices={isClassLevel ? [] : [1, 2]} />
+            <CustomTabView name="appointment" tabs={tabs} useIndex={true} disabledTabIndices={isAppointmentLevel ? [] : [1, 2]} />
         </>
     );
 };

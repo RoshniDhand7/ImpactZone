@@ -49,7 +49,7 @@ const updateEmployeeAppointmentPayLevel = (id, level, next) => async (dispatch) 
 
     const payload = {
         employee: id,
-        isClassLevel: level,
+        isAppointmentLevel: level,
     };
 
     const res = await api('post', EndPoints.UPDATE_APPOINTMENT_CLASS_LEVEL, payload);
