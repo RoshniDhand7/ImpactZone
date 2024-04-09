@@ -228,13 +228,14 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                         onClose();
                     }),
                 );
+            } else {
+                dispatch(
+                    addEmployeeClasses({ ...data, employee: id }, setLoading, () => {
+                        dispatch(getEmployeeClasses(id));
+                        onClose();
+                    }),
+                );
             }
-            dispatch(
-                addEmployeeClasses({ ...data, employee: id }, setLoading, () => {
-                    dispatch(getEmployeeClasses(id));
-                    onClose();
-                }),
-            );
         }
     };
 
