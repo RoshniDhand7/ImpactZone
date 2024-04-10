@@ -167,7 +167,6 @@ const BonusSetup = ({ type }) => {
         { field: 'services', body: (r) => r.services?.map((item) => item.name)?.join(','), header: 'Services' },
     ];
 
-    console.log('appointmentData>>', appointmentData);
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />

@@ -28,7 +28,6 @@ const CalendarDefault = () => {
             const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
 
             setReorderd(filteredEvents);
-            console.log(allEvents, filteredEvents, isAppointmentLevel, 'allEvent');
         }
     }, [isAppointmentLevel, allEvents]);
 
@@ -40,8 +39,6 @@ const CalendarDefault = () => {
             }),
         );
     };
-
-    console.log(isAppointmentLevel);
 
     return (
         <>

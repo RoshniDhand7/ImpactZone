@@ -12,7 +12,6 @@ import {
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../../../utils/validations';
 import { showFormErrors } from '../../../../../../utils/commonFunctions';
-import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 
 const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmployeeClassId }) => {
     const [loading, setLoading] = useState(false);

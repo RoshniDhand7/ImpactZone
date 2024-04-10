@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allAccessSchedule: [],
+    AccessScheduleDropdown: [],
 };
 
 const accessScheduleReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const accessScheduleReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allAccessSchedule: action.payload,
+                AccessScheduleDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

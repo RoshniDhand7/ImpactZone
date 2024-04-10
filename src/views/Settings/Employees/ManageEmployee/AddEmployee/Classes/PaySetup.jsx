@@ -58,8 +58,6 @@ export default function PaySetup() {
         }
     }, [allEmployeeClasses]);
 
-    console.log(allEmployeeClasses, 'allEmployeeClasses');
-
     const funcGetEmpClasses = () => {
         dispatch(getEmployeeClasses(id));
     };
@@ -270,8 +268,6 @@ export default function PaySetup() {
                 );
         }
     };
-
-    console.log(data?.isClassLevel);
 
     const handleSave = () => {};
     return (

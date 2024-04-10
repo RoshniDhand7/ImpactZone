@@ -16,6 +16,11 @@ const showFormErrors = (data, setData, ignore) => {
             ...formValidation(key, value, data, ignore),
         };
     });
+    ignore?.forEach((name) => {
+        if (formErrors[name]) {
+            formErrors[name] = '';
+        }
+    });
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };

@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allMembershipTypes: [],
+    MembershipTypesDropdown: [],
 };
 
 const membershipTypeReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const membershipTypeReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allMembershipTypes: action.payload,
+                MembershipTypesDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

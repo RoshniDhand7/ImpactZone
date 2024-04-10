@@ -39,7 +39,6 @@ export default function SubstituteOptionSetup() {
     }, []);
     const { allEvents } = useSelector((state) => state.event);
 
-    console.log(allEvents);
     const filteredEvents = allEvents
         ?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Class')
         ?.map((item) => ({ name: item.name, value: item._id }));
@@ -117,8 +116,6 @@ export default function SubstituteOptionSetup() {
             );
         }, 'Do you want to delete this Substitution Option?');
     };
-
-    console.log(data);
 
     return (
         <div>

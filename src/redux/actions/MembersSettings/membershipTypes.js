@@ -23,6 +23,37 @@ const getMembersipTypes = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
+
+const addMembershipType = (data, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+
+    const res = await api('post', EndPoints.MEMBERSHIP_TYPES, data);
+    if (res.success) {
+        next();
+    }
+    dispatch(hideLoaderAction());
+};
+const getMembershipType = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.MEMBERSHIP_TYPES + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+const editMembershipType = (id, data, history) => async (dispatch, getState) => {
+    dispatch(showLoaderAction());
+
+    const res = await api('put', EndPoints.MEMBERSHIP_TYPES + id, data);
+    if (res.success) {
+        history.goBack();
+    }
+    dispatch(hideLoaderAction());
+};
 const deleteMembershipType = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.MEMBERSHIP_TYPES + id);
     if (res.success) {
@@ -33,4 +64,4 @@ const deleteMembershipType = (id) => async (dispatch) => {
     }
 };
 
-export { getMembersipTypes, deleteMembershipType };
+export { getMembersipTypes, deleteMembershipType, addMembershipType, editMembershipType, getMembershipType };

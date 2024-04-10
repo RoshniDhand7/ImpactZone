@@ -5,9 +5,14 @@ import zipcodes from 'zipcodes';
 const formValidation = (name, value, state, ignore = []) => {
     let formErrors = { ...state.formErrors };
     if (ignore.includes(name)) {
-        if (formErrors[name]) formErrors[name] = '';
+        if (formErrors[name]) {
+            formErrors[name] = '';
+            console.log('hi3', formErrors);
+        }
         return formErrors;
     }
+
+    console.log(name, value, ignore, formErrors, 'yes');
     switch (name) {
         case 'email':
             if (equal(length(value))) {
@@ -152,6 +157,10 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'over':
         case 'bonusAmount':
         case 'pay':
+        case 'minimumAgeAllowed':
+        case 'maximumAgeAllowed':
+        case 'maximumDaysAllowed':
+        case 'maximumDistanceAllowed':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {

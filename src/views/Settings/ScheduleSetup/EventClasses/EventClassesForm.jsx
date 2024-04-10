@@ -176,7 +176,6 @@ const EventClassesForm = () => {
     useEffect(() => {
         if (employeePayType) {
             let defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
-            console.log(defaultPay, employeePayType, 'defaultPaySingle');
             setData((prev) => ({ ...prev, payType: defaultPay ? defaultPay.payType : null }));
         }
     }, [employeePayType, allEmployees]);
@@ -205,12 +204,10 @@ const EventClassesForm = () => {
             const selectedAssistant = value;
             const employeeWithLevel = allEmployees.find((employee) => employee._id === selectedAssistant);
 
-            console.log(employeeWithLevel, 'employeeWithLevel');
             if (employeeWithLevel) {
                 const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
                 const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
                 const defaultPay = employeeWithLevel?.employeeClassData?.find((item) => item.isDefaultPay);
-                console.log('defaultPayMul>>', uniquePayTypeOptions, defaultPay, employeePayType);
                 setData((prev) => ({
                     ...prev,
                     instructor: prev.instructor.map((inst, idx) =>
@@ -222,8 +219,6 @@ const EventClassesForm = () => {
             }
         }
     };
-
-    console.log(data, 'data');
 
     // const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
     //     const _newData = { ...data };

@@ -13,7 +13,6 @@ const Counter = ({ onChangeValue }) => {
     const [total, setTotal] = useState(0);
 
     const handleValue = (prev, val) => {
-        console.log(prev, val);
         setTotal((prevTotal) => prevTotal + val - prev);
     };
 

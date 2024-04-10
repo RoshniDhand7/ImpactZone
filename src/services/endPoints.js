@@ -54,6 +54,6 @@ const endPoints = {
     SCHEDULE_EVENT_CLEAR: '/event-setup-level-services-clear/',
     EVENT_CATEGORY: '/event-category/',
     CLASSES: '/schedule-classes/',
-    MEMBERSHIP_TYPES: '',
+    MEMBERSHIP_TYPES: '/member-setup/',
 };
 export default endPoints;

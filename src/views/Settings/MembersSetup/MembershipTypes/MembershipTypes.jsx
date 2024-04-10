@@ -5,7 +5,7 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteMembershipType, getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
+import { addMembershipType, deleteMembershipType, getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 
@@ -13,7 +13,7 @@ const MembershipTypes = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        // dispatch(getMembersipTypes());
+        dispatch(getMembersipTypes());
     }, [dispatch]);
 
     const { allMembershipTypes } = useSelector((state) => state.membershipTypes);
@@ -23,7 +23,7 @@ const MembershipTypes = () => {
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'description', header: 'Description' },
-        { field: 'shortName', header: 'Discount Type' },
+        { field: 'discountType', header: 'Discount Type' },
         { field: 'shortName', header: '# Members' },
         { field: 'isActive', header: 'Active' },
     ];
@@ -48,13 +48,29 @@ const MembershipTypes = () => {
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
             const payload = {
-                name: data?.name,
-                shortName: visible?.shortName,
-                color: visible?.color,
-                description: visible?.description,
-                schedule: visible?.schedule,
-                duration: visible?.duration,
+                name: data.name,
+                description: visible.description,
+                discountType: visible.discountType,
+                accessRestriction: visible.accessRestriction,
+                accessSchedule: visible.accessSchedule,
+                remotecheckin: visible.remotecheckin,
+                transferToAnotherType: visible.transferToAnotherType,
+                clubCreditAmount: visible.clubCreditAmount,
+                specialRestriction: visible.specialRestriction,
+                minimumAgeAllowed: visible.minimumAgeAllowed,
+                maximumAgeAllowed: visible.maximumAgeAllowed,
+                maximumDaysAllowed: visible.maximumDaysAllowed,
+                maximumDistanceAllowed: visible.maximumDistanceAllowed,
+                club: visible.club,
+                services: visible.services,
+                isActive: visible.isActive,
             };
+            dispatch(
+                addMembershipType(payload, () => {
+                    onClose();
+                    dispatch(getMembersipTypes());
+                }),
+            );
         }
     };
 

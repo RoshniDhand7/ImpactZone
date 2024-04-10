@@ -133,6 +133,22 @@ for (let i = 1; i <= 30; i++) {
     };
     daysOptions.push(option);
 }
+export const DeclinedaysOptions = [];
+
+const immediatelyOption = {
+    name: 'Immediately',
+    value: 0,
+};
+for (let i = 1; i <= 30; i++) {
+    const option = {
+        name: `${i} days`,
+        value: i,
+    };
+    DeclinedaysOptions.push(option);
+}
+
+DeclinedaysOptions.unshift(immediatelyOption);
+
 export const monthOptions = [];
 
 for (let i = 1; i <= 48; i++) {
@@ -144,6 +160,15 @@ for (let i = 1; i <= 48; i++) {
 }
 
 export const trackSizes = ['Extra Small', 'Small', 'Medium', 'Large', 'Extra Large', 'XXL'].map((name) => ({ name, value: name }));
+
+export const monthDropdownOptions = [];
+for (let i = 1; i <= 12; i++) {
+    const option = {
+        name: `${i} Month`,
+        value: i,
+    };
+    monthDropdownOptions.push(option);
+}
 
 export const hoursOptions = [];
 
@@ -338,3 +363,9 @@ export const classMeet = ['One Time', 'Two Time', 'Three Time', 'Four Time', 'Fi
 }));
 export const WeekDaysOption = ['Sunday', 'Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((name) => ({ name, value: name }));
 export const SpecialRestrictionOptions = ['None', 'By Age', 'By Location', 'By Days'].map((name) => ({ name, value: name }));
+export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No Show Fee', 'Freeze Fee', 'Cancellation Fee'].map((name) => ({
+    name,
+    value: name,
+}));
+
+export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));

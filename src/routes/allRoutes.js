@@ -17,6 +17,7 @@ import Inventory from '../views/Settings/Inventory/Inventory';
 import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGeneral';
 import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/AddandEditServices';
+import AssessedFeesForm from '../views/Settings/Agreement/AssessedFees/AssessedFeesForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -384,6 +385,18 @@ export const PrivateRoutes = [
                         name: 'Agreement Categories',
                         exact: true,
                         component: AgreementCategoriesForm,
+                    },
+                    {
+                        path: '/assessed-fees/add',
+                        name: 'Assessed Fee',
+                        exact: true,
+                        component: AssessedFeesForm,
+                    },
+                    {
+                        path: '/assessed-fees/edit/:id',
+                        name: 'Assessed Fee',
+                        exact: true,
+                        component: AssessedFeesForm,
                     },
                 ],
             },
