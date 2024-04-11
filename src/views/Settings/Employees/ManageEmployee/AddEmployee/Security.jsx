@@ -16,7 +16,6 @@ import { getSecurityRoles } from '../../../../../redux/actions/EmployeeSettings/
 const Security = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     useEffect(() => {

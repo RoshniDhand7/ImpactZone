@@ -10,7 +10,6 @@ export default function Business() {
     const tabs = [
         { title: 'Company', content: <Company /> },
         { title: 'Reason Code', content: <ReasonCode /> },
-        // { title: 'Cancel Code', content: <h1>Tab3</h1> },
         { title: 'Customization', content: <Customization /> },
         { title: 'Clubs', content: <Clubs /> },
         { title: 'Job Title', content: <JobTitle /> },

@@ -328,8 +328,8 @@ for (let k = 5; k <= 12; k++) {
 export const defaultMaxAttendesOptions = [];
 for (let i = 0; i <= 50; i++) {
     const option = {
-        name: i == 0 ? '0' : i,
-        value: i == 0 ? '0' : i,
+        name: i === 0 ? '0' : i,
+        value: i === 0 ? '0' : i,
     };
     defaultMaxAttendesOptions.push(option);
 }

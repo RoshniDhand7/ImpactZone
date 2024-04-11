@@ -16,7 +16,7 @@ const EventCategoriesForm = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getEvents());
-    }, []);
+    }, [dispatch]);
     const [data, setData] = useState({
         name: '',
         isActive: true,

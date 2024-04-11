@@ -53,8 +53,6 @@ export function CustomListItem({ label, name, data, value }) {
         } else {
             value = data[name] ? data[name] : '-';
         }
-    } else {
-        value = value;
     }
 
     return (

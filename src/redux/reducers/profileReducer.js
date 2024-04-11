@@ -1,16 +1,16 @@
 import { types } from '../types/types';
 const initialBoard = {
-  user: {},
+    user: {},
 };
 
 const profileReducer = (state = initialBoard, action) => {
-  switch (action.type) {
-    case types.PROFILE:
-      return { ...state, user: action.payload };
+    switch (action.type) {
+        case types.PROFILE:
+            return { ...state, user: action.payload };
 
-    default:
-      return { ...state };
-  }
+        default:
+            return { ...state };
+    }
 };
 
 export default profileReducer;

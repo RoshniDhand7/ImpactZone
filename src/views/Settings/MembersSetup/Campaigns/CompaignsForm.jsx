@@ -19,7 +19,7 @@ const CompaignsForm = () => {
         dispatch(getCampaignsGroups());
     }, [dispatch]);
 
-    const { allCompaignGroups, compaignGroupDropdown } = useSelector((state) => state.compaignGroups);
+    const { compaignGroupDropdown } = useSelector((state) => state.compaignGroups);
 
     useEffect(() => {
         if (id) {

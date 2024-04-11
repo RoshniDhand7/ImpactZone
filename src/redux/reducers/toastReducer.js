@@ -1,18 +1,18 @@
 import { types } from '../types/types';
 const intitalState = {
-  toastInfo: {},
+    toastInfo: {},
 };
 
 const toastReducer = (state = intitalState, action) => {
-  switch (action.type) {
-    case types.SHOW_TOAST:
-      return {
-        ...state,
-        toastInfo: action.payload,
-      };
-    default:
-      return { ...state };
-  }
+    switch (action.type) {
+        case types.SHOW_TOAST:
+            return {
+                ...state,
+                toastInfo: action.payload,
+            };
+        default:
+            return { ...state };
+    }
 };
 
 export default toastReducer;

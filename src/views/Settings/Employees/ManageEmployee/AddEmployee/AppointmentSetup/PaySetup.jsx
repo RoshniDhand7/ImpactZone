@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { useParams } from 'react-router-dom';
@@ -20,8 +20,8 @@ import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 const PaySetup = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [employeeAppartId, setEmployeeAppartId] = useState(null);
+    const loading = useSelector((state) => state?.loader?.isLoading);
 
     const [defaultPay, setDefaultPay] = useState(false);
 
@@ -31,12 +31,13 @@ const PaySetup = () => {
         isAppointmentLevel: '',
     });
     let { allAppointmentPay } = useSelector((state) => state?.employees);
+    const funcGetEmpAppointment = useCallback(() => {
+        dispatch(getEmployeeAppointmentPay(id, 'PAY'));
+    }, [dispatch, id]);
+
     useEffect(() => {
         funcGetEmpAppointment();
-    }, []);
-    const funcGetEmpAppointment = () => {
-        dispatch(getEmployeeAppointmentPay(id, 'PAY'));
-    };
+    }, [funcGetEmpAppointment]);
     useEffect(() => {
         dispatch(getLevels());
     }, [dispatch]);

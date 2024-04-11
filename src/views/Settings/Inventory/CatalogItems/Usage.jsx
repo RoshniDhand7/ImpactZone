@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import {
-    deleteUsageItem,
-    editUsageItem,
-    getCatalogItems,
-    getUsageItem,
-    singleUsageDelete,
-} from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { deleteUsageItem, editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory, useParams } from 'react-router-dom';
@@ -20,16 +14,12 @@ const Usage = () => {
     const [open, setOpen] = useState('');
     const { id } = useParams();
     const history = useHistory();
-    const { loading, setLoading } = useState(false);
     const [selected, setSelected] = useState([]);
     const [selected1, setSelected1] = useState([]);
-
     const [selected2, setSelected2] = useState([]);
-
     const [payTo, setPayTo] = useState([]);
     const [payFor, setPayFor] = useState([]);
     const [bundled, setBundled] = useState([]);
-
     const [usageId, setUsageId] = useState('');
 
     const dispatch = useDispatch();
@@ -38,6 +28,7 @@ const Usage = () => {
     }, [dispatch]);
 
     const { allCatalogItemsFilter, catalogTypeFilterItems } = useSelector((state) => state.catalogItems);
+    const loading = useSelector((state) => state?.loader?.isLoading);
 
     const [data, setData] = useState({
         checkInDeduction: 'false',
@@ -94,6 +85,7 @@ const Usage = () => {
         if (id) {
             getUsageItems();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch]);
     useEffect(() => {
         if (id) {

@@ -50,7 +50,7 @@ const EventClassesForm = () => {
         dispatch(getLocations());
         dispatch(getEvents());
         dispatch(getEmployees());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (id) {
@@ -82,6 +82,7 @@ const EventClassesForm = () => {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch, allEmployees]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
@@ -126,6 +127,7 @@ const EventClassesForm = () => {
                 ],
             }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.event]);
 
     const handleAddSchedule = () => {

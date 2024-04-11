@@ -28,7 +28,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
 
     useEffect(() => {
         dispatch(getEvents());
-    }, []);
+    }, [dispatch]);
     let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
     const { allEvents } = useSelector((state) => state.event);

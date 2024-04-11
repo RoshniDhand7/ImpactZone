@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CustomDropDown, CustomTextArea } from '../../../../shared/Input/AllInputs';
-import { BookingHours, daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
+import { BookingHours, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import formValidation from '../../../../utils/validations';

@@ -3,12 +3,12 @@ import DashboardCards from './DashboardCards';
 import DashboardGraphs from './DashboardGraphs';
 
 const Dashboard = () => {
-  return (
-    <>
-      <DashboardCards />
-      <DashboardGraphs />
-    </>
-  );
+    return (
+        <>
+            <DashboardCards />
+            <DashboardGraphs />
+        </>
+    );
 };
 
 export default Dashboard;

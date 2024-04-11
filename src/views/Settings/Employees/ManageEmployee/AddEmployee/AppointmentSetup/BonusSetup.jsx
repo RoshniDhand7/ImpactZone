@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { CustomDropDown, CustomInput, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
-import { amountTypeOptions, bonusTypeConstantsOptions, durationOptions, servicesOptions } from '../../../../../../utils/dropdownConstants';
+import { CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
+import { amountTypeOptions, bonusTypeConstantsOptions, durationOptions } from '../../../../../../utils/dropdownConstants';
 import {
     addEmployeeBonus,
     deleteEmployeeBonus,
@@ -52,6 +52,7 @@ const BonusSetup = ({ type }) => {
 
     useEffect(() => {
         funcGetEmpAppointment(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const funcGetEmpAppointment = (id) => {
         if (type === 'appointment') {
@@ -84,6 +85,7 @@ const BonusSetup = ({ type }) => {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [employeeAppartBonusId, dispatch]);
 
     const onClose = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function PointOfSale() {
-  return <div>PointOfSale</div>;
+    return <div>PointOfSale</div>;
 }

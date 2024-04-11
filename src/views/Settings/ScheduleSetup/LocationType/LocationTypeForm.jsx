@@ -3,7 +3,7 @@ import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs'
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { useHistory ,useParams} from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addLocationType, editLocationType, getLocationType } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
@@ -33,16 +33,16 @@ const LocationTypeForm = () => {
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value,formErrors }));
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-        if (id) {
-            dispatch(editLocationType(id, data, setLoading, history));
-        } else {
-            dispatch(addLocationType(data, setLoading, history));
+            if (id) {
+                dispatch(editLocationType(id, data, setLoading, history));
+            } else {
+                dispatch(addLocationType(data, setLoading, history));
+            }
         }
-    }
     };
     return (
         <>

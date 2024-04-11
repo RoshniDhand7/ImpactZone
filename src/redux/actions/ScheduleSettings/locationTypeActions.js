@@ -16,8 +16,7 @@ const getLocationTypes = (setLoading) => async (dispatch) => {
                 payload: res.data,
             });
         }
-    }
-    else {
+    } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     if (setLoading) {

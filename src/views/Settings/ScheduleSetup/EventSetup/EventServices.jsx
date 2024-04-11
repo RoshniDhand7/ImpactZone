@@ -13,7 +13,7 @@ const EventServices = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getServicesEvents(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
     const columns = [
         { field: 'unitPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },

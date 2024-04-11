@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteCampaignGroup, getCampaignsGroups } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 import { deleteCampaign, getCampaigns } from '../../../../redux/actions/MembersSettings/campaigns';
 
 const Campaigns = () => {

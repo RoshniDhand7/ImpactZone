@@ -1,4 +1,4 @@
-import api, { multipartApi } from '../../../services/api';
+import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';

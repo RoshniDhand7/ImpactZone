@@ -3,7 +3,7 @@ import { CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInpu
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { useHistory ,useParams} from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addLevel, editLevel, getLevel } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import formValidation from '../../../../utils/validations';
@@ -32,30 +32,30 @@ const LevelForm = () => {
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-        if (id) {
-            dispatch(editLevel(id, data, setLoading, history));
-        } else {
-            dispatch(addLevel(data, setLoading, history));
+            if (id) {
+                dispatch(editLevel(id, data, setLoading, history));
+            } else {
+                dispatch(addLevel(data, setLoading, history));
+            }
         }
-    }
     };
     return (
-            <FormPage backText="Levels">
-                <CustomCard col="12" title="Personal">
-                    <CustomGridLayout>
-                        <CustomInput name="name" data={data} onChange={handleChange} required/>
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
-                    </CustomGridLayout>
-                </CustomCard>
-                <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
-                    <LightButton label="Cancel" onClick={() => history.goBack()} />
-                </CustomButtonGroup>
-            </FormPage>
+        <FormPage backText="Levels">
+            <CustomCard col="12" title="Personal">
+                <CustomGridLayout>
+                    <CustomInput name="name" data={data} onChange={handleChange} required />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
+                </CustomGridLayout>
+            </CustomCard>
+            <CustomButtonGroup>
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <LightButton label="Cancel" onClick={() => history.goBack()} />
+            </CustomButtonGroup>
+        </FormPage>
     );
 };
 

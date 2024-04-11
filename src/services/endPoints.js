@@ -55,5 +55,6 @@ const endPoints = {
     EVENT_CATEGORY: '/event-category/',
     CLASSES: '/schedule-classes/',
     MEMBERSHIP_TYPES: '/member-setup/',
+    ASSESSED_FEE: '/assessed-fee/',
 };
 export default endPoints;

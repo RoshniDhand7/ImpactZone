@@ -1,37 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
+import { deleteAssessedFees, getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
+import moment from 'moment';
 
 const AssessedFees = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        // dispatch(getMembersipTypes());
+        dispatch(getAssesedFees());
     }, [dispatch]);
 
-    const { allMembershipTypes } = useSelector((state) => state.membershipTypes);
-    const { loading } = useSelector((state) => state?.loader?.isLoading);
+    const { allAssessedFees } = useSelector((state) => state.assessedFees);
+
+    console.log(allAssessedFees, 'allAssessedFees');
 
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'description', header: 'Profit Center' },
-        { field: 'shortName', header: 'Amount' },
-        { field: 'shortName', header: 'Start Date' },
-        { field: 'shortName', header: 'Clubs' },
+        { field: 'profitCenter', header: 'Profit Center' },
+        { field: 'amount', header: 'Amount' },
+        { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Start Date' },
+        {
+            field: 'clubs',
+            body: (r) => r?.clubs?.map((item) => item.name).join(','),
+            header: 'Clubs',
+        },
         { field: 'isActive', header: 'Active' },
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/membership-types/edit/${col._id}`);
+        history.push(`/settings/agreement/assessed-fees/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
+        console.log(col);
         confirmDelete(
             () => {
-                // dispatch(deleteMembershipType(col._id, () => {}));
+                dispatch(
+                    deleteAssessedFees(col._id, () => {
+                        dispatch(getAssesedFees());
+                    }),
+                );
             },
             'Do you want to delete this AssessedFees ?',
             position,
@@ -41,7 +53,7 @@ const AssessedFees = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Assessed Fees" linkTo="/settings/agreement/assessed-fees/add" />
-            <CustomTable data={allMembershipTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allAssessedFees} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

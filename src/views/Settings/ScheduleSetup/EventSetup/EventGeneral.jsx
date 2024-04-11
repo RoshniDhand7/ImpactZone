@@ -17,7 +17,6 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addScheduledEvent, getScheduledEvent, editScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
-import { Dropdown } from 'primereact/dropdown';
 
 const EventGeneral = () => {
     const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const EventGeneral = () => {
     const { id } = useParams();
     useEffect(() => {
         dispatch(getLocationTypes());
-    }, []);
+    }, [dispatch]);
     const { locationTypeDropdown } = useSelector((state) => state.locationType);
     const [data, setData] = useState({
         isActive: true,

@@ -92,7 +92,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'bookOutFrom':
         case 'defaultMaxAttendes':
         case 'eventCommissionType':
-        // case 'maximumWaitlist':
         case 'waitListExpiration':
         case 'bookOutTo':
         case 'club':
@@ -110,6 +109,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'itemSold':
         case 'profitCenter':
         case 'category':
+        case 'noOfDays':
+        case 'noOfMonths':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
@@ -120,7 +121,6 @@ const formValidation = (name, value, state, ignore = []) => {
             break;
 
         case 'logo':
-        case 'services':
         case 'duration':
         case 'event':
         case 'services':
@@ -161,6 +161,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
+        case 'amount':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {

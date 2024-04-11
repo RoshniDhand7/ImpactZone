@@ -28,6 +28,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
         if (employeeClassId) {
             funcGetEmpDepartments(employeeClassId);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [employeeClassId]);
 
     const funcGetEmpDepartments = (id) => {
@@ -97,6 +98,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                 setData(percentageRate);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.payType]);
 
     useEffect(() => {

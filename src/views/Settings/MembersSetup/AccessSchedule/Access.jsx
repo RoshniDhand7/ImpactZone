@@ -168,7 +168,7 @@ const Access = () => {
                 ]}
             />
             <CustomButtonGroup>
-                <PrimaryButton label="All Access" onClick={handleAllAcess} className="mx-2" />
+                <PrimaryButton label="All Access" onClick={handleAllAcess} className="mx-2" loading={loading} />
                 <PrimaryButton
                     label="No Access"
                     className="mx-2"
@@ -178,8 +178,9 @@ const Access = () => {
                             schedule: [],
                         })
                     }
+                    loading={loading}
                 />
-                <PrimaryButton label="Save" className="" onClick={handleSave} />
+                <PrimaryButton label="Save" className="" onClick={handleSave} loading={loading} />
             </CustomButtonGroup>
         </>
     );

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { multipartApi } from '../services/api';
+import api from '../services/api';
 import EndPoints from '../services/endPoints';
 import { islandStates } from './constant';
 import { entries, notEqual, values } from './javascript';
@@ -104,7 +104,7 @@ const uploadFile = async (file) => {
     } else {
         const formData = new FormData();
         formData.append('file', file);
-        const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
+        const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
         if (res.success && res.data) {
             return res.data.path;
         }
@@ -118,7 +118,7 @@ const uploadImages = async (images) => {
         } else {
             const formData = new FormData();
             formData.append('file', item);
-            const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
+            const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
             if (res.success && res.data) {
                 return res.data.path;
             }
@@ -136,7 +136,7 @@ const uploadFiles = async (files) => {
         } else {
             const formData = new FormData();
             formData.append('file', item);
-            const res = await multipartApi('post', EndPoints.UPLOAD_FILES, formData);
+            const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
             if (res.success && res.data) {
                 return res.data[0];
             }

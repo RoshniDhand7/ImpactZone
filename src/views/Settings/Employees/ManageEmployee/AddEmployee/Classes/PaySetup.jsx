@@ -29,6 +29,7 @@ export default function PaySetup() {
 
     useEffect(() => {
         funcGetEmpClasses();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
     useEffect(() => {
         dispatch(getEmployees());

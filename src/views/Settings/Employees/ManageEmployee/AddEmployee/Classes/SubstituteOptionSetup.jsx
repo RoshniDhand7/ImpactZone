@@ -11,7 +11,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { CustomDropDown, CustomInput } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
 import { substitutionPriorityOptions } from '../../../../../../utils/dropdownConstants';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
@@ -36,6 +36,7 @@ export default function SubstituteOptionSetup() {
         funcGetEmpSubstitution(id);
         // dispatch(getEmployees());
         dispatch(getEvents());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const { allEvents } = useSelector((state) => state.event);
 

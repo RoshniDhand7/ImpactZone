@@ -94,7 +94,7 @@ const MembershipTypeForm = () => {
                 setSelected(data?.services);
             }
         }
-    }, [data?.services, open]);
+    }, [data?.services, open, id]);
 
     const discountTypeOptions = defaultDiscountOptions;
 

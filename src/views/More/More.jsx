@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function More() {
-  return <div>More</div>;
+    return <div>More</div>;
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
-import CustomEditor from '../../../../../shared/Input/CustomEditor';
-import { useHistory, useParams } from 'react-router-dom';
+import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
@@ -14,14 +13,12 @@ import { showFormErrors } from '../../../../../utils/commonFunctions';
 const Notes = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
-
     const user = useSelector((state) => state.profile.user);
-
     useEffect(() => {
         if (user) {
             setData({ ...data, takenBy: user.firstName, dateTime: new Date() });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
     const [data, setData] = useState({
         takenBy: user?.firstName,
@@ -41,6 +38,7 @@ const Notes = () => {
         if (id) {
             funcGetNotes(id);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch]);
 
     const [loading, setLoading] = useState(false);

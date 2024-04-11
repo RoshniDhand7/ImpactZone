@@ -4,7 +4,7 @@ import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomChipInput, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addAgreementCategories, editAgreementCategories, getAgreementCategory } from '../../../../redux/actions/AgreementSettings/agreementCategories';

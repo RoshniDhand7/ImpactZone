@@ -12,6 +12,7 @@ const CalendarDefault = () => {
     useEffect(() => {
         dispatch(getEvents());
         dispatch(getEmployeeAppointmentPay(id, 'PAY'));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     let { allEvents } = useSelector((state) => state.event);

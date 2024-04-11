@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router';
@@ -9,9 +9,6 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 const ManageEmployee = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const [pageNo, setPageNo] = useState(0);
-
     useEffect(() => {
         dispatch(getEmployees());
     }, [dispatch]);

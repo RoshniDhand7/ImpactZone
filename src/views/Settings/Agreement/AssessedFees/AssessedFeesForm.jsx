@@ -9,11 +9,14 @@ import { AssessedTypeOptions, DeclinedaysOptions, daysOptions, monthDropdownOpti
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { showFormErrors } from '../../../../utils/commonFunctions';
+import { addAssessedFees, editAssessedFees, getAssesedFees, getAssessedFee } from '../../../../redux/actions/AgreementSettings/assessedFees';
 
 const AssessedFeesForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const { id } = useParams();
     useEffect(() => {
         dispatch(getProfitCenters());
         dispatch(getClubs());
@@ -28,7 +31,7 @@ const AssessedFeesForm = () => {
         type: 'Annual Fee',
         profitCenter: '',
         amount: 0,
-        reccuring: 'false',
+        recurring: 'false',
         membershipPlan: [],
         preferedDueDate: 'Month and Day',
         noOfDays: 0,
@@ -39,26 +42,86 @@ const AssessedFeesForm = () => {
     const [data, setData] = useState(initialState);
 
     useEffect(() => {
-        setData((prev) => ({
-            ...prev,
-            type: data?.type,
-            profitCenter: '',
-            amount: 0,
-            reccuring: 'false',
-            membershipPlan: [],
-            preferedDueDate: 'Month and Day',
-            noOfDays: 0,
-            noOfMonths: 0,
-            clubs: [],
-        }));
-    }, [data?.type]);
+        if (id) {
+            dispatch(
+                getAssessedFee(id, (data) => {
+                    setData({
+                        name: data.name,
+                        isActive: data.isActive,
+                        type: data.type,
+                        profitCenter: data.profitCenter,
+                        amount: data.amount,
+                        recurring: data.recurring,
+                        membershipPlan: data.membershipPlan,
+                        preferedDueDate: data.preferedDueDate,
+                        noOfDays: data.noOfDays,
+                        noOfMonths: data.noOfMonths,
+                        clubs: data.clubs,
+                    });
+                }),
+            );
+        }
+    }, [id, dispatch]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        if (name === 'type') {
+            setData((prev) => ({
+                ...prev,
+                type: value,
+                profitCenter: '',
+                amount: 0,
+                recurring: 'false',
+                membershipPlan: [],
+                preferedDueDate: '',
+                noOfDays: 0,
+                noOfMonths: 0,
+                clubs: [],
+            }));
+        } else {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        }
     };
 
-    const onSave = () => {};
+    const onSave = () => {
+        let ignore = [];
+
+        switch (data?.type) {
+            case 'Annual Fee':
+                if (data?.preferedDueDate === 'Number of Days from Begin Date') {
+                    ignore = ['noOfMonths'];
+                }
+                break;
+            case 'Late Fee':
+            case 'Decline Fee':
+                ignore = ['noOfMonths'];
+                break;
+            default:
+                ignore = ['noOfDays', 'noOfMonths'];
+                break;
+        }
+
+        if (showFormErrors(data, setData, ignore)) {
+            if (id) {
+                dispatch(
+                    editAssessedFees(id, data, () => {
+                        dispatch(getAssesedFees());
+                        history.goBack();
+                    }),
+                );
+            } else {
+                console.log('hi>>');
+                dispatch(
+                    addAssessedFees(data, () => {
+                        dispatch(getAssesedFees());
+                        history.goBack();
+                    }),
+                );
+            }
+        }
+    };
+
+    console.log(data, 'data');
 
     return (
         <>
@@ -68,10 +131,10 @@ const AssessedFeesForm = () => {
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="type" options={AssessedTypeOptions} onChange={handleChange} data={data} />
-                        <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} />
-                        <CustomInputNumber name="amount" options={yesNoOptions} onChange={handleChange} data={data} col="4" />
+                        <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} required />
+                        <CustomInputNumber name="amount" options={yesNoOptions} onChange={handleChange} data={data} col="4" required />
                         {(data?.type === 'Annual Fee' || data?.type === 'Freeze Fee') && (
-                            <CustomDropDown name="reccuring" options={yesNoOptions} onChange={handleChange} data={data} />
+                            <CustomDropDown name="recurring" options={yesNoOptions} onChange={handleChange} data={data} />
                         )}
                     </CustomGridLayout>
                 </CustomCard>

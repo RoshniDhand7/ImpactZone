@@ -1,4 +1,4 @@
-import api, { multipartApi } from '../../../services/api';
+import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
@@ -69,7 +69,7 @@ const addAssets = (files, next) => async (dispatch) => {
     for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
     }
-    const res = await multipartApi('post', EndPoints.ASSETS, formData);
+    const res = await api('post', EndPoints.ASSETS, formData, {}, 'multipart/form-data');
     if (res.success) {
         dispatch(hideLoaderAction());
         next(res.data);

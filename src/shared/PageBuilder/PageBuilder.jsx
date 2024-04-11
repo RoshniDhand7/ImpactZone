@@ -289,10 +289,12 @@ export default function PageBuilder({ id }) {
             // editorRef.current.destroy();
             // editorRef.current = null;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         onGetAssets();
         dispatch(getClubs());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onGetAssets = () => {
@@ -355,6 +357,7 @@ export default function PageBuilder({ id }) {
             editorRef.current.setComponents(initialTemplate.htmlContent);
             editorRef.current.setStyle(initialTemplate.cssContent);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const [visible, setVisible] = useState(false);

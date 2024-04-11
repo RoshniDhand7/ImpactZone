@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CustomCard, { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import AddandEditVariatons from './AddandEditVariatons';
 import CustomAccordion from '../../../../shared/Accordion/Accordion';
@@ -11,11 +11,10 @@ import {
     deleteAllCatalogVariation,
     deleteCatalogVariation,
     editSubVariationCatalog,
-    editVariationCatalog,
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete, usePercentageDifference } from '../../../../utils/commonFunctions';
+import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
 
 const Variations = () => {
     const [open, setOpen] = useState(false);
@@ -25,7 +24,7 @@ const Variations = () => {
 
     useEffect(() => {
         dispatch(getCatalogVariations(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const categoryVariations = useSelector((state) => state?.catalogItems?.allCategoryVariations);
 

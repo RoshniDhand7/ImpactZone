@@ -17,7 +17,6 @@ import {
     editScheduledEventServices,
     getScheduledEventService,
     getServicesEvents,
-    singleServiceDelete,
 } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const AddandEditServices = () => {
@@ -37,7 +36,7 @@ const AddandEditServices = () => {
     }, [dispatch]);
     useEffect(() => {
         dispatch(getServicesEvents(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const getServiceList = () => {
         dispatch(
@@ -53,6 +52,7 @@ const AddandEditServices = () => {
         if (eventId) {
             getServiceList();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [eventId, dispatch]);
 
     const { allServicesEventsLevels } = useSelector((state) => state.event);
@@ -63,6 +63,7 @@ const AddandEditServices = () => {
                 setSelected(data?.services);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.services, open]);
 
     const { levelDropdown, allLevels } = useSelector((state) => state.level);

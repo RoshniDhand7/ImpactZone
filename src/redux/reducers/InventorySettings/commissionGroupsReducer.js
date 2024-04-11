@@ -11,7 +11,6 @@ const commissionGroupReducer = (state = intitalState, action) => {
                 ...state,
                 allCommissionGroups: action.payload,
                 commissionGroupsDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
-
             };
         default:
             return { ...state };

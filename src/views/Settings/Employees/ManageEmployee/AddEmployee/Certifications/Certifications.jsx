@@ -14,7 +14,7 @@ const Certifications = () => {
 
     useEffect(() => {
         dispatch(getCertificates(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const { allCertificates } = useSelector((state) => state.certificates);
 

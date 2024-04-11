@@ -39,6 +39,7 @@ const ItemCommission = () => {
     useEffect(() => {
         funcGetEmpSalesItem(id);
         dispatch(getCommissionGroups());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const { commissionGroupsDropdown } = useSelector((state) => state?.commissionGroup);

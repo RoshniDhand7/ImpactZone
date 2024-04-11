@@ -23,6 +23,7 @@ export default function EmployeeDepartments() {
     useEffect(() => {
         dispatch(getDepartments());
         funcGetEmpDepartments(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     const funcGetEmpDepartments = (id) => {

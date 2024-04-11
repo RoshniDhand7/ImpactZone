@@ -20,7 +20,7 @@ const LocationsForm = () => {
     useEffect(() => {
         dispatch(getLocationTypes());
         dispatch(getClubs());
-    }, []);
+    }, [dispatch]);
     const { allClubs } = useSelector((state) => state.clubs);
     const { locationTypeDropdown } = useSelector((state) => state.locationType);
 

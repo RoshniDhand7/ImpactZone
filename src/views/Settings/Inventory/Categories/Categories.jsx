@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete, truncateDescription } from '../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCategory, getCategories } from '../../../../redux/actions/InventorySettings/categoriesAction';
-import { Tooltip } from 'primereact/tooltip';
 
 export default function Categories() {
     const history = useHistory();
