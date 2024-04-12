@@ -27,7 +27,6 @@ const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'a
 
         return res;
     } catch (error) {
-        console.log(error);
         let res = error?.response ? error.response.data : error.toString();
 
         return res;

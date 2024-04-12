@@ -16,8 +16,6 @@ const AssessedFees = () => {
 
     const { allAssessedFees } = useSelector((state) => state.assessedFees);
 
-    console.log(allAssessedFees, 'allAssessedFees');
-
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'profitCenter', header: 'Profit Center' },
@@ -36,7 +34,6 @@ const AssessedFees = () => {
     };
 
     const onDelete = (col, position) => {
-        console.log(col);
         confirmDelete(
             () => {
                 dispatch(

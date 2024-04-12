@@ -9,32 +9,33 @@ import formValidation from '../../../../../../utils/validations';
 import { showFormErrors } from '../../../../../../utils/commonFunctions';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import { AppointmentPayPriorityOptions, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
 import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible, employeeAppartId, setEmployeeAppartId }) => {
     const dispatch = useDispatch();
     const initialState = {
-        event: '',
+        event: [],
         priority: 'PER-EVENT',
         type: 'PAY',
         pay: 0,
         amountType: 'FIXED',
     };
     const [data, setData] = useState(initialState);
-
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
-    let { isAppointmentLevel } = useSelector((state) => state?.employees);
+    let { isAppointmentLevel, allAppointmentPayDropdown } = useSelector((state) => state?.employees);
 
     const { allEvents } = useSelector((state) => state.event);
     const filteredEvents = allEvents
         ?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments')
         ?.map((item) => ({ name: item.name, value: item._id }));
+    const editFiltered = filteredEvents.filter((item) => !allAppointmentPayDropdown?.map((ed) => ed.name).includes(item.name) || data?.event === item?.value);
+    const filtered = filteredEvents.filter((item) => !allAppointmentPayDropdown?.map((ed) => ed.name).includes(item.name));
 
     useEffect(() => {
         if (employeeAppartId) {
@@ -85,7 +86,12 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
         <>
             <CustomDialog title={employeeAppartId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="event" data={data} onChange={handleChange} options={filteredEvents} col={12} />
+                    {employeeAppartId ? (
+                        <CustomDropDown name="event" data={data} onChange={handleChange} options={editFiltered} col={12} />
+                    ) : (
+                        <CustomMultiselect name="event" data={data} onChange={handleChange} options={filtered} col={12} />
+                    )}
+
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
                     <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

@@ -7,12 +7,10 @@ const formValidation = (name, value, state, ignore = []) => {
     if (ignore.includes(name)) {
         if (formErrors[name]) {
             formErrors[name] = '';
-            console.log('hi3', formErrors);
         }
         return formErrors;
     }
 
-    console.log(name, value, ignore, formErrors, 'yes');
     switch (name) {
         case 'email':
             if (equal(length(value))) {

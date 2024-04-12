@@ -110,7 +110,6 @@ const AssessedFeesForm = () => {
                     }),
                 );
             } else {
-                console.log('hi>>');
                 dispatch(
                     addAssessedFees(data, () => {
                         dispatch(getAssesedFees());
@@ -120,8 +119,6 @@ const AssessedFeesForm = () => {
             }
         }
     };
-
-    console.log(data, 'data');
 
     return (
         <>

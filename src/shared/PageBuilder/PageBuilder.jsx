@@ -136,7 +136,6 @@ export default function PageBuilder({ id }) {
                     },
 
                     handleTypeChange(e) {
-                        console.log('Input type changed to: ', e);
                         this.replaceWith(` <div data-gjs-type="merge_field" data-gjs-droppable="false">${e.changed.merge_fields_dropdown}</div>`);
                     },
                 },
@@ -256,8 +255,8 @@ export default function PageBuilder({ id }) {
                 // active: false,
             });
 
-            const blocks = editor.BlockManager.getAll();
-            console.log(blocks);
+            // const blocks = editor.BlockManager.getAll();
+            // console.log(blocks);
 
             const commands = editor.Commands;
             commands.add('onSave', onSave);

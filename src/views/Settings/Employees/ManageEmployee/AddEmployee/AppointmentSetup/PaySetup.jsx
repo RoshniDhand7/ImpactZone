@@ -1,29 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
-import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
+import { CustomFilterCard } from '../../../../../../shared/Cards/CustomCard';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     deletetEmployeeAppartment,
     getEmployeeAppointmentPay,
-    isDefaultAppointmentPay,
     updateEmployeeAppointmentPayLevel,
 } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { confirmDelete } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
 import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
-import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 
 const PaySetup = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
     const [employeeAppartId, setEmployeeAppartId] = useState(null);
-    const loading = useSelector((state) => state?.loader?.isLoading);
-
-    const [defaultPay, setDefaultPay] = useState(false);
 
     const { id } = useParams();
     const [data, setData] = useState({
@@ -48,11 +42,6 @@ const PaySetup = () => {
     }, [allAppointmentPay]);
 
     const { levelDropdown } = useSelector((state) => state.level);
-
-    const onClose = () => {
-        setData((prev) => ({ ...prev, isDefaultPay: '' }));
-        setDefaultPay(false);
-    };
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -89,27 +78,18 @@ const PaySetup = () => {
         setVisible(true);
     };
 
-    const handleSave = () => {
-        allAppointmentPay = allAppointmentPay?.list?.map((item) => ({
-            ...item,
-            pay: data?.isDefaultPay,
-        }));
-
-        dispatch(
-            isDefaultAppointmentPay({ pay: data.isDefaultPay }, () => {
-                funcGetEmpAppointment();
-                onClose();
-            }),
-        );
-    };
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end">
-                <div className="flex align-items-end">
-                    <CustomDropDown name="isAppointmentLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
-                    <PrimaryButton name="" className="w-12rem" label="Default Pay" onClick={() => setDefaultPay(true)} />
-                </div>
+                <CustomDropDown
+                    extraClassName="w-18rem"
+                    name="isAppointmentLevel"
+                    label="Appointment Level"
+                    options={levelDropdown}
+                    optionLabel="name"
+                    data={data}
+                    onChange={handleChange}
+                />
             </CustomFilterCard>
             <CustomTable data={allAppointmentPay?.list} columns={columns} onEdit={onEdit} onDelete={onDelete} />
             <AddandEditAppointmentPay
@@ -120,11 +100,6 @@ const PaySetup = () => {
                 employeeAppartId={employeeAppartId}
                 setEmployeeAppartId={setEmployeeAppartId}
             />
-            <CustomDialog title="Default Pay" visible={defaultPay} onCancel={onClose} loading={loading} onSave={handleSave}>
-                <CustomGridLayout>
-                    <CustomInputNumber col="12" name="isDefaultPay" label="Default" data={data} onChange={handleChange} />
-                </CustomGridLayout>
-            </CustomDialog>
         </>
     );
 };

@@ -33,7 +33,7 @@ const PhotoUpload = ({ name, value, data, onDropChange, multiple = true }) => {
                     if (!isFileAlreadySelected) {
                         setSelectedImages((prevState) => [...prevState, file]);
                     } else {
-                        console.log(`File "${file.name}" is already selected.`);
+                        // console.log(`File "${file.name}" is already selected.`);
                     }
                 });
             }

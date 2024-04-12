@@ -24,15 +24,6 @@ const MembershipTypeForm = () => {
         dispatch(getCatalogItems());
         dispatch(getAccessSchedules());
     }, [dispatch]);
-
-    const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
-    const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
-    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
-
-    let { clubsDropdown } = useSelector((state) => state.clubs);
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState([]);
-
     const [data, setData] = useState({
         name: '',
         description: '',
@@ -51,6 +42,15 @@ const MembershipTypeForm = () => {
         services: [],
         isActive: true,
     });
+
+    const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
+    let { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
+    MembershipTypesDropdown = MembershipTypesDropdown?.filter((item) => item.name !== data?.name);
+    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
+
+    let { clubsDropdown } = useSelector((state) => state.clubs);
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState([]);
 
     const history = useHistory();
 

@@ -5,6 +5,7 @@ const intitalState = {
     employeePayType: [],
     allEmployeeClasses: [],
     allAppointmentPay: [],
+    allAppointmentPayDropdown: [],
     isClassLevel: '',
     isAppointmentLevel: '',
 };
@@ -32,6 +33,7 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allAppointmentPay: action.payload,
+                allAppointmentPayDropdown: action.payload?.list?.map((item) => ({ name: item.event, value: item._id })),
                 isAppointmentLevel: action.payload.isAppointmentLevel,
             };
         default:

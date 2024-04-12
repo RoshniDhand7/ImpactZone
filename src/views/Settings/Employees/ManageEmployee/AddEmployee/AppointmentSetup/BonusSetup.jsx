@@ -17,6 +17,7 @@ import formValidation from '../../../../../../utils/validations';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
 
 const BonusSetup = ({ type }) => {
     const dispatch = useDispatch();
@@ -46,9 +47,16 @@ const BonusSetup = ({ type }) => {
     };
     useEffect(() => {
         dispatch(getCatalogItems());
+        dispatch(getEvents());
     }, [dispatch]);
 
     const { catalogServiceDropdown } = useSelector((state) => state.catalogItems);
+    let { isAppointmentLevel } = useSelector((state) => state?.employees);
+    const { allEvents } = useSelector((state) => state.event);
+
+    const filteredEvents = allEvents
+        ?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments')
+        ?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
         funcGetEmpAppointment(id);
@@ -193,7 +201,13 @@ const BonusSetup = ({ type }) => {
                     <CustomDropDown label="" name="duration" data={data} onChange={handleChange} col={6} options={durationOptions} />
                     <CustomInputNumber col={8} name="bonusAmount" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
-                    <CustomMultiselect col="12" name="services" data={data} onChange={handleChange} options={catalogServiceDropdown} />
+                    <CustomMultiselect
+                        col="12"
+                        name="services"
+                        data={data}
+                        onChange={handleChange}
+                        options={type === 'appointment' ? filteredEvents : catalogServiceDropdown}
+                    />
                 </CustomGridLayout>
             </CustomDialog>
         </>
