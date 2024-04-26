@@ -105,6 +105,7 @@ const uploadFile = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
         const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
+        
         if (res.success && res.data) {
             return res.data.path;
         }

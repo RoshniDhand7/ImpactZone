@@ -109,6 +109,9 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'category':
         case 'noOfDays':
         case 'noOfMonths':
+        case 'subCategory':
+        case 'membershipType':
+        case 'agreementTemplate':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {

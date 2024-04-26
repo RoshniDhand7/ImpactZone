@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
-import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
+import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -9,19 +9,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SpecialRestrictionOptions, defaultDiscountOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
-import CustomTable from '../../../../shared/Table/CustomTable';
-import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
-import { confirmDelete, getIds, showFormErrors } from '../../../../utils/commonFunctions';
+import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import { getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
 import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
+import AddServices from '../../Inventory/CatalogItems/AddServices';
 
 const MembershipTypeForm = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     useEffect(() => {
         dispatch(getClubs());
-        dispatch(getCatalogItems());
         dispatch(getAccessSchedules());
     }, [dispatch]);
     const [data, setData] = useState({
@@ -46,12 +43,8 @@ const MembershipTypeForm = () => {
     const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
     let { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
     MembershipTypesDropdown = MembershipTypesDropdown?.filter((item) => item.name !== data?.name);
-    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState([]);
-
     const history = useHistory();
 
     const { loading } = useSelector((state) => state?.loader?.isLoading);
@@ -88,43 +81,7 @@ const MembershipTypeForm = () => {
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
-    useEffect(() => {
-        if (id) {
-            if (open) {
-                setSelected(data?.services);
-            }
-        }
-    }, [data?.services, open, id]);
-
     const discountTypeOptions = defaultDiscountOptions;
-
-    const columns = [
-        { selectionMode: 'multiple', headerStyle: '' },
-        { field: 'name', header: 'Item Name' },
-        { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
-    ];
-
-    const columns1 = [
-        { field: 'name', header: 'Item Name' },
-        { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
-    ];
-
-    const handleServiceDelete = (col) => {
-        confirmDelete(
-            () => {
-                setData((prev) => ({ ...prev, services: data?.services?.filter((item) => item._id !== col?._id) }));
-            },
-            `Do you want to delete this Service ?`,
-            'center',
-        );
-    };
-
-    const handleSave = () => {
-        setData((prev) => ({ ...prev, services: selected }));
-        setOpen(false);
-    };
 
     const onSave = () => {
         let ignore = [];
@@ -188,43 +145,7 @@ const MembershipTypeForm = () => {
                 <CustomCard col="12" title=" Clubs">
                     <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
                 </CustomCard>
-                <CustomCard col="12" title=" Add Services">
-                    <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">
-                        <div>
-                            <PrimaryButton
-                                label={'Remove All'}
-                                onClick={() => {
-                                    setData((prev) => ({ ...prev, services: [] }));
-                                    setSelected([]);
-                                    // dispatch(deleteUsageItem(id, 'paysTo'));
-                                }}
-                            />
-                        </div>
-                    </CustomFilterCard1>
-                    <CustomTable data={data?.services} columns={columns1} showSelectionElement={false} onDelete={handleServiceDelete} />
-                </CustomCard>
-                <CustomDialog
-                    title={'Add Services'}
-                    visible={open}
-                    onCancel={() => {
-                        setOpen('');
-                    }}
-                    loading={loading}
-                    onSave={handleSave}
-                    width="auto"
-                >
-                    <CustomGridLayout>
-                        {open && (
-                            <CustomTable
-                                convertToboolean={false}
-                                data={open && catalogServiceFilterItems}
-                                columns={columns}
-                                selectedRow={selected}
-                                setSelectedRow={setSelected}
-                            />
-                        )}
-                    </CustomGridLayout>
-                </CustomDialog>
+                <AddServices data={data} setData={setData} id={id} loading={loading} />
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={onSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.goBack()} />

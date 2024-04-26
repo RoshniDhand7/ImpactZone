@@ -17,6 +17,7 @@ import Inventory from '../views/Settings/Inventory/Inventory';
 import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGeneral';
 import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/AddandEditServices';
+import AgreementPromotionsForm from '../views/Settings/Agreement/AgreementPromotions/AgreementPromotionsForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -47,6 +48,7 @@ const EventClassesForm = lazy(() => import('../views/Settings/ScheduleSetup/Even
 const EventCategoriesForm = lazy(() => import('../views/Settings/ScheduleSetup/EventCategories/EventCategoriesForm'));
 const EventsForm = lazy(() => import('../views/Settings/ScheduleSetup/EventSetup/EventsForm'));
 const AssessedFeesForm = lazy(() => import('../views/Settings/Agreement/AssessedFees/AssessedFeesForm'));
+const MembershipPlanForm = lazy(() => import('../views/Settings/Agreement/MembershipPlan/MembershipPlanForm'));
 
 export const PrivateRoutes = [
     {
@@ -397,6 +399,30 @@ export const PrivateRoutes = [
                         name: 'Assessed Fee',
                         exact: true,
                         component: AssessedFeesForm,
+                    },
+                    {
+                        path: '/membership-plan/add',
+                        name: 'Membership Plan',
+                        exact: true,
+                        component: MembershipPlanForm,
+                    },
+                    {
+                        path: '/membership-plan/edit/:id',
+                        name: 'Membership Plan',
+                        exact: true,
+                        component: MembershipPlanForm,
+                    },
+                    {
+                        path: '/agreement-promotions/add',
+                        name: 'Agreement Promotions',
+                        exact: true,
+                        component: AgreementPromotionsForm,
+                    },
+                    {
+                        path: '/agreement-promotions/edit/:id',
+                        name: 'Agreement Promotions',
+                        exact: true,
+                        component: AgreementPromotionsForm,
                     },
                 ],
             },

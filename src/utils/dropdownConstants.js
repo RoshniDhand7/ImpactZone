@@ -369,3 +369,58 @@ export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No
 }));
 
 export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));
+export const autoPayOptions = [
+    {
+        name: 'On a set schedule',
+        value: 'set_schedule',
+    },
+    {
+        name: 'When the pricing options run out',
+        value: 'pricing_options_run_out',
+    },
+];
+
+export const oftenClientChargedOptions = [
+    {
+        name: 'Set number of autopays',
+        value: 'no_of_autopays',
+    },
+    {
+        name: 'Month-To-Month',
+        value: 'month_to_month',
+    },
+];
+export const whenClientChargedOptions = [
+    {
+        name: 'On the Sale Date',
+        value: 'on_sale_date',
+    },
+    {
+        name: '1st of the month',
+        value: 'first_of_month',
+    },
+    {
+        name: '15 of the month',
+        value: 'mid_of_month',
+    },
+    {
+        name: 'last day of the month',
+        value: 'last_of_month',
+    },
+    {
+        name: 'Specific Date',
+        value: 'specific_date',
+    },
+];
+export const afterSixPaymentsOptions = [
+    {
+        name: 'Contract Expires',
+        value: 'contract_expires',
+    },
+    {
+        name: 'Contract Automatically renews every 6 payments',
+        value: 'contract_automatically_renews_every',
+    },
+];
+
+export const PromotionTypeOptions = ['% Off down payment', '$ Off Down Payment', 'Free months', 'Double refferal'].map((name) => ({ name, value: name }));

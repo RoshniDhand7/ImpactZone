@@ -56,5 +56,7 @@ const endPoints = {
     CLASSES: '/schedule-classes/',
     MEMBERSHIP_TYPES: '/member-setup/',
     ASSESSED_FEE: '/assessed-fee/',
+    MEMBERSHIP_PLAN: '/membership-plan/',
+    AGREEMENT_PROMOTION: '/agreement-promotion/',
 };
 export default endPoints;

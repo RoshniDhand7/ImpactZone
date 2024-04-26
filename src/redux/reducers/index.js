@@ -30,6 +30,8 @@ import eventCategoryReducer from './ScheduleSettings/eventCategories';
 import eventClassesReducer from './ScheduleSettings/eventClassesReducer';
 import membershipTypeReducer from './MembersSettings/membershipTypeReducer';
 import assesedFeesReducer from './AgreementSettings/assessedFeesReducer';
+import membershipPlanReducer from './AgreementSettings/membershipPlanReducer';
+import agreementPromotionReducer from './AgreementSettings/agreementPromotionsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -63,4 +65,6 @@ export default combineReducers({
     eventClasses: eventClassesReducer,
     membershipTypes: membershipTypeReducer,
     assessedFees: assesedFeesReducer,
+    membershipPlan: membershipPlanReducer,
+    agreementPromotion: agreementPromotionReducer,
 });
