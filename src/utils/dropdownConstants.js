@@ -400,8 +400,16 @@ export const whenClientChargedOptions = [
         value: 'first_of_month',
     },
     {
-        name: '15 of the month',
+        name: '15th of the month',
         value: 'mid_of_month',
+    },
+    {
+        name: '1st or 15th of the month',
+        value: 'first_or_fifteen_month',
+    },
+    {
+        name: '15th or last day of the month',
+        value: 'fifteen_last_day_month',
     },
     {
         name: 'last day of the month',

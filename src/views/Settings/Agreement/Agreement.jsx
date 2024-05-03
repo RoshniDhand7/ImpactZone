@@ -10,7 +10,7 @@ export default function Agreement() {
     const tabs = [
         { title: 'Assessed Fees', content: <AssessedFees /> },
         { title: 'Agreement Template', content: <AgrementTemplate /> },
-        { title: 'Membership Plan', content: <MembershipPlan /> },
+        { title: 'Agreement Plan', content: <MembershipPlan /> },
         { title: 'Agreement Categories', content: <AgreementCategories /> },
         { title: 'Agreement Promotions', content: <AgreementPromotions /> },
     ];

@@ -43,14 +43,14 @@ const MembershipPlan = () => {
                     }),
                 );
             },
-            'Do you want to delete this Membership Plan ?',
+            'Do you want to delete this Agreement Plan ?',
             position,
         );
     };
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Membership Plan" linkTo="/settings/agreement/membership-plan/add" />
+            <CustomFilterCard buttonTitle="Add Agreement Plan" linkTo="/settings/agreement/membership-plan/add" />
             <CustomTable data={allMembershipPlan} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
