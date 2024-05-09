@@ -58,5 +58,7 @@ const endPoints = {
     ASSESSED_FEE: '/assessed-fee/',
     MEMBERSHIP_PLAN: '/membership-plan/',
     AGREEMENT_PROMOTION: '/agreement-promotion/',
+    TAXES: '/tax/',
+    PAYMENT_METHODS: '/payment-method/',
 };
 export default endPoints;

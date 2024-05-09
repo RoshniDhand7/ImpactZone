@@ -18,6 +18,8 @@ import AcessGeneral from '../views/Settings/MembersSetup/AccessSchedule/AcessGen
 import AddCatalogItems from '../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/AddandEditServices';
 import AgreementPromotionsForm from '../views/Settings/Agreement/AgreementPromotions/AgreementPromotionsForm';
+import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
+import PaymentMethodsForm from '../views/Settings/PointOfSale/PaymentMethods/PaymentMethodsForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -49,6 +51,7 @@ const EventCategoriesForm = lazy(() => import('../views/Settings/ScheduleSetup/E
 const EventsForm = lazy(() => import('../views/Settings/ScheduleSetup/EventSetup/EventsForm'));
 const AssessedFeesForm = lazy(() => import('../views/Settings/Agreement/AssessedFees/AssessedFeesForm'));
 const MembershipPlanForm = lazy(() => import('../views/Settings/Agreement/MembershipPlan/MembershipPlanForm'));
+const TaxForm = lazy(() => import('../views/Settings/PointOfSale/Tax/TaxForm'));
 
 export const PrivateRoutes = [
     {
@@ -455,6 +458,86 @@ export const PrivateRoutes = [
                         name: 'Members',
                         exact: true,
                         component: CampaignGroupForm,
+                    },
+                    {
+                        path: '/campaigns/add',
+                        name: 'Members',
+                        exact: true,
+                        component: CompaignsForm,
+                    },
+                    {
+                        path: '/campaigns/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: CompaignsForm,
+                    },
+                    {
+                        path: '/resource-type/add',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourceTypeForm,
+                    },
+                    {
+                        path: '/resource-type/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourceTypeForm,
+                    },
+                    {
+                        path: '/resources/add',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourcesForm,
+                    },
+                    {
+                        path: '/resources/edit/:id',
+                        name: 'Members',
+                        exact: true,
+                        component: ResourcesForm,
+                    },
+                    {
+                        path: '/access-schedule/add',
+                        name: 'Access Schedule',
+                        exact: true,
+                        component: AcessGeneral,
+                    },
+                    {
+                        path: '/access-schedule/edit/:id',
+                        name: 'Access Schedule',
+                        exact: true,
+                        component: AcessGeneral,
+                    },
+                ],
+            },
+            {
+                path: '/pos',
+                name: 'POS',
+                exact: true,
+                component: PointOfSaleSetUp,
+                items: [
+                    {
+                        path: '/tax/add',
+                        name: 'Tax',
+                        exact: true,
+                        component: TaxForm,
+                    },
+                    {
+                        path: '/tax/edit/:id',
+                        name: 'Tax',
+                        exact: true,
+                        component: TaxForm,
+                    },
+                    {
+                        path: '/payment-methods/add',
+                        name: 'PaymentMethods',
+                        exact: true,
+                        component: PaymentMethodsForm,
+                    },
+                    {
+                        path: '/payment-methods/edit/:id',
+                        name: 'PaymentMethods',
+                        exact: true,
+                        component: PaymentMethodsForm,
                     },
                     {
                         path: '/campaigns/add',

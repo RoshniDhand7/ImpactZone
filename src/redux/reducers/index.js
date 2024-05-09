@@ -32,6 +32,8 @@ import membershipTypeReducer from './MembersSettings/membershipTypeReducer';
 import assesedFeesReducer from './AgreementSettings/assessedFeesReducer';
 import membershipPlanReducer from './AgreementSettings/membershipPlanReducer';
 import agreementPromotionReducer from './AgreementSettings/agreementPromotionsReducer';
+import taxReducer from './PosSettings/taxReducer';
+import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -67,4 +69,6 @@ export default combineReducers({
     assessedFees: assesedFeesReducer,
     membershipPlan: membershipPlanReducer,
     agreementPromotion: agreementPromotionReducer,
+    taxes: taxReducer,
+    paymentMethod: paymentMethodReducer,
 });

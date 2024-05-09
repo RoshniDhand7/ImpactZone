@@ -49,6 +49,9 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'primaryEmail':
         case 'reasonCode':
         case 'startTime':
+        case 'taxRateName':
+        case 'detail':
+        case 'code':
         case 'upc':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
@@ -112,6 +115,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'subCategory':
         case 'membershipType':
         case 'agreementTemplate':
+        case 'taxRateType':
+        case 'defaultReceiptCopies':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
@@ -163,6 +168,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
         case 'amount':
+        case 'taxRatePercentage':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {

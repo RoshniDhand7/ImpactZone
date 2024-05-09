@@ -432,3 +432,14 @@ export const afterSixPaymentsOptions = [
 ];
 
 export const PromotionTypeOptions = ['% Off down payment', '$ Off Down Payment', 'Free months', 'Double refferal'].map((name) => ({ name, value: name }));
+
+export const TaxRateTypeOptions = ['State', 'District', 'County', 'City', 'Federal'].map((name) => ({ name, value: name }));
+export const defaultReceiptCopiesOptions = [];
+
+for (let i = 1; i <= 30; i++) {
+    const option = {
+        name: `${i}`,
+        value: i,
+    };
+    defaultReceiptCopiesOptions.push(option);
+}
