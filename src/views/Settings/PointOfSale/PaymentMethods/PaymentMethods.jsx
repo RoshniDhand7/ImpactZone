@@ -14,6 +14,7 @@ const PaymentMethods = () => {
     }, [dispatch]);
 
     const { allPaymentMethod } = useSelector((state) => state.paymentMethod);
+
     console.log(allPaymentMethod);
 
     const columns = [
@@ -45,7 +46,7 @@ const PaymentMethods = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Payment Methods" linkTo="/settings/pos/payment-methods/add" />
-            <CustomTable data={allPaymentMethod} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allPaymentMethod} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

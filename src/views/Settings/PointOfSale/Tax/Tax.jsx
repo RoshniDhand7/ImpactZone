@@ -17,7 +17,7 @@ const Tax = () => {
 
     const columns = [
         { field: 'taxRateName', header: 'Tax Rate Name' },
-        { field: 'taxRatePercentage', header: 'Tax Rate Percentage' },
+        { field: 'taxRatePercentage', body: (r) => r.taxRatePercentage + '%', header: 'Tax Rate Percentage' },
         { field: 'isActive', header: 'Active' },
     ];
 

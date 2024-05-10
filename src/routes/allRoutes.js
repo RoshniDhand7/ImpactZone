@@ -20,6 +20,7 @@ import AddandEditServices from '../views/Settings/ScheduleSetup/EventSetup/Addan
 import AgreementPromotionsForm from '../views/Settings/Agreement/AgreementPromotions/AgreementPromotionsForm';
 import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
 import PaymentMethodsForm from '../views/Settings/PointOfSale/PaymentMethods/PaymentMethodsForm';
+import DiscountForm from '../views/Settings/PointOfSale/Discount/DiscountForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -540,52 +541,16 @@ export const PrivateRoutes = [
                         component: PaymentMethodsForm,
                     },
                     {
-                        path: '/campaigns/add',
-                        name: 'Members',
+                        path: '/discount/add',
+                        name: 'Discount',
                         exact: true,
-                        component: CompaignsForm,
+                        component: DiscountForm,
                     },
                     {
-                        path: '/campaigns/edit/:id',
-                        name: 'Members',
+                        path: '/discount/edit/:id',
+                        name: 'Discount',
                         exact: true,
-                        component: CompaignsForm,
-                    },
-                    {
-                        path: '/resource-type/add',
-                        name: 'Members',
-                        exact: true,
-                        component: ResourceTypeForm,
-                    },
-                    {
-                        path: '/resource-type/edit/:id',
-                        name: 'Members',
-                        exact: true,
-                        component: ResourceTypeForm,
-                    },
-                    {
-                        path: '/resources/add',
-                        name: 'Members',
-                        exact: true,
-                        component: ResourcesForm,
-                    },
-                    {
-                        path: '/resources/edit/:id',
-                        name: 'Members',
-                        exact: true,
-                        component: ResourcesForm,
-                    },
-                    {
-                        path: '/access-schedule/add',
-                        name: 'Access Schedule',
-                        exact: true,
-                        component: AcessGeneral,
-                    },
-                    {
-                        path: '/access-schedule/edit/:id',
-                        name: 'Access Schedule',
-                        exact: true,
-                        component: AcessGeneral,
+                        component: DiscountForm,
                     },
                 ],
             },

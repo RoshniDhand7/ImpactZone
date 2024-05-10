@@ -7,7 +7,7 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 
-const AddServices = ({ data, setData, id, loading }) => {
+const AddServices = ({ data, setData, id, loading, type }) => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const AddServices = ({ data, setData, id, loading }) => {
         }
     }, [data?.services, open, id]);
 
-    const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
+    const { catalogServiceFilterItems, allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
@@ -83,7 +83,7 @@ const AddServices = ({ data, setData, id, loading }) => {
                     {open && (
                         <CustomTable
                             convertToboolean={false}
-                            data={open && catalogServiceFilterItems}
+                            data={type === 'discount' ? allCatalogItemsFilter : catalogServiceFilterItems}
                             columns={columns}
                             selectedRow={selected}
                             setSelectedRow={setSelected}
