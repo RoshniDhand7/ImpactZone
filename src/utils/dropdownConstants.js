@@ -1,4 +1,6 @@
 import moment from 'moment';
+import ringTone1 from '../assets/sounds/morning_alarm.mp3';
+import ringTone2 from '../assets/sounds/samsung_ringtone.mp3';
 
 export const yesNoOptions = [
     {
@@ -51,6 +53,11 @@ export const bonusTypeConstantsOptions = [
         name: 'Service Value',
         value: 'SERVICE_VALUE',
     },
+];
+
+export const soundAudioOptions = [
+    { name: 'RingTone 1', value: ringTone1 },
+    { name: 'RingTone 2', value: ringTone2 },
 ];
 
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));

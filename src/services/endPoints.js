@@ -60,5 +60,6 @@ const endPoints = {
     AGREEMENT_PROMOTION: '/agreement-promotion/',
     TAXES: '/tax/',
     PAYMENT_METHODS: '/payment-method/',
+    DISCOUNT_TYPES: '/discount/',
 };
 export default endPoints;

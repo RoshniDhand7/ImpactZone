@@ -311,14 +311,29 @@ export const CustomChipInput = ({
     );
 };
 
-export const CustomInputNumber = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, disabled, ...props }) => {
+export const CustomInputNumber = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    customIndex,
+    fieldName,
+    ...props
+}) => {
     return (
         <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputNumber
                 id={name}
                 name={name}
                 value={value || data?.[name] || 0}
-                onValueChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value })}
+                onValueChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 useGrouping={props.useGrouping || false}
                 disabled={disabled}
