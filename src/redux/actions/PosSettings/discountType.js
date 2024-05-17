@@ -51,10 +51,10 @@ const editDiscountType = (id, data, history) => async (dispatch, getState) => {
     }
     dispatch(hideLoaderAction());
 };
-const deleteDiscountType = (id) => async (dispatch) => {
+const deleteDiscountType = (id, next) => async (dispatch) => {
     const res = await api('delete', EndPoints.DISCOUNT_TYPES + id);
     if (res.success) {
-        dispatch(getDiscountTypes(() => {}));
+        next();
         dispatch(showToast({ severity: 'success', summary: res.message }));
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));

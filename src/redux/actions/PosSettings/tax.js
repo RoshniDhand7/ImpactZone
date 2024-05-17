@@ -51,11 +51,11 @@ const editTax = (id, data, setLoading, history) => async (dispatch, getState) =>
     }
     setLoading(false);
 };
-const deleteTax = (id) => async (dispatch) => {
+const deleteTax = (id, next) => async (dispatch) => {
     const res = await api('delete', EndPoints.TAXES + id);
     if (res.success) {
-        dispatch(getTaxes(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }

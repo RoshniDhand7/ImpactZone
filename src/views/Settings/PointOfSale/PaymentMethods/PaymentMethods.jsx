@@ -42,7 +42,11 @@ const PaymentMethods = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                dispatch(deletePaymentMethod(col._id, () => {}));
+                dispatch(
+                    deletePaymentMethod(col._id, () => {
+                        dispatch(getPaymentMethods(data?.isActive));
+                    }),
+                );
             },
             'Do you want to delete this delete Payment Method ?',
             position,

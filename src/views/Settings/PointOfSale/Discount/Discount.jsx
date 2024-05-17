@@ -37,7 +37,11 @@ const Discount = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                dispatch(deleteDiscountType(col._id, () => {}));
+                dispatch(
+                    deleteDiscountType(col._id, () => {
+                        dispatch(getDiscountTypes(data?.isActive));
+                    }),
+                );
             },
             'Do you want to delete this delete Discount ?',
             position,

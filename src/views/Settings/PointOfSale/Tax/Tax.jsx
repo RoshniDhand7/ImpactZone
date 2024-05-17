@@ -33,7 +33,11 @@ const Tax = () => {
     const onDelete = (col, position) => {
         confirmDelete(
             () => {
-                dispatch(deleteTax(col._id, () => {}));
+                dispatch(
+                    deleteTax(col._id, () => {
+                        dispatch(getTaxes(data?.isActive));
+                    }),
+                );
             },
             'Do you want to delete this Tax ?',
             position,

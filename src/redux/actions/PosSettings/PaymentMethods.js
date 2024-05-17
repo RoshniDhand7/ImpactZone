@@ -52,11 +52,11 @@ const editPaymentMethod = (id, data, setLoading, history) => async (dispatch, ge
     }
     setLoading(false);
 };
-const deletePaymentMethod = (id) => async (dispatch) => {
+const deletePaymentMethod = (id, next) => async (dispatch) => {
     const res = await api('delete', EndPoints.PAYMENT_METHODS + id);
     if (res.success) {
-        dispatch(getPaymentMethods(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
