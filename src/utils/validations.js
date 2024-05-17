@@ -53,6 +53,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'detail':
         case 'code':
         case 'upc':
+        case 'discountName':
+        case 'startDate':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -60,7 +62,9 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
         case 'endDate':
-            if (value < state?.startDate) {
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else if (value < state?.startDate) {
                 formErrors[name] = `End date should not be less than start date`;
             } else {
                 formErrors[name] = '';
@@ -175,6 +179,19 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
+        case 'value1':
+            if (!number(value) || value === 0) {
+                formErrors[name] = `No.of Item is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'value2':
+            if (!number(value) || value === 0) {
+                formErrors[name] = `Amount is required!`;
+            } else {
+                formErrors[name] = '';
+            }
 
         default:
             break;

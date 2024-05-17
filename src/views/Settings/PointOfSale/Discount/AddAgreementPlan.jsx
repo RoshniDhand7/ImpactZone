@@ -24,9 +24,6 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
     }, [data?.membershipPlan, open, id]);
 
     const { allMembershipPlanFilter } = useSelector((state) => state.membershipPlan);
-    const state = useSelector((state) => console.log(state));
-
-    console.log(allMembershipPlanFilter);
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
@@ -56,7 +53,6 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
         setOpen(false);
     };
 
-    console.log(data);
     return (
         <>
             <CustomCard col="12" title="Agreement Plan">

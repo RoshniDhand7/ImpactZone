@@ -182,6 +182,8 @@ const EventClassesForm = () => {
         }
     }, [employeePayType, allEmployees]);
 
+    console.log('data>>', data);
+
     const handleChangeDynamicField = async ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
         let obj = _newData[fieldName][customIndex];
@@ -270,12 +272,13 @@ const EventClassesForm = () => {
             let validatedSchedule = showArrayFormErrors(data.schedule);
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, schedule: validatedSchedule.data }));
-                dispatch(addClasses(data, history));
             }
-            if (id) {
-                dispatch(editClasses(id, data, history));
-            } else {
-                dispatch(addClasses(data, history));
+            if (validatedSchedule.isValid) {
+                if (id) {
+                    dispatch(editClasses(id, data, history));
+                } else {
+                    dispatch(addClasses(data, history));
+                }
             }
         }
     };

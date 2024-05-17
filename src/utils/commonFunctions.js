@@ -24,15 +24,21 @@ const showFormErrors = (data, setData, ignore) => {
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
-const showArrayFormErrors = (array) => {
+const showArrayFormErrors = (array, ignore) => {
+    console.log('array>>', array);
     let isValid = true;
     let res = array.map((data) => {
         let formErrors = {};
         entries(data).forEach(([key, value]) => {
             formErrors = {
                 ...formErrors,
-                ...formValidation(key, value, data),
+                ...formValidation(key, value, data, ignore),
             };
+        });
+        ignore?.forEach((name) => {
+            if (formErrors[name]) {
+                formErrors[name] = '';
+            }
         });
         if (values(formErrors).some((v) => notEqual(v, ''))) {
             isValid = false;
@@ -105,7 +111,7 @@ const uploadFile = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
         const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
-        
+
         if (res.success && res.data) {
             return res.data.path;
         }

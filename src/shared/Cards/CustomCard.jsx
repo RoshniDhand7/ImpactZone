@@ -63,12 +63,13 @@ export function CustomListItem({ label, name, data, value }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass, title }) {
     const history = useHistory();
     return (
-        <div className="bg-lightest-blue border-round p-2 mt-2 mb-3">
+        <div className="border-round p-2 mt-2 ">
             <div className={`flex justify-content-between ${extraClass}`}>
                 <div>{children}</div>
+                <div>{title}</div>
                 {buttonTitle ? (
                     linkTo ? (
                         <PrimaryButton label={buttonTitle} onClick={() => history.push(linkTo)} />
@@ -77,6 +78,14 @@ export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extra
                     )
                 ) : null}
             </div>
+        </div>
+    );
+}
+
+export function CustomSearchCard({ children, extraClass }) {
+    return (
+        <div className="bg-lightest-blue border-round p-2 mb-3">
+            <div className={` flex justify-content-between ${extraClass}`}>{children}</div>
         </div>
     );
 }

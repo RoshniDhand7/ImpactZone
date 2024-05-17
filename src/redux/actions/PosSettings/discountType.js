@@ -4,11 +4,9 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getDiscountTypes = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
-    const res = await api('get', EndPoints.DISCOUNT_TYPES);
+const getDiscountTypes = (isActive) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.DISCOUNT_TYPES, {}, { isActive });
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -19,9 +17,7 @@ const getDiscountTypes = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideLoaderAction());
 };
 
 const getDiscountType = (id, returnData) => async (dispatch) => {

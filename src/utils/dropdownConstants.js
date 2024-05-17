@@ -60,6 +60,12 @@ export const soundAudioOptions = [
     { name: 'RingTone 2', value: ringTone2 },
 ];
 
+export const ActiveFilterDropdown = [
+    { name: 'All', value: 'all' },
+    { name: 'Active', value: 'active' },
+    { name: 'Inactive', value: 'inactive' },
+];
+
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));
 
 export const durationOptions = ['Days', 'Weeks', 'Months', 'Years'].map((name) => ({ name, value: name.toUpperCase() }));
