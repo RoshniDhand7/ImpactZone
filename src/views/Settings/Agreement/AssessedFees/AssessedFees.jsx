@@ -1,20 +1,57 @@
-import React, { useEffect } from 'react';
-import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
+import React, { useEffect, useState } from 'react';
+import { CustomFilterCard, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { deleteAssessedFees, getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
 import moment from 'moment';
+import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
+import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
+import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 
 const AssessedFees = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [data, setData] = useState({
+        isActive: 'active',
+        clubs: [],
+        profitCenter: [],
+    });
     useEffect(() => {
-        dispatch(getAssesedFees());
+        dispatch(getClubs());
+        dispatch(getProfitCenters());
     }, [dispatch]);
 
-    const { allAssessedFees } = useSelector((state) => state.assessedFees);
+    useEffect(() => {
+        dispatch(getAssesedFees(data));
+    }, [data]);
+
+    let { allAssessedFees } = useSelector((state) => state.assessedFees);
+    const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
+    const { clubsDropdown } = useSelector((state) => state.clubs);
+
+    // const filterAssessedFeesByData = (data1, keys) => {
+    //     console.log('kes>>', keys);
+    //     return data1?.filter((item) => {
+    //         return Object.keys(keys).every((key) => {
+    //             if (Array.isArray(keys[key])) {
+    //                 return keys[key].length === 0 || keys[key].includes(item[key]);
+    //             }
+
+    //             console.log(item[key], keys[key], keys[key], 'keys');
+    //             return item[key] === keys[key];
+    //         });
+    //     });
+    // };
+
+    // useEffect(() => {
+    //     const result = filterAssessedFeesByData(allAssessedFees, data);
+    //     console.log(result, 'result');
+    // }, [allAssessedFees, data]);
+
+    console.log('allAssessedFees>>', allAssessedFees);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -47,9 +84,28 @@ const AssessedFees = () => {
         );
     };
 
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    console.log('data>>', data);
+
     return (
         <>
             <CustomFilterCard buttonTitle="Add Assessed Fees" linkTo="/settings/agreement/assessed-fees/add" />
+            <CustomSearchCard>
+                <CustomDropDown col={3} label="Status" name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                <CustomMultiselect col={3} label="Club" name="clubs" options={clubsDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                <CustomMultiselect
+                    col={3}
+                    label="Profit Center"
+                    name="profitCenter"
+                    options={profitCenterDropdown}
+                    optionLabel="name"
+                    data={data}
+                    onChange={handleChange}
+                />
+            </CustomSearchCard>
             <CustomTable data={allAssessedFees} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );

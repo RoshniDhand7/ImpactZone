@@ -100,11 +100,15 @@ export default function TopBar() {
         },
         {
             icon: 'pi pi-plus-circle',
-            command: () => history.push('/dashboard'),
+            items: [
+                {
+                    label: 'Add Members',
+                    command: () => history.push('/member/add'),
+                },
+            ],
         },
         {
             icon: 'pi pi-calendar-plus',
-            command: () => history.push('/dashboard'),
         },
         {
             icon: 'pi pi-clock',

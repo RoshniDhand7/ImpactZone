@@ -21,6 +21,7 @@ import AgreementPromotionsForm from '../views/Settings/Agreement/AgreementPromot
 import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
 import PaymentMethodsForm from '../views/Settings/PointOfSale/PaymentMethods/PaymentMethodsForm';
 import DiscountForm from '../views/Settings/PointOfSale/Discount/DiscountForm';
+import AddMembers from '../views/Members/AddMembers';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -89,6 +90,11 @@ export const PrivateRoutes = [
         path: '/more',
         name: 'More',
         component: More,
+    },
+    {
+        path: '/member/add',
+        name: 'Members',
+        component: AddMembers,
     },
     {
         path: '/settings',

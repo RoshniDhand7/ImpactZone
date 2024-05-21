@@ -62,8 +62,8 @@ export const soundAudioOptions = [
 
 export const ActiveFilterDropdown = [
     { name: 'All', value: 'all' },
-    { name: 'Active', value: 'active' },
-    { name: 'Inactive', value: 'inactive' },
+    { name: 'Active', value: true },
+    { name: 'Inactive', value: false },
 ];
 
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));
@@ -382,6 +382,7 @@ export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No
 }));
 
 export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));
+export const genderOptions = ['Male', 'Female', 'Other'].map((name) => ({ name, value: name }));
 export const autoPayOptions = [
     {
         name: 'On a set schedule',

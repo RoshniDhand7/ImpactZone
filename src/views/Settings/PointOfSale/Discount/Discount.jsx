@@ -55,7 +55,7 @@ const Discount = () => {
         <>
             <CustomFilterCard buttonTitle="Add Discount Type" linkTo="/settings/pos/discount/add" />
             <CustomSearchCard>
-                <CustomDropDown col={3} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                <CustomDropDown col={3} label="Status" name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
             </CustomSearchCard>
             <CustomTable data={allDiscountTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
