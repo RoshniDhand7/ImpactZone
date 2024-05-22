@@ -1,17 +1,17 @@
 .p-inputtext::placeholder {
-  font-family: manrope;
-  font-size: 14px;
-  color: rgba(208, 208, 208, 1);
-  padding-right: 0%;
+    font-family: manrope;
+    font-size: 14px;
+    color: rgba(208, 208, 208, 1);
+    padding-right: 0%;
 }
 i.pi.pi-search:has(+ input:not(:placeholder-shown)) {
-  display: none;
+    display: none;
 }
 input:not(:placeholder-shown) {
-  padding-right: 0;
+    padding-right: 0;
 }
 .p-input-icon-right > .p-inputtext {
-  padding-right: 4px !important;
+    padding-right: 4px !important;
 }
 // input::-webkit-outer-spin-button,
 // input::-webkit-inner-spin-button {
@@ -22,33 +22,47 @@ input:not(:placeholder-shown) {
 // / Firefox / input[type="number"] {
 //   -moz-appearance: textfield;
 // }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 .custom-icon {
-  .p-button.p-component.p-button-icon-only {
-    background: white !important;
-    border: 1px solid #d8dee9;
-    border-left: 0;
-  }
-  .p-calendar-w-btn-right .p-inputtext {
-    border-right: 0 !important;
-  }
+    .p-button.p-component.p-button-icon-only {
+        background: white !important;
+        border: 1px solid #d8dee9;
+        border-left: 0;
+    }
+    .p-calendar-w-btn-right .p-inputtext {
+        border-right: 0 !important;
+    }
 }
 
 .p-inputtext:enabled:focus {
-  box-shadow: none !important;
-  border-color: #d8dee9 !important;
+    box-shadow: none !important;
+    border-color: #d8dee9 !important;
 }
 
 .p-inputtext:enabled:hover {
-  border-color: #d8dee9 !important;
+    border-color: #d8dee9 !important;
 }
 input::placeholder {
-  font-size: 12px !important;
+    font-size: 12px !important;
+}
+
+// img upload
+.image-box {
+    width: 120px;
+    height: 120px;
+}
+.camera-icon {
+    bottom: -12px;
+    z-index: 0;
+    left: 43%;
+}
+.fit-cover {
+    object-fit: cover;
 }

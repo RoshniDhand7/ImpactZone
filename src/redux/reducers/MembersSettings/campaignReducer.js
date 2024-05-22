@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allCompaigns: [],
+    compaignDropdown: [],
 };
 
 const camapignReducer = (state = intitalState, action) => {
@@ -9,6 +10,7 @@ const camapignReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCompaigns: action.payload,
+                compaignDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

@@ -457,3 +457,10 @@ for (let i = 1; i <= 30; i++) {
     };
     defaultReceiptCopiesOptions.push(option);
 }
+
+export const memberTypeOptions = [
+    { name: 'Prospect', value: 'PROSPECT' },
+    { name: 'Member', value: 'MEMBER' },
+];
+
+export const LeadPriorityOptions = ['High', ' Medium', 'Low', 'Urgent'].map((name) => ({ name, value: name }));

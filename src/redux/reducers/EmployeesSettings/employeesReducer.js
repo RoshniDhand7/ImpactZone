@@ -16,7 +16,7 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEmployees: action.payload,
-                employeesDropdown: action.payload?.data?.map((item) => ({ name: item.name, value: item._id })),
+                employeesDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
             };
         case types.CHANGE_EMPLOYEES_PAY_TYPE:
             return {
