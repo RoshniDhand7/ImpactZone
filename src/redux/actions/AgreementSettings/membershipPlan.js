@@ -41,6 +41,7 @@ const addMembershipPlan = (data, history) => async (dispatch) => {
     const payload = {
         ...data,
         services: getIds(data?.services),
+        membershipPlan: getIds(data?.membershipPlan),
     };
 
     const res = await api('post', EndPoints.MEMBERSHIP_PLAN, payload);
@@ -54,6 +55,7 @@ const editMembershipPlan = (id, data, history) => async (dispatch, getState) => 
     const payload = {
         ...data,
         services: getIds(data?.services),
+        membershipPlan: getIds(data?.membershipPlan),
     };
     const res = await api('put', EndPoints.MEMBERSHIP_PLAN + id, payload);
     if (res.success) {

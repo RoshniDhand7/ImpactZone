@@ -52,7 +52,7 @@ const showArrayFormErrors = (array, ignore) => {
 export const convertBooleanValues = (data) => {
     return data?.map((item) => {
         const convertedItem = { ...item };
-        Object.keys(item).forEach((key) => {
+        Object?.keys(item)?.forEach((key) => {
             if (typeof item[key] === 'boolean') {
                 convertedItem[key] = item[key] ? 'Yes' : 'No';
             }

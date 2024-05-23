@@ -23,6 +23,7 @@ import AddServices from '../../Inventory/CatalogItems/AddServices';
 import CustomEditor from '../../../../shared/Input/CustomEditor';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addMembershipPlan, editMembershipPlan, getMembershipPlan } from '../../../../redux/actions/AgreementSettings/membershipPlan';
+import AddAgreementPlan from './AddAgreementPlan';
 
 const MembershipPlanForm = () => {
     const history = useHistory();
@@ -47,6 +48,8 @@ const MembershipPlanForm = () => {
         afterSixPayments: '',
         sellOnline: '',
         onlineDescription: '',
+        oneTimePlan: '',
+        membershipPlan: [],
     });
 
     useEffect(() => {
@@ -108,6 +111,8 @@ const MembershipPlanForm = () => {
                         afterSixPayments: data.afterSixPayments,
                         sellOnline: data.sellOnline,
                         onlineDescription: data.onlineDescription,
+                        oneTimePlan: data.oneTimePlan,
+                        membershipPlan: data.membershipPlan,
                     });
                 }),
             );
@@ -124,6 +129,7 @@ const MembershipPlanForm = () => {
                         <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="agreementTemplate" options={allAgreementTemplatesDropdown} onChange={handleChange} data={data} />
+                        <CustomDropDown label="Is this a one time plan ?" name="oneTimePlan" options={yesNoOptions} onChange={handleChange} data={data} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Assessed Fees">
@@ -176,6 +182,7 @@ const MembershipPlanForm = () => {
                         )}
                     </CustomGridLayout>
                 </CustomCard>
+                <AddAgreementPlan data={data} setData={setData} id={id} loading={loading} type="discount" />
 
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />

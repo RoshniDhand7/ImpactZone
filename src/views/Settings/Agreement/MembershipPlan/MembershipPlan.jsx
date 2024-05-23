@@ -48,6 +48,8 @@ const MembershipPlan = () => {
         );
     };
 
+    console.log(allMembershipPlan, 'allMembershipPlan');
+
     return (
         <>
             <CustomFilterCard buttonTitle="Add Agreement Plan" linkTo="/settings/agreement/membership-plan/add" />

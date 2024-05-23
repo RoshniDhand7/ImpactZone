@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
+import { setKey, setDefaults, setLanguage, setRegion, fromAddress, fromLatLng, fromPlaceId, setLocationType, geocode, RequestType } from 'react-geocode';
 
 const AddMembers = () => {
     const [data, setData] = useState({
@@ -37,6 +38,20 @@ const AddMembers = () => {
         image: [],
     });
     const dispatch = useDispatch();
+    setDefaults({
+        key: 'AIzaSyCVT1kEGwZJqYqoNE31as_MgMToUYhX0Js', // Your API key here.
+        language: 'en', // Default language for responses.
+        region: 'es', // Default region for responses.
+    });
+
+    const address = fromAddress('Eiffel Tower')
+        .then(({ results }) => {
+            const { lat, lng } = results[0].geometry.location;
+            console.log(lat, lng);
+        })
+        .catch(console.error);
+
+    console.log(address, 'address');
 
     useEffect(() => {
         dispatch(getEmployees());
@@ -83,6 +98,7 @@ const AddMembers = () => {
     console.log('coordinates>>', coordinates);
     return (
         <>
+            <h3>Fast Add</h3>
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
                     <div className="col-2">

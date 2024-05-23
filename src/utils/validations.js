@@ -121,6 +121,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'agreementTemplate':
         case 'taxRateType':
         case 'defaultReceiptCopies':
+        case 'oneTimePlan':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
