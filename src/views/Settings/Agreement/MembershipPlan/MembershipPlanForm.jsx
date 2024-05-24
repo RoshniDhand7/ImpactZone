@@ -58,6 +58,7 @@ const MembershipPlanForm = () => {
         dispatch(getMembersipTypes());
         dispatch(getAssesedFees());
     }, [dispatch]);
+
     useEffect(() => {
         dispatch(getAgreementTemplates());
         localStorage.removeItem('gjsProject');
@@ -70,7 +71,7 @@ const MembershipPlanForm = () => {
     const { clubsDropdown } = useSelector((state) => state.clubs);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
     const handleSave = () => {
-        if (showFormErrors(data, setData)) {
+        if (showFormErrors(data, setData, ['services'])) {
             if (id) {
                 dispatch(editMembershipPlan(id, data, history));
             } else {
@@ -118,6 +119,8 @@ const MembershipPlanForm = () => {
             );
         }
     }, [id, dispatch]);
+
+    console.log('data>>', data);
     return (
         <>
             <FormPage backText="Agreement Plan">

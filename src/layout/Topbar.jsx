@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { logout } from '../services/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../redux/actions/profileAction';
+import { Tooltip } from 'primereact/tooltip';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -99,13 +100,14 @@ export default function TopBar() {
             command: () => history.push('/dashboard'),
         },
         {
-            icon: 'pi pi-plus-circle',
-            items: [
-                {
-                    label: 'Add Members',
-                    command: () => history.push('/member/add'),
-                },
-            ],
+            icon: 'pi pi-plus-circle ',
+            command: () => history.push('/member/add'),
+            template: (item, options) => (
+                <div className="p-menuitem-link custom-tooltip-btn" onClick={item.command}>
+                    <Tooltip target=".custom-tooltip-btn" content="Add Member" position="bottom" showDelay="400" />
+                    <i className={item.icon}></i>
+                </div>
+            ),
         },
         {
             icon: 'pi pi-calendar-plus',

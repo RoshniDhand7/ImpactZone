@@ -35,6 +35,7 @@ import agreementPromotionReducer from './AgreementSettings/agreementPromotionsRe
 import taxReducer from './PosSettings/taxReducer';
 import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 import discountTypeReducer from './PosSettings/discountTypeReducer';
+import memberReducer from './Dashboard/MembersReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -73,4 +74,5 @@ export default combineReducers({
     taxes: taxReducer,
     paymentMethod: paymentMethodReducer,
     discountType: discountTypeReducer,
+    members: memberReducer,
 });

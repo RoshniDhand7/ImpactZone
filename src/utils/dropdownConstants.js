@@ -382,7 +382,21 @@ export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No
 }));
 
 export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));
-export const genderOptions = ['Male', 'Female', 'Other'].map((name) => ({ name, value: name }));
+
+export const genderOptions = [
+    {
+        name: 'Male',
+        value: 'MALE',
+    },
+    {
+        name: 'Female',
+        value: 'FEMALE',
+    },
+    {
+        name: 'Others',
+        value: 'OTHERS',
+    },
+];
 export const autoPayOptions = [
     {
         name: 'On a set schedule',

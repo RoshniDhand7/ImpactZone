@@ -34,7 +34,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'name':
         case 'firstName':
         case 'lastName':
-        case 'barCode':
         case 'accessCode':
         case 'billingCountry':
         case 'companyName':
@@ -54,7 +53,9 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'code':
         case 'upc':
         case 'discountName':
+        case 'primaryPhone':
         case 'startDate':
+        case 'issue':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -122,6 +123,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'taxRateType':
         case 'defaultReceiptCopies':
         case 'oneTimePlan':
+        case 'salesPerson':
+        case 'compaign':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
@@ -174,6 +177,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumDistanceAllowed':
         case 'amount':
         case 'taxRatePercentage':
+        case 'barCode':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {
