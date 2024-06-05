@@ -2,7 +2,7 @@ import { Dialog } from 'primereact/dialog';
 import React from 'react';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../Button/CustomButton';
 
-export default function CustomDialog({ title, visible, position, width = '30vw', onSave, loading, onCancel, children }) {
+export default function CustomDialog({ title, visible, position, width = '30vw', onSave, loading, onCancel, children, contentClassName }) {
     const footerContent = (
         <CustomButtonGroup>
             {onSave ? <PrimaryButton label="Save" className="mx-2" loading={loading} onClick={onSave} /> : null}
@@ -21,6 +21,7 @@ export default function CustomDialog({ title, visible, position, width = '30vw',
             draggable={false}
             resizable={false}
             position={position}
+            contentClassName={contentClassName}
         >
             {children}
         </Dialog>

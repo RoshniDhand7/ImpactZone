@@ -1,6 +1,7 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { uploadImages } from '../../../utils/commonFunctions';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
@@ -30,4 +31,16 @@ const addMembers = (data, next) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
-export { addMembers };
+const getMembers = () => async (dispatch) => {
+    const res = await api('get', EndPoints.GET_MEMBERS);
+    if (res.success) {
+        dispatch({
+            type: types.CHANGE_MEMBERS,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { addMembers, getMembers };

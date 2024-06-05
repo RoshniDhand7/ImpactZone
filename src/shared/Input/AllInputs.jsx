@@ -64,13 +64,13 @@ export const CustomPassword = ({
                 id={name}
                 name={name}
                 value={value || data?.[name] || ''}
-                feedback={false}
                 type={type}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
                 className={`w-full justify-content-center${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 inputClassName="w-full"
                 disabled={disabled}
                 toggleMask
+                feedback={false}
                 {...props}
             />
         </InputLayout>

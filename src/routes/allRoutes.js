@@ -67,7 +67,7 @@ export const PrivateRoutes = [
         component: CheckIn,
     },
     {
-        path: '/members',
+        path: '/members/:id',
         name: 'Members',
         component: Members,
     },

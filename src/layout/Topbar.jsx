@@ -10,6 +10,8 @@ import { logout } from '../services/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
+import CustomDialog from '../shared/Overlays/CustomDialog';
+import Search from './Search';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -41,7 +43,7 @@ export default function TopBar() {
             {
                 label: 'Members',
                 style: location.pathname.includes('/members') ? active : '',
-                command: () => history.replace('/members'),
+                command: () => history.replace('/members/:id'),
             },
             {
                 label: 'Calendar',
@@ -94,10 +96,12 @@ export default function TopBar() {
         </div>
     );
 
+    const [openModal, setOpenModal] = useState(false);
+
     let iconItems = [
         {
             icon: 'pi pi-search',
-            command: () => history.push('/dashboard'),
+            command: () => setOpenModal(true),
         },
         {
             icon: 'pi pi-plus-circle ',
@@ -134,6 +138,8 @@ export default function TopBar() {
     };
     const end = (
         <div className="flex justify-content-between">
+            <Search openModal={openModal} setOpenModal={setOpenModal} />
+
             <Menubar style={{ border: 'none' }} model={iconItems} />
             <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>
                 <Avatar

@@ -6,6 +6,8 @@ export default function InputLayout({ label, name, required, col, extraClassName
     if (col > 12) {
         col = 12;
     }
+
+    console.log(data);
     return (
         <div className={`col-12  md:col-${col} ${extraClassName}`}>
             <label htmlFor={name} className="text-sm font-semibold">
