@@ -25,7 +25,6 @@ const showFormErrors = (data, setData, ignore) => {
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
 const showArrayFormErrors = (array, ignore) => {
-    console.log('array>>', array);
     let isValid = true;
     let res = array.map((data) => {
         let formErrors = {};

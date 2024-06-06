@@ -20,7 +20,6 @@ const Discount = () => {
     }, [dispatch, data?.isActive]);
 
     const { allDiscountTypes } = useSelector((state) => state.discountType);
-    console.log(allDiscountTypes);
 
     const columns = [
         { field: 'discountName', header: 'Name' },

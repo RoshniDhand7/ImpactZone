@@ -57,11 +57,8 @@ const AddMembers = () => {
     const address = fromAddress('Eiffel Tower')
         .then(({ results }) => {
             const { lat, lng } = results[0].geometry.location;
-            console.log(lat, lng);
         })
         .catch(console.error);
-
-    console.log(address, 'address');
 
     useEffect(() => {
         dispatch(getEmployees());
@@ -73,12 +70,8 @@ const AddMembers = () => {
     let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
     const loading = useSelector((state) => state.loader.isLoading);
 
-    console.log(allMembershipPlan, 'all');
-
     const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'true')?.map((item) => ({ name: item.name, value: item._id }));
     const memberagreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'false')?.map((item) => ({ name: item.name, value: item._id }));
-
-    const state = useSelector((state) => console.log(state));
 
     const [error, setError] = useState('');
     const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
@@ -93,8 +86,6 @@ const AddMembers = () => {
                     key: API_KEY,
                 },
             });
-
-            console.log('response>>', response);
 
             if (response.data.status === 'OK') {
                 const location = response.data.results[0].geometry.location;
@@ -112,9 +103,6 @@ const AddMembers = () => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
-
-    console.log('data>>', data);
-    console.log('coordinates>>', coordinates);
 
     const handleSave = () => {
         if (showFormErrors(data, setData, ['workNumber'])) {

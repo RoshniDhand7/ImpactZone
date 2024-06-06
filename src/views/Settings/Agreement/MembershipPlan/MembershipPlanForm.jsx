@@ -86,7 +86,6 @@ const MembershipPlanForm = () => {
             const subCategory =
                 allAgreementCategories.find((category) => category._id === value)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
             setSubcategoryOptions(subCategory);
-            console.log(subCategory, 'subcategory');
         }
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
@@ -120,7 +119,6 @@ const MembershipPlanForm = () => {
         }
     }, [id, dispatch]);
 
-    console.log('data>>', data);
     return (
         <>
             <FormPage backText="Agreement Plan">

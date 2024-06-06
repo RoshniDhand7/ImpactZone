@@ -182,8 +182,6 @@ const EventClassesForm = () => {
         }
     }, [employeePayType, allEmployees]);
 
-    console.log('data>>', data);
-
     const handleChangeDynamicField = async ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
         let obj = _newData[fieldName][customIndex];

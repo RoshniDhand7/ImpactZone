@@ -51,8 +51,6 @@ const AssessedFees = () => {
     //     console.log(result, 'result');
     // }, [allAssessedFees, data]);
 
-    console.log('allAssessedFees>>', allAssessedFees);
-
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'profitCenter', header: 'Profit Center' },
@@ -87,8 +85,6 @@ const AssessedFees = () => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
-
-    console.log('data>>', data);
 
     return (
         <>

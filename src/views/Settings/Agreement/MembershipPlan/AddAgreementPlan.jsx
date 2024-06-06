@@ -28,8 +28,6 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
         ?.filter((item) => item.membershipType === data.membershipType)
         ?.map((item) => ({ name: item.name, _id: item._id, category: item.category, noofMembers: item.noOfMembers }));
 
-    console.log('allMembershipPlanFilter>>', allMembershipPlan);
-
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
         { field: 'name', header: ' Name' },

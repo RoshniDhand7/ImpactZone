@@ -39,8 +39,9 @@ const Search = ({ openModal, setOpenModal }) => {
 
     useEffect(() => {
         if (value?.id) {
-            history.push(`/members/${value?.id}`);
+            history.push(`/member/${value?.id}`);
             setValue('');
+            localStorage.setItem('member', value.id);
             setOpenModal(false);
         }
     }, [value]);

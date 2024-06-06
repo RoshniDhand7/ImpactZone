@@ -29,7 +29,6 @@ const DiscountForm = () => {
         if (id) {
             dispatch(
                 getDiscountType(id, (data) => {
-                    console.log(data, 'dat2a');
                     setData({
                         discountName: data.discountName,
                         percentage: data.percentage,
@@ -78,7 +77,6 @@ const DiscountForm = () => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
-    console.log('data>>', data);
 
     const handleAdd = () => {
         const newDiscount = {
@@ -100,7 +98,6 @@ const DiscountForm = () => {
         obj.formErrors = formErrors;
         _newData[fieldName][customIndex] = obj;
 
-        console.log('newData', _newData);
         setData(() => ({
             ..._newData,
         }));
@@ -137,11 +134,8 @@ const DiscountForm = () => {
                     dispatch(addDiscountType(discountData, history));
                 }
             }
-
-            console.log('validateSchedule>>', !validatedSchedule.isValid, data.multiItemDiscount);
         }
     };
-    console.log('vadata>>', data);
 
     return (
         <>

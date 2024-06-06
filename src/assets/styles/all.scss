@@ -4,6 +4,9 @@
 // Layout file
 @import './layout/_topbar.scss';
 @import './layout/_navbar.scss';
+@import './layout/scrollbar.scss';
+@import './layout/menu.scss';
+
 ///////////////////////////////////////////////////////////
 ////// All other style files will be imported below///////
 /////////////////////////////////////////////////////////
@@ -21,6 +24,7 @@
 @import './pages/alerts/_alertstypes.scss';
 @import './pages/addEmployee/_itemcommission.scss';
 @import './pages/_addAgreementTemplate.scss';
+@import './pages/_members.scss';
 
 ////// All components///////
 

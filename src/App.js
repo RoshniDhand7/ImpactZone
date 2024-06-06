@@ -39,7 +39,7 @@ function App() {
     return (
         <>
             <TopBar />
-            <div className="main-container p-4">
+            <div className="main-container p-2">
                 <Suspense fallback={showFallback && loading}>
                     <Switch>
                         <ProtectedRoute />

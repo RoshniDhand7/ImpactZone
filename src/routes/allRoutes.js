@@ -22,6 +22,7 @@ import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
 import PaymentMethodsForm from '../views/Settings/PointOfSale/PaymentMethods/PaymentMethodsForm';
 import DiscountForm from '../views/Settings/PointOfSale/Discount/DiscountForm';
 import AddMembers from '../views/Members/AddMembers';
+import Personal from '../views/Members/SidebarComponents/Personal';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -67,7 +68,7 @@ export const PrivateRoutes = [
         component: CheckIn,
     },
     {
-        path: '/members/:id',
+        path: '/member/:id',
         name: 'Members',
         component: Members,
     },

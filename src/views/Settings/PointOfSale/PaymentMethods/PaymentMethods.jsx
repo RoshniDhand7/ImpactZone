@@ -20,8 +20,6 @@ const PaymentMethods = () => {
 
     const { allPaymentMethod } = useSelector((state) => state.paymentMethod);
 
-    console.log(allPaymentMethod);
-
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'detail', header: 'Detail' },

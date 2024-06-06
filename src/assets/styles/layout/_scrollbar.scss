@@ -1,0 +1,37 @@
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-gray-color $bg-white;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: $bg-white;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $bg-white;
+    border-radius: 20px;
+}
+
+.scrollable-card {
+    scrollbar-width: thin;
+    scrollbar-color: $bg-white $bg-white;
+}
+
+/* Works on Chrome, Edge, and Safari */
+.scrollable-card::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-card::-webkit-scrollbar-track {
+    background: $bg-white;
+}
+
+.scrollable-card::-webkit-scrollbar-thumb {
+    background-color: $bg-white;
+    border-radius: 20px;
+}

@@ -48,7 +48,6 @@ const MembershipPlan = () => {
         );
     };
 
-    console.log(allMembershipPlan, 'allMembershipPlan');
 
     return (
         <>

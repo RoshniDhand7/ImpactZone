@@ -65,7 +65,6 @@ const TaxForm = () => {
             }
         }
     };
-    console.log('data', data);
     return (
         <>
             <FormPage backText="Tax">

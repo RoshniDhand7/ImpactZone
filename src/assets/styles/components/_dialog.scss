@@ -1,0 +1,31 @@
+.custom-dialog {
+  .p-dialog-content {
+    padding: 0;
+  }
+  .p-dialog-footer {
+    padding: 0.5rem 1rem;
+  }
+  .p-dialog-header {
+    padding: 1rem;
+  }
+  .card {
+    background: $bg-white;
+    border-radius: 10px;
+
+    .header {
+      font-family: Heebo;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 32px;
+      color: #313131;
+      padding: 1rem;
+    }
+    hr {
+      border-top: 1px solid #e8e8e8;
+      margin: 0;
+    }
+    .content {
+      padding: 1rem;
+    }
+  }
+}

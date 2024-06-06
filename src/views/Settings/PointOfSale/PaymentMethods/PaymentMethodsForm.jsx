@@ -68,7 +68,6 @@ const PaymentMethodsForm = () => {
         hideInPos: 'false',
         isActive: true,
     });
-    console.log(data);
     return (
         <>
             <FormPage backText="Payment Methods">

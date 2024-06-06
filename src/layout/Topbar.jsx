@@ -42,8 +42,8 @@ export default function TopBar() {
             },
             {
                 label: 'Members',
-                style: location.pathname.includes('/members') ? active : '',
-                command: () => history.replace('/members/:id'),
+                style: location.pathname.includes('/member') ? active : '',
+                command: () => history.replace('/member/:id'),
             },
             {
                 label: 'Calendar',

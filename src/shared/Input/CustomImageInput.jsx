@@ -53,7 +53,6 @@ export default function CustomImageInput({
     const onFileChange = (e) => {
         if (editable) {
             const chossenFile = e.target.files;
-            console.log('chossenFile>>', chossenFile);
             handlefileChange(Object.values(chossenFile));
         }
     };
@@ -85,8 +84,6 @@ export default function CustomImageInput({
             setFiles([...uploadedFiles]);
         }
     };
-
-    console.log('files>>', files);
 
     return (
         <>
