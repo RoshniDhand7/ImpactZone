@@ -39,7 +39,7 @@ const Search = ({ openModal, setOpenModal }) => {
 
     useEffect(() => {
         if (value?.id) {
-            history.push(`/member/${value?.id}`);
+            history.push(`/member/${value?.id}/dashboard`);
             setValue('');
             localStorage.setItem('member', value.id);
             setOpenModal(false);

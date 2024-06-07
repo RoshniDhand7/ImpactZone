@@ -19,7 +19,7 @@ const AddMembers = () => {
     const [data, setData] = useState({
         createType: 'PROSPECT',
         barCode: 0,
-        agreementPlan: '',
+        memberShipPlan: '',
         note: '',
         firstName: '',
         lastName: '',
@@ -122,7 +122,7 @@ const AddMembers = () => {
                         <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
                         <CustomDropDown
                             col="4"
-                            name="agreementPlan"
+                            name="memberShipPlan"
                             data={data}
                             onChange={handleChange}
                             options={data?.createType === 'PROSPECT' ? prospectAgreement : memberagreement}

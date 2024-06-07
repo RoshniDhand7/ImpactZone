@@ -4,7 +4,7 @@ import PrimaryButton from '../Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 
-export default function CustomCard({ title, children, col = 6, height, extraClassName }) {
+export default function CustomCard({ title, button, children, col = 6, height, extraClassName }) {
     return (
         <div className={`col-12 md:col-${col} ${extraClassName}`}>
             <div className="bg-primary-dark border-round shadow-2 p-3">

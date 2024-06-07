@@ -7,6 +7,7 @@ import formValidation from './validations';
 import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
 import moment from 'moment';
+import constants from '../constants';
 
 const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -250,6 +251,13 @@ const convertToDateTime = (timeString) => {
     return newDate;
 };
 
+const getImageUrl = (image) => {
+    if (image.includes('http')) {
+        return image;
+    } else {
+        return constants.baseUrl + image;
+    }
+};
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -271,4 +279,5 @@ export {
     showArrayFormErrors,
     getTime,
     convertToDateTime,
+    getImageUrl,
 };

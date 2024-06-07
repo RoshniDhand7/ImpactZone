@@ -1,24 +1,24 @@
 import React from 'react';
 import CustomCard from '../../../shared/Cards/CustomCard';
-import UserImg from '../../../assets/images/gallery.png';
+import UserImg1 from '../../../assets/images/Frame.png';
+import { useParams } from 'react-router-dom';
+import ProfileDetail from './ProfileDetail';
+import TopLayout from './TopLayout';
+import useMemberDetail from './useMemberDetail';
 
 const Dashboard = () => {
+    const { id } = useParams();
+    console.log('id>>', id);
+
+    const { data } = useMemberDetail();
+
     return (
         <div className="grid">
             <div className="md:col-8">
-                <div className=" p-4 border-round-xl shadow-2 align-items-center bg-lightest-blue flex gap-5 mb-3">
-                    <div className="avatar-img">
-                        <img src={UserImg} alt="" />
-                    </div>
-                    <div className="">
-                        <h2 className="text-dark-blue text-3xl font-semibold">John Smith</h2>
-                        <p className="text-black font-medium">Barcode: 45677654</p>
-                        <p className="text-green font-semibold">Active</p>
-                        <p className="text-black">All Access</p>
-                    </div>
-                </div>
+                <ProfileDetail data={data} />
+                <TopLayout />
                 <CustomCard title="Alerts " col={12}>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
+                    <p className="text-sm font-medium flex gap-2 align-items-center mb-3 text-red-600">
                         <i className="pi pi-exclamation-triangle"></i> Past Due by 35 days
                     </p>
                 </CustomCard>
@@ -43,17 +43,53 @@ const Dashboard = () => {
                         </p>
                     </CustomCard>
                 </div>
+                <CustomCard title="Most Purchased Items" col={12}>
+                    <div className="flex justify-content-between">
+                        <div className="">
+                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                <img src={UserImg1}></img>
+                            </div>
+                            <small className="font-semibold text-dark-blue">Protein Powder</small>
+                        </div>
+                        <div className="">
+                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                <img src={UserImg1}></img>
+                            </div>
+                            <small className="font-semibold text-dark-blue">Protein Powder</small>
+                        </div>
+                        <div className="">
+                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                <img src={UserImg1}></img>
+                            </div>
+                            <small className="font-semibold text-dark-blue">Protein Powder</small>
+                        </div>
+                        <div className="">
+                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                <img src={UserImg1}></img>
+                            </div>
+                            <small className="font-semibold text-dark-blue">Protein Powder</small>
+                        </div>
+                        <div className="">
+                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                <img src={UserImg1}></img>
+                            </div>
+                            <small className="font-semibold text-dark-blue">Protein Powder</small>
+                        </div>
+                    </div>
+                </CustomCard>
             </div>
             <div className="md:col-4">
                 <CustomCard title="Personal " col={12}>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-map-marker"></i>236 Scranton Road, New york city IL 12189
+                        <i className="pi pi-map-marker"></i>
+                        {data.address}
                     </p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-phone"></i>347-218-1019
+                        <i className="pi pi-phone"></i>
+                        {data.primaryPhone}
                     </p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-envelope"></i>347-218-1019
+                        <i className="pi pi-envelope"></i>mike@gmail.com
                     </p>
                 </CustomCard>
                 <CustomCard title="Billing History " col={12}>
@@ -72,31 +108,21 @@ const Dashboard = () => {
                     <p className="text-sm flex gap-2 align-items-center mb-3">
                         <span>Last Billing: </span>12/5/22
                     </p>
-                    <h3 className="font-medium mb-3">Last 3 Pos Transactions: </h3>
+                    <h3 className="text-sm font-medium mb-3">Last 3 Pos Transactions: </h3>
                     <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">Raw Whole Food Bar</p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
                 </CustomCard>
                 <CustomCard title="Payment Method" col={12}>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Agreement: </span>Impact 1
-                    </p>
-                    <p className="text-sm flex gap-2 text-green align-items-center mb-3">
-                        <span className="text-dark-gray">Team: </span>Open
+                        <span>Card on File: </span>0049
                     </p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Expiration: </span>N/A
+                        <span>Next Due: </span>$06.92
                     </p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Start Date: </span>1/1/2022
+                        <span>Past Due: </span>$00.00
                     </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Last Billing: </span>12/5/22
-                    </p>
-                    <h3 className="font-medium mb-3">Last 3 Pos Transactions: </h3>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">Raw Whole Food Bar</p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
                 </CustomCard>
             </div>
         </div>

@@ -43,4 +43,17 @@ const getMembers = () => async (dispatch) => {
     }
 };
 
-export { addMembers, getMembers };
+const getMemberAction = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.MEMBERS + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+
+export { addMembers, getMembers, getMemberAction };

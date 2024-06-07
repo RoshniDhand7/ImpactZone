@@ -93,7 +93,7 @@ export const PrivateRoutes = [
         component: More,
     },
     {
-        path: '/member/add',
+        path: '/members/add',
         name: 'Members',
         component: AddMembers,
     },

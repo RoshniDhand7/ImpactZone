@@ -12,6 +12,7 @@ import { getProfile } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
 import CustomDialog from '../shared/Overlays/CustomDialog';
 import Search from './Search';
+import { getMembers } from '../redux/actions/Dashboard/Members';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -28,6 +29,24 @@ export default function TopBar() {
         fontWeight: '600',
     };
 
+    const [member, setMember] = useState('');
+
+    useEffect(() => {
+        dispatch(getMembers());
+    }, []);
+    let { allMembers } = useSelector((state) => state.members);
+
+    useEffect(() => {
+        if (localStorage.getItem('member')) {
+            setMember(localStorage.getItem('member'));
+            console.log(localStorage.getItem('member'), 'ji');
+        } else {
+            setMember(allMembers?.[0]?._id);
+        }
+    }, [allMembers, localStorage.getItem('member')]);
+
+    console.log('member>>', member, allMembers);
+
     const getNavbar = () => {
         const items = [
             {
@@ -43,7 +62,7 @@ export default function TopBar() {
             {
                 label: 'Members',
                 style: location.pathname.includes('/member') ? active : '',
-                command: () => history.replace('/member/:id'),
+                command: () => member && history.replace(`/member/${member}/dashboard`),
             },
             {
                 label: 'Calendar',
@@ -105,7 +124,7 @@ export default function TopBar() {
         },
         {
             icon: 'pi pi-plus-circle ',
-            command: () => history.push('/member/add'),
+            command: () => history.push('/members/add'),
             template: (item, options) => (
                 <div className="p-menuitem-link custom-tooltip-btn" onClick={item.command}>
                     <Tooltip target=".custom-tooltip-btn" content="Add Member" position="bottom" showDelay="400" />
