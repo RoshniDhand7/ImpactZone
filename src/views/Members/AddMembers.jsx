@@ -14,8 +14,10 @@ import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
 import { addMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
+import Autocomplete from 'react-google-autocomplete';
 
 const AddMembers = () => {
+    const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
     const [data, setData] = useState({
         createType: 'PROSPECT',
         barCode: 0,
@@ -49,7 +51,7 @@ const AddMembers = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     setDefaults({
-        key: 'AIzaSyCVT1kEGwZJqYqoNE31as_MgMToUYhX0Js',
+        key: API_KEY,
         language: 'en',
         region: 'es',
     });
@@ -75,29 +77,6 @@ const AddMembers = () => {
 
     const [error, setError] = useState('');
     const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
-
-    const API_KEY = 'AIzaSyCtc8eeRCGEezJ1hWQYUiIslhMb7HOK9X0'; // Replace with your API key
-
-    const getCoordinates = async () => {
-        try {
-            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
-                params: {
-                    address: data?.address,
-                    key: API_KEY,
-                },
-            });
-
-            if (response.data.status === 'OK') {
-                const location = response.data.results[0].geometry.location;
-                setCoordinates({ lat: location.lat, lng: location.lng });
-                setError('');
-            } else {
-                setError('Address not found');
-            }
-        } catch (err) {
-            setError('Error fetching coordinates');
-        }
-    };
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -148,6 +127,13 @@ const AddMembers = () => {
             <CustomCard col="12" title="Address">
                 <CustomGridLayout>
                     <CustomInput name="address" data={data} onChange={handleChange} required />
+                    <Autocomplete
+                        apiKey={API_KEY}
+                        onPlaceSelected={(place) => {
+                            console.log(place, 'place');
+                        }}
+                    />
+                    ;
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Sale">

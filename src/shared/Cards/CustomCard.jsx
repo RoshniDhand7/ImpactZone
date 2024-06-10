@@ -1,14 +1,24 @@
 import React from 'react';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
-import PrimaryButton from '../Button/CustomButton';
+import PrimaryButton, { CustomButton } from '../Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 
-export default function CustomCard({ title, button, children, col = 6, height, extraClassName }) {
+export default function CustomCard({ title, button, name, children, col = 6, height, extraClassName, onClick }) {
     return (
         <div className={`col-12 md:col-${col} ${extraClassName}`}>
-            <div className="bg-primary-dark border-round shadow-2 p-3">
-                <div className="text-xl text-white">{title}</div>
+            <div className={`bg-primary-dark border-round shadow-2 p-3 ${name ? 'flex justify-content-between align-items-center' : ''}`}>
+                <div className="text-xl text-white justify-content-end align-items-end">{title}</div>
+                {name && (
+                    <CustomButton
+                        icon="pi pi-pencil"
+                        className="p-1 border-gray-200 text-sm gap-2 px-3 p-2 text-white justify-content-end align-items-end"
+                        onClick={onClick}
+                        outlined={true}
+                    >
+                        {name}
+                    </CustomButton>
+                )}
             </div>
             <div className="bg-lightest-blue border-round p-2 mt-2 " style={{ height: height, overflowY: 'auto' }}>
                 <div className="p-2">{children}</div>
@@ -51,6 +61,8 @@ export function CustomListItem({ label, name, data, value }) {
         } else if (typeof data[name] === 'boolean' && !data[name]) {
             value = 'No';
         } else {
+            console.log('data>>', data);
+
             value = data[name] ? data[name] : '-';
         }
     }

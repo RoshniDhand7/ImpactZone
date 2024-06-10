@@ -62,4 +62,8 @@ export const types = {
 
     // POS
     CHANGE_DISCOUNT_TYPES: 'CHANGE_DISCOUNT_TYPES',
+
+    //members
+
+    CHANGE_VIEW_MEMBERS: 'CHANGE_VIEW_MEMBERS',
 };

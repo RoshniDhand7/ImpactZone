@@ -223,8 +223,8 @@ export const CustomCalenderInput = ({
             <Calendar
                 inputId={name}
                 name={name}
-                value={value || data?.[name]}
-                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value, customIndex, fieldName })}
+                value={data?.[name] || value}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 showIcon

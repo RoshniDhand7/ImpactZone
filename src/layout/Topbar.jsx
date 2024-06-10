@@ -10,7 +10,6 @@ import { logout } from '../services/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
-import CustomDialog from '../shared/Overlays/CustomDialog';
 import Search from './Search';
 import { getMembers } from '../redux/actions/Dashboard/Members';
 
@@ -62,7 +61,7 @@ export default function TopBar() {
             {
                 label: 'Members',
                 style: location.pathname.includes('/member') ? active : '',
-                command: () => member && history.replace(`/member/${member}/dashboard`),
+                command: () => history.replace(`/member/${member}/dashboard`),
             },
             {
                 label: 'Calendar',
@@ -107,7 +106,7 @@ export default function TopBar() {
     useEffect(() => {
         setItems(getNavbar());
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location]);
+    }, [location, member]);
 
     const logoDiv = (
         <div className="flex justify-content-center">

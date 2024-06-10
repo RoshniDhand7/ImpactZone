@@ -43,17 +43,37 @@ const getMembers = () => async (dispatch) => {
     }
 };
 
-const getMemberAction = (id, returnData) => async (dispatch) => {
+const getMemberAction = (id) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.MEMBERS + id);
     if (res.success) {
         if (res.data) {
-            if (returnData) {
-                returnData(res.data);
-            }
+            dispatch({
+                type: types.CHANGE_VIEW_MEMBERS,
+                payload: res.data,
+            });
         }
     }
     dispatch(hideLoaderAction());
 };
 
-export { addMembers, getMembers, getMemberAction };
+const editMemberAction = (id, data, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const paylaod = {
+        ...data,
+        ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
+        // ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
+        // ...(data?.workNumber && { workNumber: data?.workNumber?.replace(/\D/g, '') }),
+    };
+
+    const res = await api('put', EndPoints.MEMBERS + id, paylaod);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+        next();
+    }
+    dispatch(hideLoaderAction());
+};
+
+export { addMembers, getMembers, getMemberAction, editMemberAction };
