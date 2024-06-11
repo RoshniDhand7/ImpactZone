@@ -31,10 +31,26 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
 
+        case 'accessCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'reAccessCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required`;
+            } else if (value !== state.accessCode) {
+                formErrors[name] = `Access Code and Re-enter Access Code do not match!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
         case 'name':
         case 'firstName':
         case 'lastName':
-        case 'accessCode':
         case 'billingCountry':
         case 'companyName':
         case 'address1':

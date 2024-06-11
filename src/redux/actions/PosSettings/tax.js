@@ -6,7 +6,7 @@ import { showToast } from '../toastAction';
 
 const getTaxes = (isActive) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.TAXES, {}, { isActive });
+    const res = await api('get', EndPoints.TAXES, {}, { isActive: isActive });
     if (res.success) {
         if (res.data) {
             dispatch({

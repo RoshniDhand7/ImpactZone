@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout, CustomListItem } from '../../../shared/Cards/CustomCard';
 import useMemberDetail from './useMemberDetail';
 import TopLayout from './TopLayout';
@@ -12,32 +12,82 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editMemberAction, getMemberAction } from '../../../redux/actions/Dashboard/Members';
 import moment from 'moment';
 import { getMembersipTypes } from '../../../redux/actions/MembersSettings/membershipTypes';
+import { showFormErrors } from '../../../utils/commonFunctions';
 
 const Personal = () => {
     const { data, setData, initialState, getMember } = useMemberDetail();
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    const loading = useSelector((state) => state?.loader?.isLoading);
-
-    const handleCheckboxChange = (category, name) => {
-        setData((prevState) => ({
-            ...prevState,
-            [category]: {
-                ...prevState[category],
-                [name]: !prevState[category][name],
-            },
-        }));
-        dispatch(editMemberAction(id, data, () => {}));
-    };
-
     const [visiblePersonalDetail, setVisiblePersonal] = useState(null);
     const [visibleDemographics, setVisibleDemographics] = useState(null);
     const [visibleMembershipDetail, setVisibleMembershipDetail] = useState(null);
     const [visibleAccessCode, setVisibleAccessCode] = useState(null);
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const loading = useSelector((state) => state?.loader?.isLoading);
+    const handleCheckboxChange = useCallback(
+        (category, name) => {
+            setData((prevState) => {
+                const updatedCategory = {
+                    ...prevState[category],
+                    [name]: !prevState[category][name],
+                };
+                const updatedState = {
+                    ...prevState,
+                    [category]: updatedCategory,
+                };
+
+                dispatch(editMemberAction(id, { [category]: updatedCategory }, () => {}));
+
+                return updatedState;
+            });
+        },
+        [dispatch, id],
+    );
+    const [data1, setData1] = useState(initialState);
+
+    useEffect(() => {
+        dispatch(getMemberAction(id));
+    }, [dispatch, id, visiblePersonalDetail, visibleDemographics, visibleMembershipDetail, visibleAccessCode]);
+
+    useEffect(() => {
+        if (getMember) {
+            setData1({
+                firstName: getMember.firstName,
+                lastName: getMember.lastName,
+                barCode: getMember.barCode,
+                email: getMember?.email,
+                dob: getMember.dob ? new Date(getMember.dob) : '',
+                isActive: getMember.isActive,
+                image: getMember.image,
+                primaryPhone: getMember.primaryPhone,
+                drivingLicience: getMember.drivingLicience,
+                address: getMember.address,
+                newAccessCode: '',
+                gender: getMember.gender,
+                mobilePhone: getMember.mobilePhone,
+                workNumber: getMember.workNumber,
+                membershipType: getMember.membershipTypeId ? getMember?.membershipTypeId : null,
+                membershipTypeName: getMember?.membershipType ? getMember?.membershipType : null,
+                socialSecurity: getMember.socialSecurity,
+                occupation: getMember.occupation,
+                accessCode: '',
+                reAccessCode: '',
+                text: {
+                    membership: getMember?.text?.membership,
+                    services: getMember?.text?.services,
+                    booking: getMember?.text?.booking,
+                },
+                promotional: {
+                    membership: getMember?.promotional?.membership,
+                    services: getMember?.promotional?.services,
+                    booking: getMember?.promotional?.booking,
+                },
+            });
+        }
+    }, [getMember]);
 
     const handleChange = ({ name, value }) => {
-        const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        const formErrors = formValidation(name, value, data1);
+        setData1((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     useEffect(() => {
@@ -48,16 +98,31 @@ const Personal = () => {
     console.log(data, 'data');
 
     const handleSave = () => {
-        dispatch(
-            editMemberAction(id, data, () => {
-                dispatch(getMemberAction(id));
-                setData(initialState);
-                setVisiblePersonal(null);
-                setVisibleDemographics(null);
-                setVisibleMembershipDetail(null);
-            }),
-        );
+        let ignore = [];
+        if (visiblePersonalDetail) {
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'barCode', 'accessCode', 'reAccessCode'];
+        } else if (visibleDemographics) {
+            ignore = ['firstName', 'lastName', 'barCode', 'accessCode', 'reAccessCode'];
+        } else if (visibleMembershipDetail) {
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'accessCode', 'reAccessCode'];
+        } else if (visibleAccessCode) {
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'barCode'];
+        }
+        if (showFormErrors(data1, setData1, ignore)) {
+            dispatch(
+                editMemberAction(id, data1, () => {
+                    dispatch(getMemberAction(id));
+                    setData1(initialState);
+                    setVisiblePersonal(null);
+                    setVisibleDemographics(null);
+                    setVisibleMembershipDetail(null);
+                    setVisibleAccessCode(null);
+                }),
+            );
+        }
     };
+
+    console.log('data1>>', data1);
 
     return (
         <>
@@ -66,21 +131,20 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visiblePersonalDetail}
                 onCancel={() => {
-                    dispatch(getMemberAction(id));
-                    setData(initialState);
+                    setData1(initialState);
                     setVisiblePersonal(null);
                 }}
                 loading={loading}
                 onSave={handleSave}
             >
                 <CustomGridLayout>
-                    <CustomInput name="firstName" col={6} data={data} onChange={handleChange} />
-                    <CustomInput name="lastName" col={6} data={data} onChange={handleChange} />
-                    <CustomDropDown name="gender" options={genderOptions} col={6} data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} col={6} />
-                    <CustomInput name="socialSecurity" col={6} data={data} onChange={handleChange} />
-                    <CustomInput name="occupation" col={6} data={data} onChange={handleChange} />
-                    <CustomInput name="employeer" col={6} data={data} onChange={handleChange} />
+                    <CustomInput name="firstName" col={6} data={data1} onChange={handleChange} />
+                    <CustomInput name="lastName" col={6} data={data1} onChange={handleChange} />
+                    <CustomDropDown name="gender" options={genderOptions} col={6} data={data1} onChange={handleChange} />
+                    <CustomCalenderInput name="dob" data={data1} onChange={handleChange} col={6} />
+                    <CustomInput name="socialSecurity" col={6} data={data1} onChange={handleChange} />
+                    <CustomInput name="occupation" col={6} data={data1} onChange={handleChange} />
+                    <CustomInput name="employeer" col={6} data={data1} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
@@ -88,20 +152,19 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visibleDemographics}
                 onCancel={() => {
-                    dispatch(getMemberAction(id));
-                    setData(initialState);
+                    setData1(initialState);
                     setVisibleDemographics(null);
                 }}
                 loading={loading}
                 onSave={handleSave}
             >
                 <CustomGridLayout>
-                    <CustomInput name="address" col={6} data={data} onChange={handleChange} />
-                    <CustomInput name="email" col={6} data={data} onChange={handleChange} />
-                    <CustomInputMask inputClass="border-1" col={6} name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
-                    <CustomInputMask inputClass="border-1" col={6} name="mobilePhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
-                    <CustomInputMask inputClass="border-1" col={6} name="workNumber" mask="(999) 999-9999" data={data} onChange={handleChange} />
-                    <CustomInput name="drivingLicience" col={6} data={data} onChange={handleChange} />
+                    <CustomInput name="address" col={6} data={data1} onChange={handleChange} />
+                    <CustomInput name="email" col={6} data={data1} onChange={handleChange} />
+                    <CustomInputMask inputClass="border-1" col={6} name="primaryPhone" mask="(999) 999-9999" data={data1} onChange={handleChange} />
+                    <CustomInputMask inputClass="border-1" col={6} name="mobilePhone" mask="(999) 999-9999" data={data1} onChange={handleChange} />
+                    <CustomInputMask inputClass="border-1" col={6} name="workNumber" mask="(999) 999-9999" data={data1} onChange={handleChange} />
+                    <CustomInput name="drivingLicience" col={6} data={data1} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
@@ -109,25 +172,23 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visibleMembershipDetail}
                 onCancel={() => {
-                    dispatch(getMemberAction(id));
-                    setData(initialState);
+                    setData1(initialState);
                     setVisibleMembershipDetail(null);
                 }}
                 loading={loading}
                 onSave={handleSave}
             >
                 <CustomGridLayout>
-                    <CustomInputNumber name="barCode" col={6} data={data} onChange={handleChange} />
-                    <CustomDropDown name="membershipType" col={6} data={data} options={MembershipTypesDropdown} onChange={handleChange} draggable={false} />
+                    <CustomInputNumber name="barCode" col={6} data={data1} onChange={handleChange} />
+                    <CustomDropDown name="membershipType" col={6} data={data1} options={MembershipTypesDropdown} onChange={handleChange} draggable={false} />
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
                 width="50vh"
-                title={'Add'}
+                title={getMember?.accessCode ? 'Edit' : 'Add'}
                 visible={visibleAccessCode}
                 onCancel={() => {
-                    dispatch(getMemberAction(id));
-                    setData(initialState);
+                    setData1(initialState);
                     setVisibleAccessCode(null);
                 }}
                 loading={loading}
@@ -136,14 +197,14 @@ const Personal = () => {
                 <CustomGridLayout>
                     {getMember?.accessCode ? (
                         <>
-                            <CustomInput name="oldAccessCode" col={6} data={data} onChange={handleChange} />
-                            <CustomInput name="NewAccessCode" col={6} data={data} onChange={handleChange} />
-                            <CustomInput label="Re-enter Access Code" name="ReAccessCode" col={6} data={data} onChange={handleChange} />
+                            <CustomInput name="oldAccessCode" col={6} data={data1} onChange={handleChange} />
+                            <CustomInput name="accessCode" col={6} data={data1} onChange={handleChange} />
+                            <CustomInput label="Re-enter Access Code" name="reAccessCode" col={6} data={data1} onChange={handleChange} />
                         </>
                     ) : (
                         <>
-                            <CustomInput name="accessCode" col={6} data={data} onChange={handleChange} />
-                            <CustomInput label="Re-enter Access Code" name="ReAccessCode" col={6} data={data} onChange={handleChange} />
+                            <CustomInput name="accessCode" col={6} data={data1} onChange={handleChange} />
+                            <CustomInput label="Re-enter Access Code" name="reAccessCode" col={6} data={data1} onChange={handleChange} />
                         </>
                     )}
                 </CustomGridLayout>
@@ -193,7 +254,7 @@ const Personal = () => {
                             }}
                         >
                             <CustomListItem name="barCode" data={data} />
-                            <CustomListItem name="membershipType" data={data} />
+                            <CustomListItem name="membershipTypeName" data={data} />
                         </CustomCard>
                         <CustomCard
                             title="Access Code"

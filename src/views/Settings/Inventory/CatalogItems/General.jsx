@@ -23,6 +23,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { PercentageDifference, showFormErrors } from '../../../../utils/commonFunctions';
 import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
+import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
+import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
 
 const General = () => {
     const dispatch = useDispatch();
@@ -72,14 +74,21 @@ const General = () => {
         dispatch(getProfitCenters());
         dispatch(getCategories());
         dispatch(getClubs());
+        dispatch(getTaxes(true));
+        dispatch(getDiscountTypes('active'));
     }, [dispatch]);
 
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
-    let { categoryDropdown } = useSelector((state) => state.category);
 
-    categoryDropdown = [...categoryDropdown, defaultDiscountOptions];
+    console.log(profitCenterDropdown, 'profitCenterDropdown');
+    let { categoryDropdown } = useSelector((state) => state.category);
+    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+
+    categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
+    allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
+    const { allTaxDropdown } = useSelector((state) => state.taxes);
 
     useEffect(() => {
         if (data?.unitPrice && data?.defaultQuantity) {
@@ -211,16 +220,24 @@ const General = () => {
                 <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Taxes">
-                <CustomPickList name="taxes" selected={data?.taxes} sourceData={[]} onPickListChange={handleChange} />
+                <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
-                    <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} />
+                    <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={2} maxFractionDigits={2} />
                     <CustomDropDown name="promptForPrice" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomDropDown name="defaultDiscount" options={defaultDiscountOptions} onChange={handleChange} data={data} col={6} />
+                    <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="overRideDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomInputNumber name="wholesaleCost" onChange={handleChange} data={data} col={6} prefix="$" />
+                    <CustomInputNumber
+                        name="wholesaleCost"
+                        onChange={handleChange}
+                        data={data}
+                        col={6}
+                        prefix="$"
+                        minFractionDigits={2}
+                        maxFractionDigits={2}
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Details">
@@ -245,7 +262,15 @@ const General = () => {
                 <CustomGridLayout>
                     <CustomDropDown name="moreThan1" label="More Than" options={unitPricingOptions} onChange={handleChange} data={data} col={2} />
                     <div>
-                        <CustomInputNumber name="unitPrice1" label="Unit Price" onChange={handleChange} data={data} prefix="$" />
+                        <CustomInputNumber
+                            name="unitPrice1"
+                            label="Unit Price"
+                            onChange={handleChange}
+                            data={data}
+                            prefix="$"
+                            minFractionDigits={2}
+                            maxFractionDigits={2}
+                        />
                         {data?.wholesaleCost && (
                             <div className="text-center">
                                 <span className=""> Markup:</span>
@@ -263,7 +288,15 @@ const General = () => {
                         disabled={!data?.moreThan1}
                     />
                     <div>
-                        <CustomInputNumber name="unitPrice2" label="Unit Price" onChange={handleChange} data={data} prefix="$" />
+                        <CustomInputNumber
+                            name="unitPrice2"
+                            label="Unit Price"
+                            onChange={handleChange}
+                            data={data}
+                            prefix="$"
+                            minFractionDigits={2}
+                            maxFractionDigits={2}
+                        />
 
                         {data?.wholesaleCost && (
                             <div className="text-center">
@@ -283,7 +316,15 @@ const General = () => {
                         disabled={!data?.moreThan1 || !data?.moreThan2}
                     />
                     <div>
-                        <CustomInputNumber name="unitPrice3" label="Unit Price" onChange={handleChange} data={data} prefix="$" />
+                        <CustomInputNumber
+                            name="unitPrice3"
+                            label="Unit Price"
+                            onChange={handleChange}
+                            data={data}
+                            prefix="$"
+                            minFractionDigits={2}
+                            maxFractionDigits={2}
+                        />
                         {data?.wholesaleCost && (
                             <div className="text-center">
                                 <span className=""> Markup:</span>

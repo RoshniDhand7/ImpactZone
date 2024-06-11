@@ -136,7 +136,7 @@ const MembershipPlanForm = () => {
                 <CustomCard col="12" title="Assessed Fees">
                     <CustomPickList name="assessedFee" selected={data?.assessedFee} sourceData={allAssessedFeesDropdown} onPickListChange={handleChange} />
                 </CustomCard>
-                <AddServices data={data} setData={setData} id={id} loading={loading} />
+                <AddServices data={data} setData={setData} id={id} loading={loading} name="Add Services" />
                 <CustomCard col="12" title="Contract Options">
                     <CustomGridLayout>
                         <CustomDropDown name="autoPay" options={autoPayOptions} onChange={handleChange} data={data} />

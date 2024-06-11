@@ -41,6 +41,7 @@ const DiscountForm = () => {
                         multiItemDiscount: data.multiItemDiscount,
                         multiItemDiscountCheck: data.multiItemDiscountCheck,
                         isActive: data.isActive,
+                        amountType: data.amountType,
                     });
                 }),
             );
@@ -56,6 +57,7 @@ const DiscountForm = () => {
         description: '',
         services: [],
         membershipPlan: [],
+        amountType: 'FIXED',
         multiItemDiscount: [
             {
                 value1: 0,
@@ -144,7 +146,17 @@ const DiscountForm = () => {
                     <CustomGridLayout>
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col="12" />
                         <CustomInput name="discountName" label="Name" data={data} onChange={handleChange} required />
-                        <CustomInputNumber name="percentage" data={data} onChange={handleChange} required sufix="%" col="4" />
+                        <CustomInputNumber
+                            name="percentage"
+                            data={data}
+                            onChange={handleChange}
+                            required
+                            sufix="%"
+                            col="4"
+                            minFractionDigits={2}
+                            maxFractionDigits={2}
+                        />
+                        <CustomDropDown label="Amount Type" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={1} />
                         <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required />
                         <CustomCalenderInput name="endDate" data={data} onChange={handleChange} required />
                         <CustomDropDown name="availableDiscount" options={allDiscountDropdown} data={data} onChange={handleChange} optionLabel="name" />
@@ -190,7 +202,7 @@ const DiscountForm = () => {
                         <CustomTextArea name="description" data={data} onChange={handleChange} maxLength="200" />
                     </CustomGridLayout>
                 </CustomCard>
-                <AddServices data={data} setData={setData} id={id} loading={loading} type="discount" />
+                <AddServices data={data} setData={setData} id={id} loading={loading} type="discount" name="Add Catalog Item" />
                 <AddAgreementPlan data={data} setData={setData} id={id} loading={loading} type="discount" />
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />

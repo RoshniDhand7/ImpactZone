@@ -11,6 +11,8 @@ import { TaxRateTypeOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { addTax, editTax, getTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
+import moment from 'moment';
+import axios from 'axios';
 
 const TaxForm = () => {
     const history = useHistory();
@@ -65,13 +67,24 @@ const TaxForm = () => {
             }
         }
     };
+
+
+
     return (
         <>
             <FormPage backText="Tax">
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
                         <CustomInput name="taxRateName" data={data} onChange={handleChange} required />
-                        <CustomInputNumber name="taxRatePercentage" data={data} onChange={handleChange} required col="4" />
+                        <CustomInputNumber
+                            name="taxRatePercentage"
+                            data={data}
+                            onChange={handleChange}
+                            required
+                            col="4"
+                            minFractionDigits={2}
+                            maxFractionDigits={2}
+                        />
                         <CustomDropDown name="availableTaxRate" options={allTaxDropdown} data={data} onChange={handleChange} optionLabel="name" />
                         <CustomDropDown name="taxRateType" options={TaxRateTypeOptions} data={data} onChange={handleChange} required />
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />

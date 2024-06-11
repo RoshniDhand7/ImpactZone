@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getMemberAction } from '../../../redux/actions/Dashboard/Members';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -26,11 +26,14 @@ const useMemberDetail = () => {
         email: '',
         homeno: '',
         emergencyContact: '',
-        barCode: '',
         membershipType: null,
+        membershipTypeName: null,
         mobilePhone: '',
         workNumber: '',
         drivingLicience: '',
+        newAccessCode: '',
+        accessCode: '',
+        reAccessCode: '',
         text: {
             membership: false,
             services: false,
@@ -44,6 +47,7 @@ const useMemberDetail = () => {
     };
 
     const [data, setData] = useState(initialState);
+
     useEffect(() => {
         dispatch(getMemberAction(id));
     }, [dispatch, id]);
@@ -55,6 +59,7 @@ const useMemberDetail = () => {
                 firstName: getMember.firstName,
                 lastName: getMember.lastName,
                 barCode: getMember.barCode,
+                email: getMember?.email,
                 dob: getMember.dob ? new Date(getMember.dob) : '',
                 isActive: getMember.isActive,
                 image: getMember.image,
@@ -64,9 +69,12 @@ const useMemberDetail = () => {
                 gender: getMember.gender,
                 mobilePhone: getMember.mobilePhone,
                 workNumber: getMember.workNumber,
-                membershipType: getMember.membershipType ? getMember?.membershipType : null,
+                membershipType: getMember.membershipTypeId ? getMember?.membershipTypeId : null,
+                membershipTypeName: getMember?.membershipType ? getMember?.membershipType : null,
                 socialSecurity: getMember.socialSecurity,
                 occupation: getMember.occupation,
+                accessCode: getMember.accessCode,
+                reAccessCode: '',
                 text: {
                     membership: getMember?.text?.membership,
                     services: getMember?.text?.services,

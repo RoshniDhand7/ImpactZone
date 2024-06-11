@@ -5,16 +5,21 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getProfitCenters = (setLoading) => async (dispatch) => {
+const getProfitCenters = (setLoading) => async (dispatch, getState) => {
     if (setLoading) {
         setLoading(true);
     }
+
     const res = await api('get', EndPoints.PROFIT_CENTERS);
+    const glCode = res.data.reduce((acc, item) => {
+        acc[item._id] = item.glCode ? item.glCode : '';
+        return acc;
+    }, {});
     if (res.success) {
         if (res.data) {
             dispatch({
                 type: types.CHANGE_PROFIT_CENTERS,
-                payload: res.data,
+                payload: { data: res.data, glCode },
             });
         }
     } else {

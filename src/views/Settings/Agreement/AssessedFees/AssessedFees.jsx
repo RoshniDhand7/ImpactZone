@@ -53,6 +53,7 @@ const AssessedFees = () => {
 
     const columns = [
         { field: 'name', header: 'Name' },
+        { field: 'type', header: 'Type' },
         { field: 'profitCenter', header: 'Profit Center' },
         { field: 'amount', header: 'Amount' },
         { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Start Date' },

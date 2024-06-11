@@ -7,7 +7,7 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 
-const AddServices = ({ data, setData, id, loading, type }) => {
+const AddServices = ({ data, setData, id, loading, type, name }) => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const dispatch = useDispatch();
@@ -55,7 +55,7 @@ const AddServices = ({ data, setData, id, loading, type }) => {
 
     return (
         <>
-            <CustomCard col="12" title=" Add Services">
+            <CustomCard col="12" title={name}>
                 <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">
                     <div>
                         <PrimaryButton

@@ -145,7 +145,7 @@ const MembershipTypeForm = () => {
                 <CustomCard col="12" title=" Clubs">
                     <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
                 </CustomCard>
-                <AddServices data={data} setData={setData} id={id} loading={loading} />
+                <AddServices data={data} setData={setData} id={id} loading={loading} name="Add Services" />
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={onSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.goBack()} />

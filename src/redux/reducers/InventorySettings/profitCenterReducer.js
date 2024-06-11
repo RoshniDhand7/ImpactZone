@@ -5,12 +5,13 @@ const intitalState = {
 };
 
 const profitCenterReducer = (state = intitalState, action) => {
+    console.log(action);
     switch (action.type) {
         case types.CHANGE_PROFIT_CENTERS:
             return {
                 ...state,
-                allProfitCenters: action.payload,
-                profitCenterDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                allProfitCenters: action.payload?.data,
+                profitCenterDropdown: action.payload?.data?.map((item) => ({ name: `${action.payload.glCode[item._id]} ${item.name}`, value: item._id })),
             };
         default:
             return { ...state };

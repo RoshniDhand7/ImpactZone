@@ -62,8 +62,8 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
     const paylaod = {
         ...data,
         ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
-        // ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
-        // ...(data?.workNumber && { workNumber: data?.workNumber?.replace(/\D/g, '') }),
+        ...(data?.mobilePhone && { mobilePhone: data?.mobilePhone?.replace(/\D/g, '') }),
+        ...(data?.workNumber && { workNumber: data?.workNumber?.replace(/\D/g, '') }),
     };
 
     const res = await api('put', EndPoints.MEMBERS + id, paylaod);

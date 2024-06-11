@@ -28,23 +28,23 @@ export default function TopBar() {
         fontWeight: '600',
     };
 
-    const [member, setMember] = useState('');
+    // const [member, setMember] = useState('');
 
     useEffect(() => {
         dispatch(getMembers());
     }, []);
-    let { allMembers } = useSelector((state) => state.members);
+    // let { allMembers } = useSelector((state) => state.members);
 
-    useEffect(() => {
-        if (localStorage.getItem('member')) {
-            setMember(localStorage.getItem('member'));
-            console.log(localStorage.getItem('member'), 'ji');
-        } else {
-            setMember(allMembers?.[0]?._id);
-        }
-    }, [allMembers, localStorage.getItem('member')]);
+    // useEffect(() => {
+    //     if (localStorage.getItem('member')) {
+    //         setMember(localStorage.getItem('member'));
+    //         console.log(localStorage.getItem('member'), 'ji');
+    //     } else {
+    //         setMember(allMembers?.[0]?._id);
+    //     }
+    // }, [allMembers, localStorage.getItem('member')]);
 
-    console.log('member>>', member, allMembers);
+    // console.log('member>>', member, allMembers);
 
     const getNavbar = () => {
         const items = [
@@ -61,7 +61,7 @@ export default function TopBar() {
             {
                 label: 'Members',
                 style: location.pathname.includes('/member') ? active : '',
-                command: () => history.replace(`/member/${member}/dashboard`),
+                command: () => setOpenModal(true),
             },
             {
                 label: 'Calendar',
@@ -106,7 +106,7 @@ export default function TopBar() {
     useEffect(() => {
         setItems(getNavbar());
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location, member]);
+    }, [location]);
 
     const logoDiv = (
         <div className="flex justify-content-center">
