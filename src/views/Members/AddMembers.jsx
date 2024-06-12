@@ -12,7 +12,7 @@ import { getMembershipPlans } from '../../redux/actions/AgreementSettings/member
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
-import { addMembers } from '../../redux/actions/Dashboard/Members';
+import { addMembers, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
 import Autocomplete from 'react-google-autocomplete';
 
@@ -32,8 +32,8 @@ const AddMembers = () => {
         primaryPhone: '',
         mobilePhone: '',
         workNumber: '',
-        lat: '',
-        lng: '',
+        latitude: '',
+        longitude: '',
         address: '',
         leadpriority: '',
         salesPerson: '',
@@ -50,17 +50,6 @@ const AddMembers = () => {
     });
     const dispatch = useDispatch();
     const history = useHistory();
-    setDefaults({
-        key: API_KEY,
-        language: 'en',
-        region: 'es',
-    });
-
-    const address = fromAddress('Eiffel Tower')
-        .then(({ results }) => {
-            const { lat, lng } = results[0].geometry.location;
-        })
-        .catch(console.error);
 
     useEffect(() => {
         dispatch(getEmployees());
@@ -75,9 +64,6 @@ const AddMembers = () => {
     const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'true')?.map((item) => ({ name: item.name, value: item._id }));
     const memberagreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'false')?.map((item) => ({ name: item.name, value: item._id }));
 
-    const [error, setError] = useState('');
-    const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
-
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -85,9 +71,16 @@ const AddMembers = () => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData, ['workNumber'])) {
-            dispatch(addMembers(data, () => history.goBack()));
+            dispatch(
+                addMembers(data, () => {
+                    history.goBack();
+                    dispatch(getMembers());
+                }),
+            );
         }
     };
+
+    console.log('data>>', data);
     return (
         <>
             <h3>Fast Add</h3>
@@ -126,14 +119,23 @@ const AddMembers = () => {
             </CustomCard>
             <CustomCard col="12" title="Address">
                 <CustomGridLayout>
-                    <CustomInput name="address" data={data} onChange={handleChange} required />
-                    <Autocomplete
-                        apiKey={API_KEY}
-                        onPlaceSelected={(place) => {
-                            console.log(place, 'place');
-                        }}
-                    />
-                    ;
+                    {/* <CustomInput name="address" data={data} onChange={handleChange} required /> */}
+                    <div className="md:col-4">
+                        <label className="text-sm font-semibold">Address</label>
+                        <Autocomplete
+                            apiKey={API_KEY}
+                            onPlaceSelected={(place) => {
+                                const location = place.geometry.location;
+                                console.log(location, location.lat, location.lng);
+                                const latitude = location.lat();
+                                const longitude = location.lng();
+                                setData((prev) => ({ ...prev, address: place.formatted_address, latitude, longitude }));
+                                console.log(place.formatted_address);
+                                console.log(JSON.stringify(place?.geometry?.location));
+                            }}
+                            className="p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 "
+                        />
+                    </div>
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Sale">

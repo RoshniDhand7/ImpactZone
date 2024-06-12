@@ -95,7 +95,7 @@ const Personal = () => {
     }, []);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
 
-    console.log(data, 'data');
+    console.log(data1, 'data1');
 
     const handleSave = () => {
         let ignore = [];
