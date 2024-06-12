@@ -17,7 +17,13 @@ const Search = ({ openModal, setOpenModal }) => {
     const [items, setItems] = useState([]);
     const history = useHistory();
 
-    allMembers = allMembers.map((item) => ({ name: item.firstName, id: item._id, path: `member/${item._id}` }));
+    allMembers = allMembers.map((item) => ({
+        firstName: item.firstName,
+        middleName: item.MI,
+        lastName: item.lastName,
+        id: item._id,
+        path: `member/${item._id}`,
+    }));
     console.log(allMembers, 'allMembers');
 
     const search = (event) => {
@@ -25,8 +31,8 @@ const Search = ({ openModal, setOpenModal }) => {
         let _filteredItems = [];
         for (let i = 0; i < allMembers.length; i++) {
             let item = allMembers[i];
-            if (typeof item.name === 'string') {
-                if (item.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            if (typeof item.firstName === 'string' || typeof item.lastName === 'string') {
+                if (item.firstName.toLowerCase().indexOf(query.toLowerCase()) === 0 || item.lastName.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                     _filteredItems.push(item);
                 }
             }
@@ -46,19 +52,20 @@ const Search = ({ openModal, setOpenModal }) => {
         }
     }, [value]);
 
-    console.log(value, items);
+    console.log(value, items, 'value');
     return (
         <>
             <CustomDialog visible={openModal} onCancel={() => setOpenModal(false)} position="top" width="50vw" contentClassName="pb-2">
                 <div>
                     <AutoComplete
-                        field="name"
+                        field="firstName"
                         value={value}
                         suggestions={items}
                         completeMethod={search}
                         onChange={(e) => setValue(e.value)}
                         className="w-full  "
                         inputClassName="w-full"
+                        itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
                         // itemTemplate={() => {
                         //     <i className="pi pi-search" />;
                         // }}

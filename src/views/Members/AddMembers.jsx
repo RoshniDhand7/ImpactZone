@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { addMembers, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
 import Autocomplete from 'react-google-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 const AddMembers = () => {
     const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
@@ -79,6 +80,15 @@ const AddMembers = () => {
             );
         }
     };
+    const handleSelect = (address) => {
+        geocodeByAddress(address)
+            .then((results) => getLatLng(results[0]))
+            .then((latLng) => setData((prev) => ({ ...prev, address: address, latitude: latLng.lat, longitude: latLng.lng })))
+            .catch((error) => console.error('Error', error));
+    };
+    const handleChange1 = (address) => {
+        setData((prev) => ({ ...prev, address: address }));
+    };
 
     console.log('data>>', data);
     return (
@@ -96,6 +106,7 @@ const AddMembers = () => {
                             col="4"
                             name="memberShipPlan"
                             data={data}
+                            required
                             onChange={handleChange}
                             options={data?.createType === 'PROSPECT' ? prospectAgreement : memberagreement}
                         />
@@ -120,9 +131,9 @@ const AddMembers = () => {
             <CustomCard col="12" title="Address">
                 <CustomGridLayout>
                     {/* <CustomInput name="address" data={data} onChange={handleChange} required /> */}
-                    <div className="md:col-4">
+                    <div className="md:col-6">
                         <label className="text-sm font-semibold">Address</label>
-                        <Autocomplete
+                        {/* <Autocomplete
                             apiKey={API_KEY}
                             onPlaceSelected={(place) => {
                                 const location = place.geometry.location;
@@ -134,14 +145,59 @@ const AddMembers = () => {
                                 console.log(JSON.stringify(place?.geometry?.location));
                             }}
                             className="p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 "
-                        />
+                        /> */}
+                        <PlacesAutocomplete value={data.address} onChange={handleChange1} onSelect={handleSelect}>
+                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <div>
+                                    <input
+                                        {...getInputProps({
+                                            placeholder: 'Search Places ...',
+                                            className: ' p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 location-search-input',
+                                        })}
+                                    />
+                                    <div className="autocomplete-dropdown-container">
+                                        {loading && <div>Loading...</div>}
+                                        {suggestions.map((suggestion) => {
+                                            const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                                            // inline style for demonstration purpose
+                                            const style = suggestion.active
+                                                ? {
+                                                      backgroundColor: '#fafafa',
+                                                      fontSize: '12px',
+                                                      marginBottom: '10px',
+                                                      cursor: 'pointer',
+                                                      padding: '5px',
+                                                      borderBottom: '1px solid gray',
+                                                  }
+                                                : {
+                                                      fontSize: '12px',
+                                                      marginBottom: '10px',
+                                                      cursor: 'pointer',
+                                                      padding: '5px',
+                                                      borderBottom: '1px solid #ebe9e9',
+                                                  };
+                                            return (
+                                                <div
+                                                    {...getSuggestionItemProps(suggestion, {
+                                                        className,
+                                                        style,
+                                                    })}
+                                                >
+                                                    <span>{suggestion.description}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </PlacesAutocomplete>
                     </div>
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Sale">
                 <CustomGridLayout>
                     {data?.createType === 'PROSPECT' && (
-                        <CustomDropDown name="leadpriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
+                        <CustomDropDown label="Lead Priority" name="leadpriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
                     )}
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
                     <CustomDropDown name="compaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
@@ -152,8 +208,8 @@ const AddMembers = () => {
                     <CustomCalenderInput name="issue" data={data} onChange={handleChange} required />
                     {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tour" data={data} onChange={handleChange} />}
                     <CustomCalenderInput name="firstVisit" data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="begin" data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="expiration" data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="begin" required data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="expiration" required data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

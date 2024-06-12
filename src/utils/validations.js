@@ -72,6 +72,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'primaryPhone':
         case 'startDate':
         case 'issue':
+        case 'begin':
+        case 'expiration':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -141,6 +143,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'oneTimePlan':
         case 'salesPerson':
         case 'compaign':
+        case 'memberShipPlan':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {
