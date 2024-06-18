@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomFilterCard, CustomGridLayout, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,14 +11,29 @@ import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 const Tax = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [filteredTaxes, setFilteredTaxes] = useState([]);
     const [data, setData] = useState({
-        isActive: 'active',
+        isActive: 'all',
     });
     useEffect(() => {
-        dispatch(getTaxes(data?.isActive));
-    }, [dispatch, data?.isActive]);
+        dispatch(getTaxes());
+    }, [dispatch]);
 
     const { allTaxes } = useSelector((state) => state.taxes);
+
+    const filterTax = () => {
+        let filtered = allTaxes || [];
+        if (data?.isActive === 'active') {
+            filtered = filtered.filter((item) => item.isActive);
+        } else if (data?.isActive === 'inactive') {
+            filtered = filtered.filter((item) => !item.isActive);
+        }
+        setFilteredTaxes(filtered);
+    };
+
+    useEffect(() => {
+        filterTax();
+    }, [data]);
 
     const columns = [
         { field: 'taxRateName', header: 'Tax Rate Name' },
@@ -54,7 +69,7 @@ const Tax = () => {
                 <CustomDropDown col={3} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
             </CustomSearchCard>
 
-            <CustomTable data={allTaxes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={filteredTaxes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

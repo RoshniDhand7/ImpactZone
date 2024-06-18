@@ -74,13 +74,12 @@ const General = () => {
         dispatch(getProfitCenters());
         dispatch(getCategories());
         dispatch(getClubs());
-        dispatch(getTaxes(true));
+        dispatch(getTaxes());
         dispatch(getDiscountTypes('active'));
     }, [dispatch]);
 
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
 
-    console.log(profitCenterDropdown, 'profitCenterDropdown');
     let { categoryDropdown } = useSelector((state) => state.category);
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
@@ -88,7 +87,7 @@ const General = () => {
     allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
-    const { allTaxDropdown } = useSelector((state) => state.taxes);
+    const { allTaxActiveDropdown } = useSelector((state) => state.taxes);
 
     useEffect(() => {
         if (data?.unitPrice && data?.defaultQuantity) {
@@ -220,11 +219,11 @@ const General = () => {
                 <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Taxes">
-                <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxDropdown} onPickListChange={handleChange} />
+                <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxActiveDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
-                    <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={2} maxFractionDigits={2} />
+                    <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={4} maxFractionDigits={4} />
                     <CustomDropDown name="promptForPrice" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
@@ -235,8 +234,8 @@ const General = () => {
                         data={data}
                         col={6}
                         prefix="$"
-                        minFractionDigits={2}
-                        maxFractionDigits={2}
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
                     />
                 </CustomGridLayout>
             </CustomCard>
@@ -268,8 +267,8 @@ const General = () => {
                             onChange={handleChange}
                             data={data}
                             prefix="$"
-                            minFractionDigits={2}
-                            maxFractionDigits={2}
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
                         />
                         {data?.wholesaleCost && (
                             <div className="text-center">
@@ -294,8 +293,8 @@ const General = () => {
                             onChange={handleChange}
                             data={data}
                             prefix="$"
-                            minFractionDigits={2}
-                            maxFractionDigits={2}
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
                         />
 
                         {data?.wholesaleCost && (
@@ -322,8 +321,8 @@ const General = () => {
                             onChange={handleChange}
                             data={data}
                             prefix="$"
-                            minFractionDigits={2}
-                            maxFractionDigits={2}
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
                         />
                         {data?.wholesaleCost && (
                             <div className="text-center">

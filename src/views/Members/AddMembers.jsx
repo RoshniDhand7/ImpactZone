@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask, CustomInputNumber, CustomTextArea } from '../../shared/Input/AllInputs';
 import { LeadPriorityOptions, genderOptions, memberTypeOptions } from '../../utils/dropdownConstants';
@@ -10,9 +10,10 @@ import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { setKey, setDefaults, setLanguage, setRegion, fromAddress, fromLatLng, fromPlaceId, setLocationType, geocode, RequestType } from 'react-geocode';
 import { getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
+import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
-import { addMembers, getMembers } from '../../redux/actions/Dashboard/Members';
+import { addMembers, checkbaCodeAction, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
 import Autocomplete from 'react-google-autocomplete';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -48,6 +49,7 @@ const AddMembers = () => {
         compaign: '',
         latitude: 30.72,
         longitude: 76.64,
+        uniqueBarCode: false,
     });
     const dispatch = useDispatch();
     const history = useHistory();
@@ -65,10 +67,39 @@ const AddMembers = () => {
     const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'true')?.map((item) => ({ name: item.name, value: item._id }));
     const memberagreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'false')?.map((item) => ({ name: item.name, value: item._id }));
 
+    useEffect(() => {
+        if (data.uniqueBarCode) {
+            const formErrors = formValidation('barCode', true, data);
+            setData((prev) => ({ ...prev, uniqueBarCode: true, formErrors }));
+        } else {
+            const formErrors = formValidation('barCode', false, data);
+            setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
+        }
+    }, [data.uniqueBarCode]);
+
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        if (name === 'barCode') {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+            if (value) {
+                debouncedChangeHandler(value);
+            }
+        }
     };
+
+    const changeHandler = (val) => {
+        dispatch(checkbaCodeAction(val, setData));
+    };
+
+    const debouncedChangeHandler = useMemo(
+        () =>
+            debounce((val) => {
+                changeHandler(val);
+            }, 1000),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
+    );
 
     const handleSave = () => {
         if (showFormErrors(data, setData, ['workNumber'])) {
@@ -81,16 +112,16 @@ const AddMembers = () => {
         }
     };
     const handleSelect = (address) => {
+        const formErrors = formValidation('address', address, data);
         geocodeByAddress(address)
             .then((results) => getLatLng(results[0]))
-            .then((latLng) => setData((prev) => ({ ...prev, address: address, latitude: latLng.lat, longitude: latLng.lng })))
+            .then((latLng) => setData((prev) => ({ ...prev, address: address, latitude: latLng.lat, longitude: latLng.lng, formErrors })))
             .catch((error) => console.error('Error', error));
     };
     const handleChange1 = (address) => {
         setData((prev) => ({ ...prev, address: address }));
     };
 
-    console.log('data>>', data);
     return (
         <>
             <h3>Fast Add</h3>
@@ -101,7 +132,7 @@ const AddMembers = () => {
                     </div>
                     <CustomGridLayout extraClass="col-10">
                         <CustomDropDown col="4" name="createType" data={data} onChange={handleChange} required options={memberTypeOptions} />
-                        <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
+                        <CustomInput col="4" name="barCode" data={data} onChange={handleChange} required keyfilter="int" />
                         <CustomDropDown
                             col="4"
                             name="memberShipPlan"

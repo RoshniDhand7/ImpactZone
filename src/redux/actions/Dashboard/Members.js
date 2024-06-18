@@ -1,6 +1,7 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { uploadImages } from '../../../utils/commonFunctions';
+import formValidation from '../../../utils/validations';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
@@ -59,6 +60,12 @@ const getMemberAction = (id) => async (dispatch) => {
 
 const editMemberAction = (id, data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
+    if (data?.image?.length) {
+        let urls = await uploadImages(data.image);
+        data.image = urls[0];
+    } else {
+        data.image = '';
+    }
     const paylaod = {
         ...data,
         ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
@@ -75,5 +82,17 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+const checkbaCodeAction = (val, setData) => async (dispatch) => {
+    const paylaod = {
+        barCode: val,
+    };
 
-export { addMembers, getMembers, getMemberAction, editMemberAction };
+    const res = await api('post', EndPoints.MEMBER_BARCODE, paylaod);
+    if (res.success) {
+        setData((prev) => ({ ...prev, uniqueBarCode: false }));
+    } else {
+        setData((prev) => ({ ...prev, uniqueBarCode: true }));
+    }
+};
+
+export { addMembers, getMembers, getMemberAction, editMemberAction, checkbaCodeAction };

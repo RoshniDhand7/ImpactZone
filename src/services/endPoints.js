@@ -62,6 +62,7 @@ const endPoints = {
     PAYMENT_METHODS: '/payment-method/',
     DISCOUNT_TYPES: '/discount/',
     MEMBERS: '/add-member/',
+    MEMBER_BARCODE: '/add-member-barcode/',
     GET_MEMBERS: '/search-member',
 };
 export default endPoints;

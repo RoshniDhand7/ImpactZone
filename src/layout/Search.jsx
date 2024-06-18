@@ -24,7 +24,6 @@ const Search = ({ openModal, setOpenModal }) => {
         id: item._id,
         path: `member/${item._id}`,
     }));
-    console.log(allMembers, 'allMembers');
 
     const search = (event) => {
         let query = event.query;
@@ -38,7 +37,6 @@ const Search = ({ openModal, setOpenModal }) => {
             }
         }
 
-        console.log(_filteredItems, 'filteredItems>>');
         setItems(_filteredItems);
         // setItems([...Array(10).keys()].map((item) => event.query + '-' + item));
     };
@@ -52,7 +50,6 @@ const Search = ({ openModal, setOpenModal }) => {
         }
     }, [value]);
 
-    console.log(value, items, 'value');
     return (
         <>
             <CustomDialog visible={openModal} onCancel={() => setOpenModal(false)} position="top" width="50vw" contentClassName="pb-2">

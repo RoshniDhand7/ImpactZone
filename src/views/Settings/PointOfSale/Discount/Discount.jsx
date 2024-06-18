@@ -12,14 +12,30 @@ import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 const Discount = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const [filteredDiscountType, setFilteredDiscountType] = useState([]);
     const [data, setData] = useState({
-        isActive: 'active',
+        isActive: 'all',
     });
     useEffect(() => {
-        dispatch(getDiscountTypes(data?.isActive));
-    }, [dispatch, data?.isActive]);
+        dispatch(getDiscountTypes());
+    }, [dispatch]);
 
     const { allDiscountTypes } = useSelector((state) => state.discountType);
+
+    const filterDiscountType = () => {
+        let filtered = allDiscountTypes || [];
+        if (data?.isActive === 'active') {
+            filtered = filtered.filter((item) => item.isActive);
+        } else if (data?.isActive === 'inactive') {
+            filtered = filtered.filter((item) => !item.isActive);
+        }
+        setFilteredDiscountType(filtered);
+    };
+
+    useEffect(() => {
+        filterDiscountType();
+    }, [data]);
 
     const columns = [
         { field: 'discountName', header: 'Name' },
@@ -56,7 +72,7 @@ const Discount = () => {
             <CustomSearchCard>
                 <CustomDropDown col={3} label="Status" name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
             </CustomSearchCard>
-            <CustomTable data={allDiscountTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={filteredDiscountType} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

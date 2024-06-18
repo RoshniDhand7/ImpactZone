@@ -1,5 +1,5 @@
 import { FirstletterUpperCase, equal, length } from './javascript';
-import { emailValidation, firstLetterToUppercase, passwordValidation, number } from './regex';
+import { emailValidation, firstLetterToUppercase, passwordValidation, number, isNumberOrDecimal } from './regex';
 import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, state, ignore = []) => {
@@ -43,6 +43,15 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required`;
             } else if (value !== state.accessCode) {
                 formErrors[name] = `Access Code and Re-enter Access Code do not match!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'barCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else if (state.uniqueBarCode) {
+                formErrors[name] = `BarCode should be unique!`;
             } else {
                 formErrors[name] = '';
             }
@@ -195,8 +204,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
         case 'amount':
-        case 'taxRatePercentage':
-        case 'barCode':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {
@@ -216,6 +223,14 @@ const formValidation = (name, value, state, ignore = []) => {
             } else {
                 formErrors[name] = '';
             }
+
+        case 'taxRatePercentage':
+            if (!isNumberOrDecimal(value) || value === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
 
         default:
             break;

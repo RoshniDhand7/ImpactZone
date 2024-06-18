@@ -11,8 +11,6 @@ import { TaxRateTypeOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { addTax, editTax, getTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
-import moment from 'moment';
-import axios from 'axios';
 
 const TaxForm = () => {
     const history = useHistory();
@@ -68,8 +66,6 @@ const TaxForm = () => {
         }
     };
 
-
-
     return (
         <>
             <FormPage backText="Tax">
@@ -82,8 +78,8 @@ const TaxForm = () => {
                             onChange={handleChange}
                             required
                             col="4"
-                            minFractionDigits={2}
-                            maxFractionDigits={2}
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
                         />
                         <CustomDropDown name="availableTaxRate" options={allTaxDropdown} data={data} onChange={handleChange} optionLabel="name" />
                         <CustomDropDown name="taxRateType" options={TaxRateTypeOptions} data={data} onChange={handleChange} required />

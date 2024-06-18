@@ -40,6 +40,10 @@ export const number = (value) => {
     const regex = /^[0-9]+$|^$/;
     return regex.test(value);
 };
+export const isNumberOrDecimal = (value) => {
+    const regex = /^-?\d+(\.\d+)?$/;
+    return regex.test(value);
+};
 
 export const floatFromString = (value) => {
     const regex = /[+-]?\d+(\.\d+)?/g;

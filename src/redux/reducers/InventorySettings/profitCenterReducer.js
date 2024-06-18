@@ -5,7 +5,6 @@ const intitalState = {
 };
 
 const profitCenterReducer = (state = intitalState, action) => {
-    console.log(action);
     switch (action.type) {
         case types.CHANGE_PROFIT_CENTERS:
             return {

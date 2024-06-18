@@ -11,14 +11,29 @@ import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 const PaymentMethods = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [filteredPaymentMethod, setFilteredPaymentMethod] = useState([]);
     const [data, setData] = useState({
-        isActive: 'active',
+        isActive: 'all',
     });
     useEffect(() => {
-        dispatch(getPaymentMethods(data?.isActive));
-    }, [dispatch, data?.isActive]);
+        dispatch(getPaymentMethods());
+    }, [dispatch]);
 
     const { allPaymentMethod } = useSelector((state) => state.paymentMethod);
+
+    const filterPaymentMethod = () => {
+        let filtered = allPaymentMethod || [];
+        if (data?.isActive === 'active') {
+            filtered = filtered.filter((item) => item.isActive);
+        } else if (data?.isActive === 'inactive') {
+            filtered = filtered.filter((item) => !item.isActive);
+        }
+        setFilteredPaymentMethod(filtered);
+    };
+
+    useEffect(() => {
+        filterPaymentMethod();
+    }, [data]);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -60,7 +75,7 @@ const PaymentMethods = () => {
             <CustomSearchCard>
                 <CustomDropDown col={3} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
             </CustomSearchCard>
-            <CustomTable data={allPaymentMethod} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={filteredPaymentMethod} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

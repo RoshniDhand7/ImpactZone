@@ -57,7 +57,7 @@ const Personal = () => {
                 email: getMember?.email,
                 dob: getMember.dob ? new Date(getMember.dob) : '',
                 isActive: getMember.isActive,
-                image: getMember.image,
+                image: getMember.image ? [getMember.image] : [],
                 primaryPhone: getMember.primaryPhone,
                 drivingLicience: getMember.drivingLicience,
                 address: getMember.address,
@@ -95,18 +95,16 @@ const Personal = () => {
     }, []);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
 
-    console.log(data1, 'data1');
-
     const handleSave = () => {
         let ignore = [];
         if (visiblePersonalDetail) {
-            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'barCode', 'accessCode', 'reAccessCode'];
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'barCode', 'accessCode', 'reAccessCode', 'membershipType'];
         } else if (visibleDemographics) {
-            ignore = ['firstName', 'lastName', 'barCode', 'accessCode', 'reAccessCode'];
+            ignore = ['firstName', 'lastName', 'barCode', 'accessCode', 'reAccessCode', 'membershipType'];
         } else if (visibleMembershipDetail) {
             ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'accessCode', 'reAccessCode'];
         } else if (visibleAccessCode) {
-            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'barCode'];
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'barCode', 'membershipType'];
         }
         if (showFormErrors(data1, setData1, ignore)) {
             dispatch(
@@ -121,8 +119,6 @@ const Personal = () => {
             );
         }
     };
-
-    console.log('data1>>', data1);
 
     return (
         <>
@@ -168,7 +164,7 @@ const Personal = () => {
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
-                width="50vh"
+                width="70vh"
                 title={'Edit'}
                 visible={visibleMembershipDetail}
                 onCancel={() => {
@@ -184,7 +180,7 @@ const Personal = () => {
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
-                width="50vh"
+                width="73vh"
                 title={getMember?.accessCode ? 'Edit' : 'Add'}
                 visible={visibleAccessCode}
                 onCancel={() => {
@@ -211,7 +207,7 @@ const Personal = () => {
             </CustomDialog>
             <div className="grid">
                 <div className="md:col-12">
-                    <ProfileDetail data={data} />
+                    <ProfileDetail data={data} setData={setData} id={id} initialState={initialState} getMember={getMember} />
                     <TopLayout />
                     <div className="grid">
                         <CustomCard
@@ -221,6 +217,7 @@ const Personal = () => {
                             onClick={() => {
                                 setVisiblePersonal(id);
                             }}
+                            height="250px"
                         >
                             <CustomListItem name="firstName" data={data} />
                             <CustomListItem name="lastName" data={data} />
@@ -237,6 +234,7 @@ const Personal = () => {
                             onClick={() => {
                                 setVisibleDemographics(id);
                             }}
+                            height="250px"
                         >
                             <CustomListItem name="address" data={data} />
                             <CustomListItem name="email" data={data} />
@@ -252,6 +250,7 @@ const Personal = () => {
                             onClick={() => {
                                 setVisibleMembershipDetail(id);
                             }}
+                            height="150px"
                         >
                             <CustomListItem name="barCode" data={data} />
                             <CustomListItem name="membershipTypeName" data={data} />
@@ -263,11 +262,12 @@ const Personal = () => {
                             onClick={() => {
                                 setVisibleAccessCode(id);
                             }}
+                            height="150px"
                         >
                             <CustomListItem name="accessCode" data={data} />
                             <CustomListItem name="failedAttempts" data={data} />
                         </CustomCard>
-                        <CustomCard title="Opt.Ins" col={6}>
+                        <CustomCard title="Opt.Ins" col={6} height="200px">
                             <div className="grid">
                                 <div className="col-6">
                                     <small className="font-semibold text-dark-blue">Texts</small>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Gallery from '../../assets/images/gallery.png';
+import DefaultImg from '../../assets/images/defaultImage.png';
 import { getImageURL } from '../../utils/imageUrl.js';
 import { showToast } from '../../redux/actions/toastAction';
 import InputLayout from '../Form/InputLayout.jsx';
@@ -87,15 +88,7 @@ export default function CustomImageInput({
 
     return (
         <>
-            <InputLayout
-                col={col || 12}
-                label={label || 'Upload Photo'}
-                name={name}
-                required={required}
-                extraClassName={extraClassName}
-                data={data}
-                errorMessage={errorMessage}
-            >
+            <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
                 <div className="image-box relative">
                     {files && files.length ? (
                         <div className="h-full">
@@ -110,10 +103,10 @@ export default function CustomImageInput({
                                 >
                                     {removeable && <i onClick={() => onDelete(i)} className="fa-solid fa-circle-xmark cursor-pointer"></i>}
 
-                                    <label>
+                                    <label htmlFor={name}>
                                         <img
                                             className="w-full h-full fit-cover"
-                                            src={image ? getImageURL(image) : Gallery}
+                                            src={image ? getImageURL(image) : DefaultImg}
                                             onError={(e) => (e.target.src = '')}
                                             alt=""
                                         />
@@ -129,13 +122,23 @@ export default function CustomImageInput({
                                 width: '100%',
                             }}
                         >
-                            <label>
-                                <img className="w-full h-full fit-cover" src={Gallery} onError={(e) => (e.target.src = '')} alt="" />
+                            <label htmlFor={name}>
+                                <img className="w-full h-full fit-cover" src={DefaultImg} onError={(e) => (e.target.src = '')} alt="" />
                             </label>
                         </div>
                     )}
                     <div className="absolute camera-icon">
-                        <input name={name} onChange={onFileChange} id={name} type="file" accept="image/*" hidden {...props} multiple={multiple} />
+                        <input
+                            name={name}
+                            onChange={onFileChange}
+                            id={name}
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            {...props}
+                            multiple={multiple}
+                            // capture="camera"
+                        />
                         <label htmlFor={name}>
                             <img src={Camera} alt="" style={{ width: '20px', height: '20px' }} />
                         </label>

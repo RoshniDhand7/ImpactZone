@@ -4,10 +4,10 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getPaymentMethods = (isActive) => async (dispatch) => {
+const getPaymentMethods = () => async (dispatch) => {
     dispatch(showLoaderAction());
 
-    const res = await api('get', EndPoints.PAYMENT_METHODS, {}, { isActive });
+    const res = await api('get', EndPoints.PAYMENT_METHODS, {});
     if (res.success) {
         if (res.data) {
             dispatch({

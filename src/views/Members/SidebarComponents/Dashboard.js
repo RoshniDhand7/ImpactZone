@@ -8,22 +8,21 @@ import useMemberDetail from './useMemberDetail';
 
 const Dashboard = () => {
     const { id } = useParams();
-    console.log('id>>', id);
 
-    const { data } = useMemberDetail();
+    const { data, setData, initialState, getMember } = useMemberDetail();
 
     return (
         <div className="grid">
             <div className="md:col-8">
-                <ProfileDetail data={data} />
+                <ProfileDetail data={data} setData={setData} id={id} initialState={initialState} getMember={getMember} />
                 <TopLayout />
-                <CustomCard title="Alerts " col={12}>
+                <CustomCard title="Alerts " col={12} height="200px">
                     <p className="text-sm font-medium flex gap-2 align-items-center mb-3 text-red-600">
                         <i className="pi pi-exclamation-triangle"></i> Past Due by 35 days
                     </p>
                 </CustomCard>
                 <div className="flex">
-                    <CustomCard title="Tasks" col={6}>
+                    <CustomCard title="Tasks" col={6} height="200px">
                         <p className="text-sm flex gap-2 align-items-center mb-3">
                             <span>Active: </span>2
                         </p>
@@ -34,7 +33,7 @@ const Dashboard = () => {
                             <span>Medical History: </span>2
                         </p>
                     </CustomCard>
-                    <CustomCard title="Services" col={6}>
+                    <CustomCard title="Services" col={6} height="200px">
                         <p className="text-sm flex gap-2 align-items-center mb-3">
                             <span>PT 30-2/5 </span>2
                         </p>
@@ -43,7 +42,7 @@ const Dashboard = () => {
                         </p>
                     </CustomCard>
                 </div>
-                <CustomCard title="Most Purchased Items" col={12}>
+                <CustomCard title="Most Purchased Items" col={12} height="200px">
                     <div className="flex justify-content-between">
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
@@ -79,7 +78,7 @@ const Dashboard = () => {
                 </CustomCard>
             </div>
             <div className="md:col-4">
-                <CustomCard title="Personal " col={12}>
+                <CustomCard title="Personal " col={12} height="200px">
                     <p className="text-sm flex gap-2 align-items-center mb-3">
                         <i className="pi pi-map-marker"></i>
                         {data.address}
@@ -92,7 +91,7 @@ const Dashboard = () => {
                         <i className="pi pi-envelope"></i>mike@gmail.com
                     </p>
                 </CustomCard>
-                <CustomCard title="Billing History " col={12}>
+                <CustomCard title="Billing History " col={12} height="200px">
                     <p className="text-sm flex gap-2 align-items-center mb-3">
                         <span>Agreement: </span>Impact 1
                     </p>
@@ -113,7 +112,7 @@ const Dashboard = () => {
                     <p className="text-sm flex gap-2 align-items-center mb-3">Raw Whole Food Bar</p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
                 </CustomCard>
-                <CustomCard title="Payment Method" col={12}>
+                <CustomCard title="Payment Method" col={12} height="200px">
                     <p className="text-sm flex gap-2 align-items-center mb-3">
                         <span>Card on File: </span>0049
                     </p>

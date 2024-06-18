@@ -62,8 +62,8 @@ export const soundAudioOptions = [
 
 export const ActiveFilterDropdown = [
     { name: 'All', value: 'all' },
-    { name: 'Active', value: true },
-    { name: 'Inactive', value: false },
+    { name: 'Active', value: 'active' },
+    { name: 'Inactive', value: 'inactive' },
 ];
 
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));

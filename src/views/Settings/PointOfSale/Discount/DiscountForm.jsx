@@ -153,8 +153,8 @@ const DiscountForm = () => {
                             required
                             sufix="%"
                             col="4"
-                            minFractionDigits={2}
-                            maxFractionDigits={2}
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
                         />
                         <CustomDropDown label="Amount Type" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={1} />
                         <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required />
@@ -183,8 +183,8 @@ const DiscountForm = () => {
                                         data={item}
                                         onChange={handleChangeDynamicField}
                                         col="4"
-                                        minFractionDigits={2}
-                                        maxFractionDigits={2}
+                                        minFractionDigits={4}
+                                        maxFractionDigits={4}
                                     />
                                     <CustomDropDown
                                         label="Amount Type"

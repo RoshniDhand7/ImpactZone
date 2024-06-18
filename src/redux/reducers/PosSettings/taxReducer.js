@@ -11,6 +11,7 @@ const taxReducer = (state = intitalState, action) => {
                 ...state,
                 allTaxes: action.payload,
                 allTaxDropdown: action.payload?.map((item) => ({ value: item._id, name: item.taxRateName })),
+                allTaxActiveDropdown: action.payload?.filter((item) => item.isActive).map((item) => ({ value: item._id, name: item.taxRateName })),
             };
 
         default:
