@@ -7,6 +7,9 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
+import FilterComponent from '../../../../components/FilterComponent';
+import useFilters from '../../../../hooks/useFilters';
+import PrimaryButton, { CustomButton } from '../../../../shared/Button/CustomButton';
 
 const Tax = () => {
     const history = useHistory();
@@ -20,20 +23,7 @@ const Tax = () => {
     }, [dispatch]);
 
     const { allTaxes } = useSelector((state) => state.taxes);
-
-    const filterTax = () => {
-        let filtered = allTaxes || [];
-        if (data?.isActive === 'active') {
-            filtered = filtered.filter((item) => item.isActive);
-        } else if (data?.isActive === 'inactive') {
-            filtered = filtered.filter((item) => !item.isActive);
-        }
-        setFilteredTaxes(filtered);
-    };
-
-    useEffect(() => {
-        filterTax();
-    }, [data]);
+    const { events, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allTaxes);
 
     const columns = [
         { field: 'taxRateName', header: 'Tax Rate Name' },
@@ -62,14 +52,28 @@ const Tax = () => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Tax" linkTo="/settings/pos/tax/add" extraClass="align-items-center"></CustomFilterCard>
-            <CustomSearchCard>
-                <CustomDropDown col={3} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
-            </CustomSearchCard>
+            <CustomFilterCard buttonTitle="Add Tax" linkTo="/settings/pos/tax/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
 
-            <CustomTable data={filteredTaxes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+                {/* <i className="pi pi-filter" onClick={onFilterOpen}></i> */}
+                {/* <CustomDropDown
+                    col={12}
+                    name="isActive"
+                    options={ActiveFilterDropdown}
+                    optionLabel="name"
+                    value={filters.isActive}
+                    onChange={({ name, value }) => onApplyFilters({ [name]: value })}
+                /> */}
+            </CustomFilterCard>
+
+            <FilterComponent value={filters} onApply={onApplyFilters} visible={isFilterVisible} onHide={onFilterClose} />
+
+            <CustomTable data={events} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

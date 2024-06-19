@@ -73,13 +73,13 @@ export function CustomListItem({ label, name, data, value }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClass, title }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title, contentPosition = 'between' }) {
     const history = useHistory();
     return (
         <div className="border-round p-2 mt-2 ">
-            <div className={`flex justify-content-between ${extraClass}`}>
+            <div className={`flex justify-content-${contentPosition} ${extraClassName}`}>
+                {title && <div>{title}</div>}
                 <div>{children}</div>
-                <div>{title}</div>
                 {buttonTitle ? (
                     linkTo ? (
                         <PrimaryButton label={buttonTitle} onClick={() => history.push(linkTo)} />

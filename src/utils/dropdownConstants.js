@@ -61,9 +61,14 @@ export const soundAudioOptions = [
 ];
 
 export const ActiveFilterDropdown = [
-    { name: 'All', value: 'all' },
-    { name: 'Active', value: 'active' },
-    { name: 'Inactive', value: 'inactive' },
+    { name: 'All', value: () => true },
+    { name: 'Active', value: (val) => val },
+    { name: 'Inactive', value: (val) => !val },
+];
+export const taxRatePercentageDropdown = [
+    { name: 'All', value: () => true },
+    { name: '0-50', value: (val) => val >= 0 && val <= 50 },
+    { name: '51-100', value: (val) => val >= 51 && val <= 100 },
 ];
 
 export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));

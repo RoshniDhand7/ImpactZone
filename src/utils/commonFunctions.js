@@ -258,6 +258,27 @@ const getImageUrl = (image) => {
         return constants.baseUrl + image;
     }
 };
+
+function applyFilters(events, filterOptions) {
+    let _events = events;
+    let _keys = Object.keys(filterOptions);
+
+    if (_keys.length) {
+        _events = _events.filter((event) => {
+            return _keys.every((key) => {
+                const _condition = filterOptions[key];
+                const _val = event[key];
+
+                if (Array.isArray(_val)) {
+                    return _condition.some((item) => _val.includes(item));
+                } else {
+                    return _condition(_val);
+                }
+            });
+        });
+    }
+    return _events;
+}
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -280,4 +301,5 @@ export {
     getTime,
     convertToDateTime,
     getImageUrl,
+    applyFilters,
 };

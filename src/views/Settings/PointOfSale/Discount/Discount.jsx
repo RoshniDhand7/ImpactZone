@@ -29,6 +29,8 @@ const Discount = () => {
             filtered = filtered.filter((item) => item.isActive);
         } else if (data?.isActive === 'inactive') {
             filtered = filtered.filter((item) => !item.isActive);
+        } else {
+            filtered = allDiscountTypes;
         }
         setFilteredDiscountType(filtered);
     };
