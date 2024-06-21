@@ -149,6 +149,7 @@ const DiscountForm = () => {
                         <CustomInputNumber
                             name="percentage"
                             data={data}
+                            label="Discount Amount"
                             onChange={handleChange}
                             required
                             sufix="%"

@@ -13,6 +13,7 @@ import { editMemberAction, getMemberAction } from '../../../redux/actions/Dashbo
 import moment from 'moment';
 import { getMembersipTypes } from '../../../redux/actions/MembersSettings/membershipTypes';
 import { showFormErrors } from '../../../utils/commonFunctions';
+import usePlacesAutocomplete from '../usePlacesAutoComplete';
 
 const Personal = () => {
     const { data, setData, initialState, getMember } = useMemberDetail();
@@ -59,7 +60,7 @@ const Personal = () => {
                 isActive: getMember.isActive,
                 image: getMember.image ? [getMember.image] : [],
                 primaryPhone: getMember.primaryPhone,
-                drivingLicience: getMember.drivingLicience,
+                driverLicense: getMember.driverLicense,
                 address: getMember.address,
                 newAccessCode: '',
                 gender: getMember.gender,
@@ -119,11 +120,12 @@ const Personal = () => {
             );
         }
     };
+    const { renderAutocomplete } = usePlacesAutocomplete(data1, setData1);
 
     return (
         <>
             <CustomDialog
-                width="50vh"
+                width="85vh"
                 title={'Edit'}
                 visible={visiblePersonalDetail}
                 onCancel={() => {
@@ -144,7 +146,7 @@ const Personal = () => {
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
-                width="50vh"
+                width="85vh"
                 title={'Edit'}
                 visible={visibleDemographics}
                 onCancel={() => {
@@ -155,16 +157,19 @@ const Personal = () => {
                 onSave={handleSave}
             >
                 <CustomGridLayout>
-                    <CustomInput name="address" col={6} data={data1} onChange={handleChange} />
+                    <div className="md:col-12">
+                        <label className="text-sm font-semibold">Address</label>
+                        {renderAutocomplete()}
+                    </div>
                     <CustomInput name="email" col={6} data={data1} onChange={handleChange} />
                     <CustomInputMask inputClass="border-1" col={6} name="primaryPhone" mask="(999) 999-9999" data={data1} onChange={handleChange} />
                     <CustomInputMask inputClass="border-1" col={6} name="mobilePhone" mask="(999) 999-9999" data={data1} onChange={handleChange} />
                     <CustomInputMask inputClass="border-1" col={6} name="workNumber" mask="(999) 999-9999" data={data1} onChange={handleChange} />
-                    <CustomInput name="drivingLicience" col={6} data={data1} onChange={handleChange} />
+                    <CustomInput name="driverLicense" col={6} data={data1} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog
-                width="70vh"
+                width="85vh"
                 title={'Edit'}
                 visible={visibleMembershipDetail}
                 onCancel={() => {
@@ -236,12 +241,12 @@ const Personal = () => {
                             }}
                             height="250px"
                         >
-                            <CustomListItem name="address" data={data} />
+                            <CustomListItem name="address" data={data} className="col-12" />
                             <CustomListItem name="email" data={data} />
                             <CustomListItem name="primaryPhone" data={data} />
                             <CustomListItem name="mobilePhone" data={data} />
                             <CustomListItem name="workNumber" data={data} />
-                            <CustomListItem name="drivingLicience" data={data} />
+                            <CustomListItem name="driverLicense" data={data} />
                         </CustomCard>
                         <CustomCard
                             title="Membership Details"

@@ -68,7 +68,7 @@ export function CustomListItem({ label, name, data, value }) {
     return (
         <div className="flex justify-content-between text-sm mb-2">
             <span className="font-semibold ">{label}</span>
-            <span className="text-dark-gray">{value}</span>
+            <span className="text-dark-gray cstmValue">{value}</span>
         </div>
     );
 }
