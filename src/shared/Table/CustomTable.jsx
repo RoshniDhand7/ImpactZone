@@ -16,7 +16,10 @@ const CustomTable = ({
     showSelectionElement,
     reorderableRows,
     onRowReorder,
+    customActionTemplate,
+    custAction,
 }) => {
+    console.log(':custAction', custAction);
     const actionTemplate = (data) => {
         return (
             <span className="flex ">
@@ -53,7 +56,9 @@ const CustomTable = ({
                     sortField={col.field}
                 />
             ))}
-            {onView || onEdit || onDelete ? <Column body={actionTemplate} style={{ width: '100px' }} /> : null}
+            {onView || onEdit || onDelete || customActionTemplate ? (
+                <Column body={customActionTemplate ? customActionTemplate : actionTemplate} style={{ width: '100px' }} />
+            ) : null}
         </DataTable>
     );
 };

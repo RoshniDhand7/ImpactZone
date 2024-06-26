@@ -41,34 +41,33 @@ export const CustomOverlay = React.forwardRef(({ children, col }, ref) => {
 export function CustomGridLayout({ children, extraClass }) {
     return <div className={`grid ${extraClass}`}>{children}</div>;
 }
-export function CustomListItem({ label, name, data, value }) {
+export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     if (!label) {
         if (name) {
             label = capitalizeCamelCase(name);
         }
     }
+    const formatValue = (val) => {
+        if (typeof val === 'boolean') {
+            return val ? 'Yes' : 'No';
+        }
+        return val ? val : '-';
+    };
 
-    if (typeof value === 'boolean') {
-        if (value) {
-            value = 'Yes';
-        } else {
-            value = 'No';
-        }
-    } else if (!value) {
-        value = '-';
-        if (typeof data[name] === 'boolean' && data[name]) {
-            value = 'Yes';
-        } else if (typeof data[name] === 'boolean' && !data[name]) {
-            value = 'No';
-        } else {
-            value = data[name] ? data[name] : '-';
-        }
+    let displayValue = '-';
+    if (value) {
+        displayValue = formatValue(value);
+    } else if (keys && Array.isArray(keys)) {
+        const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
+        displayValue = values ? values : '-';
+    } else {
+        displayValue = formatValue(data[name]);
     }
 
     return (
         <div className="flex justify-content-between text-sm mb-2">
             <span className="font-semibold ">{label}</span>
-            <span className="text-dark-gray cstmValue">{value}</span>
+            <span className="text-dark-gray cstmValue">{displayValue}</span>
         </div>
     );
 }
