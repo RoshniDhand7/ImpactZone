@@ -12,10 +12,12 @@ const SellPlanForm = () => {
         { title: 'Payment Amounts', content: <h1>Payment Amounts</h1> },
         { title: 'Billing Info', content: <h1>Billing Info</h1> },
     ];
+
+    const id =""
     return (
         <>
             <FormPage backText="Plans" backTo="/plans">
-                <CustomTabView tabs={tabs} />
+                <CustomTabView tabs={tabs}  disabledTabIndices={id ? [] : [1,2,3,4,5,6,7]}/>
             </FormPage>
         </>
     );

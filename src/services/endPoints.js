@@ -64,5 +64,6 @@ const endPoints = {
     MEMBERS: '/add-member/',
     MEMBER_BARCODE: '/add-member-barcode/',
     GET_MEMBERS: '/search-member',
+    SELL_PLAN:"/plan/",
 };
 export default endPoints;

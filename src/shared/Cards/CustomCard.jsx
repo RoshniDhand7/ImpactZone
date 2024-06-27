@@ -42,6 +42,7 @@ export function CustomGridLayout({ children, extraClass }) {
     return <div className={`grid ${extraClass}`}>{children}</div>;
 }
 export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
+    console.log("bb>>",data,name)
     if (!label) {
         if (name) {
             label = capitalizeCamelCase(name);
@@ -60,6 +61,8 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     } else if (keys && Array.isArray(keys)) {
         const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
         displayValue = values ? values : '-';
+    } else if (data && typeof data === 'object') {
+        displayValue = formatValue(data["name"]);
     } else {
         displayValue = formatValue(data[name]);
     }
@@ -72,12 +75,12 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title, contentPosition = 'between' }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title,titleClassName, contentPosition = 'between' }) {
     const history = useHistory();
     return (
         <div className="border-round p-2 mt-2 ">
             <div className={`flex justify-content-${contentPosition} ${extraClassName}`}>
-                {title && <div>{title}</div>}
+                {title && <div className={titleClassName}>{title}</div>}
                 <div>{children}</div>
                 {buttonTitle ? (
                     linkTo ? (

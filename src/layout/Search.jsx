@@ -46,9 +46,11 @@ const Search = ({ openModal, setOpenModal }) => {
         }
     }, [value]);
 
+    console.log(value)
+
     return (
         <>
-            <CustomDialog visible={openModal} onCancel={() => setOpenModal(false)} position="top" width="50vw" contentClassName="pb-2">
+            <CustomDialog visible={openModal} onCancel={() => {setOpenModal(false);setValue("")}} position="top" width="50vw" contentClassName="pb-2">
                 <div>
                     <h3 className="text-bold mb-2">Search Member</h3>
                     <AutoComplete
@@ -59,10 +61,10 @@ const Search = ({ openModal, setOpenModal }) => {
                         onChange={(e) => setValue(e.value)}
                         className="w-full  "
                         inputClassName="w-full"
+                        showEmptyMessage={true}
+
                         itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                        // itemTemplate={() => {
-                        //     <i className="pi pi-search" />;
-                        // }}
+                  
                     />
                 </div>
             </CustomDialog>
