@@ -25,20 +25,16 @@ const Search = ({ openModal, setOpenModal }) => {
         path: `member/${item._id}`,
     }));
 
+    console.log('allMembers>>', allMembers);
     const search = (event) => {
         let query = event.query;
-        let _filteredItems = [];
-        for (let i = 0; i < allMembers.length; i++) {
-            let item = allMembers[i];
-            if (typeof item.firstName === 'string' || typeof item.lastName === 'string') {
-                if (item.firstName.toLowerCase().indexOf(query.toLowerCase()) === 0 || item.lastName.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                    _filteredItems.push(item);
-                }
-            }
-        }
-
+        let _filteredItems = allMembers.filter((item) => {
+            let _item = `${item.firstName} ${item.middleName} ${item.lastName}`.trim();
+            let _query = query.trim().toLowerCase();
+            return _item.toLowerCase().includes(_query);
+        });
         setItems(_filteredItems);
-        // setItems([...Array(10).keys()].map((item) => event.query + '-' + item));
+        return _filteredItems;
     };
 
     useEffect(() => {
@@ -54,6 +50,7 @@ const Search = ({ openModal, setOpenModal }) => {
         <>
             <CustomDialog visible={openModal} onCancel={() => setOpenModal(false)} position="top" width="50vw" contentClassName="pb-2">
                 <div>
+                    <h3 className="text-bold mb-2">Search Member</h3>
                     <AutoComplete
                         field="firstName"
                         value={value}
