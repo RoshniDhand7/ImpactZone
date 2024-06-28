@@ -4,17 +4,21 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
 import { getMembershipPlan } from '../../redux/actions/AgreementSettings/membershipPlan';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
-import { addSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { addSellPlan, editSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { getIds, showFormErrors } from '../../utils/commonFunctions';
+import formValidation from '../../utils/validations';
 
-const PlanTab = () => {
+const PlanTab = ({onTabEnable}) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     useEffect(() => {
         dispatch(getMembers());
     }, []);
 
     let { allMembers } = useSelector((state) => state.members);
+
 
     allMembers = allMembers.map((item) => ({
         firstName: item.firstName,
@@ -42,36 +46,78 @@ const PlanTab = () => {
         clubs: '',
         name: '',
         membershipType: {},
-        assessedFee: [],
         services: [],
         oftenClientCharged: '',
-        memberToSell: ""
+        memberToSell: "",
+        newPlanId :"",
+        memberId:"",
     });
+
+
+    const getMemberShipPlanFn =()=>{
+        dispatch(
+            getMembershipPlan(id, (data) => {
+                setData({
+                    category: data.category,
+                    clubs: data.clubs,
+                    name: data.name,
+                    membershipType: data.membershipType,
+                    services: data.services,
+                    oftenClientCharged: data.oftenClientCharged,
+                    memberToSell:Object.keys(data.memberToSell).length>0?`${data.memberToSell.firstName} ${data.memberToSell.middleName} ${data.memberToSell.lastName}`:"",
+                    newPlanId :data.newPlanId ?data.newPlanId:"",
+                    memberId:data.memberId,
+                });
+                
+            }),
+        );
+    }
     useEffect(() => {
         if (id) {
-            dispatch(
-                getMembershipPlan(id, (data) => {
-                    console.log(data)
-                    setData({
-                        category: data.category,
-                        clubs: data.clubs,
-                        name: data.name,
-                        membershipType: data.membershipType,
-                        assessedFee: data.assessedFee,
-                        services: data.services,
-                        oftenClientCharged: data.oftenClientCharged,
-                        memberToSell: data.memberToSell
-                    });
-                }),
-            );
+            getMemberShipPlanFn()
         }
     }, [id, dispatch]);
 
+    useEffect(()=>{
+        if(data.newPlanId){
+            onTabEnable(data.newPlanId,[0,1],data.memberId);
+
+        }
+    },[data.newPlanId])
+
     const handleNext = () => {
-        dispatch(addSellPlan(id,data,"next"))
+        if(showFormErrors(data,setData,["services","membershipType"])){
+            const payload = {
+                name:data.name,
+                oftenClientCharged:data.oftenClientCharged,
+                club:getIds(data?.clubs),
+                membershipType: data?.membershipType?._id,
+                memberToSell: data.memberToSell.id,
+                type: "next", 
+                services: getIds(data?.services),
+            };
+            if(data.newPlanId){
+                dispatch(editSellPlan(data.newPlanId,payload,()=>{
+                    getMemberShipPlanFn()
+                    onTabEnable(data.newPlanId,[0,1],data.memberId);
+                     history.replace(`/plans/sell-plan/${id}/?tab=personal`);
+
+                }))
+            }else{
+                dispatch(addSellPlan(id,payload,()=>{
+                    getMemberShipPlanFn()
+                    onTabEnable(data.newPlanId,[0,1],data.memberId);
+                    history.replace(`/plans/sell-plan/${id}/?tab=personal`);
+                }))   
+            }
+        }
+     
     }
 
-
+const handleChange =(e)=>{
+    const formErrors = formValidation("memberToSell",e.value,data)
+    setData((prev => ({ ...prev, memberToSell: e.value ,formErrors})))
+}
 
     console.log('data>>', data);
     return (
@@ -83,13 +129,14 @@ const PlanTab = () => {
                         value={data.memberToSell}
                         suggestions={items}
                         completeMethod={search}
-                        onChange={(e) => setData((prev => ({ ...prev, memberToSell: e.value })))}
+                        onChange={handleChange}
                         className="w-full md:col-6 "
                         showEmptyMessage={true}
                         required={true}
                         inputClassName="w-full"
                         itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
                     />
+                    <div className='p-error text-sm'>{data?.formErrors?.memberToSell}</div>
                 </div>
 
             </CustomFilterCard>

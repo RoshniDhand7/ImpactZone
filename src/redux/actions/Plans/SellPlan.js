@@ -1,7 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { getIds } from '../../../utils/commonFunctions';
-import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
@@ -17,7 +16,19 @@ const getSellPlan = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-const addSellPlan = (id,data,type) => async (dispatch) => {
+const getSellPlanMember = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.MEMBER_SELL_PLAN+id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+const addSellPlan = (id,data,type,next) => async (dispatch) => {
     dispatch(showLoaderAction());
     const payload = {
         name:data.name,
@@ -31,22 +42,19 @@ const addSellPlan = (id,data,type) => async (dispatch) => {
 
     const res = await api('post', EndPoints.SELL_PLAN+id, payload);
     if (res.success) {
+        next()
     }
     dispatch(hideLoaderAction());
 };
-const editMembershipPlan = (id, data, history) => async (dispatch, getState) => {
+const editSellPlan = (id,payload,next) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const payload = {
-        ...data,
-        services: getIds(data?.services),
-        membershipPlan: getIds(data?.membershipPlan),
-    };
-    const res = await api('put', EndPoints.MEMBERSHIP_PLAN + id, payload);
+    const res = await api('put', EndPoints.EDIT_SELL_PLAN+id, payload);
     if (res.success) {
-        history.goBack();
+        next()
     }
     dispatch(hideLoaderAction());
 };
+
 const deleteMembershipPlan = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.MEMBERSHIP_PLAN + id);
     if (res.success) {
@@ -57,4 +65,4 @@ const deleteMembershipPlan = (id) => async (dispatch) => {
     }
 };
 
-export { getSellPlan, addSellPlan, editMembershipPlan, deleteMembershipPlan };
+export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan ,getSellPlanMember};

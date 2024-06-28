@@ -145,7 +145,7 @@ const uploadFiles = async (files) => {
             formData.append('file', item);
             const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
             if (res.success && res.data) {
-                return res.data[0];
+                return res.data;
             }
         }
     });

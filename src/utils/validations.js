@@ -83,6 +83,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'issue':
         case 'begin':
         case 'expiration':
+        case "memberToSell":
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
