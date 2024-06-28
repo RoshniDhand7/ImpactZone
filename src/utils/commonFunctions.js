@@ -186,7 +186,7 @@ const removeUnusedKeys = (payload) => {
 };
 
 const getIds = (item) => {
-    return item.map((list) => list._id);
+    return item?.map((list) => list._id);
 };
 const PercentageDifference = (previousValue, newValue) => {
     const percentageDifference = useMemo(() => {

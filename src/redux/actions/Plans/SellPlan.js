@@ -28,7 +28,7 @@ const getSellPlanMember = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-const addSellPlan = (id,data,type,next) => async (dispatch) => {
+const addSellPlan = (id,data,next) => async (dispatch) => {
     dispatch(showLoaderAction());
     const payload = {
         name:data.name,
@@ -36,7 +36,7 @@ const addSellPlan = (id,data,type,next) => async (dispatch) => {
         club:getIds(data?.clubs),
         membershipType: data?.membershipType?._id,
         memberToSell: data.memberToSell.id,
-        type: type, 
+        type:"next",
         services: getIds(data?.services),
     };
 

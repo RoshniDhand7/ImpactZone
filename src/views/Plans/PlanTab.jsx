@@ -90,11 +90,11 @@ const PlanTab = ({onTabEnable}) => {
             const payload = {
                 name:data.name,
                 oftenClientCharged:data.oftenClientCharged,
-                club:getIds(data?.clubs),
+                club:data?.clubs?.length>0 &&getIds(data?.clubs),
                 membershipType: data?.membershipType?._id,
                 memberToSell: data.memberToSell.id,
                 type: "next", 
-                services: getIds(data?.services),
+                services:data?.services?.length>0 ? getIds(data?.services):[],
             };
             if(data.newPlanId){
                 dispatch(editSellPlan(data.newPlanId,payload,()=>{
