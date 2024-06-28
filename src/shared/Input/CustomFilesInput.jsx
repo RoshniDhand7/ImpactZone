@@ -41,6 +41,11 @@ export default function CustomFilesInput({
     useEffect(() => {
         if (onFilesChange) {
             onFilesChange({ name, value: files });
+            console.log(files,"gd")
+            if(files?.length){
+                
+               
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [files, name]);
@@ -53,10 +58,8 @@ export default function CustomFilesInput({
     };
 
     const onFileChange = (e) => {
-        if (editable) {
             const chossenFile = e.target.files;
             handlefileChange(Object.values(chossenFile));
-        }
     };
     const handlefileChange = (uploadedfile) => {
         let uploadedFiles = [];
@@ -78,6 +81,8 @@ export default function CustomFilesInput({
             }
         } else {
             setFiles([...uploadedFiles]);
+
+            console.log(uploadedFiles)
         }
     };
 

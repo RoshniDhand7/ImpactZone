@@ -48,8 +48,9 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
         if (getMember) {
             dispatch(
                 getSellPlanMember(memberId, (data) => {
+                    console.log(data)
                     setData({
-                        driverLicense: data.driverLicense?[data.driverLicense]:[],
+                        driverLicense:[],
                         govtId:data.govtId? [data.govtId]:[],
                         accessCode: data.accessCode,
                         barCode: getMember.barCode,
@@ -62,6 +63,8 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
 
     console.log(data, "data>>")
     const handleChange = ({ name, value }) => {
+
+        console.log(name,value,"bane")
         const formErrors = formValidation(name, value, data)
         setData((prev => ({ ...prev, [name]: value, formErrors })))
     }
@@ -111,8 +114,6 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
                     label="Upload Driver Licence"
                     accept="image/*,.pdf"
                     disabled={false}
-                    removeable
-                    editable
                     col="12"
                 />
                 <CustomFilesInput
@@ -122,7 +123,6 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
                     label="Upload Government/School Ids"
                     accept="image/*,.pdf"
                     disabled={false}
-                    removeable
                     editable
                     col="12"
                 />
