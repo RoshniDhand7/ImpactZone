@@ -12,6 +12,8 @@ import { getMemberAction } from '../../redux/actions/Dashboard/Members';
 import { useHistory, useParams } from 'react-router-dom';
 
 const PersonalTab = ({ onTabEnable, planId, memberId}) => {
+
+    console.log(memberId,"memberId")
     const dispatch = useDispatch();
     const history = useHistory();
     const {id} = useParams();
@@ -51,11 +53,11 @@ const PersonalTab = ({ onTabEnable, planId, memberId}) => {
     const { getMember } = useSelector((state) => state.members);
 
 
-    useEffect(()=>{
-        if(planId){
-            onTabEnable(planId,[0,1,2],memberId);
-        }
-    },[planId])
+    // useEffect(()=>{
+    //     if(planId && memberId){
+    //         onTabEnable(planId,[0,1,2],memberId);
+    //     }
+    // },[planId,memberId])
     useEffect(() => {
         dispatch(getMemberAction(memberId));
     }, [dispatch, memberId]);

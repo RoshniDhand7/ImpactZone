@@ -81,11 +81,11 @@ const PlanTab = ({onTabEnable}) => {
     }, [id, dispatch,data.memberId]);
 
     useEffect(()=>{
-        if(data.newPlanId){
+        if(data.newPlanId && data.memberId){
             onTabEnable(data.newPlanId,[0,1],data.memberId);
 
         }
-    },[data.newPlanId]);
+    },[data.newPlanId,data.memberId]);
 
     useEffect(()=>{
         if(data.memberId){
