@@ -48,7 +48,9 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
         case 'barCode':
+            console.log(value,"val")
             if (equal(length(value))) {
+                console.log(value,"val")
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (state.uniqueBarCode) {
                 formErrors[name] = `BarCode should be unique!`;

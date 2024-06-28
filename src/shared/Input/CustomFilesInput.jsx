@@ -37,24 +37,19 @@ export default function CustomFilesInput({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value || data?.[name]]);
+    console.log(onFilesChange,"onFilesChange")
 
     useEffect(() => {
         if (onFilesChange) {
             onFilesChange({ name, value: files });
             console.log(files,"gd")
-            if(files?.length){
-                
-               
-            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [files, name]);
 
     const onDelete = (id) => {
-        if (editable) {
             const s = files.filter((item, index) => index !== id);
             setFiles([...s]);
-        }
     };
 
     const onFileChange = (e) => {
@@ -82,7 +77,7 @@ export default function CustomFilesInput({
         } else {
             setFiles([...uploadedFiles]);
 
-            console.log(uploadedFiles)
+            console.log(uploadedFiles,[...uploadedFiles],"uploadedFiles")
         }
     };
 
@@ -133,8 +128,6 @@ export default function CustomFilesInput({
                         <div className="border-1 p-2 border-300">
                             <div className="grid align-items-center p-0 border-bottom-1 border-300">
                                 <div className="md:col-3 text-center">Name</div>
-                                <div className="md:col-3 text-center">File size</div>
-                                <div className="md:col-3 text-center">Date modified</div>
                                 {/* <div className="md:col-3 text-center">
                                     <label htmlFor="files">
                                         <img src={UploadBlack} alt="" width="30" />
@@ -157,14 +150,13 @@ export default function CustomFilesInput({
                                                 </InplaceContent>
                                             </Inplace>
                                         ) : (
-                                            file
+                                            file.name|| file
                                         )}
                                     </div>
-                                    {file?.path&&<div className="md:col-3 text-main-color text-center">{parseInt(file?.size / 1024)}kb</div>}
                                     {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}
-                                    {/* <div className="md:col-3 text-main-color text-center">
+                                    <div className="md:col-3 text-main-color text-center">
                                         <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{width:"15px"}}  />
-                                    </div> */}
+                                    </div>
                                 </div>
                             ))}
                         </div>

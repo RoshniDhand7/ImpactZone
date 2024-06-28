@@ -66,4 +66,5 @@ export const types = {
     //members
 
     CHANGE_VIEW_MEMBERS: 'CHANGE_VIEW_MEMBERS',
+    CHANGE_MEMBERSHIP_PLAN1:"CHANGE_MEMBERSHIP_PLAN1"
 };

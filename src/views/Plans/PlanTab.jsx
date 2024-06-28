@@ -55,7 +55,7 @@ const PlanTab = ({onTabEnable}) => {
 
 
     const getMemberShipPlanFn =()=>{
-        dispatch(
+        return  dispatch(
             getMembershipPlan(id, (data) => {
                 setData({
                     category: data.category,
@@ -66,24 +66,53 @@ const PlanTab = ({onTabEnable}) => {
                     oftenClientCharged: data.oftenClientCharged,
                     memberToSell:Object.keys(data.memberToSell).length>0?`${data.memberToSell.firstName} ${data.memberToSell.middleName} ${data.memberToSell.lastName}`:"",
                     newPlanId :data.newPlanId ?data.newPlanId:"",
-                    memberId:data.memberId,
                 });
-                
+
+                console.log(data.memberId,"data.memberId")
+                return data.memberId;
             }),
+           
         );
     }
     useEffect(() => {
         if (id) {
             getMemberShipPlanFn()
         }
-    }, [id, dispatch]);
+    }, [id, dispatch,data.memberId]);
 
     useEffect(()=>{
         if(data.newPlanId){
             onTabEnable(data.newPlanId,[0,1],data.memberId);
 
         }
-    },[data.newPlanId])
+    },[data.newPlanId]);
+
+    useEffect(()=>{
+        if(data.memberId){
+            setData((prev)=>({...prev,["memberId"]:data.memberId}))
+        }
+    },[data.memberId])
+
+    const updateMembershipPlan = async () => {
+        return new Promise((resolve, reject) => {
+            dispatch(
+                getMembershipPlan(id, (updatedData) => {
+                    setData({
+                        category: updatedData.category,
+                        clubs: updatedData.clubs,
+                        name: updatedData.name,
+                        membershipType: updatedData.membershipType,
+                        services: updatedData.services,
+                        oftenClientCharged: updatedData.oftenClientCharged,
+                        memberToSell: Object.keys(updatedData.memberToSell).length > 0 ? `${updatedData.memberToSell.firstName} ${updatedData.memberToSell.middleName} ${updatedData.memberToSell.lastName}` : "",
+                        newPlanId: updatedData.newPlanId ? updatedData.newPlanId : "",
+                        memberId: updatedData.memberId,
+                    });
+                    resolve(updatedData.memberId); // Resolve with the new memberId
+                }, reject)
+            );
+        });
+    };
 
     const handleNext = () => {
         if(showFormErrors(data,setData,["services","membershipType"])){
@@ -97,16 +126,15 @@ const PlanTab = ({onTabEnable}) => {
                 services:data?.services?.length>0 ? getIds(data?.services):[],
             };
             if(data.newPlanId){
-                dispatch(editSellPlan(data.newPlanId,payload,()=>{
-                    getMemberShipPlanFn()
-                    onTabEnable(data.newPlanId,[0,1],data.memberId);
-                     history.replace(`/plans/sell-plan/${id}/?tab=personal`);
-
+                dispatch(editSellPlan(data.newPlanId,payload,async()=>{
+                    const newMemberId = await updateMembershipPlan();
+                    onTabEnable(data.newPlanId, [0, 1], newMemberId);
+                    history.replace(`/plans/sell-plan/${id}/?tab=personal`);
                 }))
             }else{
-                dispatch(addSellPlan(id,payload,()=>{
-                    getMemberShipPlanFn()
-                    onTabEnable(data.newPlanId,[0,1],data.memberId);
+                dispatch(addSellPlan(id,payload,async ()=>{
+                    const newMemberId = await updateMembershipPlan();
+                    onTabEnable(data.newPlanId, [0, 1], newMemberId);
                     history.replace(`/plans/sell-plan/${id}/?tab=personal`);
                 }))   
             }

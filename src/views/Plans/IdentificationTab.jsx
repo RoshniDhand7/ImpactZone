@@ -50,7 +50,7 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
                 getSellPlanMember(memberId, (data) => {
                     console.log(data)
                     setData({
-                        driverLicense:[],
+                        driverLicense:data.driverLicense? [data.driverLicense]:[],
                         govtId:data.govtId? [data.govtId]:[],
                         accessCode: data.accessCode,
                         barCode: getMember.barCode,
@@ -69,23 +69,29 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
         setData((prev => ({ ...prev, [name]: value, formErrors })))
     }
 
+    console.log("data>>",data)
+
     const handleNext = async() => {
         if (data?.image?.length) {
             let urls = await uploadImages(data.image);
             data.image = urls[0];
         } 
-
+        else {
+            data.image=""
+        }
         if(data.driverLicense?.length){
             let durls = await uploadFiles(data.driverLicense);
             data.driverLicense = durls[0].path;
+        }else{
+            data.driverLicense=""
         }
        
-
         if(data.govtId?.length){
             let gurls = await uploadFiles(data.govtId);
             data.govtId = gurls[0].path;
+        }else{
+            data.govtId=""
         }
-       
       
         const payload = {
             ...data,
@@ -93,7 +99,6 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
             accessCode:data.accessCode
         }
         dispatch(editSellPlan(planId, payload, () => {
-            getMemberIdentificationFn();
             onTabEnable(planId, [0, 1, 2, 3], memberId);
             history.replace(`/plans/sell-plan/${id}/?tab=agreement`);
 
@@ -123,7 +128,6 @@ const IdentificationTab = ({ onTabEnable, planId, memberId }) => {
                     label="Upload Government/School Ids"
                     accept="image/*,.pdf"
                     disabled={false}
-                    editable
                     col="12"
                 />
             </CustomGridLayout>

@@ -23,7 +23,7 @@ const AddMembers = () => {
     const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
     const [data, setData] = useState({
         createType: 'PROSPECT',
-        barCode: 0,
+        barCode: "",
         memberShipPlan: '',
         note: '',
         firstName: '',
@@ -72,9 +72,6 @@ const AddMembers = () => {
         if (data.uniqueBarCode) {
             const formErrors = formValidation('barCode', true, data);
             setData((prev) => ({ ...prev, uniqueBarCode: true, formErrors }));
-        } else {
-            const formErrors = formValidation('barCode', false, data);
-            setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
         }
     }, [data.uniqueBarCode]);
 
@@ -114,8 +111,7 @@ const AddMembers = () => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
-    console.log(data);
-
+console.log("data>>",data)
     return (
         <>
             <h3>Fast Add</h3>
@@ -142,7 +138,7 @@ const AddMembers = () => {
             <CustomCard col="col-12" title="Personal">
                 <CustomGridLayout>
                     <CustomInput name="firstName" data={data} onChange={handleChange} required col="3" />
-                    <CustomInput name="MI" data={data} onChange={handleChange} required col="2" />
+                    <CustomInput name="MI" data={data} onChange={handleChange}  col="2" />
                     <CustomInput name="lastName" data={data} onChange={handleChange} required col="3" />
                     <CustomDropDown name="gender" data={data} onChange={handleChange} options={genderOptions} />
                     <CustomCalenderInput name="dob" data={data} onChange={handleChange} required />
