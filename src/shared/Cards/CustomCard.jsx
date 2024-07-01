@@ -52,18 +52,27 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
         if (typeof val === 'boolean') {
             return val ? 'Yes' : 'No';
         }
+        if (val && typeof val === 'object') {
+            console.log(val, 'val');
+            if (val.name) {
+                // Check if the object has a 'name' key
+                return val.name;
+            }
+            return JSON.stringify(val);
+        }
         return val ? val : '-';
     };
 
     let displayValue = '-';
     if (value) {
+        console.log(value, 'value');
         displayValue = formatValue(value);
     } else if (keys && Array.isArray(keys)) {
         const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
         displayValue = values ? values : '-';
-    } else if (data && typeof data === 'object') {
-        displayValue = formatValue(data['name']);
+        console.log(values, 'values');
     } else {
+        console.log(data[name], 'data[name]');
         displayValue = formatValue(data[name]);
     }
 

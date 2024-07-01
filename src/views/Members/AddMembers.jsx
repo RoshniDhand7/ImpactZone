@@ -23,7 +23,7 @@ const AddMembers = () => {
     const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
     const [data, setData] = useState({
         createType: 'PROSPECT',
-        barCode: "",
+        barCode: '',
         memberShipPlan: '',
         note: '',
         firstName: '',
@@ -111,7 +111,7 @@ const AddMembers = () => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
-console.log("data>>",data)
+    console.log('data>>', data);
     return (
         <>
             <h3>Fast Add</h3>
@@ -138,15 +138,15 @@ console.log("data>>",data)
             <CustomCard col="col-12" title="Personal">
                 <CustomGridLayout>
                     <CustomInput name="firstName" data={data} onChange={handleChange} required col="3" />
-                    <CustomInput name="MI" data={data} onChange={handleChange}  col="2" />
+                    <CustomInput name="MI" data={data} onChange={handleChange} col="2" />
                     <CustomInput name="lastName" data={data} onChange={handleChange} required col="3" />
                     <CustomDropDown name="gender" data={data} onChange={handleChange} options={genderOptions} />
-                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} required />
+                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} maxDate={new Date()} />
                     <CustomInput name="driverLicense" data={data} onChange={handleChange} required />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} required />
                     <CustomInputMask name="mobilePhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
                     <CustomInputMask name="workNumber" mask="(999) 999-9999" data={data} onChange={handleChange} />
-                    <CustomInput name="workExt" data={data} onChange={handleChange} required col="1" />
+                    <CustomInput name="workExt" data={data} onChange={handleChange} col="1" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Address">
@@ -154,6 +154,7 @@ console.log("data>>",data)
                     {/* <CustomInput name="address" data={data} onChange={handleChange} required /> */}
                     <div className="md:col-6">
                         <label className="text-sm font-semibold">Address</label>
+                        <span className="text-red-500">*</span>
                         {/* <Autocomplete
                             apiKey={API_KEY}
                             onPlaceSelected={(place) => {

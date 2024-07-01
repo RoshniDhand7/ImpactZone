@@ -17,6 +17,8 @@ import usePlacesAutocomplete from '../usePlacesAutoComplete';
 
 const Personal = () => {
     const { data, setData, initialState, getMember } = useMemberDetail();
+
+    console.log('data>>', data);
     const [visiblePersonalDetail, setVisiblePersonal] = useState(null);
     const [visibleDemographics, setVisibleDemographics] = useState(null);
     const [visibleMembershipDetail, setVisibleMembershipDetail] = useState(null);

@@ -150,8 +150,10 @@ const PlanTab = ({ onTabEnable }) => {
     };
 
     const handleChange = (e) => {
-        const formErrors = formValidation('memberToSell', e.value, data);
-        setData((prev) => ({ ...prev, memberToSell: e.value, formErrors }));
+        const inputValue = e.value;
+        const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
+        const formErrors = formValidation('memberToSell', trimmedValue, data);
+        setData((prev) => ({ ...prev, memberToSell: trimmedValue, formErrors }));
     };
 
     console.log('data>>', data);
@@ -175,9 +177,9 @@ const PlanTab = ({ onTabEnable }) => {
             <CustomCard title="Plans" height="200px" col="12">
                 <CustomListItem name="name" data={data} />
                 <CustomListItem label="Billing Frequency" name="oftenClientCharged" data={data} />
-                <CustomListItem name="membershipType" data={data?.membershipType} />
+                <CustomListItem name="membershipType" data={data} />
                 <CustomListItem label="Ads-ons" name="services" data={data} keys={data.services} dynamicKey="name" />
-                <CustomListItem label="Club Assessed Fees" name="clubs" data={data} dynamicKey="name" />
+                <CustomListItem label="Club Assessed Fees" name="clubs" data={data} keys={data?.clubs} dynamicKey="name" />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />

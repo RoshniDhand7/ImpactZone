@@ -17,50 +17,53 @@ const usePlacesAutocomplete = (data, setData) => {
     };
 
     const renderAutocomplete = () => (
-        <PlacesAutocomplete value={data.address} onChange={handleChange1} onSelect={handleSelect}>
-            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                <div>
-                    <input
-                        {...getInputProps({
-                            placeholder: 'Search Places ...',
-                            className: 'p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 location-search-input',
-                        })}
-                    />
-                    <div className="autocomplete-dropdown-container">
-                        {loading && <div>Loading...</div>}
-                        {suggestions.map((suggestion) => {
-                            const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-                            const style = suggestion.active
-                                ? {
-                                      backgroundColor: '#fafafa',
-                                      fontSize: '12px',
-                                      marginBottom: '10px',
-                                      cursor: 'pointer',
-                                      padding: '5px',
-                                      borderBottom: '1px solid gray',
-                                  }
-                                : {
-                                      fontSize: '12px',
-                                      marginBottom: '10px',
-                                      cursor: 'pointer',
-                                      padding: '5px',
-                                      borderBottom: '1px solid #ebe9e9',
-                                  };
-                            return (
-                                <div
-                                    {...getSuggestionItemProps(suggestion, {
-                                        className,
-                                        style,
-                                    })}
-                                >
-                                    <span>{suggestion.description}</span>
-                                </div>
-                            );
-                        })}
+        <>
+            <PlacesAutocomplete value={data.address} onChange={handleChange1} onSelect={handleSelect}>
+                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                    <div>
+                        <input
+                            {...getInputProps({
+                                placeholder: 'Search Places ...',
+                                className: 'p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 location-search-input',
+                            })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                            {loading && <div>Loading...</div>}
+                            {suggestions.map((suggestion) => {
+                                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                                const style = suggestion.active
+                                    ? {
+                                          backgroundColor: '#fafafa',
+                                          fontSize: '12px',
+                                          marginBottom: '10px',
+                                          cursor: 'pointer',
+                                          padding: '5px',
+                                          borderBottom: '1px solid gray',
+                                      }
+                                    : {
+                                          fontSize: '12px',
+                                          marginBottom: '10px',
+                                          cursor: 'pointer',
+                                          padding: '5px',
+                                          borderBottom: '1px solid #ebe9e9',
+                                      };
+                                return (
+                                    <div
+                                        {...getSuggestionItemProps(suggestion, {
+                                            className,
+                                            style,
+                                        })}
+                                    >
+                                        <span>{suggestion.description}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
-        </PlacesAutocomplete>
+                )}
+            </PlacesAutocomplete>
+            <div className="p-error text-sm">{data?.formErrors?.address}</div>
+        </>
     );
 
     return {

@@ -54,11 +54,17 @@ export default function CustomImageInput({
     const onFileChange = (e) => {
         if (editable) {
             const chossenFile = e.target.files;
-            handlefileChange(Object.values(chossenFile));
+
+            console.log(chossenFile, 'ChooseNFile');
+            if (chossenFile.length > 0) {
+                handlefileChange(Object.values(chossenFile));
+            }
         }
     };
     const handlefileChange = (uploadedfile) => {
         let uploadedFiles = [];
+
+        console.log(uploadedfile, 'uploadedfile');
         uploadedfile.forEach((file) => {
             if (files.findIndex((f) => f.name === file.name) === -1) {
                 uploadedFiles.push(file);
@@ -85,6 +91,8 @@ export default function CustomImageInput({
             setFiles([...uploadedFiles]);
         }
     };
+
+    console.log('files>>', files);
 
     return (
         <>
