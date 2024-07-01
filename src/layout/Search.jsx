@@ -46,11 +46,26 @@ const Search = ({ openModal, setOpenModal }) => {
         }
     }, [value]);
 
-    console.log(value)
+    const handleOnChange = (e) => {
+        const inputValue = e.value;
+        const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
+        setValue(trimmedValue);
+    };
+
+    console.log(value);
 
     return (
         <>
-            <CustomDialog visible={openModal} onCancel={() => {setOpenModal(false);setValue("")}} position="top" width="50vw" contentClassName="pb-2">
+            <CustomDialog
+                visible={openModal}
+                onCancel={() => {
+                    setOpenModal(false);
+                    setValue('');
+                }}
+                position="top"
+                width="50vw"
+                contentClassName="pb-2"
+            >
                 <div>
                     <h3 className="text-bold mb-2">Search Member</h3>
                     <AutoComplete
@@ -58,13 +73,11 @@ const Search = ({ openModal, setOpenModal }) => {
                         value={value}
                         suggestions={items}
                         completeMethod={search}
-                        onChange={(e) => setValue(e.value)}
+                        onChange={handleOnChange}
                         className="w-full  "
                         inputClassName="w-full"
                         showEmptyMessage={true}
-
                         itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                  
                     />
                 </div>
             </CustomDialog>

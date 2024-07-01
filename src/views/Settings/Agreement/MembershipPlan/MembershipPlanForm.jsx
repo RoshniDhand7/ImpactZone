@@ -92,7 +92,8 @@ const MembershipPlanForm = () => {
     useEffect(() => {
         if (id) {
             dispatch(
-                getMembershipPlan(id, (data) => {
+                getMembershipPlan(id, null, (data) => {
+                    console.log(data, 'data');
                     setData({
                         category: data.category,
                         subCategory: data.subCategory,
@@ -100,7 +101,7 @@ const MembershipPlanForm = () => {
                         name: data.name,
                         membershipType: data.membershipType.id,
                         agreementTemplate: data.agreementTemplate,
-                        assessedFee: data.assessedFee.id,
+                        assessedFee: data?.assessedFee?.id,
                         services: data.services,
                         autoPay: data.autoPay,
                         oftenClientCharged: data.oftenClientCharged,

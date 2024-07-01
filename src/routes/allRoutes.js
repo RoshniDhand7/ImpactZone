@@ -95,6 +95,11 @@ export const PrivateRoutes = [
                 exact: true,
                 component: SellPlanForm,
             },
+            {
+                path: '/sell-plan/:id/:newPlanId/:memberId/',
+                name: 'Sell Plan',
+                component: SellPlanForm,
+            },
         ],
     },
     {

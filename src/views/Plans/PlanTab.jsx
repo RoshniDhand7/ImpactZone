@@ -4,13 +4,13 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
 import { getMembershipPlan } from '../../redux/actions/AgreementSettings/membershipPlan';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { addSellPlan, editSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { getIds, showFormErrors } from '../../utils/commonFunctions';
 import formValidation from '../../utils/validations';
 
-const PlanTab = ({onTabEnable}) => {
+const PlanTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
@@ -19,6 +19,7 @@ const PlanTab = ({onTabEnable}) => {
 
     let { allMembers } = useSelector((state) => state.members);
 
+    const { newPlanId, memberId } = useParams();
 
     allMembers = allMembers.map((item) => ({
         firstName: item.firstName,
@@ -48,15 +49,16 @@ const PlanTab = ({onTabEnable}) => {
         membershipType: {},
         services: [],
         oftenClientCharged: '',
-        memberToSell: "",
-        newPlanId :"",
-        memberId:"",
+        memberToSell: '',
+        newPlanId: '',
+        memberId: '',
     });
 
+    const location = useLocation();
 
-    const getMemberShipPlanFn =()=>{
-        return  dispatch(
-            getMembershipPlan(id, (data) => {
+    const getMemberShipPlanFn = () => {
+        return dispatch(
+            getMembershipPlan(id, memberId, (data) => {
                 setData({
                     category: data.category,
                     clubs: data.clubs,
@@ -64,109 +66,111 @@ const PlanTab = ({onTabEnable}) => {
                     membershipType: data.membershipType,
                     services: data.services,
                     oftenClientCharged: data.oftenClientCharged,
-                    memberToSell:Object.keys(data.memberToSell).length>0?`${data.memberToSell.firstName} ${data.memberToSell.middleName} ${data.memberToSell.lastName}`:"",
-                    newPlanId :data.newPlanId ?data.newPlanId:"",
+                    memberToSell: memberId ? allMembers?.find((item) => item.id === data.memberId) : '',
                 });
 
-                console.log(data.memberId,"data.memberId")
+                console.log(data.memberId, 'data.memberId');
                 return data.memberId;
             }),
-           
         );
-    }
+    };
     useEffect(() => {
         if (id) {
-            getMemberShipPlanFn()
+            getMemberShipPlanFn();
         }
-    }, [id, dispatch,data.memberId]);
+    }, [id, dispatch, memberId]);
 
-    useEffect(()=>{
-        if(data.newPlanId && data.memberId){
-            onTabEnable(data.newPlanId,[0,1],data.memberId);
-
+    useEffect(() => {
+        if (newPlanId && memberId) {
+            onTabEnable([0, 1]);
         }
-    },[data.newPlanId,data.memberId]);
+    }, [newPlanId, memberId]);
 
-    useEffect(()=>{
-        if(data.memberId){
-            setData((prev)=>({...prev,["memberId"]:data.memberId}))
-        }
-    },[data.memberId])
+    // useEffect(() => {
+    //     if (data.memberId) {
+    //         setData((prev) => ({ ...prev, ['memberId']: data.memberId }));
+    //     }
+    // }, [data.memberId]);
 
     const updateMembershipPlan = async () => {
         return new Promise((resolve, reject) => {
             dispatch(
-                getMembershipPlan(id, (updatedData) => {
-                    setData({
-                        category: updatedData.category,
-                        clubs: updatedData.clubs,
-                        name: updatedData.name,
-                        membershipType: updatedData.membershipType,
-                        services: updatedData.services,
-                        oftenClientCharged: updatedData.oftenClientCharged,
-                        memberToSell: Object.keys(updatedData.memberToSell).length > 0 ? `${updatedData.memberToSell.firstName} ${updatedData.memberToSell.middleName} ${updatedData.memberToSell.lastName}` : "",
-                        newPlanId: updatedData.newPlanId ? updatedData.newPlanId : "",
-                        memberId: updatedData.memberId,
-                    });
-                    resolve(updatedData.memberId); // Resolve with the new memberId
-                }, reject)
+                getMembershipPlan(
+                    id,
+                    (updatedData) => {
+                        setData({
+                            category: updatedData.category,
+                            clubs: updatedData.clubs,
+                            name: updatedData.name,
+                            membershipType: updatedData.membershipType,
+                            services: updatedData.services,
+                            oftenClientCharged: updatedData.oftenClientCharged,
+                            memberToSell:
+                                Object.keys(updatedData.memberToSell).length > 0
+                                    ? `${updatedData.memberToSell.firstName} ${updatedData.memberToSell.middleName} ${updatedData.memberToSell.lastName}`
+                                    : '',
+                            newPlanId: updatedData.newPlanId ? updatedData.newPlanId : '',
+                            memberId: updatedData.memberId,
+                        });
+                        resolve(updatedData.memberId); // Resolve with the new memberId
+                    },
+                    reject,
+                ),
             );
         });
     };
 
+    console.log(data);
+
     const handleNext = () => {
-        if(showFormErrors(data,setData,["services","membershipType"])){
+        if (showFormErrors(data, setData, ['services', 'membershipType'])) {
             const payload = {
-                name:data.name,
-                oftenClientCharged:data.oftenClientCharged,
-                club:data?.clubs?.length>0 &&getIds(data?.clubs),
+                name: data.name,
+                oftenClientCharged: data.oftenClientCharged,
+                club: data?.clubs?.length > 0 && getIds(data?.clubs),
                 membershipType: data?.membershipType?._id,
                 memberToSell: data.memberToSell.id,
-                type: "next", 
-                services:data?.services?.length>0 ? getIds(data?.services):[],
+                type: 'next',
+                services: data?.services?.length > 0 ? getIds(data?.services) : [],
             };
-            if(data.newPlanId){
-                dispatch(editSellPlan(data.newPlanId,payload,async()=>{
-                    const newMemberId = await updateMembershipPlan();
-                    onTabEnable(data.newPlanId, [0, 1], newMemberId);
-                    history.replace(`/plans/sell-plan/${id}/?tab=personal`);
-                }))
-            }else{
-                dispatch(addSellPlan(id,payload,async ()=>{
-                    const newMemberId = await updateMembershipPlan();
-                    onTabEnable(data.newPlanId, [0, 1], newMemberId);
-                    history.replace(`/plans/sell-plan/${id}/?tab=personal`);
-                }))   
+
+            console.log('payload>>', payload);
+            if (newPlanId) {
+                dispatch(
+                    editSellPlan(newPlanId, payload, () => {
+                        onTabEnable([0, 1]);
+                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${data.memberToSell.id}${'?tab=personal'}`);
+                        getMembershipPlan();
+                    }),
+                );
+            } else {
+                dispatch(addSellPlan(id, payload, onTabEnable, history, getMembershipPlan));
             }
         }
-     
-    }
+    };
 
-const handleChange =(e)=>{
-    const formErrors = formValidation("memberToSell",e.value,data)
-    setData((prev => ({ ...prev, memberToSell: e.value ,formErrors})))
-}
+    const handleChange = (e) => {
+        const formErrors = formValidation('memberToSell', e.value, data);
+        setData((prev) => ({ ...prev, memberToSell: e.value, formErrors }));
+    };
 
     console.log('data>>', data);
     return (
         <>
             <CustomFilterCard title="Member" titleClassName="mx-4 font-medium text-center" contentPosition="end">
-                <div className='grid'>
-                    <AutoComplete
-                        field="fullName"
-                        value={data.memberToSell}
-                        suggestions={items}
-                        completeMethod={search}
-                        onChange={handleChange}
-                        className="w-full md:col-6 "
-                        showEmptyMessage={true}
-                        required={true}
-                        inputClassName="w-full"
-                        itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                    />
-                    <div className='p-error text-sm'>{data?.formErrors?.memberToSell}</div>
-                </div>
-
+                <AutoComplete
+                    field="fullName"
+                    value={data.memberToSell}
+                    suggestions={items}
+                    completeMethod={search}
+                    onChange={handleChange}
+                    className="w-20rem "
+                    showEmptyMessage={true}
+                    required={true}
+                    inputClassName="w-full"
+                    itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
+                />
+                <div className="p-error text-sm">{data?.formErrors?.memberToSell}</div>
             </CustomFilterCard>
             <CustomCard title="Plans" height="200px" col="12">
                 <CustomListItem name="name" data={data} />

@@ -24,9 +24,10 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
-const getMembershipPlan = (id, returnData) => async (dispatch) => {
+const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.MEMBERSHIP_PLAN + id);
+    const params = { memberId: memberId };
+    const res = await api('get', EndPoints.MEMBERSHIP_PLAN + id, {}, params);
     if (res.success) {
         if (res.data) {
             if (returnData) {
