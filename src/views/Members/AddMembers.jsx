@@ -15,15 +15,13 @@ import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
 import { addMembers, checkbaCodeAction, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
-import Autocomplete from 'react-google-autocomplete';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import usePlacesAutocomplete from './usePlacesAutoComplete';
 
 const AddMembers = () => {
     const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
     const [data, setData] = useState({
         createType: 'PROSPECT',
-        barCode: '',
+        barCode: 0,
         memberShipPlan: '',
         note: '',
         firstName: '',
@@ -69,9 +67,19 @@ const AddMembers = () => {
     const memberagreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'false')?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
+        if (data.createType) {
+            const formErrors = formValidation('memberShipPlan', '', data);
+            setData((prev) => ({ ...prev, ['memberShipPlan']: '', formErrors }));
+        }
+    }, [data.createType]);
+
+    useEffect(() => {
+        const formErrors = formValidation('barCode', data.barCode, data);
+
         if (data.uniqueBarCode) {
-            const formErrors = formValidation('barCode', true, data);
             setData((prev) => ({ ...prev, uniqueBarCode: true, formErrors }));
+        } else {
+            setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
         }
     }, [data.uniqueBarCode]);
 
@@ -111,7 +119,6 @@ const AddMembers = () => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
-    console.log('data>>', data);
     return (
         <>
             <h3>Fast Add</h3>
@@ -122,7 +129,7 @@ const AddMembers = () => {
                     </div>
                     <CustomGridLayout extraClass="col-10">
                         <CustomDropDown col="4" name="createType" data={data} onChange={handleChange} required options={memberTypeOptions} />
-                        <CustomInput col="4" name="barCode" data={data} onChange={handleChange} required keyfilter="int" />
+                        <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
                         <CustomDropDown
                             col="4"
                             name="memberShipPlan"
@@ -141,7 +148,7 @@ const AddMembers = () => {
                     <CustomInput name="MI" data={data} onChange={handleChange} col="2" />
                     <CustomInput name="lastName" data={data} onChange={handleChange} required col="3" />
                     <CustomDropDown name="gender" data={data} onChange={handleChange} options={genderOptions} />
-                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} maxDate={new Date()} />
+                    <CustomCalenderInput label="Date Of Birth" name="dob" data={data} onChange={handleChange} maxDate={new Date()} />
                     <CustomInput name="driverLicense" data={data} onChange={handleChange} required />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} required />
                     <CustomInputMask name="mobilePhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
@@ -186,8 +193,8 @@ const AddMembers = () => {
                     <CustomCalenderInput name="issue" data={data} onChange={handleChange} required />
                     {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tour" data={data} onChange={handleChange} />}
                     <CustomCalenderInput name="firstVisit" data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="begin" required data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="expiration" required data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="begin" required data={data} onChange={handleChange} maxDate={data.expiration} />
+                    <CustomCalenderInput name="expiration" required data={data} onChange={handleChange} minDate={data.begin} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

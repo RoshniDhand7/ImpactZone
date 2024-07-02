@@ -20,6 +20,7 @@ export default function CustomDialog({ title, visible, position, width = '30vw',
             footer={onSave || onCancel ? footerContent : ''}
             draggable={false}
             resizable={false}
+            blockScroll={true}
             position={position}
             contentClassName={contentClassName}
         >

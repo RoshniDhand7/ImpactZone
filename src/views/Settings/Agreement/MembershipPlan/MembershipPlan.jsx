@@ -20,7 +20,7 @@ const MembershipPlan = () => {
         { field: 'name', header: ' Plan Name' },
         { field: 'club', header: 'Clubs' },
         { field: 'category', header: 'Category' },
-        { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Membership Type' },
+        { field: 'membershipType', body: (r) => r.membershipType.name, header: 'Membership Type' },
         {
             field: 'clubs',
             body: (r) => r?.clubs?.map((item) => item.name).join(','),
@@ -47,7 +47,6 @@ const MembershipPlan = () => {
             position,
         );
     };
-
 
     return (
         <>

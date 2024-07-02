@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import Cross from "../../assets/icons/cross.png";
-import uploadicon from "../../assets/icons/uploadicon.png";
-import { showToast } from "../../redux/actions/toastAction";
-import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
-import { InputText } from "primereact/inputtext";
-import InputLayout from "../Form/InputLayout";
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import Cross from '../../assets/icons/cross.png';
+import uploadicon from '../../assets/icons/uploadicon.png';
+import { showToast } from '../../redux/actions/toastAction';
+import { Inplace, InplaceDisplay, InplaceContent } from 'primereact/inplace';
+import { InputText } from 'primereact/inputtext';
+import InputLayout from '../Form/InputLayout';
 
 export default function CustomFilesInput({
     label,
@@ -23,7 +23,7 @@ export default function CustomFilesInput({
     required,
     removeable,
     editable,
-    disabled= false,
+    disabled = false,
     ...props
 }) {
     const [files, setFiles] = useState(value || data?.[name] || []);
@@ -37,24 +37,22 @@ export default function CustomFilesInput({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value || data?.[name]]);
-    console.log(onFilesChange,"onFilesChange")
 
     useEffect(() => {
         if (onFilesChange) {
             onFilesChange({ name, value: files });
-            console.log(files,"gd")
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [files, name]);
 
     const onDelete = (id) => {
-            const s = files.filter((item, index) => index !== id);
-            setFiles([...s]);
+        const s = files.filter((item, index) => index !== id);
+        setFiles([...s]);
     };
 
     const onFileChange = (e) => {
-            const chossenFile = e.target.files;
-            handlefileChange(Object.values(chossenFile));
+        const chossenFile = e.target.files;
+        handlefileChange(Object.values(chossenFile));
     };
     const handlefileChange = (uploadedfile) => {
         let uploadedFiles = [];
@@ -68,7 +66,7 @@ export default function CustomFilesInput({
                 let newarr = [...files, ...uploadedFiles];
                 if (newarr.length > limit) {
                     newarr = newarr.slice(0, limit);
-                    dispatch(showToast({ severity: "warn", summary: "Limit Exceeded", detail: `Max. file limit is ${limit}.` }));
+                    dispatch(showToast({ severity: 'warn', summary: 'Limit Exceeded', detail: `Max. file limit is ${limit}.` }));
                 }
                 setFiles(newarr);
             } else {
@@ -76,8 +74,6 @@ export default function CustomFilesInput({
             }
         } else {
             setFiles([...uploadedFiles]);
-
-            console.log(uploadedFiles,[...uploadedFiles],"uploadedFiles")
         }
     };
 
@@ -87,13 +83,11 @@ export default function CustomFilesInput({
         setFiles(newArr);
     };
 
-    console.log(files)
-
     return (
         <>
             <input
                 name={name}
-                onClick={(e) => (e.target.value = "")}
+                onClick={(e) => (e.target.value = '')}
                 type="file"
                 id={name}
                 onChange={onFileChange}
@@ -103,20 +97,16 @@ export default function CustomFilesInput({
                 disabled={disabled}
                 hidden
             />
-            <InputLayout
-                col={col || 12}
-                label={label}
-                name={name}
-                required={required}
-                extraClassName={extraClassName}
-                data={data}
-                errorMessage={errorMessage}
-                
-            >
+            <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
                 {!files.length ? (
                     <>
-                        <label htmlFor={name} icon="pi pi-cloud-upload" className="p-button" style={ disabled ? { pointerEvents: "none",width:"30px",height:"20px" } : {}}>
-                            <img className="uploadicon" src={uploadicon} alt="" /> &nbsp; 
+                        <label
+                            htmlFor={name}
+                            icon="pi pi-cloud-upload"
+                            className="p-button"
+                            style={disabled ? { pointerEvents: 'none', width: '30px', height: '20px' } : {}}
+                        >
+                            <img className="uploadicon" src={uploadicon} alt="" /> &nbsp;
                         </label>
                         <br />
                         {accept ? <small>Upload only {uploadType || accept}</small> : null}
@@ -127,38 +117,36 @@ export default function CustomFilesInput({
                     <div>
                         <div className="border-1 p-2 border-300">
                             <div className="grid align-items-center p-0 border-bottom-1 border-300">
-                                <div className="md:col-3 text-center">Name</div>
-                                {/* <div className="md:col-3 text-center">
+                                <div className="md:col-3 ">Name</div>
+                                {/* <div className="md:col-3 ">
                                     <label htmlFor="files">
                                         <img src={UploadBlack} alt="" width="30" />
                                         Upload New
                                     </label>
                                 </div> */}
                             </div>
-                            {Object.values(files).map((file, i) => (
-                                <div className="grid align-items-center p-2" key={i}>
-                                    <div className="md:col-6 text-main-color text-center ">
-                                        {file?.path ? (
-                                            <Inplace>
-                                                <InplaceDisplay>{file.originalname}</InplaceDisplay>
-                                                <InplaceContent closeIcon="pi pi-check">
-                                                    <InputText
-                                                        value={file.originalname}
-                                                        onChange={(e) => changeName(e.target.value, i)}
-                                                        autoFocus
-                                                    />
-                                                </InplaceContent>
-                                            </Inplace>
-                                        ) : (
-                                            file.name|| file
-                                        )}
-                                    </div>
-                                    {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}
-                                    <div className="md:col-3 text-main-color text-center">
-                                        <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{width:"15px"}}  />
-                                    </div>
-                                </div>
-                            ))}
+                            <div className="grid align-items-center py-2">
+                                {Object.values(files).map((file, i) => (
+                                    <>
+                                        <div className="md:col-6 text-main-color  " key={i}>
+                                            {file?.path ? (
+                                                <Inplace>
+                                                    <InplaceDisplay>{file.originalname}</InplaceDisplay>
+                                                    <InplaceContent closeIcon="pi pi-check">
+                                                        <InputText value={file.originalname} onChange={(e) => changeName(e.target.value, i)} autoFocus />
+                                                    </InplaceContent>
+                                                </Inplace>
+                                            ) : (
+                                                file.name || file
+                                            )}
+                                        </div>
+                                        {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}
+                                        <div className="md:col-6 text-main-color text-center">
+                                            <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{ width: '15px' }} />
+                                        </div>
+                                    </>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ) : null}

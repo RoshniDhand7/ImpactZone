@@ -25,8 +25,8 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
 
     let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
     allMembershipPlan = allMembershipPlan
-        ?.filter((item) => item.membershipType === data.membershipType)
-        ?.map((item) => ({ name: item.name, _id: item._id, category: item.category, noofMembers: item.noOfMembers }));
+        ?.filter((item) => item.membershipType?._id === data.membershipType)
+        ?.map((item) => ({ name: item.name, _id: item._id, category: item.category, noofMembers: item.noOfMembers ? item.noOfMembers : null }));
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },

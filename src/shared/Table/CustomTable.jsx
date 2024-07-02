@@ -19,7 +19,6 @@ const CustomTable = ({
     customActionTemplate,
     custAction,
 }) => {
-    console.log(':custAction', custAction);
     const actionTemplate = (data) => {
         return (
             <span className="flex ">

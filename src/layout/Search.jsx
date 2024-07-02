@@ -25,7 +25,6 @@ const Search = ({ openModal, setOpenModal }) => {
         path: `member/${item._id}`,
     }));
 
-    console.log('allMembers>>', allMembers);
     const search = (event) => {
         let query = event.query;
         let _filteredItems = allMembers.filter((item) => {
@@ -51,8 +50,6 @@ const Search = ({ openModal, setOpenModal }) => {
         const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
         setValue(trimmedValue);
     };
-
-    console.log(value);
 
     return (
         <>

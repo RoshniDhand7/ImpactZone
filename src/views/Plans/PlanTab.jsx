@@ -4,7 +4,7 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
 import { getMembershipPlan } from '../../redux/actions/AgreementSettings/membershipPlan';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { addSellPlan, editSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { getIds, showFormErrors } from '../../utils/commonFunctions';
@@ -54,8 +54,6 @@ const PlanTab = ({ onTabEnable }) => {
         memberId: '',
     });
 
-    const location = useLocation();
-
     const getMemberShipPlanFn = () => {
         return dispatch(
             getMembershipPlan(id, memberId, (data) => {
@@ -66,11 +64,8 @@ const PlanTab = ({ onTabEnable }) => {
                     membershipType: data.membershipType,
                     services: data.services,
                     oftenClientCharged: data.oftenClientCharged,
-                    memberToSell: memberId ? allMembers?.find((item) => item.id === data.memberId) : '',
+                    memberToSell: memberId ? allMembers?.find((item) => item.id === memberId) : '',
                 });
-
-                console.log(data.memberId, 'data.memberId');
-                return data.memberId;
             }),
         );
     };
@@ -86,65 +81,30 @@ const PlanTab = ({ onTabEnable }) => {
         }
     }, [newPlanId, memberId]);
 
-    // useEffect(() => {
-    //     if (data.memberId) {
-    //         setData((prev) => ({ ...prev, ['memberId']: data.memberId }));
-    //     }
-    // }, [data.memberId]);
-
-    const updateMembershipPlan = async () => {
-        return new Promise((resolve, reject) => {
-            dispatch(
-                getMembershipPlan(
-                    id,
-                    (updatedData) => {
-                        setData({
-                            category: updatedData.category,
-                            clubs: updatedData.clubs,
-                            name: updatedData.name,
-                            membershipType: updatedData.membershipType,
-                            services: updatedData.services,
-                            oftenClientCharged: updatedData.oftenClientCharged,
-                            memberToSell:
-                                Object.keys(updatedData.memberToSell).length > 0
-                                    ? `${updatedData.memberToSell.firstName} ${updatedData.memberToSell.middleName} ${updatedData.memberToSell.lastName}`
-                                    : '',
-                            newPlanId: updatedData.newPlanId ? updatedData.newPlanId : '',
-                            memberId: updatedData.memberId,
-                        });
-                        resolve(updatedData.memberId); // Resolve with the new memberId
-                    },
-                    reject,
-                ),
-            );
-        });
-    };
-
-    console.log(data);
-
     const handleNext = () => {
         if (showFormErrors(data, setData, ['services', 'membershipType'])) {
-            const payload = {
-                name: data.name,
-                oftenClientCharged: data.oftenClientCharged,
-                club: data?.clubs?.length > 0 && getIds(data?.clubs),
-                membershipType: data?.membershipType?._id,
-                memberToSell: data.memberToSell.id,
-                type: 'next',
-                services: data?.services?.length > 0 ? getIds(data?.services) : [],
-            };
+            if (data?.memberToSell.id) {
+                const payload = {
+                    name: data.name,
+                    oftenClientCharged: data.oftenClientCharged,
+                    club: data?.clubs?.length > 0 && getIds(data?.clubs),
+                    membershipType: data?.membershipType?._id,
+                    memberToSell: data.memberToSell.id,
+                    type: 'next',
+                    services: data?.services?.length > 0 ? getIds(data?.services) : [],
+                };
 
-            console.log('payload>>', payload);
-            if (newPlanId) {
-                dispatch(
-                    editSellPlan(newPlanId, payload, () => {
-                        onTabEnable([0, 1]);
-                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${data.memberToSell.id}${'?tab=personal'}`);
-                        getMembershipPlan();
-                    }),
-                );
-            } else {
-                dispatch(addSellPlan(id, payload, onTabEnable, history, getMembershipPlan));
+                if (newPlanId) {
+                    dispatch(
+                        editSellPlan(newPlanId, payload, () => {
+                            onTabEnable([0, 1]);
+                            history.replace(`/plans/sell-plan/${id}/${newPlanId}/${data.memberToSell.id}${'?tab=personal'}`);
+                            getMembershipPlan();
+                        }),
+                    );
+                } else {
+                    dispatch(addSellPlan(id, payload, onTabEnable, history, getMembershipPlan));
+                }
             }
         }
     };
@@ -156,7 +116,6 @@ const PlanTab = ({ onTabEnable }) => {
         setData((prev) => ({ ...prev, memberToSell: trimmedValue, formErrors }));
     };
 
-    console.log('data>>', data);
     return (
         <>
             <CustomFilterCard title="Member" titleClassName="mx-4 font-medium text-center" contentPosition="end">
@@ -178,7 +137,7 @@ const PlanTab = ({ onTabEnable }) => {
                 <CustomListItem name="name" data={data} />
                 <CustomListItem label="Billing Frequency" name="oftenClientCharged" data={data} />
                 <CustomListItem name="membershipType" data={data} />
-                <CustomListItem label="Ads-ons" name="services" data={data} keys={data.services} dynamicKey="name" />
+                <CustomListItem label="Ad-ons" name="services" data={data} keys={data.services} dynamicKey="name" />
                 <CustomListItem label="Club Assessed Fees" name="clubs" data={data} keys={data?.clubs} dynamicKey="name" />
             </CustomCard>
             <CustomButtonGroup>

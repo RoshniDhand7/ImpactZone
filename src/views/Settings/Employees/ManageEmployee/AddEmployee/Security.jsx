@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
-import { CustomCalenderInput, CustomDropDown, CustomInput } from '../../../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../shared/Input/AllInputs';
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 import formValidation from '../../../../../utils/validations';
@@ -56,7 +56,7 @@ const Security = () => {
         jobTitle: '',
         dob: '',
         socialSecurity: '',
-        barCode: '',
+        barCode: 0,
         accessCode: '',
         email: '',
         multiClubClockIn: '',
@@ -101,7 +101,7 @@ const Security = () => {
             </CustomCard>
             <CustomCard col="12" title="System">
                 <CustomGridLayout>
-                    <CustomInput name="barCode" required data={data} onChange={handleChange} />
+                    <CustomInputNumber name="barCode" required data={data} onChange={handleChange} />
                     <CustomInput name="accessCode" required data={data} onChange={handleChange} />
                     <CustomInput name="email" required data={data} onChange={handleChange} />
                     <CustomDropDown label="Allow Multi-Club Clock In/Out" name="multiClubClockIn" options={yesNoOptions} data={data} onChange={handleChange} />

@@ -66,7 +66,7 @@ const MembershipPlanForm = () => {
 
     const { allAssessedFeesDropdown } = useSelector((state) => state.assessedFees);
     const { allAgreementTemplatesDropdown } = useSelector((state) => state.agreement);
-    let { agreementCategoryDropdown, agreementSubCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
+    let { agreementCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
     const { clubsDropdown } = useSelector((state) => state.clubs);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
@@ -93,13 +93,12 @@ const MembershipPlanForm = () => {
         if (id) {
             dispatch(
                 getMembershipPlan(id, null, (data) => {
-                    console.log(data, 'data');
                     setData({
                         category: data.category,
                         subCategory: data.subCategory,
-                        club: data.club.id,
+                        club: data.club,
                         name: data.name,
-                        membershipType: data.membershipType.id,
+                        membershipType: data?.membershipType?._id,
                         agreementTemplate: data.agreementTemplate,
                         assessedFee: data?.assessedFee?.id,
                         services: data.services,
@@ -115,6 +114,11 @@ const MembershipPlanForm = () => {
                         oneTimePlan: data.oneTimePlan,
                         membershipPlan: data.membershipPlan,
                     });
+                    const subCategory =
+                        allAgreementCategories
+                            .find((category) => category._id === data.category)
+                            ?.subCategories?.map((item) => ({ name: item, value: item })) || [];
+                    setSubcategoryOptions(subCategory);
                 }),
             );
         }

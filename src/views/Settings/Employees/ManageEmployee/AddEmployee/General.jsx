@@ -112,7 +112,7 @@ const General = () => {
                     <CustomInput name="street" onChange={handleChange} data={data} />
                     <CustomDropDown name="state" options={states} onChange={handleChange} data={data} />
                     <CustomDropDown name="city" options={cities} onChange={handleChange} data={data} />
-                    <CustomInput name="zipCode" onChange={handleChange} data={data} />
+                    <CustomInput name="zipCode" onChange={handleChange} data={data} disabled={!data.state} />
                     <CustomDropDown name="emailNotification" options={yesNoOptions} onChange={handleChange} data={data} />
                 </CustomGridLayout>
             </CustomCard>

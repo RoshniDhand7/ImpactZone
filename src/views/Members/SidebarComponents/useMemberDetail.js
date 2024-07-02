@@ -11,7 +11,7 @@ const useMemberDetail = () => {
     const initialState = {
         firstName: '',
         lastName: '',
-        barCode: '',
+        barCode: 0,
         isActive: true,
         image: '',
         primaryPhone: '',

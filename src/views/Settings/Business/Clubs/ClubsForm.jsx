@@ -91,7 +91,7 @@ const ClubsForm = () => {
                         <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} required />
                     </CustomGridLayout>
                     <CustomGridLayout>
-                        <CustomInput name="zipCode" data={data} onChange={handleChange} required />
+                        <CustomInput name="zipCode" data={data} onChange={handleChange} required disabled={!data.state} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

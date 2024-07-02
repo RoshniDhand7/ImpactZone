@@ -52,6 +52,11 @@ export const floatFromString = (value) => {
     });
 };
 
+export const whiteSpaceCheck = (value) => {
+    const regex = /^\s/;
+    return regex.test(value);
+};
+
 export const firstLetterToUppercase = (value) => spaceBetweenWords(value.replace(/\b\w/g, (c) => c.toUpperCase()));
 
 export const specialCharacters = (value) => /[-!$%^&*()_+|~=`{}[\]:/;<>?,.@#]/.test(value);

@@ -14,7 +14,6 @@ import usePlacesAutocomplete from '../Members/usePlacesAutoComplete';
 const PersonalTab = ({ onTabEnable }) => {
     const { newPlanId, memberId } = useParams();
 
-    console.log(memberId, 'memberId');
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
@@ -38,7 +37,6 @@ const PersonalTab = ({ onTabEnable }) => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const location = useLocation();
-    console.log('location', location);
 
     useEffect(() => {
         getAllCountries();
@@ -119,13 +117,12 @@ const PersonalTab = ({ onTabEnable }) => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
-    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Personal">
                 <CustomGridLayout>
                     <CustomInput name="firstName" required data={data} onChange={handleChange} disabled />
-                    <CustomInput name="lastName" required data={data} onChange={handleChange} disabled />
+                    <CustomInput name="lastName" required data={data} onChange={handleChange} />
                     <div className="md:col-12">
                         <label className="text-sm font-semibold">Address</label>
 
@@ -133,7 +130,7 @@ const PersonalTab = ({ onTabEnable }) => {
                     </div>
                     <CustomDropDown name="state" options={states} required onChange={handleChange} data={data} />
                     <CustomDropDown name="city" options={cities} required onChange={handleChange} data={data} />
-                    <CustomInput name="zipCode" label="Postal Code" required onChange={handleChange} data={data} />
+                    <CustomInput name="zipCode" label="Postal Code" required onChange={handleChange} data={data} disabled={!data.state} />
                     <CustomCalenderInput name="dob" data={data} onChange={handleChange} />
                     <CustomDropDown name="gender" options={genderOptions} data={data} onChange={handleChange} />
                     <CustomInput name="email" required data={data} onChange={handleChange} />

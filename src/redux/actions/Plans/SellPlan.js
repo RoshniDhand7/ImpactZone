@@ -30,8 +30,6 @@ const getSellPlanMember = (id, returnData) => async (dispatch) => {
 const addSellPlan = (id, data, onTabEnable, history, getMembershipPlan) => async (dispatch) => {
     dispatch(showLoaderAction());
 
-    console.log('payload>>', data);
-
     const res = await api('post', EndPoints.SELL_PLAN + id, data);
     if (res.success) {
         onTabEnable([0, 1]);

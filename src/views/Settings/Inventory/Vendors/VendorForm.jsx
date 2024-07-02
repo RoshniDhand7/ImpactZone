@@ -89,7 +89,7 @@ const VendorForm = () => {
                     <CustomInput name="address2" data={data} onChange={handleChange} />
                     <CustomDropDown name="state" options={states} data={data} onChange={handleChange} />
                     <CustomDropDown name="city" options={cities} data={data} onChange={handleChange} />
-                    <CustomInput name="zipCode" data={data} onChange={handleChange} />
+                    <CustomInput name="zipCode" data={data} onChange={handleChange} disabled={!data.state} />
                     <CustomInputMask name="phone" id="phone" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} />
                     <CustomInput data={data} name="email" onChange={handleChange} />
                     <CustomDropDown name="alternateVendors" options={vendorsDropdown} data={data} onChange={handleChange} />

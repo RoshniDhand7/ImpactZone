@@ -42,7 +42,6 @@ export function CustomGridLayout({ children, extraClass }) {
     return <div className={`grid ${extraClass}`}>{children}</div>;
 }
 export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
-    console.log('bb>>', data, name);
     if (!label) {
         if (name) {
             label = capitalizeCamelCase(name);
@@ -53,7 +52,6 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
             return val ? 'Yes' : 'No';
         }
         if (val && typeof val === 'object') {
-            console.log(val, 'val');
             if (val.name) {
                 // Check if the object has a 'name' key
                 return val.name;
@@ -65,14 +63,11 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
 
     let displayValue = '-';
     if (value) {
-        console.log(value, 'value');
         displayValue = formatValue(value);
     } else if (keys && Array.isArray(keys)) {
         const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
         displayValue = values ? values : '-';
-        console.log(values, 'values');
     } else {
-        console.log(data[name], 'data[name]');
         displayValue = formatValue(data[name]);
     }
 

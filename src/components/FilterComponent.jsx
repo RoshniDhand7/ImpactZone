@@ -22,8 +22,6 @@ export default function FilterComponent({ visible, onHide, onApply, value }) {
     //     }
     // }, [value, visible]);
 
-    console.log('data>>', data);
-
     const handleApply = () => {
         onApply(data);
         onHide();
