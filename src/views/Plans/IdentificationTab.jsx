@@ -134,7 +134,7 @@ const IdentificationTab = ({ onTabEnable }) => {
     };
     return (
         <>
-            <CustomCard col="12" title="Personal">
+            <CustomCard col="12" title="Identification">
                 <CustomGridLayout>
                     <div className="avatar-img">
                         <CustomImageInput name="image" data={data} onFilesChange={handleChange} required editable={true} />
@@ -156,7 +156,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                             data={data}
                             onFilesChange={handleChange}
                             name="govtIdPdf"
-                            label="Upload Government/School Ids"
+                            label="Upload Government/School IDs"
                             accept="image/*,.pdf"
                             disabled={false}
                             col="6"

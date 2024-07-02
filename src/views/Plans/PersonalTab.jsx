@@ -43,16 +43,41 @@ const PersonalTab = ({ onTabEnable }) => {
         const updatedStates = getStatesByCountry('US');
         setStates(updatedStates);
     }, [dispatch]);
+
+    console.log('data,', data);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        if (name === 'state') {
-            const city = getCitiesByState('US', value);
-            setCities(city);
-            setData((prev) => ({ ...prev, [name]: value, city: '', formErrors }));
-        } else {
-            setData((prev) => ({ ...prev, [name]: value, formErrors }));
-        }
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
+
+    useEffect(() => {
+        if (data.state) {
+            const city = getCitiesByState('US', data.state);
+            setCities(city);
+
+            // Clear city and zip code
+            const clearedData = {
+                ...data,
+                city: '',
+                zipCode: '',
+            };
+
+            // Set form errors
+            const formErrors = {
+                ...formValidation('state', data.state, clearedData),
+                ...formValidation('city', '', clearedData),
+                ...formValidation('zipCode', '', clearedData),
+            };
+
+            setData((prev) => ({
+                ...prev,
+                city: '',
+                zipCode: '',
+                formErrors,
+            }));
+        }
+    }, [data.state, setCities, setData]);
+
     const { getMember } = useSelector((state) => state.members);
     useEffect(() => {
         if (newPlanId && memberId) {
@@ -125,13 +150,13 @@ const PersonalTab = ({ onTabEnable }) => {
                     <CustomInput name="lastName" required data={data} onChange={handleChange} />
                     <div className="md:col-12">
                         <label className="text-sm font-semibold">Address</label>
-
+                        <span className="text-red-500">*</span>
                         {renderAutocomplete()}
                     </div>
                     <CustomDropDown name="state" options={states} required onChange={handleChange} data={data} />
-                    <CustomDropDown name="city" options={cities} required onChange={handleChange} data={data} />
+                    <CustomDropDown name="city" options={cities} required onChange={handleChange} data={data}  />
                     <CustomInput name="zipCode" label="Postal Code" required onChange={handleChange} data={data} disabled={!data.state} />
-                    <CustomCalenderInput name="dob" data={data} onChange={handleChange} />
+                    <CustomCalenderInput label="Date Of Birth" name="dob" data={data} onChange={handleChange} />
                     <CustomDropDown name="gender" options={genderOptions} data={data} onChange={handleChange} />
                     <CustomInput name="email" required data={data} onChange={handleChange} />
                     <CustomInputMask id="primaryPhone" required name="primaryPhone" mask="(999) 999-9999" placeholder="" onChange={handleChange} data={data} />

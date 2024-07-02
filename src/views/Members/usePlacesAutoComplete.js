@@ -5,7 +5,8 @@ import formValidation from '../../utils/validations';
 
 const usePlacesAutocomplete = (data, setData) => {
     const handleChange1 = (address) => {
-        setData((prev) => ({ ...prev, address: address }));
+        const formErrors = formValidation('address', address, data);
+        setData((prev) => ({ ...prev, address: address, formErrors }));
     };
 
     const handleSelect = (address) => {

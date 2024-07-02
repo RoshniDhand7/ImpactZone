@@ -119,6 +119,8 @@ const AddMembers = () => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
+    console.log(data, 'data');
+
     return (
         <>
             <h3>Fast Add</h3>
