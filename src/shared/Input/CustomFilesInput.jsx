@@ -24,6 +24,7 @@ export default function CustomFilesInput({
     removeable,
     editable,
     disabled = false,
+    originalName,
     ...props
 }) {
     const [files, setFiles] = useState(value || data?.[name] || []);
@@ -128,6 +129,7 @@ export default function CustomFilesInput({
                             <div className="grid align-items-center py-2">
                                 {Object.values(files).map((file, i) => (
                                     <>
+                                        {console.log('file>>', file)}
                                         <div className="md:col-6 text-main-color  " key={i}>
                                             {file?.path ? (
                                                 <Inplace>
@@ -137,7 +139,7 @@ export default function CustomFilesInput({
                                                     </InplaceContent>
                                                 </Inplace>
                                             ) : (
-                                                file.name || file
+                                                file.name || originalName
                                             )}
                                         </div>
                                         {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}

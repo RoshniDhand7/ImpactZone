@@ -54,7 +54,9 @@ const IdentificationTab = ({ onTabEnable }) => {
                 getSellPlanMember(memberId, (data) => {
                     setData({
                         driverLicensePdf: data.driverLicensePdf ? [data.driverLicensePdf] : [],
+                        driverLicensePdfOriginalName: data.driverLicensePdfOriginalName ? data.driverLicensePdfOriginalName : '',
                         govtIdPdf: data.govtIdPdf ? [data.govtIdPdf] : [],
+                        govtIdPdfOriginalName: data.govtIdPdfOriginalName ? data.govtIdPdfOriginalName : '',
                         accessCode: data.accessCode,
                         barCode: Number(data.barCode),
                         image: data.image ? [data.image] : [],
@@ -102,6 +104,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                 if (data.driverLicensePdf?.length) {
                     let durls = await uploadFiles(data.driverLicensePdf);
                     data.driverLicensePdf = durls[0].path;
+                    data.driverLicensePdfOriginalName = durls[0].originalname;
                 } else {
                     data.driverLicensePdf = '';
                 }
@@ -109,10 +112,10 @@ const IdentificationTab = ({ onTabEnable }) => {
                 if (data.govtIdPdf?.length) {
                     let gurls = await uploadFiles(data.govtIdPdf);
                     data.govtIdPdf = gurls[0].path;
+                    data.govtIdPdfOriginalName = gurls[0].originalname;
                 } else {
                     data.govtIdPdf = '';
                 }
-
                 const payload = {
                     ...data,
                     type: 'next',
@@ -151,6 +154,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                             disabled={false}
                             col="6"
                             uploadType="Image/Pdf"
+                            originalName={data?.driverLicensePdfOriginalName}
                         />
                         <CustomFilesInput
                             data={data}
@@ -161,6 +165,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                             disabled={false}
                             col="6"
                             uploadType="Image/Pdf"
+                            originalName={data.govtIdPdfOriginalName}
                         />
                     </div>
                 </CustomGridLayout>

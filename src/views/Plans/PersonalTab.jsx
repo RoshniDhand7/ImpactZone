@@ -8,7 +8,7 @@ import { genderOptions } from '../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { editSellPlan, getSellPlanMember } from '../../redux/actions/Plans/SellPlan';
 import moment from 'moment';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import usePlacesAutocomplete from '../Members/usePlacesAutoComplete';
 
 const PersonalTab = ({ onTabEnable }) => {
@@ -27,7 +27,7 @@ const PersonalTab = ({ onTabEnable }) => {
         primaryPhone: '',
         city: '',
         state: '',
-        postalCode: '',
+        zipCode: '',
         emergencyFirstName: '',
         emergencyLastName: '',
         emergencyContact: '',
@@ -36,7 +36,6 @@ const PersonalTab = ({ onTabEnable }) => {
     });
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
-    const location = useLocation();
 
     useEffect(() => {
         getAllCountries();
@@ -44,15 +43,9 @@ const PersonalTab = ({ onTabEnable }) => {
         setStates(updatedStates);
     }, [dispatch]);
 
-    console.log('data,', data);
     const handleChange = ({ name, value }) => {
-        const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
-    };
-
-    useEffect(() => {
-        if (data.state) {
-            const city = getCitiesByState('US', data.state);
+        if (name === 'state') {
+            const city = getCitiesByState('US', value);
             setCities(city);
 
             // Clear city and zip code
@@ -64,7 +57,7 @@ const PersonalTab = ({ onTabEnable }) => {
 
             // Set form errors
             const formErrors = {
-                ...formValidation('state', data.state, clearedData),
+                ...formValidation('state', value, clearedData),
                 ...formValidation('city', '', clearedData),
                 ...formValidation('zipCode', '', clearedData),
             };
@@ -73,10 +66,19 @@ const PersonalTab = ({ onTabEnable }) => {
                 ...prev,
                 city: '',
                 zipCode: '',
+                state: value,
                 formErrors,
             }));
+        } else {
+            const formErrors = formValidation(name, value, data);
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
-    }, [data.state, setCities, setData]);
+    };
+
+    useEffect(() => {
+        const formErrors = formValidation('city', data.city, data);
+        setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
+    }, [data.city]);
 
     const { getMember } = useSelector((state) => state.members);
     useEffect(() => {
@@ -154,7 +156,7 @@ const PersonalTab = ({ onTabEnable }) => {
                         {renderAutocomplete()}
                     </div>
                     <CustomDropDown name="state" options={states} required onChange={handleChange} data={data} />
-                    <CustomDropDown name="city" options={cities} required onChange={handleChange} data={data}  />
+                    <CustomDropDown name="city" options={cities} required onChange={handleChange} data={data} />
                     <CustomInput name="zipCode" label="Postal Code" required onChange={handleChange} data={data} disabled={!data.state} />
                     <CustomCalenderInput label="Date Of Birth" name="dob" data={data} onChange={handleChange} />
                     <CustomDropDown name="gender" options={genderOptions} data={data} onChange={handleChange} />

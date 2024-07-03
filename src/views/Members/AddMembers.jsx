@@ -45,7 +45,6 @@ const AddMembers = () => {
         begin: '',
         expiration: '',
         image: [],
-        compaign: '',
         latitude: 30.72,
         longitude: 76.64,
         uniqueBarCode: false,
@@ -119,8 +118,6 @@ const AddMembers = () => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
-    console.log(data, 'data');
-
     return (
         <>
             <h3>Fast Add</h3>
@@ -187,7 +184,7 @@ const AddMembers = () => {
                         <CustomDropDown label="Lead Priority" name="leadpriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
                     )}
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
-                    <CustomDropDown name="compaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
+                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Date">

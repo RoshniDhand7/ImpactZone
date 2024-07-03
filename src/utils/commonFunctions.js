@@ -145,7 +145,10 @@ const uploadFiles = async (files) => {
             formData.append('file', item);
             const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
             if (res.success && res.data) {
-                return res.data;
+                return {
+                    path: res.data.path,
+                    originalname: res.data.originalname,
+                };
             }
         }
     });
@@ -279,6 +282,10 @@ function applyFilters(events, filterOptions) {
     }
     return _events;
 }
+
+function isFileObject(obj) {
+    return obj instanceof File;
+}
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -302,4 +309,5 @@ export {
     convertToDateTime,
     getImageUrl,
     applyFilters,
+    isFileObject,
 };

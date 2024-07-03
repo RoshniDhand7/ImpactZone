@@ -9,13 +9,10 @@ import { useParams } from 'react-router-dom';
 const SellPlanForm = () => {
     const [tabId, setTabId] = useState([]);
     const onTabEnable = (index) => {
-        console.log(index, 'index');
         setTabId(index);
     };
     const { newPlanId } = useParams();
 
-    console.log(newPlanId, tabId, 'newPlanId');
-    console.log(tabId, 'TabId');
     const tabs = [
         { title: 'Plan', content: <PlanTab onTabEnable={onTabEnable} /> },
         { title: 'Personal', content: <PersonalTab onTabEnable={onTabEnable} /> },
