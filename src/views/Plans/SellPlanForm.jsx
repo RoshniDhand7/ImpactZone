@@ -5,6 +5,7 @@ import PlanTab from './PlanTab';
 import PersonalTab from './PersonalTab';
 import IdentificationTab from './IdentificationTab';
 import { useParams } from 'react-router-dom';
+import AgreementTab from './AgreementTab';
 
 const SellPlanForm = () => {
     const [tabId, setTabId] = useState([]);
@@ -17,7 +18,7 @@ const SellPlanForm = () => {
         { title: 'Plan', content: <PlanTab onTabEnable={onTabEnable} /> },
         { title: 'Personal', content: <PersonalTab onTabEnable={onTabEnable} /> },
         { title: 'Identification', content: <IdentificationTab onTabEnable={onTabEnable} /> },
-        { title: 'Agreement', content: <h1>Agreement</h1> },
+        { title: 'Agreement', content: <AgreementTab onTabEnable={onTabEnable} /> },
         { title: 'Payment Amounts', content: <h1>Payment Amounts</h1> },
         { title: 'Billing Info', content: <h1>Billing Info</h1> },
     ];

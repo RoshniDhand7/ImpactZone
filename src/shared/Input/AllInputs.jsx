@@ -43,6 +43,40 @@ export const CustomInput = ({
         </InputLayout>
     );
 };
+export const CustomGroupInput = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col = 4,
+    inputClass,
+    disabled = false,
+    type = 'text',
+    prefixName,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <div className="p-inputgroup align-items-end flex-1">
+                <span className="p-inputgroup-addon w-20rem">{prefixName}</span>
+                <InputText
+                    id={name}
+                    name={name}
+                    value={value || data?.[name] || ''}
+                    type={type}
+                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
+                    className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                    disabled={disabled}
+                    {...props}
+                />
+            </div>
+        </InputLayout>
+    );
+};
 export const CustomPassword = ({
     label,
     name,

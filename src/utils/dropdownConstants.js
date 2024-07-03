@@ -44,6 +44,17 @@ export const durationTypeOptions = [
     },
 ];
 
+export const noOfPaymentOptions = [
+    {
+        name: 'One Time Service',
+        value: 'one_time_service',
+    },
+    {
+        name: 'Recurring',
+        value: 'recurring',
+    },
+];
+
 export const bonusTypeConstantsOptions = [
     {
         name: 'Single Client',
