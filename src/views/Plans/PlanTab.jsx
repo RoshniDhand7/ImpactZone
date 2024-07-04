@@ -91,7 +91,8 @@ const PlanTab = ({ onTabEnable }) => {
                     membershipType: data?.membershipType?._id,
                     memberToSell: data.memberToSell.id,
                     type: 'next',
-                    services: data?.services?.length > 0 ? getIds(data?.services) : [],
+                    services:
+                        data?.services?.length > 0 ? data?.services?.map((item) => ({ catalogId: item._id, unitPrice: item.unitPrice, name: item.name })) : [],
                 };
 
                 if (newPlanId) {

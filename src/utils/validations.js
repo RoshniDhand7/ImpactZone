@@ -77,6 +77,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'driverLicense':
         case 'accessCode':
         case 'city':
+        case 'autoRenew':
+        case 'dueDate':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -244,6 +246,17 @@ const formValidation = (name, value, state, ignore = []) => {
 
         case 'taxRatePercentage':
             if (!isNumberOrDecimal(value) || value === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+            } else if (whiteSpaceCheck(value)) {
+                formErrors[name] = `Unnecessary space in word!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'unitPrice':
+            if (!value) {
+                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+            } else if (!number(value)) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;

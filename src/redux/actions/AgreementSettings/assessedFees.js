@@ -4,9 +4,9 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getAssesedFees = (data) => async (dispatch) => {
+const getAssesedFees = () => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.ASSESSED_FEE, {}, data);
+    const res = await api('get', EndPoints.ASSESSED_FEE);
     if (res.success) {
         if (res.data) {
             dispatch({

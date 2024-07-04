@@ -63,14 +63,15 @@ export const CustomGroupInput = ({
         <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <div className="p-inputgroup align-items-end flex-1">
                 <span className="p-inputgroup-addon w-20rem">{prefixName}</span>
-                <InputText
+                <InputNumber
                     id={name}
                     name={name}
                     value={value || data?.[name] || ''}
                     type={type}
-                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.target.value })}
+                    onChange={(e) => onChange && onChange({ ...e, name: name, value: e.value })}
                     className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                     disabled={disabled}
+                    useGrouping={props.useGrouping || false}
                     {...props}
                 />
             </div>
@@ -261,6 +262,7 @@ export const CustomCalenderInput = ({
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
+                readOnlyInput
                 showIcon
                 {...props}
                 // icon="pi pi-clock"

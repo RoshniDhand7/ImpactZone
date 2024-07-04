@@ -3,30 +3,46 @@ import formValidation from '../../utils/validations';
 import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInput, CustomInputNumber } from '../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
 import { getMembersipTypes } from '../../redux/actions/MembersSettings/membershipTypes';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { getAssesedFees } from '../../redux/actions/AgreementSettings/assessedFees';
+import moment from 'moment';
+import { showArrayFormErrors, showFormErrors } from '../../utils/commonFunctions';
 
-const AgreementTab = () => {
+const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [data, setData] = useState({
         oftenClientCharged: '',
         membershipType: '',
         services: '',
         club: '',
+        salesPerson: '',
+        memberSince: '',
+        signDate: '',
+        beginDate: '',
+        firstDueDate: '',
+        agreementNumber: '',
+        // dueDate: '',
+        // assessedFeeName: '',
     });
     useEffect(() => {
         dispatch(getEmployees());
         dispatch(getCampaigns());
         dispatch(getMembersipTypes());
+        dispatch(getAssesedFees());
     }, [dispatch]);
+    useEffect(() => {}, []);
+
+    let { allAssessedFeesDropdown } = useSelector((state) => state.assessedFees);
 
     const { id, newPlanId, memberId } = useParams();
 
@@ -38,111 +54,119 @@ const AgreementTab = () => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
+    useEffect(() => {
+        if (newPlanId) {
+            onTabEnable([0, 1, 2, 3, 4]);
+        }
+    }, [newPlanId]);
 
     useEffect(() => {
         if (id) {
             dispatch(
-                getSellPlan(id, (data) => {
+                getSellPlan(newPlanId, (data) => {
                     console.log('data>>', data);
-                    setData({ ...data, services: uniqueData(data.services), club: data.club });
+                    setData({
+                        ...data,
+                        services: uniqueData(data.services),
+                        salesPerson: data.addmember.salesPerson,
+                        campaign: data.addmember.campaign,
+                        memberSince: new Date(data.addmember.createdAt),
+                        signDate: new Date(),
+                        beginDate: new Date(),
+                        // assessedFeeName: data.assessedFee._id,
+                        agreementNumber: data.agreementNumber,
+                        // dueDate: data?.dueDate ? new Date(data.dueDate) : '',
+                    });
                 }),
             );
         }
     }, []);
+
     const uniqueData = (data) => {
-        const uniqueEntity = new Set();
-        return data.filter((item) => {
-            const duplicate = uniqueEntity.has(item._id);
-            uniqueEntity.add(item._id);
-            return !duplicate;
+        let unique = data.filter((obj, index) => {
+            return index === data.findIndex((o) => obj._id === o._id);
         });
+        unique = unique?.map((item, i) => ({
+            ...item,
+            numberOfPayments: item.service === 'Membership Plan' ? 'one time' : 'recurring',
+            unitPrice: item.unitPrice,
+            firstDueDate: new Date(moment().add(1, 'months')),
+            autoRenew: item.autoRenew.toString(),
+        }));
+        console.log('unique', unique);
+        return unique;
     };
 
-    const columns = [{ field: 'name', header: 'Name' }];
-    const handleRowChange = (event, rowData, field) => {
-        const updatedData = data.services.map((item) => {
-            if (item._id === rowData._id) {
-                // assuming each row has a unique 'id' field
-                return { ...item, [field]: event.value };
+    const handleChangeDynamicFields = ({ name, value, customIndex, fieldName }) => {
+        const _newData = { ...data };
+        let obj = _newData[fieldName][customIndex];
+        obj[name] = value;
+        const formErrors = formValidation(name, value, obj);
+        obj.formErrors = formErrors;
+        _newData[fieldName][customIndex] = obj;
+        setData(() => ({ ..._newData }));
+    };
+
+    const templateRenderer = (field, rowData, index) => {
+        const commonProps = {
+            fieldName: 'services',
+            customIndex: index.rowIndex,
+            data: rowData,
+            onChange: handleChangeDynamicFields,
+            extraClassName: 'w-full',
+        };
+
+        switch (field) {
+            case 'firstDueDate':
+                return <CustomCalenderInput name="firstDueDate" {...commonProps} readOnlyInput={true} />;
+            case 'numberOfPayments':
+                return <CustomDropDown name="numberOfPayments" options={noOfPaymentOptions} required {...commonProps} />;
+            case 'autoRenew':
+                return <CustomDropDown label="Auto Renew to Open" name="autoRenew" options={yesNoOptions} required {...commonProps} />;
+            case 'unitPrice':
+                return <CustomInputNumber prefix="$" name="unitPrice" minFractionDigits={4} maxFractionDigits={4} {...commonProps} />;
+            default:
+                return rowData[field];
+        }
+    };
+    const handleNext = () => {
+        if (showFormErrors(data, setData)) {
+            const validated = showArrayFormErrors(data.services);
+
+            console.log(validated, 'validated');
+
+            if (!validated.isValid) {
+                setData((prev) => ({ ...prev, services: validated.data }));
             }
-            return item;
-        });
-
-        // Update the data state with the new data
-        setData({ ...data, services: updatedData });
+            if (validated.isValid) {
+                const payload = {
+                    ...data,
+                    services: data.services?.map((item) => ({
+                        catalogId: item._id,
+                        name: item.name,
+                        unitPrice: item.unitPrice,
+                        numberOfPayments: item.numberOfPayments,
+                        firstDueDate: item.firstDueDate,
+                        autoRenew: item.autoRenew,
+                    })),
+                };
+                dispatch(
+                    editSellPlan(newPlanId, payload, () => {
+                        onTabEnable([0, 1, 2, 3, 4]);
+                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
+                    }),
+                );
+            }
+        }
     };
-    const dueDateTemplate = (rowData) => {
-        return (
-            <>
-                <CustomCalenderInput
-                    name="firstDueDate"
-                    value={rowData.firstDueDate}
-                    onChange={(e) => handleRowChange(e, rowData, 'firstDueDate')}
-                    extraClassName="w-full"
-                />
-            </>
-        );
-    };
-
-    const noOfPaymentTemplate = (rowData) => {
-        return (
-            <>
-                <CustomDropDown
-                    name="numberOfPayments"
-                    value={rowData.numberOfPayments}
-                    options={noOfPaymentOptions}
-                    onChange={(e) => handleRowChange(e, rowData, 'numberOfPayments')}
-                    data={data}
-                    extraClassName="w-full"
-                    required
-                />
-            </>
-        );
-    };
-
-    const renewToOpenTemplate = (rowData) => {
-        return (
-            <>
-                <CustomDropDown
-                    label="Auto Renew to Open"
-                    name="autoRenew"
-                    value={rowData.autoRenew}
-                    options={yesNoOptions}
-                    onChange={(e) => handleRowChange(e, rowData, 'autoRenew')}
-                    data={data}
-                    extraClassName="w-full"
-                    required
-                />
-            </>
-        );
-    };
-
-    const paymentAmountTemplate = (rowData) => {
-        return (
-            <>
-                <CustomInputNumber
-                    prefix="$"
-                    name="paymentAmount"
-                    value={rowData.paymentAmount}
-                    onChange={(e) => handleRowChange(e, rowData, 'paymentAmount')}
-                    data={data}
-                    extraClassName="w-full"
-                    minFractionDigits={4}
-                    maxFractionDigits={4}
-                />
-            </>
-        );
-    };
-
     console.log('data>>', data);
 
-    const handleNext = () => {};
     return (
         <>
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
-                    <CustomGroupInput name="Agreement Number " required prefixName={data.club.name} />
-                    <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
+                    <CustomGroupInput name="agreementNumber" data={data} onChange={handleChange} required prefixName={data.club.name} />
+                    <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required disabled />
                     <CustomDropDown
                         name="oftenClientCharged"
                         label="How Often will Clients Be Charged"
@@ -155,35 +179,59 @@ const AgreementTab = () => {
             <CustomCard col="12" title="Sales Information">
                 <CustomGridLayout>
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
-                    <CustomInput name="referredBy" col={3} required data={data} onChange={handleChange} />
+                    <CustomInput name="referredBy" col={3} data={data} onChange={handleChange} />
                     <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Dates">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="memberSince" data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="signDate" data={data} onChange={handleChange} />
-                    <CustomDropDown name="beginDate" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
+                    <CustomCalenderInput name="memberSince" required data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="signDate" required data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="beginDate" required data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Services">
                 <DataTable value={data?.services} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                     <Column field="name" header="Name" className="bg-light-green font-bold" />
-                    <Column body={dueDateTemplate} header="First Due Date" className="bg-light-green font-bold" />
-                    <Column body={noOfPaymentTemplate} header="Number of Payments" className="bg-light-green font-bold" />
-                    <Column field="name" body={renewToOpenTemplate} header="Auto Renew To Open" className="bg-light-green font-bold" />
-                    <Column body={paymentAmountTemplate} header="Payment Amount" className="bg-light-green font-bold" />
+                    <Column
+                        body={(rowData, index) => templateRenderer('firstDueDate', rowData, index)}
+                        header="First Due Date"
+                        className="bg-light-green font-bold"
+                    />
+                    <Column
+                        body={(rowData, index) => templateRenderer('numberOfPayments', rowData, index)}
+                        header="Number of Payments"
+                        className="bg-light-green font-bold"
+                    />
+                    <Column
+                        body={(rowData, index) => templateRenderer('autoRenew', rowData, index)}
+                        header="Auto Renew To Open"
+                        className="bg-light-green font-bold"
+                    />
+                    <Column
+                        body={(rowData, index) => templateRenderer('unitPrice', rowData, index)}
+                        header="Payment Amount"
+                        className="bg-light-green font-bold"
+                    />
                 </DataTable>
             </CustomCard>
-            <CustomCard col="12" title="Fees">
+            {/* <CustomCard col="12" title="Fees">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="dueDate" data={data} onChange={handleChange} />
-                    <CustomDropDown name="accessedFeeName" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
-                    <CustomInputNumber prefix="$" name="amount" onChange={handleChange} data={data} col={4} minFractionDigits={4} maxFractionDigits={4} />
-                    <CustomDropDown name="apply" options={yesNoOptions} onChange={handleChange} data={data} required />
-                    <CustomDropDown name="recurring" options={yesNoOptions} onChange={handleChange} data={data} required />
+                    <CustomCalenderInput name="dueDate" required data={data} onChange={handleChange} />
+                    <CustomDropDown name="assessedFeeName" options={allAssessedFeesDropdown} onChange={handleChange} data={data} required />
+                    <CustomInputNumber
+                        prefix="$"
+                        name="assessedFeeAmount"
+                        onChange={handleChange}
+                        data={data}
+                        col={4}
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                    />
+                    <CustomDropDown name="assessedFeeApply" options={yesNoOptions} onChange={handleChange} data={data} required />
+                    <CustomDropDown name="assessedFeeRecurring" options={yesNoOptions} onChange={handleChange} data={data} required />
                 </CustomGridLayout>
-            </CustomCard>
+            </CustomCard> */}
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
                 <PrimaryButton label="Save & Hold" className="mx-2" />
