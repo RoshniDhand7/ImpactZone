@@ -90,14 +90,15 @@ const AgreementTab = ({ onTabEnable }) => {
         if (id) {
             dispatch(
                 getSellPlan(newPlanId, (data) => {
+                    console.log('data1>>', data);
                     setData({
                         ...data,
                         services: uniqueData(data.services),
                         salesPerson: data.addmember.salesPerson,
                         campaign: data.addmember.campaign,
                         memberSince: new Date(data.addmember.createdAt),
-                        signDate: new Date(),
-                        beginDate: new Date(),
+                        signDate: data.signDate ? new Date(data.signDate) : new Date(),
+                        beginDate: data.beginDate ? new Date(data.beginDate) : new Date(),
                         agreementNumber: data.agreementNumber,
                         assessedFee: data.assessedFee.map((item) => ({
                             ...item,
@@ -122,7 +123,7 @@ const AgreementTab = ({ onTabEnable }) => {
             ...item,
             numberOfPayments: item.numberOfPayments,
             unitPrice: item.unitPrice,
-            firstDueDate: new Date(moment().add(1, 'months')),
+            firstDueDate: item.firstDueDate ? new Date(item.firstDueDate) : new Date(moment().add(1, 'months')),
             autoRenew: item.autoRenew.toString(),
         }));
     };
@@ -164,7 +165,7 @@ const AgreementTab = ({ onTabEnable }) => {
 
         switch (field) {
             case 'firstDueDate':
-                return <CustomCalenderInput name="firstDueDate" {...commonProps} readOnlyInput={true} />;
+                return <CustomCalenderInput minDate={new Date()} name="firstDueDate" {...commonProps} readOnlyInput={true} />;
             case 'numberOfPayments':
                 return <CustomDropDown name="numberOfPayments" options={noOfPaymentOptions} required {...commonProps} />;
             case 'autoRenew':
@@ -172,7 +173,7 @@ const AgreementTab = ({ onTabEnable }) => {
             case 'unitPrice':
                 return <CustomInputNumber prefix="$" name="unitPrice" minFractionDigits={4} maxFractionDigits={4} {...commonProps} />;
             case 'dueDate':
-                return <CustomCalenderInput name="dueDate" {...commonProps} readOnlyInput={true} required />;
+                return <CustomCalenderInput minDate={new Date()} name="dueDate" {...commonProps} readOnlyInput={true} required />;
             case 'amount':
                 return <CustomInputNumber prefix="$" name="amount" minFractionDigits={4} maxFractionDigits={4} {...commonProps} required />;
             case 'apply':
@@ -228,7 +229,7 @@ const AgreementTab = ({ onTabEnable }) => {
         <>
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
-                    <CustomGroupInput name="agreementNo" data={data} onChange={handleChange} required prefixName={data.club.name} />
+                    <CustomGroupInput name="agreementNo" data={data} onChange={handleChange} required prefixName={data?.club?.name} />
                     <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required disabled />
                     <CustomDropDown
                         name="oftenClientCharged"
@@ -248,9 +249,9 @@ const AgreementTab = ({ onTabEnable }) => {
             </CustomCard>
             <CustomCard col="12" title="Dates">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="memberSince" required data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="signDate" required data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="beginDate" required data={data} onChange={handleChange} />
+                    <CustomCalenderInput name="memberSince" required data={data} onChange={handleChange} disabled />
+                    <CustomCalenderInput name="signDate" required data={data} onChange={handleChange} minDate={new Date()} />
+                    <CustomCalenderInput name="beginDate" required data={data} onChange={handleChange} minDate={new Date()} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Services">

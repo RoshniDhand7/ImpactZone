@@ -87,7 +87,7 @@ const PlanTab = ({ onTabEnable }) => {
                 const payload = {
                     name: data.name,
                     oftenClientCharged: data.oftenClientCharged,
-                    club: data?.clubs?.length > 0 && getIds(data?.clubs),
+                    club: data?.clubs?.length > 0 ? getIds(data?.clubs) : null,
                     membershipType: data?.membershipType?._id,
                     memberToSell: data.memberToSell.id,
                     type: 'next',
