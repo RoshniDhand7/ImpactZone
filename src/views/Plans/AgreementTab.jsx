@@ -110,20 +110,38 @@ const AgreementTab = ({ onTabEnable }) => {
             );
         }
     }, []);
-
     const uniqueData = (data) => {
-        let unique = data.filter((obj, index) => {
-            return index === data.findIndex((o) => obj._id === o._id);
+        const uniqueCatalogs = new Set();
+        const unique = data.filter((item) => {
+            const duplicate = uniqueCatalogs.has(item.catalogId);
+            uniqueCatalogs.add(item.catalogId);
+            return !duplicate;
         });
-        unique = unique?.map((item, i) => ({
+
+        return unique.map((item) => ({
             ...item,
             numberOfPayments: item.numberOfPayments,
             unitPrice: item.unitPrice,
             firstDueDate: new Date(moment().add(1, 'months')),
             autoRenew: item.autoRenew.toString(),
         }));
-        return unique;
     };
+
+    console.log(data, 'data');
+
+    // const uniqueData = (data) => {
+    //     let unique = data.filter((obj, index) => {
+    //         return index === data.findIndex((o) => obj.catalogId === o.catalogId);
+    //     });
+    //     unique = unique?.map((item, i) => ({
+    //         ...item,
+    //         numberOfPayments: item.numberOfPayments,
+    //         unitPrice: item.unitPrice,
+    //         firstDueDate: new Date(moment().add(1, 'months')),
+    //         autoRenew: item.autoRenew.toString(),
+    //     }));
+    //     return unique;
+    // };
 
     const handleChangeDynamicFields = ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
