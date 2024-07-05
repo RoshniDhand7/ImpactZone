@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import formValidation from '../../utils/validations';
 import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInput, CustomInputNumber } from '../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
 import { getMembersipTypes } from '../../redux/actions/MembersSettings/membershipTypes';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { getAssesedFees } from '../../redux/actions/AgreementSettings/assessedFees';
 import moment from 'moment';
+import debounce from 'lodash.debounce';
 import { showArrayFormErrors, showFormErrors } from '../../utils/commonFunctions';
 
 const AgreementTab = ({ onTabEnable }) => {
@@ -31,18 +31,15 @@ const AgreementTab = ({ onTabEnable }) => {
         beginDate: '',
         firstDueDate: '',
         agreementNumber: '',
-        // dueDate: '',
-        // assessedFeeName: '',
+        assessedFee: '',
+        agreementNo: 0,
     });
     useEffect(() => {
         dispatch(getEmployees());
         dispatch(getCampaigns());
         dispatch(getMembersipTypes());
-        dispatch(getAssesedFees());
     }, [dispatch]);
     useEffect(() => {}, []);
-
-    let { allAssessedFeesDropdown } = useSelector((state) => state.assessedFees);
 
     const { id, newPlanId, memberId } = useParams();
 
@@ -53,7 +50,36 @@ const AgreementTab = ({ onTabEnable }) => {
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        if (name === 'agreementNo') {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+            if (value) {
+                debouncedChangeHandler(value);
+            }
+        }
     };
+
+    const changeHandler = (val) => {
+        const formErrors = formValidation('agreementNo', val, data);
+        dispatch(
+            checkAgreementNumberAction(val, newPlanId, (success) => {
+                if (success) {
+                    setData((prev) => ({ ...prev, ['agreementNo']: val, formErrors }));
+                } else {
+                    formErrors['agreementNo'] = 'Agreement number is not unique';
+                    setData((prev) => ({ ...prev, ['agreementNo']: val, formErrors }));
+                }
+            }),
+        );
+    };
+
+    const debouncedChangeHandler = useMemo(
+        () =>
+            debounce((val) => {
+                changeHandler(val);
+            }, 1000),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [],
+    );
     useEffect(() => {
         if (newPlanId) {
             onTabEnable([0, 1, 2, 3, 4]);
@@ -64,7 +90,6 @@ const AgreementTab = ({ onTabEnable }) => {
         if (id) {
             dispatch(
                 getSellPlan(newPlanId, (data) => {
-                    console.log('data>>', data);
                     setData({
                         ...data,
                         services: uniqueData(data.services),
@@ -73,9 +98,13 @@ const AgreementTab = ({ onTabEnable }) => {
                         memberSince: new Date(data.addmember.createdAt),
                         signDate: new Date(),
                         beginDate: new Date(),
-                        // assessedFeeName: data.assessedFee._id,
                         agreementNumber: data.agreementNumber,
-                        // dueDate: data?.dueDate ? new Date(data.dueDate) : '',
+                        assessedFee: data.assessedFee.map((item) => ({
+                            ...item,
+                            dueDate: item.dueDate ? new Date(item.dueDate) : '',
+                            recurring: item.recurring.toString(),
+                            apply: item.apply.toString(),
+                        })),
                     });
                 }),
             );
@@ -88,12 +117,11 @@ const AgreementTab = ({ onTabEnable }) => {
         });
         unique = unique?.map((item, i) => ({
             ...item,
-            numberOfPayments: item.service === 'Membership Plan' ? 'one time' : 'recurring',
+            numberOfPayments: item.numberOfPayments,
             unitPrice: item.unitPrice,
             firstDueDate: new Date(moment().add(1, 'months')),
             autoRenew: item.autoRenew.toString(),
         }));
-        console.log('unique', unique);
         return unique;
     };
 
@@ -107,9 +135,9 @@ const AgreementTab = ({ onTabEnable }) => {
         setData(() => ({ ..._newData }));
     };
 
-    const templateRenderer = (field, rowData, index) => {
+    const templateRenderer = (field, rowData, index, fieldName) => {
         const commonProps = {
-            fieldName: 'services',
+            fieldName: fieldName,
             customIndex: index.rowIndex,
             data: rowData,
             onChange: handleChangeDynamicFields,
@@ -125,6 +153,14 @@ const AgreementTab = ({ onTabEnable }) => {
                 return <CustomDropDown label="Auto Renew to Open" name="autoRenew" options={yesNoOptions} required {...commonProps} />;
             case 'unitPrice':
                 return <CustomInputNumber prefix="$" name="unitPrice" minFractionDigits={4} maxFractionDigits={4} {...commonProps} />;
+            case 'dueDate':
+                return <CustomCalenderInput name="dueDate" {...commonProps} readOnlyInput={true} required />;
+            case 'amount':
+                return <CustomInputNumber prefix="$" name="amount" minFractionDigits={4} maxFractionDigits={4} {...commonProps} required />;
+            case 'apply':
+                return <CustomDropDown label="Apply" name="apply" options={yesNoOptions} required {...commonProps} />;
+            case 'recurring':
+                return <CustomDropDown label="Recurring" name="recurring" options={yesNoOptions} required {...commonProps} />;
             default:
                 return rowData[field];
         }
@@ -132,13 +168,15 @@ const AgreementTab = ({ onTabEnable }) => {
     const handleNext = () => {
         if (showFormErrors(data, setData)) {
             const validated = showArrayFormErrors(data.services);
-
-            console.log(validated, 'validated');
+            const validatedAssessedFee = showArrayFormErrors(data.assessedFee);
 
             if (!validated.isValid) {
                 setData((prev) => ({ ...prev, services: validated.data }));
             }
-            if (validated.isValid) {
+            if (!validatedAssessedFee.isValid) {
+                setData((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
+            }
+            if (validated.isValid && validatedAssessedFee.isValid) {
                 const payload = {
                     ...data,
                     services: data.services?.map((item) => ({
@@ -148,6 +186,14 @@ const AgreementTab = ({ onTabEnable }) => {
                         numberOfPayments: item.numberOfPayments,
                         firstDueDate: item.firstDueDate,
                         autoRenew: item.autoRenew,
+                    })),
+                    assessedFee: data.assessedFee?.map((assesedfee) => ({
+                        assessedFeeId: assesedfee._id,
+                        name: assesedfee.name,
+                        amount: assesedfee.amount,
+                        dueDate: assesedfee.dueDate,
+                        apply: assesedfee.apply,
+                        recurring: assesedfee.recurring,
                     })),
                 };
                 dispatch(
@@ -159,13 +205,12 @@ const AgreementTab = ({ onTabEnable }) => {
             }
         }
     };
-    console.log('data>>', data);
 
     return (
         <>
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
-                    <CustomGroupInput name="agreementNumber" data={data} onChange={handleChange} required prefixName={data.club.name} />
+                    <CustomGroupInput name="agreementNo" data={data} onChange={handleChange} required prefixName={data.club.name} />
                     <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required disabled />
                     <CustomDropDown
                         name="oftenClientCharged"
@@ -194,44 +239,52 @@ const AgreementTab = ({ onTabEnable }) => {
                 <DataTable value={data?.services} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                     <Column field="name" header="Name" className="bg-light-green font-bold" />
                     <Column
-                        body={(rowData, index) => templateRenderer('firstDueDate', rowData, index)}
+                        body={(rowData, index) => templateRenderer('firstDueDate', rowData, index, 'services')}
                         header="First Due Date"
                         className="bg-light-green font-bold"
                     />
                     <Column
-                        body={(rowData, index) => templateRenderer('numberOfPayments', rowData, index)}
+                        body={(rowData, index) => templateRenderer('numberOfPayments', rowData, index, 'services')}
                         header="Number of Payments"
                         className="bg-light-green font-bold"
                     />
                     <Column
-                        body={(rowData, index) => templateRenderer('autoRenew', rowData, index)}
+                        body={(rowData, index) => templateRenderer('autoRenew', rowData, index, 'services')}
                         header="Auto Renew To Open"
                         className="bg-light-green font-bold"
                     />
                     <Column
-                        body={(rowData, index) => templateRenderer('unitPrice', rowData, index)}
+                        body={(rowData, index) => templateRenderer('unitPrice', rowData, index, 'services')}
                         header="Payment Amount"
                         className="bg-light-green font-bold"
                     />
                 </DataTable>
             </CustomCard>
-            {/* <CustomCard col="12" title="Fees">
-                <CustomGridLayout>
-                    <CustomCalenderInput name="dueDate" required data={data} onChange={handleChange} />
-                    <CustomDropDown name="assessedFeeName" options={allAssessedFeesDropdown} onChange={handleChange} data={data} required />
-                    <CustomInputNumber
-                        prefix="$"
-                        name="assessedFeeAmount"
-                        onChange={handleChange}
-                        data={data}
-                        col={4}
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
+            <CustomCard col="12" title="Assessed Fees">
+                <DataTable value={data?.assessedFee} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
+                    <Column field="name" header="Name" className="bg-light-green font-bold" />
+                    <Column
+                        body={(rowData, index) => templateRenderer('dueDate', rowData, index, 'assessedFee')}
+                        header="Due Date"
+                        className="bg-light-green font-bold"
                     />
-                    <CustomDropDown name="assessedFeeApply" options={yesNoOptions} onChange={handleChange} data={data} required />
-                    <CustomDropDown name="assessedFeeRecurring" options={yesNoOptions} onChange={handleChange} data={data} required />
-                </CustomGridLayout>
-            </CustomCard> */}
+                    <Column
+                        body={(rowData, index) => templateRenderer('amount', rowData, index, 'assessedFee')}
+                        header="Amount"
+                        className="bg-light-green font-bold"
+                    />
+                    <Column
+                        body={(rowData, index) => templateRenderer('apply', rowData, index, 'assessedFee')}
+                        header="Apply"
+                        className="bg-light-green font-bold"
+                    />
+                    <Column
+                        body={(rowData, index) => templateRenderer('recurring', rowData, index, 'assessedFee')}
+                        header="Recurring"
+                        className="bg-light-green font-bold"
+                    />
+                </DataTable>
+            </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
                 <PrimaryButton label="Save & Hold" className="mx-2" />

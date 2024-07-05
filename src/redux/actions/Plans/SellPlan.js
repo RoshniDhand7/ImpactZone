@@ -47,6 +47,19 @@ const editSellPlan = (newPlanId, payload, next) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
+const checkAgreementNumberAction = (val, newPlanId, next) => async (dispatch) => {
+    const paylaod = {
+        agreementNo: val,
+    };
+
+    const res = await api('post', EndPoints.UNIQUE_AGREEMENT + newPlanId, paylaod);
+    if (res.success) {
+        next(res.success);
+    } else {
+        next(res.success);
+    }
+};
+
 const deleteMembershipPlan = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.MEMBERSHIP_PLAN + id);
     if (res.success) {
@@ -57,4 +70,4 @@ const deleteMembershipPlan = (id) => async (dispatch) => {
     }
 };
 
-export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember };
+export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction };

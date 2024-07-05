@@ -205,7 +205,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
-        case 'amount':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -245,6 +244,7 @@ const formValidation = (name, value, state, ignore = []) => {
             }
 
         case 'taxRatePercentage':
+        case 'amount':
             if (!isNumberOrDecimal(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {

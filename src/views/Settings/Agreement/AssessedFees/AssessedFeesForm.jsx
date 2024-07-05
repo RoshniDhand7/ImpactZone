@@ -129,7 +129,16 @@ const AssessedFeesForm = () => {
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="type" options={AssessedTypeOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} required />
-                        <CustomInputNumber name="amount" options={yesNoOptions} onChange={handleChange} data={data} col="4" required />
+                        <CustomInputNumber
+                            name="amount"
+                            options={yesNoOptions}
+                            onChange={handleChange}
+                            data={data}
+                            col="4"
+                            required
+                            minFractionDigits={4}
+                            maxFractionDigits={4}
+                        />
                         {(data?.type === 'Annual Fee' || data?.type === 'Freeze Fee') && (
                             <CustomDropDown name="recurring" options={yesNoOptions} onChange={handleChange} data={data} />
                         )}

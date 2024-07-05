@@ -61,7 +61,7 @@ export const CustomGroupInput = ({
 }) => {
     return (
         <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
-            <div className="p-inputgroup align-items-end flex-1">
+            <div className="p-inputgroup  flex-1">
                 <span className="p-inputgroup-addon w-20rem">{prefixName}</span>
                 <InputNumber
                     id={name}

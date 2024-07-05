@@ -24,11 +24,9 @@ const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'a
         });
 
         let res = response.data;
-
         return res;
     } catch (error) {
         let res = error?.response ? error.response.data : error.toString();
-
         return res;
     }
 };
