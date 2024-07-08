@@ -81,15 +81,7 @@ const PersonalTab = ({ onTabEnable }) => {
     }, [data.city]);
 
     const { getMember } = useSelector((state) => state.members);
-    useEffect(() => {
-        if (newPlanId && memberId) {
-            onTabEnable([0, 1, 2]);
-        }
-    }, [newPlanId, memberId]);
 
-    // useEffect(() => {
-    //     dispatch(getMemberAction(memberId));
-    // }, [dispatch, memberId]);
     useEffect(() => {
         if (memberId) {
             getMemberPersonalFn();
@@ -136,7 +128,7 @@ const PersonalTab = ({ onTabEnable }) => {
             dispatch(
                 editSellPlan(memberId, payload, () => {
                     getMemberPersonalFn();
-                    onTabEnable([0, 1, 2]);
+                    onTabEnable(0, 1, 2);
                     history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=identification'}`);
                 }),
             );

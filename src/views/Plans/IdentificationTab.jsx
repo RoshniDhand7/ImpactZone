@@ -33,12 +33,6 @@ const IdentificationTab = ({ onTabEnable }) => {
     }, [dispatch, memberId]);
 
     useEffect(() => {
-        if (newPlanId) {
-            onTabEnable([0, 1, 2, 3]);
-        }
-    }, [newPlanId]);
-
-    useEffect(() => {
         const formErrors = formValidation('barCode', data.barCode, data);
 
         if (data.uniqueBarCode) {
@@ -124,7 +118,7 @@ const IdentificationTab = ({ onTabEnable }) => {
 
                 dispatch(
                     editSellPlan(memberId, payload, () => {
-                        onTabEnable([0, 1, 2, 3]);
+                        onTabEnable(0, 1, 2, 3);
                         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=agreement'}`);
                     }),
                 );

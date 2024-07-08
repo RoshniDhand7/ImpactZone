@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import cart from '../../assets/icons/cart.png';
 import { Tooltip } from 'primereact/tooltip';
 import { useHistory } from 'react-router-dom';
+import PrimaryButton from '../../shared/Button/CustomButton';
 
 export default function Plans() {
     const dispatch = useDispatch();
@@ -38,7 +39,9 @@ export default function Plans() {
     };
     return (
         <div>
-            <CustomFilterCard title="Membership" />
+            <CustomFilterCard title="Membership">
+                <PrimaryButton onClick={() => history.push('/plans/drafts')}>Drafts</PrimaryButton>
+            </CustomFilterCard>
             <CustomTable data={allMembershipPlan} columns={columns} customActionTemplate={customActionTemplate} />
         </div>
     );

@@ -75,12 +75,6 @@ const PlanTab = ({ onTabEnable }) => {
         }
     }, [id, dispatch, memberId]);
 
-    useEffect(() => {
-        if (newPlanId && memberId) {
-            onTabEnable([0, 1]);
-        }
-    }, [newPlanId, memberId]);
-
     const handleNext = () => {
         if (showFormErrors(data, setData, ['services', 'membershipType'])) {
             if (data?.memberToSell.id) {
@@ -98,7 +92,7 @@ const PlanTab = ({ onTabEnable }) => {
                 if (newPlanId) {
                     dispatch(
                         editSellPlan(newPlanId, payload, () => {
-                            onTabEnable([0, 1]);
+                            onTabEnable(0, 1);
                             history.replace(`/plans/sell-plan/${id}/${newPlanId}/${data.memberToSell.id}${'?tab=personal'}`);
                             getMembershipPlan();
                         }),
@@ -120,18 +114,22 @@ const PlanTab = ({ onTabEnable }) => {
     return (
         <>
             <CustomFilterCard title="Member" titleClassName="mx-4 font-medium text-center" contentPosition="end">
-                <AutoComplete
-                    field="fullName"
-                    value={data.memberToSell}
-                    suggestions={items}
-                    completeMethod={search}
-                    onChange={handleChange}
-                    className="w-20rem "
-                    showEmptyMessage={true}
-                    required={true}
-                    inputClassName="w-full"
-                    itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                />
+                <span className="p-input-icon-right w-full">
+                    <AutoComplete
+                        field="fullName"
+                        value={data.memberToSell}
+                        suggestions={items}
+                        completeMethod={search}
+                        onChange={handleChange}
+                        className="w-20rem "
+                        showEmptyMessage={true}
+                        required={true}
+                        inputClassName="w-full"
+                        itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
+                    />
+                    <i className="pi pi-search" />
+                </span>
+
                 <div className="p-error text-sm">{data?.formErrors?.memberToSell}</div>
             </CustomFilterCard>
             <CustomCard title="Plans" height="200px" col="12">

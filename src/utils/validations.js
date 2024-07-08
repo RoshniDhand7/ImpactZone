@@ -34,6 +34,18 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
+        case 'accessCode':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required`;
+            } else if (whiteSpaceCheck(value)) {
+                formErrors[name] = `Unnecessary space in word!`;
+            } else if (value !== state.reAccessCode) {
+                formErrors['reAccessCode'] = 'Access Code and Re-enter Access Code do not match!';
+            } else {
+                formErrors[name] = '';
+                formErrors['reAccessCode'] = '';
+            }
+            break;
 
         case 'reAccessCode':
             if (equal(length(value))) {
@@ -41,9 +53,10 @@ const formValidation = (name, value, state, ignore = []) => {
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
             } else if (value !== state.accessCode) {
-                formErrors[name] = `Access Code and Re-enter Access Code do not match!`;
+                formErrors['reAccessCode'] = 'Access Code and Re-enter Access Code do not match!';
             } else {
                 formErrors[name] = '';
+                formErrors['reAccessCode'] = '';
             }
             break;
 

@@ -65,17 +65,20 @@ const Search = ({ openModal, setOpenModal }) => {
             >
                 <div>
                     <h3 className="text-bold mb-2">Search Member</h3>
-                    <AutoComplete
-                        field="firstName"
-                        value={value}
-                        suggestions={items}
-                        completeMethod={search}
-                        onChange={handleOnChange}
-                        className="w-full  "
-                        inputClassName="w-full"
-                        showEmptyMessage={true}
-                        itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                    />
+                    <span className="p-input-icon-right w-full">
+                        <AutoComplete
+                            field="firstName"
+                            value={value}
+                            suggestions={items}
+                            completeMethod={search}
+                            onChange={handleOnChange}
+                            className="w-full  "
+                            inputClassName="w-full"
+                            showEmptyMessage={true}
+                            itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
+                        />
+                        <i className="pi pi-search" />
+                    </span>
                 </div>
             </CustomDialog>
         </>

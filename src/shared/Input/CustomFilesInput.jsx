@@ -129,7 +129,6 @@ export default function CustomFilesInput({
                             <div className="grid align-items-center py-2">
                                 {Object.values(files).map((file, i) => (
                                     <>
-                                        {console.log('file>>', file)}
                                         <div className="md:col-6 text-main-color  " key={i}>
                                             {file?.path ? (
                                                 <Inplace>

@@ -1,7 +1,25 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
+
+const getAllDrafts = () => async (dispatch) => {
+    dispatch(showLoaderAction());
+
+    const res = await api('get', EndPoints.DRAFT_PLAN);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_DRAFTS,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
+};
 
 const getSellPlan = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
@@ -32,7 +50,7 @@ const addSellPlan = (id, data, onTabEnable, history, getMembershipPlan) => async
 
     const res = await api('post', EndPoints.SELL_PLAN + id, data);
     if (res.success) {
-        onTabEnable([0, 1]);
+        onTabEnable(0, 1);
         history.push(`/plans/sell-plan/${id}/${res.data._id}/${data.memberToSell}/${'?tab=personal'}`);
         getMembershipPlan();
     }
@@ -70,4 +88,4 @@ const deleteMembershipPlan = (id) => async (dispatch) => {
     }
 };
 
-export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction };
+export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction, getAllDrafts };

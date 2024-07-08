@@ -24,6 +24,7 @@ import DiscountForm from '../views/Settings/PointOfSale/Discount/DiscountForm';
 import AddMembers from '../views/Members/AddMembers';
 import Personal from '../views/Members/SidebarComponents/Personal';
 import SellPlanForm from '../views/Plans/SellPlanForm';
+import AllDrafts from '../views/Plans/AllDrafts';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -99,6 +100,12 @@ export const PrivateRoutes = [
                 path: '/sell-plan/:id/:newPlanId/:memberId/',
                 name: 'Sell Plan',
                 component: SellPlanForm,
+            },
+            {
+                path: '/drafts',
+                name: 'Drafts',
+                exact: true,
+                component: AllDrafts,
             },
         ],
     },

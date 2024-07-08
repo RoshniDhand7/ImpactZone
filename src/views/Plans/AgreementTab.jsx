@@ -80,17 +80,11 @@ const AgreementTab = ({ onTabEnable }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [],
     );
-    useEffect(() => {
-        if (newPlanId) {
-            onTabEnable([0, 1, 2, 3, 4]);
-        }
-    }, [newPlanId]);
 
     useEffect(() => {
         if (id) {
             dispatch(
                 getSellPlan(newPlanId, (data) => {
-                    console.log('data1>>', data);
                     setData({
                         ...data,
                         services: uniqueData(data.services),
@@ -127,8 +121,6 @@ const AgreementTab = ({ onTabEnable }) => {
             autoRenew: item.autoRenew.toString(),
         }));
     };
-
-    console.log(data, 'data');
 
     // const uniqueData = (data) => {
     //     let unique = data.filter((obj, index) => {
@@ -217,7 +209,7 @@ const AgreementTab = ({ onTabEnable }) => {
                 };
                 dispatch(
                     editSellPlan(newPlanId, payload, () => {
-                        onTabEnable([0, 1, 2, 3, 4]);
+                        onTabEnable(0, 1, 2, 3, 4);
                         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
                     }),
                 );

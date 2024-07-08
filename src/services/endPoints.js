@@ -65,7 +65,7 @@ const endPoints = {
     MEMBER_BARCODE: '/add-member-barcode/',
     GET_MEMBERS: '/search-member',
     SELL_PLAN: '/plan/',
-    EDIT_SELL_PLAN: '/draft/',
+    DRAFT_PLAN: '/draft/',
     MEMBER_SELL_PLAN: '/personal-data/',
     UNIQUE_AGREEMENT: '/unique-agrement/',
 };

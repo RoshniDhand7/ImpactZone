@@ -6,12 +6,23 @@ import PersonalTab from './PersonalTab';
 import IdentificationTab from './IdentificationTab';
 import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
+import PaymentAmountTab from './PaymentAmountTab';
 
 const SellPlanForm = () => {
-    const [tabId, setTabId] = useState([]);
-    const onTabEnable = (index) => {
-        setTabId(index);
+    const [tabId, setTabId] = useState([0, 1]);
+    const onTabEnable = (...indices) => {
+        setTabId((prevEnabledTabs) => {
+            const newEnabledTabs = [...prevEnabledTabs];
+            indices.forEach((index) => {
+                if (!newEnabledTabs.includes(index)) {
+                    newEnabledTabs.push(index);
+                }
+            });
+
+            return newEnabledTabs;
+        });
     };
+
     const { newPlanId } = useParams();
 
     const tabs = [
@@ -19,7 +30,7 @@ const SellPlanForm = () => {
         { title: 'Personal', content: <PersonalTab onTabEnable={onTabEnable} /> },
         { title: 'Identification', content: <IdentificationTab onTabEnable={onTabEnable} /> },
         { title: 'Agreement', content: <AgreementTab onTabEnable={onTabEnable} /> },
-        { title: 'Payment Amounts', content: <h1>Payment Amounts</h1> },
+        { title: 'Payment Amounts', content: <PaymentAmountTab onTabEnable={onTabEnable} /> },
         { title: 'Billing Info', content: <h1>Billing Info</h1> },
     ];
     const getDisabledTabIndices = () => {
@@ -28,6 +39,7 @@ const SellPlanForm = () => {
         }
         return [1, 2, 3, 4, 5, 6, 7];
     };
+
     return (
         <>
             <FormPage backText="Plans" backTo="/plans">
