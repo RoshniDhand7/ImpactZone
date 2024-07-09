@@ -7,6 +7,7 @@ import IdentificationTab from './IdentificationTab';
 import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
 import PaymentAmountTab from './PaymentAmountTab';
+import BillingInfoTab from './BillingInfoTab';
 
 const SellPlanForm = () => {
     const [tabId, setTabId] = useState([0, 1]);
@@ -31,7 +32,7 @@ const SellPlanForm = () => {
         { title: 'Identification', content: <IdentificationTab onTabEnable={onTabEnable} /> },
         { title: 'Agreement', content: <AgreementTab onTabEnable={onTabEnable} /> },
         { title: 'Payment Amounts', content: <PaymentAmountTab onTabEnable={onTabEnable} /> },
-        { title: 'Billing Info', content: <h1>Billing Info</h1> },
+        { title: 'Billing Info', content: <BillingInfoTab onTabEnable={onTabEnable} /> },
     ];
     const getDisabledTabIndices = () => {
         if (newPlanId) {

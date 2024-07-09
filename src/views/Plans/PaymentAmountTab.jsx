@@ -2,17 +2,54 @@ import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomListItem } from '../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
+import { getSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { useDispatch } from 'react-redux';
+import { uniqueData } from '../../utils/commonFunctions';
 
 const PaymentAmountTab = ({ onTabEnable }) => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        services: [],
+        assessedFee: [],
+        total: null,
+    });
 
     const { id, newPlanId, memberId } = useParams();
     const history = useHistory();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getSellPlan(newPlanId, (data) => {
+                    setData({
+                        services: uniqueData(data.services)?.map((item) => ({ name: item.name, unitPrice: item.unitPrice })),
+                        assessedFee: data.assessedFee.map((item) => ({
+                            name: item.name,
+                            unitPrice: item.amount,
+                        })),
+                        total: 0,
+                    });
+                }),
+            );
+        }
+    }, [newPlanId, id, dispatch]);
+
+    useEffect(() => {
+        const totalAmount = () => {
+            if (!data?.services?.length && !data?.assessedFee?.length) return 0;
+
+            const amount = [...data.services, ...data.assessedFee];
+            return amount.reduce((acc, current) => acc + current.unitPrice, 0);
+        };
+
+        setData((prev) => ({ ...prev, total: totalAmount() }));
+    }, [data.services, data.assessedFee]);
 
     const handleNext = () => {
         onTabEnable(0, 1, 2, 3, 4, 5);
         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
     };
+
+    console.log('data', data);
     return (
         <>
             <CustomCard title="Payment Amount" height="200px" col="12">
@@ -20,11 +57,13 @@ const PaymentAmountTab = ({ onTabEnable }) => {
                     <span className="font-bold ">Name</span>
                     <span className="text-dark-gray font-bold">Amount</span>
                 </div>
-                <CustomListItem name="dues" data={data} />
-                <CustomListItem label="Billing Frequency" name="classes" data={data} />
-                <CustomListItem name="classesStrikeZone" data={data} />
-                <CustomListItem label="Ad-ons" name="fees" data={data} keys={data.services} dynamicKey="name" />
-                <CustomListItem label="Total" name="clubs" data={data} keys={data?.clubs} dynamicKey="name" />
+                {data?.services?.map((item) => (
+                    <CustomListItem label={item.name} value={item.unitPrice} />
+                ))}
+                {data?.assessedFee?.map((item) => (
+                    <CustomListItem label={item.name} value={item.unitPrice} />
+                ))}
+                <CustomListItem label="total" name="total" data={data} />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />

@@ -286,6 +286,23 @@ function applyFilters(events, filterOptions) {
 function isFileObject(obj) {
     return obj instanceof File;
 }
+
+const uniqueData = (data) => {
+    const uniqueCatalogs = new Set();
+    const unique = data.filter((item) => {
+        const duplicate = uniqueCatalogs.has(item.catalogId);
+        uniqueCatalogs.add(item.catalogId);
+        return !duplicate;
+    });
+
+    return unique.map((item) => ({
+        ...item,
+        numberOfPayments: item.numberOfPayments,
+        unitPrice: item.unitPrice,
+        firstDueDate: item.firstDueDate ? new Date(item.firstDueDate) : new Date(moment().add(1, 'months')),
+        autoRenew: item.autoRenew.toString(),
+    }));
+};
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -310,4 +327,5 @@ export {
     getImageUrl,
     applyFilters,
     isFileObject,
+    uniqueData,
 };

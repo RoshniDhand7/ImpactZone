@@ -20,83 +20,9 @@ import { getClubs } from '../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../utils/validations';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
+import { mergeFields } from '../../utils/constant';
 
 export default function PageBuilder({ id }) {
-    const mergeFields = [
-        {
-            name: 'Membership Type',
-            value: '{{Membership_Type}}',
-        },
-        {
-            name: 'Services',
-            value: '{{Services}}',
-        },
-        {
-            name: 'Assessed_Fees',
-            value: '{{Assessed Fees}}',
-        },
-        {
-            name: 'Membership Name',
-            value: '{{Membership_Name}}',
-        },
-        {
-            name: 'Title',
-            value: '{{Title}}',
-        },
-        {
-            name: 'First Name',
-            value: '{{First_Name}}',
-        },
-        {
-            name: 'Last Name',
-            value: '{{Last_Name}}',
-        },
-        {
-            name: 'Company Name',
-            value: '{{Company_Name}}',
-        },
-        {
-            name: 'Address Line 1',
-            value: '{{Address_Line_1}}',
-        },
-        {
-            name: 'Address Line 2',
-            value: '{{Address_Line_2}}',
-        },
-        {
-            name: 'City',
-            value: '{{City}}',
-        },
-        {
-            name: 'State',
-            value: '{{State}}',
-        },
-        {
-            name: 'Zip Code',
-            value: '{{Zip_Code}}',
-        },
-        {
-            name: 'Country or Region',
-            value: '{{Country_or_Region}}',
-        },
-        {
-            name: 'Phone',
-            value: '{{Phone}}',
-        },
-        {
-            name: 'Email',
-            value: '{{Email}}',
-        },
-        {
-            name: 'Salesperson',
-            value: '{{Salesperson}}',
-        },
-        {
-            name: 'Campaign',
-            value: '{{Campaign}}',
-        },
-    ];
-
     const history = useHistory();
     const dispatch = useDispatch();
     const { clubsDropdown } = useSelector((state) => state.clubs);
@@ -221,7 +147,7 @@ export default function PageBuilder({ id }) {
                 id: 'merge_field',
                 label: 'Merge Field',
                 category: 'Field',
-                content: '<div data-gjs-type="merge_field" data-gjs-droppable="false">{{First_Name}}</div>',
+                content: '<div data-gjs-type="merge_field" data-gjs-droppable="false">{{Client’s_First_Name}}</div>',
                 attributes: { class: 'merge-field' },
                 media: `<svg width="26" height="26" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                 <g id="Layer_2" data-name="Layer 2">

@@ -39,7 +39,7 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
-            } else if (value !== state.reAccessCode) {
+            } else if (state.reAccessCode && value !== state.reAccessCode) {
                 formErrors['reAccessCode'] = 'Access Code and Re-enter Access Code do not match!';
             } else {
                 formErrors[name] = '';

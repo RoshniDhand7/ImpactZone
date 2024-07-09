@@ -14,7 +14,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import moment from 'moment';
 import debounce from 'lodash.debounce';
-import { showArrayFormErrors, showFormErrors } from '../../utils/commonFunctions';
+import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -105,22 +105,6 @@ const AgreementTab = ({ onTabEnable }) => {
             );
         }
     }, []);
-    const uniqueData = (data) => {
-        const uniqueCatalogs = new Set();
-        const unique = data.filter((item) => {
-            const duplicate = uniqueCatalogs.has(item.catalogId);
-            uniqueCatalogs.add(item.catalogId);
-            return !duplicate;
-        });
-
-        return unique.map((item) => ({
-            ...item,
-            numberOfPayments: item.numberOfPayments,
-            unitPrice: item.unitPrice,
-            firstDueDate: item.firstDueDate ? new Date(item.firstDueDate) : new Date(moment().add(1, 'months')),
-            autoRenew: item.autoRenew.toString(),
-        }));
-    };
 
     // const uniqueData = (data) => {
     //     let unique = data.filter((obj, index) => {
