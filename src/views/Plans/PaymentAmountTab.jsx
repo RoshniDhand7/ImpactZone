@@ -49,7 +49,6 @@ const PaymentAmountTab = ({ onTabEnable }) => {
         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
     };
 
-    console.log('data', data);
     return (
         <>
             <CustomCard title="Payment Amount" height="200px" col="12">

@@ -9,7 +9,6 @@ import { getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { useDispatch } from 'react-redux';
 
 const BillingInfoTab = ({ onTabEnable }) => {
-    console.log();
     const history = useHistory();
     const { id, newPlanId, memberId } = useParams();
     const dispatch = useDispatch();
@@ -25,7 +24,6 @@ const BillingInfoTab = ({ onTabEnable }) => {
         if (id) {
             dispatch(
                 getSellPlan(newPlanId, (data) => {
-                    console.log(data, 'data');
                     setData({
                         agreementTemplateId: '65f2a07d5079bb7d0ffd473a',
                     });
@@ -39,7 +37,6 @@ const BillingInfoTab = ({ onTabEnable }) => {
         history.replace(`/plans/plan-agreements/${data.agreementTemplateId}`);
     };
 
-    console.log(data, 'data>>');
     return (
         <>
             <div className="bg-lightest-blue border-round p-2 mt-2 " style={{ overflowY: 'auto' }}>

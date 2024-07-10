@@ -1,40 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getAgreementTemplates } from '../../redux/actions/AgreementSettings/AgreementTemplate';
 import PrimaryButton from '../../shared/Button/CustomButton';
+import { mergeFields } from '../../utils/constant';
+import CustomDialog from '../../shared/Overlays/CustomDialog';
+import SignaturePad from 'react-signature-canvas';
 
 const PlanAgreement = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAgreementTemplates());
     }, [dispatch]);
-
+    const [signatures, setSignatures] = useState([]);
     const { agreementId } = useParams();
     let { allAgreementTemplates } = useSelector((state) => state.agreement);
 
     const agreementTemplate = allAgreementTemplates?.find((item) => item._id === agreementId);
 
-    const mergeFields = [
-        { name: 'Membership Type', value: '{{Membership_Type}}' },
-        { name: 'Services', value: '{{Services}}' },
-        { name: 'Assessed Fees', value: '{{Assessed_Fees}}' },
-        { name: 'Membership Name', value: '{{Membership_Name}}' },
-        { name: 'Title', value: '{{Title}}' },
-        { name: 'First Name', value: '{{First_Name}}' },
-        { name: 'Last Name', value: '{{Last_Name}}' },
-        { name: 'Company Name', value: '{{Company_Name}}' },
-        { name: 'Address Line 1', value: '{{Address_Line_1}}' },
-        { name: 'Address Line 2', value: '{{Address_Line_2}}' },
-        { name: 'City', value: '{{City}}' },
-        { name: 'State', value: '{{State}}' },
-        { name: 'Zip Code', value: '{{Zip_Code}}' },
-        { name: 'Country or Region', value: '{{Country_or_Region}}' },
-        { name: 'Phone', value: '{{Phone}}' },
-        { name: 'Email', value: '{{Email}}' },
-        { name: 'Salesperson', value: '{{Salesperson}}' },
-        { name: 'Campaign', value: '{{Campaign}}' },
-    ];
+    const [openModal, setOpenModal] = useState(null);
 
     const actualValues = {
         Membership_Type: 'Premium',
@@ -89,6 +73,12 @@ const PlanAgreement = () => {
         Email: 'john.doe@example.com',
         Salesperson: 'Jane Smith',
         Campaign: 'Spring2024',
+        'Client’s_Last_Name': 'Doe',
+        'Client’s_First_Name': 'Simran',
+        Billing_Frequency: '85',
+        '⁠Driver’s_License_Number': '78HGFEEJH',
+        'Client’s_Zip_Code': 35242,
+        'Client’s_Title': 'KJJYU&&%',
     };
 
     const replacePlaceholders = (htmlContent, mergeFields, actualValues) => {
@@ -102,23 +92,56 @@ const PlanAgreement = () => {
             }
             const regex = new RegExp(field.value, 'g');
             htmlContent = htmlContent.replace(regex, value);
-            const memberInitials = `${actualValues.First_Name.charAt(0)}${actualValues.Last_Name.charAt(0)}`;
+            const memberInitials = `${actualValues['Client’s_First_Name'].charAt(0)}${actualValues['Client’s_Last_Name'].charAt(0)}`;
             htmlContent = htmlContent.replace(/\[Member’s initials\]/g, memberInitials);
+            let signatureIndex = 0;
+            htmlContent = htmlContent.replace(/\[Member’s signature\]/g, () => {
+                const signatureImg = signatures[signatureIndex]
+                    ? `<img src="${signatures[signatureIndex]}" alt="Member’s signature" class="h-auto w-2" />`
+                    : '[Member’s signature]';
+                signatureIndex++;
+                return signatureImg;
+            });
         });
         return htmlContent;
     };
     const countPlaceholders = (htmlContent, placeholder) => {
         const regex = new RegExp(placeholder, 'g');
         const matches = htmlContent.match(regex);
-        console.log('matches>>', matches);
         return matches ? matches : [];
     };
 
     const signatureCount = agreementTemplate ? countPlaceholders(agreementTemplate.htmlContent, '\\[Member’s signature\\]') : [];
-
-    console.log(signatureCount, 'signatureCount');
-
     const htmlContent = agreementTemplate ? replacePlaceholders(agreementTemplate.htmlContent, mergeFields, actualValues) : '';
+
+    const signRef = useRef();
+    const handleClearSign = () => {
+        signRef.current.clear();
+    };
+    const handleSave = () => {
+        if (signRef.current) {
+            const isEmpty = signRef.current.isEmpty();
+            const updatedSignatures = [...signatures];
+            if (isEmpty) {
+                updatedSignatures[openModal - 1] = '';
+            } else {
+                const trimmedDataURL = signRef.current.getTrimmedCanvas().toDataURL('image/png');
+                updatedSignatures[openModal - 1] = trimmedDataURL;
+            }
+            setSignatures(updatedSignatures);
+            setOpenModal(null);
+        }
+    };
+    const handleOpenModal = (index) => {
+        setOpenModal(index + 1);
+        setTimeout(() => {
+            if (signRef.current) {
+                if (signatures[index]) {
+                    signRef.current.fromDataURL(signatures[index]);
+                }
+            }
+        }, 100);
+    };
 
     return (
         <div className="grid p-4">
@@ -132,12 +155,32 @@ const PlanAgreement = () => {
                 {signatureCount?.map((_, i) => (
                     <div className="bg-lightest-blue border-round-lg p-4 h-12rem mt-2">
                         <div className=" text-right">
-                            <PrimaryButton label={`Sign ${i + 1}`} />
+                            <PrimaryButton label={`Sign ${i + 1}`} onClick={() => handleOpenModal(i)} />
                         </div>
-                        <p className="text-center">Your signature</p>
+
+                        {signatures?.length > 0 && signatures[i] ? (
+                            <img src={signatures[i]} alt={`signature-${i}`} className="w-5 h-5rem m-auto block " />
+                        ) : (
+                            <p className="text-center">Your signature</p>
+                        )}
                     </div>
                 ))}
             </div>
+
+            <CustomDialog
+                visible={openModal}
+                onCancel={() => {
+                    setOpenModal(null);
+                }}
+                width="80vh"
+                height="60vh"
+                contentClassName="pb-2"
+                showHeader={false}
+                onClear={handleClearSign}
+                onSave={handleSave}
+            >
+                <SignaturePad canvasProps={{ className: 'sigPad' }} ref={signRef} />
+            </CustomDialog>
         </div>
     );
 };

@@ -83,8 +83,6 @@ const IdentificationTab = ({ onTabEnable }) => {
         }
     };
 
-    console.log('data>>', data);
-
     const handleNext = async () => {
         if (showFormErrors(data, setData)) {
             try {

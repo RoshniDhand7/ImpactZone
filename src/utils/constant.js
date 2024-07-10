@@ -21,7 +21,7 @@ export const mergeFields = [
     },
     {
         name: 'Assessed Fees',
-        value: '{{Assessed Fees}}',
+        value: '{{Assessed_Fees}}',
     },
     {
         name: 'Membership Name',
@@ -106,5 +106,81 @@ export const mergeFields = [
     {
         name: 'Campaign',
         value: '{{Campaign}}',
+    },
+    {
+        name: 'Agreement #',
+        value: '{{Agreement_#}}',
+    },
+    {
+        name: 'Barcode',
+        value: '{{Barcode}}',
+    },
+    {
+        name: 'Date',
+        value: '{{Date}}',
+    },
+    {
+        name: 'Time',
+        value: '{{Time}}',
+    },
+    {
+        name: 'Client Cell Phone',
+        value: '{{Client_Cell_Phone}}',
+    },
+    {
+        name: '⁠Driver’s License Number',
+        value: '{{⁠Driver’s_License_Number}}',
+    },
+    {
+        name: 'Employer',
+        value: '{{Employer}}',
+    },
+    {
+        name: 'Work Phone',
+        value: '{{Work_Phone}}',
+    },
+    {
+        name: 'Emergency Contact Name',
+        value: '{{Emergency_Contact_Name}}',
+    },
+    {
+        name: 'Emergency Contact Number',
+        value: '{{Emergency_Contact_Number}}',
+    },
+    {
+        name: '⁠Membership Begin Date',
+        value: '{{⁠Membership_Begin_Date}}',
+    },
+    {
+        name: 'First Month Dues',
+        value: '{{First_Month_Dues}}',
+    },
+    {
+        name: 'Billing Date',
+        value: '{{Billing_Date}}',
+    },
+    {
+        name: 'Billing Frequency',
+        value: '{{Billing_Frequency}}',
+    },
+    {
+        name: 'Renewal Type',
+        value: '{{Renewal_Type}}',
+    },
+    {
+        name: 'Renewal Date',
+        value: '{{Renewal_Date}}',
+    },
+    {
+        name: '⁠Payment Method',
+        value: '{{⁠Payment_Method}}',
+    },
+    {
+        name: '⁠Past Due Balance',
+        value: '{{⁠Past_Due_Balance}}',
+    },
+    {
+        name: '⁠Total Amount Due',
+        value: '{{⁠Total_Amount_Due}}',
     },
 ];
