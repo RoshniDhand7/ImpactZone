@@ -110,7 +110,7 @@ export const PrivateRoutes = [
                 component: AllDrafts,
             },
             {
-                path: '/plan-agreements/:agreementId',
+                path: '/plan-agreements/:memberId/:agreementId',
                 name: 'Plan Agreement',
                 exact: true,
                 component: PlanAgreement,

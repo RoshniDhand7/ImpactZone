@@ -117,6 +117,15 @@ const uploadFile = async (file) => {
         }
     }
 };
+const uploadSignImage = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
+
+    if (res.success && res.data) {
+        return res.data.path;
+    }
+};
 
 const uploadImages = async (images) => {
     const promises = images?.map(async (item) => {
@@ -328,4 +337,5 @@ export {
     applyFilters,
     isFileObject,
     uniqueData,
+    uploadSignImage,
 };

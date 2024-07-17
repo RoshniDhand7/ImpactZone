@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomListItem } from '../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { getSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { useDispatch } from 'react-redux';
 import { uniqueData } from '../../utils/commonFunctions';
 
@@ -45,8 +45,12 @@ const PaymentAmountTab = ({ onTabEnable }) => {
     }, [data.services, data.assessedFee]);
 
     const handleNext = () => {
-        onTabEnable(0, 1, 2, 3, 4, 5);
-        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
+        dispatch(
+            editSellPlan(newPlanId, { totalAmount: data?.total }, () => {
+                onTabEnable(0, 1, 2, 3, 4, 5);
+                history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
+            }),
+        );
     };
 
     return (

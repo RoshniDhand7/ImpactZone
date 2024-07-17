@@ -15,7 +15,9 @@ const BillingInfoTab = ({ onTabEnable }) => {
 
     const [data, setData] = useState({
         enable: false,
+        agreementTemplateId: '',
     });
+
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -25,7 +27,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
             dispatch(
                 getSellPlan(newPlanId, (data) => {
                     setData({
-                        agreementTemplateId: '65f2a07d5079bb7d0ffd473a',
+                        agreementTemplateId: data.agreementTemplate,
                     });
                 }),
             );
@@ -34,7 +36,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
 
     const handleNext = () => {
         onTabEnable(0, 1, 2, 3, 4, 5);
-        history.replace(`/plans/plan-agreements/${data.agreementTemplateId}`);
+        history.replace(`/plans/plan-agreements/${memberId}/${data.agreementTemplateId}`);
     };
 
     return (
