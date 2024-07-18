@@ -1,91 +1,106 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { getAgreementTemplates } from '../../redux/actions/AgreementSettings/AgreementTemplate';
-import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
+import PrimaryButton, { CustomButtonGroup } from '../../shared/Button/CustomButton';
 import { mergeFields } from '../../utils/constant';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import SignaturePad from 'react-signature-canvas';
 import { uploadSignImage } from '../../utils/commonFunctions';
 import { getImageURL } from '../../utils/imageUrl';
-import html2pdf from 'html2pdf.js';
+import { useReactToPrint } from 'react-to-print';
+import { editSellPlan, getSellPlan, getSellPlanAgreement } from '../../redux/actions/Plans/SellPlan';
+import html2canvas from 'html2canvas';
+import moment from 'moment';
+var domToPdf = require('dom-to-pdf');
 
-const PlanAgreement = () => {
+const PlanAgreement = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getAgreementTemplates());
-    }, [dispatch]);
-    const contentRef = useRef(null);
-    const [signatures, setSignatures] = useState([]);
-    const { memberId, agreementId } = useParams();
-    let { allAgreementTemplates } = useSelector((state) => state.agreement);
+    const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        dispatch(getAgreementTemplates(setLoading));
+    }, [dispatch]);
+    const componentRef = useRef();
+    const [signatures, setSignatures] = useState([]);
+    const { newPlanId, memberId, agreementId } = useParams();
+    let { allAgreementTemplates } = useSelector((state) => state.agreement);
     const agreementTemplate = allAgreementTemplates?.find((item) => item._id === agreementId);
 
+    useEffect(() => {
+        setLoading(true);
+        if (agreementTemplate) {
+            setLoading(false);
+        }
+    }, [agreementTemplate]);
+
     const [signaturePath, setSignaturePath] = useState([]);
-
     const [openModal, setOpenModal] = useState(null);
+    const [data, setData] = useState({});
+    const [actualValues, setActualValues] = useState({});
 
-    const actualValues = {
-        Membership_Type: 'Premium',
-        Services: [
-            {
-                _id: '65e9b1a55d6fd52ef5afae72',
-                name: 'Immaculate Conception School',
-                upc: 'tert',
-                unitPrice: 10,
-            },
-            {
-                _id: '65e9b9a522c1eb3f3d5e2927',
-                name: 'vendow1',
-                upc: 'tert',
-                unitPrice: 10,
-            },
-            {
-                _id: '65fa76246305c578f316b10d',
-                name: 'Immaculate Conception School',
-                upc: 'KJU87',
-                unitPrice: 10,
-            },
-            {
-                _id: '660692548ce942798dac40a4',
-                name: 'Copy1',
-                upc: 'KJU87',
-                unitPrice: 10,
-            },
-        ],
-        Assessed_Fees: [
-            {
-                _id: '66166ac910ebbc59947e4057',
-                name: 'Assesed Fee1',
-            },
-            {
-                _id: '66878b80bc8461ba33c10e06',
-                name: 'Assessed fee 2',
-            },
-        ],
-        Membership_Name: 'John Doe Membership',
-        Title: 'Mr.',
-        First_Name: 'Roshni',
-        Last_Name: 'Dhand',
-        Company_Name: 'Doe Inc.',
-        Address_Line_1: '123 Main St',
-        Address_Line_2: 'Suite 100',
-        City: 'Somewhere',
-        State: 'CA',
-        Zip_Code: '90210',
-        Country_or_Region: 'USA',
-        Phone: '555-1234',
-        Email: 'john.doe@example.com',
-        Salesperson: 'Jane Smith',
-        Campaign: 'Spring2024',
-        'Client’s_Last_Name': 'Doe',
-        'Client’s_First_Name': 'Simran',
-        Billing_Frequency: '85',
-        '⁠Driver’s_License_Number': '78HGFEEJH',
-        'Client’s_Zip_Code': 35242,
-        'Client’s_Title': 'KJJYU&&%',
-    };
+    useEffect(() => {
+        dispatch(
+            getSellPlanAgreement(newPlanId, (data) => {
+                const formattedData = {
+                    Membership_Type: data.membershipType,
+                    Services: data.services,
+                    Assessed_Fees: data.assessedFee,
+                    Membership_Name: data.member.memberShipPlan.name,
+                    'Client’s_Title': '',
+                    'Client’s_First_Name': data.member.firstName,
+                    'Client’s_Last_Name': data.member.lastName,
+                    Company_Name: data.member.companyData.companyName,
+                    'Client’s_Address': data.member.address,
+                    Company_Address: data.member.companyData.address1,
+                    'Client’s_City': data.member.city,
+                    Company_City: data.member.companyData.city,
+                    'Client’s_State': data.member.state,
+                    Company_State: data.member.companyData.state,
+                    'Client’s_Zip_Code': data.member.zipCode,
+                    Company_Zip_Code: data.member.companyData.zipCode,
+                    'Client’s_Country_or_Region': data.member.address,
+                    Company_Country_or_Region: data.member.companyData.country,
+                    'Client’s_Phone': data.member.primaryPhone,
+                    Company_Phone: data.member.companyData.phone,
+                    'Client’s_Email': data.member.email,
+                    Company_Email: data.member.companyData.email,
+                    Salesperson: data.member.salesPerson,
+                    Campaign: data.member.campaign,
+                    'Agreement_#': data.agreementNo,
+                    Barcode: data.member.barCode,
+                    Date: moment(data.date).format('MM-DD-YYYY'),
+                    Time: moment(data.member.createdAt).format('HH:mm'),
+                    'Client’s_Cell_Phone': '',
+                    '⁠Driver’s_License_Number': data.member.driverLicense,
+                    Employer: '',
+                    Work_Phone: data.member.workNumber,
+                    Emergency_Contact_Name: data.member.emergencyFirstName + data.member.emergencyLastName,
+                    Emergency_Contact_Number: data.member.emergencyContact,
+                    '⁠Membership_Begin_Date': moment(data.begin).format('MM-DD-YYYY'),
+                    First_Month_Dues: '',
+                    Billing_Date: '',
+                    Billing_Frequency: '',
+                    Renewal_Type: '',
+                    Renewal_Date: '',
+                    '⁠Payment_Method': '',
+                    Past_Due_Balance: '',
+                    '⁠Total_Amount_Due': '',
+                };
+                setData(formattedData);
+
+                const mappedValues = mergeFields.reduce((acc, field) => {
+                    const key = field.value.slice(2, -2); // Extract key from {{key}}
+                    if (formattedData.hasOwnProperty(key)) {
+                        acc[key] = formattedData[key];
+                    }
+                    return acc;
+                }, {});
+
+                setActualValues(mappedValues);
+            }),
+        );
+    }, [dispatch, newPlanId]);
 
     const replacePlaceholders = (htmlContent, mergeFields, actualValues) => {
         let signatureIndex = 0;
@@ -104,7 +119,7 @@ const PlanAgreement = () => {
             htmlContent = htmlContent.replace(regex, value);
         });
 
-        const memberInitials = `${actualValues['Client’s_First_Name'].charAt(0)}${actualValues['Client’s_Last_Name'].charAt(0)}`;
+        const memberInitials = `${actualValues['Client’s_First_Name']?.charAt(0)}${actualValues['Client’s_Last_Name']?.charAt(0)}`;
         htmlContent = htmlContent.replace(/\[Member’s initials\]/g, memberInitials);
 
         htmlContent = htmlContent.replace(/\[Member’s signature\]/g, () => {
@@ -114,7 +129,7 @@ const PlanAgreement = () => {
             signatureIndex++;
             return signatureImg;
         });
-        htmlContent = `<div id="element-to-print">${htmlContent}</div>`;
+        // htmlContent = `<div id="element-to-print">${htmlContent}</div>`;
         return htmlContent;
     };
     const countPlaceholders = (htmlContent, placeholder) => {
@@ -163,12 +178,8 @@ const PlanAgreement = () => {
                 const mimeType = 'image/png';
                 const fileName = `signature_${openModal}.png`;
                 const file = base64ToFile(base64Data, mimeType, fileName);
-                console.log('file>>', file);
-
                 let urls = await uploadSignImage(file);
                 const uploadedURL = urls;
-                console.log(uploadedURL, 'uploadedURL');
-
                 updatedSignatures[openModal - 1] = trimmedDataURL;
                 updatedSignaturePath[openModal - 1] = uploadedURL;
             }
@@ -188,52 +199,73 @@ const PlanAgreement = () => {
         // }, 100);
     };
 
-    // const handleDownloadPdf = () => {
-    //     // const finalHtmlContent = replacePlaceholders(htmlContent, mergeFields, actualValues, signaturePath);
+    const history = useHistory();
 
-    //     const finalHtmlContent = replacePlaceholders(htmlContent, mergeFields, actualValues);
-    //     const elementToPrint = document.getElementById('element-to-print');
-
-    //     console.log(elementToPrint, 'elementToPrint');
-    //     elementToPrint.innerHTML = finalHtmlContent;
-
-    //     html2pdf()
-    //         .from(elementToPrint)
-    //         .set({
-    //             margin: 1,
-    //             filename: 'document.pdf',
-    //             html2canvas: { scale: 2 },
-    //             jsPDF: { orientation: 'portrait' },
-    //         })
-    //         .save();
-    // };
-
-    const handleDownloadPdf = () => {
-        // Make sure the element is fully rendered before capturing it
-        // const content = contentRef.current;
-        const elementToPrint = document.getElementById('element-to-print');
-
-        console.log('elementToPrint>>', elementToPrint);
-
-        const options = {
-            margin: [1, 1, 1, 1],
-            filename: 'document.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'pc', format: 'letter', orientation: 'portrait' },
-        };
-        html2pdf().from(elementToPrint).set(options).save();
+    const handleConfirm = () => {
+        dispatch(
+            editSellPlan(newPlanId, { htmlContent }, () => {
+                history.push('/plans');
+            }),
+        );
     };
 
-    console.log('signatures>>', signatures);
-    console.log('imageBlob>>', signaturePath);
-    console.log('htmlContent>>', htmlContent);
+    const handleDownloadPdf = async () => {
+        setLoading(true); // Start loading
+        const elementToPrint = document.getElementById('element-to-print');
+
+        // Define the options for dom-to-pdf
+        const options = {
+            filename: 'agreement.pdf',
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+            html2canvas: {
+                scale: 2, // Increase the scale to enhance the quality
+            },
+        };
+        // Create a wrapper with specific margins
+        const wrapper = document.createElement('div');
+        wrapper.style.paddingTop = '1in'; // Top margin
+        wrapper.style.paddingRight = '1in'; // Right margin
+        wrapper.style.paddingBottom = '1in'; // Bottom margin
+        wrapper.style.paddingLeft = '1in'; // Left margin
+        wrapper.appendChild(elementToPrint.cloneNode(true));
+        const content = wrapper.querySelector('#element-to-print');
+        if (content) {
+            content.style.fontSize = '18px'; // Increase font size
+            content.style.lineHeight = '1.8'; // Increase line height for spacing between lines
+            content.style.letterSpacing = '0.5px'; // Increase letter spacing
+        }
+
+        // Append the wrapper to the document body
+        document.body.appendChild(wrapper);
+        // Generate the PDF
+        await new Promise((resolve) => {
+            domToPdf(wrapper, options, () => {
+                document.body.removeChild(wrapper); // Clean up the wrapper after generating the PDF
+                setLoading(false); // End loading
+                resolve();
+            });
+        });
+    };
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: 'Visitor Pass',
+        onAfterPrint: () => console.log('Printed PDF successfully!'),
+    });
+
     return (
         <div className="grid p-4">
             <div className="md:col-8  ">
                 <div className="shadow-2 border-round-lg p-5">
                     <h1 className="text-center mb-3 font-bold">Agreement</h1>
-                    <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+
+                    <div
+                        id="element-to-print"
+                        style={{ lineHeight: '1.8' }}
+                        className="print-content"
+                        ref={componentRef}
+                        dangerouslySetInnerHTML={{ __html: htmlContent }}
+                    ></div>
                 </div>
             </div>
             <div className="md:col-4 agreementclassName">
@@ -250,10 +282,12 @@ const PlanAgreement = () => {
                         )}
                     </div>
                 ))}
+                {/* <ComponentToPrint ref={componentRef} /> */}
                 <CustomButtonGroup>
-                    <PrimaryButton name="" label="Confirm" className="mx-2" />
-                    <PrimaryButton name="" label="Download" className="mx-2" icon="pi pi-download" onClick={handleDownloadPdf} />
-                    <PrimaryButton name="" label="Print" className="bg-yellow-300 mx-2" icon="pi pi-print" />
+                    <PrimaryButton name="" label="Confirm" className="mx-2" onClick={handleConfirm} />
+                    <PrimaryButton name="" label="Download" className="mx-2" icon="pi pi-download" loading={loading} onClick={handleDownloadPdf} />
+
+                    <PrimaryButton name="" label="Print" className="bg-yellow-300 mx-2" icon="pi pi-print" onClick={() => handlePrint()} />
                 </CustomButtonGroup>
             </div>
 
@@ -273,6 +307,6 @@ const PlanAgreement = () => {
             </CustomDialog>
         </div>
     );
-};
+});
 
 export default PlanAgreement;

@@ -33,6 +33,18 @@ const getSellPlan = (id, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+const getSellPlanAgreement = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.PLAN_AGREEMENT + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
 const getSellPlanMember = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.MEMBER_SELL_PLAN + id);
@@ -88,4 +100,4 @@ const deleteMembershipPlan = (id) => async (dispatch) => {
     }
 };
 
-export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction, getAllDrafts };
+export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction, getAllDrafts, getSellPlanAgreement };

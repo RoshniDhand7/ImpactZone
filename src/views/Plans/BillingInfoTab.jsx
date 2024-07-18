@@ -36,7 +36,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
 
     const handleNext = () => {
         onTabEnable(0, 1, 2, 3, 4, 5);
-        history.replace(`/plans/plan-agreements/${memberId}/${data.agreementTemplateId}`);
+        history.replace(`/plans/plan-agreements/${newPlanId}/${memberId}/${data.agreementTemplateId}`);
     };
 
     return (
