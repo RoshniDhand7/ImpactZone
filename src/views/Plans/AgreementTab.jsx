@@ -32,7 +32,7 @@ const AgreementTab = ({ onTabEnable }) => {
         signDate: '',
         beginDate: '',
         firstDueDate: '',
-        agreementNumber: '',
+        agreementNo: '',
         assessedFee: '',
         agreementNo: 0,
     });
@@ -117,7 +117,6 @@ const AgreementTab = ({ onTabEnable }) => {
                         memberSince: new Date(data.addmember.createdAt),
                         signDate: data.signDate ? new Date(data.signDate) : new Date(),
                         beginDate: data.beginDate ? new Date(data.beginDate) : new Date(),
-                        agreementNumber: data.agreementNumber,
                         assessedFee: data.assessedFee.map((item) => ({
                             ...item,
                             dueDate: item.dueDate ? new Date(item.dueDate) : '',
@@ -198,7 +197,7 @@ const AgreementTab = ({ onTabEnable }) => {
             if (validated.isValid && validatedAssessedFee.isValid) {
                 const payload = {
                     ...data,
-                    referredBy: data.referredBy?.fullName,
+                    referredBy: data.referredBy?.fullName ? data.referredBy?.fullName : '',
                     services: data.services?.map((item) => ({
                         catalogId: item._id,
                         name: item.name,
@@ -235,6 +234,8 @@ const AgreementTab = ({ onTabEnable }) => {
         setItems(_filteredItems);
         return _filteredItems;
     };
+
+    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Membership">

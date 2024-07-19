@@ -261,9 +261,9 @@ const PlanAgreement = React.forwardRef((props, ref) => {
 
                     <div
                         id="element-to-print"
-                        style={{ lineHeight: '1.8' }}
                         className="print-content"
                         ref={componentRef}
+                        style={{ margin: '20px', padding: '10px', lineHeight: '1.8', fontSize: '18px' }}
                         dangerouslySetInnerHTML={{ __html: htmlContent }}
                     ></div>
                 </div>
