@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../../shared/Button/CustomButton';
 import { addCertificates, editCertificates, getCertificate } from '../../../../../../redux/actions/EmployeeSettings/certificationAction';
+import CustomFilesInput from '../../../../../../shared/Input/CustomFilesInput';
 
 const CertificationForm = () => {
     const { id, employeeId } = useParams();
@@ -17,8 +18,10 @@ const CertificationForm = () => {
         issuer: '',
         acquiredDate: '',
         expirationDate: '',
-        uploadCertificate: '',
+        certificate: [],
         employee: '',
+        certificateSize: '',
+        certificateName: '',
     });
     useEffect(() => {
         if (id) {
@@ -30,9 +33,11 @@ const CertificationForm = () => {
                         issuer: data.issuer,
                         acquiredDate: data.acquiredDate ? new Date() : '',
                         expirationDate: data.expirationDate ? new Date() : '',
-                        uploadCertificate: data.uploadCertificate ? [data.uploadCertificate] : [],
+                        certificate: data.certificate ? [data.certificate] : [],
                         description: data.description,
                         employee: employeeId,
+                        certificateName: data?.certificateName ? data?.certificateName : '',
+                        certificateSize: data?.certificateSize ? data?.certificateSize : '',
                     });
                 }),
             );
@@ -64,6 +69,18 @@ const CertificationForm = () => {
                         <CustomCalenderInput name="acquiredDate" data={data} onChange={handleChange} />
                         <CustomCalenderInput name="expirationDate" data={data} onChange={handleChange} />
                         <CustomTextArea name="description" data={data} onChange={handleChange} />
+                        <CustomFilesInput
+                            data={data}
+                            onFilesChange={handleChange}
+                            name="certificate"
+                            label="Upload Certificate"
+                            accept="image/*,.pdf"
+                            disabled={false}
+                            col="6"
+                            uploadType="Image/Pdf"
+                            originalName={data?.certificateName}
+                            fileSize={data.certificateSize}
+                        />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

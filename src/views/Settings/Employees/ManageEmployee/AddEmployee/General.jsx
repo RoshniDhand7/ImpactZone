@@ -24,37 +24,6 @@ const General = () => {
         setStates(updatedStates);
     }, [dispatch]);
 
-    useEffect(() => {
-        if (id) {
-            dispatch(
-                getEmployee(id, (data) => {
-                    setData({
-                        hireDate: new Date(data.hireDate),
-                        terminationDate: data.terminationDate,
-                        adpId: data.adpId,
-                        primaryPhone: data.primaryPhone,
-                        workPhone: data.workPhone,
-                        workPhoneExt: data.workPhoneExt,
-                        mobilePhone: data.mobilePhone,
-                        faxPhone: data.faxPhone,
-                        emergencyPhone: data.emergencyPhone,
-                        emergencyPhoneExt: data.emergencyPhoneExt,
-                        street: data.street,
-                        city: data.city,
-                        state: data.state,
-                        zipCode: data.zipCode,
-                        emailNotification: data.emailNotification?.toString(),
-                        onlineNickName: data.onlineNickName,
-                        bio: data.bio,
-                        image: data.image ? [data.image] : [],
-                    });
-                    const cities = getCitiesByState('US', data.state);
-                    setCities(cities);
-                }),
-            );
-        }
-    }, [id, dispatch]);
-
     const [data, setData] = useState({
         hireDate: '',
         terminationDate: '',
@@ -73,8 +42,43 @@ const General = () => {
         emailNotification: true,
         onlineNickName: '',
         bio: '',
+        socialMedia: '',
+        alternateEmail: '',
         image: [],
     });
+
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getEmployee(id, (data) => {
+                    setData({
+                        hireDate: data.hireDate ? new Date(data.hireDate) : '',
+                        terminationDate: data.terminationDate,
+                        adpId: data.adpId,
+                        primaryPhone: data.primaryPhone,
+                        workPhone: data.workPhone,
+                        workPhoneExt: data.workPhoneExt,
+                        mobilePhone: data.mobilePhone,
+                        faxPhone: data.faxPhone,
+                        emergencyPhone: data.emergencyPhone,
+                        emergencyPhoneExt: data.emergencyPhoneExt,
+                        street: data.street,
+                        city: data.city,
+                        state: data.state,
+                        zipCode: data.zipCode,
+                        emailNotification: data.emailNotification?.toString(),
+                        onlineNickName: data.onlineNickName,
+                        bio: data.bio,
+                        socialMedia: data.socialMedia,
+                        alternateEmail: data.alternateEmail,
+                        image: data.image ? [data.image] : [],
+                    });
+                    const cities = getCitiesByState('US', data.state);
+                    setCities(cities);
+                }),
+            );
+        }
+    }, [id, dispatch]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -93,7 +97,6 @@ const General = () => {
             }
         }
     };
-
     return (
         <>
             <CustomCard col="12" title="Employement">
@@ -117,11 +120,16 @@ const General = () => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Online">
-                <CustomInput name="onlineNickName" onChange={handleChange} data={data} />
-                <CustomTextArea name="bio" onChange={handleChange} data={data} />
+                <CustomGridLayout>
+                    <CustomInput name="onlineNickName" onChange={handleChange} data={data} />
+                    <CustomInput name="socialMedia" onChange={handleChange} data={data} />
+                    <CustomInput name="alternateEmail" label="Alternate Email" onChange={handleChange} data={data} />
+                    <CustomTextArea name="bio" onChange={handleChange} data={data} />
+                </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Photo">
                 <PhotoUpload name="image" onDropChange={handleChange} data={data} multiple={false} />
+                <div className="p-error text-sm">{data?.formErrors?.image}</div>
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />

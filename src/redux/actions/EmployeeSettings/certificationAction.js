@@ -4,6 +4,7 @@ import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
+import { uploadFiles } from '../../../utils/commonFunctions';
 
 const getCertificates = (id, setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -27,6 +28,15 @@ const addCertificates =
     (data, setLoading, history, tab = '') =>
     async (dispatch) => {
         setLoading(true);
+        if (data.certificate?.length) {
+            let durls = await uploadFiles(data.certificate);
+            data.certificate = durls[0].path;
+            data.certificateName = durls[0].originalname;
+            data.certificateSize = durls[0].size;
+        } else {
+            data.certificate = '';
+        }
+
         const payload = {
             ...data,
             acquiredDate: moment(data.acquiredDate).format('MM/DD/YYYY'),
@@ -60,6 +70,15 @@ const editCertificates =
     (id, data, setLoading, history, tab = '') =>
     async (dispatch) => {
         setLoading(true);
+        if (data.certificate?.length) {
+            let durls = await uploadFiles(data.certificate);
+            data.certificate = durls[0].path;
+            data.certificateName = durls[0].originalname;
+            data.certificateSize = durls[0].size;
+        } else {
+            data.certificate = '';
+        }
+
         const payload = {
             ...data,
             acquiredDate: moment(data.acquiredDate).format('MM/DD/YYYY'),

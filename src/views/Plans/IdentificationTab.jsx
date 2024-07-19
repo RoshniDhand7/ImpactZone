@@ -51,6 +51,8 @@ const IdentificationTab = ({ onTabEnable }) => {
                         driverLicensePdfOriginalName: data.driverLicensePdfOriginalName ? data.driverLicensePdfOriginalName : '',
                         govtIdPdf: data.govtIdPdf ? [data.govtIdPdf] : [],
                         govtIdPdfOriginalName: data.govtIdPdfOriginalName ? data.govtIdPdfOriginalName : '',
+                        govtIdSize: data.govtIdSize ? data.govtIdSize : '',
+                        driverLicenseSize: data.driverLicenseSize ? data.driverLicenseSize : '',
                         accessCode: data.accessCode,
                         barCode: Number(data.barCode),
                         image: data.image ? [data.image] : [],
@@ -99,6 +101,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                     let durls = await uploadFiles(data.driverLicensePdf);
                     data.driverLicensePdf = durls[0].path;
                     data.driverLicensePdfOriginalName = durls[0].originalname;
+                    data.driverLicenseSize = durls[0].size;
                 } else {
                     data.driverLicensePdf = '';
                 }
@@ -107,6 +110,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                     let gurls = await uploadFiles(data.govtIdPdf);
                     data.govtIdPdf = gurls[0].path;
                     data.govtIdPdfOriginalName = gurls[0].originalname;
+                    data.govtIdSize = gurls[0].size;
                 } else {
                     data.govtIdPdf = '';
                 }
@@ -149,6 +153,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                             col="6"
                             uploadType="Image/Pdf"
                             originalName={data?.driverLicensePdfOriginalName}
+                            fileSize={data.driverLicenseSize}
                         />
                         <CustomFilesInput
                             data={data}
@@ -160,6 +165,7 @@ const IdentificationTab = ({ onTabEnable }) => {
                             col="6"
                             uploadType="Image/Pdf"
                             originalName={data.govtIdPdfOriginalName}
+                            fileSize={data.govtIdSize}
                         />
                     </div>
                 </CustomGridLayout>

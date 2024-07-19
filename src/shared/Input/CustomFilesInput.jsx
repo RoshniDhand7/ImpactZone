@@ -25,10 +25,13 @@ export default function CustomFilesInput({
     editable,
     disabled = false,
     originalName,
+    fileSize,
     ...props
 }) {
     const [files, setFiles] = useState(value || data?.[name] || []);
     const dispatch = useDispatch();
+
+    console.log('files>', files);
 
     useEffect(() => {
         if (value || data?.[name]) {
@@ -119,6 +122,7 @@ export default function CustomFilesInput({
                         <div className="border-1 p-2 border-300">
                             <div className="grid align-items-center p-0 border-bottom-1 border-300">
                                 <div className="md:col-3 ">Name</div>
+                                <div className="md:col-3 ">File size</div>
                                 {/* <div className="md:col-3 ">
                                     <label htmlFor="files">
                                         <img src={UploadBlack} alt="" width="30" />
@@ -129,7 +133,7 @@ export default function CustomFilesInput({
                             <div className="grid align-items-center py-2">
                                 {Object.values(files).map((file, i) => (
                                     <>
-                                        <div className="md:col-6 text-main-color  " key={i}>
+                                        <div className="md:col-3 text-main-color  " key={i}>
                                             {file?.path ? (
                                                 <Inplace>
                                                     <InplaceDisplay>{file.originalname}</InplaceDisplay>
@@ -141,6 +145,7 @@ export default function CustomFilesInput({
                                                 file.name || originalName
                                             )}
                                         </div>
+                                        <div className="md:col-3 text-main-color  ">{parseInt(file?.size || fileSize / 1024)}kb</div>
                                         {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}
                                         <div className="md:col-6 text-main-color text-center">
                                             <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{ width: '15px' }} />

@@ -195,11 +195,11 @@ const BonusSetup = ({ type }) => {
                     {data?.bonusType === 'SINGLE_CLIENT' ? (
                         <CustomInputNumber col={6} label="No of Sessions" name="ofSessions" data={data} onChange={handleChange} />
                     ) : (
-                        <CustomInputNumber col={6} name="sessionsValue" data={data} onChange={handleChange} />
+                        <CustomInputNumber col={6} name="sessionsValue" data={data} onChange={handleChange} minFractionDigits={4} maxFractionDigits={4} />
                     )}
                     <CustomInputNumber col="6" name="over" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="duration" data={data} onChange={handleChange} col={6} options={durationOptions} />
-                    <CustomInputNumber col={8} name="bonusAmount" data={data} onChange={handleChange} />
+                    <CustomInputNumber col={8} name="bonusAmount" data={data} onChange={handleChange} minFractionDigits={4} maxFractionDigits={4} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
                     <CustomMultiselect
                         col="12"

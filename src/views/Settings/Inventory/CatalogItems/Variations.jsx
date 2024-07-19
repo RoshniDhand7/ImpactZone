@@ -15,6 +15,7 @@ import {
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
 import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
+import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
 
 const Variations = () => {
     const [open, setOpen] = useState(false);
@@ -100,6 +101,13 @@ const Variations = () => {
         return <InputNumber value={options.value} onValueChange={(e) => options.editorCallback(e.value)} />;
     };
 
+    const taxableEditor = (options) => {
+        return <CustomCheckbox value={options.value} onChange={(e) => options.editorCallback(e.value)} />;
+    };
+    const taxableTemplate = (rowData) => {
+        return <CustomCheckbox value={rowData.taxable} />;
+    };
+
     const onClose = () => {
         setOpen(false);
         setVariationId('');
@@ -166,6 +174,7 @@ const Variations = () => {
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column field="sku" header="Sku" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
+                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
                                         <Column
                                             field="unitPrice"
                                             header="Unit Price"
@@ -195,6 +204,13 @@ const Variations = () => {
                                             field="reorderQuantity"
                                             header="Reorder Quantity"
                                             editor={(options) => numberEditor(options)}
+                                            style={{ width: '20%' }}
+                                        ></Column>
+                                        <Column
+                                            field="taxable"
+                                            body={taxableTemplate}
+                                            header="Taxable"
+                                            editor={(options) => taxableEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
 

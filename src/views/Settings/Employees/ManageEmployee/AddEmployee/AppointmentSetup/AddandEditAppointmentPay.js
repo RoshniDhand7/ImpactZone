@@ -93,7 +93,7 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
                     )}
 
                     <CustomDropDown name="priority" data={data} onChange={handleChange} options={AppointmentPayPriorityOptions} col={12} />
-                    <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} />
+                    <CustomInputNumber col={8} name="pay" data={data} onChange={handleChange} minFractionDigits={4} maxFractionDigits={4} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
                 </CustomGridLayout>
             </CustomDialog>

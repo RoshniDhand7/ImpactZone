@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getReferralGroups } from '../../../../redux/actions/InventorySettings/referralGroupAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomCalenderInput, CustomDropDown, CustomInputNumber, CustomTextArea } from '../../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { getVendors } from '../../../../redux/actions/InventorySettings/vendorsAction';
 import { getCommissionGroups } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
@@ -29,6 +29,7 @@ const Tracking = () => {
         trackingAlternateVendors: '',
         time: new Date(),
         note: '',
+        alternateItem: '',
     });
 
     const handleChange = ({ name, value }) => {
@@ -58,6 +59,7 @@ const Tracking = () => {
                         trackingAlternateVendors: data.trackingAlternateVendors,
                         time: data.createdAt ? new Date(data.createdAt) : new Date(),
                         note: data.note,
+                        alternateItem: data.alternateItem,
                     });
                 }),
             );
@@ -94,7 +96,6 @@ const Tracking = () => {
                     <CustomInputNumber name="trackingMinimumQuantity" label="Minimum Quantity" onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="trackingMaximumQuantity" label="Maximum Quantity" onChange={handleChange} data={data} col={4} />
                     <CustomInputNumber name="recorderLevel" onChange={handleChange} data={data} col={4} />
-
                     <CustomDropDown
                         name="trackingAlternateVendors"
                         label="Alternate Vendors"
@@ -103,6 +104,7 @@ const Tracking = () => {
                         data={data}
                         col={4}
                     />
+                    <CustomInput name="alternateItem" onChange={handleChange} data={data} col={4} />
                     <CustomCalenderInput name="time" label="Date Created" data={data} disabled={true} />
                     <CustomTextArea name="note" maxLength="266" data={data} onChange={handleChange} inputClass="h-17rem" />
                     <CustomButtonGroup>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomCheckbox, CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
 import { classesPayTypeOptions } from '../../../../../../utils/dropdownConstants';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
@@ -48,6 +48,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
         twentyOneToTwentyFiveClients: 0,
         twentySixPlusClients: 0,
         noRegistrationPay: 0,
+        countUnpaidService: false,
     };
 
     const payperClassPayload = {
@@ -59,6 +60,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
     const PayPerClient = {
         payType: 'PAY_PER_CLIENT',
         baseRate: 0,
+        countUnpaidService: false,
         payPerClientRate: 0,
         eachClientOver: [
             {
@@ -116,6 +118,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                 payPerClientRate,
                 maxPayPerClient,
                 percentage,
+                countUnpaidService,
             } = employeeClasses;
             let newData = {};
             switch (employeeClasses?.payType) {
@@ -129,6 +132,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                         twentyOneToTwentyFiveClients,
                         twentySixPlusClients,
                         noRegistrationPay,
+                        countUnpaidService,
                     };
                     break;
                 case 'PAY_PER_CLASS':
@@ -142,6 +146,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                     newData = {
                         payType: 'PAY_PER_CLIENT',
                         baseRate,
+                        countUnpaidService,
                         payPerClientRate,
                         eachClientOver: employeeClasses.eachClientOver.map((item) => ({
                             noOfClients: item.noOfClients,
@@ -254,6 +259,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                     />
                     {data?.payType === 'INCREMENTAL_PAY' && (
                         <>
+                            <CustomCheckbox name="countUnpaidService" label="Count unpaid services" data={data} onChange={handleChange} />
                             <CustomInputNumber label="1-5 Clients" name="oneToFiveClients" data={data} onChange={handleChange} />
                             <CustomInputNumber label="6-10 Clients" name="sixToTenClients" data={data} onChange={handleChange} />
                             <CustomInputNumber label="11-15 Clients" name="elevenToFifteenClients" data={data} onChange={handleChange} />
@@ -272,6 +278,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                     )}
                     {data?.payType === 'PAY_PER_CLIENT' && (
                         <>
+                            <CustomCheckbox name="countUnpaidService" label="Count unpaid services" data={data} onChange={handleChange} />
                             <CustomInputNumber name="baseRate" data={data} onChange={handleChange} />
                             <CustomInputNumber name="payPerClientRate" data={data} onChange={handleChange} />
                             {data?.eachClientOver?.map((client, index) => (
@@ -288,7 +295,7 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                                 </div>
                             ))}
                             <CustomInputNumber data={data} name="noRegistrationPay" onChange={handleChange} />
-                            <CustomInputNumber data={data} name="maxPayPerClient" onChange={handleChange} />
+                            <CustomInputNumber data={data} label="Max Pay" name="maxPayPerClient" onChange={handleChange} />
                         </>
                     )}
                     {data?.payType === 'PERCENTAGE_RATE' && (

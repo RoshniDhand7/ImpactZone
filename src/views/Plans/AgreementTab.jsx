@@ -15,6 +15,8 @@ import { DataTable } from 'primereact/datatable';
 import moment from 'moment';
 import debounce from 'lodash.debounce';
 import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
+import { AutoComplete } from 'primereact/autocomplete';
+import { getMembers } from '../../redux/actions/Dashboard/Members';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -40,6 +42,21 @@ const AgreementTab = ({ onTabEnable }) => {
         dispatch(getMembersipTypes());
     }, [dispatch]);
     useEffect(() => {}, []);
+    useEffect(() => {
+        dispatch(getMembers());
+    }, []);
+    const [items, setItems] = useState([]);
+
+    let { allMembers } = useSelector((state) => state.members);
+
+    allMembers = allMembers.map((item) => ({
+        firstName: item.firstName,
+        middleName: item.MI,
+        lastName: item.lastName,
+        fullName: `${item.firstName} ${item.MI} ${item.lastName}`.trim(),
+        id: item._id,
+        path: `member/${item._id}`,
+    }));
 
     const { id, newPlanId, memberId } = useParams();
 
@@ -56,6 +73,13 @@ const AgreementTab = ({ onTabEnable }) => {
                 debouncedChangeHandler(value);
             }
         }
+    };
+
+    const handleChange1 = (e) => {
+        const inputValue = e.value;
+        const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
+        const formErrors = formValidation('referredBy', trimmedValue, data);
+        setData((prev) => ({ ...prev, referredBy: trimmedValue, formErrors }));
     };
 
     const changeHandler = (val) => {
@@ -174,6 +198,7 @@ const AgreementTab = ({ onTabEnable }) => {
             if (validated.isValid && validatedAssessedFee.isValid) {
                 const payload = {
                     ...data,
+                    referredBy: data.referredBy?.fullName,
                     services: data.services?.map((item) => ({
                         catalogId: item._id,
                         name: item.name,
@@ -200,7 +225,16 @@ const AgreementTab = ({ onTabEnable }) => {
             }
         }
     };
-
+    const search = (event) => {
+        let query = event.query;
+        let _filteredItems = allMembers.filter((item) => {
+            let _item = `${item.firstName} ${item.middleName} ${item.lastName}`.trim();
+            let _query = query.trim().toLowerCase();
+            return _item.toLowerCase().includes(_query);
+        });
+        setItems(_filteredItems);
+        return _filteredItems;
+    };
     return (
         <>
             <CustomCard col="12" title="Membership">
@@ -213,13 +247,29 @@ const AgreementTab = ({ onTabEnable }) => {
                         options={oftenClientChargedOptions}
                         onChange={handleChange}
                         data={data}
+                        disabled
                     />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Sales Information">
                 <CustomGridLayout>
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
-                    <CustomInput name="referredBy" col={3} data={data} onChange={handleChange} />
+                    <div className="md:col-4">
+                        <label className="text-sm font-semibold">Referred By</label>
+                        <AutoComplete
+                            field="fullName"
+                            value={data.referredBy}
+                            suggestions={items}
+                            completeMethod={search}
+                            onChange={handleChange1}
+                            className="w-full"
+                            showEmptyMessage={true}
+                            required={true}
+                            inputClassName="w-full mt-1"
+                            itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
+                        />
+                    </div>
+                    {/* <CustomInput name="referredBy" col={3} data={data} onChange={handleChange} /> */}
                     <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>

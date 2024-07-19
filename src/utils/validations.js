@@ -203,17 +203,14 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'sixteenToTwentyClients':
         case 'twentyOneToTwentyFiveClients':
         case 'twentySixPlusClients':
-        case 'noRegistrationPay':
+        // case 'noRegistrationPay':
         case 'payPerClassRate':
         case 'baseRate':
         case 'payPerClientRate':
         case 'maxPayPerClient':
         case 'percentage':
-        case 'sessionsValue':
         case 'ofSessions':
         case 'over':
-        case 'bonusAmount':
-        case 'pay':
         case 'minimumAgeAllowed':
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
@@ -258,6 +255,9 @@ const formValidation = (name, value, state, ignore = []) => {
 
         case 'taxRatePercentage':
         case 'amount':
+        case 'sessionsValue':
+        case 'pay':
+        case 'bonusAmount':
             if (!isNumberOrDecimal(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {

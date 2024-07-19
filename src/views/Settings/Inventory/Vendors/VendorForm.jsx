@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CustomDropDown, CustomInput, CustomInputMask, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputMask, CustomInputSwitch, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -35,6 +35,12 @@ const VendorForm = () => {
                         zipCode: data.zipCode,
                         alternateVendors: data.alternateVendors,
                         isActive: data.isActive,
+                        paymentTerms: data.paymentTerms,
+                        deliveryTerms: data.deliveryTerms,
+                        repName: data.repName,
+                        repCellPhone: data.repCellPhone,
+                        notes: data.notes,
+                        alternateEmail: data.alternateEmail,
                     });
                     const cities = getCitiesByState('US', data.state);
                     setCities(cities);
@@ -55,6 +61,12 @@ const VendorForm = () => {
         zipCode: '',
         alternateVendors: '',
         isActive: false,
+        paymentTerms: '',
+        deliveryTerms: '',
+        repName: '',
+        repCellPhone: '',
+        notes: '',
+        alternateEmail: '',
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation('name', value, data);
@@ -71,7 +83,7 @@ const VendorForm = () => {
     };
 
     const handleSave = () => {
-        if (showFormErrors(data, setData, ['zipCode', 'address1', 'address2', 'state', 'city', 'phone', 'email'])) {
+        if (showFormErrors(data, setData, ['zipCode', 'address1', 'address2', 'state', 'city', 'phone', 'email', 'notes'])) {
             if (id) {
                 dispatch(editVendors(id, data, setLoading, history));
             } else {
@@ -84,6 +96,7 @@ const VendorForm = () => {
         <FormPage backText="Vendor">
             <CustomCard col="12" title="Add Vendor">
                 <CustomGridLayout>
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col="12" />
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomInput name="address1" data={data} onChange={handleChange} />
                     <CustomInput name="address2" data={data} onChange={handleChange} />
@@ -92,8 +105,13 @@ const VendorForm = () => {
                     <CustomInput name="zipCode" data={data} onChange={handleChange} disabled={!data.state} />
                     <CustomInputMask name="phone" id="phone" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} />
                     <CustomInput data={data} name="email" onChange={handleChange} />
+                    <CustomInput data={data} name="alternateEmail" onChange={handleChange} />
                     <CustomDropDown name="alternateVendors" options={vendorsDropdown} data={data} onChange={handleChange} />
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
+                    <CustomInput data={data} name="paymentTerms" onChange={handleChange} />
+                    <CustomInput data={data} name="deliveryTerms" onChange={handleChange} />
+                    <CustomInput data={data} name="repName" onChange={handleChange} />
+                    <CustomInputMask name="repCellPhone" id="repCellPhone" mask="(999) 999-9999" data={data} placeholder="" onChange={handleChange} />
+                    <CustomTextArea name="notes" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

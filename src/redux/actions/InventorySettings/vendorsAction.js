@@ -52,7 +52,11 @@ const addVendors = (data, setLoading, history) => async (dispatch) => {
 const editVendors = (id, data, setLoading, history) => async () => {
     setLoading(true);
 
-    const payload = { ...data, ...(data?.phone && { phone: data?.phone?.replace(/\D/g, '') }) };
+    const payload = {
+        ...data,
+        ...(data?.phone && { phone: data?.phone?.replace(/\D/g, '') }),
+        ...(data?.repCellPhone && { phone: data?.repCellPhone?.replace(/\D/g, '') }),
+    };
 
     const res = await api('put', EndPoints.VENDORS + id, payload);
     if (res.success) {

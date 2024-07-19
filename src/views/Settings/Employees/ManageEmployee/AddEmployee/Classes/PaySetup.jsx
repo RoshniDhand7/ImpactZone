@@ -156,7 +156,7 @@ export default function PaySetup() {
                         <hr className="text-100" />
                         <div className="mx-3">
                             <div className="font-medium">No Registration Pay</div>
-                            <div>${item?.noRegistrationPay}</div>
+                            <div>${item?.noRegistrationPay ? item?.noRegistrationPay : '0'}</div>
                         </div>
                     </div>
                 );

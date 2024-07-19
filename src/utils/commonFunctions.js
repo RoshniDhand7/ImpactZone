@@ -157,6 +157,7 @@ const uploadFiles = async (files) => {
                 return {
                     path: res.data.path,
                     originalname: res.data.originalname,
+                    size: res.data.size,
                 };
             }
         }

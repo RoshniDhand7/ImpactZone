@@ -111,7 +111,7 @@ export default function EmployeeDepartments() {
                         options={employeeDeptId ? departmentsDropdown : filterdDepartmentsDropdown}
                         disabled={employeeDeptId ? true : false}
                     />
-                    <CustomInputNumber col="12" name="wage" data={data} onChange={handleChange} />
+                    <CustomInputNumber col="12" name="wage" data={data} onChange={handleChange} minFractionDigits={4} maxFractionDigits={4} />
                 </CustomGridLayout>
             </CustomDialog>
         </>
