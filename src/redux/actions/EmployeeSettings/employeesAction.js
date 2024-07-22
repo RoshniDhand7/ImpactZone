@@ -19,6 +19,8 @@ const getEmployees = (pageNo, setLoading) => async (dispatch) => {
                 payload: res.data,
             });
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     if (setLoading) {
         setLoading(false);
@@ -41,6 +43,8 @@ const addEmployees =
                 history.goBack();
             }
             dispatch(showToast({ severity: 'success', summary: res.message }));
+        } else {
+            dispatch(showToast({ severity: 'error', summary: res.message }));
         }
         setLoading(false);
     };
@@ -53,6 +57,8 @@ const getEmployee = (id, returnData) => async (dispatch) => {
                 returnData(res.data);
             }
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };
@@ -67,6 +73,8 @@ const getEmployeePay = (id) => async (dispatch) => {
                 payload: res.data,
             });
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };
@@ -80,6 +88,8 @@ const CalendarDefaultSorting = (arr, next) => async (dispatch) => {
         if (res.data) {
             next();
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };
@@ -113,6 +123,8 @@ const editEmployee =
                 history.goBack();
             }
             dispatch(showToast({ severity: 'success', summary: res.message }));
+        } else {
+            dispatch(showToast({ severity: 'error', summary: res.message }));
         }
         setLoading(false);
     };

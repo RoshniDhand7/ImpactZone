@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCheckbox, CustomDropDown, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomCheckbox, CustomDropDown, CustomInputDecimalNumber, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
 import { classesPayTypeOptions } from '../../../../../../utils/dropdownConstants';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
@@ -259,49 +259,61 @@ const AddandEditClasses = ({ visible, setVisible, id, employeeClassId, setEmploy
                     />
                     {data?.payType === 'INCREMENTAL_PAY' && (
                         <>
+                            <CustomInputDecimalNumber label="1-5 Clients" name="oneToFiveClients" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber label="6-10 Clients" name="sixToTenClients" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber label="11-15 Clients" name="elevenToFifteenClients" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber label="16-20 Clients" name="sixteenToTwentyClients" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber label="21-25 Clients" data={data} name="twentyOneToTwentyFiveClients" onChange={handleChange} />
+                            <CustomInputDecimalNumber label="26+ Clients" data={data} name="twentySixPlusClients" onChange={handleChange} />
+                            <CustomInputDecimalNumber name="noRegistrationPay" data={data} onChange={handleChange} />
                             <CustomCheckbox name="countUnpaidService" label="Count unpaid services" data={data} onChange={handleChange} />
-                            <CustomInputNumber label="1-5 Clients" name="oneToFiveClients" data={data} onChange={handleChange} />
-                            <CustomInputNumber label="6-10 Clients" name="sixToTenClients" data={data} onChange={handleChange} />
-                            <CustomInputNumber label="11-15 Clients" name="elevenToFifteenClients" data={data} onChange={handleChange} />
-                            <CustomInputNumber label="16-20 Clients" name="sixteenToTwentyClients" data={data} onChange={handleChange} />
-                            <CustomInputNumber label="21-25 Clients" data={data} name="twentyOneToTwentyFiveClients" onChange={handleChange} />
-                            <CustomInputNumber label="26+ Clients" data={data} name="twentySixPlusClients" onChange={handleChange} />
-                            <CustomInputNumber name="noRegistrationPay" data={data} onChange={handleChange} />
                         </>
                     )}
 
                     {data?.payType === 'PAY_PER_CLASS' && (
                         <>
-                            <CustomInputNumber data={data} name="payPerClassRate" onChange={handleChange} />
-                            <CustomInputNumber name="noRegistrationPay" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber data={data} name="payPerClassRate" onChange={handleChange} />
+                            <CustomInputDecimalNumber name="noRegistrationPay" data={data} onChange={handleChange} />
                         </>
                     )}
                     {data?.payType === 'PAY_PER_CLIENT' && (
                         <>
-                            <CustomCheckbox name="countUnpaidService" label="Count unpaid services" data={data} onChange={handleChange} />
-                            <CustomInputNumber name="baseRate" data={data} onChange={handleChange} />
-                            <CustomInputNumber name="payPerClientRate" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber name="baseRate" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber name="payPerClientRate" data={data} onChange={handleChange} />
                             {data?.eachClientOver?.map((client, index) => (
                                 <div className=" col-12 " key={index}>
                                     <div className="grid">
-                                        <CustomInputNumber
+                                        <CustomInputDecimalNumber
                                             name="noOfClients"
                                             value={client?.noOfClients}
                                             onChange={(e) => handleChange1(index, 'noOfClients', e.value)}
                                             col={6}
                                         />
-                                        <CustomInputNumber name="rate" value={client?.rate} onChange={(e) => handleChange1(index, 'rate', e.value)} col={6} />
+                                        <CustomInputDecimalNumber
+                                            name="rate"
+                                            value={client?.rate}
+                                            onChange={(e) => handleChange1(index, 'rate', e.value)}
+                                            col={6}
+                                        />
                                     </div>
                                 </div>
                             ))}
-                            <CustomInputNumber data={data} name="noRegistrationPay" onChange={handleChange} />
-                            <CustomInputNumber data={data} label="Max Pay" name="maxPayPerClient" onChange={handleChange} />
+                            <CustomInputDecimalNumber data={data} name="noRegistrationPay" onChange={handleChange} />
+                            <CustomInputDecimalNumber data={data} label="Max Pay" name="maxPayPerClient" onChange={handleChange} />
+                            <CustomCheckbox name="countUnpaidService" label="Count unpaid services" data={data} onChange={handleChange} />
                         </>
                     )}
                     {data?.payType === 'PERCENTAGE_RATE' && (
                         <>
-                            <CustomInputNumber data={data} name="percentage" onChange={handleChange} />
-                            <CustomInputNumber name="noRegistrationPay" data={data} onChange={handleChange} />
+                            <CustomInputDecimalNumber data={data} name="percentage" onChange={handleChange} />
+                            <CustomInputDecimalNumber
+                                name="noRegistrationPay"
+                                prefix={'$'}
+                                data={data}
+                                onChange={handleChange}
+                                minFractionDigits={4}
+                                maxFractionDigits={4}
+                            />
                         </>
                     )}
                 </CustomGridLayout>

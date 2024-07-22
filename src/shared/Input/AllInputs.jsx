@@ -378,3 +378,80 @@ export const CustomInputNumber = ({
         </InputLayout>
     );
 };
+export const CustomInputDecimalNumber = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    customIndex,
+    fieldName,
+    prefix = '$',
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <InputNumber
+                id={name}
+                name={name}
+                value={value || data?.[name] || 0}
+                onChange={(e) => onChange && onChange({ ...e, name: name, value: e.value, customIndex, fieldName })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                useGrouping={props.useGrouping || false}
+                disabled={disabled}
+                minFractionDigits={4}
+                maxFractionDigits={4}
+                prefix={prefix}
+                {...props}
+            />
+        </InputLayout>
+    );
+};
+export const CustomInputTime = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    customIndex,
+    fieldName,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <input
+                type="time"
+                id={name}
+                name={name}
+                value={value || data?.[name] || 0}
+                onChange={(e) => onChange && onChange({ ...e, name: name, value: e.target.value, customIndex, fieldName })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
+                autocomplete="off"
+                {...props}
+            />
+            {/* <InputNumber
+                id={name}
+                name={name}
+                value={value || data?.[name] || 0}
+                onChange={(e) => onChange && onChange({ ...e, name: name, value: e.value, customIndex, fieldName })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                useGrouping={props.useGrouping || false}
+                disabled={disabled}
+                {...props}
+            /> */}
+        </InputLayout>
+    );
+};

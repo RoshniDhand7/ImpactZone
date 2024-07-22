@@ -95,7 +95,7 @@ export default function PaySetup() {
 
     const itemTemplate = (item) => {
         return (
-            <div className="col-12 grid py-2" key={uniqueId}>
+            <div className="col-12 grid py-2  " key={uniqueId}>
                 <div className="col-10">{renderRow(item)}</div>
                 <div className="col-1 my-auto">
                     <CustomInputSwitch
@@ -107,12 +107,13 @@ export default function PaySetup() {
                 </div>
                 <div className="col-1 my-auto">
                     <i className="mx-3 cursor-pointer pi pi-pencil" onClick={() => onEdit(item)} />
-                    <i className="mx-3 cursor-pointer pi pi-trash" onClick={() => onDelete(item)} />
+                    <i className=" cursor-pointer pi pi-trash" onClick={() => onDelete(item)} />
                 </div>
             </div>
         );
     };
     const renderRow = (item) => {
+        console.log('item>>', item);
         switch (item.payType) {
             case 'INCREMENTAL_PAY':
                 return (
@@ -209,7 +210,7 @@ export default function PaySetup() {
                         <hr className="text-100" />
                         <div className="mx-2">
                             <div className="font-medium">No Registration Pay</div>
-                            <div>${item?.noRegistrationPay}</div>
+                            <div>${item?.noRegistrationPay ? item?.noRegistrationPay : '0'}</div>
                         </div>
                         <hr className="text-100" />
                         <div className="mx-2">
@@ -235,7 +236,7 @@ export default function PaySetup() {
                         <hr className="text-100" />
                         <div className="mx-3">
                             <div className="font-medium">No Registration Pay</div>
-                            <div>${item?.noRegistrationPay}</div>
+                            <div>${item?.noRegistrationPay ? item?.noRegistrationPay : '0'}</div>
                         </div>
                     </div>
                 );
@@ -256,7 +257,7 @@ export default function PaySetup() {
                         <hr className="text-100" />
                         <div className="mx-3">
                             <div className="font-medium">No Registration Pay</div>
-                            <div>${item?.noRegistrationPay}</div>
+                            <div>${item?.noRegistrationPay ? item?.noRegistrationPay : '0'}</div>
                         </div>
                     </div>
                 );

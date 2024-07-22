@@ -386,7 +386,7 @@ export const calendarDisplayOptions = ['Duration', 'Level', 'Location', 'Member 
 );
 export const timeShownOptions = ['Quarter Hour', 'Hour', 'Half Hour'].map((name) => ({ name, value: name }));
 
-export const classMeet = ['One Time', 'Two Time', 'Three Time', 'Four Time', 'Five Time', 'Six Time', 'Seven Time'].map((name, index) => ({
+export const classMeet = ['One Time', 'Weekly', 'Biweekly', 'Monthly'].map((name, index) => ({
     name,
     value: index + 1,
 }));
@@ -398,6 +398,8 @@ export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No
 }));
 
 export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));
+
+export const timePeriodFormatOptions = ['AM', 'PM'].map((name) => ({ name, value: name }));
 
 export const genderOptions = [
     {

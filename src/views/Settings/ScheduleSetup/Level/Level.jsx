@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { deleteLevel, getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
 
 const Level = () => {
     const history = useHistory();
@@ -35,7 +36,11 @@ const Level = () => {
     };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add" />
+            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Scheduling Options" className="mx-2 " onClick={() => history.push('/settings/schedule/levels/scheduling/')} />
+                </div>
+            </CustomFilterCard>
             <CustomTable data={allLevels} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );

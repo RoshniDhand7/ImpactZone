@@ -26,6 +26,7 @@ import Personal from '../views/Members/SidebarComponents/Personal';
 import SellPlanForm from '../views/Plans/SellPlanForm';
 import AllDrafts from '../views/Plans/AllDrafts';
 import PlanAgreement from '../views/Plans/Agreement';
+import SchedulingOptionsForm from '../views/Settings/ScheduleSetup/SchedulingOptionsForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -332,6 +333,12 @@ export const PrivateRoutes = [
                         name: 'Business',
                         exact: true,
                         component: LevelForm,
+                    },
+                    {
+                        path: '/levels/scheduling/',
+                        name: 'Scheduling',
+                        exact: true,
+                        component: SchedulingOptionsForm,
                     },
                     {
                         path: '/location-type/add',

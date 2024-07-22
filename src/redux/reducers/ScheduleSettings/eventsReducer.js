@@ -14,6 +14,7 @@ const eventReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEvents: action.payload,
+                allEventClasses: action.payload.filter((item) => item.eventType === 'Class'),
                 allEventsDropDown: action.payload.map((item) => ({ name: item.name, value: item._id })),
                 allEventClassesDropDown: action.payload.filter((item) => item.eventType === 'Class').map((item) => ({ name: item.name, value: item._id })),
                 allEventAppointmentDropDown: action.payload

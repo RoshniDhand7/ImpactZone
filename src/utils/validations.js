@@ -197,18 +197,8 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
-        case 'oneToFiveClients':
-        case 'sixToTenClients':
-        case 'elevenToFifteenClients':
-        case 'sixteenToTwentyClients':
-        case 'twentyOneToTwentyFiveClients':
-        case 'twentySixPlusClients':
-        // case 'noRegistrationPay':
-        case 'payPerClassRate':
-        case 'baseRate':
-        case 'payPerClientRate':
+
         case 'maxPayPerClient':
-        case 'percentage':
         case 'ofSessions':
         case 'over':
         case 'minimumAgeAllowed':
@@ -258,14 +248,35 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'sessionsValue':
         case 'pay':
         case 'bonusAmount':
+        case 'oneToFiveClients':
+        case 'sixToTenClients':
+        case 'elevenToFifteenClients':
+        case 'sixteenToTwentyClients':
+        case 'twentyOneToTwentyFiveClients':
+        case 'twentySixPlusClients':
+        case 'payPerClassRate':
+        case 'baseRate':
+        case 'payPerClientRate':
+        case 'percentage':
             if (!isNumberOrDecimal(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
+            } else if (value < 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} cannot be less than 0`;
             } else {
                 formErrors[name] = '';
             }
             break;
+
+        case 'noRegistrationPay':
+            if (value < 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} cannot be less than 0`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
         case 'unitPrice':
             if (!value) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;

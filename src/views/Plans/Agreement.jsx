@@ -258,14 +258,15 @@ const PlanAgreement = React.forwardRef((props, ref) => {
             <div className="md:col-8  ">
                 <div className="shadow-2 border-round-lg p-5">
                     <h1 className="text-center mb-3 font-bold">Agreement</h1>
-
-                    <div
-                        id="element-to-print"
-                        className="print-content"
-                        ref={componentRef}
-                        style={{ margin: '20px', padding: '10px', lineHeight: '1.8', fontSize: '18px' }}
-                        dangerouslySetInnerHTML={{ __html: htmlContent }}
-                    ></div>
+                    <div className="agreementclassName">
+                        <div
+                            id="element-to-print"
+                            className="print-content"
+                            ref={componentRef}
+                            style={{ margin: '20px', padding: '10px', lineHeight: '1.8', fontSize: '18px' }}
+                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        ></div>
+                    </div>
                 </div>
             </div>
             <div className="md:col-4 agreementclassName">

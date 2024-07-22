@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../shared/Input/AllInputs';
-import { WeekDaysOption, classMeet } from '../../../../utils/dropdownConstants';
+import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomInputTime, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import { WeekDaysOption, classMeet, timePeriodFormatOptions } from '../../../../utils/dropdownConstants';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { useHistory, useParams } from 'react-router-dom';
@@ -51,6 +51,18 @@ const EventClassesForm = () => {
         dispatch(getEvents());
         dispatch(getEmployees());
     }, [dispatch]);
+    const { locationDropdown } = useSelector((state) => state.locations);
+    const { allEventClassesDropDown } = useSelector((state) => state.event);
+
+    let { allEventClasses } = useSelector((state) => state.event);
+    allEventClasses = allEventClasses?.find((item) => item._id === data?.event);
+    const history = useHistory();
+
+    useEffect(() => {
+        if (data?.event) {
+            setData((prev) => ({ ...prev, totalCapacity: allEventClasses?.defaultMaxAttendes, waitlistPeople: allEventClasses?.maximumWaitlist }));
+        }
+    }, [data?.event, allEventClasses]);
 
     useEffect(() => {
         if (id) {
@@ -67,8 +79,8 @@ const EventClassesForm = () => {
                         instructor: data.instructor,
                         staff: data.staff,
                         payType: data.pay,
-                        totalCapacity: data.totalCapacity,
-                        waitlistPeople: data.waitlistPeople,
+                        totalCapacity: data.totalCapacity ? data.totalCapacity : allEventClasses?.defaultMaxAttendes,
+                        waitlistPeople: data.waitlistPeople ? data.waitlistPeople : allEventClasses?.maximumWaitlist,
                         clientSignupClass: data.clientSignupClass,
                         onlineCapacity: data.onlineCapacity,
                         clientPaylater: data.clientPaylater,
@@ -83,7 +95,7 @@ const EventClassesForm = () => {
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, dispatch, allEmployees]);
+    }, [id, dispatch, allEmployees, allEventClasses]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
         const employeeWithLevel = allEmployees.find((employee) => employee._id === assistantId);
@@ -103,14 +115,13 @@ const EventClassesForm = () => {
         }
     };
 
-    const { locationDropdown } = useSelector((state) => state.locations);
-    const { allEventClassesDropDown } = useSelector((state) => state.event);
-    const history = useHistory();
     const loading = useSelector((state) => state?.loader?.isLoading);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
+
+    console.log('allClasses>>', allEventClasses);
 
     useEffect(() => {
         if (data?.event) {
@@ -134,6 +145,7 @@ const EventClassesForm = () => {
         const newSchedule = {
             days: [],
             startTime: '',
+            timeFormat: '',
         };
         setData((prevData) => ({
             ...prevData,
@@ -281,13 +293,14 @@ const EventClassesForm = () => {
         }
     };
 
+    console.log('data,', data);
+
     return (
         <>
             <FormPage backText="Classes">
                 <CustomGridLayout>
                     <CustomDropDown name="event" label="Class Name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
                 </CustomGridLayout>
-
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>
                         <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
@@ -301,6 +314,13 @@ const EventClassesForm = () => {
                     {data?.schedule?.map((scheduleItem, index) => (
                         <div key={index}>
                             <CustomGridLayout extraClass="align-items-center">
+                                {/* <CustomInputTime
+                                    name="startTime"
+                                    onChange={handleChangeDynamicField}
+                                    data={scheduleItem}
+                                    fieldName="schedule"
+                                    customIndex={index}
+                                /> */}
                                 <CustomCalenderInput
                                     name="startTime"
                                     customIndex={index}
@@ -309,11 +329,12 @@ const EventClassesForm = () => {
                                     fieldName="schedule"
                                     timeOnly
                                     placeholder="Select Time"
+                                    hourFormat="12"
                                 />
                                 <CustomMultiselect
                                     name="days"
                                     customIndex={index}
-                                    options={getAvailableOptions(index)}
+                                    options={WeekDaysOption}
                                     onChange={handleChangeDynamicField}
                                     data={scheduleItem}
                                     fieldName="schedule"

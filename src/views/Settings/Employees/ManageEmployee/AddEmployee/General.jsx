@@ -79,13 +79,38 @@ const General = () => {
             );
         }
     }, [id, dispatch]);
+    useEffect(() => {
+        const formErrors = formValidation('city', data.city, data);
+        setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
+    }, [data.city]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         if (name === 'state') {
             const city = getCitiesByState('US', value);
             setCities(city);
-            setData((prev) => ({ ...prev, [name]: value, city: '', formErrors }));
+
+            // Clear city and zip code
+            const clearedData = {
+                ...data,
+                city: '',
+                zipCode: '',
+            };
+
+            // Set form errors
+            const formErrors = {
+                ...formValidation('state', value, clearedData),
+                ...formValidation('city', '', clearedData),
+                ...formValidation('zipCode', '', clearedData),
+            };
+
+            setData((prev) => ({
+                ...prev,
+                city: '',
+                zipCode: '',
+                state: value,
+                formErrors,
+            }));
         } else {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
