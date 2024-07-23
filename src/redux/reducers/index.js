@@ -37,6 +37,7 @@ import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 import discountTypeReducer from './PosSettings/discountTypeReducer';
 import memberReducer from './Dashboard/MembersReducer';
 import sellPlanReducer from './Plans/SellPlanReducer';
+import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -77,4 +78,5 @@ export default combineReducers({
     discountType: discountTypeReducer,
     members: memberReducer,
     plans: sellPlanReducer,
+    schedulingOptions: schedulingOptionsReducer,
 });

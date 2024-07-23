@@ -1,23 +1,66 @@
-import React, { useState } from 'react';
-import FormPage from '../../../shared/Layout/FormPage';
+import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup } from '../../../shared/Button/CustomButton';
-import { useSelector } from 'react-redux';
-import { CustomCalenderInput, CustomDropDown } from '../../../shared/Input/AllInputs';
+import { useDispatch, useSelector } from 'react-redux';
+import { CustomCalenderInput, CustomDropDown, CustomMultiselect } from '../../../shared/Input/AllInputs';
+import formValidation from '../../../utils/validations';
+import { WeekDaysOption, yesNoOptions } from '../../../utils/dropdownConstants';
+import CustomTable from '../../../shared/Table/CustomTable';
+import { confirmDelete, showArrayFormErrors, showFormErrors } from '../../../utils/commonFunctions';
+import moment from 'moment';
+import { addScheduling, getSchedulings } from '../../../redux/actions/ScheduleSettings/SchedulingOptions';
 
 const SchedulingOptionsForm = () => {
-    const handleSave = () => {};
+    const dispatch = useDispatch();
+    const [allTimingsList, setAllTimingsList] = useState([]);
+    const [edithourId, setEditHourId] = useState(null);
 
     const [data, setData] = useState({
-        schedule: [
+        allowWaitlist: '',
+        requireComment: '',
+        date: '',
+        open: '',
+        startTime: '',
+        endTime: '',
+        hoursOperation: [
             {
                 startTime: '',
                 endTime: '',
                 days: [],
             },
         ],
+        open: '',
     });
     const { isLoading } = useSelector((state) => state?.loader);
+
+    useEffect(() => {
+        dispatch(getSchedulings());
+    }, [dispatch]);
+
+    const allSchedulingOptions = useSelector((state) => state?.schedulingOptions?.allSchedulingOptions);
+
+    useEffect(() => {
+        if (allSchedulingOptions?.length) {
+            setData({
+                allowWaitlist: allSchedulingOptions?.[0]?.allowWaitlist,
+                requireComment: allSchedulingOptions?.[0]?.requireComment,
+                date: '',
+                open: '',
+                startTime: '',
+                endTime: '',
+                hoursOperation: allSchedulingOptions?.[0]?.hoursOperation?.map((item) => ({
+                    ...item,
+                    startTime: new Date(item.startTime),
+                    endTime: new Date(item.endTime),
+                })),
+                open: '',
+                allTimingsList: allSchedulingOptions?.[0]?.timingAndHoliday?.length,
+            });
+            setAllTimingsList(allSchedulingOptions?.[0]?.timingAndHoliday);
+        }
+    }, [allSchedulingOptions]);
+
+    console.log(allSchedulingOptions);
 
     const handleAddSchedule = () => {
         const newSchedule = {
@@ -27,8 +70,14 @@ const SchedulingOptionsForm = () => {
         };
         setData((prev) => ({
             ...prev,
-            schedule: [...prev.schedule, newSchedule],
+            hoursOperation: [...prev.hoursOperation, newSchedule],
         }));
+    };
+    const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+
+        console.log(name, value, data, 'Change');
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const handleRemove = (indexToRemove, fieldName) => {
@@ -38,80 +87,210 @@ const SchedulingOptionsForm = () => {
         }));
     };
 
-    // const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
-    //     const _newData = { ...data };
-    //     let obj = _newData[fieldName][customIndex];
-    //     obj[name] = value;
-    //     const formErrors = formValidation(name, value, obj);
-    //     obj.formErrors = formErrors;
-    //     _newData[fieldName][customIndex] = obj;
-
-    //     setData(() => ({
-    //         ..._newData,
-    //     }));
-    // };
-
     const handleChangeDynamicField = ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
         let obj = _newData[fieldName][customIndex];
-        console.log('obj>>', obj);
         obj[name] = value;
+        const formErrors = formValidation(name, value, obj);
+        obj.formErrors = formErrors;
+        _newData[fieldName][customIndex] = obj;
+        setData(() => ({
+            ..._newData,
+        }));
+    };
+
+    const getAvailableOptions = (index) => {
+        const selectedDays = data.hoursOperation?.flatMap((item, idx) => (idx !== index ? item.days : []));
+        return WeekDaysOption.filter((day) => !selectedDays.includes(day.value));
+    };
+
+    const handleAddTimings = () => {
+        let ignore = [];
+        if (data.open === 'false') {
+            ignore = ['startTime', 'endTime'];
+        }
+        if (showFormErrors(data, setData, ignore)) {
+            if (edithourId !== null) {
+                setAllTimingsList((prevList) =>
+                    prevList.map((item) =>
+                        item.id === edithourId ? { ...item, date: data.date, open: data.open, startTime: data.startTime, endTime: data.endTime } : item,
+                    ),
+                );
+                setEditHourId(null);
+            } else {
+                setAllTimingsList((prevList) => [
+                    ...prevList,
+                    {
+                        id: prevList.length + 1,
+                        date: data.date,
+                        open: data.open,
+                        startTime: data.startTime,
+                        endTime: data.endTime,
+                    },
+                ]);
+                const clearedData = {
+                    date: '',
+                    open: '',
+                    startTime: '',
+                    endTime: '',
+                };
+                const formErrors = {
+                    ...formValidation('date', '', clearedData),
+                    ...formValidation('open', '', clearedData),
+                };
+
+                setData((prev) => ({ ...prev, date: '', open: '', startTime: '', endTime: '', formErrors }));
+            }
+        }
+    };
+
+    const onEdit = (col, index) => {
+        console.log(index, 'index');
+        setData((prev) => ({ ...prev, date: new Date(col.date), open: col.open, startTime: new Date(col.startTime), endTime: new Date(col.endTime) }));
+        setEditHourId(index.rowIndex + 1);
+    };
+
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                setAllTimingsList((prevList) => prevList.filter((item) => item.id !== col.id));
+            },
+            'Do you want to delete this Timings and Holidays ?',
+            position,
+        );
+    };
+
+    const columns = [
+        { field: 'id', header: 'S.no' },
+        { field: 'date', body: (r) => moment(r.date).format('DD-MM-YYYY'), header: 'Date' },
+        { field: 'open', body: (r) => (r.open === 'true' ? 'Yes' : 'No'), header: 'Open' },
+        { field: 'startTime', body: (r) => (r?.startTime ? moment(r.startTime).format('hh:mm A') : '-'), header: 'Start Time' },
+        { field: 'endTime', body: (r) => (r?.endTime ? moment(r.endTime).format('hh:mm A') : '-'), header: 'End Time' },
+    ];
+
+    useEffect(() => {
+        const formErrors = formValidation('allTimingsList', allTimingsList?.length, data);
+        if (allTimingsList?.length === 0) {
+            formErrors['allTimingsList'] = `Please Add Special Timimgs and Holidays`;
+            setData((prev) => ({ ...prev, allTimingsList: allTimingsList?.length, formErrors }));
+        } else {
+            formErrors['allTimingsList'] = ``;
+            setData((prev) => ({ ...prev, allTimingsList: allTimingsList?.length, formErrors }));
+        }
+    }, [allTimingsList]);
+
+    const handleSave = () => {
+        let ignore = [];
+        ignore = ['startTime', 'endTime', 'open', 'date'];
+        if (showFormErrors(data, setData, ignore)) {
+            let validatedSchedule = showArrayFormErrors(data.hoursOperation);
+            if (!validatedSchedule.isValid) {
+                setData((prev) => ({ ...prev, hoursOperation: validatedSchedule.data }));
+            }
+            if (validatedSchedule.isValid) {
+                dispatch(addScheduling({ timingAndHoliday: allTimingsList, ...data }));
+            }
+        }
     };
 
     console.log('data,', data);
+    console.log('allTimingsList,', allTimingsList);
+
     return (
         <>
-            <FormPage backText="Levels">
-                <CustomCard col="12" title="Scheduling Options">
+            <CustomCard col="12" title="Scheduling Options">
+                <label>Hours Of Operation</label>
+                <CustomGridLayout extraClass="justify-content-end">
                     <CustomGridLayout>
-                        <label>Hours Of Operation</label>
-                        <CustomGridLayout extraClass="justify-content-end">
-                            <PrimaryButton label="Add New Schedule" className="mx-2" onClick={handleAddSchedule} />
-                        </CustomGridLayout>
-
-                        {/* <CustomInput name="name" data={data} onChange={handleChange} required />
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} /> */}
+                        <PrimaryButton label="Add New Schedule" className="mx-2" onClick={handleAddSchedule} />
                     </CustomGridLayout>
+                </CustomGridLayout>
 
-                    {data?.schedule?.map((item, index) => (
+                {data?.hoursOperation?.map((item, index) => (
+                    <>
+                        <CustomGridLayout extraClass="align-items-center">
+                            <CustomCalenderInput
+                                name="startTime"
+                                customIndex={index}
+                                onChange={handleChangeDynamicField}
+                                data={item}
+                                fieldName="hoursOperation"
+                                timeOnly
+                                placeholder="Select Time"
+                                hourFormat="12"
+                            />
+                            <CustomCalenderInput
+                                name="endTime"
+                                customIndex={index}
+                                fieldName="hoursOperation"
+                                onChange={handleChangeDynamicField}
+                                data={item}
+                                timeOnly
+                                placeholder="Select Time"
+                                hourFormat="12"
+                            />
+                            <CustomMultiselect
+                                name="days"
+                                customIndex={index}
+                                onChange={handleChangeDynamicField}
+                                data={item}
+                                options={getAvailableOptions(index)}
+                                fieldName="hoursOperation"
+                                col={3}
+                            />
+                            {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'hoursOperation')}></i>}
+                        </CustomGridLayout>
+                    </>
+                ))}
+                <CustomGridLayout>
+                    <CustomDropDown name="allowWaitlist" data={data} onChange={handleChange} options={yesNoOptions} />
+                    <CustomDropDown
+                        label="Require Comment (Cancel - No Charge)"
+                        name="requireComment"
+                        data={data}
+                        onChange={handleChange}
+                        options={yesNoOptions}
+                    />
+                </CustomGridLayout>
+            </CustomCard>
+            <CustomCard col="12" title="Special Timings and Holidays">
+                <CustomGridLayout>
+                    <CustomCalenderInput name="date" data={data} onChange={handleChange} col={6} />
+                    <CustomDropDown name="open" data={data} onChange={handleChange} options={yesNoOptions} col={6} />
+                    {data?.open === 'true' && (
                         <>
-                            <CustomGridLayout extraClass="align-items-center">
-                                <CustomCalenderInput
-                                    name="startTime"
-                                    customIndex={index}
-                                    onChange={handleChangeDynamicField}
-                                    data={item}
-                                    fieldName="schedule"
-                                    timeOnly
-                                    placeholder="Select Time"
-                                    hourFormat="12"
-                                />
-                                <CustomCalenderInput
-                                    name="endTime"
-                                    customIndex={index}
-                                    // options={getAssistantOptions(index)}
-                                    fieldName="schedule"
-                                    // onChange={handleChangeDynamicField}
-                                    data={item}
-                                />
-                                <CustomDropDown
-                                    name="days"
-                                    customIndex={index}
-                                    // options={inst.assistantPayOptions}
-                                    fieldName="instructor"
-                                    // onChange={handleChangeDynamicField}
-                                    data={item}
-                                    col={3}
-                                />
-                                {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
-                            </CustomGridLayout>
+                            <CustomCalenderInput
+                                name="startTime"
+                                onChange={handleChange}
+                                data={data}
+                                timeOnly
+                                placeholder="Select Time"
+                                hourFormat="12"
+                                col={6}
+                            />
+                            <CustomCalenderInput
+                                name="endTime"
+                                onChange={handleChange}
+                                data={data}
+                                timeOnly
+                                placeholder="Select Time"
+                                hourFormat="12"
+                                col={6}
+                            />
                         </>
-                    ))}
-                </CustomCard>
-                <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={isLoading} />
-                </CustomButtonGroup>
-            </FormPage>
+                    )}
+                </CustomGridLayout>
+                <CustomGridLayout extraClass="justify-content-end mt-2">
+                    <CustomGridLayout>
+                        <PrimaryButton label={edithourId ? 'Edit' : 'Add'} className="mx-2" onClick={handleAddTimings} />
+                    </CustomGridLayout>
+                </CustomGridLayout>
+            </CustomCard>
+            <CustomTable data={allTimingsList} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            {data?.formErrors?.allTimingsList && <div className="text-sm p-error">{data?.formErrors?.allTimingsList}</div>}
+            <CustomButtonGroup>
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={isLoading} />
+            </CustomButtonGroup>
         </>
     );
 };

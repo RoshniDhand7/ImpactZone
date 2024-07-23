@@ -5,11 +5,19 @@ import { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomChipInput, CustomInput } from '../../../../shared/Input/AllInputs';
 import { editVariationCatalog, getCatalogVariations, getVariationCatalog } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 
-const AddandEditVariatons = ({ visible, onClose, variationId, catalogId }) => {
+const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, catalogId }) => {
     const [data, setData] = useState({
         variationName: '',
         subVariation: [],
     });
+    const onClose = () => {
+        setOpen(false);
+        setVariationId('');
+        setData({
+            variationName: '',
+            subVariation: [],
+        });
+    };
 
     const dispatch = useDispatch();
 
@@ -44,6 +52,7 @@ const AddandEditVariatons = ({ visible, onClose, variationId, catalogId }) => {
             );
         }
     };
+
     const loading = useSelector((state) => state.loader.isLoading);
     return (
         <CustomDialog title={variationId ? 'Edit Variations' : 'Add Variations'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>

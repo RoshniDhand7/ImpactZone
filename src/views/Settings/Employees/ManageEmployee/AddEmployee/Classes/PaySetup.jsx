@@ -94,9 +94,11 @@ export default function PaySetup() {
     };
 
     const itemTemplate = (item) => {
+        const index = allEmployeeClasses.list.findIndex((i) => i._id === item._id);
+        console.log('index>>', index);
         return (
             <div className="col-12 grid py-2  " key={uniqueId}>
-                <div className="col-10">{renderRow(item)}</div>
+                <div className="col-10">{renderRow(item, index)}</div>
                 <div className="col-1 my-auto">
                     <CustomInputSwitch
                         name="isDefaultPay"
@@ -112,14 +114,14 @@ export default function PaySetup() {
             </div>
         );
     };
-    const renderRow = (item) => {
+    const renderRow = (item, index) => {
         console.log('item>>', item);
         switch (item.payType) {
             case 'INCREMENTAL_PAY':
                 return (
                     <div className="flex">
                         <div className="mx-3 flex w-2">
-                            <div className="my-auto mr-4">{item.index}</div>
+                            <div className="my-auto mr-4">{index + 1}</div>
                             <div>
                                 <div className="font-medium">Pay</div>
                                 <div>Incremental Pay</div>
@@ -165,7 +167,7 @@ export default function PaySetup() {
                 return (
                     <div className="flex">
                         <div className="mx-3 flex w-2">
-                            <div className="my-auto mr-4">{item.index}</div>
+                            <div className="my-auto mr-4">{index + 1}</div>
                             <div>
                                 <div className="font-medium">Pay</div>
                                 <div>Pay Per Client</div>
@@ -223,7 +225,7 @@ export default function PaySetup() {
                 return (
                     <div className="flex">
                         <div className="mx-3 flex w-2">
-                            <div className="my-auto mr-4">{item.index}</div>
+                            <div className="my-auto mr-4">{index + 1}</div>
                             <div>
                                 <div className="font-medium">Pay</div>
                                 <div>Pay Per Class</div>
@@ -244,7 +246,7 @@ export default function PaySetup() {
                 return (
                     <div className="flex">
                         <div className="mx-3 flex w-2">
-                            <div className="my-auto mr-4">{item.index}</div>
+                            <div className="my-auto mr-4">{index + 1}</div>
                             <div>
                                 <div className="font-medium">Pay</div>
                                 <div>% Rate</div>
@@ -264,7 +266,7 @@ export default function PaySetup() {
             default:
                 return (
                     <div className="grid">
-                        <div className="col-1">{item.index}</div>
+                        <div className="col-1">{index + 1}</div>
                         <div className="col-11">{item.payType}</div>
                     </div>
                 );

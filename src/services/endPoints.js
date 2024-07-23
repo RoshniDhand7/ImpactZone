@@ -69,5 +69,6 @@ const endPoints = {
     MEMBER_SELL_PLAN: '/personal-data/',
     UNIQUE_AGREEMENT: '/unique-agrement/',
     PLAN_AGREEMENT: '/digital-aggrement/',
+    SCHEDULING_OPTIONS: '/schedule-option/',
 };
 export default endPoints;

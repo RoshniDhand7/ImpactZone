@@ -95,10 +95,31 @@ const Variations = () => {
         return <InputText type="text" value={options.value} onChange={(e) => options.editorCallback(e.target.value)} />;
     };
     const priceEditor = (options) => {
-        return <InputNumber value={options.value} onValueChange={(e) => options.editorCallback(e.value)} mode="currency" currency="USD" locale="en-US" />;
+        return (
+            <InputNumber
+                value={options.value}
+                onValueChange={(e) => options.editorCallback(e.value)}
+                mode="currency"
+                currency="USD"
+                locale="en-US"
+                minFractionDigits={4}
+                maxFractionDigits={4}
+                useGrouping={false}
+                prefix="$"
+            />
+        );
     };
     const numberEditor = (options) => {
-        return <InputNumber value={options.value} onValueChange={(e) => options.editorCallback(e.value)} />;
+        return (
+            <InputNumber
+                value={options.value}
+                onValueChange={(e) => options.editorCallback(e.value)}
+                minFractionDigits={4}
+                maxFractionDigits={4}
+                useGrouping={false}
+                prefix="$"
+            />
+        );
     };
 
     const taxableEditor = (options) => {
@@ -107,12 +128,6 @@ const Variations = () => {
     const taxableTemplate = (rowData) => {
         return <CustomCheckbox value={rowData.taxable} />;
     };
-
-    const onClose = () => {
-        setOpen(false);
-        setVariationId('');
-    };
-
     const deleteTemplate = (col, position) => {
         return (
             <i
@@ -154,7 +169,7 @@ const Variations = () => {
         <>
             <CustomCard col="12" title="General">
                 <CustomFilterCard buttonTitle="Add" onClick={() => setOpen(true)} />
-                <AddandEditVariatons visible={open} onClose={onClose} variationId={variationId} catalogId={id} />
+                <AddandEditVariatons visible={open} setOpen={setOpen} setVariationId={setVariationId} variationId={variationId} catalogId={id} />
                 {products?.length > 0 &&
                     products?.map((item, i) => {
                         return (
@@ -214,7 +229,12 @@ const Variations = () => {
                                             style={{ width: '20%' }}
                                         ></Column>
 
-                                        <Column rowEditor={true} headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
+                                        <Column
+                                            header="Actions"
+                                            rowEditor={true}
+                                            // headerStyle={{ width: '10%', minWidth: '8rem' }}
+                                            bodyStyle={{ textAlign: 'center' }}
+                                        ></Column>
                                         <Column body={deleteTemplate}></Column>
                                     </DataTable>
                                 </CustomAccordion>

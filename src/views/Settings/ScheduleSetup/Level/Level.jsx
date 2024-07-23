@@ -36,10 +36,10 @@ const Level = () => {
     };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add" contentPosition="end">
-                <div className="text-end w-full">
+            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add">
+                {/* <div className="text-end w-full">
                     <PrimaryButton label="Scheduling Options" className="mx-2 " onClick={() => history.push('/settings/schedule/levels/scheduling/')} />
-                </div>
+                </div> */}
             </CustomFilterCard>
             <CustomTable data={allLevels} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>

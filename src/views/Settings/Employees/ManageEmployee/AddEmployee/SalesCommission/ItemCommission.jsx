@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputDecimalNumber, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
 import { EmployeeCommissionType, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
@@ -131,7 +131,7 @@ const ItemCommission = () => {
                     <CustomDropDown name="commissionGroup" data={data} onChange={handleChange} options={commissionGroupsDropdown} optionLabel="name" col={12} />
                     <CustomDropDown name="commissionType" data={data} onChange={handleChange} options={EmployeeCommissionType} col={12} />
                     <CustomInput col={6} name="salesCode" data={data} onChange={handleChange} />
-                    <CustomInputNumber name="pay" data={data} onChange={handleChange} />
+                    <CustomInputDecimalNumber name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
                 </CustomGridLayout>
             </CustomDialog>

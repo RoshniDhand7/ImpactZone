@@ -19,12 +19,12 @@ const CustomTable = ({
     customActionTemplate,
     custAction,
 }) => {
-    const actionTemplate = (data) => {
+    const actionTemplate = (data, index) => {
         return (
             <span className="flex ">
                 {onView && <i className="mx-2 cursor-pointer pi pi-eye" onClick={() => onView(data)} />}
                 {onCopy && <i className="mx-2 cursor-pointer pi pi-copy" onClick={() => onCopy(data)} />}
-                {onEdit && <i className="mx-2 cursor-pointer pi pi-pencil" onClick={() => onEdit(data)} />}
+                {onEdit && <i className="mx-2 cursor-pointer pi pi-pencil" onClick={() => onEdit(data, index)} />}
                 {onDelete && <i className="mx-2 cursor-pointer pi pi-trash" onClick={() => onDelete(data)} />}
             </span>
         );
@@ -44,7 +44,7 @@ const CustomTable = ({
             showSelectionElement={showSelectionElement}
         >
             {reorderableRows && <Column rowReorder style={{ width: '3rem' }} />}
-            {columns.map((col) => (
+            {columns.map((col, index) => (
                 <Column
                     key={col.field}
                     field={col.field}
@@ -53,6 +53,7 @@ const CustomTable = ({
                     selectionMode={col.selectionMode}
                     sortable={col.sortable}
                     sortField={col.field}
+                    index={index}
                 />
             ))}
             {onView || onEdit || onDelete || customActionTemplate ? (

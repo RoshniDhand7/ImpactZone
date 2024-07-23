@@ -6,6 +6,7 @@ import Locations from './Locations/Locations';
 import EventSetup from './EventSetup/EventSetup';
 import EventCategories from './EventCategories/EventCategories';
 import EventClasses from './EventClasses/EventClasses';
+import SchedulingOptionsForm from './SchedulingOptionsForm';
 
 const ScheduleSetup = () => {
     const tabs = [
@@ -15,6 +16,7 @@ const ScheduleSetup = () => {
         { title: 'Events Setups', content: <EventSetup /> },
         { title: 'Event Categories', content: <EventCategories /> },
         { title: 'Classes', content: <EventClasses /> },
+        { title: 'Scheduling Options', content: <SchedulingOptionsForm /> },
     ];
     return <CustomTabView tabs={tabs} />;
 };

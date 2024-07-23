@@ -334,9 +334,9 @@ const EventClassesForm = () => {
                                 <CustomMultiselect
                                     name="days"
                                     customIndex={index}
-                                    options={WeekDaysOption}
                                     onChange={handleChangeDynamicField}
                                     data={scheduleItem}
+                                    options={WeekDaysOption}
                                     fieldName="schedule"
                                     col={4}
                                 />

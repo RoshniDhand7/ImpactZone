@@ -76,6 +76,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'primaryEmail':
         case 'reasonCode':
         case 'startTime':
+        case 'endTime':
         case 'taxRateName':
         case 'detail':
         case 'code':
@@ -92,6 +93,10 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'city':
         case 'autoRenew':
         case 'dueDate':
+        case 'date':
+        case 'open':
+        case 'allowWaitlist':
+        case 'requireComment':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -258,6 +263,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'baseRate':
         case 'payPerClientRate':
         case 'percentage':
+        case 'unitPrice':
             if (!isNumberOrDecimal(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -277,17 +283,17 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
 
-        case 'unitPrice':
-            if (!value) {
-                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
-            } else if (!number(value)) {
-                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
-            } else if (whiteSpaceCheck(value)) {
-                formErrors[name] = `Unnecessary space in word!`;
-            } else {
-                formErrors[name] = '';
-            }
-            break;
+        // case 'unitPrice':
+        //     if (!value) {
+        //         formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+        //     } else if (!number(value)) {
+        //         formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+        //     } else if (whiteSpaceCheck(value)) {
+        //         formErrors[name] = `Unnecessary space in word!`;
+        //     } else {
+        //         formErrors[name] = '';
+        //     }
+        //     break;
 
         default:
             break;
