@@ -3,6 +3,7 @@ import { DataView } from 'primereact/dataview';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import {
+    addEmployeeClasses,
     deleteEmployeeClasses,
     editEmployeeClasses,
     getEmployeeClasses,
@@ -10,12 +11,13 @@ import {
 } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
 import { useParams } from 'react-router-dom';
 import AddandEditClasses from './AddandEditClasses';
-import { confirmDelete } from '../../../../../../utils/commonFunctions';
+import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import { CustomDropDown, CustomInputSwitch } from '../../../../../../shared/Input/AllInputs';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
+import formValidation from '../../../../../../utils/validations';
 
 export default function PaySetup() {
     const dispatch = useDispatch();
@@ -47,6 +49,14 @@ export default function PaySetup() {
         );
         setData((prev) => ({ ...prev, [name]: value }));
     };
+    const [data1, setData1] = useState({
+        employee: '',
+    });
+
+    const handleInputChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data1);
+        setData1((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -62,6 +72,13 @@ export default function PaySetup() {
     const funcGetEmpClasses = () => {
         dispatch(getEmployeeClasses(id));
     };
+
+    useEffect(() => {
+        dispatch(getEmployees());
+    }, [dispatch]);
+
+    let { allEmployees } = useSelector((state) => state.employees);
+    allEmployees = allEmployees?.filter((item) => item._id !== id);
 
     const onEdit = (id) => {
         setEmployeeClassId(id?._id);
@@ -273,7 +290,27 @@ export default function PaySetup() {
         }
     };
 
-    const handleSave = () => {};
+    console.log('data1>>', data1);
+
+    console.log('allEmployees>>', allEmployees);
+
+    const handleSave = () => {
+        if (showFormErrors(data1, setData1)) {
+            dispatch(
+                addEmployeeClasses(
+                    { type: 'class', employeeClassData: data1?.employee?.employeeClassData, similarTo: data1?.employee?.id, employee: id },
+                    setLoading,
+                    () => {
+                        dispatch(getEmployeeClasses(id));
+                        setOpenSimilarTo(false);
+                    },
+                ),
+            );
+            setData1({
+                employee: '',
+            });
+        }
+    };
     return (
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end ">
@@ -294,7 +331,16 @@ export default function PaySetup() {
             </CustomCard>
             <CustomDialog title={'Similar To'} visible={openSimilar} onCancel={() => setOpenSimilarTo(false)} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="employee" col={12} />
+                    <CustomDropDown
+                        name="employee"
+                        col={12}
+                        data={data1}
+                        onChange={handleInputChange}
+                        options={allEmployees?.map((item) => ({
+                            name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
+                            value: { id: item._id, employeeClassData: item.employeeClassData },
+                        }))}
+                    />
                 </CustomGridLayout>
             </CustomDialog>
         </div>

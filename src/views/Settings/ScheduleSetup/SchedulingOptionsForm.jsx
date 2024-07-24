@@ -77,7 +77,12 @@ const SchedulingOptionsForm = () => {
         const formErrors = formValidation(name, value, data);
 
         console.log(name, value, data, 'Change');
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+
+        if (name === 'open') {
+            setData((prev) => ({ ...prev, open: value, startTime: '', endTime: '', formErrors }));
+        } else {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        }
     };
 
     const handleRemove = (indexToRemove, fieldName) => {
@@ -107,7 +112,9 @@ const SchedulingOptionsForm = () => {
     const handleAddTimings = () => {
         let ignore = [];
         if (data.open === 'false') {
-            ignore = ['startTime', 'endTime'];
+            ignore = ['startTime', 'endTime', 'allTimingsList'];
+        } else {
+            ignore = ['allTimingsList'];
         }
         if (showFormErrors(data, setData, ignore)) {
             if (edithourId !== null) {
@@ -116,6 +123,15 @@ const SchedulingOptionsForm = () => {
                         item.id === edithourId ? { ...item, date: data.date, open: data.open, startTime: data.startTime, endTime: data.endTime } : item,
                     ),
                 );
+                setData((prev) => ({
+                    ...prev,
+                    date: '',
+                    open: '',
+                    startTime: '',
+                    endTime: '',
+                    formErrors: {},
+                }));
+
                 setEditHourId(null);
             } else {
                 setAllTimingsList((prevList) => [
@@ -128,25 +144,57 @@ const SchedulingOptionsForm = () => {
                         endTime: data.endTime,
                     },
                 ]);
-                const clearedData = {
+                setData((prev) => ({
+                    ...prev,
                     date: '',
                     open: '',
                     startTime: '',
                     endTime: '',
-                };
-                const formErrors = {
-                    ...formValidation('date', '', clearedData),
-                    ...formValidation('open', '', clearedData),
-                };
-
-                setData((prev) => ({ ...prev, date: '', open: '', startTime: '', endTime: '', formErrors }));
+                    formErrors: {},
+                }));
             }
+            const clearedData = {
+                date: '',
+                open: '',
+                startTime: '',
+                endTime: '',
+            };
+
+            // const formErrors = {
+            //     ...formValidation('date', '', clearedData),
+            //     ...formValidation('open', '', clearedData),
+            //     ...formValidation('startTime', '', clearedData),
+            //     ...formValidation('endTime', '', clearedData),
+            // };
+
+            // if (!data.date || !data.open || !data.startTime || !data.endTime) {
+            //     setData((prev) => ({ ...prev, ...clearedData, formErrors }));
+            // } else {
+            //     setData((prev) => ({ ...prev, ...clearedData }));
+            // }
+        } else {
+            // If validation fails, set form errors
+            const formErrors = {
+                ...formValidation('date', data.date, data),
+                ...formValidation('open', data.open, data),
+                ...formValidation('startTime', data.startTime, data),
+                ...formValidation('endTime', data.endTime, data),
+            };
+
+            setData((prev) => ({ ...prev, formErrors }));
         }
     };
 
     const onEdit = (col, index) => {
         console.log(index, 'index');
-        setData((prev) => ({ ...prev, date: new Date(col.date), open: col.open, startTime: new Date(col.startTime), endTime: new Date(col.endTime) }));
+        setData((prev) => ({
+            ...prev,
+            date: new Date(col.date),
+            open: col.open,
+            startTime: new Date(col.startTime),
+            endTime: new Date(col.endTime),
+            formErrors: {},
+        }));
         setEditHourId(index.rowIndex + 1);
     };
 

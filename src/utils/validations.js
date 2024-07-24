@@ -97,6 +97,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'open':
         case 'allowWaitlist':
         case 'requireComment':
+        case 'employee':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
