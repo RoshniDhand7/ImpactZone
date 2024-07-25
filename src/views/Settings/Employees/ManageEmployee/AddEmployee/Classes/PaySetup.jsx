@@ -15,7 +15,7 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import { CustomDropDown, CustomInputSwitch } from '../../../../../../shared/Input/AllInputs';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
 import formValidation from '../../../../../../utils/validations';
 
@@ -34,7 +34,6 @@ export default function PaySetup() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
     useEffect(() => {
-        dispatch(getEmployees());
         dispatch(getLevels());
     }, [dispatch]);
 
@@ -74,11 +73,11 @@ export default function PaySetup() {
     };
 
     useEffect(() => {
-        dispatch(getEmployees());
+        dispatch(getEmployeesFilterType('class'));
     }, [dispatch]);
 
-    let { allEmployees } = useSelector((state) => state.employees);
-    allEmployees = allEmployees?.filter((item) => item._id !== id);
+    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
 
     const onEdit = (id) => {
         setEmployeeClassId(id?._id);
@@ -292,7 +291,7 @@ export default function PaySetup() {
 
     console.log('data1>>', data1);
 
-    console.log('allEmployees>>', allEmployees);
+    console.log('allEmployeesFilter>>', allEmployeesFilter);
 
     const handleSave = () => {
         if (showFormErrors(data1, setData1)) {
@@ -336,7 +335,7 @@ export default function PaySetup() {
                         col={12}
                         data={data1}
                         onChange={handleInputChange}
-                        options={allEmployees?.map((item) => ({
+                        options={allEmployeesFilter?.map((item) => ({
                             name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
                             value: { id: item._id, employeeClassData: item.employeeClassData },
                         }))}

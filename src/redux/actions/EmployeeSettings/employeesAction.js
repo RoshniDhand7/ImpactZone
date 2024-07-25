@@ -26,6 +26,20 @@ const getEmployees = (pageNo, setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
+
+const getEmployeesFilterType = (type) => async (dispatch) => {
+    const res = await api('get', EndPoints.EMPLOYEE_TYPE, {}, { type });
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_EMPLOYEES_FILTER_TYPE,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 const addEmployees =
     (data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -137,4 +151,4 @@ const deleteEmployee = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay, CalendarDefaultSorting };
+export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay, CalendarDefaultSorting, getEmployeesFilterType };

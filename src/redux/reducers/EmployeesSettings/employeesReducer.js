@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allEmployees: [],
+    allEmployeesFilter: [],
     employeesDropdown: [],
     employeePayType: [],
     allEmployeeClasses: [],
@@ -17,6 +18,11 @@ const employeesReducer = (state = intitalState, action) => {
                 ...state,
                 allEmployees: action.payload,
                 employeesDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
+            };
+        case types.CHANGE_EMPLOYEES_FILTER_TYPE:
+            return {
+                ...state,
+                allEmployeesFilter: action.payload,
             };
         case types.CHANGE_EMPLOYEES_PAY_TYPE:
             return {

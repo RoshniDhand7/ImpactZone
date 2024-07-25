@@ -9,6 +9,7 @@ const endPoints = {
     JOB_TITLE: '/title/',
     CLUBS: '/clubs/',
     EMPLOYEE: '/employee/',
+    EMPLOYEE_TYPE: '/employee-data/',
     EMPLOYEE_PAY_TYPE: '/employee-class/',
     DEFAULT_CALENDAR: '/employee-appointment-sort/',
     GET_PERMISSIONS: '/permissions/',

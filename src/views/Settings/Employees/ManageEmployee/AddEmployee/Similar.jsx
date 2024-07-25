@@ -18,7 +18,7 @@ const CustomDialogComponent = ({ openSimilar, setOpenSimilarTo, loading, handleS
 
     const filterEmployees = (criteria) => {
         switch (criteria) {
-            case 'pay':
+            case 'class':
                 return allEmployees
                     .filter((employee) => employee.pay > 50000) // Example condition for pay
                     .map((item) => ({

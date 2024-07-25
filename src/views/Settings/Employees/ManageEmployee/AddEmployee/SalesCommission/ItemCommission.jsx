@@ -16,9 +16,13 @@ import {
 } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCommissionGroups } from '../../../../../../redux/actions/InventorySettings/commissionGroupAction';
 import formValidation from '../../../../../../utils/validations';
+import PrimaryButton from '../../../../../../shared/Button/CustomButton';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 
 const ItemCommission = () => {
     const dispatch = useDispatch();
+    const [openSimilar, setOpenSimilarTo] = useState(false);
+
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [employeeSalesItemId, setEmployeeSalesItemId] = useState(null);
@@ -36,6 +40,21 @@ const ItemCommission = () => {
     const [data, setData] = useState(initialState);
 
     const { id } = useParams();
+    const [data1, setData1] = useState({
+        employee: '',
+    });
+    useEffect(() => {
+        dispatch(getEmployeesFilterType('salesCommission'));
+    }, [dispatch]);
+
+    let { allEmployeesFilter } = useSelector((state) => state.employees);
+
+    console.log(allEmployeesFilter, 'allEmployeesFilter');
+    allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
+    const handleInputChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data1);
+        setData1((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
 
     useEffect(() => {
         funcGetEmpSalesItem(id);
@@ -121,9 +140,33 @@ const ItemCommission = () => {
         }
     };
 
+    console.log('data1>>', data1);
+
+    const handleSaveSimilar = () => {
+        if (showFormErrors(data1, setData1)) {
+            dispatch(
+                addEmployeeSalesItem(
+                    { employeeSalesCommissionData: data1?.employee?.employeeSalesCommissionData, similarTo: data1?.employee?.id, employee: id },
+                    setLoading,
+                    () => {
+                        funcGetEmpSalesItem(id);
+                        setOpenSimilarTo(false);
+                    },
+                ),
+            );
+            setData1({
+                employee: '',
+            });
+        }
+    };
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
+            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)}>
+                <div className=" flex justify-content-between align-items-end">
+                    <PrimaryButton name="Similar To" className="w-12rem" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
+                </div>
+            </CustomFilterCard>
             <CustomTable data={itemCommissionData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
 
             <CustomDialog title={employeeSalesItemId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
@@ -133,6 +176,24 @@ const ItemCommission = () => {
                     <CustomInput col={6} name="salesCode" data={data} onChange={handleChange} />
                     <CustomInputDecimalNumber name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
+                </CustomGridLayout>
+            </CustomDialog>
+
+            <CustomDialog title={'Similar To'} visible={openSimilar} onCancel={() => setOpenSimilarTo(false)} loading={loading} onSave={handleSaveSimilar}>
+                <CustomGridLayout>
+                    <CustomDropDown
+                        name="employee"
+                        col={12}
+                        data={data1}
+                        onChange={handleInputChange}
+                        options={allEmployeesFilter?.map((item) => ({
+                            name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
+                            value: {
+                                id: item._id,
+                                employeeSalesCommissionData: item.employeeSalesCommissionData?.filter((item) => item.type === 'ITEM_COMMISSION'),
+                            },
+                        }))}
+                    />
                 </CustomGridLayout>
             </CustomDialog>
         </>

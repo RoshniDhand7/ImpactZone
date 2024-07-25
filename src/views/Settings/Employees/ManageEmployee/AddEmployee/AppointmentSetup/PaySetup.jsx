@@ -15,8 +15,7 @@ import formValidation from '../../../../../../utils/validations';
 import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
 import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { addEmployeeClasses, getEmployeeClasses } from '../../../../../../redux/actions/EmployeeSettings/classesAction';
-import { getEmployees } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 
 const PaySetup = () => {
@@ -37,9 +36,19 @@ const PaySetup = () => {
     });
     const handleSave = () => {
         if (showFormErrors(data1, setData1)) {
+            const filteredData = data1?.employee?.employeeAppointmentData?.filter((item) => {
+                return !allAppointmentPay?.list?.some((appointment) => appointment.eventId === item.event);
+            });
+
+            console.log(filteredData, 'filteredData');
             dispatch(
                 addEmployeeAppointmentPay(
-                    { type: 'PAY', employeeAppointmentData: data1?.employee?.employeeAppointmentData, similarTo: data1?.employee?.id, employee: id },
+                    {
+                        type: 'PAY',
+                        employeeAppointmentData: filteredData,
+                        similarTo: data1?.employee?.id,
+                        employee: id,
+                    },
                     setLoading,
                     () => {
                         dispatch(getEmployeeAppointmentPay(id, 'PAY'));
@@ -106,11 +115,11 @@ const PaySetup = () => {
         setVisible(true);
     };
     useEffect(() => {
-        dispatch(getEmployees());
+        dispatch(getEmployeesFilterType('appointment'));
     }, [dispatch]);
 
-    let { allEmployees } = useSelector((state) => state.employees);
-    allEmployees = allEmployees?.filter((item) => item._id !== id);
+    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);
         setData1((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -150,7 +159,7 @@ const PaySetup = () => {
                         col={12}
                         data={data1}
                         onChange={handleInputChange}
-                        options={allEmployees?.map((item) => ({
+                        options={allEmployeesFilter?.map((item) => ({
                             name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
                             value: { id: item._id, employeeAppointmentData: item.employeeAppointmentData?.filter((item) => item.type === 'PAY') },
                         }))}

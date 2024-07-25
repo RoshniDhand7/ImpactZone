@@ -18,10 +18,13 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEmployees, getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 
 const BonusSetup = ({ type }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const [openSimilar, setOpenSimilarTo] = useState(false);
 
     const initialState = {
         bonusType: 'SERVICE_VALUE', //SINGLE_CLIENT,SERVICE_VALUE
@@ -40,6 +43,19 @@ const BonusSetup = ({ type }) => {
     const [appointmentData, setAppointmentData] = useState([]);
 
     const [data, setData] = useState(initialState);
+    const [data1, setData1] = useState({
+        employee: '',
+    });
+    useEffect(() => {
+        dispatch(getEmployeesFilterType(type === 'appointment' ? 'appointment' : 'salesCommission'));
+    }, [dispatch]);
+
+    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
+    const handleInputChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data1);
+        setData1((prev) => ({ ...prev, [name]: value, formErrors }));
+    };
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -105,6 +121,29 @@ const BonusSetup = ({ type }) => {
     const onEdit = (col) => {
         setemployeeAppartBonusId(col?._id);
         setVisible(true);
+    };
+
+    const handleSaveSimilar = () => {
+        if (showFormErrors(data1, setData1)) {
+            dispatch(
+                addEmployeeBonus(
+                    type,
+                    {
+                        employeeBonusData: data1?.employee?.employeeAppointmentData,
+                        similarTo: data1?.employee?.id,
+                        employee: id,
+                    },
+                    setLoading,
+                    () => {
+                        dispatch(getEmployeeAppointmentPay(id, 'BONUS', setLoading));
+                        setOpenSimilarTo(false);
+                    },
+                ),
+            );
+            setData1({
+                employee: '',
+            });
+        }
     };
 
     const handleSave = () => {
@@ -177,9 +216,15 @@ const BonusSetup = ({ type }) => {
         { field: 'services', body: (r) => r.services?.map((item) => item.name)?.join(','), header: 'Services' },
     ];
 
+    console.log('data1', data1);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} />
+            <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)}>
+                <div className=" flex justify-content-between align-items-end">
+                    <PrimaryButton name="Similar To" className="w-12rem" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
+                </div>
+            </CustomFilterCard>
             <CustomTable data={type === 'appointment' ? allAppointmentPay?.list : appointmentData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
 
             <CustomDialog
@@ -207,6 +252,23 @@ const BonusSetup = ({ type }) => {
                         data={data}
                         onChange={handleChange}
                         options={type === 'appointment' ? filteredEvents : catalogServiceDropdown}
+                    />
+                </CustomGridLayout>
+            </CustomDialog>
+            <CustomDialog title={'Similar To'} visible={openSimilar} onCancel={() => setOpenSimilarTo(false)} loading={loading} onSave={handleSaveSimilar}>
+                <CustomGridLayout>
+                    <CustomDropDown
+                        name="employee"
+                        col={12}
+                        data={data1}
+                        onChange={handleInputChange}
+                        options={allEmployeesFilter?.map((item) => ({
+                            name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
+                            value:
+                                type === 'appointment'
+                                    ? { id: item._id, employeeAppointmentData: item.employeeAppointmentData?.filter((item) => item.type === 'BONUS') }
+                                    : { id: item._id, employeeSalesCommissionData: item.employeeSalesCommissionData?.filter((item) => item.type === 'BONUS') },
+                        }))}
                     />
                 </CustomGridLayout>
             </CustomDialog>
