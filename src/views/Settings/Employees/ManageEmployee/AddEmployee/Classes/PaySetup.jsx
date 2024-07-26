@@ -12,7 +12,7 @@ import {
 import { useParams } from 'react-router-dom';
 import AddandEditClasses from './AddandEditClasses';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
-import { CustomDropDown, CustomInputSwitch } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInputSwitch, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
@@ -25,7 +25,7 @@ export default function PaySetup() {
 
     const [openSimilar, setOpenSimilarTo] = useState(false);
     const [data, setData] = useState({
-        isClassLevel: '',
+        isClassLevel: [],
         isDefaultPay: '',
     });
 
@@ -43,7 +43,7 @@ export default function PaySetup() {
     const handleChange = ({ name, value }) => {
         dispatch(
             updateEmployeeLevel(id, value, () => {
-                funcGetEmpClasses();
+                // funcGetEmpClasses();
             }),
         );
         setData((prev) => ({ ...prev, [name]: value }));
@@ -111,7 +111,6 @@ export default function PaySetup() {
 
     const itemTemplate = (item) => {
         const index = allEmployeeClasses.list.findIndex((i) => i._id === item._id);
-        console.log('index>>', index);
         return (
             <div className="col-12 grid py-2  " key={uniqueId}>
                 <div className="col-10">{renderRow(item, index)}</div>
@@ -131,7 +130,6 @@ export default function PaySetup() {
         );
     };
     const renderRow = (item, index) => {
-        console.log('item>>', item);
         switch (item.payType) {
             case 'INCREMENTAL_PAY':
                 return (
@@ -289,10 +287,6 @@ export default function PaySetup() {
         }
     };
 
-    console.log('data1>>', data1);
-
-    console.log('allEmployeesFilter>>', allEmployeesFilter);
-
     const handleSave = () => {
         if (showFormErrors(data1, setData1)) {
             dispatch(
@@ -314,7 +308,7 @@ export default function PaySetup() {
         <div>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end ">
                 <div className=" flex justify-content-between align-items-end">
-                    <CustomDropDown name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
+                    <CustomMultiselect name="isClassLevel" col={6} options={levelDropdown} optionLabel="name" data={data} onChange={handleChange} />
                     <PrimaryButton name="Similar To" className="w-12rem" label="Similar To" onClick={() => setOpenSimilarTo(true)} />
                 </div>
             </CustomFilterCard>

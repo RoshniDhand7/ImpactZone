@@ -60,8 +60,6 @@ const SchedulingOptionsForm = () => {
         }
     }, [allSchedulingOptions]);
 
-    console.log(allSchedulingOptions);
-
     const handleAddSchedule = () => {
         const newSchedule = {
             startTime: '',
@@ -75,9 +73,6 @@ const SchedulingOptionsForm = () => {
     };
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-
-        console.log(name, value, data, 'Change');
-
         if (name === 'open') {
             setData((prev) => ({ ...prev, open: value, startTime: '', endTime: '', formErrors }));
         } else {
@@ -186,7 +181,6 @@ const SchedulingOptionsForm = () => {
     };
 
     const onEdit = (col, index) => {
-        console.log(index, 'index');
         setData((prev) => ({
             ...prev,
             date: new Date(col.date),
@@ -240,9 +234,6 @@ const SchedulingOptionsForm = () => {
             }
         }
     };
-
-    console.log('data,', data);
-    console.log('allTimingsList,', allTimingsList);
 
     return (
         <>

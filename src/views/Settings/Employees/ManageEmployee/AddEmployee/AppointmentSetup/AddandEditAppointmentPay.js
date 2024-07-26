@@ -31,9 +31,11 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
     let { isAppointmentLevel, allAppointmentPayDropdown } = useSelector((state) => state?.employees);
 
     const { allEvents } = useSelector((state) => state.event);
+
     const filteredEvents = allEvents
-        ?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments')
+        ?.filter((item) => item.eventLevel?.some((level) => isAppointmentLevel.includes(level)) && item.eventType === 'Appointments')
         ?.map((item) => ({ name: item.name, value: item._id }));
+
     const editFiltered = filteredEvents.filter((item) => !allAppointmentPayDropdown?.map((ed) => ed.name).includes(item.name) || data?.event === item?.value);
     const filtered = filteredEvents.filter((item) => !allAppointmentPayDropdown?.map((ed) => ed.name).includes(item.name));
 

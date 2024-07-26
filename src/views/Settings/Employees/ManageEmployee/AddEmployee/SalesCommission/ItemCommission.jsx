@@ -49,7 +49,6 @@ const ItemCommission = () => {
 
     let { allEmployeesFilter } = useSelector((state) => state.employees);
 
-    console.log(allEmployeesFilter, 'allEmployeesFilter');
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);
@@ -139,14 +138,16 @@ const ItemCommission = () => {
             }
         }
     };
-
-    console.log('data1>>', data1);
-
     const handleSaveSimilar = () => {
         if (showFormErrors(data1, setData1)) {
             dispatch(
                 addEmployeeSalesItem(
-                    { employeeSalesCommissionData: data1?.employee?.employeeSalesCommissionData, similarTo: data1?.employee?.id, employee: id },
+                    {
+                        employeeSalesCommissionData: data1?.employee?.employeeSalesCommissionData,
+                        similarTo: data1?.employee?.id,
+                        employee: id,
+                        type: 'itemCommission',
+                    },
                     setLoading,
                     () => {
                         funcGetEmpSalesItem(id);

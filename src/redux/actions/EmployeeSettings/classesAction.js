@@ -23,8 +23,6 @@ const getEmployeeClasses = (employee, setLoading) => async (dispatch) => {
 };
 
 const updateEmployeeLevel = (id, level, next) => async (dispatch) => {
-    dispatch(showLoaderAction());
-
     const payload = {
         employee: id,
         isClassLevel: level,
@@ -36,7 +34,6 @@ const updateEmployeeLevel = (id, level, next) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
-    dispatch(hideLoaderAction());
 };
 
 const addEmployeeClasses = (data, setLoading, next) => async (dispatch) => {

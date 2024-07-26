@@ -79,7 +79,7 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     );
 }
 
-export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title, titleClassName, contentPosition = 'between' }) {
+export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title, titleClassName, contentPosition = 'between', disabled }) {
     const history = useHistory();
     return (
         <div className="border-round p-2 mt-2 ">
@@ -90,7 +90,7 @@ export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extra
                     linkTo ? (
                         <PrimaryButton label={buttonTitle} onClick={() => history.push(linkTo)} />
                     ) : (
-                        <PrimaryButton label={buttonTitle} onClick={onClick} />
+                        <PrimaryButton label={buttonTitle} onClick={onClick} disabled={disabled} />
                     )
                 ) : null}
             </div>

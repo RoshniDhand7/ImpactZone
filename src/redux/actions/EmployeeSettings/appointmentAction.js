@@ -45,8 +45,6 @@ const isDefaultAppointmentPay = (data, next) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 const updateEmployeeAppointmentPayLevel = (id, level, next) => async (dispatch) => {
-    dispatch(showLoaderAction());
-
     const payload = {
         employee: id,
         isAppointmentLevel: level,
@@ -58,7 +56,6 @@ const updateEmployeeAppointmentPayLevel = (id, level, next) => async (dispatch) 
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
-    dispatch(hideLoaderAction());
 };
 const editEmployeeAppointmentPay = (id, data, setLoading, next) => async (dispatch) => {
     setLoading(true);

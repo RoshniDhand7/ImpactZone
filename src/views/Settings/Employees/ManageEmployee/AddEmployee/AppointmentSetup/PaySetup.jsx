@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addEmployeeAppointmentPay,
@@ -28,7 +28,7 @@ const PaySetup = () => {
     const { id } = useParams();
     const [data, setData] = useState({
         isDefaultPay: '',
-        isAppointmentLevel: '',
+        isAppointmentLevel: [],
     });
 
     const [data1, setData1] = useState({
@@ -40,7 +40,6 @@ const PaySetup = () => {
                 return !allAppointmentPay?.list?.some((appointment) => appointment.eventId === item.event);
             });
 
-            console.log(filteredData, 'filteredData');
             dispatch(
                 addEmployeeAppointmentPay(
                     {
@@ -124,14 +123,11 @@ const PaySetup = () => {
         const formErrors = formValidation(name, value, data1);
         setData1((prev) => ({ ...prev, [name]: value, formErrors }));
     };
-
-    console.log('data1>>', data1);
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)} extraClass="align-items-end">
                 <div className=" flex justify-content-between align-items-end">
-                    <CustomDropDown
+                    <CustomMultiselect
                         extraClassName="w-18rem"
                         name="isAppointmentLevel"
                         label="Appointment Level"

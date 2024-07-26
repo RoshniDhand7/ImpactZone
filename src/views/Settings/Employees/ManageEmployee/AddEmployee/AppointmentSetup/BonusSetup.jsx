@@ -18,7 +18,7 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
-import { getEmployees, getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 
 const BonusSetup = ({ type }) => {
@@ -129,17 +129,20 @@ const BonusSetup = ({ type }) => {
                 addEmployeeBonus(
                     type,
                     {
-                        employeeBonusData: data1?.employee?.employeeAppointmentData,
+                        ...(type === 'appointment'
+                            ? { employeeBonusData: data1?.employee?.employeeAppointmentData }
+                            : { employeeSalesCommissionData: data1?.employee?.employeeSalesCommissionData, type: 'bonus' }),
                         similarTo: data1?.employee?.id,
                         employee: id,
                     },
                     setLoading,
                     () => {
-                        dispatch(getEmployeeAppointmentPay(id, 'BONUS', setLoading));
+                        funcGetEmpAppointment(id);
                         setOpenSimilarTo(false);
                     },
                 ),
             );
+
             setData1({
                 employee: '',
             });
@@ -215,9 +218,6 @@ const BonusSetup = ({ type }) => {
 
         { field: 'services', body: (r) => r.services?.map((item) => item.name)?.join(','), header: 'Services' },
     ];
-
-    console.log('data1', data1);
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)}>

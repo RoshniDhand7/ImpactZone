@@ -121,8 +121,6 @@ const EventClassesForm = () => {
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
-    console.log('allClasses>>', allEventClasses);
-
     useEffect(() => {
         if (data?.event) {
             dispatch(getServicesEvents(data?.event));
@@ -292,8 +290,6 @@ const EventClassesForm = () => {
             }
         }
     };
-
-    console.log('data,', data);
 
     return (
         <>
