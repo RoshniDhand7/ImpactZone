@@ -9,12 +9,23 @@ import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addCategory, editCategory, getCategory } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
+import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import CustomPickList from '../../../../shared/Input/CustomPickList';
 
 const CategoriesForm = () => {
     const history = useHistory();
     const { id } = useParams();
     const dispatch = useDispatch();
     const { categoryDropdown } = useSelector((state) => state.category);
+
+    useEffect(() => {
+        dispatch(getCatalogItems());
+    }, [dispatch]);
+
+    let { allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
+    allCatalogItemsFilter = allCatalogItemsFilter?.map((item) => ({ value: item._id, name: item.name }));
+
+    console.log('allCatalogItemsFilter>', allCatalogItemsFilter);
 
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -28,6 +39,7 @@ const CategoriesForm = () => {
                         availableCategory: data.availableCategory,
                         description: data.description,
                         isActive: data.isActive,
+                        catalog: data.catalog,
                     });
                 }),
             );
@@ -40,6 +52,7 @@ const CategoriesForm = () => {
         availableCategory: '',
         description: '',
         isActive: false,
+        catalog: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -54,6 +67,8 @@ const CategoriesForm = () => {
             }
         }
     };
+
+    console.log('Data>>', data);
     return (
         <FormPage backText="Categories">
             <CustomCard col="12" title="Add Categories">
@@ -67,7 +82,7 @@ const CategoriesForm = () => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Catalog Items">
-                <CustomGridLayout></CustomGridLayout>
+                <CustomPickList name="catalog" selected={data?.catalog} sourceData={allCatalogItemsFilter} onPickListChange={handleChange} />
             </CustomCard>
 
             <CustomButtonGroup>

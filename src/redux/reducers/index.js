@@ -38,6 +38,8 @@ import discountTypeReducer from './PosSettings/discountTypeReducer';
 import memberReducer from './Dashboard/MembersReducer';
 import sellPlanReducer from './Plans/SellPlanReducer';
 import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReducer';
+import filterSetReducer from './InventorySettings/filterSetReducer';
+import tagsReducer from './InventorySettings/tagsReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -79,4 +81,6 @@ export default combineReducers({
     members: memberReducer,
     plans: sellPlanReducer,
     schedulingOptions: schedulingOptionsReducer,
+    filterSet: filterSetReducer,
+    tags: tagsReducer,
 });

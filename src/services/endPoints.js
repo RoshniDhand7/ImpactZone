@@ -31,6 +31,8 @@ const endPoints = {
     COMMISSION_GROUPS: '/commission-group/',
     VENDORS: '/vendor/',
     CATEGORIES: '/inventory-category/',
+    FILTER_SETS: '/filter-set/',
+    TAGS: '/tag/',
     PROFIT_CENTERS: '/profit-center/',
     MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
     SUSTITITION_OPTIONS: '/employee-substitute-option/',
