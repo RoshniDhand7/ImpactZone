@@ -64,6 +64,8 @@ const CustomLogoImage = ({
         onFilesChange({ name, value: [] });
     };
 
+    console.log('catalog>>', errorMessage, data);
+
     return (
         <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept="image/*" hidden {...props} />
@@ -99,9 +101,9 @@ const CustomLogoImage = ({
                 </div>
             )}
 
-            <div className="text-left ">
+            {/* <div className="text-left ">
                 {errorMessage || data?.formErrors?.[name] ? <small className="p-error">{errorMessage || data?.formErrors?.[name]}</small> : null}
-            </div>
+            </div> */}
         </InputLayout>
     );
 };

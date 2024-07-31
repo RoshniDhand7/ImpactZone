@@ -144,3 +144,11 @@ a:-webkit-any-link {
     height: 80vh;
     overflow: auto;
 }
+.minheightcontent {
+    overflow: auto;
+    max-height: 440px;
+}
+.minheightcontent1 {
+    overflow: auto;
+    max-height: 320px;
+}

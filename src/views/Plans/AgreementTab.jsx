@@ -235,7 +235,6 @@ const AgreementTab = ({ onTabEnable }) => {
         return _filteredItems;
     };
 
-    console.log('data>>', data);
     return (
         <>
             <CustomCard col="12" title="Membership">

@@ -25,8 +25,6 @@ const CategoriesForm = () => {
     let { allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
     allCatalogItemsFilter = allCatalogItemsFilter?.map((item) => ({ value: item._id, name: item.name }));
 
-    console.log('allCatalogItemsFilter>', allCatalogItemsFilter);
-
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         if (id) {
@@ -68,7 +66,6 @@ const CategoriesForm = () => {
         }
     };
 
-    console.log('Data>>', data);
     return (
         <FormPage backText="Categories">
             <CustomCard col="12" title="Add Categories">

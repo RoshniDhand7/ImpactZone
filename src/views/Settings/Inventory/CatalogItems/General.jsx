@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomLogoImage from '../../../../shared/Image/LogoImage';
-import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import {
     catalogProductTypeOptions,
     daysOptions,
@@ -25,6 +25,8 @@ import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../red
 import formValidation from '../../../../utils/validations';
 import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
 import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
+import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
+import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
 
 const General = () => {
     const dispatch = useDispatch();
@@ -69,6 +71,8 @@ const General = () => {
         itemStart: '',
         isActive: true,
         wholesaleCost: '',
+        filterSet: [],
+        tags: [],
     });
     useEffect(() => {
         dispatch(getProfitCenters());
@@ -76,7 +80,13 @@ const General = () => {
         dispatch(getClubs());
         dispatch(getTaxes());
         dispatch(getDiscountTypes('active'));
+        dispatch(getFilterSets());
+        dispatch(getTags());
     }, [dispatch]);
+
+    const { filterSetDropDown } = useSelector((state) => state.filterSet);
+
+    const { tagsDropDown } = useSelector((state) => state.tags);
 
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
 
@@ -137,6 +147,8 @@ const General = () => {
                         itemStart: data.itemStart,
                         isActive: data.isActive,
                         wholesaleCost: data.wholesaleCost,
+                        filterSet: data.filterSet,
+                        tags: data.tags,
                     });
                 }),
             );
@@ -189,7 +201,7 @@ const General = () => {
                     <CustomInput name="name" onChange={handleChange} data={data} />
                     <CustomInput name="upc" label="UPC" onChange={handleChange} data={data} />
                     <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} />
-                    <CustomDropDown name="category" options={categoryDropdown} onChange={handleChange} data={data} />
+
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} />
                     <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="itemRecurring" label="Is this item Recurring" options={yesNoOptions} onChange={handleChange} data={data} />
@@ -208,6 +220,13 @@ const General = () => {
                         data={data}
                     />
                     <CustomDropDown name="itemSoldOnline" label="Is this item sold online" options={yesNoOptions} onChange={handleChange} data={data} />
+                </CustomGridLayout>
+            </CustomCard>
+            <CustomCard col="12" title="Display">
+                <CustomGridLayout>
+                    <CustomDropDown name="category" options={categoryDropdown} onChange={handleChange} data={data} />
+                    <CustomMultiselect name="filterSet" options={filterSetDropDown} onChange={handleChange} data={data} />
+                    <CustomMultiselect name="tags" options={tagsDropDown} onChange={handleChange} data={data} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Product Settings">

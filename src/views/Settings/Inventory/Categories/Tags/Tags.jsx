@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import { confirmDelete, showFormErrors } from '../../../../../utils/commonFunctions';
-import { addFilterSet, deleteFilterSet, editFilterSet, getFilterSet, getFilterSets } from '../../../../../redux/actions/InventorySettings/filterSetsAction';
 import formValidation from '../../../../../utils/validations';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../../shared/Input/AllInputs';

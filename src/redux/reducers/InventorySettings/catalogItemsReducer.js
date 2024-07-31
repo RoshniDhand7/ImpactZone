@@ -14,7 +14,13 @@ const catalogItemsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCatalogItems: action.payload,
-                allCatalogItemsFilter: action.payload?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
+                allCatalogItemsFilter: action.payload?.map((item) => ({
+                    name: item.name,
+                    _id: item._id,
+                    upc: item.upc,
+                    unitPrice: item.unitPrice,
+                    img: item.catalogImage,
+                })),
                 catalogTypeFilterItems: action.payload
                     ?.filter((item) => item.type === 'PRODUCT')
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
