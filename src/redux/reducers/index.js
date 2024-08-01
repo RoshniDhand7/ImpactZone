@@ -40,6 +40,7 @@ import sellPlanReducer from './Plans/SellPlanReducer';
 import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReducer';
 import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
+import POSReducer from './POSReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -83,4 +84,5 @@ export default combineReducers({
     schedulingOptions: schedulingOptionsReducer,
     filterSet: filterSetReducer,
     tags: tagsReducer,
+    POS: POSReducer,
 });

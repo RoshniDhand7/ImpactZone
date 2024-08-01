@@ -5,11 +5,19 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getCatalogItems = (setLoading) => async (dispatch) => {
+const getCatalogItems = (setLoading, category, catalog, filterSet, tags) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.INVENTORY_CATALOG);
+
+    const params = {
+        category,
+        catalog,
+        filterSet: filterSet?.length > 0 ? filterSet.map((item) => item.value) : [],
+        tags: tags?.length > 0 ? tags?.map((item) => item.value) : [],
+    };
+
+    const res = await api('get', EndPoints.INVENTORY_CATALOG, {}, category || catalog || filterSet || tags ? params : {});
     if (res.success) {
         if (res.data) {
             dispatch({

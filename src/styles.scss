@@ -152,3 +152,71 @@ a:-webkit-any-link {
     overflow: auto;
     max-height: 320px;
 }
+.product-sidebar {
+    width: 300px;
+}
+.cart-view {
+    width: 400px;
+}
+.products-view {
+    width: calc(100% - 700px);
+}
+.div-shadow {
+    border: 1px solid #f3f3f3;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 2.5362117290496826px 6.76323127746582px -0.8454039096832275px #3232470d;
+}
+.responsive-height {
+    height: 70vh;
+    overflow: auto;
+}
+@media only screen and (max-width: 930px) {
+    .responsive-height {
+        min-height: 0px;
+    }
+}
+
+.customize-graph {
+    label {
+        font-family: Inter;
+        font-size: 17px;
+        font-weight: 550;
+        line-height: 16.94px;
+        color: #313131;
+        padding: 0.2rem;
+    }
+}
+
+.custom-dialog {
+    .p-dialog-content {
+        padding: 0;
+    }
+    .p-dialog-footer {
+        padding: 0.5rem 1rem;
+    }
+    .p-dialog-header {
+        padding: 1rem;
+    }
+    .card {
+        background: $bg-white;
+        border-radius: 10px;
+
+        .header {
+            font-family: Heebo;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 32px;
+            color: #313131;
+            padding: 1rem;
+        }
+        hr {
+            border-top: 1px solid #e8e8e8;
+            margin: 0;
+        }
+        .content {
+            padding: 1rem;
+        }
+    }
+}

@@ -1,35 +1,47 @@
 import { AutoComplete } from 'primereact/autocomplete';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import { useDispatch, useSelector } from 'react-redux';
-import cart from '../../assets/icons/cart.png';
-import PrimaryButton, { CustomButton } from '../../shared/Button/CustomButton';
+import { CustomButton } from '../../shared/Button/CustomButton';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import { getImageURL } from '../../utils/imageUrl';
 import { getCategories } from '../../redux/actions/InventorySettings/categoriesAction';
+import { CustomTree } from '../../shared/CustomTree';
+import _ from 'lodash';
+import CustomDialog from '../../shared/Overlays/CustomDialog';
+import { getFilterSets } from '../../redux/actions/InventorySettings/filterSetsAction';
+import { getTags } from '../../redux/actions/InventorySettings/tagAction';
+import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
+import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
 
 export default function PointOfSale() {
     const [data, setData] = useState({
         catalogItem: '',
+        tags: [],
+        filterSet: [],
     });
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCatalogItems());
         dispatch(getCategories());
+        dispatch(getFilterSets());
+        dispatch(getTags());
     }, [dispatch]);
 
     const { allCategory } = useSelector((state) => state.category);
-
     let { allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
-
-    console.log(allCatalogItemsFilter, 'allCatalogItemsFilter');
+    const { filterSetDropDown } = useSelector((state) => state.filterSet);
+    const { tagsDropDown } = useSelector((state) => state.tags);
 
     const handleChange = (e) => {
         const inputValue = e.value;
         const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
         setData((prev) => ({ ...prev, catalogItem: trimmedValue }));
+    };
+    const handleChange1 = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
     };
 
     const [items, setItems] = useState([]);
@@ -45,12 +57,21 @@ export default function PointOfSale() {
     }));
 
     const [value, setValue] = useState('');
+    const [categoryId, setCategoryId] = useState('all');
+    const [visibleFilter, setVisibleFilter] = useState(false);
 
     useEffect(() => {
         dispatch(getMembers());
-    }, []);
+        dispatch(getSearchSuggestion());
+    }, [dispatch]);
 
     let { allMembers } = useSelector((state) => state.members);
+    const { recentSuggesstions } = useSelector((state) => state?.POS);
+    useEffect(() => {
+        if (categoryId || data?.catalogItem?._id) {
+            dispatch(getCatalogItems(_, categoryId, data?.catalogItem?._id));
+        }
+    }, [categoryId, data?.catalogItem?._id, dispatch]);
 
     allMembers = allMembers.map((item) => ({
         firstName: item.firstName,
@@ -59,9 +80,6 @@ export default function PointOfSale() {
         id: item._id,
         fullName: `${item.firstName} ${item.MI} ${item.lastName}`.trim(),
     }));
-
-    console.log('allMembers>>', allMembers, value);
-
     const search = (event) => {
         let query = event.query.trim().toLowerCase();
         let _filteredItems = allCatalogItemsFilter.filter((item) => {
@@ -83,72 +101,74 @@ export default function PointOfSale() {
         setMemberItems(_filteredItems);
         return _filteredItems;
     };
-
-    const CategoryItems = [
-        {
-            label: 'Shakes',
-        },
-        {
-            label: 'Bars',
-        },
-        {
-            label: 'Supplements',
-        },
-        {
-            label: 'Classes',
-        },
-        {
-            label: 'Shakes',
-        },
-        {
-            label: 'Bars',
-        },
-        {
-            label: 'Supplements',
-        },
-        {
-            label: 'Classes',
-        },
-        {
-            label: 'Shakes',
-        },
-        {
-            label: 'Bars',
-        },
-        {
-            label: 'Supplements',
-        },
-        {
-            label: 'Classes',
-        },
-    ];
-
-    const SavedItems = [
-        {
-            label: 'Austin',
-            icon: '',
-            button: '',
-        },
-    ];
     const handleOnChange = (e) => {
         const inputValue = e.value;
         const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
+
         setValue(trimmedValue);
     };
+    const handleSubCategorySelect = (category) => {
+        setCategoryId(category.value);
+    };
 
-    console.log('data>>', data);
+    const getSubCategoryTreeSelect = () => {
+        let keys = allCategory?.map((category) => ({
+            key: `${category._id}`,
+            label: category.name,
+        }));
+        keys.unshift({
+            key: `all`,
+            label: 'All',
+        });
+
+        return keys;
+    };
+    const handleApply = () => {
+        dispatch(getCatalogItems(_, categoryId, data?.catalogItem?._id, data?.filterSet, data?.tags));
+        setVisibleFilter(false);
+    };
+
+    const handleClear = () => {
+        setData((prev) => ({ ...prev, tags: [], filterSet: [] }));
+    };
+
+    const filters = ['filterSet', 'tags'];
+
+    const filterOptions = {
+        filterSet: {
+            name: 'FilterSet',
+            value: 'filterSet',
+            options: filterSetDropDown,
+        },
+        tags: {
+            name: 'Tags',
+            value: 'tags',
+            options: tagsDropDown,
+        },
+    };
+    const filterOptionItems = useMemo(() => filters.map((item) => filterOptions[item]), [filters.length, filterSetDropDown, tagsDropDown]);
+
+    const onCancel = () => {
+        setVisibleFilter(false);
+    };
+
+    useEffect(() => {
+        if (value?.fullName) {
+            dispatch(addRecentSearch(value?.fullName));
+        }
+    }, [value?.fullName, dispatch]);
     return (
         <>
-            <div className="grid">
-                <div className="lg:col-3 sm:col-2 p-2">
-                    <span className="p-input-icon-right ">
+            <div className="flex gap-2">
+                <div className="product-sidebar p-2">
+                    <span className="p-input-icon-right w-full">
                         <AutoComplete
                             field={'fullName'}
                             value={data.catalogItem}
                             suggestions={items}
                             completeMethod={search}
                             onChange={handleChange}
-                            className="w-20rem "
+                            className="w-full "
                             showEmptyMessage={true}
                             required={true}
                             inputClassName="w-full"
@@ -163,63 +183,70 @@ export default function PointOfSale() {
                         <i className="pi pi-search" />
                     </span>
                     <div className="mt-3">
-                        <div className="bg-light-gray p-3 minheightcontent">
-                            <div className="menu-bar">
-                                <ul className="p-0 list-none side-menu ">
-                                    <h3 className="mb-3">Categories</h3>
-                                    {allCategory.map((item, index) => (
-                                        <li className="mb-3">{item.name}</li>
-                                    ))}
-                                </ul>
+                        <div className="col-12 lg:col-12 md:col-12 div-shadow p-3 mb-2 lg:mb-0 responsive-height">
+                            <div className="flex justify-content-between align-items-center">
+                                <h2 className="text-xl font-semibold ">{'Category'}</h2>
                             </div>
-                        </div>
-                    </div>
-                    <div className="mt-3">
-                        <div className="bg-light-gray p-3 minheightcontent1">
-                            <div className="menu-bar">
-                                <ul className="p-0 list-none side-menu">
-                                    <h3 className="mb-3">Saved</h3>
-                                    {allCategory.map((item, index) => (
-                                        <li className="flex align-items-center justify-content-between ">
-                                            <div className="flex gap-3 align-items-center">
-                                                <img src={cart} alt="" style={{ width: '15px', height: '15px' }} />
-                                                {item.name}
-                                            </div>
-
-                                            <div className=" ">
-                                                <PrimaryButton label="View" className="p-2 " />
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
+                            <div className="mt-3">
+                                <CustomTree
+                                    className="p-0 bg-transparent"
+                                    values={getSubCategoryTreeSelect()}
+                                    selectionKeys={categoryId}
+                                    onSelectionChange={handleSubCategorySelect}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="lg:col-6 sm:col-2 ">
+                <div className="products-view ">
                     <div className={`bg-primary-dark border-round shadow-2 px-2 ${'flex justify-content-between align-items-center'}`}>
                         <div className="text-xl text-white justify-content-end align-items-end ml-2">Most Purchased Items</div>
-                        <CustomButton className="p-1 border-gray-200 text-sm   p-2 text-white justify-content-end align-items-end" outlined={true}>
+                        <CustomButton
+                            className="p-1 border-gray-200 text-sm   p-2 text-white justify-content-end align-items-end"
+                            outlined={true}
+                            onClick={() => setVisibleFilter(true)}
+                        >
                             Filter
                         </CustomButton>
                     </div>
-                    <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '500px', overflowY: 'auto' }}>
-                        <div class="grid">
+                    <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
+                        <div class="grid w-full">
                             {allCatalogItemsFilter?.map((item) => (
-                                <div className="lg:col-3">
+                                <div className="lg:col-3" key={item._id}>
                                     <div className="">
                                         <div className="">
-                                            <img src={getImageURL(item.img)} style={{ height: '100px', width: '100px' }}></img>
+                                            <img src={getImageURL(item.img)} style={{ height: '100px', width: '100px' }} alt="catalogImg"></img>
                                         </div>
                                         <p className="font-semibold text-dark-blue">{item.name}</p>
-                                        <p className="font-semibold text-dark-blue">$56</p>
+                                        <p className="font-semibold text-dark-blue">$ {item.unitPrice}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-                <div className="lg:col-3 sm:col-2 p-2">
+
+                <CustomDialog
+                    title="Apply Filters"
+                    icon="pi-filter"
+                    width="70vh"
+                    visible={visibleFilter}
+                    onCancel={onCancel}
+                    onApply={handleApply}
+                    onClear={handleClear}
+                >
+                    <div className="customize-graph">
+                        {filterOptionItems?.map((item, i) => (
+                            <div key={i}>
+                                {i ? <hr /> : null}
+                                <div className="content">
+                                    <CustomCheckBoxInput label={item.name} name={item.value} options={item.options} data={data} onChange={handleChange1} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </CustomDialog>
+                <div className="cart-view">
                     <span className="p-input-icon-right w-full">
                         <AutoComplete
                             field="fullName"
@@ -235,6 +262,17 @@ export default function PointOfSale() {
                         />
                         <i className="pi pi-search" />
                     </span>
+                    <div className="flex justify-content-end gap-8 mt-3">
+                        {recentSuggesstions?.map((item) => {
+                            return (
+                                <>
+                                    <div className="text-sm text-blue" key={item._id}>
+                                        {item.name}
+                                    </div>
+                                </>
+                            );
+                        })}
+                    </div>
                     <div>
                         <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}></CustomAccordion>
                     </div>

@@ -455,3 +455,43 @@ export const CustomInputTime = ({
         </InputLayout>
     );
 };
+
+export const CustomFilterCheckbox = ({ name, data, value, onChange }) => {
+    const handleChange = (e) => {
+        let _new = data ? [...data] : [];
+        if (e.checked) {
+            _new.push({ name, value });
+        } else {
+            _new = _new.filter((item) => item.name !== name);
+        }
+        onChange(_new);
+    };
+    let _id = name + Date.now();
+    return (
+        <div className="flex mx-2 mb-2">
+            <Checkbox name={name} inputId={_id} checked={data?.find((item) => item.name === name) ? true : false} onChange={handleChange} />
+            <label htmlFor={_id} className="ml-2">
+                {name}
+            </label>
+        </div>
+    );
+};
+export const CustomCheckBoxInput = ({ label, name, onChange, data, value, extraClassName, options, col = 12 }) => {
+    console.log('options>>', options);
+    return (
+        <div className={`col-12  md:col-${col} ${extraClassName}`}>
+            {label && <label>{label}</label>}
+            <div className="grid mt-3">
+                {options?.map((checkbox, i) => (
+                    <CustomFilterCheckbox
+                        key={i}
+                        name={checkbox.name}
+                        value={checkbox.value}
+                        data={data[name] || value}
+                        onChange={(e) => onChange({ name, value: e })}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};

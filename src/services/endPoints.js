@@ -73,5 +73,7 @@ const endPoints = {
     UNIQUE_AGREEMENT: '/unique-agrement/',
     PLAN_AGREEMENT: '/digital-aggrement/',
     SCHEDULING_OPTIONS: '/schedule-option/',
+    RECENT_SUGGESSIONS: '/suggestion-list/',
+    ADD_RECENT_SUGGESSION: '/suggestion/',
 };
 export default endPoints;
