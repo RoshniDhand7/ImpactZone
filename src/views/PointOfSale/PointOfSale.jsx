@@ -14,6 +14,7 @@ import { getFilterSets } from '../../redux/actions/InventorySettings/filterSetsA
 import { getTags } from '../../redux/actions/InventorySettings/tagAction';
 import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
 import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
+import Cart from './Cart';
 
 export default function PointOfSale() {
     const [data, setData] = useState({
@@ -157,6 +158,31 @@ export default function PointOfSale() {
             dispatch(addRecentSearch(value?.fullName));
         }
     }, [value?.fullName, dispatch]);
+
+    const [cartItems, setCartItems] = useState([]);
+
+    const addToCart = (item) => {
+        const existingItem = cartItems.find((cartItem) => cartItem._id === item._id);
+        if (existingItem) {
+            setCartItems(cartItems.map((cartItem) => (cartItem._id === item._id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem)));
+        } else {
+            setCartItems([...cartItems, { ...item, quantity: 1 }]);
+        }
+    };
+
+    const updateQuantity = (itemId, quantity) => {
+        if (quantity === 0) {
+            setCartItems(cartItems.filter((cartItem) => cartItem._id !== itemId));
+        } else {
+            setCartItems(cartItems.map((cartItem) => (cartItem._id === itemId ? { ...cartItem, quantity } : cartItem)));
+        }
+    };
+
+    const removeItem = (itemId) => {
+        setCartItems(cartItems.filter((cartItem) => cartItem._id !== itemId));
+    };
+
+    console.log(cartItems, 'cartItems');
     return (
         <>
             <div className="flex gap-2">
@@ -210,15 +236,13 @@ export default function PointOfSale() {
                         </CustomButton>
                     </div>
                     <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
-                        <div class="grid w-full">
+                        <div class="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
                             {allCatalogItemsFilter?.map((item) => (
-                                <div className="lg:col-3" key={item._id}>
-                                    <div className="">
-                                        <div className="">
-                                            <img src={getImageURL(item.img)} style={{ height: '100px', width: '100px' }} alt="catalogImg"></img>
-                                        </div>
-                                        <p className="font-semibold text-dark-blue">{item.name}</p>
-                                        <p className="font-semibold text-dark-blue">$ {item.unitPrice}</p>
+                                <div onClick={() => addToCart(item)} className="cursor-pointer product-box" key={item._id}>
+                                    <img src={getImageURL(item.img)} className="w-full h-full" alt="catalogImg" />
+                                    <div className="product-content">
+                                        <p className="font-semibold text-sm text-dark-blue">{item.name}</p>
+                                        <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>
                                     </div>
                                 </div>
                             ))}
@@ -274,7 +298,9 @@ export default function PointOfSale() {
                         })}
                     </div>
                     <div>
-                        <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}></CustomAccordion>
+                        <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}>
+                            <Cart cartItems={cartItems} updateQuantity={updateQuantity} removeItem={removeItem} />
+                        </CustomAccordion>
                     </div>
                 </div>
             </div>
