@@ -457,19 +457,20 @@ export const CustomInputTime = ({
 };
 
 export const CustomFilterCheckbox = ({ name, data, value, onChange }) => {
+    console.log('data12', data, value);
     const handleChange = (e) => {
         let _new = data ? [...data] : [];
         if (e.checked) {
             _new.push({ name, value });
         } else {
-            _new = _new.filter((item) => item.name !== name);
+            _new = _new.filter((item) => item.value !== value);
         }
         onChange(_new);
     };
     let _id = name + Date.now();
     return (
         <div className="flex mx-2 mb-2">
-            <Checkbox name={name} inputId={_id} checked={data?.find((item) => item.name === name) ? true : false} onChange={handleChange} />
+            <Checkbox name={name} inputId={_id} checked={data?.find((item) => item.value === value) ? true : false} onChange={handleChange} />
             <label htmlFor={_id} className="ml-2">
                 {name}
             </label>

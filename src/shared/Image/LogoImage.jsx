@@ -47,6 +47,7 @@ const CustomLogoImage = ({
     const onFileChange = (e) => {
         const chossenFile = e.target.files;
         handlefileChange(Object.values(chossenFile));
+        e.target.value = '';
     };
     const handlefileChange = (uploadedfile) => {
         let uploadedFiles = [];
@@ -78,6 +79,7 @@ const CustomLogoImage = ({
                             onError={(e) => (e.target.src = getDefaultImage())}
                             alt="pic"
                             className={`profile-img relative btn-border-color ${imgclass}`}
+                            accept=".jpg, .jpeg, .png"
                         />
                     </div>
                 ))
@@ -96,6 +98,7 @@ const CustomLogoImage = ({
                             src={ProfileImg}
                             onError={(e) => (e.target.src = getDefaultImage())}
                             alt=""
+                            accept=".jpg, .jpeg, .png"
                         />
                     </label>
                 </div>

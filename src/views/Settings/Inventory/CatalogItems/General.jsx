@@ -156,6 +156,7 @@ const General = () => {
     }, [id, dispatch]);
 
     const handleChange = ({ name, value }) => {
+        console.log(name, value, 'Onchange');
         const formErrors = formValidation(name, value, data);
 
         if (name === 'moreThan1') {
@@ -166,6 +167,8 @@ const General = () => {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
+
+    console.log('data>>', data);
 
     const val1 = PercentageDifference(data?.wholesaleCost, data?.unitPrice1);
     const val2 = PercentageDifference(data?.wholesaleCost, data?.unitPrice2);
