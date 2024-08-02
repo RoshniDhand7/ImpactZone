@@ -33,35 +33,6 @@ const Cart = ({ cartItems, updateQuantity, removeItem }) => {
             <h3 className="flex border-top-1 pt-2 border-gray-200 justify-content-between">
                 Total: <span>${total.toFixed(2)}</span>
             </h3>
-            <div className="flex justify-content-between">
-                <CustomCheckbox col={4} label="Waive Tax" />
-                <CustomCheckbox col={4} label="Discount" />
-                <CustomCheckbox col={4} label="Waive Tax" />
-            </div>
-            <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200">
-                Promo:{' '}
-                <span className="border-1 border-gray-200 border-round-lg p-2">
-                    BOGO <i className="pi pi-times-circle"></i>
-                </span>
-            </h3>
-            <div className="">
-                <p className="flex justify-content-between mb-2">
-                    <span>Discounts</span>
-                    <span>$2.00</span>
-                </p>
-                <p className="flex justify-content-between mb-2">
-                    <span>Tax</span>
-                    <span>$2.00</span>
-                </p>
-                <p className="flex justify-content-between mb-2">
-                    <span>Discounts</span>
-                    <span>$2.00</span>
-                </p>
-                <p className="flex justify-content-between mb-2">
-                    <span>Discounts</span>
-                    <span>$2.00</span>
-                </p>
-            </div>
         </div>
     );
 };

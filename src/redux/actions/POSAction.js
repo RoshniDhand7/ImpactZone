@@ -23,11 +23,12 @@ const getSearchSuggestion = (setLoading) => async (dispatch) => {
     }
 };
 
-const addRecentSearch = (data) => async (dispatch) => {
+const addRecentSearch = (data, next) => async (dispatch) => {
     console.log('data2>>', data);
 
     const res = await api('post', EndPoints.ADD_RECENT_SUGGESSION, { name: data });
     if (res.success) {
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }

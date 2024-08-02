@@ -12,9 +12,10 @@ import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { getFilterSets } from '../../redux/actions/InventorySettings/filterSetsAction';
 import { getTags } from '../../redux/actions/InventorySettings/tagAction';
-import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
+import { CustomCheckbox, CustomCheckBoxInput } from '../../shared/Input/AllInputs';
 import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
 import Cart from './Cart';
+import { Accordion, AccordionTab } from 'primereact/accordion';
 
 export default function PointOfSale() {
     const [data, setData] = useState({
@@ -155,7 +156,11 @@ export default function PointOfSale() {
 
     useEffect(() => {
         if (value?.fullName) {
-            dispatch(addRecentSearch(value?.fullName));
+            dispatch(
+                addRecentSearch(value?.fullName, () => {
+                    dispatch(getSearchSuggestion());
+                }),
+            );
         }
     }, [value?.fullName, dispatch]);
 
@@ -182,7 +187,6 @@ export default function PointOfSale() {
         setCartItems(cartItems.filter((cartItem) => cartItem._id !== itemId));
     };
 
-    console.log(cartItems, 'cartItems');
     return (
         <>
             <div className="flex gap-2">
@@ -300,6 +304,37 @@ export default function PointOfSale() {
                     <div>
                         <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}>
                             <Cart cartItems={cartItems} updateQuantity={updateQuantity} removeItem={removeItem} />
+                        </CustomAccordion>
+                        <CustomAccordion isActive={false} extraClassName="employee-accordion w-full" title="Pricing Details">
+                            <div className="flex justify-content-between">
+                                <CustomCheckbox col={4} label="Waive Tax" />
+                                <CustomCheckbox col={4} label="Discount" />
+                                <CustomCheckbox col={4} label="Commission" />
+                            </div>
+                            <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200 my-2">
+                                Promo:{' '}
+                                <span className="border-1 border-gray-200 border-round-lg p-2">
+                                    BOGO <i className="pi pi-times-circle"></i>
+                                </span>
+                            </h3>
+                            <div className="mt-2">
+                                <p className="flex justify-content-between mb-3">
+                                    <span className="font-semibold">Discounts</span>
+                                    <span className="text-green-700 font-semibold">$2.00</span>
+                                </p>
+                                <p className="flex justify-content-between mb-3">
+                                    <span className="font-semibold">Tax</span>
+                                    <span className="font-semibold">$2.00</span>
+                                </p>
+                                <p className="flex justify-content-between mb-3">
+                                    <span className="font-semibold">Total</span>
+                                    <span className="font-semibold">$2.00</span>
+                                </p>
+                                <p className="flex justify-content-between mb-3">
+                                    <span className="font-semibold">Account Balance</span>
+                                    <span className="font-semibold text-red-600">$2.00</span>
+                                </p>
+                            </div>
                         </CustomAccordion>
                     </div>
                 </div>
