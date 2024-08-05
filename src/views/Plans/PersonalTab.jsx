@@ -43,42 +43,56 @@ const PersonalTab = ({ onTabEnable }) => {
         setStates(updatedStates);
     }, [dispatch]);
 
-    const handleChange = ({ name, value }) => {
-        if (name === 'state') {
-            const city = getCitiesByState('US', value);
-            setCities(city);
+    // useEffect(() => {
+    //     const stateErrors = formValidation('state', data.state, data);
+    //     setData((prev) => ({ ...prev, formErrors: { ...prev.formErrors, ...stateErrors } }));
+    // }, [data.state]);
 
-            // Clear city and zip code
-            const clearedData = {
-                ...data,
-                city: '',
-                zipCode: '',
-            };
+    // const handleChange = ({ name, value }) => {
+    //     console.log(name, value, 'Name');
 
-            // Set form errors
-            const formErrors = {
-                ...formValidation('state', value, clearedData),
-                ...formValidation('city', '', clearedData),
-                ...formValidation('zipCode', '', clearedData),
-            };
+    //     if (name === 'state') {
+    //         const city = getCitiesByState('US', value);
+    //         setCities(city);
+    //         // Clear city and zip code
+    //         const clearedData = {
+    //             ...data,
+    //             city: '',
+    //             zipCode: '',
+    //         };
 
-            setData((prev) => ({
-                ...prev,
-                city: '',
-                zipCode: '',
-                state: value,
-                formErrors,
-            }));
-        } else {
-            const formErrors = formValidation(name, value, data);
-            setData((prev) => ({ ...prev, [name]: value, formErrors }));
-        }
-    };
+    //         // Set form errors
+    //         const formErrors = {
+    //             ...formValidation(name, value, data),
+    //             ...formValidation('city', '', clearedData),
+    //             ...formValidation('zipCode', '', clearedData),
+    //         };
 
-    useEffect(() => {
-        const formErrors = formValidation('city', data.city, data);
-        setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
-    }, [data.city]);
+    //         // Set form errors
+    //         // const formErrors = formValidation(name, value, data);
+
+    //         setData((prev) => ({
+    //             ...prev,
+    //             city: '',
+    //             zipCode: '',
+    //             state: value,
+    //             formErrors,
+    //         }));
+    //     } else {
+    //         const formErrors = formValidation(name, value, data);
+    //         setData((prev) => ({ ...prev, [name]: value, formErrors }));
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     const formErrors = formValidation('city', data.city, data);
+    //     setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
+    // }, [data.city]);
+
+    // useEffect(() => {
+    //     const formErrors = formValidation('zipCode', data.zipCode, data);
+    //     setData((prev) => ({ ...prev, ['zipCode']: data.zipCode, formErrors }));
+    // }, [data.zipCode]);
 
     const { getMember } = useSelector((state) => state.members);
 
@@ -115,6 +129,45 @@ const PersonalTab = ({ onTabEnable }) => {
             );
         }
     };
+
+    useEffect(() => {
+        const formErrors = formValidation('city', data.city, data);
+        setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
+    }, [data.city]);
+
+    const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+        if (name === 'state') {
+            const city = getCitiesByState('US', value);
+            setCities(city);
+
+            // Clear city and zip code
+            const clearedData = {
+                state: '',
+                city: '',
+                zipCode: '',
+            };
+
+            // Set form errors
+            const formErrors = {
+                ...formValidation('state', value, clearedData),
+                ...formValidation('city', '', clearedData),
+                ...formValidation('zipCode', '', clearedData),
+            };
+
+            setData((prev) => ({
+                ...prev,
+                city: '',
+                zipCode: '',
+                state: value,
+                formErrors,
+            }));
+        } else {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        }
+    };
+
+    console.log(data, 'data');
 
     const handleNext = () => {
         if (showFormErrors(data, setData)) {

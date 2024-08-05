@@ -90,7 +90,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'memberToSell':
         case 'driverLicense':
         case 'accessCode':
-        case 'city':
         case 'autoRenew':
         case 'dueDate':
         case 'date':
@@ -140,6 +139,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'multiClubInOut':
         case 'clockInRequired':
         case 'state':
+        case 'city':
         case 'eventType':
         case 'internalUse':
         case 'bookOutFrom':

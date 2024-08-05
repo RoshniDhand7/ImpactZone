@@ -92,7 +92,7 @@ const General = () => {
 
             // Clear city and zip code
             const clearedData = {
-                ...data,
+                state: '',
                 city: '',
                 zipCode: '',
             };

@@ -17,14 +17,14 @@ const AllDrafts = () => {
         <>
             <FormPage backText="Plans" backTo="/plans">
                 <CustomCard title="Drafts" col={12}>
-                    <div className="flex justify-content-between">
-                        {drafts?.map((item) => (
+                    {drafts?.map((item) => (
+                        <div className="flex justify-content-between">
                             <div className="grid">
                                 <div className="col-6">
                                     <small className="font-semibold text-dark-blue">Plan Name:</small>
                                 </div>
                                 <div className="col-6">
-                                    <small className="font-normal text-gray-color">{item.name}</small>
+                                    <small className="font-normal text-gray-color">Kj</small>
                                 </div>
                                 <div className="col-6">
                                     <small className="font-semibold text-dark-blue">Member Name:</small>
@@ -33,9 +33,9 @@ const AllDrafts = () => {
                                     <small className="font-normal text-gray-color">James William</small>
                                 </div>
                             </div>
-                        ))}
-                        <PrimaryButton>Continue</PrimaryButton>
-                    </div>
+                            <PrimaryButton>Continue</PrimaryButton>
+                        </div>
+                    ))}
                 </CustomCard>
             </FormPage>
         </>

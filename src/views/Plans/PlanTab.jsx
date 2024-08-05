@@ -141,7 +141,7 @@ const PlanTab = ({ onTabEnable }) => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                <PrimaryButton label="Save & Hold" className="mx-2" />
+                {/* <PrimaryButton label="Save & Hold" className="mx-2" /> */}
                 <PrimaryButton label="Sign Agreement" className="mx-2" />
                 <LightButton label="Cancel" />
             </CustomButtonGroup>
