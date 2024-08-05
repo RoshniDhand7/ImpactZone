@@ -44,11 +44,15 @@ const PaymentAmountTab = ({ onTabEnable }) => {
         setData((prev) => ({ ...prev, total: totalAmount() }));
     }, [data.services, data.assessedFee]);
 
-    const handleNext = () => {
+    const handleNext = (tab) => {
         dispatch(
-            editSellPlan(newPlanId, { totalAmount: data?.total }, () => {
-                onTabEnable(0, 1, 2, 3, 4, 5);
-                history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
+            editSellPlan(newPlanId, { totalAmount: data?.total, ...(tab && { type: 'hold', tabName: 'payment-amounts', planId: newPlanId }) }, () => {
+                if (tab) {
+                    history.replace('/plans/drafts');
+                } else {
+                    onTabEnable(0, 1, 2, 3, 4, 5);
+                    history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=billing-info'}`);
+                }
             }),
         );
     };
@@ -69,8 +73,8 @@ const PaymentAmountTab = ({ onTabEnable }) => {
                 <CustomListItem label="total" name="total" data={data} />
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                <PrimaryButton label="Save & Hold" className="mx-2" />
+                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=payment-amounts')} />
                 <PrimaryButton label="Sign Agreement" className="mx-2" />
                 <LightButton label="Cancel" />
             </CustomButtonGroup>

@@ -5,7 +5,7 @@ import formValidation from '../../utils/validations';
 import { BlockUI } from 'primereact/blockui';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { getSellPlan } from '../../redux/actions/Plans/SellPlan';
+import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { useDispatch } from 'react-redux';
 
 const BillingInfoTab = ({ onTabEnable }) => {
@@ -34,9 +34,18 @@ const BillingInfoTab = ({ onTabEnable }) => {
         }
     }, [newPlanId, id, dispatch]);
 
-    const handleNext = () => {
-        onTabEnable(0, 1, 2, 3, 4, 5);
-        history.replace(`/plans/plan-agreements/${newPlanId}/${memberId}/${data.agreementTemplateId}`);
+    const handleNext = (tab) => {
+        const payload = tab ? { type: 'hold', tabName: 'billing-info', planId: newPlanId } : { finalStep: true };
+        dispatch(
+            editSellPlan(newPlanId, payload, () => {
+                if (tab) {
+                    history.replace('/plans/drafts');
+                } else {
+                    onTabEnable(0, 1, 2, 3, 4, 5);
+                    history.replace(`/plans/plan-agreements/${newPlanId}/${memberId}/${data.agreementTemplateId}`);
+                }
+            }),
+        );
     };
 
     return (
@@ -77,8 +86,8 @@ const BillingInfoTab = ({ onTabEnable }) => {
                     </BlockUI>
                 </CustomCard>
                 <CustomButtonGroup>
-                    <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                    <PrimaryButton label="Save & Hold" className="mx-2" />
+                    <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                    <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=billing-info')} />
                     <PrimaryButton label="Sign Agreement" className="mx-2" />
                     <LightButton label="Cancel" />
                 </CustomButtonGroup>

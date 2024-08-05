@@ -85,7 +85,7 @@ const IdentificationTab = ({ onTabEnable }) => {
         }
     };
 
-    const handleNext = async () => {
+    const handleNext = async (tab) => {
         if (showFormErrors(data, setData)) {
             try {
                 dispatch(showLoaderAction());
@@ -116,14 +116,18 @@ const IdentificationTab = ({ onTabEnable }) => {
                 }
                 const payload = {
                     ...data,
-                    type: 'next',
+                    ...(tab && { type: 'hold', tabName: 'identification', planId: newPlanId }),
                     accessCode: data.accessCode,
                 };
 
                 dispatch(
                     editSellPlan(memberId, payload, () => {
-                        onTabEnable(0, 1, 2, 3);
-                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=agreement'}`);
+                        if (tab) {
+                            history.replace('/plans/drafts');
+                        } else {
+                            onTabEnable(0, 1, 2, 3);
+                            history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=agreement'}`);
+                        }
                     }),
                 );
             } catch (error) {
@@ -171,8 +175,8 @@ const IdentificationTab = ({ onTabEnable }) => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                <PrimaryButton label="Save & Hold" className="mx-2" />
+                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=identification')} />
                 <PrimaryButton label="Sign Agreement" className="mx-2" />
                 <LightButton label="Cancel" />
             </CustomButtonGroup>

@@ -183,7 +183,7 @@ const AgreementTab = ({ onTabEnable }) => {
                 return rowData[field];
         }
     };
-    const handleNext = () => {
+    const handleNext = (tab) => {
         if (showFormErrors(data, setData)) {
             const validated = showArrayFormErrors(data.services);
             const validatedAssessedFee = showArrayFormErrors(data.assessedFee);
@@ -214,11 +214,16 @@ const AgreementTab = ({ onTabEnable }) => {
                         apply: assesedfee.apply,
                         recurring: assesedfee.recurring,
                     })),
+                    ...(tab && { type: 'hold', tabName: 'agreement', planId: newPlanId }),
                 };
                 dispatch(
                     editSellPlan(newPlanId, payload, () => {
-                        onTabEnable(0, 1, 2, 3, 4);
-                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
+                        if (tab) {
+                            history.replace('/plans/drafts');
+                        } else {
+                            onTabEnable(0, 1, 2, 3, 4);
+                            history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
+                        }
                     }),
                 );
             }
@@ -331,8 +336,8 @@ const AgreementTab = ({ onTabEnable }) => {
                 </DataTable>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                <PrimaryButton label="Save & Hold" className="mx-2" />
+                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} />
                 <PrimaryButton label="Sign Agreement" className="mx-2" />
                 <LightButton label="Cancel" />
             </CustomButtonGroup>

@@ -167,9 +167,7 @@ const PersonalTab = ({ onTabEnable }) => {
         }
     };
 
-    console.log(data, 'data');
-
-    const handleNext = () => {
+    const handleNext = (tab) => {
         if (showFormErrors(data, setData)) {
             const payload = {
                 ...data,
@@ -177,12 +175,18 @@ const PersonalTab = ({ onTabEnable }) => {
                 ...(data?.dob && { dob: moment(data.dob).format('MM/DD/YYYY') }),
                 ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
                 ...(data?.emergencyContact && { emergencyContact: data?.emergencyContact?.replace(/\D/g, '') }),
+                // tabName: 'personal',
+                ...(tab && { type: 'hold', tabName: 'personal', planId: newPlanId }),
             };
             dispatch(
                 editSellPlan(memberId, payload, () => {
-                    getMemberPersonalFn();
-                    onTabEnable(0, 1, 2);
-                    history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=identification'}`);
+                    if (tab) {
+                        history.replace('/plans/drafts');
+                    } else {
+                        getMemberPersonalFn();
+                        onTabEnable(0, 1, 2);
+                        history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=identification'}`);
+                    }
                 }),
             );
         }
@@ -225,8 +229,8 @@ const PersonalTab = ({ onTabEnable }) => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                <PrimaryButton label="Save & Hold" className="mx-2" />
+                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=personal')} />
                 <PrimaryButton label="Sign Agreement" className="mx-2" />
                 <LightButton label="Cancel" />
             </CustomButtonGroup>

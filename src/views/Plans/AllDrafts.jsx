@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import CustomCard from '../../shared/Cards/CustomCard';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllDrafts } from '../../redux/actions/Plans/SellPlan';
 import FormPage from '../../shared/Layout/FormPage';
+import { useHistory } from 'react-router-dom';
+import CustomTable from '../../shared/Table/CustomTable';
 
 const AllDrafts = () => {
     const dispatch = useDispatch();
@@ -11,32 +12,36 @@ const AllDrafts = () => {
         dispatch(getAllDrafts());
     }, [dispatch]);
 
+    const history = useHistory();
+
     const drafts = useSelector((state) => state.plans.allDrafts);
+    const columns = [
+        { field: 'name', header: 'Plan Name' },
+        {
+            field: 'category',
+            body: (item) => `${item?.memberToSell?.firstName}  ${item?.memberToSell?.MI}${item?.memberToSell?.lastName}`,
+            header: 'Member Name',
+        },
+    ];
+
+    const customActionTemplate = (item) => {
+        return (
+            <>
+                <PrimaryButton
+                    onClick={() => {
+                        history.replace(`/plans/sell-plan/${item?.membershipType}/${item?._id}/${item?.memberToSell?._id}/?tab=${item.tabName}`);
+                    }}
+                >
+                    Continue
+                </PrimaryButton>
+            </>
+        );
+    };
 
     return (
         <>
             <FormPage backText="Plans" backTo="/plans">
-                <CustomCard title="Drafts" col={12}>
-                    {drafts?.map((item) => (
-                        <div className="flex justify-content-between">
-                            <div className="grid">
-                                <div className="col-6">
-                                    <small className="font-semibold text-dark-blue">Plan Name:</small>
-                                </div>
-                                <div className="col-6">
-                                    <small className="font-normal text-gray-color">Kj</small>
-                                </div>
-                                <div className="col-6">
-                                    <small className="font-semibold text-dark-blue">Member Name:</small>
-                                </div>
-                                <div className="col-6">
-                                    <small className="font-normal text-gray-color">James William</small>
-                                </div>
-                            </div>
-                            <PrimaryButton>Continue</PrimaryButton>
-                        </div>
-                    ))}
-                </CustomCard>
+                <CustomTable data={drafts} columns={columns} customActionTemplate={customActionTemplate} />
             </FormPage>
         </>
     );
