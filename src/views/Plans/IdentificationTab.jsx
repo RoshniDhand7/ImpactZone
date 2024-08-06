@@ -12,6 +12,7 @@ import { showFormErrors, uploadFiles, uploadImages } from '../../utils/commonFun
 import { checkbaCodeAction } from '../../redux/actions/Dashboard/Members';
 import debounce from 'lodash.debounce';
 import { hideLoaderAction, showLoaderAction } from '../../redux/actions/loaderAction';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const IdentificationTab = ({ onTabEnable }) => {
     const { id, newPlanId, memberId } = useParams();
@@ -137,6 +138,8 @@ const IdentificationTab = ({ onTabEnable }) => {
             }
         }
     };
+    const { confirm } = useCancelSellPlans(newPlanId);
+
     return (
         <>
             <CustomCard col="12" title="Identification">
@@ -177,8 +180,7 @@ const IdentificationTab = ({ onTabEnable }) => {
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
                 <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=identification')} />
-                <PrimaryButton label="Sign Agreement" className="mx-2" />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={confirm} />
             </CustomButtonGroup>
         </>
     );

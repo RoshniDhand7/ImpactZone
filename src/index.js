@@ -13,6 +13,7 @@ import ToastContainer from './shared/ToastContainer';
 import Loader from './shared/Loader';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import ForgetPassword from './pages/ForgetPassword';
+import { ConfirmPopup } from 'primereact/confirmpopup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
         <PersistGate persistor={persistor}>
             <ToastContainer />
             <ConfirmDialog />
+            <ConfirmPopup />
             <Loader />
             <HashRouter>
                 <Switch>

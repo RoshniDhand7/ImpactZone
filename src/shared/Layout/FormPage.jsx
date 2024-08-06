@@ -2,12 +2,15 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import CustomTransition from '../Transitions/CustomTransition';
 
-export default function FormPage({ children, backText, backTo }) {
+export default function FormPage({ children, backText, backTo, isConfirm = true, confirmFn }) {
     const history = useHistory();
 
-    const onBack = () => {
-        if (backTo) {
+    const onBack = (event) => {
+        if (backTo && isConfirm) {
             history.replace(backTo);
+        }
+        if (!isConfirm) {
+            confirmFn(event);
         } else {
             history.goBack();
         }

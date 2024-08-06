@@ -17,6 +17,7 @@ import debounce from 'lodash.debounce';
 import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -239,6 +240,7 @@ const AgreementTab = ({ onTabEnable }) => {
         setItems(_filteredItems);
         return _filteredItems;
     };
+    const { confirm } = useCancelSellPlans(newPlanId);
 
     return (
         <>
@@ -338,8 +340,7 @@ const AgreementTab = ({ onTabEnable }) => {
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
                 <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} />
-                <PrimaryButton label="Sign Agreement" className="mx-2" />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={confirm} />
             </CustomButtonGroup>
         </>
     );

@@ -7,6 +7,7 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Butt
 import { useHistory, useParams } from 'react-router-dom';
 import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { useDispatch } from 'react-redux';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const BillingInfoTab = ({ onTabEnable }) => {
     const history = useHistory();
@@ -35,7 +36,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
     }, [newPlanId, id, dispatch]);
 
     const handleNext = (tab) => {
-        const payload = tab ? { type: 'hold', tabName: 'billing-info', planId: newPlanId } : { finalStep: true };
+        const payload = tab ? { type: 'hold', tabName: 'billing-info', planId: newPlanId } : {};
         dispatch(
             editSellPlan(newPlanId, payload, () => {
                 if (tab) {
@@ -47,6 +48,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
             }),
         );
     };
+    const { confirm } = useCancelSellPlans(newPlanId);
 
     return (
         <>
@@ -88,8 +90,7 @@ const BillingInfoTab = ({ onTabEnable }) => {
                 <CustomButtonGroup>
                     <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
                     <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=billing-info')} />
-                    <PrimaryButton label="Sign Agreement" className="mx-2" />
-                    <LightButton label="Cancel" />
+                    <LightButton label="Cancel" onClick={confirm} />
                 </CustomButtonGroup>
             </div>
         </>

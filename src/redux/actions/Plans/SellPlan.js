@@ -90,14 +90,13 @@ const checkAgreementNumberAction = (val, newPlanId, next) => async (dispatch) =>
     }
 };
 
-const deleteMembershipPlan = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.MEMBERSHIP_PLAN + id);
+const deleteSellPlan = (id, next) => async (dispatch) => {
+    const res = await api('delete', EndPoints.SELL_PLAN + id);
     if (res.success) {
-        dispatch(getSellPlan(() => {}));
-        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
 
-export { getSellPlan, addSellPlan, editSellPlan, deleteMembershipPlan, getSellPlanMember, checkAgreementNumberAction, getAllDrafts, getSellPlanAgreement };
+export { getSellPlan, addSellPlan, editSellPlan, deleteSellPlan, getSellPlanMember, checkAgreementNumberAction, getAllDrafts, getSellPlanAgreement };

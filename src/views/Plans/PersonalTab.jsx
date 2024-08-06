@@ -10,6 +10,7 @@ import { editSellPlan, getSellPlanMember } from '../../redux/actions/Plans/SellP
 import moment from 'moment';
 import { useHistory, useParams } from 'react-router-dom';
 import usePlacesAutocomplete from '../Members/usePlacesAutoComplete';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const PersonalTab = ({ onTabEnable }) => {
     const { newPlanId, memberId } = useParams();
@@ -42,57 +43,6 @@ const PersonalTab = ({ onTabEnable }) => {
         const updatedStates = getStatesByCountry('US');
         setStates(updatedStates);
     }, [dispatch]);
-
-    // useEffect(() => {
-    //     const stateErrors = formValidation('state', data.state, data);
-    //     setData((prev) => ({ ...prev, formErrors: { ...prev.formErrors, ...stateErrors } }));
-    // }, [data.state]);
-
-    // const handleChange = ({ name, value }) => {
-    //     console.log(name, value, 'Name');
-
-    //     if (name === 'state') {
-    //         const city = getCitiesByState('US', value);
-    //         setCities(city);
-    //         // Clear city and zip code
-    //         const clearedData = {
-    //             ...data,
-    //             city: '',
-    //             zipCode: '',
-    //         };
-
-    //         // Set form errors
-    //         const formErrors = {
-    //             ...formValidation(name, value, data),
-    //             ...formValidation('city', '', clearedData),
-    //             ...formValidation('zipCode', '', clearedData),
-    //         };
-
-    //         // Set form errors
-    //         // const formErrors = formValidation(name, value, data);
-
-    //         setData((prev) => ({
-    //             ...prev,
-    //             city: '',
-    //             zipCode: '',
-    //             state: value,
-    //             formErrors,
-    //         }));
-    //     } else {
-    //         const formErrors = formValidation(name, value, data);
-    //         setData((prev) => ({ ...prev, [name]: value, formErrors }));
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     const formErrors = formValidation('city', data.city, data);
-    //     setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
-    // }, [data.city]);
-
-    // useEffect(() => {
-    //     const formErrors = formValidation('zipCode', data.zipCode, data);
-    //     setData((prev) => ({ ...prev, ['zipCode']: data.zipCode, formErrors }));
-    // }, [data.zipCode]);
 
     const { getMember } = useSelector((state) => state.members);
 
@@ -193,6 +143,8 @@ const PersonalTab = ({ onTabEnable }) => {
     };
     const { renderAutocomplete } = usePlacesAutocomplete(data, setData);
 
+    const { confirm } = useCancelSellPlans(newPlanId);
+
     return (
         <>
             <CustomCard col="12" title="Personal">
@@ -231,8 +183,7 @@ const PersonalTab = ({ onTabEnable }) => {
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
                 <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=personal')} />
-                <PrimaryButton label="Sign Agreement" className="mx-2" />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={confirm} />
             </CustomButtonGroup>
         </>
     );

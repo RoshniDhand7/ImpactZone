@@ -27,7 +27,7 @@ export default function FilterSets() {
             () => {
                 dispatch(deleteFilterSet(col._id, () => {}));
             },
-            'Do you want to delete this Filter Sets?',
+            'Do you want to delete this Filter Set?',
             position,
         );
     };

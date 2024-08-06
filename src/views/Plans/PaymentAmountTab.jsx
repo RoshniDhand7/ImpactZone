@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { useDispatch } from 'react-redux';
 import { uniqueData } from '../../utils/commonFunctions';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const PaymentAmountTab = ({ onTabEnable }) => {
     const [data, setData] = useState({
@@ -56,6 +57,7 @@ const PaymentAmountTab = ({ onTabEnable }) => {
             }),
         );
     };
+    const { confirm } = useCancelSellPlans(newPlanId);
 
     return (
         <>
@@ -75,8 +77,7 @@ const PaymentAmountTab = ({ onTabEnable }) => {
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
                 <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=payment-amounts')} />
-                <PrimaryButton label="Sign Agreement" className="mx-2" />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={confirm} />
             </CustomButtonGroup>
         </>
     );

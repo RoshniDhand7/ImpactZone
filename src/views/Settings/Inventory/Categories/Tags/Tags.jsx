@@ -27,7 +27,7 @@ export default function Tags() {
             () => {
                 dispatch(deleteTags(col._id, () => {}));
             },
-            'Do you want to delete this Tags?',
+            'Do you want to delete this Tag?',
             position,
         );
     };

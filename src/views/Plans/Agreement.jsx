@@ -203,7 +203,7 @@ const PlanAgreement = React.forwardRef((props, ref) => {
 
     const handleConfirm = () => {
         dispatch(
-            editSellPlan(newPlanId, { htmlContent }, () => {
+            editSellPlan(newPlanId, { htmlContent, finalStep: true }, () => {
                 history.push('/plans');
             }),
         );

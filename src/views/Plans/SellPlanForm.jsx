@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
 import PaymentAmountTab from './PaymentAmountTab';
 import BillingInfoTab from './BillingInfoTab';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const SellPlanForm = () => {
     const [tabId, setTabId] = useState([0, 1]);
@@ -41,9 +42,11 @@ const SellPlanForm = () => {
         return [1, 2, 3, 4, 5, 6, 7];
     };
 
+    const { confirm } = useCancelSellPlans(newPlanId);
+
     return (
         <>
-            <FormPage backText="Plans" backTo="/plans">
+            <FormPage backText="Plans" backTo="/plans" isConfirm={newPlanId ? false : true} confirmFn={confirm}>
                 <CustomTabView tabs={tabs} disabledTabIndices={getDisabledTabIndices()} />
             </FormPage>
         </>

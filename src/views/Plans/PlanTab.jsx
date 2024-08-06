@@ -9,6 +9,7 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Butt
 import { addSellPlan, editSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { getIds, showFormErrors } from '../../utils/commonFunctions';
 import formValidation from '../../utils/validations';
+import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 
 const PlanTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -110,6 +111,7 @@ const PlanTab = ({ onTabEnable }) => {
         const formErrors = formValidation('memberToSell', trimmedValue, data);
         setData((prev) => ({ ...prev, memberToSell: trimmedValue, formErrors }));
     };
+    const { confirm } = useCancelSellPlans(newPlanId);
 
     return (
         <>
@@ -141,9 +143,7 @@ const PlanTab = ({ onTabEnable }) => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={handleNext} />
-                {/* <PrimaryButton label="Save & Hold" className="mx-2" /> */}
-                <PrimaryButton label="Sign Agreement" className="mx-2" />
-                <LightButton label="Cancel" />
+                <LightButton label="Cancel" onClick={confirm} />
             </CustomButtonGroup>
         </>
     );

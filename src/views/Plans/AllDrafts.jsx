@@ -29,7 +29,7 @@ const AllDrafts = () => {
             <>
                 <PrimaryButton
                     onClick={() => {
-                        history.replace(`/plans/sell-plan/${item?.membershipType}/${item?._id}/${item?.memberToSell?._id}/?tab=${item.tabName}`);
+                        history.replace(`/plans/sell-plan/${item?.membershipPlan}/${item?._id}/${item?.memberToSell?._id}/?tab=${item.tabName}`);
                     }}
                 >
                     Continue
