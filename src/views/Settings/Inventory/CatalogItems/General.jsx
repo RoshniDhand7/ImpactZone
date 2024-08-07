@@ -189,6 +189,8 @@ const General = () => {
         }
     };
 
+    console.log('data>>', data);
+
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">
@@ -245,7 +247,9 @@ const General = () => {
                     <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={4} maxFractionDigits={4} />
                     <CustomDropDown name="promptForPrice" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
+                    {data?.allowDiscount === 'true' && (
+                        <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
+                    )}
                     <CustomDropDown name="overRideDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomInputNumber
                         name="wholesaleCost"

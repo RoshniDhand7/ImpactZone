@@ -33,7 +33,7 @@ export default function PointOfSale() {
     }, [dispatch]);
 
     const { allCategory } = useSelector((state) => state.category);
-    let { allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
+    let { allCatalogItems } = useSelector((state) => state.catalogItems);
     const { filterSetDropDown } = useSelector((state) => state.filterSet);
     const { tagsDropDown } = useSelector((state) => state.tags);
 
@@ -49,13 +49,21 @@ export default function PointOfSale() {
     const [items, setItems] = useState([]);
 
     const [memberItems, setMemberItems] = useState([]);
-    allCatalogItemsFilter = allCatalogItemsFilter.map((item) => ({
+    allCatalogItems = allCatalogItems.map((item) => ({
         name: item.name,
         unitPrice: item.unitPrice,
         upc: item.upc,
         _id: item._id,
-        img: item.img,
+        img: item.catalogImage,
         fullName: `${item.upc} ${item.name}`.trim(),
+        unitPrice: item.unitPrice,
+        unitPrice1: item.unitPrice1,
+        unitPrice2: item.unitPrice2,
+        unitPrice3: item.unitPrice3,
+        moreThan1: item.moreThan1,
+        moreThan2: item.moreThan2,
+        moreThan3: item.moreThan3,
+        totalTaxPercentage: item.totalTaxPercentage,
     }));
 
     const [value, setValue] = useState('');
@@ -84,7 +92,7 @@ export default function PointOfSale() {
     }));
     const search = (event) => {
         let query = event.query.trim().toLowerCase();
-        let _filteredItems = allCatalogItemsFilter.filter((item) => {
+        let _filteredItems = allCatalogItems.filter((item) => {
             let _itemUPC = item.upc.toLowerCase();
             let _itemName = item.name.toLowerCase();
             return _itemUPC.includes(query) || _itemName.includes(query);
@@ -166,6 +174,8 @@ export default function PointOfSale() {
 
     const [cartItems, setCartItems] = useState([]);
 
+    console.log('cartItems>>', cartItems);
+
     const addToCart = (item) => {
         const existingItem = cartItems.find((cartItem) => cartItem._id === item._id);
         if (existingItem) {
@@ -241,7 +251,7 @@ export default function PointOfSale() {
                     </div>
                     <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
                         <div class="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
-                            {allCatalogItemsFilter?.map((item) => (
+                            {allCatalogItems?.map((item) => (
                                 <div onClick={() => addToCart(item)} className="cursor-pointer product-box" key={item._id}>
                                     <img src={getImageURL(item.img)} className="w-full h-full" alt="catalogImg" />
                                     <div className="product-content">
