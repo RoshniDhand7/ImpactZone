@@ -1,0 +1,22 @@
+.p-float-label {
+  label {
+    background: $bg-white;
+    padding: 0.25rem;
+    margin-top: -0.75rem;
+  }
+
+  &:has(input:focus) label {
+    margin-top: -0.25rem;
+  }
+}
+
+.customize-graph {
+  label {
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 16.94px;
+    color: #313131;
+    padding: 0.2rem;
+  }
+}

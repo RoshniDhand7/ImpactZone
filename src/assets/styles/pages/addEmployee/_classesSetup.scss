@@ -1,0 +1,15 @@
+// .inputwidth {
+//   .p-inputtext.p-component.p-inputnumber-input {
+//     width: 3rem;
+//   }
+// }
+.input-size {
+  width: 180px;
+}
+
+@media only screen and (max-width: 1280px) {
+  .extra-padding {
+    margin-left: 95px;
+    margin-right: 95px;
+  }
+}
