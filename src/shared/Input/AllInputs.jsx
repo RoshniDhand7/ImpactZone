@@ -285,7 +285,7 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
         </InputLayout>
     );
 };
-export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, customIndex, ...props }) => {
     return (
         <>
             <div className={`col-12  md:col-${col} ${extraClassName}`}>
@@ -294,7 +294,7 @@ export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessag
                     name={name}
                     inputId={label}
                     checked={value || data?.[name]}
-                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked })}
+                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked, customIndex })}
                     className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                     {...props}
                 />

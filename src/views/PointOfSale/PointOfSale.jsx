@@ -12,10 +12,10 @@ import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { getFilterSets } from '../../redux/actions/InventorySettings/filterSetsAction';
 import { getTags } from '../../redux/actions/InventorySettings/tagAction';
-import { CustomCheckbox, CustomCheckBoxInput } from '../../shared/Input/AllInputs';
+import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
 import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
 import Cart from './Cart';
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import { calculateDiscount, calculateTax, calculateUnitPrice } from './CartCal';
 
 export default function PointOfSale() {
     const [data, setData] = useState({
@@ -23,6 +23,7 @@ export default function PointOfSale() {
         tags: [],
         filterSet: [],
     });
+    const [data1, setData1] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -64,6 +65,8 @@ export default function PointOfSale() {
         moreThan2: item.moreThan2,
         moreThan3: item.moreThan3,
         totalTaxPercentage: item.totalTaxPercentage,
+        allowDiscount: item.allowDiscount,
+        discount: item.discount,
     }));
 
     const [value, setValue] = useState('');
@@ -174,8 +177,6 @@ export default function PointOfSale() {
 
     const [cartItems, setCartItems] = useState([]);
 
-    console.log('cartItems>>', cartItems);
-
     const addToCart = (item) => {
         const existingItem = cartItems.find((cartItem) => cartItem._id === item._id);
         if (existingItem) {
@@ -196,6 +197,38 @@ export default function PointOfSale() {
     const removeItem = (itemId) => {
         setCartItems(cartItems.filter((cartItem) => cartItem._id !== itemId));
     };
+
+    const netTotalTax = cartItems.reduce((sum, item, index) => {
+        const unitPrice = calculateUnitPrice(item);
+        const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
+        const netTaxValue = taxValue * item.quantity;
+        const newTax = data1[index].waiveTax ? 0 : netTaxValue;
+        return (Number(sum) + newTax).toFixed(4);
+    }, 0);
+
+    const handleChange2 = ({ name, value, customIndex }) => {
+        setData1((prev) => {
+            const _checkval = [...prev];
+            _checkval[customIndex] = { ..._checkval[customIndex], [name]: value };
+            return _checkval;
+        });
+    };
+
+    const handleCatalogItems = (item) => {
+        addToCart(item);
+        const isItemInData1 = data1.some((dataItem) => dataItem.id === item._id);
+        if (!isItemInData1) {
+            setData1((prev) => [...prev, { waiveTax: false, discount: false, id: item._id }]);
+        }
+    };
+
+    const netTotalDiscount = cartItems.reduce((sum, item, index) => {
+        const discount = calculateDiscount(item);
+        const totaldiscount = data1[index].discount ? discount : 0;
+        return (Number(sum) + totaldiscount).toFixed(4);
+    }, 0);
+
+    console.log(netTotalDiscount);
 
     return (
         <>
@@ -252,7 +285,13 @@ export default function PointOfSale() {
                     <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
                         <div class="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
                             {allCatalogItems?.map((item) => (
-                                <div onClick={() => addToCart(item)} className="cursor-pointer product-box" key={item._id}>
+                                <div
+                                    onClick={() => {
+                                        handleCatalogItems(item);
+                                    }}
+                                    className="cursor-pointer product-box"
+                                    key={item._id}
+                                >
                                     <img src={getImageURL(item.img)} className="w-full h-full" alt="catalogImg" />
                                     <div className="product-content">
                                         <p className="font-semibold text-sm text-dark-blue">{item.name}</p>
@@ -313,14 +352,9 @@ export default function PointOfSale() {
                     </div>
                     <div>
                         <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}>
-                            <Cart cartItems={cartItems} updateQuantity={updateQuantity} removeItem={removeItem} />
+                            <Cart cartItems={cartItems} updateQuantity={updateQuantity} removeItem={removeItem} data1={data1} handleChange2={handleChange2} />
                         </CustomAccordion>
                         <CustomAccordion isActive={false} extraClassName="employee-accordion w-full" title="Pricing Details">
-                            <div className="flex justify-content-between">
-                                <CustomCheckbox col={4} label="Waive Tax" />
-                                <CustomCheckbox col={4} label="Discount" />
-                                <CustomCheckbox col={4} label="Commission" />
-                            </div>
                             <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200 my-2">
                                 Promo:{' '}
                                 <span className="border-1 border-gray-200 border-round-lg p-2">
@@ -330,11 +364,11 @@ export default function PointOfSale() {
                             <div className="mt-2">
                                 <p className="flex justify-content-between mb-3">
                                     <span className="font-semibold">Discounts</span>
-                                    <span className="text-green-700 font-semibold">$2.00</span>
+                                    <span className="text-green-700 font-semibold">${netTotalDiscount}</span>
                                 </p>
                                 <p className="flex justify-content-between mb-3">
                                     <span className="font-semibold">Tax</span>
-                                    <span className="font-semibold">$2.00</span>
+                                    <span className="font-semibold">{netTotalTax}</span>
                                 </p>
                                 <p className="flex justify-content-between mb-3">
                                     <span className="font-semibold">Total</span>
