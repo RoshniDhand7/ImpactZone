@@ -1,12 +1,12 @@
 export const calculateUnitPrice = (item) => {
     if (item.quantity > item.moreThan1 && item.quantity <= item.moreThan2) {
-        return item.unitPrice1.toFixed(4);
+        return item.unitPrice1;
     } else if (item.quantity > item.moreThan2 && item.quantity <= item.moreThan3) {
-        return item.unitPrice2.toFixed(4);
-    } else if (item.quantity > item.moreThan3) {
-        return item.unitPrice3.toFixed(4);
+        return item.unitPrice2;
+    } else if (item.quantity > item?.moreThan3) {
+        return item.unitPrice3;
     } else {
-        return item.unitPrice.toFixed(4);
+        return item.unitPrice;
     }
 };
 export const calculateDiscount = (item) => {
