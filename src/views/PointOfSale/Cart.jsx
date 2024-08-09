@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CustomCheckbox } from '../../shared/Input/AllInputs';
-import { calculateTax, calculateUnitPrice } from './CartCal';
-const Cart = ({ cartItems, updateQuantity, removeItem, data1, handleChange2 }) => {
-    const netTotal = cartItems.reduce((sum, item) => {
-        const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
-        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
-        return sum + netPrice;
-    }, 0.0);
+import { calculateUnitPrice } from './CartCal';
+const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }) => {
+    const handleChange = ({ name, value, customIndex }) => {
+        setData((prev) => {
+            const updatedCartDisTax = [...prev.cartDisTax];
+            updatedCartDisTax[customIndex] = { ...updatedCartDisTax[customIndex], [name]: value };
 
+            return { ...prev, cartDisTax: updatedCartDisTax };
+        });
+    };
     return (
         <div>
             {cartItems.length === 0 ? (
@@ -17,13 +18,6 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data1, handleChange2 }) =
                 <>
                     {cartItems.map((item, index) => {
                         const unitPrice = calculateUnitPrice(item);
-
-                        const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
-
-                        const netPrice = (unitPrice * item.quantity - taxValue * item.quantity).toFixed(4);
-
-                        const netTaxValue = (taxValue * item.quantity).toFixed(4);
-
                         return (
                             <div className="cart-box border-top-1 border-gray-300 py-2" key={index}>
                                 <div className="flex gap-3 justify-content-between mb-2">
@@ -46,16 +40,16 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data1, handleChange2 }) =
                                         col={4}
                                         label="Waive Tax"
                                         name="waiveTax"
-                                        value={data1[index]?.waiveTax || false}
-                                        onChange={handleChange2}
+                                        value={data?.cartDisTax?.[index]?.waiveTax || false}
+                                        onChange={handleChange}
                                         customIndex={index}
                                     />
                                     <CustomCheckbox
                                         col={4}
                                         label="Discount"
                                         name="discount"
-                                        value={data1[index]?.discount || false}
-                                        onChange={handleChange2}
+                                        value={data?.cartDisTax?.[index]?.discount || false}
+                                        onChange={handleChange}
                                         customIndex={index}
                                     />
                                 </div>
@@ -65,7 +59,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data1, handleChange2 }) =
                 </>
             )}
             <h3 className="flex border-top-1 pt-2 border-gray-200 justify-content-between">
-                Total: <span>${netTotal.toFixed(4)}</span>
+                Net Total: <span>${netTotal.toFixed(4)}</span>
             </h3>
         </div>
     );

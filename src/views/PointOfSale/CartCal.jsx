@@ -31,24 +31,6 @@ export const calculateDiscount = (item) => {
     }
 };
 
-// export const calculateDiscount = (item) => {
-//     const matchingItem = item.discount.multiItemDiscount.find((data) => data.value1 === item.quantity);
-
-//     console.log(matchingItem, 'matchingItem');
-//     const unitPrice = calculateUnitPrice(item);
-//     const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
-//     const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
-//     if (item.allowDiscount === 'false') {
-//         return 0;
-//     } else if (item.quantity) {
-//         if (item.discount.amountType === 'FIXED') {
-//             return netPrice - matchingItem ? matchingItem?.value1 : item.discount.percentage;
-//         } else {
-//             return calculateTax(netPrice, matchingItem ? matchingItem?.value1 : item.discount.percentage);
-//         }
-//     }
-// };
-
 export const calculateTax = (unitPrice, taxPercentage) => {
     return Number(unitPrice * (taxPercentage / 100).toFixed(4));
 };
