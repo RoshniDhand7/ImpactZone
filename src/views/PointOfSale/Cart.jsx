@@ -18,6 +18,8 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
                 <>
                     {cartItems.map((item, index) => {
                         const unitPrice = calculateUnitPrice(item);
+
+                        console.log(unitPrice);
                         return (
                             <div className="cart-box border-top-1 border-gray-300 py-2" key={index}>
                                 <div className="flex gap-3 justify-content-between mb-2">

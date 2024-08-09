@@ -46,6 +46,8 @@ const NewCart = ({ data, setData }) => {
         return sum + netPrice;
     }, 0.0);
 
+    console.log('netTotal', netTotal);
+
     const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
 
     return (
