@@ -79,6 +79,8 @@ export default function PointOfSale() {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
+    console.log('data>>', data);
+
     return (
         <>
             <div className="flex gap-2">
@@ -95,7 +97,7 @@ export default function PointOfSale() {
                 />
 
                 <div className="cart-view">
-                    <MembersToSellItem data={data} handleChange={handleChange} />
+                    <MembersToSellItem data={data} setData={setData} />
                     <NewCart data={data} setData={setData} />
                 </div>
             </div>

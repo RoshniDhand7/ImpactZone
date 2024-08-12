@@ -173,6 +173,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'salesPerson':
         case 'compaign':
         case 'memberShipPlan':
+        case 'defaultDiscount':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value) {

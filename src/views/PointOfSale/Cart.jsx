@@ -28,13 +28,10 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
                                         {item.name}
                                     </p>
                                     <span className="font-bold">${unitPrice}</span>
-                                </div>
-                                <div className="flex gap-3 justify-content-between align-items-center">
-                                    <span className="font-normal">Quantity</span>
                                     <div className="flex gap-2 align-items-center">
-                                        <i className="pi pi-plus-circle text-green-600" onClick={() => updateQuantity(item._id, item.quantity + 1)}></i>
-                                        {item.quantity}
                                         <i className="pi pi-minus-circle text-red-600" onClick={() => updateQuantity(item._id, item.quantity - 1)}></i>
+                                        {item.quantity}
+                                        <i className="pi pi-plus-circle text-green-600" onClick={() => updateQuantity(item._id, item.quantity + 1)}></i>
                                     </div>
                                 </div>
                                 <div className="flex justify-content-start mt-2">

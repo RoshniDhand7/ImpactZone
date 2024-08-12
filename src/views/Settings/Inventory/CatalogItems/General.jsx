@@ -172,7 +172,12 @@ const General = () => {
     const val3 = PercentageDifference(data?.wholesaleCost, data?.unitPrice3);
 
     const handleSave = (tab) => {
-        let ignore = ['days'];
+        let ignore = [];
+        if (data?.allowDiscount === 'false') {
+            ignore = ['days', 'defaultDiscount'];
+        } else {
+            ignore = ['days'];
+        }
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));

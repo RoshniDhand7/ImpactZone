@@ -17,11 +17,13 @@ const CategoryFilter = ({ data, setData }) => {
         setData((prev) => ({ ...prev, categoryId: category.value }));
     };
     const getSubCategoryTreeSelect = () => {
-        let keys = allCategory?.map((category) => ({
-            key: `${category._id}`,
-            label: category.name,
-            icon: 'pi pi-fw pi-home',
-        }));
+        let keys = allCategory
+            ?.filter((item) => item.hasCatalog)
+            .map((category) => ({
+                key: `${category._id}`,
+                label: category.name,
+                icon: 'pi pi-fw pi-home',
+            }));
         keys.unshift({
             key: `all`,
             label: 'All',

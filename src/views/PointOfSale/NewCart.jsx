@@ -2,6 +2,7 @@ import React from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateDiscount, calculateTax, calculateUnitPrice } from './CartCal';
+import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
 
 const NewCart = ({ data, setData }) => {
     const updateQuantity = (itemId, quantity) => {
@@ -46,8 +47,6 @@ const NewCart = ({ data, setData }) => {
         return sum + netPrice;
     }, 0.0);
 
-    console.log('netTotal', netTotal);
-
     const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
 
     return (
@@ -55,7 +54,7 @@ const NewCart = ({ data, setData }) => {
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}>
                 <Cart cartItems={data?.cartItems} updateQuantity={updateQuantity} removeItem={removeItem} data={data} setData={setData} netTotal={netTotal} />
             </CustomAccordion>
-            <CustomAccordion isActive={false} extraClassName="employee-accordion w-full" title="Pricing Details">
+            <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
                 <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200 my-2">
                     Promo:{' '}
                     <span className="border-1 border-gray-200 border-round-lg p-2">
@@ -81,6 +80,10 @@ const NewCart = ({ data, setData }) => {
                     </p>
                 </div>
             </CustomAccordion>
+            <CustomButtonGroup>
+                <CustomButton label="Pay" className="mx-2" severity="success" outlined={false} />
+                <PrimaryButton label="Save" />
+            </CustomButtonGroup>
         </>
     );
 };

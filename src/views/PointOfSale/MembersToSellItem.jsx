@@ -4,9 +4,15 @@ import { getMembers } from '../../redux/actions/Dashboard/Members';
 import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
 import { CustomAutoComplete } from '../../shared/Input/AllInputs';
 
-const MembersToSellItem = ({ data, handleChange }) => {
+const MembersToSellItem = ({ data, setData }) => {
     const dispatch = useDispatch();
     const [memberItems, setMemberItems] = useState([]);
+    const [isRecentSearch, setIsRecentSearch] = useState(false);
+
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+        setIsRecentSearch(false);
+    };
 
     useEffect(() => {
         dispatch(getMembers());
@@ -14,14 +20,14 @@ const MembersToSellItem = ({ data, handleChange }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (data?.memberSell?.fullName) {
+        if (data?.memberSell?.fullName && !isRecentSearch) {
             dispatch(
-                addRecentSearch(data?.memberSell?.fullName, () => {
+                addRecentSearch({ name: data?.memberSell?.fullName, memberId: data?.memberSell.id }, () => {
                     dispatch(getSearchSuggestion());
                 }),
             );
         }
-    }, [data?.memberSell?.fullName, dispatch]);
+    }, [data?.memberSell?.fullName, dispatch, isRecentSearch]);
 
     let { allMembers } = useSelector((state) => state.members);
     const { recentSuggesstions } = useSelector((state) => state?.POS);
@@ -45,6 +51,19 @@ const MembersToSellItem = ({ data, handleChange }) => {
         return _filteredItems;
     };
 
+    const handleRecentSearch = (item) => {
+        setIsRecentSearch(true);
+        const _member = {
+            firstName: item.memberData.firstName,
+            middleName: item.memberData.MI,
+            lastName: item.memberData.lastName,
+            id: item.memberData._id,
+            fullName: `${item.memberData.firstName} ${item.memberData.MI || ''} ${item.memberData.lastName}`.trim(),
+        };
+
+        setData((prev) => ({ ...prev, ['memberSell']: _member }));
+    };
+
     return (
         <>
             <CustomAutoComplete
@@ -61,7 +80,7 @@ const MembersToSellItem = ({ data, handleChange }) => {
                 {recentSuggesstions?.map((item) => {
                     return (
                         <>
-                            <div className="text-sm text-blue" key={item._id}>
+                            <div className="text-sm text-blue cursor-pointer" key={item._id} onClick={() => handleRecentSearch(item)}>
                                 {item.name}
                             </div>
                         </>
