@@ -52,7 +52,7 @@ const General = () => {
         unitPrice: null,
         promptForPrice: 'false',
         allowDiscount: 'false',
-        defaultDiscount: 'None',
+        defaultDiscount: null,
         overRideDiscount: 'false',
         moreThan1: 0,
         moreThan2: 0,
@@ -94,7 +94,7 @@ const General = () => {
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
     categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
-    allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
+    // allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
     const { allTaxActiveDropdown } = useSelector((state) => state.taxes);
@@ -204,7 +204,7 @@ const General = () => {
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
                     <CustomInput name="name" onChange={handleChange} data={data} />
-                    <CustomInput name="upc" label="UPC" onChange={handleChange} data={data} />
+                    <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} />
                     <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} />
 
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} />

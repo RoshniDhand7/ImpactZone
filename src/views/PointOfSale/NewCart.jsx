@@ -72,7 +72,7 @@ const NewCart = ({ data, setData }) => {
                     </p>
                     <p className="flex justify-content-between mb-3">
                         <span className="font-semibold">Final Total</span>
-                        <span className="font-semibold">${finalTotal}</span>
+                        <span className="font-semibold">${finalTotal.toFixed(4)}</span>
                     </p>
                     <p className="flex justify-content-between mb-3">
                         <span className="font-semibold">Account Balance</span>
