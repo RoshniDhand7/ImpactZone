@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMembers } from '../../redux/actions/Dashboard/Members';
 import { addRecentSearch, getSearchSuggestion } from '../../redux/actions/POSAction';
-import { CustomAutoComplete } from '../../shared/Input/AllInputs';
+import { CustomReactSelect } from '../../shared/Input/AllInputs';
 
 const MembersToSellItem = ({ data, setData }) => {
     const dispatch = useDispatch();
-    const [memberItems, setMemberItems] = useState([]);
     const [isRecentSearch, setIsRecentSearch] = useState(false);
 
     const handleChange = ({ name, value }) => {
@@ -20,14 +19,14 @@ const MembersToSellItem = ({ data, setData }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (data?.memberSell?.fullName && !isRecentSearch) {
+        if (data?.memberSell?.label && !isRecentSearch) {
             dispatch(
-                addRecentSearch({ name: data?.memberSell?.fullName, memberId: data?.memberSell.id }, () => {
+                addRecentSearch({ name: data?.memberSell?.label, memberId: data?.memberSell.value }, () => {
                     dispatch(getSearchSuggestion());
                 }),
             );
         }
-    }, [data?.memberSell?.fullName, dispatch, isRecentSearch]);
+    }, [data?.memberSell?.label, dispatch, isRecentSearch]);
 
     let { allMembers } = useSelector((state) => state.members);
     const { recentSuggesstions } = useSelector((state) => state?.POS);
@@ -36,19 +35,14 @@ const MembersToSellItem = ({ data, setData }) => {
         firstName: item.firstName,
         middleName: item.MI,
         lastName: item.lastName,
-        id: item._id,
-        fullName: `${item.firstName} ${item.MI} ${item.lastName}`.trim(),
+        value: item._id,
+        label: `${item.firstName} ${item.MI || ''} ${item.lastName}`.trim(),
     }));
 
-    const searchMember = (event) => {
-        let query = event.query;
-        let _filteredItems = allMembers.filter((item) => {
-            let _item = `${item.firstName} ${item.middleName} ${item.lastName}`.trim();
-            let _query = query.trim().toLowerCase();
-            return _item.toLowerCase().includes(_query);
-        });
-        setMemberItems(_filteredItems);
-        return _filteredItems;
+    const searchMember = (inputValue, option) => {
+        const query = inputValue.label.toLowerCase().trim();
+        const label = option.toLowerCase().trim();
+        return query.includes(label);
     };
 
     const handleRecentSearch = (item) => {
@@ -57,24 +51,26 @@ const MembersToSellItem = ({ data, setData }) => {
             firstName: item.memberData.firstName,
             middleName: item.memberData.MI,
             lastName: item.memberData.lastName,
-            id: item.memberData._id,
-            fullName: `${item.memberData.firstName} ${item.memberData.MI || ''} ${item.memberData.lastName}`.trim(),
+            value: item.memberData._id,
+            label: `${item.memberData.firstName} ${item.memberData.MI || ''} ${item.memberData.lastName}`.trim(),
         };
 
         setData((prev) => ({ ...prev, ['memberSell']: _member }));
     };
 
+    console.log('data>>', data);
+
     return (
         <>
-            <CustomAutoComplete
+            <CustomReactSelect
                 name="memberSell"
                 field="fullName"
-                filtered={memberItems}
-                search={searchMember}
+                // filterOption={searchMember}
+                value={data?.memberSell}
                 onChange={handleChange}
+                options={allMembers}
                 data={data}
                 placeholder="Search by member"
-                itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
             />
             <div className="flex justify-content-end gap-5 mt-3">
                 {recentSuggesstions?.map((item) => {

@@ -13,6 +13,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
+import Select from 'react-select';
 
 export const CustomInput = ({
     label,
@@ -536,6 +537,47 @@ export const CustomAutoComplete = ({
                 />
                 <i className="pi pi-search" />
             </span>
+        </InputLayout>
+    );
+};
+export const CustomReactSelect = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    suggestions = [],
+    isDisabled = false,
+    options,
+    defaultValue,
+    isLoading = false,
+    isClearable = true,
+    isSearchable = true,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Select
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                classNamePrefix="select"
+                defaultValue={defaultValue}
+                isDisabled={isDisabled}
+                isLoading={isLoading}
+                isClearable={isClearable}
+                isSearchable={isSearchable}
+                onChange={(selectedOptions) => onChange && onChange({ value: selectedOptions, name })}
+                name={name}
+                value={value || data?.[name]}
+                options={options}
+                getOptionLabel={(option) => option.label}
+                getOptionValue={(option) => option.value}
+                {...props}
+            />
         </InputLayout>
     );
 };

@@ -46,7 +46,9 @@ export default function PointOfSale() {
         moreThan3: item.moreThan3,
         totalTaxPercentage: item.totalTaxPercentage,
         allowDiscount: item.allowDiscount,
-        discount: item.discount,
+        overRideDiscount: item.overRideDiscount,
+        defaultDiscount: item.defaultDiscount ? item.defaultDiscount : null,
+        discount: item.discount ?? null,
     }));
 
     const addToCart = (item) => {
@@ -70,7 +72,10 @@ export default function PointOfSale() {
         if (!isItemInData1) {
             setData((prev) => ({
                 ...prev,
-                cartDisTax: [...(prev.cartDisTax || []), { waiveTax: false, discount: false, id: item._id }],
+                cartDisTax: [
+                    ...(prev.cartDisTax || []),
+                    { waiveTax: false, discount: item.allowDiscount === 'true' ? item.defaultDiscount : null, id: item._id },
+                ],
             }));
         }
     };
@@ -97,7 +102,7 @@ export default function PointOfSale() {
                 />
 
                 <div className="cart-view">
-                    <MembersToSellItem data={data} setData={setData} />
+                    <MembersToSellItem data={data} handleChange={handleChange} />
                     <NewCart data={data} setData={setData} />
                 </div>
             </div>

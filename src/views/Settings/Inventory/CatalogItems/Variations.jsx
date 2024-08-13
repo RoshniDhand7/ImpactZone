@@ -14,7 +14,7 @@ import {
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
+import { PercentageDifference, confirmDelete, numberEditor } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
 
 const Variations = () => {
@@ -102,18 +102,6 @@ const Variations = () => {
                 mode="currency"
                 currency="USD"
                 locale="en-US"
-                minFractionDigits={4}
-                maxFractionDigits={4}
-                useGrouping={false}
-                prefix="$"
-            />
-        );
-    };
-    const numberEditor = (options) => {
-        return (
-            <InputNumber
-                value={options.value}
-                onValueChange={(e) => options.editorCallback(e.value)}
                 minFractionDigits={4}
                 maxFractionDigits={4}
                 useGrouping={false}

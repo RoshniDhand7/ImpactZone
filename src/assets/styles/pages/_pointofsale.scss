@@ -24,3 +24,14 @@
         height: 160px;
     }
 }
+
+.cart-table {
+    .p-accordion-content {
+        padding: 5px 0;
+        .p-datatable {
+            th {
+                background: #515d8d !important;
+            }
+        }
+    }
+}

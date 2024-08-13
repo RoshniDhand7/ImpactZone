@@ -79,7 +79,7 @@ const General = () => {
         dispatch(getCategories());
         dispatch(getClubs());
         dispatch(getTaxes());
-        dispatch(getDiscountTypes('active'));
+        dispatch(getDiscountTypes());
         dispatch(getFilterSets());
         dispatch(getTags());
     }, [dispatch]);

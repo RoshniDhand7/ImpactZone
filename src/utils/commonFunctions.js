@@ -8,6 +8,7 @@ import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
 import moment from 'moment';
 import constants from '../constants';
+import { InputNumber } from 'primereact/inputnumber';
 
 const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -313,6 +314,18 @@ const uniqueData = (data) => {
         autoRenew: item.autoRenew.toString(),
     }));
 };
+const numberEditor = (options) => {
+    return (
+        <InputNumber
+            value={options.value}
+            onValueChange={(e) => options.editorCallback(e.value)}
+            minFractionDigits={4}
+            maxFractionDigits={4}
+            useGrouping={false}
+            prefix="$"
+        />
+    );
+};
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -330,6 +343,7 @@ export {
     getIds,
     PercentageDifference,
     calculateTimes,
+    numberEditor,
     convertArrayToObjectArray,
     showArrayFormErrors,
     getTime,

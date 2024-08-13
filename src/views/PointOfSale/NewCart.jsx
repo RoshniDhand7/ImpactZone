@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateDiscount, calculateTax, calculateUnitPrice } from './CartCal';
 import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
+import { useDispatch } from 'react-redux';
+import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
 
 const NewCart = ({ data, setData }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getDiscountTypes());
+    }, [dispatch]);
+
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
             setData((prev) => ({
@@ -51,7 +59,8 @@ const NewCart = ({ data, setData }) => {
 
     return (
         <>
-            <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={'Cart'}>
+            <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
+                {' '}
                 <Cart cartItems={data?.cartItems} updateQuantity={updateQuantity} removeItem={removeItem} data={data} setData={setData} netTotal={netTotal} />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
