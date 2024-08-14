@@ -60,7 +60,6 @@ const NewCart = ({ data, setData }) => {
     return (
         <>
             <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
-                {' '}
                 <Cart cartItems={data?.cartItems} updateQuantity={updateQuantity} removeItem={removeItem} data={data} setData={setData} netTotal={netTotal} />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">

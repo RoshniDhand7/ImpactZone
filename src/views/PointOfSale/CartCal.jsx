@@ -20,6 +20,7 @@ export const calculateUnitPrice = (item) => {
     return item.unitPrice;
 };
 export const calculateDiscount = (item) => {
+    console.log('item>>', item);
     const { discount, quantity, totalTaxPercentage, allowDiscount } = item;
     const matchingItem = discount?.multiItemDiscount?.find((data) => data.value1 === quantity);
 
