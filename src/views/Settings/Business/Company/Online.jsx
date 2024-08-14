@@ -37,7 +37,6 @@ const Online = (allCompany) => {
             dispatch(editCompany(data, setLoading, history));
         }
     };
-    // console.log('data>>', data);
     const history = useHistory();
     return (
         <>

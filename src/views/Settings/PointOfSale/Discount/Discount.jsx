@@ -56,7 +56,7 @@ const Discount = () => {
             () => {
                 dispatch(
                     deleteDiscountType(col._id, () => {
-                        dispatch(getDiscountTypes(data?.isActive));
+                        dispatch(getDiscountTypes());
                     }),
                 );
             },
@@ -74,7 +74,7 @@ const Discount = () => {
             <CustomSearchCard>
                 <CustomDropDown col={3} label="Status" name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
             </CustomSearchCard>
-            <CustomTable data={filteredDiscountType} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={allDiscountTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

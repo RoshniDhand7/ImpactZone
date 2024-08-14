@@ -4,9 +4,9 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getDiscountTypes = (isActive) => async (dispatch) => {
+const getDiscountTypes = () => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.DISCOUNT_TYPES, {}, { isActive });
+    const res = await api('get', EndPoints.DISCOUNT_TYPES, {});
     if (res.success) {
         if (res.data) {
             dispatch({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputLayout from '../Form/InputLayout';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -12,6 +12,8 @@ import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
+import { AutoComplete } from 'primereact/autocomplete';
+import Select from 'react-select';
 
 export const CustomInput = ({
     label,
@@ -285,7 +287,7 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
         </InputLayout>
     );
 };
-export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
+export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, customIndex, ...props }) => {
     return (
         <>
             <div className={`col-12  md:col-${col} ${extraClassName}`}>
@@ -294,7 +296,7 @@ export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessag
                     name={name}
                     inputId={label}
                     checked={value || data?.[name]}
-                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked })}
+                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.checked, customIndex })}
                     className={`${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                     {...props}
                 />
@@ -494,5 +496,88 @@ export const CustomCheckBoxInput = ({ label, name, onChange, data, value, extraC
                 ))}
             </div>
         </div>
+    );
+};
+
+export const CustomAutoComplete = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    suggestions = [],
+    forceSelection = false,
+    itemTemplate,
+    filtered,
+    search,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <span className="p-input-icon-right w-full">
+                <AutoComplete
+                    id={name}
+                    name={name}
+                    value={value || data?.[name]}
+                    suggestions={filtered}
+                    completeMethod={search}
+                    forceSelection={forceSelection}
+                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: typeof e.value === 'string' ? e.value.trimStart() : e.value })}
+                    className={`w-full p-fluid ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                    inputClassName="w-full"
+                    placeholder={props.placeholder || ''}
+                    itemTemplate={itemTemplate}
+                    showEmptyMessage={true}
+                    {...props}
+                />
+                <i className="pi pi-search" />
+            </span>
+        </InputLayout>
+    );
+};
+export const CustomReactSelect = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    suggestions = [],
+    isDisabled = false,
+    options,
+    defaultValue,
+    isLoading = false,
+    isClearable = true,
+    isSearchable = true,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Select
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                classNamePrefix="select"
+                defaultValue={defaultValue}
+                isDisabled={isDisabled}
+                isLoading={isLoading}
+                isClearable={isClearable}
+                isSearchable={isSearchable}
+                onChange={(selectedOptions) => onChange && onChange({ value: selectedOptions, name })}
+                name={name}
+                value={value || data?.[name]}
+                options={options}
+                getOptionLabel={(option) => option.label}
+                getOptionValue={(option) => option.value}
+                {...props}
+            />
+        </InputLayout>
     );
 };

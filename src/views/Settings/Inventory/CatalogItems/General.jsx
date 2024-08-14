@@ -52,7 +52,7 @@ const General = () => {
         unitPrice: null,
         promptForPrice: 'false',
         allowDiscount: 'false',
-        defaultDiscount: 'None',
+        defaultDiscount: null,
         overRideDiscount: 'false',
         moreThan1: 0,
         moreThan2: 0,
@@ -79,7 +79,7 @@ const General = () => {
         dispatch(getCategories());
         dispatch(getClubs());
         dispatch(getTaxes());
-        dispatch(getDiscountTypes('active'));
+        dispatch(getDiscountTypes());
         dispatch(getFilterSets());
         dispatch(getTags());
     }, [dispatch]);
@@ -94,7 +94,7 @@ const General = () => {
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
     categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
-    allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
+    // allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
     const { allTaxActiveDropdown } = useSelector((state) => state.taxes);
@@ -172,7 +172,12 @@ const General = () => {
     const val3 = PercentageDifference(data?.wholesaleCost, data?.unitPrice3);
 
     const handleSave = (tab) => {
-        let ignore = ['days'];
+        let ignore = [];
+        if (data?.allowDiscount === 'false') {
+            ignore = ['days', 'defaultDiscount'];
+        } else {
+            ignore = ['days'];
+        }
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));
@@ -199,7 +204,7 @@ const General = () => {
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
                     <CustomInput name="name" onChange={handleChange} data={data} />
-                    <CustomInput name="upc" label="UPC" onChange={handleChange} data={data} />
+                    <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} />
                     <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} />
 
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} />
@@ -245,7 +250,9 @@ const General = () => {
                     <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={4} maxFractionDigits={4} />
                     <CustomDropDown name="promptForPrice" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
+                    {data?.allowDiscount === 'true' && (
+                        <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />
+                    )}
                     <CustomDropDown name="overRideDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomInputNumber
                         name="wholesaleCost"
