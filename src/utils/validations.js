@@ -171,7 +171,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'defaultReceiptCopies':
         case 'oneTimePlan':
         case 'salesPerson':
-        case 'compaign':
+        case 'campaign':
         case 'memberShipPlan':
         case 'defaultDiscount':
             if (typeof value == 'boolean') {

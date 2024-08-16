@@ -515,6 +515,7 @@ export const CustomAutoComplete = ({
     itemTemplate,
     filtered,
     search,
+    handleClear,
     ...props
 }) => {
     return (
@@ -535,7 +536,7 @@ export const CustomAutoComplete = ({
                     showEmptyMessage={true}
                     {...props}
                 />
-                <i className="pi pi-search" />
+                {value || data?.[name] ? <i className="pi pi-times cursor-pointer" onClick={handleClear} /> : <i className="pi pi-search" />}
             </span>
         </InputLayout>
     );

@@ -88,7 +88,7 @@ export default function PointOfSale() {
         <>
             <div className="flex gap-2">
                 <div className="product-sidebar p-2">
-                    <SearchByItem data={data} allCatalogItems={allCatalogItems} handleChange={handleChange} />
+                    <SearchByItem data={data} allCatalogItems={allCatalogItems} handleChange={handleChange} setData={setData} />
                     <CategoryFilter data={data} setData={setData} />
                 </div>
                 <CatalogItemsView
@@ -100,7 +100,7 @@ export default function PointOfSale() {
                 />
 
                 <div className="cart-view">
-                    <MembersToSellItem data={data} handleChange={handleChange} />
+                    <MembersToSellItem data={data} setData={setData} />
                     <NewCart data={data} setData={setData} />
                 </div>
             </div>
