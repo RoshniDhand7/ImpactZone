@@ -30,8 +30,8 @@ export const calculateDiscount = (item, discountId, allDiscountTypes) => {
         return 0;
     }
 
-    const discountValue = matchingItem ? matchingItem.value2 : discount.percentage;
-    const amountType = matchingItem ? matchingItem?.amountType : discount.amountType;
+    const discountValue = matchingItem ? matchingItem?.value2 : discount?.percentage;
+    const amountType = matchingItem ? matchingItem?.amountType : discount?.amountType;
 
     if (amountType === 'FIXED') {
         return netPrice - discountValue;
