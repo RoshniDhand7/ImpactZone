@@ -44,6 +44,8 @@ const addTags = (data, next) => async (dispatch) => {
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };

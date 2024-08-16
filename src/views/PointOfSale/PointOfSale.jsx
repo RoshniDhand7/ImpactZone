@@ -84,8 +84,6 @@ export default function PointOfSale() {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    console.log('data>>', data);
-
     return (
         <>
             <div className="flex gap-2">

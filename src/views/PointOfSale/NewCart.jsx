@@ -3,7 +3,7 @@ import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateDiscount, calculateTax, calculateUnitPrice } from './CartCal';
 import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
 
 const NewCart = ({ data, setData }) => {
@@ -12,6 +12,8 @@ const NewCart = ({ data, setData }) => {
     useEffect(() => {
         dispatch(getDiscountTypes());
     }, [dispatch]);
+
+    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
@@ -35,7 +37,8 @@ const NewCart = ({ data, setData }) => {
     };
 
     const netTotalDiscount = data?.cartItems.reduce((sum, item, index) => {
-        const discount = calculateDiscount(item);
+        const discountId = data?.cartDisTax?.[index].discount;
+        const discount = calculateDiscount(item, discountId, allDiscountTypes);
         const totaldiscount = data?.cartDisTax?.[index].discount ? discount : 0;
         return (Number(sum) + totaldiscount).toFixed(4);
     }, 0);
@@ -60,7 +63,15 @@ const NewCart = ({ data, setData }) => {
     return (
         <>
             <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
-                <Cart cartItems={data?.cartItems} updateQuantity={updateQuantity} removeItem={removeItem} data={data} setData={setData} netTotal={netTotal} />
+                <Cart
+                    cartItems={data?.cartItems}
+                    updateQuantity={updateQuantity}
+                    removeItem={removeItem}
+                    data={data}
+                    setData={setData}
+                    netTotal={netTotal}
+                    allDiscountDropdown={allDiscountDropdown}
+                />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
                 <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200 my-2">

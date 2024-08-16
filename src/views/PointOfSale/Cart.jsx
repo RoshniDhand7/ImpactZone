@@ -8,8 +8,7 @@ import CustomOverlay from '../../shared/CustomOverlay';
 import { confirmDelete } from '../../utils/commonFunctions';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { Tooltip } from 'primereact/tooltip';
-const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }) => {
-    console.log('cartItems>>', cartItems);
+const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, allDiscountDropdown }) => {
     // const handleChange = ({ name, value, customIndex }) => {
     //     console.log(name, value, customIndex);
     //     setData((prev) => {
@@ -63,16 +62,16 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
     const actionTemplate = (col, index) => {
         return (
             <CustomOverlay>
-                <ul className="no-style p-0">
-                    <li className="flex  text-xs font-medium mb-3 cursor-pointer" onClick={() => handleTax(index.rowIndex)}>
+                <ul className="list-none p-0">
+                    <li className="flex  text-xs font-medium mb-3 cursor-pointer justify-content-center" onClick={() => handleTax(index.rowIndex)}>
                         {data?.cartDisTax?.[index.rowIndex]?.waiveTax ? 'ApplyTax' : 'WaiveTax'}
                     </li>
                     <hr />
                     <li
-                        className={`"flex gap-2 text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center ${col?.overRideDiscount === 'false' ? 'custom-dicount' : ''} "`}
+                        className={`"flex  text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center ${col?.overRideDiscount === 'false' ? 'custom-discount' : ''} "`}
                         onClick={() => handleDiscountOpen(col, index.rowIndex)}
                     >
-                        <Tooltip target=".custom-dicount" content="Not Applicable" position="bottom" showDelay="400" />
+                        <Tooltip target=".custom-discount" content="Not Applicable" position="bottom" showDelay="400" />
                         {col?.defaultDiscount ? 'Override Discount' : 'Apply Discount'}
                     </li>
                     <hr />
@@ -101,12 +100,8 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
             </div>
         );
     };
-    console.log('data>>', data);
 
     const discountOptions = [];
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
-
-    console.log(allDiscountDropdown);
 
     const onClose = () => {
         setTempData((prev) => {
