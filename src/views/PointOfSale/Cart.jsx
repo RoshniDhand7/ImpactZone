@@ -94,13 +94,19 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     const quantityTemplate = (item) => {
         return (
             <div className="flex gap-2 align-items-center">
-                <i className="pi pi-minus-circle text-red-600" onClick={() => updateQuantity(item._id, item.quantity - 1)}></i>
+                <i
+                    className={`pi pi-minus-circle ${item.quantity > item.minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
+                    onClick={() => item.quantity > item.minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null}
+                ></i>
                 {item.quantity}
-                <i className="pi pi-plus-circle text-green-600" onClick={() => updateQuantity(item._id, item.quantity + 1)}></i>
+                <i
+                    className={`pi pi-plus-circle ${item.quantity <item.maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
+                    onClick={() => item.quantity < item.maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null}
+                ></i>
             </div>
         );
     };
-
+    
     const discountOptions = [];
 
     const onClose = () => {

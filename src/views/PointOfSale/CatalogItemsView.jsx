@@ -69,7 +69,7 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
                                 >
                                     <img src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg} className="w-full h-full" alt="catalogImg" />
                                     <div className="product-content">
-                                        <p className="font-semibold text-sm text-dark-blue">{item.name}</p>
+                                        <p className="font-semibold text-sm text-dark-blue">{item?.itemCaption}</p>
                                         <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>
                                     </div>
                                 </div>

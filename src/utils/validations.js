@@ -97,6 +97,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'allowWaitlist':
         case 'requireComment':
         case 'employee':
+        case 'itemCaption':
+            case "variationName":
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -213,8 +215,11 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
+        case 'minimumQuantity':
+        case "maximumQuantity":
+        case "defaultQuantity":
             if (!number(value) || value === 0) {
-                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
             } else {

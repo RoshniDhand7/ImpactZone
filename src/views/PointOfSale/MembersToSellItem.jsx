@@ -58,8 +58,6 @@ const MembersToSellItem = ({ data, setData }) => {
         setData((prev) => ({ ...prev, ['memberSell']: _member }));
     };
 
-    console.log('data>>', data);
-
     return (
         <>
             <CustomReactSelect
