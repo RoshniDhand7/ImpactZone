@@ -96,17 +96,17 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
             <div className="flex gap-2 align-items-center">
                 <i
                     className={`pi pi-minus-circle ${item.quantity > item.minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
-                    onClick={() => item.quantity > item.minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null}
+                    onClick={() => (item.quantity > item.minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null)}
                 ></i>
                 {item.quantity}
                 <i
-                    className={`pi pi-plus-circle ${item.quantity <item.maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
-                    onClick={() => item.quantity < item.maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null}
+                    className={`pi pi-plus-circle ${item.quantity < item.maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
+                    onClick={() => (item.quantity < item.maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null)}
                 ></i>
             </div>
         );
     };
-    
+
     const discountOptions = [];
 
     const onClose = () => {
@@ -136,12 +136,20 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     return (
         <>
             <DataTable value={cartItems} size="normal" tableStyle={{ minWidth: '25rem' }} className="p-0" stripedRows scrollable scrollHeight="400px">
-                <Column field="name" header="Item" style={{ width: '40%' }}></Column>
+                <Column
+                    field="name"
+                    body={(r) => `${r.name} (${r.variation ? r.variation.name : ''}) (${r.subVariation ? r.subVariation.name : ''})`}
+                    header="Item"
+                    style={{ width: '40%' }}
+                ></Column>
                 <Column field="unitPrice" body={unitPriceTemplate} header="Price" style={{ width: '20%' }}></Column>
                 <Column field="quantity" header="Qty" body={quantityTemplate} style={{ width: '20%' }}></Column>
 
                 <Column body={actionTemplate} style={{ width: '20%' }}></Column>
             </DataTable>
+            <h4 className="flex border-top-1 pt-2 border-gray-200 justify-content-between mx-3">
+                Net Total: <span>${netTotal.toFixed(4)}</span>
+            </h4>
             <CustomDialog title="Discount" visible={discountOpen !== null} onCancel={onClose} loading={false} onSave={handleSave}>
                 <CustomDropDown
                     col={12}

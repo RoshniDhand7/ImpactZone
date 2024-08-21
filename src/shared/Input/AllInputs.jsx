@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import InputLayout from '../Form/InputLayout';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -14,6 +14,7 @@ import { Password } from 'primereact/password';
 import { capitalizeCamelCase } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import Select from 'react-select';
+import { CascadeSelect } from 'primereact/cascadeselect';
 
 export const CustomInput = ({
     label,
@@ -577,6 +578,36 @@ export const CustomReactSelect = ({
                 options={options}
                 getOptionLabel={(option) => option.label}
                 getOptionValue={(option) => option.value}
+                {...props}
+            />
+        </InputLayout>
+    );
+};
+export const CustomSelectCascade = ({
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col = 4,
+    inputClass,
+    disabled = false,
+    type = 'text',
+    options,
+    placeholder,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <CascadeSelect
+                value={value || data?.[name] || ''}
+                onChange={(e) => onChange && onChange({ ...e, name, value: e.value })}
+                options={options}
+                className={`w-full md:w-14rem ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                breakpoint="767px"
                 {...props}
             />
         </InputLayout>
