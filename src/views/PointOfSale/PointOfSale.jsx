@@ -31,7 +31,9 @@ export default function PointOfSale() {
 
     let { allCatalogItems } = useSelector((state) => state.catalogItems);
 
-    allCatalogItems = allCatalogItems.map((item) => ({
+    allCatalogItems = allCatalogItems
+    .filter(item => item.isActive && (item.itemSold === "POS_ONLY" || item.itemSold === "POS_AND_AGREEMENTS") && item.hasCategory)
+    .map(item => ({
         name: item.name,
         upc: item.upc,
         _id: item._id,
@@ -47,24 +49,38 @@ export default function PointOfSale() {
         totalTaxPercentage: item.totalTaxPercentage,
         allowDiscount: item.allowDiscount,
         overRideDiscount: item.overRideDiscount,
-        defaultDiscount: item.defaultDiscount ? item.defaultDiscount : null,
+        defaultDiscount: item.defaultDiscount ?? null,
         discount: item.discount ?? null,
+        itemCaption: item.itemCaption,
+        itemSold: item.itemSold,
+        maximumQuantity: item.maximumQuantity,
+        minimumQuantity: item.minimumQuantity,
+        defaultQuantity: item.defaultQuantity
     }));
-
     const addToCart = (item) => {
         const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
+    
         if (existingItem) {
-            setData((prev) => ({
-                ...prev,
-                cartItems: data?.cartItems.map((cartItem) => (cartItem._id === item._id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem)),
-            }));
+            const newQuantity = existingItem.quantity + 1;
+            if (newQuantity <= item.maximumQuantity) {
+                setData((prev) => ({
+                    ...prev,
+                    cartItems: data?.cartItems.map((cartItem) =>
+                        cartItem._id === item._id
+                            ? { ...cartItem, quantity: newQuantity }
+                            : cartItem
+                    ),
+                }));
+            }
         } else {
             setData((prev) => ({
                 ...prev,
-                cartItems: [...data?.cartItems, { ...item, quantity: 1 }],
+                cartItems: [...data?.cartItems, { ...item, quantity: item.defaultQuantity}],
             }));
         }
     };
+    
+
 
     const handleCatalogItems = (item) => {
         addToCart(item);
@@ -84,13 +100,11 @@ export default function PointOfSale() {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    console.log('data>>', data);
-
     return (
         <>
             <div className="flex gap-2">
                 <div className="product-sidebar p-2">
-                    <SearchByItem data={data} allCatalogItems={allCatalogItems} handleChange={handleChange} />
+                    <SearchByItem data={data} allCatalogItems={allCatalogItems} handleChange={handleChange} setData={setData} />
                     <CategoryFilter data={data} setData={setData} />
                 </div>
                 <CatalogItemsView
@@ -102,7 +116,7 @@ export default function PointOfSale() {
                 />
 
                 <div className="cart-view">
-                    <MembersToSellItem data={data} handleChange={handleChange} />
+                    <MembersToSellItem data={data} setData={setData} />
                     <NewCart data={data} setData={setData} />
                 </div>
             </div>

@@ -87,7 +87,7 @@ const editCatalogItem =
         }
         const payload = {
             ...data,
-            category: data?.category === 'NONE' ? null : data?.category,
+            category: data?.category === 'None' ? null : data?.category,
         };
 
         const res = await api('put', EndPoints.INVENTORY_CATALOG + id, payload);

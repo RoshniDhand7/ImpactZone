@@ -37,7 +37,7 @@ const CategoryFilter = ({ data, setData }) => {
             <div className="mt-3">
                 <div className="col-12 lg:col-12 md:col-12 div-shadow mb-2 lg:mb-0 p-0 responsive-height">
                     <div className="flex justify-content-between align-items-center p-2">
-                        <h2 className="text-xl font-semibold ">{'Category'}</h2>
+                        <h2 className="text-xl font-semibold ">{'Categories'}</h2>
                     </div>
                     <div className="mt-3">
                         <CustomTree

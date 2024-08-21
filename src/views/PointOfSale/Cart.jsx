@@ -5,36 +5,74 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { useSelector } from 'react-redux';
 import CustomOverlay from '../../shared/CustomOverlay';
-const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }) => {
-    console.log('cartItems>>', cartItems);
-    const handleChange = ({ name, value, customIndex }) => {
-        console.log(name, value, customIndex);
-        setData((prev) => {
-            const updatedCartDisTax = [...prev.cartDisTax];
-            updatedCartDisTax[customIndex] = { ...updatedCartDisTax[customIndex], [name]: value };
+import { confirmDelete } from '../../utils/commonFunctions';
+import CustomDialog from '../../shared/Overlays/CustomDialog';
+import { Tooltip } from 'primereact/tooltip';
+const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, allDiscountDropdown }) => {
+    // const handleChange = ({ name, value, customIndex }) => {
+    //     console.log(name, value, customIndex);
+    //     setData((prev) => {
+    //         const updatedCartDisTax = [...prev.cartDisTax];
+    //         updatedCartDisTax[customIndex] = { ...updatedCartDisTax[customIndex], [name]: value };
 
-            return { ...prev, cartDisTax: updatedCartDisTax };
-        });
+    //         return { ...prev, cartDisTax: updatedCartDisTax };
+    //     });
+    // };
+    const handleChange = ({ name, value, customIndex }) => {
+        setTempData((prev) => ({
+            ...prev,
+            [customIndex]: {
+                ...prev[customIndex],
+                [name]: value,
+            },
+        }));
     };
 
-    const [discountOpen, setDiscountOpen] = useState(false);
+    const handleTax = (index) => {
+        confirmDelete(
+            () => {
+                setData((prev) => {
+                    const updatedCartDisTax = [...prev.cartDisTax];
+                    const currentTax = updatedCartDisTax[index].waiveTax;
+                    updatedCartDisTax[index] = {
+                        ...updatedCartDisTax[index],
+                        waiveTax: !currentTax,
+                    };
+                    return { ...prev, cartDisTax: updatedCartDisTax };
+                });
+            },
+            `Do you want to ${data?.cartDisTax?.[index]?.waiveTax ? 'Apply' : 'Waive'} Tax?`,
+            'center',
+        );
+    };
+
+    const [discountOpen, setDiscountOpen] = useState(null);
+    const [tempData, setTempData] = useState(null);
+
+    const handleDiscountOpen = (col, rowIndex) => {
+        if (col?.overRideDiscount === 'true' || col?.defaultDiscount === null) {
+            setTempData((prev) => ({
+                ...prev,
+                [rowIndex]: data?.cartDisTax?.[rowIndex], // Initialize tempData for the specific row
+            }));
+            setDiscountOpen({ id: col._id, rowIndex });
+        }
+    };
+
     const actionTemplate = (col, index) => {
         return (
             <CustomOverlay>
-                <ul className="no-style p-0">
-                    <li className="flex  text-xs font-medium mb-3 cursor-pointer">
-                        <CustomCheckbox
-                            col={12}
-                            label="Waive Tax"
-                            name="waiveTax"
-                            value={data?.cartDisTax?.[index.rowIndex]?.waiveTax || false}
-                            onChange={handleChange}
-                            customIndex={index.rowIndex}
-                        />
+                <ul className="list-none p-0">
+                    <li className="flex  text-xs font-medium mb-3 cursor-pointer justify-content-center" onClick={() => handleTax(index.rowIndex)}>
+                        {data?.cartDisTax?.[index.rowIndex]?.waiveTax ? 'ApplyTax' : 'WaiveTax'}
                     </li>
                     <hr />
-                    <li className="flex gap-2 text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center " onClick={() => setDiscountOpen(col._id)}>
-                        Discount
+                    <li
+                        className={`"flex  text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center ${col?.overRideDiscount === 'false' && col?.defaultDiscount ? 'custom-discount' : ''} "`}
+                        onClick={() => handleDiscountOpen(col, index.rowIndex)}
+                    >
+                        <Tooltip target=".custom-discount" content="Not Applicable" position="bottom" showDelay="400" />
+                        {col?.defaultDiscount ? 'Override Discount' : 'Apply Discount'}
                     </li>
                     <hr />
                     <li
@@ -56,53 +94,45 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
     const quantityTemplate = (item) => {
         return (
             <div className="flex gap-2 align-items-center">
-                <i className="pi pi-minus-circle text-red-600" onClick={() => updateQuantity(item._id, item.quantity - 1)}></i>
+                <i
+                    className={`pi pi-minus-circle ${item.quantity > item.minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
+                    onClick={() => item.quantity > item.minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null}
+                ></i>
                 {item.quantity}
-                <i className="pi pi-plus-circle text-green-600" onClick={() => updateQuantity(item._id, item.quantity + 1)}></i>
+                <i
+                    className={`pi pi-plus-circle ${item.quantity <item.maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
+                    onClick={() => item.quantity < item.maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null}
+                ></i>
             </div>
         );
     };
-    console.log('data>>', data);
-
-    const TaxTemplate = (r, row) => {
-        console.log(r, row);
-        return (
-            <div className="flex justify-content-start mt-2">
-                <CustomCheckbox
-                    col={6}
-                    label="Waive Tax"
-                    name="waiveTax"
-                    value={data?.cartDisTax?.[row.rowIndex]?.waiveTax || false}
-                    onChange={handleChange}
-                    customIndex={row.rowIndex}
-                />
-            </div>
-        );
-    };
-
+    
     const discountOptions = [];
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
-    console.log(allDiscountDropdown);
+    const onClose = () => {
+        setTempData((prev) => {
+            const updatedTempData = { ...prev };
+            delete updatedTempData[discountOpen.rowIndex];
+            return updatedTempData;
+        });
+        setDiscountOpen(null);
+    };
+    const handleSave = () => {
+        setData((prev) => {
+            const updatedCartDisTax = [...prev.cartDisTax];
+            updatedCartDisTax[discountOpen.rowIndex] = tempData[discountOpen.rowIndex];
 
-    const discountTemplate = (r, row) => {
-        console.log(r, 'row');
-        return (
-            <div className="flex justify-content-start mt-2">
-                <CustomDropDown
-                    col={12}
-                    label="Discount"
-                    name="discount"
-                    value={data?.cartDisTax?.[row.rowIndex]?.discount}
-                    onChange={handleChange}
-                    customIndex={row.rowIndex}
-                    options={allDiscountDropdown}
-                />
-            </div>
-        );
+            return { ...prev, cartDisTax: updatedCartDisTax };
+        });
+
+        setTempData((prev) => {
+            const updatedTempData = { ...prev };
+            delete updatedTempData[discountOpen.rowIndex];
+            return updatedTempData;
+        });
+        onClose();
     };
 
-    const onRowEditComplete = (e) => {};
     return (
         <>
             <DataTable value={cartItems} size="normal" tableStyle={{ minWidth: '25rem' }} className="p-0" stripedRows scrollable scrollHeight="400px">
@@ -112,6 +142,17 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal }
 
                 <Column body={actionTemplate} style={{ width: '20%' }}></Column>
             </DataTable>
+            <CustomDialog title="Discount" visible={discountOpen !== null} onCancel={onClose} loading={false} onSave={handleSave}>
+                <CustomDropDown
+                    col={12}
+                    label="Discount"
+                    name="discount"
+                    value={tempData?.[discountOpen?.rowIndex]?.discount}
+                    onChange={handleChange}
+                    customIndex={discountOpen?.rowIndex}
+                    options={allDiscountDropdown}
+                />
+            </CustomDialog>
             {/* <div className="mt-2">
                 {cartItems.length === 0 ? (
                     <p>No items in cart</p>

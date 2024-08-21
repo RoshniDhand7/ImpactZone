@@ -1,26 +1,25 @@
 export const calculateUnitPrice = (item) => {
     if (item.quantity && item.moreThan1 && item.moreThan2 && item.unitPrice1) {
         if (item.quantity > item.moreThan1 && item.quantity <= item.moreThan2) {
-            console.log('2', item.unitPrice1);
             return item.unitPrice1;
         }
     }
     if (item.quantity && item.moreThan2 && item.moreThan3 && item.unitPrice2) {
         if (item.quantity > item.moreThan2 && item.quantity <= item.moreThan3) {
-            console.log('3', item.unitPrice2);
             return item.unitPrice2;
         }
     }
     if (item.quantity && item.moreThan3 && item.unitPrice3) {
         if (item.quantity > item?.moreThan3) {
-            console.log('4', item.unitPrice3);
             return item.unitPrice3;
         }
     }
     return item.unitPrice;
 };
-export const calculateDiscount = (item) => {
-    const { discount, quantity, totalTaxPercentage, allowDiscount } = item;
+export const calculateDiscount = (item, discountId, allDiscountTypes) => {
+    const { quantity, totalTaxPercentage, allowDiscount } = item;
+
+    let discount = allDiscountTypes.find((item) => item._id === discountId);
     const matchingItem = discount?.multiItemDiscount?.find((data) => data.value1 === quantity);
 
     const unitPrice = calculateUnitPrice(item);
@@ -31,8 +30,8 @@ export const calculateDiscount = (item) => {
         return 0;
     }
 
-    const discountValue = matchingItem ? matchingItem.value2 : discount.percentage;
-    const amountType = matchingItem ? matchingItem?.amountType : discount.amountType;
+    const discountValue = matchingItem ? matchingItem?.value2 : discount?.percentage;
+    const amountType = matchingItem ? matchingItem?.amountType : discount?.amountType;
 
     if (amountType === 'FIXED') {
         return netPrice - discountValue;

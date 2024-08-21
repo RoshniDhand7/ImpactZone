@@ -44,6 +44,8 @@ const addFilterSet = (data, next) => async (dispatch) => {
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };
@@ -54,6 +56,8 @@ const editFilterSet = (id, data, next) => async (dispatch) => {
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };

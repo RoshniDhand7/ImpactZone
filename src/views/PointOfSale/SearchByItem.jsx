@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CustomAutoComplete } from '../../shared/Input/AllInputs';
 
-const SearchByItem = ({ data, allCatalogItems, handleChange }) => {
+const SearchByItem = ({ data, allCatalogItems, handleChange, setData }) => {
     const [items, setItems] = useState([]);
 
     const search = (event) => {
@@ -30,6 +30,7 @@ const SearchByItem = ({ data, allCatalogItems, handleChange }) => {
                     {item.name}
                 </div>
             )}
+            handleClear={() => setData((prev) => ({ ...prev, catalogItem: '' }))}
         />
     );
 };

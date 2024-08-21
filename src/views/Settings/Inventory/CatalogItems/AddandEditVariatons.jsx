@@ -4,6 +4,8 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomChipInput, CustomInput } from '../../../../shared/Input/AllInputs';
 import { editVariationCatalog, getCatalogVariations, getVariationCatalog } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import formValidation from '../../../../utils/validations';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 
 const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, catalogId }) => {
     const [data, setData] = useState({
@@ -22,7 +24,8 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
     const dispatch = useDispatch();
 
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors= formValidation(name,value,data)
+        setData((prev) => ({ ...prev, [name]: value ,formErrors}));
     };
     useEffect(() => {
         if (variationId) {
@@ -40,16 +43,19 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
 
     const handleSave = () => {
         if (catalogId) {
-            dispatch(
-                editVariationCatalog(catalogId, { ...data, _id: variationId }, () => {
-                    onClose();
-                    setData({
-                        variationName: '',
-                        subVariation: [],
-                    });
-                    dispatch(getCatalogVariations(catalogId));
-                }),
-            );
+            if(showFormErrors(data,setData)){
+                dispatch(
+                    editVariationCatalog(catalogId, { ...data, _id: variationId }, () => {
+                        onClose();
+                        setData({
+                            variationName: '',
+                            subVariation: [],
+                        });
+                        dispatch(getCatalogVariations(catalogId));
+                    }),
+                );
+            }
+        
         }
     };
 

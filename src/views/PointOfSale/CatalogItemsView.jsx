@@ -6,6 +6,7 @@ import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogIt
 import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
+import PlaceHolderImg from '../../assets/images/productPlaceholder.png';
 
 const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, handleChange }) => {
     const dispatch = useDispatch();
@@ -66,9 +67,9 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
                                     className="cursor-pointer product-box"
                                     key={item._id}
                                 >
-                                    <img src={getImageURL(item.img)} className="w-full h-full" alt="catalogImg" />
+                                    <img src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg} className="w-full h-full" alt="catalogImg" />
                                     <div className="product-content">
-                                        <p className="font-semibold text-sm text-dark-blue">{item.name}</p>
+                                        <p className="font-semibold text-sm text-dark-blue">{item?.itemCaption}</p>
                                         <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>
                                     </div>
                                 </div>
