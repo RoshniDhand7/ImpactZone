@@ -41,6 +41,7 @@ import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReduce
 import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
 import POSReducer from './POSReducer';
+import dashboardReducer from './Dashboard/DashboardReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -85,4 +86,5 @@ export default combineReducers({
     filterSet: filterSetReducer,
     tags: tagsReducer,
     POS: POSReducer,
+    dashboard: dashboardReducer,
 });

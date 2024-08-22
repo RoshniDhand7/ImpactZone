@@ -76,4 +76,7 @@ export const types = {
     //Plans
 
     CHANGE_DRAFTS: 'CHANGE_DRAFTS',
+
+    //Dashboard
+    CHANGE_DASHBOARD: 'CHANGE_DASHBOARD',
 };

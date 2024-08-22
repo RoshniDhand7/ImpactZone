@@ -14,8 +14,9 @@ import {
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete, numberEditor } from '../../../../utils/commonFunctions';
+import { PercentageDifference, confirmDelete, numberEditor, showFormErrorsRowEdit } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
+import formValidation from '../../../../utils/validations';
 
 const Variations = () => {
     const [open, setOpen] = useState(false);
@@ -62,33 +63,66 @@ const Variations = () => {
         );
     };
 
+    const [formErrors, setFormErrors] = useState({});
+
     const [products, setProducts] = useState([]);
     const onRowEditComplete = (e) => {
         const { newData } = e;
+        let newFormErrors = {};
 
-        const updatedProducts = products.map((product) => {
-            const updatedSubVariations = product.subVariations.map((subVariation) => {
-                if (subVariation._id === newData._id) {
-                    dispatch(
-                        editSubVariationCatalog(
-                            newData._id,
-                            {
-                                subVariation: newData.subVariation,
-                                ...newData,
-                            },
-                            () => {
-                                dispatch(getCatalogVariations(id));
-                            },
-                        ),
-                    );
-                    return { ...subVariation, ...newData };
-                }
-                return subVariation;
+        if (newData?.variationMinQuantity === null || newData.variationMinQuantity <= 0) {
+            newFormErrors['variationMinQuantity'] = 'Minimum Quantity is required and must be greater than 0';
+        } else {
+            newFormErrors['variationMinQuantity'] = '';
+        }
+
+        if (newData?.variationMaxQuantity === null || newData.variationMaxQuantity <= 0) {
+            newFormErrors['variationMaxQuantity'] = 'Maximum Quantity is required and must be greater than 0';
+        } else {
+            newFormErrors['variationMaxQuantity'] = '';
+        }
+
+        if (newData?.variationMinQuantity && newData?.variationMaxQuantity) {
+            if (newData.variationMinQuantity >= newData.variationMaxQuantity) {
+                newFormErrors['variationMinQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
+                newFormErrors['variationMaxQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
+            } else {
+                newFormErrors['variationMinQuantity'] = '';
+                newFormErrors['variationMaxQuantity'] = '';
+            }
+        }
+
+        console.log(newFormErrors, newData, 'newData');
+
+        if (showFormErrorsRowEdit(newFormErrors, setFormErrors)) {
+            return;
+        } else {
+            const updatedProducts = products.map((product) => {
+                const updatedSubVariations = product.subVariations.map((subVariation) => {
+                    if (subVariation._id === newData._id) {
+                        dispatch(
+                            editSubVariationCatalog(
+                                newData._id,
+                                {
+                                    subVariation: newData.subVariation,
+                                    ...newData,
+                                },
+                                () => {
+                                    dispatch(getCatalogVariations(id));
+                                },
+                            ),
+                        );
+                        return { ...subVariation, ...newData };
+                    }
+                    return subVariation;
+                });
+
+                console.log(updatedSubVariations, 'updatedSubVariations');
+                return { ...product, subVariations: updatedSubVariations };
             });
-            return { ...product, subVariations: updatedSubVariations };
-        });
 
-        setProducts(updatedProducts);
+            setProducts(updatedProducts);
+        }
     };
 
     const textEditor = (options) => {
@@ -105,7 +139,23 @@ const Variations = () => {
                 minFractionDigits={4}
                 maxFractionDigits={4}
                 useGrouping={false}
-                prefix="$"
+            />
+        );
+    };
+
+    const handleChange = (e, options) => {
+        options.editorCallback(e.value);
+    };
+
+    const numberEditor = (options) => {
+        console.log(options, 'options');
+        return (
+            <InputNumber
+                value={options.value}
+                onValueChange={(e) => handleChange(e, options)}
+                minFractionDigits={4}
+                maxFractionDigits={4}
+                useGrouping={false}
             />
         );
     };
@@ -153,6 +203,8 @@ const Variations = () => {
         [products],
     );
 
+    console.log(formErrors, 'formErrors');
+
     return (
         <>
             <CustomCard col="12" title="General">
@@ -176,8 +228,8 @@ const Variations = () => {
                                             editor={(options) => textEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
-                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
-                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
+                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} style={{ width: '20%' }}></Column>
+                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} style={{ width: '20%' }}></Column>
                                         <Column
                                             field="unitPrice"
                                             header="Unit Price"
@@ -188,13 +240,21 @@ const Variations = () => {
                                         <Column
                                             field="variationMinQuantity"
                                             header="Minimum Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'variationMinQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
+                                        {formErrors?.variationMinQuantity && <span className="error">{formErrors?.variationMinQuantity}</span>}
                                         <Column
                                             field="variationMaxQuantity"
                                             header="Maximum Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'variationMaxQuantity')}
+                                            style={{ width: '20%' }}
+                                        ></Column>
+                                        {formErrors?.variationMaxQuantity && <span className="error">{formErrors?.variationMaxQuantity}</span>}
+                                        <Column
+                                            field="defaultQuantity"
+                                            header="Default Quantity"
+                                            editor={(options) => numberEditor(options, 'defaultQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column
@@ -206,7 +266,7 @@ const Variations = () => {
                                         <Column
                                             field="reorderQuantity"
                                             header="Reorder Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'reorderQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column

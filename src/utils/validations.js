@@ -217,6 +217,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'minimumQuantity':
         case 'maximumQuantity':
         case 'defaultQuantity':
+        case 'variationMinQuantity':
+        case 'variationMaxQuantity':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {

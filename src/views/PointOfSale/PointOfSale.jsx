@@ -61,41 +61,46 @@ export default function PointOfSale() {
             maximumQuantity: item.maximumQuantity,
             minimumQuantity: item.minimumQuantity,
             defaultQuantity: item.defaultQuantity,
-            variation: item.variation ? item.variation : [],
+            variation: item.variation,
         }));
 
-    console.log('allCatalogItems>>', allCatalogItems);
     const addToCart = (item, variation) => {
-        console.log('variation>>', variation);
+        console.log(variation, 'variation');
         const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
 
-        console.log(existingItem, 'existingItem');
+        let minimumQuantity = variation?.subVariations?.minimumQuantity ? variation?.subVariations?.minimumQuantity : item.minimumQuantity;
+        let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
+
+        console.log(minimumQuantity, existingItem, 'minimumQuantity');
 
         if (existingItem) {
             const newQuantity = existingItem.quantity + 1;
-            if (newQuantity <= item.maximumQuantity) {
-                setData((prev) => ({
-                    ...prev,
-                    cartItems: data?.cartItems.map((cartItem) =>
-                        cartItem._id === item._id
-                            ? {
-                                  ...cartItem,
-                                  quantity: newQuantity,
-                                  variation: variation?.variations ? variation?.variations : null,
-                                  subVariation: variation?.subVariations ? variation?.subVariations : null,
-                              }
-                            : cartItem,
-                    ),
-                }));
-            }
+            console.log('h1', newQuantity, minimumQuantity);
+            // if (newQuantity <= minimumQuantity) {
+            console.log('h9', data, item);
+            setData((prev) => ({
+                ...prev,
+                cartItems: data?.cartItems.map((cartItem) =>
+                    cartItem._id === item._id
+                        ? {
+                              ...cartItem,
+                              quantity: newQuantity,
+                              variation: variation?.variations?.name ? variation?.variations : null,
+                              subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                          }
+                        : cartItem,
+                ),
+            }));
+            // }
         } else {
+            console.log('h2');
             setData((prev) => ({
                 ...prev,
                 cartItems: [
                     ...(prev.cartItems || []),
                     {
                         ...item,
-                        quantity: item?.defaultQuantity,
+                        quantity: defaultQuantity,
                         variation: data?.variations ? variation?.variations : null,
                         subVariation: data?.subVariations ? variation?.subVariations : null,
                     },
@@ -125,25 +130,29 @@ export default function PointOfSale() {
                     ({
                         name: subVar.subVariation,
                         id: subVar._id,
+                        unitPrice: subVar.unitPrice,
+                        minimumQuantity: subVar.variationMinQuantity,
+                        maximumQuantity: subVar.variationMaxQuantity,
+                        defaultQuantity: subVar.defaultQuantity,
                     }) || [],
             ) || [];
 
-    console.log(variationOptions, subVariationsOptions, 'subVariationsOptions');
-
     const handleCatalogItems = (item) => {
-        console.log('item>>', item);
+        console.log('item2>>', item._id, data?.cartItems, data);
         const variationl = data?.cartItems?.find((it) => it._id === item._id);
+        console.log('var>>', variationl);
+        console.log('hi');
 
-        console.log(variationl, 'variationl');
-        if (item?.variation?.length > 0) {
+        if (data?.variations === null || data?.variations?.name) {
             setOpenVariationDialog({ _id: item._id, item });
 
             setData((prev) => ({
                 ...prev,
-                variations: variationl?.variation ? variationl?.variation : [],
-                subVariations: variationl?.subVariation ? variationl?.subVariation : [],
+                variations: variationl?.variation ? variationl?.variation : null,
+                subVariations: variationl?.subVariation ? variationl?.subVariation : null,
             }));
         } else {
+            console.log('bye');
             addToCart(item, null);
             const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
             if (!isItemInData1) {
@@ -168,7 +177,7 @@ export default function PointOfSale() {
 
     const onClose = () => {
         setOpenVariationDialog(null);
-        setData((prev) => ({ ...prev, subVariations: [], variations: [] }));
+        setData((prev) => ({ ...prev, subVariations: null, variations: null }));
     };
 
     const handleSave = () => {
@@ -190,8 +199,7 @@ export default function PointOfSale() {
         onClose();
     };
 
-    console.log('data>>', data);
-    console.log('openVariationDialog>>', openVariationDialog);
+    console.log('cart', data);
 
     return (
         <>

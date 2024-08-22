@@ -75,5 +75,6 @@ const endPoints = {
     SCHEDULING_OPTIONS: '/schedule-option/',
     RECENT_SUGGESSIONS: '/suggestion-list/',
     ADD_RECENT_SUGGESSION: '/suggestion/',
+    DASHBOARD: '/dashboard-count/',
 };
 export default endPoints;
