@@ -565,7 +565,7 @@ export const CustomReactSelect = ({
     return (
         <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <Select
-                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                className={`w-full selectreact ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 classNamePrefix="select"
                 defaultValue={defaultValue}
                 isDisabled={isDisabled}
