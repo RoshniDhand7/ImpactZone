@@ -19,12 +19,14 @@ const NewCart = ({ data, setData }) => {
         if (quantity === 0) {
             setData((prev) => ({
                 ...prev,
-                cartItems: data.cartItems.filter((cartItem) => cartItem._id !== itemId),
+                cartItems: data.cartItems.filter((cartItem) => (cartItem?.subVariation?.id ? cartItem?.subVariation?.id !== itemId : cartItem._id !== itemId)),
             }));
         } else {
             setData((prev) => ({
                 ...prev,
-                cartItems: data.cartItems.map((cartItem) => (cartItem._id === itemId ? { ...cartItem, quantity } : cartItem)),
+                cartItems: data.cartItems.map((cartItem) =>
+                    cartItem._id === itemId || cartItem?.subVariation?.id === itemId ? { ...cartItem, quantity } : cartItem,
+                ),
             }));
         }
     };
@@ -37,23 +39,23 @@ const NewCart = ({ data, setData }) => {
     };
 
     const netTotalDiscount = data?.cartItems.reduce((sum, item, index) => {
-        const discountId = data?.cartDisTax?.[index].discount;
+        const discountId = data?.cartDisTax?.[index]?.discount;
         const discount = calculateDiscount(item, discountId, allDiscountTypes);
-        const totaldiscount = data?.cartDisTax?.[index].discount ? discount : 0;
+        const totaldiscount = data?.cartDisTax?.[index]?.discount ? discount : 0;
         return (Number(sum) + totaldiscount).toFixed(4);
     }, 0);
 
     const netTotalTax = data?.cartItems.reduce((sum, item, index) => {
         const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
-        const netTaxValue = taxValue * item.quantity;
-        const newTax = data?.cartDisTax?.[index].waiveTax ? 0 : netTaxValue;
+        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
+        const netTaxValue = taxValue * item?.quantity;
+        const newTax = data?.cartDisTax?.[index]?.waiveTax ? 0 : netTaxValue;
         return (Number(sum) + newTax).toFixed(4);
     }, 0);
 
     const netTotal = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item.totalTaxPercentage);
+        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
         const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
         return sum + netPrice;
     }, 0.0);

@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allCatalogItems: [],
+    allCatalogFilterItems: [],
     allCatalogItemsFilter: [],
     catalogTypeFilterItems: [],
     allCategoryVariations: [],
@@ -28,6 +29,11 @@ const catalogItemsReducer = (state = intitalState, action) => {
                     ?.filter((item) => item.type === 'SERVICE')
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
                 catalogServiceDropdown: action.payload?.filter((item) => item.type === 'SERVICE')?.map((item) => ({ name: item.name, value: item?._id })),
+            };
+        case types.CHANGE_CATALOG_ITEMS_FILTER:
+            return {
+                ...state,
+                allCatalogFilterItems: action.payload,
             };
         case types.CHANGE_INVENTORY_CATALOG_VARIATION:
             return {

@@ -1,19 +1,24 @@
 export const calculateUnitPrice = (item) => {
-    if (item.quantity && item.moreThan1 && item.moreThan2 && item.unitPrice1) {
-        if (item.quantity > item.moreThan1 && item.quantity <= item.moreThan2) {
-            return item.unitPrice1;
+    if (item?.subVariation?.unitPrice) {
+        return item.subVariation.unitPrice;
+    } else {
+        if (item.quantity && item.moreThan1 && item.moreThan2 && item.unitPrice1) {
+            if (item.quantity > item.moreThan1 && item.quantity <= item.moreThan2) {
+                return item.unitPrice1;
+            }
+        }
+        if (item.quantity && item.moreThan2 && item.moreThan3 && item.unitPrice2) {
+            if (item.quantity > item.moreThan2 && item.quantity <= item.moreThan3) {
+                return item.unitPrice2;
+            }
+        }
+        if (item.quantity && item.moreThan3 && item.unitPrice3) {
+            if (item.quantity > item?.moreThan3) {
+                return item.unitPrice3;
+            }
         }
     }
-    if (item.quantity && item.moreThan2 && item.moreThan3 && item.unitPrice2) {
-        if (item.quantity > item.moreThan2 && item.quantity <= item.moreThan3) {
-            return item.unitPrice2;
-        }
-    }
-    if (item.quantity && item.moreThan3 && item.unitPrice3) {
-        if (item.quantity > item?.moreThan3) {
-            return item.unitPrice3;
-        }
-    }
+
     return item.unitPrice;
 };
 export const calculateDiscount = (item, discountId, allDiscountTypes) => {

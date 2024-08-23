@@ -98,7 +98,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'requireComment':
         case 'employee':
         case 'itemCaption':
-            case "variationName":
+        case 'variationName':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -190,7 +190,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'event':
         case 'services':
         case 'image':
-        case 'catalogImage':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -216,8 +215,10 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
         case 'minimumQuantity':
-        case "maximumQuantity":
-        case "defaultQuantity":
+        case 'maximumQuantity':
+        case 'defaultQuantity':
+        case 'variationMinQuantity':
+        case 'variationMaxQuantity':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {

@@ -94,7 +94,7 @@ const General = () => {
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
 
     categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
-    // allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
+    allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
     const { allTaxActiveDropdown } = useSelector((state) => state.taxes);
@@ -108,27 +108,26 @@ const General = () => {
     useEffect(() => {
         if (data?.minimumQuantity && data?.maximumQuantity) {
             let newFormErrors = { ...data.formErrors };
-    
+
             if (data.minimumQuantity >= data.maximumQuantity) {
-                newFormErrors["minimumQuantity"] = 'Minimum Quantity must be less than Maximum Quantity';
-                newFormErrors["maximumQuantity"] = 'Maximum Quantity must be greater than Minimum Quantity';
+                newFormErrors['minimumQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
+                newFormErrors['maximumQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
             } else {
-                newFormErrors["minimumQuantity"] = '';
-                newFormErrors["maximumQuantity"] = '';
+                newFormErrors['minimumQuantity'] = '';
+                newFormErrors['maximumQuantity'] = '';
             }
 
-                if (data.defaultQuantity < data.minimumQuantity) {
-                    newFormErrors["defaultQuantity"] = 'Default Quantity must be greater than or equal to Minimum Quantity';
-                } else if (data.defaultQuantity > data.maximumQuantity) {
-                    newFormErrors["defaultQuantity"] = 'Default Quantity must be less than or equal to Maximum Quantity';
-                } else {
-                    newFormErrors["defaultQuantity"] = '';
-                }
-    
+            if (data.defaultQuantity < data.minimumQuantity) {
+                newFormErrors['defaultQuantity'] = 'Default Quantity must be greater than or equal to Minimum Quantity';
+            } else if (data.defaultQuantity > data.maximumQuantity) {
+                newFormErrors['defaultQuantity'] = 'Default Quantity must be less than or equal to Maximum Quantity';
+            } else {
+                newFormErrors['defaultQuantity'] = '';
+            }
+
             setData((prev) => ({ ...prev, formErrors: newFormErrors }));
         }
-    }, [data?.maximumQuantity, data?.minimumQuantity,data.defaultQuantity]);
-    
+    }, [data?.maximumQuantity, data?.minimumQuantity, data.defaultQuantity]);
 
     useEffect(() => {
         if (id) {
@@ -140,7 +139,7 @@ const General = () => {
                         name: data.name,
                         upc: data.upc,
                         profitCentre: data.profitCentre,
-                        category: data.category ?? 'NONE',
+                        category: data.category ?? 'None',
                         itemCaption: data.itemCaption,
                         itemSold: data.itemSold,
                         itemRecurring: data.itemRecurring.toString(),
@@ -153,7 +152,7 @@ const General = () => {
                         unitPrice: data.unitPrice,
                         promptForPrice: data.promptForPrice.toString(),
                         allowDiscount: data.allowDiscount.toString(),
-                        defaultDiscount: data.defaultDiscount,
+                        defaultDiscount: data.defaultDiscount ?? 'None',
                         overRideDiscount: data.overRideDiscount,
                         moreThan1: data.moreThan1,
                         moreThan2: data.moreThan2,

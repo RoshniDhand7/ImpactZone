@@ -14,8 +14,9 @@ import {
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete, numberEditor } from '../../../../utils/commonFunctions';
+import { PercentageDifference, confirmDelete, numberEditor, showFormErrorsRowEdit } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
+import formValidation from '../../../../utils/validations';
 
 const Variations = () => {
     const [open, setOpen] = useState(false);
@@ -65,7 +66,6 @@ const Variations = () => {
     const [products, setProducts] = useState([]);
     const onRowEditComplete = (e) => {
         const { newData } = e;
-
         const updatedProducts = products.map((product) => {
             const updatedSubVariations = product.subVariations.map((subVariation) => {
                 if (subVariation._id === newData._id) {
@@ -85,6 +85,7 @@ const Variations = () => {
                 }
                 return subVariation;
             });
+
             return { ...product, subVariations: updatedSubVariations };
         });
 
@@ -105,7 +106,22 @@ const Variations = () => {
                 minFractionDigits={4}
                 maxFractionDigits={4}
                 useGrouping={false}
-                prefix="$"
+            />
+        );
+    };
+
+    const handleChange = (e, options) => {
+        options.editorCallback(e.value);
+    };
+
+    const numberEditor = (options) => {
+        return (
+            <InputNumber
+                value={options.value}
+                onValueChange={(e) => handleChange(e, options)}
+                minFractionDigits={4}
+                maxFractionDigits={4}
+                useGrouping={false}
             />
         );
     };
@@ -176,8 +192,8 @@ const Variations = () => {
                                             editor={(options) => textEditor(options)}
                                             style={{ width: '20%' }}
                                         ></Column>
-                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
-                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options)} style={{ width: '20%' }}></Column>
+                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} style={{ width: '20%' }}></Column>
+                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} style={{ width: '20%' }}></Column>
                                         <Column
                                             field="unitPrice"
                                             header="Unit Price"
@@ -188,13 +204,19 @@ const Variations = () => {
                                         <Column
                                             field="variationMinQuantity"
                                             header="Minimum Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'variationMinQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column
                                             field="variationMaxQuantity"
                                             header="Maximum Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'variationMaxQuantity')}
+                                            style={{ width: '20%' }}
+                                        ></Column>
+                                        <Column
+                                            field="defaultQuantity"
+                                            header="Default Quantity"
+                                            editor={(options) => numberEditor(options, 'defaultQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column
@@ -206,7 +228,7 @@ const Variations = () => {
                                         <Column
                                             field="reorderQuantity"
                                             header="Reorder Quantity"
-                                            editor={(options) => numberEditor(options)}
+                                            editor={(options) => numberEditor(options, 'reorderQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
                                         <Column

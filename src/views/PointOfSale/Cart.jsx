@@ -60,6 +60,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     };
 
     const actionTemplate = (col, index) => {
+        let id = col?.subVariation?.id ? col?.subVariation?.id : col?._id;
         return (
             <CustomOverlay>
                 <ul className="list-none p-0">
@@ -92,21 +93,25 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     };
 
     const quantityTemplate = (item) => {
+        let minimumQuantity = item?.subVariation?.minimumQuantity ? item?.subVariation?.minimumQuantity : item.minimumQuantity;
+        let maximumQuantity = item?.subVariation?.maximumQuantity ? item?.subVariation?.maximumQuantity : item.maximumQuantity;
+        let id = item?.subVariation?.id ? item?.subVariation?.id : item?._id;
+
         return (
             <div className="flex gap-2 align-items-center">
                 <i
-                    className={`pi pi-minus-circle ${item.quantity > item.minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
-                    onClick={() => item.quantity > item.minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null}
+                    className={`pi pi-minus-circle ${item.quantity > minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
+                    onClick={() => (item.quantity > minimumQuantity ? updateQuantity(id, item.quantity - 1) : null)}
                 ></i>
                 {item.quantity}
                 <i
-                    className={`pi pi-plus-circle ${item.quantity <item.maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
-                    onClick={() => item.quantity < item.maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null}
+                    className={`pi pi-plus-circle ${item.quantity < maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
+                    onClick={() => (item.quantity < maximumQuantity ? updateQuantity(id, item.quantity + 1) : null)}
                 ></i>
             </div>
         );
     };
-    
+
     const discountOptions = [];
 
     const onClose = () => {
@@ -133,15 +138,26 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
         onClose();
     };
 
+    const nameTemplate = (r) => {
+        return (
+            <>
+                {r.name} {r?.variation?.name ? `(${r?.variation?.name})` : null} {r?.subVariation?.name ? `(${r?.subVariation?.name})` : null}
+            </>
+        );
+    };
+
     return (
         <>
             <DataTable value={cartItems} size="normal" tableStyle={{ minWidth: '25rem' }} className="p-0" stripedRows scrollable scrollHeight="400px">
-                <Column field="name" header="Item" style={{ width: '40%' }}></Column>
+                <Column field="name" body={nameTemplate} header="Item" style={{ width: '40%' }}></Column>
                 <Column field="unitPrice" body={unitPriceTemplate} header="Price" style={{ width: '20%' }}></Column>
                 <Column field="quantity" header="Qty" body={quantityTemplate} style={{ width: '20%' }}></Column>
 
                 <Column body={actionTemplate} style={{ width: '20%' }}></Column>
             </DataTable>
+            <h4 className="flex border-top-1 pt-2 border-gray-200 justify-content-between mx-3">
+                Net Total: <span>${netTotal.toFixed(4)}</span>
+            </h4>
             <CustomDialog title="Discount" visible={discountOpen !== null} onCancel={onClose} loading={false} onSave={handleSave}>
                 <CustomDropDown
                     col={12}

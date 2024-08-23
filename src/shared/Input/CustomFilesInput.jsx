@@ -31,8 +31,6 @@ export default function CustomFilesInput({
     const [files, setFiles] = useState(value || data?.[name] || []);
     const dispatch = useDispatch();
 
-    console.log('files>', files);
-
     useEffect(() => {
         if (value || data?.[name]) {
             if (JSON.stringify(value || data?.[name]) !== JSON.stringify(files)) {

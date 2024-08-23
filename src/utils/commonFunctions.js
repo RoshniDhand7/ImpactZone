@@ -49,6 +49,22 @@ const showArrayFormErrors = (array, ignore) => {
 
     return { isValid, data: res };
 };
+const showFormErrorsRowEdit = (newFormErrors, setFormErrors) => {
+    let hasErrors = false;
+
+    let updatedErrors = {};
+    Object.entries(newFormErrors).forEach(([key, error]) => {
+        if (error) {
+            updatedErrors[key] = error;
+            hasErrors = true;
+        } else {
+            updatedErrors[key] = '';
+        }
+    });
+
+    setFormErrors(updatedErrors);
+    return hasErrors;
+};
 
 export const convertBooleanValues = (data) => {
     return data?.map((item) => {
@@ -314,18 +330,7 @@ const uniqueData = (data) => {
         autoRenew: item.autoRenew.toString(),
     }));
 };
-const numberEditor = (options) => {
-    return (
-        <InputNumber
-            value={options.value}
-            onValueChange={(e) => options.editorCallback(e.value)}
-            minFractionDigits={4}
-            maxFractionDigits={4}
-            useGrouping={false}
-            prefix="$"
-        />
-    );
-};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -343,7 +348,6 @@ export {
     getIds,
     PercentageDifference,
     calculateTimes,
-    numberEditor,
     convertArrayToObjectArray,
     showArrayFormErrors,
     getTime,
@@ -353,4 +357,5 @@ export {
     isFileObject,
     uniqueData,
     uploadSignImage,
+    showFormErrorsRowEdit,
 };
