@@ -460,7 +460,6 @@ export const CustomInputTime = ({
 };
 
 export const CustomFilterCheckbox = ({ name, data, value, onChange }) => {
-    console.log('data12', data, value);
     const handleChange = (e) => {
         let _new = data ? [...data] : [];
         if (e.checked) {
@@ -481,7 +480,6 @@ export const CustomFilterCheckbox = ({ name, data, value, onChange }) => {
     );
 };
 export const CustomCheckBoxInput = ({ label, name, onChange, data, value, extraClassName, options, col = 12 }) => {
-    console.log('options>>', options);
     return (
         <div className={`col-12  md:col-${col} ${extraClassName}`}>
             {label && <label>{label}</label>}

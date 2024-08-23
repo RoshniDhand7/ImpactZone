@@ -19,12 +19,14 @@ const NewCart = ({ data, setData }) => {
         if (quantity === 0) {
             setData((prev) => ({
                 ...prev,
-                cartItems: data.cartItems.filter((cartItem) => cartItem._id !== itemId),
+                cartItems: data.cartItems.filter((cartItem) => (cartItem?.subVariation?.id ? cartItem?.subVariation?.id !== itemId : cartItem._id !== itemId)),
             }));
         } else {
             setData((prev) => ({
                 ...prev,
-                cartItems: data.cartItems.map((cartItem) => (cartItem._id === itemId ? { ...cartItem, quantity } : cartItem)),
+                cartItems: data.cartItems.map((cartItem) =>
+                    cartItem._id === itemId || cartItem?.subVariation?.id === itemId ? { ...cartItem, quantity } : cartItem,
+                ),
             }));
         }
     };

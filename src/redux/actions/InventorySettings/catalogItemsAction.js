@@ -5,19 +5,38 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getCatalogItems = (setLoading, category, catalog, filterSet, tags) => async (dispatch) => {
+const getCatalogItemsFilter = (setLoading, category, filterSet, tags) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
 
     const params = {
         category,
-        catalog,
         filterSet: filterSet?.length > 0 ? filterSet.map((item) => item.value) : [],
         tags: tags?.length > 0 ? tags?.map((item) => item.value) : [],
     };
 
-    const res = await api('get', EndPoints.INVENTORY_CATALOG, {}, category || catalog || filterSet || tags ? params : {});
+    const res = await api('get', EndPoints.INVENTORY_CATALOG_FILTER, {}, category || filterSet || tags ? params : {});
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_CATALOG_ITEMS_FILTER,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+const getCatalogItems = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+
+    const res = await api('get', EndPoints.INVENTORY_CATALOG);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -88,6 +107,7 @@ const editCatalogItem =
         const payload = {
             ...data,
             category: data?.category === 'None' ? null : data?.category,
+            defaultDiscount: data?.defaultDiscount === 'None' ? null : data?.defaultDiscount,
         };
 
         const res = await api('put', EndPoints.INVENTORY_CATALOG + id, payload);
@@ -256,4 +276,5 @@ export {
     deleteAllCatalogVariation,
     editSubVariationCatalog,
     singleUsageDelete,
+    getCatalogItemsFilter,
 };

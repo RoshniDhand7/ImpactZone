@@ -44,6 +44,8 @@ const endPoints = {
     NOTES: '/notes',
     ACCESS_SCHEDULE: '/access-schedule/',
     INVENTORY_CATALOG: '/inventory-catalog/',
+    INVENTORY_CATALOG_FILTER: '/inventory-catalog-filter/',
+
     INVENTORY_CATALOG_USAGE: '/inventory-usage/',
     INVENTORY_CATALOG_USAGE_TYPE: '/inventory-usage-type/',
     INVENTORY_CATALOG_VARIATION: '/inventory-variation/',

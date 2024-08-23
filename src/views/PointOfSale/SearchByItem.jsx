@@ -3,7 +3,6 @@ import { CustomAutoComplete } from '../../shared/Input/AllInputs';
 
 const SearchByItem = ({ data, allCatalogItems, handleChange, setData }) => {
     const [items, setItems] = useState([]);
-
     const search = (event) => {
         let query = event.query.trim().toLowerCase();
         let _filteredItems = allCatalogItems.filter((item) => {

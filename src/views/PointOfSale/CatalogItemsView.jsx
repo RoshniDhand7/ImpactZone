@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { CustomButton } from '../../shared/Button/CustomButton';
 import { getImageURL } from '../../utils/imageUrl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogItemsAction';
+import { getCatalogItems, getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
@@ -16,7 +16,7 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
     const { tagsDropDown } = useSelector((state) => state.tags);
 
     const handleApply = () => {
-        dispatch(getCatalogItems(_, data?.categoryId, data?.catalogItem?._id, data?.filterSet, data?.tags));
+        dispatch(getCatalogItemsFilter(_, data?.categoryId, data?.filterSet, data?.tags));
         setVisibleFilter(false);
     };
 
@@ -42,6 +42,8 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
         },
     };
     const filterOptionItems = useMemo(() => filters.map((item) => filterOptions[item]), [filters.length, filterSetDropDown, tagsDropDown]);
+
+    console.log(allCatalogItems, 'allCatalogItems');
 
     return (
         <>

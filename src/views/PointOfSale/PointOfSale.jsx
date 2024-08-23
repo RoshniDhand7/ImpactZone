@@ -33,11 +33,38 @@ export default function PointOfSale() {
         dispatch(getTags());
     }, [dispatch]);
 
-    let { allCatalogItems } = useSelector((state) => state.catalogItems);
+    let { allCatalogItems, allCatalogFilterItems } = useSelector((state) => state.catalogItems);
     const [openVariationDialog, setOpenVariationDialog] = useState(null);
 
-    allCatalogItems = allCatalogItems
+    allCatalogFilterItems = allCatalogFilterItems
         .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS') && item.hasCategory)
+        .map((item) => ({
+            name: item.name,
+            upc: item.upc,
+            _id: item._id,
+            img: item.catalogImage,
+            fullName: `${item.upc} ${item.name}`.trim(),
+            unitPrice: item.unitPrice,
+            unitPrice1: item.unitPrice1,
+            unitPrice2: item.unitPrice2,
+            unitPrice3: item.unitPrice3,
+            moreThan1: item.moreThan1,
+            moreThan2: item.moreThan2,
+            moreThan3: item.moreThan3,
+            totalTaxPercentage: item.totalTaxPercentage,
+            allowDiscount: item.allowDiscount,
+            overRideDiscount: item.overRideDiscount,
+            defaultDiscount: item.defaultDiscount ?? null,
+            discount: item.discount ?? null,
+            itemCaption: item.itemCaption,
+            itemSold: item.itemSold,
+            maximumQuantity: item.maximumQuantity,
+            minimumQuantity: item.minimumQuantity,
+            defaultQuantity: item.defaultQuantity,
+            variation: item.variation,
+        }));
+    allCatalogItems = allCatalogItems
+        .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
         .map((item) => ({
             name: item.name,
             upc: item.upc,
@@ -65,35 +92,34 @@ export default function PointOfSale() {
         }));
 
     const addToCart = (item, variation) => {
-        console.log(variation, 'variation');
-        const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
+        // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
+        const existingItem = data?.cartItems.find((cartItem) => {
+            return (
+                cartItem._id === item._id && cartItem.variation?.id === variation?.variations?.id && cartItem.subVariation?.id === variation?.subVariations?.id
+            );
+        });
 
-        let minimumQuantity = variation?.subVariations?.minimumQuantity ? variation?.subVariations?.minimumQuantity : item.minimumQuantity;
+        let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
         let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
-
-        console.log(minimumQuantity, existingItem, 'minimumQuantity');
 
         if (existingItem) {
             const newQuantity = existingItem.quantity + 1;
-            console.log('h1', newQuantity, minimumQuantity);
-            // if (newQuantity <= minimumQuantity) {
-            console.log('h9', data, item);
-            setData((prev) => ({
-                ...prev,
-                cartItems: data?.cartItems.map((cartItem) =>
-                    cartItem._id === item._id
-                        ? {
-                              ...cartItem,
-                              quantity: newQuantity,
-                              variation: variation?.variations?.name ? variation?.variations : null,
-                              subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                          }
-                        : cartItem,
-                ),
-            }));
-            // }
+            if (newQuantity <= maximumQuantity) {
+                setData((prev) => ({
+                    ...prev,
+                    cartItems: data?.cartItems.map((cartItem) =>
+                        cartItem._id === item._id
+                            ? {
+                                  ...cartItem,
+                                  quantity: newQuantity,
+                                  variation: variation?.variations?.name ? variation?.variations : null,
+                                  subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                              }
+                            : cartItem,
+                    ),
+                }));
+            }
         } else {
-            console.log('h2');
             setData((prev) => ({
                 ...prev,
                 cartItems: [
@@ -110,10 +136,11 @@ export default function PointOfSale() {
     };
 
     const variationOptions =
-        allCatalogItems
+        allCatalogFilterItems
             ?.flatMap((item) => item || [])
             .find((variation) => variation._id === openVariationDialog?._id)
-            ?.variation?.map(
+            ?.variation?.filter((iy) => iy.subVariations.length > 0)
+            .map(
                 (Var) =>
                     ({
                         name: Var.variationName,
@@ -122,7 +149,7 @@ export default function PointOfSale() {
             ) || [];
 
     const subVariationsOptions =
-        allCatalogItems
+        allCatalogFilterItems
             ?.flatMap((item) => item.variation || [])
             .find((variation) => variation._id === data?.variations?.id)
             ?.subVariations?.map(
@@ -138,21 +165,31 @@ export default function PointOfSale() {
             ) || [];
 
     const handleCatalogItems = (item) => {
-        console.log('item2>>', item._id, data?.cartItems, data);
         const variationl = data?.cartItems?.find((it) => it._id === item._id);
-        console.log('var>>', variationl);
-        console.log('hi');
+        if (item?.variation?.length > 0) {
+            const variationsWithSub = item.variation.filter((variation) => variation.subVariations?.length > 0);
+            if (variationsWithSub.length > 0) {
+                setOpenVariationDialog({ _id: item._id, item });
 
-        if (data?.variations === null || data?.variations?.name) {
-            setOpenVariationDialog({ _id: item._id, item });
-
-            setData((prev) => ({
-                ...prev,
-                variations: variationl?.variation ? variationl?.variation : null,
-                subVariations: variationl?.subVariation ? variationl?.subVariation : null,
-            }));
+                setData((prev) => ({
+                    ...prev,
+                    variations: variationl?.variation ? variationl?.variation : null,
+                    subVariations: variationl?.subVariation ? variationl?.subVariation : null,
+                }));
+            } else {
+                addToCart(item, null);
+                const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
+                if (!isItemInData1) {
+                    setData((prev) => ({
+                        ...prev,
+                        cartDisTax: [
+                            ...(prev.cartDisTax || []),
+                            { waiveTax: false, discount: item?.allowDiscount === 'true' ? item?.defaultDiscount : null, id: item._id },
+                        ],
+                    }));
+                }
+            }
         } else {
-            console.log('bye');
             addToCart(item, null);
             const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
             if (!isItemInData1) {
@@ -199,8 +236,6 @@ export default function PointOfSale() {
         onClose();
     };
 
-    console.log('cart', data);
-
     return (
         <>
             <div className="flex gap-2">
@@ -209,7 +244,7 @@ export default function PointOfSale() {
                     <CategoryFilter data={data} setData={setData} />
                 </div>
                 <CatalogItemsView
-                    allCatalogItems={allCatalogItems}
+                    allCatalogItems={allCatalogFilterItems}
                     data={data}
                     setData={setData}
                     handleCatalogItems={handleCatalogItems}

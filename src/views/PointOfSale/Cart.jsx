@@ -60,6 +60,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     };
 
     const actionTemplate = (col, index) => {
+        let id = col?.subVariation?.id ? col?.subVariation?.id : col?._id;
         return (
             <CustomOverlay>
                 <ul className="list-none p-0">
@@ -94,16 +95,18 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     const quantityTemplate = (item) => {
         let minimumQuantity = item?.subVariation?.minimumQuantity ? item?.subVariation?.minimumQuantity : item.minimumQuantity;
         let maximumQuantity = item?.subVariation?.maximumQuantity ? item?.subVariation?.maximumQuantity : item.maximumQuantity;
+        let id = item?.subVariation?.id ? item?.subVariation?.id : item?._id;
+
         return (
             <div className="flex gap-2 align-items-center">
                 <i
                     className={`pi pi-minus-circle ${item.quantity > minimumQuantity ? 'text-red-600' : 'text-gray-400'}`}
-                    onClick={() => (item.quantity > minimumQuantity ? updateQuantity(item._id, item.quantity - 1) : null)}
+                    onClick={() => (item.quantity > minimumQuantity ? updateQuantity(id, item.quantity - 1) : null)}
                 ></i>
                 {item.quantity}
                 <i
                     className={`pi pi-plus-circle ${item.quantity < maximumQuantity ? 'text-green-600' : 'text-gray-400'}`}
-                    onClick={() => (item.quantity < maximumQuantity ? updateQuantity(item._id, item.quantity + 1) : null)}
+                    onClick={() => (item.quantity < maximumQuantity ? updateQuantity(id, item.quantity + 1) : null)}
                 ></i>
             </div>
         );

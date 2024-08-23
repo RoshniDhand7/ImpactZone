@@ -24,8 +24,6 @@ const getSearchSuggestion = (setLoading) => async (dispatch) => {
 };
 
 const addRecentSearch = (data, next) => async (dispatch) => {
-    console.log('data2>>', data);
-
     const res = await api('post', EndPoints.ADD_RECENT_SUGGESSION, data);
     if (res.success) {
         next();

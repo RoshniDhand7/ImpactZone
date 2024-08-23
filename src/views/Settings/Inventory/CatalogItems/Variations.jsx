@@ -63,66 +63,33 @@ const Variations = () => {
         );
     };
 
-    const [formErrors, setFormErrors] = useState({});
-
     const [products, setProducts] = useState([]);
     const onRowEditComplete = (e) => {
         const { newData } = e;
-        let newFormErrors = {};
-
-        if (newData?.variationMinQuantity === null || newData.variationMinQuantity <= 0) {
-            newFormErrors['variationMinQuantity'] = 'Minimum Quantity is required and must be greater than 0';
-        } else {
-            newFormErrors['variationMinQuantity'] = '';
-        }
-
-        if (newData?.variationMaxQuantity === null || newData.variationMaxQuantity <= 0) {
-            newFormErrors['variationMaxQuantity'] = 'Maximum Quantity is required and must be greater than 0';
-        } else {
-            newFormErrors['variationMaxQuantity'] = '';
-        }
-
-        if (newData?.variationMinQuantity && newData?.variationMaxQuantity) {
-            if (newData.variationMinQuantity >= newData.variationMaxQuantity) {
-                newFormErrors['variationMinQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
-                newFormErrors['variationMaxQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
-            } else {
-                newFormErrors['variationMinQuantity'] = '';
-                newFormErrors['variationMaxQuantity'] = '';
-            }
-        }
-
-        console.log(newFormErrors, newData, 'newData');
-
-        if (showFormErrorsRowEdit(newFormErrors, setFormErrors)) {
-            return;
-        } else {
-            const updatedProducts = products.map((product) => {
-                const updatedSubVariations = product.subVariations.map((subVariation) => {
-                    if (subVariation._id === newData._id) {
-                        dispatch(
-                            editSubVariationCatalog(
-                                newData._id,
-                                {
-                                    subVariation: newData.subVariation,
-                                    ...newData,
-                                },
-                                () => {
-                                    dispatch(getCatalogVariations(id));
-                                },
-                            ),
-                        );
-                        return { ...subVariation, ...newData };
-                    }
-                    return subVariation;
-                });
-
-                console.log(updatedSubVariations, 'updatedSubVariations');
-                return { ...product, subVariations: updatedSubVariations };
+        const updatedProducts = products.map((product) => {
+            const updatedSubVariations = product.subVariations.map((subVariation) => {
+                if (subVariation._id === newData._id) {
+                    dispatch(
+                        editSubVariationCatalog(
+                            newData._id,
+                            {
+                                subVariation: newData.subVariation,
+                                ...newData,
+                            },
+                            () => {
+                                dispatch(getCatalogVariations(id));
+                            },
+                        ),
+                    );
+                    return { ...subVariation, ...newData };
+                }
+                return subVariation;
             });
 
-            setProducts(updatedProducts);
-        }
+            return { ...product, subVariations: updatedSubVariations };
+        });
+
+        setProducts(updatedProducts);
     };
 
     const textEditor = (options) => {
@@ -148,7 +115,6 @@ const Variations = () => {
     };
 
     const numberEditor = (options) => {
-        console.log(options, 'options');
         return (
             <InputNumber
                 value={options.value}
@@ -203,8 +169,6 @@ const Variations = () => {
         [products],
     );
 
-    console.log(formErrors, 'formErrors');
-
     return (
         <>
             <CustomCard col="12" title="General">
@@ -243,14 +207,12 @@ const Variations = () => {
                                             editor={(options) => numberEditor(options, 'variationMinQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
-                                        {formErrors?.variationMinQuantity && <span className="error">{formErrors?.variationMinQuantity}</span>}
                                         <Column
                                             field="variationMaxQuantity"
                                             header="Maximum Quantity"
                                             editor={(options) => numberEditor(options, 'variationMaxQuantity')}
                                             style={{ width: '20%' }}
                                         ></Column>
-                                        {formErrors?.variationMaxQuantity && <span className="error">{formErrors?.variationMaxQuantity}</span>}
                                         <Column
                                             field="defaultQuantity"
                                             header="Default Quantity"

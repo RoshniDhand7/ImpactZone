@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { CustomTree } from '../../shared/CustomTree';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogItemsAction';
+import { getCatalogItems, getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import _ from 'lodash';
 
 const CategoryFilter = ({ data, setData }) => {
     const dispatch = useDispatch();
     const { allCategory } = useSelector((state) => state.category);
     useEffect(() => {
-        if (data?.categoryId || data?.catalogItem?._id) {
-            dispatch(getCatalogItems(_, data?.categoryId, data?.catalogItem?._id));
+        if (data?.categoryId) {
+            dispatch(getCatalogItemsFilter(_, data?.categoryId));
         }
-    }, [data?.categoryId, data?.catalogItem?._id, dispatch]);
+    }, [data?.categoryId, dispatch]);
 
     const handleSubCategorySelect = (category) => {
         setData((prev) => ({ ...prev, categoryId: category.value }));
