@@ -9,7 +9,6 @@ const useCancelSellPlans = (newPlanId) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const accept = () => {
-        console.log('hi');
         if (newPlanId) {
             dispatch(
                 deleteSellPlan(newPlanId, () => {
@@ -21,9 +20,7 @@ const useCancelSellPlans = (newPlanId) => {
         }
     };
 
-    const reject = () => {
-        console.log('bye');
-    };
+    const reject = () => {};
 
     const { confirm } = CustomConfirm('Are you sure you want to cancel ?', accept, reject);
     return { confirm, openCancelDialog };

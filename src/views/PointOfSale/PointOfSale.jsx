@@ -68,8 +68,6 @@ export default function PointOfSale() {
 
     const list = getItemNamesAndSubvariations(allCatalogItems);
 
-    console.log('list>>', list);
-
     const addToCart = (item, variation) => {
         // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
         const existingItem = data?.cartItems.find((cartItem) => {
@@ -78,15 +76,12 @@ export default function PointOfSale() {
             );
         });
 
-        console.log(existingItem, item, 'existingItem');
-
         let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
         let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
 
         if (existingItem) {
             const newQuantity = existingItem.quantity + 1;
             if (newQuantity <= maximumQuantity) {
-                console.log(data);
                 setData((prev) => ({
                     ...prev,
                     catalogItem: '',
@@ -206,7 +201,6 @@ export default function PointOfSale() {
 
     useEffect(() => {
         if (data?.subVariations === null) {
-            console.log('hi');
             const formErrors = formValidation('subVariations', data?.subVariations, data);
             setData((prev) => ({ ...prev, formErrors }));
         }
@@ -246,9 +240,6 @@ export default function PointOfSale() {
             onClose();
         }
     };
-
-    console.log('data>>', data);
-    console.log('allCatalogItems>>', allCatalogItems);
 
     return (
         <>
