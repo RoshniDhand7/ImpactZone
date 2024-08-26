@@ -25,7 +25,13 @@ const NewCart = ({ data, setData }) => {
             setData((prev) => ({
                 ...prev,
                 cartItems: data.cartItems.map((cartItem) =>
-                    cartItem._id === itemId || cartItem?.subVariation?.id === itemId ? { ...cartItem, quantity } : cartItem,
+                    cartItem?.subVariation?.id
+                        ? cartItem?.subVariation?.id === itemId
+                            ? { ...cartItem, quantity }
+                            : cartItem
+                        : cartItem._id === itemId
+                          ? { ...cartItem, quantity }
+                          : cartItem,
                 ),
             }));
         }
@@ -34,7 +40,7 @@ const NewCart = ({ data, setData }) => {
     const removeItem = (itemId) => {
         setData((prev) => ({
             ...prev,
-            cartItems: data?.cartItems.filter((cartItem) => cartItem._id !== itemId),
+            cartItems: data?.cartItems.filter((cartItem) => (cartItem?.subVariation?.id ? cartItem?.subVariation?.id !== itemId : cartItem._id !== itemId)),
         }));
     };
 

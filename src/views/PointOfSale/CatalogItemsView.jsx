@@ -43,8 +43,6 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
     };
     const filterOptionItems = useMemo(() => filters.map((item) => filterOptions[item]), [filters.length, filterSetDropDown, tagsDropDown]);
 
-    console.log(allCatalogItems, 'allCatalogItems');
-
     return (
         <>
             <div className="products-view ">

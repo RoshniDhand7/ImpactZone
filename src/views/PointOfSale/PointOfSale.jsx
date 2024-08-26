@@ -11,6 +11,8 @@ import MembersToSellItem from './MembersToSellItem';
 import NewCart from './NewCart';
 import { CustomDropDown } from '../../shared/Input/AllInputs';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
+import { showFormErrors } from '../../utils/commonFunctions';
+import formValidation from '../../utils/validations';
 
 export default function PointOfSale() {
     const [data, setData] = useState({
@@ -99,23 +101,35 @@ export default function PointOfSale() {
             );
         });
 
+        console.log(existingItem, item, 'existingItem');
+
         let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
         let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
 
         if (existingItem) {
             const newQuantity = existingItem.quantity + 1;
             if (newQuantity <= maximumQuantity) {
+                console.log(data);
                 setData((prev) => ({
                     ...prev,
-                    cartItems: data?.cartItems.map((cartItem) =>
-                        cartItem._id === item._id
-                            ? {
-                                  ...cartItem,
-                                  quantity: newQuantity,
-                                  variation: variation?.variations?.name ? variation?.variations : null,
-                                  subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                              }
-                            : cartItem,
+                    cartItems: prev.cartItems.map((cartItem) =>
+                        cartItem.subVariation?.id
+                            ? cartItem.subVariation?.id === variation?.subVariations?.id
+                                ? {
+                                      ...cartItem,
+                                      quantity: newQuantity,
+                                      variation: variation?.variations?.name ? variation?.variations : null,
+                                      subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                                  }
+                                : cartItem
+                            : cartItem._id === item._id
+                              ? {
+                                    ...cartItem,
+                                    quantity: newQuantity,
+                                    variation: variation?.variations?.name ? variation?.variations : null,
+                                    subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                                }
+                              : cartItem,
                     ),
                 }));
             }
@@ -171,11 +185,11 @@ export default function PointOfSale() {
             if (variationsWithSub.length > 0) {
                 setOpenVariationDialog({ _id: item._id, item });
 
-                setData((prev) => ({
-                    ...prev,
-                    variations: variationl?.variation ? variationl?.variation : null,
-                    subVariations: variationl?.subVariation ? variationl?.subVariation : null,
-                }));
+                // setData((prev) => ({
+                //     ...prev,
+                //     variations: variationl?.variation ? variationl?.variation : null,
+                //     subVariations: variationl?.subVariation ? variationl?.subVariation : null,
+                // }));
             } else {
                 addToCart(item, null);
                 const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
@@ -204,11 +218,20 @@ export default function PointOfSale() {
         }
     };
 
+    useEffect(() => {
+        if (data?.subVariations === null) {
+            console.log('hi');
+            const formErrors = formValidation('subVariations', data?.subVariations, data);
+            setData((prev) => ({ ...prev, formErrors }));
+        }
+    }, [data?.subVariations, data?.variations]);
+
     const handleChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
         if (name === 'variations') {
-            setData((prev) => ({ ...prev, [name]: value, subVariations: [] }));
+            setData((prev) => ({ ...prev, [name]: value, subVariations: [], formErrors }));
         } else {
-            setData((prev) => ({ ...prev, [name]: value }));
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
 
@@ -218,23 +241,27 @@ export default function PointOfSale() {
     };
 
     const handleSave = () => {
-        addToCart(openVariationDialog?.item, data);
-        const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === openVariationDialog?.item._id);
-        if (!isItemInData1) {
-            setData((prev) => ({
-                ...prev,
-                cartDisTax: [
-                    ...(prev.cartDisTax || []),
-                    {
-                        waiveTax: false,
-                        discount: openVariationDialog?.item?.allowDiscount === 'true' ? openVariationDialog?.item.defaultDiscount : null,
-                        id: openVariationDialog?.item?._id,
-                    },
-                ],
-            }));
+        if (showFormErrors(data, setData)) {
+            addToCart(openVariationDialog?.item, data);
+            const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === openVariationDialog?.item._id);
+            if (!isItemInData1) {
+                setData((prev) => ({
+                    ...prev,
+                    cartDisTax: [
+                        ...(prev.cartDisTax || []),
+                        {
+                            waiveTax: false,
+                            discount: openVariationDialog?.item?.allowDiscount === 'true' ? openVariationDialog?.item.defaultDiscount : null,
+                            id: openVariationDialog?.item?._id,
+                        },
+                    ],
+                }));
+            }
+            onClose();
         }
-        onClose();
     };
+
+    console.log('data>>', data);
 
     return (
         <>
