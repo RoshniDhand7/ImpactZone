@@ -3,16 +3,22 @@ import { CustomAutoComplete } from '../../shared/Input/AllInputs';
 
 const SearchByItem = ({ data, allCatalogItems, handleChange, setData }) => {
     const [items, setItems] = useState([]);
+
+    console.log(allCatalogItems, 'allCatalogItems');
     const search = (event) => {
         let query = event.query.trim().toLowerCase();
         let _filteredItems = allCatalogItems.filter((item) => {
-            let _itemUPC = item.upc.toLowerCase();
+            let _itemUPC = String(item.upc || '');
             let _itemName = item.name.toLowerCase();
+
+            console.log(_itemUPC, _itemName, query, '_itemUPC');
             return _itemUPC.includes(query) || _itemName.includes(query);
         });
         setItems(_filteredItems);
         return _filteredItems;
     };
+
+    console.log(data, 'data12');
 
     return (
         <CustomAutoComplete

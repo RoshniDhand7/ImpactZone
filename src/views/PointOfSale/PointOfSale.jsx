@@ -11,7 +11,7 @@ import MembersToSellItem from './MembersToSellItem';
 import NewCart from './NewCart';
 import { CustomDropDown } from '../../shared/Input/AllInputs';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
-import { showFormErrors } from '../../utils/commonFunctions';
+import { processCatalogItems, showFormErrors } from '../../utils/commonFunctions';
 import formValidation from '../../utils/validations';
 
 export default function PointOfSale() {
@@ -37,61 +37,38 @@ export default function PointOfSale() {
 
     let { allCatalogItems, allCatalogFilterItems } = useSelector((state) => state.catalogItems);
     const [openVariationDialog, setOpenVariationDialog] = useState(null);
+    allCatalogFilterItems = processCatalogItems(allCatalogFilterItems).filter((item) => item.hasCategory);
+    allCatalogItems = processCatalogItems(allCatalogItems);
 
-    allCatalogFilterItems = allCatalogFilterItems
-        .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS') && item.hasCategory)
-        .map((item) => ({
-            name: item.name,
-            upc: item.upc,
-            _id: item._id,
-            img: item.catalogImage,
-            fullName: `${item.upc} ${item.name}`.trim(),
-            unitPrice: item.unitPrice,
-            unitPrice1: item.unitPrice1,
-            unitPrice2: item.unitPrice2,
-            unitPrice3: item.unitPrice3,
-            moreThan1: item.moreThan1,
-            moreThan2: item.moreThan2,
-            moreThan3: item.moreThan3,
-            totalTaxPercentage: item.totalTaxPercentage,
-            allowDiscount: item.allowDiscount,
-            overRideDiscount: item.overRideDiscount,
-            defaultDiscount: item.defaultDiscount ?? null,
-            discount: item.discount ?? null,
-            itemCaption: item.itemCaption,
-            itemSold: item.itemSold,
-            maximumQuantity: item.maximumQuantity,
-            minimumQuantity: item.minimumQuantity,
-            defaultQuantity: item.defaultQuantity,
-            variation: item.variation,
-        }));
-    allCatalogItems = allCatalogItems
-        .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
-        .map((item) => ({
-            name: item.name,
-            upc: item.upc,
-            _id: item._id,
-            img: item.catalogImage,
-            fullName: `${item.upc} ${item.name}`.trim(),
-            unitPrice: item.unitPrice,
-            unitPrice1: item.unitPrice1,
-            unitPrice2: item.unitPrice2,
-            unitPrice3: item.unitPrice3,
-            moreThan1: item.moreThan1,
-            moreThan2: item.moreThan2,
-            moreThan3: item.moreThan3,
-            totalTaxPercentage: item.totalTaxPercentage,
-            allowDiscount: item.allowDiscount,
-            overRideDiscount: item.overRideDiscount,
-            defaultDiscount: item.defaultDiscount ?? null,
-            discount: item.discount ?? null,
-            itemCaption: item.itemCaption,
-            itemSold: item.itemSold,
-            maximumQuantity: item.maximumQuantity,
-            minimumQuantity: item.minimumQuantity,
-            defaultQuantity: item.defaultQuantity,
-            variation: item.variation,
-        }));
+    const getItemNamesAndSubvariations = (data) => {
+        const result = [];
+
+        data.forEach((item) => {
+            result.push({ ...item, type: 'item' });
+        });
+
+        data?.flatMap((item) => item.variation || []).forEach((variation) => {
+            variation.subVariations?.forEach((subVar) => {
+                result.push({
+                    name: subVar.subVariation,
+                    id: subVar._id,
+                    unitPrice: subVar.unitPrice,
+                    minimumQuantity: subVar.variationMinQuantity,
+                    maximumQuantity: subVar.variationMaxQuantity,
+                    defaultQuantity: subVar.defaultQuantity,
+                    fullName: `${subVar.upc} ${subVar.subVariation}`.trim(),
+                    upc: subVar.upc,
+                    type: 'subVariation',
+                });
+            });
+        });
+
+        return result;
+    };
+
+    const list = getItemNamesAndSubvariations(allCatalogItems);
+
+    console.log('list>>', list);
 
     const addToCart = (item, variation) => {
         // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
@@ -112,6 +89,7 @@ export default function PointOfSale() {
                 console.log(data);
                 setData((prev) => ({
                     ...prev,
+                    catalogItem: '',
                     cartItems: prev.cartItems.map((cartItem) =>
                         cartItem.subVariation?.id
                             ? cartItem.subVariation?.id === variation?.subVariations?.id
@@ -136,6 +114,7 @@ export default function PointOfSale() {
         } else {
             setData((prev) => ({
                 ...prev,
+                catalogItem: '',
                 cartItems: [
                     ...(prev.cartItems || []),
                     {
@@ -175,8 +154,15 @@ export default function PointOfSale() {
                         minimumQuantity: subVar.variationMinQuantity,
                         maximumQuantity: subVar.variationMaxQuantity,
                         defaultQuantity: subVar.defaultQuantity,
+                        upc: subVar.upc,
                     }) || [],
             ) || [];
+
+    useEffect(() => {
+        if (data?.catalogItem?.fullName) {
+            handleCatalogItems(data?.catalogItem);
+        }
+    }, [data?.catalogItem]);
 
     const handleCatalogItems = (item) => {
         const variationl = data?.cartItems?.find((it) => it._id === item._id);
@@ -262,12 +248,13 @@ export default function PointOfSale() {
     };
 
     console.log('data>>', data);
+    console.log('allCatalogItems>>', allCatalogItems);
 
     return (
         <>
             <div className="flex gap-2">
                 <div className="product-sidebar p-2">
-                    <SearchByItem data={data} allCatalogItems={allCatalogItems} handleChange={handleChange} setData={setData} />
+                    <SearchByItem data={data} allCatalogItems={list} handleChange={handleChange} setData={setData} />
                     <CategoryFilter data={data} setData={setData} />
                 </div>
                 <CatalogItemsView
