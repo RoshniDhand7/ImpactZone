@@ -31,6 +31,7 @@ const DiscountForm = () => {
                 getDiscountType(id, (data) => {
                     setData({
                         discountName: data.discountName,
+                        discountCode: data.discountCode,
                         percentage: data.percentage,
                         startDate: data.startDate ? new Date(data.startDate) : '',
                         endDate: data.endDate ? new Date(data.endDate) : '',
@@ -50,6 +51,7 @@ const DiscountForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         discountName: '',
+        discountCode: '',
         percentage: 0,
         startDate: '',
         endDate: '',
@@ -146,6 +148,8 @@ const DiscountForm = () => {
                     <CustomGridLayout>
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col="12" />
                         <CustomInput name="discountName" label="Name" data={data} onChange={handleChange} required />
+                        <CustomInput name="discountCode" data={data} onChange={handleChange} required />
+
                         <CustomInputNumber
                             name="percentage"
                             data={data}
@@ -157,11 +161,11 @@ const DiscountForm = () => {
                             minFractionDigits={4}
                             maxFractionDigits={4}
                         />
-                        <CustomDropDown label="Amount Type" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={1} />
+                        <CustomDropDown label="Amount Type" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={2} />
                         <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required />
                         <CustomCalenderInput name="endDate" data={data} onChange={handleChange} required />
                         <CustomDropDown name="availableDiscount" options={allDiscountDropdown} data={data} onChange={handleChange} optionLabel="name" />
-                        <CustomCheckbox label="Multi Item Discount" name="multiItemDiscountCheck" onChange={handleChange} data={data} col="8" />
+                        <CustomCheckbox label="Multi Item Discount" name="multiItemDiscountCheck" onChange={handleChange} data={data} col="6" />
                         {data?.multiItemDiscountCheck && <PrimaryButton label="Add" className="mx-2" onClick={handleAdd} loading={loading} />}
 
                         {data?.multiItemDiscountCheck &&

@@ -14,9 +14,8 @@ import {
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete, numberEditor, showFormErrorsRowEdit } from '../../../../utils/commonFunctions';
+import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
-import formValidation from '../../../../utils/validations';
 
 const Variations = () => {
     const [open, setOpen] = useState(false);
