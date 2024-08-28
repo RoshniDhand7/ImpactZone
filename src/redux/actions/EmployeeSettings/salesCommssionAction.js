@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
@@ -142,6 +143,7 @@ const addEmployeeSalesCode = (data) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+
 const getEmployeeSalesCode = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.EMPLOYEE_SALES_CODE + id);
@@ -153,6 +155,26 @@ const getEmployeeSalesCode = (id, returnData) => async (dispatch) => {
         }
     }
     dispatch(hideLoaderAction());
+};
+
+const getEmployeeSalesCodes = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.EMPLOYEE_SALES_CODE);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.EMPLOYEE_SALES_CODE,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
 };
 
 export {
@@ -168,4 +190,5 @@ export {
     editEmployeeSubstitutionOptions,
     addEmployeeSalesCode,
     getEmployeeSalesCode,
+    getEmployeeSalesCodes,
 };

@@ -53,7 +53,7 @@ const Security = () => {
         firstName: '',
         lastName: '',
         middleInitial: '',
-        jobTitle: '',
+        jobTitle: null,
         dob: '',
         socialSecurity: '',
         barCode: 0,

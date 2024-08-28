@@ -367,7 +367,7 @@ export const CustomInputNumber = ({
     ...props
 }) => {
     return (
-        <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <InputNumber
                 id={name}
                 name={name}

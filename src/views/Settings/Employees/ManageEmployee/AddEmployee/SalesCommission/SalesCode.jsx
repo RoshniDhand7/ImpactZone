@@ -10,7 +10,7 @@ import { showFormErrors } from '../../../../../../utils/commonFunctions';
 
 const SalesCode = () => {
     const [data, setData] = useState({
-        salesCode: '',
+        name: '',
     });
 
     const { id } = useParams();
@@ -24,7 +24,7 @@ const SalesCode = () => {
     useEffect(() => {
         dispatch(
             getEmployeeSalesCode(id, (data) => {
-                setData((prev) => ({ ...prev, name: data.salesCode }));
+                setData((prev) => ({ ...prev, name: data.name }));
             }),
         );
     }, []);
@@ -33,7 +33,7 @@ const SalesCode = () => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(addEmployeeSalesCode({ salesCode: data.name, employee: id }));
+            dispatch(addEmployeeSalesCode({ name: data.name, employee: id }));
         }
     };
     return (
