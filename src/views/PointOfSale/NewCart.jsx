@@ -46,6 +46,7 @@ const NewCart = ({ data, setData }) => {
 
     const netTotalDiscount = data?.cartItems.reduce((sum, item, index) => {
         const discountId = data?.cartDisTax?.[index]?.discount;
+
         const discount = calculateDiscount(item, discountId, allDiscountTypes);
         const totaldiscount = data?.cartDisTax?.[index]?.discount ? discount : 0;
         return (Number(sum) + totaldiscount).toFixed(4);

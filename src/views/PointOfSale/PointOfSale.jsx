@@ -45,20 +45,23 @@ export default function PointOfSale() {
 
         data.forEach((item) => {
             result.push({ ...item, type: 'item' });
-        });
-
-        data?.flatMap((item) => item.variation || []).forEach((variation) => {
-            variation.subVariations?.forEach((subVar) => {
-                result.push({
-                    name: subVar.subVariation,
-                    id: subVar._id,
-                    unitPrice: subVar.unitPrice,
-                    minimumQuantity: subVar.variationMinQuantity,
-                    maximumQuantity: subVar.variationMaxQuantity,
-                    defaultQuantity: subVar.defaultQuantity,
-                    fullName: `${subVar.upc} ${subVar.subVariation}`.trim(),
-                    upc: subVar.upc,
-                    type: 'subVariation',
+            item.variation?.forEach((variation) => {
+                variation.subVariations?.forEach((subVar) => {
+                    result.push({
+                        name: subVar.subVariation,
+                        id: subVar._id,
+                        unitPrice: subVar.unitPrice,
+                        minimumQuantity: subVar.variationMinQuantity,
+                        maximumQuantity: subVar.variationMaxQuantity,
+                        defaultQuantity: subVar.defaultQuantity,
+                        defaultDiscount: item.defaultDiscount,
+                        allowDiscount: item.allowDiscount,
+                        fullName: `${subVar.upc} ${subVar.subVariation}`.trim(),
+                        upc: subVar.upc,
+                        catalogId: item._id,
+                        totalTaxPercentage: item.totalTaxPercentage,
+                        type: 'subVariation',
+                    });
                 });
             });
         });
@@ -68,63 +71,8 @@ export default function PointOfSale() {
 
     const list = getItemNamesAndSubvariations(allCatalogItems);
 
-    const addToCart = (item, variation) => {
-        // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
-        const existingItem = data?.cartItems.find((cartItem) => {
-            return (
-                cartItem._id === item._id && cartItem.variation?.id === variation?.variations?.id && cartItem.subVariation?.id === variation?.subVariations?.id
-            );
-        });
-
-        let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
-        let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
-
-        if (existingItem) {
-            const newQuantity = existingItem.quantity + 1;
-            if (newQuantity <= maximumQuantity) {
-                setData((prev) => ({
-                    ...prev,
-                    catalogItem: '',
-                    cartItems: prev.cartItems.map((cartItem) =>
-                        cartItem.subVariation?.id
-                            ? cartItem.subVariation?.id === variation?.subVariations?.id
-                                ? {
-                                      ...cartItem,
-                                      quantity: newQuantity,
-                                      variation: variation?.variations?.name ? variation?.variations : null,
-                                      subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                                  }
-                                : cartItem
-                            : cartItem._id === item._id
-                              ? {
-                                    ...cartItem,
-                                    quantity: newQuantity,
-                                    variation: variation?.variations?.name ? variation?.variations : null,
-                                    subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                                }
-                              : cartItem,
-                    ),
-                }));
-            }
-        } else {
-            setData((prev) => ({
-                ...prev,
-                catalogItem: '',
-                cartItems: [
-                    ...(prev.cartItems || []),
-                    {
-                        ...item,
-                        quantity: defaultQuantity,
-                        variation: data?.variations ? variation?.variations : null,
-                        subVariation: data?.subVariations ? variation?.subVariations : null,
-                    },
-                ],
-            }));
-        }
-    };
-
     const variationOptions =
-        allCatalogFilterItems
+        allCatalogItems
             ?.flatMap((item) => item || [])
             .find((variation) => variation._id === openVariationDialog?._id)
             ?.variation?.filter((iy) => iy.subVariations.length > 0)
@@ -137,7 +85,7 @@ export default function PointOfSale() {
             ) || [];
 
     const subVariationsOptions =
-        allCatalogFilterItems
+        allCatalogItems
             ?.flatMap((item) => item.variation || [])
             .find((variation) => variation._id === data?.variations?.id)
             ?.subVariations?.map(
@@ -158,6 +106,86 @@ export default function PointOfSale() {
             handleCatalogItems(data?.catalogItem);
         }
     }, [data?.catalogItem]);
+
+    const addToCart = (item, variation) => {
+        // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
+        let existingItem = null;
+        if (item && variation) {
+            existingItem = data?.cartItems.find((cartItem) => {
+                return (
+                    cartItem._id === item._id &&
+                    cartItem.variation?.id === variation?.variations?.id &&
+                    cartItem.subVariation?.id === variation?.subVariations?.id
+                );
+            });
+        } else if (item && item?.type === 'subVariation') {
+            existingItem = data?.cartItems.find((cartItem) => {
+                return cartItem?.id === item?.id;
+            });
+        }
+
+        let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
+        let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
+        if (existingItem) {
+            const newQuantity = existingItem.quantity + 1;
+            if (newQuantity <= maximumQuantity) {
+                if (variation === null) {
+                    setData((prev) => ({
+                        ...prev,
+                        catalogItem: '',
+                        cartItems: prev.cartItems.map((cartItem) =>
+                            cartItem.id === item.id
+                                ? {
+                                      ...cartItem,
+                                      quantity: newQuantity,
+                                      variation: variation?.variations?.name ? variation?.variations : null,
+                                      subVariation: item ? item : null,
+                                  }
+                                : cartItem,
+                        ),
+                    }));
+                } else {
+                    setData((prev) => ({
+                        ...prev,
+                        catalogItem: '',
+                        cartItems: prev.cartItems.map((cartItem) =>
+                            cartItem.subVariation?.id
+                                ? cartItem.subVariation?.id === variation?.subVariations?.id
+                                    ? {
+                                          ...cartItem,
+                                          quantity: newQuantity,
+                                          variation: variation?.variations?.name ? variation?.variations : null,
+                                          subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                                      }
+                                    : cartItem
+                                : cartItem._id === item._id
+                                  ? {
+                                        ...cartItem,
+                                        quantity: newQuantity,
+                                        variation: variation?.variations?.name ? variation?.variations : null,
+                                        subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
+                                    }
+                                  : cartItem,
+                        ),
+                    }));
+                }
+            }
+        } else {
+            setData((prev) => ({
+                ...prev,
+                catalogItem: '',
+                cartItems: [
+                    ...(prev.cartItems || []),
+                    {
+                        ...item,
+                        quantity: defaultQuantity,
+                        variation: data?.variations ? variation?.variations : null,
+                        subVariation: data?.subVariations ? variation?.subVariations : null,
+                    },
+                ],
+            }));
+        }
+    };
 
     const handleCatalogItems = (item) => {
         const variationl = data?.cartItems?.find((it) => it._id === item._id);
@@ -186,13 +214,13 @@ export default function PointOfSale() {
             }
         } else {
             addToCart(item, null);
-            const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
+            const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id || dataItem.id === item.catalogId);
             if (!isItemInData1) {
                 setData((prev) => ({
                     ...prev,
                     cartDisTax: [
                         ...(prev.cartDisTax || []),
-                        { waiveTax: false, discount: item?.allowDiscount === 'true' ? item?.defaultDiscount : null, id: item._id },
+                        { waiveTax: false, discount: item?.allowDiscount === 'true' ? item?.defaultDiscount : null, id: item._id || item.catalogId },
                     ],
                 }));
             }

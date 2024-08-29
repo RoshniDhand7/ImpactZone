@@ -24,7 +24,7 @@ const MembershipTypes = () => {
         { field: 'name', header: 'Name' },
         { field: 'description', header: 'Description' },
         { field: 'discountType', header: 'Discount Type' },
-        { field: 'shortName', header: '# Members' },
+        { field: 'totalMember', header: '# Members' },
         { field: 'isActive', header: 'Active' },
     ];
 

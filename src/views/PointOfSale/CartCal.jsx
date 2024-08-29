@@ -25,13 +25,14 @@ export const calculateDiscount = (item, discountId, allDiscountTypes) => {
     const { quantity, totalTaxPercentage, allowDiscount } = item;
 
     let discount = allDiscountTypes.find((item) => item._id === discountId);
+
     const matchingItem = discount?.multiItemDiscount?.find((data) => data.value1 === quantity);
 
     const unitPrice = calculateUnitPrice(item);
     const taxValue = calculateTax(unitPrice, totalTaxPercentage);
     const netPrice = (unitPrice - taxValue) * quantity;
 
-    if (allowDiscount === 'false') {
+    if (allowDiscount === 'false' || !discountId) {
         return 0;
     }
 
