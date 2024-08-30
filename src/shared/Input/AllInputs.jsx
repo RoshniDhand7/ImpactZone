@@ -325,6 +325,7 @@ export const CustomChipInput = ({
     onRemove,
     onAdd,
     onKeyUp,
+    placeholder,
     ...props
 }) => {
     return (
@@ -341,7 +342,7 @@ export const CustomChipInput = ({
                 onRemove={(e) => onRemove && onRemove({ e, name: name, currentValue: e.value })}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: [...new Set(e.value)] })}
                 className={`w-full p-fluid ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
-                placeholder={"Press enter to add value."}
+                placeholder={placeholder??"PLease enter to add value"}
                 disabled={disabled}
                 keyfilter={keyFilter}
                 {...props}

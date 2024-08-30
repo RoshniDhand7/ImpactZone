@@ -99,7 +99,7 @@ const NewCart = ({ data, setData, handleChange }) => {
                 />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
-                <CustomChipInput name="promoCode" max={1} data={data} onChange={handleChange} />
+                <CustomChipInput name="promoCode" max={1} data={data} onChange={handleChange} placeholder={data?.promoCode?.length>0?"":"Please enter to add value"}/>
 
                 <div className="mt-2">
                     <p className="flex justify-content-between mb-3">

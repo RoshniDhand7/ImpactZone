@@ -25,7 +25,7 @@ export default function PointOfSale() {
         cartDisTax: [],
         variations: null,
         subVariations: null,
-        promoCode:"",
+        promoCode:[],
     });
     const dispatch = useDispatch();
 
