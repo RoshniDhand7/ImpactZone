@@ -39,6 +39,8 @@ const addDiscountType = (data, history) => async (dispatch) => {
     const res = await api('post', EndPoints.DISCOUNT_TYPES, data);
     if (res.success) {
         history.goBack();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };
@@ -48,6 +50,8 @@ const editDiscountType = (id, data, history) => async (dispatch, getState) => {
     const res = await api('put', EndPoints.DISCOUNT_TYPES + id, data);
     if (res.success) {
         history.goBack();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };

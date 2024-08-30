@@ -42,6 +42,7 @@ import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
 import POSReducer from './POSReducer';
 import dashboardReducer from './Dashboard/DashboardReducer';
+import PosReducer from './POS/PosReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -87,4 +88,5 @@ export default combineReducers({
     tags: tagsReducer,
     POS: POSReducer,
     dashboard: dashboardReducer,
+    POS:PosReducer
 });

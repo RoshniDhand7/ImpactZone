@@ -9,6 +9,7 @@ const intitalState = {
     allAppointmentPayDropdown: [],
     isClassLevel: '',
     isAppointmentLevel: '',
+    salesCode: [],
 };
 
 const employeesReducer = (state = intitalState, action) => {
@@ -41,6 +42,11 @@ const employeesReducer = (state = intitalState, action) => {
                 allAppointmentPay: action.payload,
                 allAppointmentPayDropdown: action.payload?.list?.map((item) => ({ name: item.event, value: item._id })),
                 isAppointmentLevel: action.payload.isAppointmentLevel,
+            };
+        case types.EMPLOYEE_SALES_CODE:
+            return {
+                ...state,
+                salesCode: action.payload,
             };
         default:
             return { ...state };

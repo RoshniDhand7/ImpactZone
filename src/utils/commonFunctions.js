@@ -331,6 +331,37 @@ const uniqueData = (data) => {
     }));
 };
 
+const processCatalogItems = (items) => {
+    return items
+        .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
+        .map((item) => ({
+            name: item.name,
+            upc: item.upc,
+            _id: item._id,
+            img: item.catalogImage,
+            fullName: `${item.upc} ${item.name}`.trim(),
+            unitPrice: item.unitPrice,
+            unitPrice1: item.unitPrice1,
+            unitPrice2: item.unitPrice2,
+            unitPrice3: item.unitPrice3,
+            moreThan1: item.moreThan1,
+            moreThan2: item.moreThan2,
+            moreThan3: item.moreThan3,
+            totalTaxPercentage: item.totalTaxPercentage,
+            allowDiscount: item.allowDiscount,
+            overRideDiscount: item.overRideDiscount,
+            defaultDiscount: item.defaultDiscount ?? null,
+            discount: item.discount ?? null,
+            itemCaption: item.itemCaption,
+            itemSold: item.itemSold,
+            maximumQuantity: item.maximumQuantity,
+            minimumQuantity: item.minimumQuantity,
+            defaultQuantity: item.defaultQuantity,
+            variation: item.variation,
+            hasCategory: item.hasCategory,
+        }));
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -358,4 +389,5 @@ export {
     uniqueData,
     uploadSignImage,
     showFormErrorsRowEdit,
+    processCatalogItems,
 };

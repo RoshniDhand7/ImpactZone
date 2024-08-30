@@ -33,7 +33,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
             () => {
                 setData((prev) => {
                     const updatedCartDisTax = [...prev.cartDisTax];
-                    const currentTax = updatedCartDisTax[index].waiveTax;
+                    const currentTax = updatedCartDisTax?.[index]?.waiveTax;
                     updatedCartDisTax[index] = {
                         ...updatedCartDisTax[index],
                         waiveTax: !currentTax,
@@ -78,7 +78,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
                     <hr />
                     <li
                         className="flex gap-2 text-xs font-medium mb-3 mt-2 cursor-pointer text-center align-items-center justify-content-center "
-                        onClick={() => removeItem(col._id)}
+                        onClick={() => removeItem(id)}
                     >
                         <h4 className="text-center">Remove</h4>
                     </li>

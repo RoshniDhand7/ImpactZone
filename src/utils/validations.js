@@ -99,6 +99,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'employee':
         case 'itemCaption':
         case 'variationName':
+        case 'discountCode':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -176,9 +177,11 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'campaign':
         case 'memberShipPlan':
         case 'defaultDiscount':
+        case 'variations':
+        case 'subVariations':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
-            } else if (!value) {
+            } else if (!value || value === null) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
                 formErrors[name] = '';

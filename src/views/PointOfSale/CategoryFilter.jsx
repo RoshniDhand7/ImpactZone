@@ -7,6 +7,7 @@ import _ from 'lodash';
 const CategoryFilter = ({ data, setData }) => {
     const dispatch = useDispatch();
     const { allCategory } = useSelector((state) => state.category);
+
     useEffect(() => {
         if (data?.categoryId) {
             dispatch(getCatalogItemsFilter(_, data?.categoryId));
@@ -18,7 +19,7 @@ const CategoryFilter = ({ data, setData }) => {
     };
     const getSubCategoryTreeSelect = () => {
         let keys = allCategory
-            ?.filter((item) => item.hasCatalog)
+            ?.filter((item) => item.hasCatalog && item.displayInPos)
             .map((category) => ({
                 key: `${category._id}`,
                 label: category.name,

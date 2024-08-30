@@ -1,20 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
-import { calculateDiscount, calculateTax, calculateUnitPrice } from './CartCal';
+import { calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateUnitPrice } from './CartCal';
 import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
+import { CustomChipInput } from '../../shared/Input/AllInputs';
+import { clearPOSPromo, getPromoCodeDetail } from '../../redux/actions/POS/PosActions';
+import _ from 'lodash';
 
-const NewCart = ({ data, setData }) => {
+const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getDiscountTypes());
     }, [dispatch]);
 
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+    useEffect(() => {
+        if (data?.promoCode?.length > 0) {
+            dispatch(getPromoCodeDetail(_, data?.promoCode));
+        } else {
+            dispatch(clearPOSPromo());
+        }
+    }, [dispatch, data?.promoCode]);
 
+    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+    let { allPOSPromo } = useSelector((state) => state?.POS);
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
             setData((prev) => ({
@@ -25,7 +36,13 @@ const NewCart = ({ data, setData }) => {
             setData((prev) => ({
                 ...prev,
                 cartItems: data.cartItems.map((cartItem) =>
-                    cartItem._id === itemId || cartItem?.subVariation?.id === itemId ? { ...cartItem, quantity } : cartItem,
+                    cartItem?.subVariation?.id
+                        ? cartItem?.subVariation?.id === itemId
+                            ? { ...cartItem, quantity }
+                            : cartItem
+                        : cartItem._id === itemId
+                          ? { ...cartItem, quantity }
+                          : cartItem,
                 ),
             }));
         }
@@ -34,16 +51,29 @@ const NewCart = ({ data, setData }) => {
     const removeItem = (itemId) => {
         setData((prev) => ({
             ...prev,
-            cartItems: data?.cartItems.filter((cartItem) => cartItem._id !== itemId),
+            cartItems: data?.cartItems.filter((cartItem) => (cartItem?.subVariation?.id ? cartItem?.subVariation?.id !== itemId : cartItem._id !== itemId)),
         }));
     };
 
-    const netTotalDiscount = data?.cartItems.reduce((sum, item, index) => {
-        const discountId = data?.cartDisTax?.[index]?.discount;
-        const discount = calculateDiscount(item, discountId, allDiscountTypes);
-        const totaldiscount = data?.cartDisTax?.[index]?.discount ? discount : 0;
-        return (Number(sum) + totaldiscount).toFixed(4);
-    }, 0);
+    const netTotal = data?.cartItems.reduce((sum, item) => {
+        const unitPrice = calculateUnitPrice(item);
+        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
+        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
+        return sum + netPrice;
+    }, 0.0);
+
+    const netTotalDiscount = useMemo(() => {
+        return data?.cartItems
+            .reduce((sum, item, index) => {
+                const discountId = data?.cartDisTax?.[index]?.discount;
+                const discount = calculateDiscount(item, discountId, allDiscountTypes);
+                const totalDiscount = data?.cartDisTax?.[index]?.discount ? discount : 0;
+                const promoCodeDiscount =
+                    allPOSPromo?.length > 0 && allPOSPromo?.[0]?.discountApply ? calculatePromoCodeDiscount(allPOSPromo?.[0], netTotal) : 0;
+                return Number(sum) + totalDiscount + promoCodeDiscount;
+            }, 0)
+            .toFixed(4);
+    }, [data?.cartItems, data?.cartDisTax, allPOSPromo, netTotal]);
 
     const netTotalTax = data?.cartItems.reduce((sum, item, index) => {
         const unitPrice = calculateUnitPrice(item);
@@ -52,13 +82,6 @@ const NewCart = ({ data, setData }) => {
         const newTax = data?.cartDisTax?.[index]?.waiveTax ? 0 : netTaxValue;
         return (Number(sum) + newTax).toFixed(4);
     }, 0);
-
-    const netTotal = data?.cartItems.reduce((sum, item) => {
-        const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
-        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
-        return sum + netPrice;
-    }, 0.0);
 
     const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
 
@@ -76,12 +99,8 @@ const NewCart = ({ data, setData }) => {
                 />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
-                <h3 className="flex gap-2 border-top-1 text-sm align-items-center pt-2 border-gray-200 my-2">
-                    Promo:{' '}
-                    <span className="border-1 border-gray-200 border-round-lg p-2">
-                        BOGO <i className="pi pi-times-circle"></i>
-                    </span>
-                </h3>
+                <CustomChipInput name="promoCode" max={1} data={data} onChange={handleChange} placeholder={data?.promoCode?.length>0?"":"Please enter to add value"}/>
+
                 <div className="mt-2">
                     <p className="flex justify-content-between mb-3">
                         <span className="font-semibold">Discounts</span>

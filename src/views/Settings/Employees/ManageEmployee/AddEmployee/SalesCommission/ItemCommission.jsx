@@ -34,7 +34,6 @@ const ItemCommission = () => {
         commissionType: 'PER_ITEM', //PER_SALE,PER_ITEM
         amountType: 'FIXED', //PERCENTAGE,FIXED
         pay: '0',
-        salesCode: '',
     };
 
     const [data, setData] = useState(initialState);
@@ -80,7 +79,6 @@ const ItemCommission = () => {
                         commissionType: data.commissionType,
                         amountType: data.amountType,
                         pay: data.pay,
-                        salesCode: data.salesCode,
                     });
                 }),
             );
@@ -174,7 +172,6 @@ const ItemCommission = () => {
                 <CustomGridLayout>
                     <CustomDropDown name="commissionGroup" data={data} onChange={handleChange} options={commissionGroupsDropdown} optionLabel="name" col={12} />
                     <CustomDropDown name="commissionType" data={data} onChange={handleChange} options={EmployeeCommissionType} col={12} />
-                    <CustomInput col={6} name="salesCode" data={data} onChange={handleChange} />
                     <CustomInputDecimalNumber name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />
                 </CustomGridLayout>

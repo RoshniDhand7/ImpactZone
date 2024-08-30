@@ -37,6 +37,7 @@ const endPoints = {
     MANAGE_EMPLOYEE_CERTIFICATES: '/certification/',
     SUSTITITION_OPTIONS: '/employee-substitute-option/',
     EMPLOYEE_APPOINTMENT: '/employee-appointment/',
+    EMPLOYEE_SALES_CODE: '/sales-code/',
     EMPLOYEE_APPOINTMENT_IS_DEFAULT: '/employee-appointment-default-pay/',
     AGREEMENT_TEMPLATE: '/agreement-template/',
     ASSETS: '/asset/',
@@ -78,5 +79,6 @@ const endPoints = {
     RECENT_SUGGESSIONS: '/suggestion-list/',
     ADD_RECENT_SUGGESSION: '/suggestion/',
     DASHBOARD: '/dashboard-count/',
+    PROMO_CODE:"/promo-code/"
 };
 export default endPoints;

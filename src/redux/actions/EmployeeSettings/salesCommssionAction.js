@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
@@ -130,6 +131,52 @@ const deleteSubstitutionOption = (id, next) => async (dispatch) => {
     }
 };
 
+//Sales Code
+const addEmployeeSalesCode = (data) => async (dispatch) => {
+    dispatch(showLoaderAction());
+
+    const res = await api('post', EndPoints.EMPLOYEE_SALES_CODE, data);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
+};
+
+const getEmployeeSalesCode = (id, returnData) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('get', EndPoints.EMPLOYEE_SALES_CODE + id);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+    dispatch(hideLoaderAction());
+};
+
+const getEmployeeSalesCodes = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.EMPLOYEE_SALES_CODE);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.EMPLOYEE_SALES_CODE,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
 export {
     getEmployeeSalesItem,
     addEmployeeSalesItem,
@@ -141,4 +188,7 @@ export {
     getEmployeeAppartmentBonus,
     deleteSubstitutionOption,
     editEmployeeSubstitutionOptions,
+    addEmployeeSalesCode,
+    getEmployeeSalesCode,
+    getEmployeeSalesCodes,
 };
