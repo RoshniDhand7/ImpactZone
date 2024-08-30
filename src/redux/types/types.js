@@ -81,4 +81,9 @@ export const types = {
 
     //Dashboard
     CHANGE_DASHBOARD: 'CHANGE_DASHBOARD',
+
+    //POS
+
+    CHANGE_PROMO_CODE:"CHANGE_PROMO_CODE",
+    CLEAR_POS_PROMO:"CLEAR_POS_PROMO"
 };

@@ -46,6 +46,16 @@ export const calculateDiscount = (item, discountId, allDiscountTypes) => {
     }
 };
 
+export const calculatePromoCodeDiscount =(discount,netTotal)=>{
+ let   {amountType,percentage}=discount;
+ let  netPrice=100
+    if (amountType === 'FIXED') {
+        return netTotal - percentage;
+    } else {
+        return calculateTax(netTotal, percentage);
+    }
+}
+
 export const calculateTax = (unitPrice, taxPercentage) => {
     return Number(unitPrice * (taxPercentage / 100).toFixed(4));
 };

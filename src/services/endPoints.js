@@ -79,5 +79,6 @@ const endPoints = {
     RECENT_SUGGESSIONS: '/suggestion-list/',
     ADD_RECENT_SUGGESSION: '/suggestion/',
     DASHBOARD: '/dashboard-count/',
+    PROMO_CODE:"/promo-code/"
 };
 export default endPoints;

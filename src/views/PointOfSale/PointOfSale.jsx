@@ -25,6 +25,7 @@ export default function PointOfSale() {
         cartDisTax: [],
         variations: null,
         subVariations: null,
+        promoCode:"",
     });
     const dispatch = useDispatch();
 
@@ -121,6 +122,10 @@ export default function PointOfSale() {
         } else if (item && item?.type === 'subVariation') {
             existingItem = data?.cartItems.find((cartItem) => {
                 return cartItem?.id === item?.id;
+            });
+        }else if(item && !variation){
+            existingItem = data?.cartItems.find((cartItem) => {
+                return cartItem?._id === item?._id;
             });
         }
 
@@ -290,7 +295,7 @@ export default function PointOfSale() {
 
                 <div className="cart-view">
                     <MembersToSellItem data={data} setData={setData} />
-                    <NewCart data={data} setData={setData} />
+                    <NewCart data={data} setData={setData} handleChange={handleChange} />
                 </div>
             </div>
         </>
