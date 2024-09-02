@@ -158,7 +158,9 @@ const ItemCommission = () => {
             });
         }
     };
+    let filteredCommissionGpDropDown = commissionGroupsDropdown.filter((item) => !itemCommissionData.map((ed) => ed.commissionGroupId).includes(item.value));
 
+    console.log(commissionGroupsDropdown, itemCommissionData, filteredCommissionGpDropDown, 'commissionGroupsDropdown');
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)}>
@@ -170,7 +172,15 @@ const ItemCommission = () => {
 
             <CustomDialog title={employeeSalesItemId ? 'Edit' : 'Add'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
-                    <CustomDropDown name="commissionGroup" data={data} onChange={handleChange} options={commissionGroupsDropdown} optionLabel="name" col={12} />
+                    <CustomDropDown
+                        name="commissionGroup"
+                        data={data}
+                        onChange={handleChange}
+                        options={employeeSalesItemId ? commissionGroupsDropdown : filteredCommissionGpDropDown}
+                        disabled={employeeSalesItemId ? true : false}
+                        optionLabel="name"
+                        col={12}
+                    />
                     <CustomDropDown name="commissionType" data={data} onChange={handleChange} options={EmployeeCommissionType} col={12} />
                     <CustomInputDecimalNumber name="pay" data={data} onChange={handleChange} />
                     <CustomDropDown label="" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={4} />

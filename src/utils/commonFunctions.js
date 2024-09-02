@@ -332,6 +332,7 @@ const uniqueData = (data) => {
 };
 
 const processCatalogItems = (items) => {
+    console.log(items, 'items');
     return items
         .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
         .map((item) => ({
@@ -359,6 +360,8 @@ const processCatalogItems = (items) => {
             defaultQuantity: item.defaultQuantity,
             variation: item.variation,
             hasCategory: item.hasCategory,
+            waiveTax: false,
+            commissionGroup: item.commissionGroupId ? item.commissionGroupId : null,
         }));
 };
 

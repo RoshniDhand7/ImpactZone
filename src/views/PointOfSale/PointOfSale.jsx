@@ -22,10 +22,9 @@ export default function PointOfSale() {
         memberSell: '',
         categoryId: 'all',
         cartItems: [],
-        cartDisTax: [],
         variations: null,
         subVariations: null,
-        promoCode:[],
+        promoCode: [],
     });
     const dispatch = useDispatch();
 
@@ -61,6 +60,8 @@ export default function PointOfSale() {
                         upc: subVar.upc,
                         catalogId: item._id,
                         totalTaxPercentage: item.totalTaxPercentage,
+                        discount: item.discount ?? null,
+                        commissionGroup: item.commissionGroup ?? null,
                         type: 'subVariation',
                     });
                 });
@@ -109,6 +110,7 @@ export default function PointOfSale() {
     }, [data?.catalogItem]);
 
     const addToCart = (item, variation) => {
+        console.log('h3>>', item);
         // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
         let existingItem = null;
         if (item && variation) {
@@ -123,7 +125,7 @@ export default function PointOfSale() {
             existingItem = data?.cartItems.find((cartItem) => {
                 return cartItem?.id === item?.id;
             });
-        }else if(item && !variation){
+        } else if (item && !variation) {
             existingItem = data?.cartItems.find((cartItem) => {
                 return cartItem?._id === item?._id;
             });
@@ -135,11 +137,12 @@ export default function PointOfSale() {
             const newQuantity = existingItem.quantity + 1;
             if (newQuantity <= maximumQuantity) {
                 if (variation === null) {
+                    console.log('vari');
                     setData((prev) => ({
                         ...prev,
                         catalogItem: '',
                         cartItems: prev.cartItems.map((cartItem) =>
-                            cartItem.id === item.id
+                            cartItem._id === item._id
                                 ? {
                                       ...cartItem,
                                       quantity: newQuantity,
@@ -150,6 +153,8 @@ export default function PointOfSale() {
                         ),
                     }));
                 } else {
+                    console.log('vari1');
+
                     setData((prev) => ({
                         ...prev,
                         catalogItem: '',
@@ -176,6 +181,7 @@ export default function PointOfSale() {
                 }
             }
         } else {
+            console.log('hi>>');
             setData((prev) => ({
                 ...prev,
                 catalogItem: '',
@@ -193,42 +199,13 @@ export default function PointOfSale() {
     };
 
     const handleCatalogItems = (item) => {
-        const variationl = data?.cartItems?.find((it) => it._id === item._id);
         if (item?.variation?.length > 0) {
             const variationsWithSub = item.variation.filter((variation) => variation.subVariations?.length > 0);
             if (variationsWithSub.length > 0) {
                 setOpenVariationDialog({ _id: item._id, item });
-
-                // setData((prev) => ({
-                //     ...prev,
-                //     variations: variationl?.variation ? variationl?.variation : null,
-                //     subVariations: variationl?.subVariation ? variationl?.subVariation : null,
-                // }));
-            } else {
-                addToCart(item, null);
-                const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id);
-                if (!isItemInData1) {
-                    setData((prev) => ({
-                        ...prev,
-                        cartDisTax: [
-                            ...(prev.cartDisTax || []),
-                            { waiveTax: false, discount: item?.allowDiscount === 'true' ? item?.defaultDiscount : null, id: item._id },
-                        ],
-                    }));
-                }
             }
         } else {
             addToCart(item, null);
-            const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === item._id || dataItem.id === item.catalogId);
-            if (!isItemInData1) {
-                setData((prev) => ({
-                    ...prev,
-                    cartDisTax: [
-                        ...(prev.cartDisTax || []),
-                        { waiveTax: false, discount: item?.allowDiscount === 'true' ? item?.defaultDiscount : null, id: item._id || item.catalogId },
-                    ],
-                }));
-            }
         }
     };
 
@@ -256,23 +233,12 @@ export default function PointOfSale() {
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
             addToCart(openVariationDialog?.item, data);
-            const isItemInData1 = data?.cartDisTax?.some((dataItem) => dataItem.id === openVariationDialog?.item._id);
-            if (!isItemInData1) {
-                setData((prev) => ({
-                    ...prev,
-                    cartDisTax: [
-                        ...(prev.cartDisTax || []),
-                        {
-                            waiveTax: false,
-                            discount: openVariationDialog?.item?.allowDiscount === 'true' ? openVariationDialog?.item.defaultDiscount : null,
-                            id: openVariationDialog?.item?._id,
-                        },
-                    ],
-                }));
-            }
             onClose();
         }
     };
+
+    console.log(openVariationDialog, 'openVariationDialog');
+    console.log('data>>', data, allCatalogItems);
 
     return (
         <>

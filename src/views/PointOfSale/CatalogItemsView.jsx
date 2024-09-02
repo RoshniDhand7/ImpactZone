@@ -9,6 +9,7 @@ import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
 import PlaceHolderImg from '../../assets/images/productPlaceholder.png';
 
 const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, handleChange }) => {
+    console.log(allCatalogItems, 'allCatalogItems');
     const dispatch = useDispatch();
     const [visibleFilter, setVisibleFilter] = useState(false);
 

@@ -26,6 +26,8 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
     let { allPOSPromo } = useSelector((state) => state?.POS);
+
+    console.log(allPOSPromo, 'allPOSPromo');
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
             setData((prev) => ({
@@ -51,7 +53,13 @@ const NewCart = ({ data, setData, handleChange }) => {
     const removeItem = (itemId) => {
         setData((prev) => ({
             ...prev,
-            cartItems: data?.cartItems.filter((cartItem) => (cartItem?.subVariation?.id ? cartItem?.subVariation?.id !== itemId : cartItem._id !== itemId)),
+            cartItems: data?.cartItems.filter((cartItem) =>
+                cartItem?.subVariation?.id
+                    ? cartItem?.subVariation?.id !== itemId
+                    : cartItem?.type === 'subVariation'
+                      ? cartItem.id !== itemId
+                      : cartItem._id !== itemId,
+            ),
         }));
     };
 
@@ -64,22 +72,27 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const netTotalDiscount = useMemo(() => {
         return data?.cartItems
-            .reduce((sum, item, index) => {
-                const discountId = data?.cartDisTax?.[index]?.discount;
-                const discount = calculateDiscount(item, discountId, allDiscountTypes);
-                const totalDiscount = data?.cartDisTax?.[index]?.discount ? discount : 0;
+            .reduce((sum, item) => {
+                const discount = calculateDiscount(item, allDiscountTypes);
+                const totalDiscount = item?.discount ? discount : 0;
                 const promoCodeDiscount =
-                    allPOSPromo?.length > 0 && allPOSPromo?.[0]?.discountApply ? calculatePromoCodeDiscount(allPOSPromo?.[0], netTotal) : 0;
+                    (allPOSPromo?.length > 0 && allPOSPromo?.[0]?.discountApply) || allPOSPromo?.[0]?.applyDiscountAndCommission
+                        ? calculatePromoCodeDiscount(allPOSPromo?.[0], netTotal)
+                        : 0;
                 return Number(sum) + totalDiscount + promoCodeDiscount;
             }, 0)
             .toFixed(4);
-    }, [data?.cartItems, data?.cartDisTax, allPOSPromo, netTotal]);
+    }, [data?.cartItems, allPOSPromo, netTotal]);
 
-    const netTotalTax = data?.cartItems.reduce((sum, item, index) => {
+    const netTotalTax = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
         const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
+
+        console.log(taxValue, 'taxValue');
         const netTaxValue = taxValue * item?.quantity;
-        const newTax = data?.cartDisTax?.[index]?.waiveTax ? 0 : netTaxValue;
+        console.log(netTaxValue, 'netTaxValue');
+
+        const newTax = item?.waiveTax ? 0 : netTaxValue;
         return (Number(sum) + newTax).toFixed(4);
     }, 0);
 
@@ -99,7 +112,13 @@ const NewCart = ({ data, setData, handleChange }) => {
                 />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
-                <CustomChipInput name="promoCode" max={1} data={data} onChange={handleChange} placeholder={data?.promoCode?.length>0?"":"Please enter to add value"}/>
+                <CustomChipInput
+                    name="promoCode"
+                    max={1}
+                    data={data}
+                    onChange={handleChange}
+                    placeholder={data?.promoCode?.length > 0 ? '' : 'Please enter to add value'}
+                />
 
                 <div className="mt-2">
                     <p className="flex justify-content-between mb-3">

@@ -21,23 +21,23 @@ export const calculateUnitPrice = (item) => {
 
     return item.unitPrice;
 };
-export const calculateDiscount = (item, discountId, allDiscountTypes) => {
-    const { quantity, totalTaxPercentage, allowDiscount } = item;
+export const calculateDiscount = (item, allDiscountTypes) => {
+    const { quantity, totalTaxPercentage, allowDiscount, discount } = item;
 
-    let discount = allDiscountTypes.find((item) => item._id === discountId);
+    let newDiscount = allDiscountTypes.find((item) => item._id === discount?._id);
 
-    const matchingItem = discount?.multiItemDiscount?.find((data) => data.value1 === quantity);
+    const matchingItem = newDiscount?.multiItemDiscount?.find((data) => data.value1 === quantity);
 
     const unitPrice = calculateUnitPrice(item);
     const taxValue = calculateTax(unitPrice, totalTaxPercentage);
     const netPrice = (unitPrice - taxValue) * quantity;
 
-    if (allowDiscount === 'false' || !discountId) {
+    if (allowDiscount === 'false' || !discount) {
         return 0;
     }
 
-    const discountValue = matchingItem ? matchingItem?.value2 : discount?.percentage;
-    const amountType = matchingItem ? matchingItem?.amountType : discount?.amountType;
+    const discountValue = matchingItem ? matchingItem?.value2 : newDiscount?.percentage;
+    const amountType = matchingItem ? matchingItem?.amountType : newDiscount?.amountType;
 
     if (amountType === 'FIXED') {
         return netPrice - discountValue;
@@ -46,15 +46,14 @@ export const calculateDiscount = (item, discountId, allDiscountTypes) => {
     }
 };
 
-export const calculatePromoCodeDiscount =(discount,netTotal)=>{
- let   {amountType,percentage}=discount;
- let  netPrice=100
+export const calculatePromoCodeDiscount = (discount, netTotal) => {
+    let { amountType, percentage } = discount;
     if (amountType === 'FIXED') {
         return netTotal - percentage;
     } else {
         return calculateTax(netTotal, percentage);
     }
-}
+};
 
 export const calculateTax = (unitPrice, taxPercentage) => {
     return Number(unitPrice * (taxPercentage / 100).toFixed(4));
