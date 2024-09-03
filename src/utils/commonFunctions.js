@@ -8,7 +8,6 @@ import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
 import moment from 'moment';
 import constants from '../constants';
-import { InputNumber } from 'primereact/inputnumber';
 
 const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -332,7 +331,6 @@ const uniqueData = (data) => {
 };
 
 const processCatalogItems = (items) => {
-    console.log(items, 'items123');
     return items
         .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
         .map((item) => ({

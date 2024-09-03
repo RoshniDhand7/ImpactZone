@@ -45,7 +45,7 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
                         subVariation: [],
                         upc: data.upc,
                         sku: 1,
-                        taxable: false,
+                        taxable: true,
                         unitPrice: data.unitPrice,
                         minimumQuantity: data.minimumQuantity,
                         maximumQuantity: data.maximumQuantity,

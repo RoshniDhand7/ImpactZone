@@ -91,7 +91,7 @@ const General = () => {
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
 
     let { categoryDropdown } = useSelector((state) => state.category);
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+    let { allDiscountDropdown } = useSelector((state) => state.discountType);
 
     categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
     allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
@@ -127,6 +127,7 @@ const General = () => {
 
             setData((prev) => ({ ...prev, formErrors: newFormErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.maximumQuantity, data?.minimumQuantity, data.defaultQuantity]);
 
     useEffect(() => {

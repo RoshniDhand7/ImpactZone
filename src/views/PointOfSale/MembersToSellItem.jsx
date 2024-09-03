@@ -26,7 +26,7 @@ const MembersToSellItem = ({ data, setData }) => {
                 }),
             );
         }
-    }, [data?.memberSell?.label, dispatch, isRecentSearch]);
+    }, [data?.memberSell?.label, dispatch, isRecentSearch, data?.memberSell?.value]);
 
     let { allMembers } = useSelector((state) => state.members);
     const { recentSuggesstions } = useSelector((state) => state?.POS);
@@ -39,12 +39,6 @@ const MembersToSellItem = ({ data, setData }) => {
         label: `${item.firstName} ${item.MI || ''} ${item.lastName}`.trim(),
     }));
 
-    const searchMember = (inputValue, option) => {
-        const query = inputValue.label.toLowerCase().trim();
-        const label = option.toLowerCase().trim();
-        return query.includes(label);
-    };
-
     const handleRecentSearch = (item) => {
         setIsRecentSearch(true);
         const _member = {
@@ -55,7 +49,7 @@ const MembersToSellItem = ({ data, setData }) => {
             label: `${item.memberData.firstName} ${item.memberData.MI || ''} ${item.memberData.lastName}`.trim(),
         };
 
-        setData((prev) => ({ ...prev, ['memberSell']: _member }));
+        setData((prev) => ({ ...prev, memberSell: _member }));
     };
 
     return (

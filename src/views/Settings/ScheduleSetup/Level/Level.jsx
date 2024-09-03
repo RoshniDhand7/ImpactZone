@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { deleteLevel, getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import PrimaryButton from '../../../../shared/Button/CustomButton';
 
 const Level = () => {
     const history = useHistory();

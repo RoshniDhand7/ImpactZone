@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { CustomTree } from '../../shared/CustomTree';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems, getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
+import { getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import _ from 'lodash';
 
 const CategoryFilter = ({ data, setData }) => {
@@ -19,7 +19,7 @@ const CategoryFilter = ({ data, setData }) => {
     };
     const getSubCategoryTreeSelect = () => {
         let keys = allCategory
-            ?.filter((item) => item.hasCatalog && item.displayInPos)
+            ?.filter((item) => item.hasCatalog && item.displayInPos && item.isActive)
             .map((category) => ({
                 key: `${category._id}`,
                 label: category.name,

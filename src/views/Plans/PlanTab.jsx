@@ -16,7 +16,7 @@ const PlanTab = ({ onTabEnable }) => {
     const history = useHistory();
     useEffect(() => {
         dispatch(getMembers());
-    }, []);
+    }, [dispatch]);
 
     let { allMembers } = useSelector((state) => state.members);
 
@@ -74,6 +74,7 @@ const PlanTab = ({ onTabEnable }) => {
         if (id) {
             getMemberShipPlanFn();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch, memberId]);
 
     const handleNext = () => {

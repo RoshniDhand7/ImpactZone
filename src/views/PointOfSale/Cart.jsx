@@ -50,7 +50,6 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     };
 
     const actionTemplate = (col, index) => {
-        console.log(col, 'col');
         let id = col?.subVariation?.id ? col?.subVariation?.id : col?.type === 'subVariation' ? col?.id : col?._id;
         return (
             <CustomOverlay>

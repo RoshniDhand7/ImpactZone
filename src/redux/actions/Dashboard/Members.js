@@ -1,7 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { uploadImages } from '../../../utils/commonFunctions';
-import formValidation from '../../../utils/validations';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';

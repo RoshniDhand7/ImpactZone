@@ -22,7 +22,6 @@ import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
 import PaymentMethodsForm from '../views/Settings/PointOfSale/PaymentMethods/PaymentMethodsForm';
 import DiscountForm from '../views/Settings/PointOfSale/Discount/DiscountForm';
 import AddMembers from '../views/Members/AddMembers';
-import Personal from '../views/Members/SidebarComponents/Personal';
 import SellPlanForm from '../views/Plans/SellPlanForm';
 import AllDrafts from '../views/Plans/AllDrafts';
 import PlanAgreement from '../views/Plans/Agreement';

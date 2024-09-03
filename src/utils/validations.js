@@ -89,7 +89,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'expiration':
         case 'memberToSell':
         case 'driverLicense':
-        case 'accessCode':
         case 'autoRenew':
         case 'dueDate':
         case 'date':
@@ -259,6 +258,7 @@ const formValidation = (name, value, state, ignore = []) => {
             } else {
                 formErrors[name] = '';
             }
+            break;
 
         case 'taxRatePercentage':
         case 'amount':

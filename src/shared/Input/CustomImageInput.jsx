@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Gallery from '../../assets/images/gallery.png';
 import DefaultImg from '../../assets/images/defaultImage.png';
 import { getImageURL } from '../../utils/imageUrl.js';
 import { showToast } from '../../redux/actions/toastAction';

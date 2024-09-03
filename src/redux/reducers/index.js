@@ -88,5 +88,5 @@ export default combineReducers({
     tags: tagsReducer,
     POS: POSReducer,
     dashboard: dashboardReducer,
-    POS:PosReducer
+    PointOfSale: PosReducer,
 });

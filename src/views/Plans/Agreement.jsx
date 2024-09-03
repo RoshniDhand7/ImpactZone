@@ -9,8 +9,7 @@ import SignaturePad from 'react-signature-canvas';
 import { uploadSignImage } from '../../utils/commonFunctions';
 import { getImageURL } from '../../utils/imageUrl';
 import { useReactToPrint } from 'react-to-print';
-import { editSellPlan, getSellPlan, getSellPlanAgreement } from '../../redux/actions/Plans/SellPlan';
-import html2canvas from 'html2canvas';
+import { editSellPlan, getSellPlanAgreement } from '../../redux/actions/Plans/SellPlan';
 import moment from 'moment';
 var domToPdf = require('dom-to-pdf');
 
@@ -23,7 +22,7 @@ const PlanAgreement = React.forwardRef((props, ref) => {
     }, [dispatch]);
     const componentRef = useRef();
     const [signatures, setSignatures] = useState([]);
-    const { newPlanId, memberId, agreementId } = useParams();
+    const { newPlanId, agreementId } = useParams();
     let { allAgreementTemplates } = useSelector((state) => state.agreement);
     const agreementTemplate = allAgreementTemplates?.find((item) => item._id === agreementId);
 
@@ -36,7 +35,6 @@ const PlanAgreement = React.forwardRef((props, ref) => {
 
     const [signaturePath, setSignaturePath] = useState([]);
     const [openModal, setOpenModal] = useState(null);
-    const [data, setData] = useState({});
     const [actualValues, setActualValues] = useState({});
 
     useEffect(() => {
@@ -87,7 +85,6 @@ const PlanAgreement = React.forwardRef((props, ref) => {
                     Past_Due_Balance: '',
                     '⁠Total_Amount_Due': '',
                 };
-                setData(formattedData);
 
                 const mappedValues = mergeFields.reduce((acc, field) => {
                     const key = field.value.slice(2, -2); // Extract key from {{key}}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomInputTime, CustomMultiselect } from '../../../../shared/Input/AllInputs';
-import { WeekDaysOption, classMeet, timePeriodFormatOptions } from '../../../../utils/dropdownConstants';
+import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import { WeekDaysOption, classMeet } from '../../../../utils/dropdownConstants';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { useHistory, useParams } from 'react-router-dom';
@@ -251,10 +251,10 @@ const EventClassesForm = () => {
     //     }));
     // };
 
-    const getAvailableOptions = (index) => {
-        const selectedDays = data.schedule?.flatMap((item, idx) => (idx !== index ? item.days : []));
-        return WeekDaysOption.filter((day) => !selectedDays.includes(day.value));
-    };
+    // const getAvailableOptions = (index) => {
+    //     const selectedDays = data.schedule?.flatMap((item, idx) => (idx !== index ? item.days : []));
+    //     return WeekDaysOption.filter((day) => !selectedDays.includes(day.value));
+    // };
 
     const getPayOptions = () => {
         let payType = employeePayType?.employeeClassData?.map((item) => ({ name: item.label, value: item.payType }));

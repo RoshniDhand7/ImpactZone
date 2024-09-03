@@ -46,31 +46,31 @@ const Dashboard = () => {
                     <div className="flex justify-content-between">
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1}></img>
+                                <img src={UserImg1} alt="protein"></img>
                             </div>
                             <small className="font-semibold text-dark-blue">Protein Powder</small>
                         </div>
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1}></img>
+                                <img src={UserImg1} alt="protein"></img>
                             </div>
                             <small className="font-semibold text-dark-blue">Protein Powder</small>
                         </div>
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1}></img>
+                                <img src={UserImg1} alt="protein"></img>
                             </div>
                             <small className="font-semibold text-dark-blue">Protein Powder</small>
                         </div>
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1}></img>
+                                <img src={UserImg1} alt="protein"></img>
                             </div>
                             <small className="font-semibold text-dark-blue">Protein Powder</small>
                         </div>
                         <div className="">
                             <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1}></img>
+                                <img src={UserImg1} alt="protein"></img>
                             </div>
                             <small className="font-semibold text-dark-blue">Protein Powder</small>
                         </div>

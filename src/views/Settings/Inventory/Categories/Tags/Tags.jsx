@@ -16,7 +16,6 @@ export default function Tags() {
 
     const [tagsId, setTagsId] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const { allTags } = useSelector((state) => state.tags);
 
@@ -98,7 +97,7 @@ export default function Tags() {
                 }}
             />
             <CustomTable data={allTags} columns={columns} onEdit={onEdit} onDelete={onDelete} />
-            <CustomDialog title={tagsId ? 'Edit Tags' : 'Add Tags'} visible={visible || tagsId} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog title={tagsId ? 'Edit Tags' : 'Add Tags'} visible={visible || tagsId} onCancel={onClose} loading={false} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput name="name" col={12} data={data} onChange={handleChange} />
                 </CustomGridLayout>

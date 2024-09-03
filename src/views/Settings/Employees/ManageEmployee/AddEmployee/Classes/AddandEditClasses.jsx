@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCheckbox, CustomDropDown, CustomInputDecimalNumber, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomCheckbox, CustomDropDown, CustomInputDecimalNumber } from '../../../../../../shared/Input/AllInputs';
 import { classesPayTypeOptions } from '../../../../../../utils/dropdownConstants';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';

@@ -3,11 +3,9 @@ import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask, CustomInputNumber, CustomTextArea } from '../../shared/Input/AllInputs';
 import { LeadPriorityOptions, genderOptions, memberTypeOptions } from '../../utils/dropdownConstants';
 import CustomImageInput from '../../shared/Input/CustomImageInput';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
-import { setKey, setDefaults, setLanguage, setRegion, fromAddress, fromLatLng, fromPlaceId, setLocationType, geocode, RequestType } from 'react-geocode';
 import { getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import debounce from 'lodash.debounce';
@@ -18,7 +16,6 @@ import formValidation from '../../utils/validations';
 import usePlacesAutocomplete from './usePlacesAutoComplete';
 
 const AddMembers = () => {
-    const API_KEY = 'AIzaSyCeVxd1YB_l5ECi7TVIQI_bnk2w37Av50k'; // Replace with your API key
     const [data, setData] = useState({
         createType: 'PROSPECT',
         barCode: 0,
@@ -33,8 +30,6 @@ const AddMembers = () => {
         primaryPhone: '',
         mobilePhone: '',
         workNumber: '',
-        latitude: '',
-        longitude: '',
         address: '',
         leadpriority: '',
         salesPerson: '',
@@ -68,8 +63,9 @@ const AddMembers = () => {
     useEffect(() => {
         if (data.createType) {
             const formErrors = formValidation('memberShipPlan', '', data);
-            setData((prev) => ({ ...prev, ['memberShipPlan']: '', formErrors }));
+            setData((prev) => ({ ...prev, memberShipPlan: '', formErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.createType]);
 
     useEffect(() => {
@@ -80,6 +76,7 @@ const AddMembers = () => {
         } else {
             setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.uniqueBarCode]);
 
     const handleChange = ({ name, value }) => {
@@ -157,23 +154,9 @@ const AddMembers = () => {
             </CustomCard>
             <CustomCard col="12" title="Address">
                 <CustomGridLayout>
-                    {/* <CustomInput name="address" data={data} onChange={handleChange} required /> */}
                     <div className="md:col-6">
                         <label className="text-sm font-semibold">Address</label>
                         <span className="text-red-500">*</span>
-                        {/* <Autocomplete
-                            apiKey={API_KEY}
-                            onPlaceSelected={(place) => {
-                                const location = place.geometry.location;
-                                console.log(location, location.lat, location.lng);
-                                const latitude = location.lat();
-                                const longitude = location.lng();
-                                setData((prev) => ({ ...prev, address: place.formatted_address, latitude, longitude }));
-                                console.log(place.formatted_address);
-                                console.log(JSON.stringify(place?.geometry?.location));
-                            }}
-                            className="p-3 border-1 border-round-lg outline-none border-200 w-full mt-1 "
-                        /> */}
                         {renderAutocomplete()}
                     </div>
                 </CustomGridLayout>

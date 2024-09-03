@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { CustomInput } from '../../../../../../shared/Input/AllInputs';
 import formValidation from '../../../../../../utils/validations';
-import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../../shared/Button/CustomButton';
+import PrimaryButton, { CustomButtonGroup } from '../../../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployeeSalesCode, getEmployeeSalesCode } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { useParams } from 'react-router-dom';
@@ -27,7 +27,7 @@ const SalesCode = () => {
                 setData((prev) => ({ ...prev, name: data.name }));
             }),
         );
-    }, []);
+    }, [dispatch, id]);
 
     const loading = useSelector((state) => state.loader.isLoading);
 

@@ -26,7 +26,7 @@ const AssessedFees = () => {
 
     useEffect(() => {
         dispatch(getAssesedFees());
-    }, []);
+    }, [dispatch]);
 
     let { allAssessedFees } = useSelector((state) => state.assessedFees);
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);

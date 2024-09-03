@@ -62,6 +62,7 @@ export default function PointOfSale() {
                         totalTaxPercentage: item.totalTaxPercentage,
                         discount: item.discount ?? null,
                         commissionGroup: item.commissionGroup ?? null,
+                        taxable: item.taxable,
                         type: 'subVariation',
                     });
                 });
@@ -100,6 +101,7 @@ export default function PointOfSale() {
                         maximumQuantity: subVar.variationMaxQuantity,
                         defaultQuantity: subVar.defaultQuantity,
                         upc: subVar.upc,
+                        taxable: subVar.taxable,
                     }) || [],
             ) || [];
 
@@ -107,10 +109,10 @@ export default function PointOfSale() {
         if (data?.catalogItem?.fullName) {
             handleCatalogItems(data?.catalogItem);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.catalogItem]);
 
     const addToCart = (item, variation) => {
-        console.log('h3>>', item);
         // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
         let existingItem = null;
         if (item && variation) {
@@ -137,7 +139,6 @@ export default function PointOfSale() {
             const newQuantity = existingItem.quantity + 1;
             if (newQuantity <= maximumQuantity) {
                 if (variation === null) {
-                    console.log('vari');
                     setData((prev) => ({
                         ...prev,
                         catalogItem: '',
@@ -153,8 +154,6 @@ export default function PointOfSale() {
                         ),
                     }));
                 } else {
-                    console.log('vari1');
-
                     setData((prev) => ({
                         ...prev,
                         catalogItem: '',
@@ -181,7 +180,6 @@ export default function PointOfSale() {
                 }
             }
         } else {
-            console.log('hi>>');
             setData((prev) => ({
                 ...prev,
                 catalogItem: '',
@@ -214,6 +212,7 @@ export default function PointOfSale() {
             const formErrors = formValidation('subVariations', data?.subVariations, data);
             setData((prev) => ({ ...prev, formErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.subVariations, data?.variations]);
 
     const handleChange = ({ name, value }) => {
@@ -236,9 +235,6 @@ export default function PointOfSale() {
             onClose();
         }
     };
-
-    console.log(openVariationDialog, 'openVariationDialog');
-    console.log('data>>', data, allCatalogItems);
 
     return (
         <>

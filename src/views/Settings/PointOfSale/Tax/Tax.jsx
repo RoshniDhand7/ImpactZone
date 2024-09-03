@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { CustomFilterCard, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
+import React, { useEffect } from 'react';
+import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
-import { CustomDropDown } from '../../../../shared/Input/AllInputs';
-import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 import FilterComponent from '../../../../components/FilterComponent';
 import useFilters from '../../../../hooks/useFilters';
-import PrimaryButton, { CustomButton } from '../../../../shared/Button/CustomButton';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
 
 const Tax = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [filteredTaxes, setFilteredTaxes] = useState([]);
-    const [data, setData] = useState({
-        isActive: 'all',
-    });
+
     useEffect(() => {
         dispatch(getTaxes());
     }, [dispatch]);
@@ -40,17 +35,13 @@ const Tax = () => {
             () => {
                 dispatch(
                     deleteTax(col._id, () => {
-                        dispatch(getTaxes(data?.isActive));
+                        dispatch(getTaxes());
                     }),
                 );
             },
             'Do you want to delete this Tax ?',
             position,
         );
-    };
-
-    const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (

@@ -50,6 +50,7 @@ const PersonalTab = ({ onTabEnable }) => {
         if (memberId) {
             getMemberPersonalFn();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, memberId, getMember]);
 
     const getMemberPersonalFn = () => {
@@ -82,7 +83,8 @@ const PersonalTab = ({ onTabEnable }) => {
 
     useEffect(() => {
         const formErrors = formValidation('city', data.city, data);
-        setData((prev) => ({ ...prev, ['city']: data.city, formErrors }));
+        setData((prev) => ({ ...prev, city: data.city, formErrors }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.city]);
 
     const handleChange = ({ name, value }) => {

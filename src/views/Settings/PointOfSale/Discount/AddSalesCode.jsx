@@ -5,7 +5,6 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { getEmployeeSalesCodes } from '../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 
 const AddSalesCode = ({ data, setData, id, loading, name }) => {

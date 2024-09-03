@@ -32,7 +32,7 @@ export default function TopBar() {
 
     useEffect(() => {
         dispatch(getMembers());
-    }, []);
+    }, [dispatch]);
     // let { allMembers } = useSelector((state) => state.members);
 
     // useEffect(() => {

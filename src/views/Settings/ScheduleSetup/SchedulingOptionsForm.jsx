@@ -29,7 +29,6 @@ const SchedulingOptionsForm = () => {
                 days: [],
             },
         ],
-        open: '',
     });
     const { isLoading } = useSelector((state) => state?.loader);
 
@@ -53,7 +52,6 @@ const SchedulingOptionsForm = () => {
                     startTime: new Date(item.startTime),
                     endTime: new Date(item.endTime),
                 })),
-                open: '',
                 allTimingsList: allSchedulingOptions?.[0]?.timingAndHoliday?.length,
             });
             setAllTimingsList(allSchedulingOptions?.[0]?.timingAndHoliday);
@@ -148,12 +146,6 @@ const SchedulingOptionsForm = () => {
                     formErrors: {},
                 }));
             }
-            const clearedData = {
-                date: '',
-                open: '',
-                startTime: '',
-                endTime: '',
-            };
 
             // const formErrors = {
             //     ...formValidation('date', '', clearedData),
@@ -219,6 +211,7 @@ const SchedulingOptionsForm = () => {
             formErrors['allTimingsList'] = ``;
             setData((prev) => ({ ...prev, allTimingsList: allTimingsList?.length, formErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [allTimingsList]);
 
     const handleSave = () => {

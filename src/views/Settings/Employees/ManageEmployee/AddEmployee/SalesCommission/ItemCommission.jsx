@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { useParams } from 'react-router-dom';
-import { CustomDropDown, CustomInput, CustomInputDecimalNumber, CustomInputNumber } from '../../../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInputDecimalNumber } from '../../../../../../shared/Input/AllInputs';
 import { EmployeeCommissionType, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
@@ -160,7 +160,6 @@ const ItemCommission = () => {
     };
     let filteredCommissionGpDropDown = commissionGroupsDropdown.filter((item) => !itemCommissionData.map((ed) => ed.commissionGroupId).includes(item.value));
 
-    console.log(commissionGroupsDropdown, itemCommissionData, filteredCommissionGpDropDown, 'commissionGroupsDropdown');
     return (
         <>
             <CustomFilterCard buttonTitle="Add" onClick={() => setVisible(true)}>

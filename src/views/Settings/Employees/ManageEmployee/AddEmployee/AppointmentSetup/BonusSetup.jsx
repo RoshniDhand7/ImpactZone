@@ -48,7 +48,7 @@ const BonusSetup = ({ type }) => {
     });
     useEffect(() => {
         dispatch(getEmployeesFilterType(type === 'appointment' ? 'appointment' : 'salesCommission'));
-    }, [dispatch]);
+    }, [dispatch, type]);
 
     let { allEmployeesFilter } = useSelector((state) => state.employees);
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);

@@ -2,14 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { CustomButton } from '../../shared/Button/CustomButton';
 import { getImageURL } from '../../utils/imageUrl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems, getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
+import { getCatalogItemsFilter } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomCheckBoxInput } from '../../shared/Input/AllInputs';
 import PlaceHolderImg from '../../assets/images/productPlaceholder.png';
 
 const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, handleChange }) => {
-    console.log(allCatalogItems, 'allCatalogItems');
     const dispatch = useDispatch();
     const [visibleFilter, setVisibleFilter] = useState(false);
 
@@ -42,7 +41,11 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
             options: tagsDropDown,
         },
     };
-    const filterOptionItems = useMemo(() => filters.map((item) => filterOptions[item]), [filters.length, filterSetDropDown, tagsDropDown]);
+    const filterOptionItems = useMemo(
+        () => filters.map((item) => filterOptions[item]),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [filters.length, filterSetDropDown, tagsDropDown],
+    );
 
     return (
         <>
@@ -59,27 +62,23 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
                 </div>
                 <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
                     <div class="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
-                        {allCatalogItems?.length > 0 ? (
-                            allCatalogItems?.map((item) => (
-                                <div
-                                    onClick={() => {
-                                        handleCatalogItems(item);
-                                    }}
-                                    className="cursor-pointer product-box"
-                                    key={item._id}
-                                >
-                                    <img src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg} className="w-full h-full" alt="catalogImg" />
-                                    <div className="product-content">
-                                        <p className="font-semibold text-sm text-dark-blue">{item?.itemCaption}</p>
-                                        <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <>
-                                <img />
-                            </>
-                        )}
+                        {allCatalogItems?.length > 0
+                            ? allCatalogItems?.map((item) => (
+                                  <div
+                                      onClick={() => {
+                                          handleCatalogItems(item);
+                                      }}
+                                      className="cursor-pointer product-box"
+                                      key={item._id}
+                                  >
+                                      <img src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg} className="w-full h-full" alt="catalogImg" />
+                                      <div className="product-content">
+                                          <p className="font-semibold text-sm text-dark-blue">{item?.itemCaption}</p>
+                                          <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>
+                                      </div>
+                                  </div>
+                              ))
+                            : null}
                     </div>
                 </div>
             </div>

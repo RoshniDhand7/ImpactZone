@@ -1,5 +1,3 @@
-// usePlacesAutocomplete.js
-import { useState } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import formValidation from '../../utils/validations';
 

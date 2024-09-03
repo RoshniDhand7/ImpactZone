@@ -42,6 +42,7 @@ const Personal = () => {
                 return updatedState;
             });
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [dispatch, id],
     );
     const [data1, setData1] = useState(initialState);
@@ -94,7 +95,7 @@ const Personal = () => {
 
     useEffect(() => {
         dispatch(getMembersipTypes());
-    }, []);
+    }, [dispatch]);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
 
     const handleSave = () => {

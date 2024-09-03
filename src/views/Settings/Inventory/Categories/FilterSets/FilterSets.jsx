@@ -16,8 +16,6 @@ export default function FilterSets() {
 
     const [filterSetId, setFilterSetId] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-
     const { allFilterSet } = useSelector((state) => state.filterSet);
 
     const columns = [{ field: 'name', header: 'Name' }];
@@ -102,7 +100,7 @@ export default function FilterSets() {
                 title={filterSetId ? 'Edit Filter Set' : 'Add Filter Set'}
                 visible={visible || filterSetId}
                 onCancel={onClose}
-                loading={loading}
+                loading={false}
                 onSave={handleSave}
             >
                 <CustomGridLayout>

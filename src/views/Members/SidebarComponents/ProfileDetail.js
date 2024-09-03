@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import UserImg from '../../../assets/images/defaultImage.png';
-
-import { getImageUrl } from '../../../utils/commonFunctions';
 import CustomImageInput from '../../../shared/Input/CustomImageInput';
 import formValidation from '../../../utils/validations';
 import { editMemberAction, getMemberAction } from '../../../redux/actions/Dashboard/Members';
@@ -31,6 +28,7 @@ const ProfileDetail = ({ data, setData, id, initialState, getMember }) => {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data1?.image]);
 
     return (

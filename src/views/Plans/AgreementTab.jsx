@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import formValidation from '../../utils/validations';
 import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
-import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInput, CustomInputNumber } from '../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInputNumber } from '../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,6 @@ import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import moment from 'moment';
 import debounce from 'lodash.debounce';
 import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
@@ -33,7 +32,6 @@ const AgreementTab = ({ onTabEnable }) => {
         signDate: '',
         beginDate: '',
         firstDueDate: '',
-        agreementNo: '',
         assessedFee: '',
         agreementNo: 0,
     });
@@ -41,11 +39,9 @@ const AgreementTab = ({ onTabEnable }) => {
         dispatch(getEmployees());
         dispatch(getCampaigns());
         dispatch(getMembersipTypes());
-    }, [dispatch]);
-    useEffect(() => {}, []);
-    useEffect(() => {
         dispatch(getMembers());
-    }, []);
+    }, [dispatch]);
+
     const [items, setItems] = useState([]);
 
     let { allMembers } = useSelector((state) => state.members);
@@ -88,10 +84,10 @@ const AgreementTab = ({ onTabEnable }) => {
         dispatch(
             checkAgreementNumberAction(val, newPlanId, (success) => {
                 if (success) {
-                    setData((prev) => ({ ...prev, ['agreementNo']: val, formErrors }));
+                    setData((prev) => ({ ...prev, agreementNo: val, formErrors }));
                 } else {
                     formErrors['agreementNo'] = 'Agreement number is not unique';
-                    setData((prev) => ({ ...prev, ['agreementNo']: val, formErrors }));
+                    setData((prev) => ({ ...prev, agreementNo: val, formErrors }));
                 }
             }),
         );
@@ -128,6 +124,7 @@ const AgreementTab = ({ onTabEnable }) => {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // const uniqueData = (data) => {

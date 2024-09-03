@@ -12,10 +12,9 @@ import { ReactComponent as AlertIcon } from '../assets/svg/alert.svg';
 import { ReactComponent as NotesIcon } from '../assets/svg/notes.svg';
 import { ReactComponent as DocumentIcon } from '../assets/svg/document.svg';
 
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 export default function Sidebar() {
-    const history = useHistory();
     const { url } = useRouteMatch();
     const [activeItem, setActiveItem] = useState(null);
 

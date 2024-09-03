@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import moment from 'moment';
 import { deleteMembershipPlan, getMembershipPlans } from '../../../../redux/actions/AgreementSettings/membershipPlan';
 
 const MembershipPlan = () => {

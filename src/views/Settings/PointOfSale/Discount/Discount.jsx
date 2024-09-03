@@ -13,7 +13,6 @@ const Discount = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [filteredDiscountType, setFilteredDiscountType] = useState([]);
     const [data, setData] = useState({
         isActive: 'all',
     });
@@ -22,22 +21,6 @@ const Discount = () => {
     }, [dispatch]);
 
     const { allDiscountTypes } = useSelector((state) => state.discountType);
-
-    const filterDiscountType = () => {
-        let filtered = allDiscountTypes || [];
-        if (data?.isActive === 'active') {
-            filtered = filtered.filter((item) => item.isActive);
-        } else if (data?.isActive === 'inactive') {
-            filtered = filtered.filter((item) => !item.isActive);
-        } else {
-            filtered = allDiscountTypes;
-        }
-        setFilteredDiscountType(filtered);
-    };
-
-    useEffect(() => {
-        filterDiscountType();
-    }, [data]);
 
     const columns = [
         { field: 'discountName', header: 'Name' },

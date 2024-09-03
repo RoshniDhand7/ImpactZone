@@ -25,22 +25,19 @@ const NewCart = ({ data, setData, handleChange }) => {
     }, [dispatch, data?.promoCode]);
 
     let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
-    let { allPOSPromo } = useSelector((state) => state?.POS);
+    let { allPOSPromo } = useSelector((state) => state?.PointOfSale);
 
-    console.log(allPOSPromo, 'allPOSPromo');
-
-    const netCommission = data?.cartItems.reduce((sum, item) => {
-        console.log(item, 'item12');
-        const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
-        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
-        let cmgp = allPOSPromo?.salesCodes?.employee?.salesCommission?.find((item) => item.commissionGroup === item.commissionGroup);
-        console.log(cmgp, 'cmgp');
-        let dn = calculateCommission(cmgp?.amountType, cmgp?.bonusAmount, netPrice, item.quantity);
-
-        console.log('dn>>', dn);
-        return sum + netPrice;
-    }, 0.0);
+    const netCommission =
+        Object.keys(allPOSPromo)?.length > 0
+            ? data?.cartItems.reduce((sum, item) => {
+                  const unitPrice = calculateUnitPrice(item);
+                  const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
+                  const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
+                  let cmgp = allPOSPromo?.salesCodes?.employee?.salesCommission?.find((item1) => item1.commissionGroup === item.commissionGroup);
+                  let dn = cmgp ? calculateCommission(cmgp?.amountType, cmgp?.pay, netPrice, item.quantity, cmgp?.commissionType) : 0;
+                  return sum + dn;
+              }, 0.0)
+            : 0;
 
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
@@ -96,23 +93,17 @@ const NewCart = ({ data, setData, handleChange }) => {
                 return Number(sum) + totalDiscount + promoCodeDiscount;
             }, 0)
             .toFixed(4);
-    }, [data?.cartItems, allPOSPromo, netTotal]);
+    }, [data?.cartItems, allPOSPromo, netTotal, allDiscountTypes]);
 
     const netTotalTax = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
         const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
-
-        console.log(taxValue, 'taxValue');
         const netTaxValue = taxValue * item?.quantity;
-        console.log(netTaxValue, 'netTaxValue');
-
-        const newTax = item?.waiveTax ? 0 : netTaxValue;
+        const newTax = item?.waiveTax || (item.subVariation.id && !item.subVariation.taxable) ? 0 : netTaxValue;
         return (Number(sum) + newTax).toFixed(4);
     }, 0);
 
     const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
-
-    console.log(netCommission, 'netCommission');
 
     return (
         <>
@@ -144,6 +135,10 @@ const NewCart = ({ data, setData, handleChange }) => {
                     <p className="flex justify-content-between mb-3">
                         <span className="font-semibold">Tax</span>
                         <span className="font-semibold">${netTotalTax}</span>
+                    </p>
+                    <p className="flex justify-content-between mb-3">
+                        <span className="font-semibold">Net Commission</span>
+                        <span className="font-semibold">${netCommission ?? 0}</span>
                     </p>
                     <p className="flex justify-content-between mb-3">
                         <span className="font-semibold">Final Total</span>

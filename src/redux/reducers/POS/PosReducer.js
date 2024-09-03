@@ -1,6 +1,6 @@
 import { types } from '../../types/types';
 const intitalState = {
-    allPOSPromo: [],
+    allPOSPromo: {},
 };
 
 const PosReducer = (state = intitalState, action) => {
@@ -10,11 +10,11 @@ const PosReducer = (state = intitalState, action) => {
                 ...state,
                 allPOSPromo: action.payload,
             };
-            case types.CLEAR_POS_PROMO:
-                return {
-                    ...state,
-                    allPOSPromo: [], 
-                };
+        case types.CLEAR_POS_PROMO:
+            return {
+                ...state,
+                allPOSPromo: {},
+            };
 
         default:
             return { ...state };

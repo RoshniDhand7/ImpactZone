@@ -31,6 +31,7 @@ const IdentificationTab = ({ onTabEnable }) => {
         if (memberId) {
             getMemberIdentificationFn();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, memberId]);
 
     useEffect(() => {
@@ -41,6 +42,7 @@ const IdentificationTab = ({ onTabEnable }) => {
         } else {
             setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.uniqueBarCode]);
 
     const getMemberIdentificationFn = () => {

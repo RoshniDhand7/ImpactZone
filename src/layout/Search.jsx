@@ -10,7 +10,7 @@ const Search = ({ openModal, setOpenModal }) => {
 
     useEffect(() => {
         dispatch(getMembers());
-    }, []);
+    }, [dispatch]);
 
     let { allMembers } = useSelector((state) => state.members);
     const [value, setValue] = useState('');
@@ -43,6 +43,8 @@ const Search = ({ openModal, setOpenModal }) => {
             localStorage.setItem('member', value.id);
             setOpenModal(false);
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     const handleOnChange = (e) => {

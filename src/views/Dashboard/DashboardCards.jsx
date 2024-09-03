@@ -13,7 +13,7 @@ export default function DashboardCards() {
 
     useEffect(() => {
         dispatch(getDashboard());
-    }, []);
+    }, [dispatch]);
 
     const { allDashboard } = useSelector((state) => state?.dashboard);
     const { employeeCount, memberCount } = allDashboard;

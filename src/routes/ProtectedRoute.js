@@ -2,7 +2,6 @@ import React from 'react';
 import { PrivateRoutes } from './allRoutes';
 import { Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../services/auth';
-import Layout from '../layout/Layout';
 export default function ProtectedRoute() {
     const getAuthRoutes = (routes, parentPath = '') => {
         return routes.map((prop, i) => {
