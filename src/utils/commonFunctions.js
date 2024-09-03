@@ -332,7 +332,7 @@ const uniqueData = (data) => {
 };
 
 const processCatalogItems = (items) => {
-    console.log(items, 'items');
+    console.log(items, 'items123');
     return items
         .filter((item) => item.isActive && (item.itemSold === 'POS_ONLY' || item.itemSold === 'POS_AND_AGREEMENTS'))
         .map((item) => ({
@@ -361,7 +361,7 @@ const processCatalogItems = (items) => {
             variation: item.variation,
             hasCategory: item.hasCategory,
             waiveTax: false,
-            commissionGroup: item.commissionGroupId ? item.commissionGroupId : null,
+            commissionGroup: item.commissionGroup ? item.commissionGroup : null,
         }));
 };
 

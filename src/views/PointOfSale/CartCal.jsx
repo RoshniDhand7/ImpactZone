@@ -55,6 +55,14 @@ export const calculatePromoCodeDiscount = (discount, netTotal) => {
     }
 };
 
+export const calculateCommission = (amountType, bonusAmount, netTotal, quantity) => {
+    if (amountType === 'FIXED') {
+        return bonusAmount * quantity;
+    } else {
+        return calculateTax(netTotal, bonusAmount);
+    }
+};
+
 export const calculateTax = (unitPrice, taxPercentage) => {
     return Number(unitPrice * (taxPercentage / 100).toFixed(4));
 };

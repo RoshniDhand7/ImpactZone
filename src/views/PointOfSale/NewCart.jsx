@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
-import { calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateUnitPrice } from './CartCal';
+import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateUnitPrice } from './CartCal';
 import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
@@ -28,6 +28,20 @@ const NewCart = ({ data, setData, handleChange }) => {
     let { allPOSPromo } = useSelector((state) => state?.POS);
 
     console.log(allPOSPromo, 'allPOSPromo');
+
+    const netCommission = data?.cartItems.reduce((sum, item) => {
+        console.log(item, 'item12');
+        const unitPrice = calculateUnitPrice(item);
+        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
+        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
+        let cmgp = allPOSPromo?.salesCodes?.employee?.salesCommission?.find((item) => item.commissionGroup === item.commissionGroup);
+        console.log(cmgp, 'cmgp');
+        let dn = calculateCommission(cmgp?.amountType, cmgp?.bonusAmount, netPrice, item.quantity);
+
+        console.log('dn>>', dn);
+        return sum + netPrice;
+    }, 0.0);
+
     const updateQuantity = (itemId, quantity) => {
         if (quantity === 0) {
             setData((prev) => ({
@@ -76,8 +90,8 @@ const NewCart = ({ data, setData, handleChange }) => {
                 const discount = calculateDiscount(item, allDiscountTypes);
                 const totalDiscount = item?.discount ? discount : 0;
                 const promoCodeDiscount =
-                    (allPOSPromo?.length > 0 && allPOSPromo?.[0]?.discountApply) || allPOSPromo?.[0]?.applyDiscountAndCommission
-                        ? calculatePromoCodeDiscount(allPOSPromo?.[0], netTotal)
+                    (allPOSPromo && allPOSPromo?.discountApply) || allPOSPromo?.applyDiscountAndCommission
+                        ? calculatePromoCodeDiscount(allPOSPromo, netTotal)
                         : 0;
                 return Number(sum) + totalDiscount + promoCodeDiscount;
             }, 0)
@@ -97,6 +111,8 @@ const NewCart = ({ data, setData, handleChange }) => {
     }, 0);
 
     const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
+
+    console.log(netCommission, 'netCommission');
 
     return (
         <>
