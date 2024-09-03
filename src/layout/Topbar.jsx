@@ -189,7 +189,7 @@ export default function TopBar() {
             icon: 'pi pi-power-off',
             label: 'Logout',
             command: () => {
-                logout(() => history.push('/'));
+                logout(() => history.push('/login'));
             },
         },
     ];
