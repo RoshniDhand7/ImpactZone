@@ -288,7 +288,7 @@ export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMes
         </InputLayout>
     );
 };
-export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, customIndex, ...props }) => {
+export const CustomCheckbox = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col = 6, inputClass, customIndex, ...props }) => {
     return (
         <>
             <div className={`col-12  md:col-${col} ${extraClassName}`}>
@@ -342,7 +342,7 @@ export const CustomChipInput = ({
                 onRemove={(e) => onRemove && onRemove({ e, name: name, currentValue: e.value })}
                 onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: [...new Set(e.value)] })}
                 className={`w-full p-fluid ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
-                placeholder={placeholder??"PLease enter to add value"}
+                placeholder={placeholder ?? 'PLease enter to add value'}
                 disabled={disabled}
                 keyfilter={keyFilter}
                 {...props}

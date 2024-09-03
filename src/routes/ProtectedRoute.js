@@ -17,5 +17,5 @@ export default function ProtectedRoute() {
             );
         });
     };
-    return isAuthenticated() ? getAuthRoutes(PrivateRoutes) : <Redirect to="/" />;
+    return isAuthenticated() ? getAuthRoutes(PrivateRoutes) : <Redirect to="/login" />;
 }

@@ -8,6 +8,7 @@ import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 import { onChangeForgotPassword, onForgotPassword } from '../redux/actions/profileAction';
 import { isAuthenticated } from '../services/auth';
+import { Link } from 'react-router-dom';
 
 export default function ForgetPassword({ history }) {
     useEffect(() => {
@@ -52,6 +53,11 @@ export default function ForgetPassword({ history }) {
         return (
             <FormLayout onSubmit={onSendOTP}>
                 <CustomInput data={data} name="email" onChange={handleChange} col={12} />
+                <div className="flex justify-content-end w-full my-2">
+                    <Link to="/login" className="underline cursor-pointer text-xs text-dark-gray  font-semibold my-auto">
+                        Already Registered!
+                    </Link>
+                </div>
                 <PrimaryButton className="w-full" label="Send OTP" loading={loading} type="submit" />
             </FormLayout>
         );

@@ -15,7 +15,7 @@ const onLogin = (payload, history, setLoading) => async (dispatch) => {
             if (isAuthenticated()) {
                 history.push('/dashboard');
             } else {
-                history.push('/');
+                history.push('/login');
             }
         });
     } else {
@@ -41,7 +41,7 @@ const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch
     const res = await api('post', endPoints.CHANGE_FORGOT_PASSWORD, payload);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
-        history.push('/');
+        history.push('/login');
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }

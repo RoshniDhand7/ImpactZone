@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Login from './pages/Login';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './ScrollToTop';
 import AccessDenied from './pages/AccessDenied';
 import { Provider } from 'react-redux';
@@ -26,12 +26,16 @@ root.render(
             <Loader />
             <HashRouter>
                 <Switch>
-                    <Route key="/" path="/" exact={true} component={Login} />
+                    <Route key="/" path="/" exact={true}>
+                        <Redirect to="/dashboard" />
+                    </Route>
+                    <Route key="/login" path="/login" exact={true} component={Login} />
                     <Route key="/forgot-password" path="/forgot-password" exact={true} component={ForgetPassword} />
                     <Route key="/403" path="/403" exact={true} component={AccessDenied} />
                     <ScrollToTop>
                         <App />
                     </ScrollToTop>
+                    <Route key="*" path="*" exact={true} component={AccessDenied} />
                 </Switch>
             </HashRouter>
         </PersistGate>
