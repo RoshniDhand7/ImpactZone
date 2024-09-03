@@ -35,7 +35,6 @@ root.render(
                     <ScrollToTop>
                         <App />
                     </ScrollToTop>
-                    <Route key="*" path="*" exact={true} component={AccessDenied} />
                 </Switch>
             </HashRouter>
         </PersistGate>
