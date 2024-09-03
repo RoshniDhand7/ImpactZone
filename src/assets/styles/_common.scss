@@ -1,0 +1,27 @@
+.bg-primary-blue {
+  background: $primary-blue-color;
+}
+.bg-secondary-blue {
+  background: $secondary-blue-color;
+}
+.bg-primary-gray {
+  background: $primary-gray-color;
+}
+.text-blue {
+  color: $text-blue-primary;
+}
+
+.container-full {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-strike-line {
+  margin: 1rem -1rem;
+  border-bottom: 1px solid $border-color-primary;
+}

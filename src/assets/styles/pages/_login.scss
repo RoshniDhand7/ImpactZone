@@ -1,0 +1,32 @@
+.login {
+  width: 370px;
+
+  .logo {
+    width: 285px;
+    height: 72px;
+  }
+
+  .p-password div {
+    width: 100%;
+  }
+
+  .p-inputotp {
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    .p-inputotp-input {
+      width: 52px;
+      height: 52px;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .login {
+    width: 80%;
+
+    .logo {
+      width: 80%;
+      height: auto;
+    }
+  }
+}

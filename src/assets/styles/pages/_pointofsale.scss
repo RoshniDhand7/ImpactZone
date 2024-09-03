@@ -1,0 +1,37 @@
+.product-box {
+    width: 24%;
+    height: 250px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    img {
+        // object-fit: cover;
+    }
+    .product-content {
+        // display: none;
+        position: absolute;
+        background: #ffffffe8;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+    }
+    // &:hover .product-content {
+    //     display: block;
+    // }
+    @media screen and (max-width: 1300px) {
+        width: 32%;
+        height: 160px;
+    }
+}
+
+.cart-table {
+    .p-accordion-content {
+        padding: 5px 0;
+        .p-datatable {
+            th {
+                background: #515d8d !important;
+            }
+        }
+    }
+}
