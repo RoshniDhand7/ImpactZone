@@ -32,6 +32,8 @@ export const calculateDiscount = (item, allDiscountTypes) => {
     const taxValue = calculateTax(unitPrice, totalTaxPercentage);
     const netPrice = (unitPrice - taxValue) * quantity;
 
+    console.log(netPrice, 'netPrice');
+
     if (allowDiscount === 'false' || !discount) {
         return 0;
     }
@@ -68,5 +70,6 @@ export const calculateCommission = (amountType, pay, netTotal, quantity, commiss
 };
 
 export const calculateTax = (unitPrice, taxPercentage) => {
+    console.log(unitPrice, taxPercentage, 'taxPer');
     return Number(unitPrice * (taxPercentage / 100).toFixed(4));
 };

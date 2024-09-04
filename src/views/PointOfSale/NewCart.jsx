@@ -81,6 +81,8 @@ const NewCart = ({ data, setData, handleChange }) => {
         return sum + netPrice;
     }, 0.0);
 
+    console.log('data>>', data);
+
     const netTotalDiscount = useMemo(() => {
         return data?.cartItems
             .reduce((sum, item) => {
@@ -99,7 +101,7 @@ const NewCart = ({ data, setData, handleChange }) => {
         const unitPrice = calculateUnitPrice(item);
         const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
         const netTaxValue = taxValue * item?.quantity;
-        const newTax = item?.waiveTax || (item.subVariation.id && !item.subVariation.taxable) ? 0 : netTaxValue;
+        const newTax = item?.waiveTax || (item?.subVariation?.id && !item?.subVariation?.taxable) ? 0 : netTaxValue;
         return (Number(sum) + newTax).toFixed(4);
     }, 0);
 

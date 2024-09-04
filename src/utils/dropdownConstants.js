@@ -5,11 +5,11 @@ import ringTone2 from '../assets/sounds/samsung_ringtone.mp3';
 export const yesNoOptions = [
     {
         name: 'Yes',
-        value: 'true',
+        value: true,
     },
     {
         name: 'No',
-        value: 'false',
+        value: false,
     },
 ];
 export const defaultDiscountOptions = [

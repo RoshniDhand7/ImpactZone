@@ -311,50 +311,50 @@ const General = () => {
             <CustomCard col="12" title="Dynamic Pricing">
                 <CustomGridLayout>
                     <CustomDropDown name="moreThan1" label="More Than" options={unitPricingOptions} onChange={handleChange} data={data} col={2} />
-                    <div>
-                        <CustomInputNumber
-                            name="unitPrice1"
-                            label="Unit Price"
-                            onChange={handleChange}
-                            data={data}
-                            prefix="$"
-                            minFractionDigits={4}
-                            maxFractionDigits={4}
-                        />
-                        {data?.wholesaleCost && (
-                            <div className="text-center">
-                                <span className=""> Markup:</span>
-                                {data?.unitPrice1 ? val1 : 0}
-                            </div>
-                        )}
-                    </div>
+                    <CustomInputNumber
+                        name="unitPrice1"
+                        label="Unit Price"
+                        onChange={handleChange}
+                        data={data}
+                        prefix="$"
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                        col={2}
+                    />
+                    {data?.wholesaleCost && (
+                        <div className="text-center col-2">
+                            <span className=""> Markup:</span>
+                            {data?.unitPrice1 ? val1 : 0}
+                        </div>
+                    )}
+
                     <CustomDropDown
                         name="moreThan2"
                         label="More Than"
+                        className="mx-2"
                         options={unitPricingOptions?.filter((item) => item?.value > data?.moreThan1)}
                         onChange={handleChange}
                         data={data}
                         col={2}
                         disabled={!data?.moreThan1}
                     />
-                    <div>
-                        <CustomInputNumber
-                            name="unitPrice2"
-                            label="Unit Price"
-                            onChange={handleChange}
-                            data={data}
-                            prefix="$"
-                            minFractionDigits={4}
-                            maxFractionDigits={4}
-                        />
+                    <CustomInputNumber
+                        name="unitPrice2"
+                        label="Unit Price"
+                        onChange={handleChange}
+                        data={data}
+                        prefix="$"
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                        col={2}
+                    />
 
-                        {data?.wholesaleCost && (
-                            <div className="text-center">
-                                <span className=""> Markup:</span>
-                                {data?.unitPrice2 ? val2 : 0}
-                            </div>
-                        )}
-                    </div>
+                    {data?.wholesaleCost && (
+                        <div className="text-center col-2">
+                            <span className=""> Markup:</span>
+                            {data?.unitPrice2 ? val2 : 0}
+                        </div>
+                    )}
 
                     <CustomDropDown
                         name="moreThan3"
@@ -363,25 +363,25 @@ const General = () => {
                         onChange={handleChange}
                         data={data}
                         col={2}
+                        className="mx-2"
                         disabled={!data?.moreThan1 || !data?.moreThan2}
                     />
-                    <div>
-                        <CustomInputNumber
-                            name="unitPrice3"
-                            label="Unit Price"
-                            onChange={handleChange}
-                            data={data}
-                            prefix="$"
-                            minFractionDigits={4}
-                            maxFractionDigits={4}
-                        />
-                        {data?.wholesaleCost && (
-                            <div className="text-center">
-                                <span className=""> Markup:</span>
-                                {data?.unitPrice3 ? val3 : 0}
-                            </div>
-                        )}
-                    </div>
+                    <CustomInputNumber
+                        name="unitPrice3"
+                        label="Unit Price"
+                        onChange={handleChange}
+                        data={data}
+                        prefix="$"
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                        col={2}
+                    />
+                    {data?.wholesaleCost && (
+                        <div className="text-center col-2">
+                            <span className=""> Markup:</span>
+                            {data?.unitPrice3 ? val3 : 0}
+                        </div>
+                    )}
                     <CustomButtonGroup>
                         <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
                         <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=tracking')} loading={loading} />

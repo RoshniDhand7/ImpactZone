@@ -7,6 +7,7 @@ const intitalState = {
     allCategoryVariations: [],
     catalogServiceFilterItems: [],
     catalogServiceDropdown: [],
+    catalogDropDown: [],
 };
 
 const catalogItemsReducer = (state = intitalState, action) => {
@@ -29,6 +30,7 @@ const catalogItemsReducer = (state = intitalState, action) => {
                     ?.filter((item) => item.type === 'SERVICE')
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
                 catalogServiceDropdown: action.payload?.filter((item) => item.type === 'SERVICE')?.map((item) => ({ name: item.name, value: item?._id })),
+                catalogDropDown: action.payload?.map((item) => ({ name: item.name, value: item?._id })),
             };
         case types.CHANGE_CATALOG_ITEMS_FILTER:
             return {

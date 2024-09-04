@@ -158,7 +158,7 @@ const Variations = () => {
                 <>
                     {products[0]?.markupPrice && (
                         <div className="text-center">
-                            <span className=""> Markup:</span>
+                            {/* <span className=""> Markup:</span> */}
                             {PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}
                         </div>
                     )}

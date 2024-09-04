@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addProfitCenters, editProfitCenters, getProfitCenter } from '../../../../redux/actions/InventorySettings/profitCenterAction';
+import CustomPickList from '../../../../shared/Input/CustomPickList';
 
 const ProfitCenterForm = () => {
     const history = useHistory();
@@ -43,6 +44,7 @@ const ProfitCenterForm = () => {
         profitCenterCode: '',
         earningsCode: '',
         isActive: false,
+        catalog: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -57,6 +59,8 @@ const ProfitCenterForm = () => {
             }
         }
     };
+    const { catalogDropDown } = useSelector((state) => state.catalogItems);
+
     return (
         <FormPage backText="Profit Center">
             <CustomCard col="12" title="General">
@@ -71,7 +75,7 @@ const ProfitCenterForm = () => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Catalog Items">
-                <CustomGridLayout></CustomGridLayout>
+                <CustomPickList name="catalog" selected={data?.catalog} sourceData={catalogDropDown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Data Export">
                 <CustomGridLayout>
