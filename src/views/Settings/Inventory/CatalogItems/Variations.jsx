@@ -154,16 +154,7 @@ const Variations = () => {
 
     const unitPriceTemplate = useCallback(
         (r) => {
-            return (
-                <>
-                    {products[0]?.markupPrice && (
-                        <div className="text-center">
-                            {/* <span className=""> Markup:</span> */}
-                            {PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}
-                        </div>
-                    )}
-                </>
-            );
+            return <>{products[0]?.markupPrice && <>{PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}</>}</>;
         },
         [products],
     );

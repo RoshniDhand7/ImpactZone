@@ -117,8 +117,8 @@ const AgreementTab = ({ onTabEnable }) => {
                         assessedFee: data.assessedFee.map((item) => ({
                             ...item,
                             dueDate: item.dueDate ? new Date(item.dueDate) : '',
-                            recurring: item.recurring.toString(),
-                            apply: item.apply.toString(),
+                            recurring: item.recurring,
+                            apply: item.apply,
                         })),
                     });
                 }),
@@ -126,20 +126,6 @@ const AgreementTab = ({ onTabEnable }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    // const uniqueData = (data) => {
-    //     let unique = data.filter((obj, index) => {
-    //         return index === data.findIndex((o) => obj.catalogId === o.catalogId);
-    //     });
-    //     unique = unique?.map((item, i) => ({
-    //         ...item,
-    //         numberOfPayments: item.numberOfPayments,
-    //         unitPrice: item.unitPrice,
-    //         firstDueDate: new Date(moment().add(1, 'months')),
-    //         autoRenew: item.autoRenew.toString(),
-    //     }));
-    //     return unique;
-    // };
 
     const handleChangeDynamicFields = ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };

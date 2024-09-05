@@ -32,7 +32,7 @@ const CategoriesForm = () => {
                 getCategory(id, (data) => {
                     setData({
                         name: data.name,
-                        displayInPos: data.displayInPos.toString(),
+                        displayInPos: data.displayInPos,
                         posButtonLabel: data.posButtonLabel,
                         availableCategory: data.availableCategory,
                         description: data.description,

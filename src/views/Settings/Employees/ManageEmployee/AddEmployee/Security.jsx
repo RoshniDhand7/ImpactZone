@@ -40,7 +40,7 @@ const Security = () => {
                         barCode: data.barCode,
                         accessCode: data.accessCode,
                         email: data.email,
-                        multiClubClockIn: data.multiClubClockIn.toString(),
+                        multiClubClockIn: data.multiClubClockIn,
                         securityRoles: data.securityRoles,
                     });
                 }),

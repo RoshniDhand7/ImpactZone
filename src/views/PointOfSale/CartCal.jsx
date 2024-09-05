@@ -21,39 +21,13 @@ export const calculateUnitPrice = (item) => {
 
     return item.unitPrice;
 };
-export const calculateDiscount = (item, allDiscountTypes) => {
-    const { quantity, totalTaxPercentage, allowDiscount, discount } = item;
-
-    let newDiscount = allDiscountTypes.find((item) => item._id === discount?._id);
-
-    const matchingItem = newDiscount?.multiItemDiscount?.find((data) => data.value1 === quantity);
-
-    const unitPrice = calculateUnitPrice(item);
-    const taxValue = calculateTax(unitPrice, totalTaxPercentage);
-    const netPrice = (unitPrice - taxValue) * quantity;
-
-    console.log(netPrice, 'netPrice');
-
-    if (allowDiscount === 'false' || !discount) {
-        return 0;
-    }
-
-    const discountValue = matchingItem ? matchingItem?.value2 : newDiscount?.percentage;
-    const amountType = matchingItem ? matchingItem?.amountType : newDiscount?.amountType;
-
-    if (amountType === 'FIXED') {
-        return netPrice - discountValue;
-    } else {
-        return calculateTax(netPrice, discountValue);
-    }
-};
 
 export const calculatePromoCodeDiscount = (discount, netTotal) => {
     let { amountType, percentage } = discount;
     if (amountType === 'FIXED') {
         return netTotal - percentage;
     } else {
-        return calculateTax(netTotal, percentage);
+        // return calculateTax(netTotal, percentage);
     }
 };
 
@@ -65,11 +39,33 @@ export const calculateCommission = (amountType, pay, netTotal, quantity, commiss
             return pay;
         }
     } else {
-        return calculateTax(netTotal, pay);
+        // return calculateTax(netTotal, pay);
     }
 };
+export const calculateDiscount = (item, allDiscountTypes) => {
+    const { quantity, allowDiscount, discount } = item;
+    let newDiscount = allDiscountTypes.find((item1) => item1._id === discount?._id);
+    const matchingItem = newDiscount?.multiItemDiscount?.find((data) => data.value1 === quantity);
+    const unitPrice = calculateUnitPrice(item);
+    const netUnitPrice = unitPrice * quantity;
+    const discountValue = matchingItem ? matchingItem?.value2 : newDiscount?.percentage;
+    const amountType = matchingItem ? matchingItem?.amountType : newDiscount?.amountType;
 
-export const calculateTax = (unitPrice, taxPercentage) => {
-    console.log(unitPrice, taxPercentage, 'taxPer');
-    return Number(unitPrice * (taxPercentage / 100).toFixed(4));
+    if (allowDiscount === 'false' || !discount) {
+        return 0;
+    }
+
+    if (amountType === 'FIXED') {
+        return netUnitPrice - discountValue < 0 ? 0 : discountValue * quantity;
+    } else {
+        return (unitPrice * quantity * discountValue) / 100;
+    }
+};
+export const calculateTax = (item, discount) => {
+    const unitPrice = calculateUnitPrice(item);
+    const netUnitPrice = unitPrice * item.quantity;
+    const totalDiscountedPrice = netUnitPrice - discount;
+    return Number((totalDiscountedPrice * (item.totalTaxPercentage / 100)).toFixed(4)) < 0
+        ? 0
+        : Number((totalDiscountedPrice * (item.totalTaxPercentage / 100)).toFixed(4));
 };

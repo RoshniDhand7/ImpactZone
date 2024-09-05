@@ -66,7 +66,7 @@ const General = () => {
                         city: data.city,
                         state: data.state,
                         zipCode: data.zipCode,
-                        emailNotification: data.emailNotification?.toString(),
+                        emailNotification: data.emailNotification,
                         onlineNickName: data.onlineNickName,
                         bio: data.bio,
                         socialMedia: data.socialMedia,

@@ -70,7 +70,7 @@ const Usage = () => {
             getUsageItem(id, (data) => {
                 if (data.checkInDeduction) {
                     setData({
-                        checkInDeduction: data.checkInDeduction.toString(),
+                        checkInDeduction: data.checkInDeduction,
                     });
                     setPayTo(data.paysTo);
                     setPayFor(data.paysFor);

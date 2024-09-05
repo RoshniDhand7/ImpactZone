@@ -47,10 +47,10 @@ const Tracking = () => {
             dispatch(
                 getCatalogItem(id, (data) => {
                     setData({
-                        requireCommission: data.requireCommission.toString(),
+                        requireCommission: data.requireCommission,
                         commissionGroup: data.commissionGroup,
                         referralGroup: data.referralGroup,
-                        memberRequired: data.memberRequired.toString(),
+                        memberRequired: data.memberRequired,
                         caseQuantity: data.caseQuantity,
                         vendor: data.vendor,
                         trackingMinimumQuantity: data.trackingMinimumQuantity,

@@ -40,7 +40,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     const [tempData, setTempData] = useState(null);
 
     const handleDiscountOpen = (col, rowIndex) => {
-        if (col?.overRideDiscount === 'true' || col?.defaultDiscount === null) {
+        if (col?.overRideDiscount || col?.defaultDiscount === null) {
             setTempData((prev) => ({
                 ...prev,
                 [rowIndex]: data?.cartItems?.[rowIndex],
@@ -59,7 +59,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
                     </li>
                     <hr />
                     <li
-                        className={`"flex  text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center ${col?.overRideDiscount === 'false' && col?.defaultDiscount ? 'custom-discount' : ''} "`}
+                        className={`"flex  text-xs mt-2 font-medium mb-3 cursor-pointer justify-content-center ${!col?.overRideDiscount && col?.defaultDiscount ? 'custom-discount' : ''} "`}
                         onClick={() => handleDiscountOpen(col, index.rowIndex)}
                     >
                         <Tooltip target=".custom-discount" content="Not Applicable" position="bottom" showDelay="400" />

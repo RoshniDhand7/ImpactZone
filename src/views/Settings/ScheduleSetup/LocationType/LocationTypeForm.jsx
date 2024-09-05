@@ -21,7 +21,7 @@ const LocationTypeForm = () => {
                 getLocationType(id, (data) => {
                     setData({
                         name: data.name,
-                        allowOverbooking: data.allowOverbooking.toString(),
+                        allowOverbooking: data.allowOverbooking,
                     });
                 }),
             );

@@ -29,9 +29,9 @@ const DepartmentsForm = () => {
                 getDepartment(id, (data) => {
                     setData({
                         name: data.name,
-                        showInCalender: data.showInCalender.toString(),
-                        visibleOnline: data.visibleOnline.toString(),
-                        salesPersonOnline: data.salesPersonOnline.toString(),
+                        showInCalender: data.showInCalender,
+                        visibleOnline: data.visibleOnline,
+                        salesPersonOnline: data.salesPersonOnline,
                         departmentCode: data.departmentCode,
                     });
                 }),

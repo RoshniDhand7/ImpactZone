@@ -76,12 +76,14 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const netTotal = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
-        const netPrice = unitPrice * item.quantity - taxValue * item.quantity;
+        const netUnitPrice = unitPrice * item.quantity;
+        const discount = calculateDiscount(item, allDiscountTypes);
+        const totalDiscountedPrice = netUnitPrice - discount < 0 ? 0 : netUnitPrice - discount;
+        const tax = calculateTax(item, discount);
+
+        const netPrice = totalDiscountedPrice - tax;
         return sum + netPrice;
     }, 0.0);
-
-    console.log('data>>', data);
 
     const netTotalDiscount = useMemo(() => {
         return data?.cartItems
@@ -95,17 +97,20 @@ const NewCart = ({ data, setData, handleChange }) => {
                 return Number(sum) + totalDiscount + promoCodeDiscount;
             }, 0)
             .toFixed(4);
-    }, [data?.cartItems, allPOSPromo, netTotal, allDiscountTypes]);
+    }, [data?.cartItems, allPOSPromo, allDiscountTypes, netTotal]);
 
-    const netTotalTax = data?.cartItems.reduce((sum, item) => {
-        const unitPrice = calculateUnitPrice(item);
-        const taxValue = calculateTax(unitPrice, item?.totalTaxPercentage);
-        const netTaxValue = taxValue * item?.quantity;
-        const newTax = item?.waiveTax || (item?.subVariation?.id && !item?.subVariation?.taxable) ? 0 : netTaxValue;
-        return (Number(sum) + newTax).toFixed(4);
-    }, 0);
+    const netTotalTax = useMemo(() => {
+        return data?.cartItems
+            .reduce((sum, item) => {
+                const discount = calculateDiscount(item, allDiscountTypes);
+                const taxValue = calculateTax(item, discount);
+                const newTax = item?.waiveTax || (item?.subVariation?.id && !item?.subVariation?.taxable) ? 0 : taxValue;
+                return Number(sum) + newTax;
+            }, 0)
+            .toFixed(4);
+    }, [data?.cartItems, allDiscountTypes]);
 
-    const finalTotal = netTotal - Number(netTotalDiscount) + Number(netTotalTax);
+    const finalTotal = netTotal + Number(netTotalTax);
 
     return (
         <>
