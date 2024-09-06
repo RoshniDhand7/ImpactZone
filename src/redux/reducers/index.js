@@ -43,6 +43,7 @@ import tagsReducer from './InventorySettings/tagsReducer';
 import POSReducer from './POSReducer';
 import dashboardReducer from './Dashboard/DashboardReducer';
 import PosReducer from './POS/PosReducer';
+import RegisterReducer from './PosSettings/registerReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -89,4 +90,5 @@ export default combineReducers({
     POS: POSReducer,
     dashboard: dashboardReducer,
     PointOfSale: PosReducer,
+    registers: RegisterReducer,
 });

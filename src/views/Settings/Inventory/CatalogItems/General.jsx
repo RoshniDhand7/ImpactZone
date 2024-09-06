@@ -61,7 +61,7 @@ const General = () => {
         unitPrice2: '',
         unitPrice3: '',
         stockable: false,
-        allowUnlimited:false,
+        allowUnlimited: false,
         minimumQuantity: 0,
         maximumQuantity: 0,
         defaultQuantity: 0,
@@ -97,7 +97,7 @@ const General = () => {
     allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     let { clubsDropdown } = useSelector((state) => state.clubs);
-    const { allTaxActiveDropdown } = useSelector((state) => state.taxes);
+    const { allTaxActiveDropdown, allTaxes } = useSelector((state) => state.taxes);
 
     useEffect(() => {
         if (data?.unitPrice && data?.defaultQuantity) {
@@ -219,6 +219,14 @@ const General = () => {
         }
     };
 
+    const combinedTaxPercentage = allTaxes.filter((tax) => data?.taxes?.includes(tax._id)).reduce((total, tax) => total + tax.taxRatePercentage, 0);
+
+    useEffect(() => {
+        if (data?.taxes) {
+            setData((prev) => ({ ...prev, netPrice: data?.unitPrice - (data?.unitPrice * combinedTaxPercentage) / 100 }));
+        }
+    }, [data?.taxes, data?.unitPrice]);
+
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">
@@ -273,7 +281,16 @@ const General = () => {
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
                     <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={4} maxFractionDigits={4} />
-                    <CustomDropDown name="promptForPrice" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
+                    <CustomInputNumber
+                        prefix="$"
+                        name="netPrice"
+                        onChange={handleChange}
+                        data={data}
+                        col={6}
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                        disabled={true}
+                    />
                     <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     {data?.allowDiscount && <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />}
                     <CustomDropDown name="overRideDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />

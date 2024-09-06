@@ -110,10 +110,32 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
         });
         setDiscountOpen(null);
     };
+    // const handleSave = () => {
+    //     setData((prev) => {
+    //         const updatedCartDisTax = [...prev.cartItems];
+    //         updatedCartDisTax[discountOpen.rowIndex] = tempData[discountOpen.rowIndex];
+
+    //         return { ...prev, cartItems: updatedCartDisTax };
+    //     });
+
+    //     setTempData((prev) => {
+    //         const updatedTempData = { ...prev };
+    //         delete updatedTempData[discountOpen.rowIndex];
+    //         return updatedTempData;
+    //     });
+    //     onClose();
+    // };
     const handleSave = () => {
         setData((prev) => {
             const updatedCartDisTax = [...prev.cartItems];
-            updatedCartDisTax[discountOpen.rowIndex] = tempData[discountOpen.rowIndex];
+
+            // Add discount information to the cart item
+            const updatedItem = {
+                ...tempData[discountOpen.rowIndex], // existing item data
+                discount: tempData[discountOpen.rowIndex].discount || {}, // assuming discount is in tempData
+            };
+
+            updatedCartDisTax[discountOpen.rowIndex] = updatedItem;
 
             return { ...prev, cartItems: updatedCartDisTax };
         });
@@ -123,6 +145,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
             delete updatedTempData[discountOpen.rowIndex];
             return updatedTempData;
         });
+
         onClose();
     };
 
@@ -154,7 +177,9 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
                     value={tempData?.[discountOpen?.rowIndex]?.discount}
                     onChange={handleChange}
                     customIndex={discountOpen?.rowIndex}
-                    options={allDiscountDropdown}
+                    options={allDiscountDropdown?.map((item) => {
+                        return { name: item.discountName, value: item };
+                    })}
                 />
             </CustomDialog>
         </>

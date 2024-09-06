@@ -37,7 +37,7 @@ const EventClassesForm = () => {
                 assistantPay: '',
             },
         ],
-        staff: '',
+        staff: null,
         payType: '',
         totalCapacity: null,
         waitlistPeople: null,
@@ -77,7 +77,7 @@ const EventClassesForm = () => {
                         endDate: new Date(data.endDate),
                         schedule: data.schedule?.map((item) => ({ ...item, startTime: convertToDateTime(item.startTime) })),
                         instructor: data.instructor,
-                        staff: data.staff,
+                        staff: data.staff ? data?.staff : null,
                         payType: data.pay,
                         totalCapacity: data.totalCapacity ? data.totalCapacity : allEventClasses?.defaultMaxAttendes,
                         waitlistPeople: data.waitlistPeople ? data.waitlistPeople : allEventClasses?.maximumWaitlist,
@@ -126,7 +126,7 @@ const EventClassesForm = () => {
             dispatch(getServicesEvents(data?.event));
             setData((prev) => ({
                 ...prev,
-                staff: '',
+                staff: null,
                 payType: '',
                 instructor: [
                     {

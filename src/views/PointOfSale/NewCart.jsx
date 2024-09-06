@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
-import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateUnitPrice } from './CartCal';
+import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateTax1, calculateUnitPrice } from './CartCal';
 import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
@@ -77,18 +77,21 @@ const NewCart = ({ data, setData, handleChange }) => {
     const netTotal = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
         const netUnitPrice = unitPrice * item.quantity;
+        const taxValue = calculateTax1(unitPrice, item.totalTaxPercentage);
+        const netPrice1 = (unitPrice - taxValue) * item.quantity;
         const discount = calculateDiscount(item, allDiscountTypes);
-        const totalDiscountedPrice = netUnitPrice - discount < 0 ? 0 : netUnitPrice - discount;
-        const tax = calculateTax(item, discount);
+        const totalDiscountedPrice = netPrice1 - discount < 0 ? 0 : netPrice1 - discount;
+        const tax = calculateTax(item, totalDiscountedPrice);
 
-        const netPrice = totalDiscountedPrice - tax;
-        return sum + netPrice;
+        const netPrice = totalDiscountedPrice + tax;
+        return sum + netPrice1;
     }, 0.0);
 
     const netTotalDiscount = useMemo(() => {
         return data?.cartItems
             .reduce((sum, item) => {
                 const discount = calculateDiscount(item, allDiscountTypes);
+
                 const totalDiscount = item?.discount ? discount : 0;
                 const promoCodeDiscount =
                     (allPOSPromo && allPOSPromo?.discountApply) || allPOSPromo?.applyDiscountAndCommission
@@ -122,7 +125,7 @@ const NewCart = ({ data, setData, handleChange }) => {
                     data={data}
                     setData={setData}
                     netTotal={netTotal}
-                    allDiscountDropdown={allDiscountDropdown}
+                    allDiscountDropdown={allDiscountTypes}
                 />
             </CustomAccordion>
             <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">

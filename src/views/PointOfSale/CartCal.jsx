@@ -43,29 +43,38 @@ export const calculateCommission = (amountType, pay, netTotal, quantity, commiss
     }
 };
 export const calculateDiscount = (item, allDiscountTypes) => {
-    const { quantity, allowDiscount, discount } = item;
+    const { quantity, allowDiscount, discount, totalTaxPercentage } = item;
     let newDiscount = allDiscountTypes.find((item1) => item1._id === discount?._id);
     const matchingItem = newDiscount?.multiItemDiscount?.find((data) => data.value1 === quantity);
     const unitPrice = calculateUnitPrice(item);
+    const taxValue = calculateTax1(unitPrice, totalTaxPercentage);
+    const netPrice = (unitPrice - taxValue) * quantity;
+
     const netUnitPrice = unitPrice * quantity;
     const discountValue = matchingItem ? matchingItem?.value2 : newDiscount?.percentage;
     const amountType = matchingItem ? matchingItem?.amountType : newDiscount?.amountType;
 
-    if (allowDiscount === 'false' || !discount) {
+    if (!allowDiscount || !discount) {
         return 0;
     }
 
     if (amountType === 'FIXED') {
-        return netUnitPrice - discountValue < 0 ? 0 : discountValue * quantity;
+        return discountValue * quantity;
     } else {
-        return (unitPrice * quantity * discountValue) / 100;
+        return (netPrice * quantity * discountValue) / 100;
     }
 };
 export const calculateTax = (item, discount) => {
     const unitPrice = calculateUnitPrice(item);
+    const taxValue = calculateTax1(unitPrice, item.totalTaxPercentage);
+    const netPrice = (unitPrice - taxValue) * item.quantity;
     const netUnitPrice = unitPrice * item.quantity;
-    const totalDiscountedPrice = netUnitPrice - discount;
+    const totalDiscountedPrice = netPrice - discount;
     return Number((totalDiscountedPrice * (item.totalTaxPercentage / 100)).toFixed(4)) < 0
         ? 0
         : Number((totalDiscountedPrice * (item.totalTaxPercentage / 100)).toFixed(4));
+};
+
+export const calculateTax1 = (unitPrice, taxPercentage) => {
+    return Number(unitPrice * (taxPercentage / 100).toFixed(4));
 };
