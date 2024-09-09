@@ -34,7 +34,7 @@ const General = () => {
         shortName: '',
         color: '',
         description: '',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

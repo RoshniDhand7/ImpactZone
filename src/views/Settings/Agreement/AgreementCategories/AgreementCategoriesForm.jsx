@@ -31,7 +31,7 @@ const AgreementCategoriesForm = () => {
     const [data, setData] = useState({
         name: '',
         subCategories: [],
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

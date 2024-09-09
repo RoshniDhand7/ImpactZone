@@ -47,7 +47,7 @@ const ResourcesForm = () => {
         availableQuantity: '',
         usedInEvents: '',
         pastDue: '',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

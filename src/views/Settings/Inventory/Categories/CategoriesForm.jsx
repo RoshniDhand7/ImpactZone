@@ -45,11 +45,11 @@ const CategoriesForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         name: '',
-        displayInPos: 'false',
+        displayInPos: false,
         posButtonLabel: '',
         availableCategory: '',
         description: '',
-        isActive: false,
+        isActive: true,
         catalog: [],
     });
     const handleChange = ({ name, value }) => {

@@ -43,7 +43,7 @@ const ProfitCenterForm = () => {
         description: '',
         profitCenterCode: '',
         earningsCode: '',
-        isActive: false,
+        isActive: true,
         catalog: [],
     });
     const handleChange = ({ name, value }) => {

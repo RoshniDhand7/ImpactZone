@@ -82,9 +82,9 @@ const DiscountForm = () => {
         // sounds: '',
         multiItemDiscountCheck: false,
         indefinite: false,
-        combinedDiscount: 'false',
-        itemUsedMoreThanOnce: 'false',
-        itemBogo: 'false',
+        combinedDiscount: false,
+        itemUsedMoreThanOnce: false,
+        itemBogo: false,
         isActive: true,
         // days Schedule
         selectedDays: [],

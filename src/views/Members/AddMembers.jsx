@@ -57,8 +57,8 @@ const AddMembers = () => {
     let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
     const loading = useSelector((state) => state.loader.isLoading);
 
-    const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'true')?.map((item) => ({ name: item.name, value: item._id }));
-    const memberagreement = allMembershipPlan?.filter((item) => item.oneTimePlan === 'false')?.map((item) => ({ name: item.name, value: item._id }));
+    const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
+    const memberagreement = allMembershipPlan?.filter((item) => !item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
         if (data.createType) {

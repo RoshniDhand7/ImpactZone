@@ -79,6 +79,7 @@ const addCatalogItem =
         const payload = {
             ...data,
             category: data?.category === 'None' ? null : data?.category,
+            defaultDiscount: data?.defaultDiscount === 'None' ? null : data?.defaultDiscount,
         };
 
         const res = await api('post', EndPoints.INVENTORY_CATALOG, payload);

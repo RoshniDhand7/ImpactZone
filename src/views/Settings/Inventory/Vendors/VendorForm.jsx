@@ -60,7 +60,7 @@ const VendorForm = () => {
         state: '',
         zipCode: '',
         alternateVendors: '',
-        isActive: false,
+        isActive: true,
         paymentTerms: '',
         deliveryTerms: '',
         repName: '',

@@ -31,7 +31,7 @@ const Usage = () => {
     const loading = useSelector((state) => state?.loader?.isLoading);
 
     const [data, setData] = useState({
-        checkInDeduction: 'false',
+        checkInDeduction: false,
     });
 
     const columns = [

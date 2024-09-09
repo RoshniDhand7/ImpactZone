@@ -16,7 +16,7 @@ const EventSetup = () => {
     const { allEvents } = useSelector((state) => state.event);
     const modifiedEvents = allEvents?.map((item) => ({
         ...item,
-        internalUse: item.internalUse === 'true' ? true : false,
+        internalUse: item.internalUse ? true : false,
     }));
 
     const columns = [

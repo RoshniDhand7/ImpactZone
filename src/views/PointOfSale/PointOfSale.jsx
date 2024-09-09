@@ -40,6 +40,8 @@ export default function PointOfSale() {
     allCatalogFilterItems = processCatalogItems(allCatalogFilterItems).filter((item) => item.hasCategory);
     allCatalogItems = processCatalogItems(allCatalogItems);
 
+    console.log(allCatalogFilterItems, 'allCatalogItem');
+
     const getItemNamesAndSubvariations = (data) => {
         const result = [];
 

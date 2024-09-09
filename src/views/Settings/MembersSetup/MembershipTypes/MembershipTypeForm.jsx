@@ -25,7 +25,7 @@ const MembershipTypeForm = () => {
         name: '',
         description: '',
         discountType: 'None',
-        accessRestriction: 'false',
+        accessRestriction: false,
         accessSchedule: null,
         remotecheckin: '',
         transferToAnotherType: null,
@@ -117,7 +117,7 @@ const MembershipTypeForm = () => {
                         <CustomInput name="description" data={data} onChange={handleChange} />
                         <CustomDropDown name="discountType" options={discountTypeOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="accessRestriction" options={yesNoOptions} onChange={handleChange} data={data} />
-                        {data?.accessRestriction === 'true' && (
+                        {data?.accessRestriction && (
                             <CustomDropDown name="accessSchedule" options={AccessScheduleDropdown} onChange={handleChange} data={data} />
                         )}
                         <CustomDropDown name="remotecheckin" options={yesNoOptions} onChange={handleChange} data={data} />

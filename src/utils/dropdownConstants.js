@@ -82,7 +82,7 @@ export const taxRatePercentageDropdown = [
     { name: '51-100', value: (val) => val >= 51 && val <= 100 },
 ];
 
-export const CommissionGpTypeOptions = ['Products', 'Services', 'Agreement'].map((name) => ({ name, value: name }));
+export const CommissionGpTypeOptions = ['Products', 'Services'].map((name) => ({ name, value: name }));
 
 export const durationOptions = ['Days', 'Weeks', 'Months', 'Years'].map((name) => ({ name, value: name.toUpperCase() }));
 

@@ -16,7 +16,12 @@ export default function DashboardCards() {
     }, [dispatch]);
 
     const { allDashboard } = useSelector((state) => state?.dashboard);
-    const { employeeCount, memberCount } = allDashboard;
+    // const { employeeCount, memberCount } = allDashboard;
+
+    let employeeCount = allDashboard?.employeeCount;
+    let memberCount = allDashboard?.memberCount;
+
+    console.log(allDashboard, 'allDashboard');
 
     const cards = [
         {

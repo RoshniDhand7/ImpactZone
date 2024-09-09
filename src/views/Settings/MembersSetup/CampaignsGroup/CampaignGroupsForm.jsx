@@ -28,7 +28,7 @@ const CompaignGroupForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         name: '',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

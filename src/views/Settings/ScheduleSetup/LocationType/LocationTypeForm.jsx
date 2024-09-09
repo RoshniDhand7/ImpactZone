@@ -29,7 +29,7 @@ const LocationTypeForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         name: '',
-        allowOverbooking: 'false',
+        allowOverbooking: false,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

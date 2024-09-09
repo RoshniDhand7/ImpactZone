@@ -104,7 +104,7 @@ const SchedulingOptionsForm = () => {
 
     const handleAddTimings = () => {
         let ignore = [];
-        if (data.open === 'false') {
+        if (!data.open) {
             ignore = ['startTime', 'endTime', 'allTimingsList'];
         } else {
             ignore = ['allTimingsList'];
@@ -197,7 +197,7 @@ const SchedulingOptionsForm = () => {
     const columns = [
         { field: 'id', header: 'S.no' },
         { field: 'date', body: (r) => moment(r.date).format('DD-MM-YYYY'), header: 'Date' },
-        { field: 'open', body: (r) => (r.open === 'true' ? 'Yes' : 'No'), header: 'Open' },
+        { field: 'open', body: (r) => (r.open ? 'Yes' : 'No'), header: 'Open' },
         { field: 'startTime', body: (r) => (r?.startTime ? moment(r.startTime).format('hh:mm A') : '-'), header: 'Start Time' },
         { field: 'endTime', body: (r) => (r?.endTime ? moment(r.endTime).format('hh:mm A') : '-'), header: 'End Time' },
     ];
@@ -289,7 +289,7 @@ const SchedulingOptionsForm = () => {
                 <CustomGridLayout>
                     <CustomCalenderInput name="date" data={data} onChange={handleChange} col={6} />
                     <CustomDropDown name="open" data={data} onChange={handleChange} options={yesNoOptions} col={6} />
-                    {data?.open === 'true' && (
+                    {data?.open && (
                         <>
                             <CustomCalenderInput
                                 name="startTime"

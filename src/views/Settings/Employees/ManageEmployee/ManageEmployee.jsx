@@ -27,7 +27,7 @@ const ManageEmployee = () => {
     const columns = [
         {
             field: 'name',
-            body: (r) => r.firstName + '' + r.lastName,
+            body: (r) => r.firstName + ' ' + r.lastName,
             header: 'Name',
         },
         { field: 'barCode', header: 'BarCode' },

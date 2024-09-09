@@ -67,7 +67,7 @@ const CustomLogoImage = ({
 
     return (
         <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
-            <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept=".jpg, .jpeg, .png" hidden {...props} />
+            <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept=".jpg, .jpeg, .png,.jfif" hidden {...props} />
             {files.length ? (
                 Object.values(files).map((image, i) => (
                     <div key={i} className="photoDiv">
@@ -77,7 +77,7 @@ const CustomLogoImage = ({
                             onError={(e) => (e.target.src = getDefaultImage())}
                             alt="pic"
                             className={`profile-img relative btn-border-color ${imgclass}`}
-                            accept=".jpg, .jpeg, .png"
+                            accept=".jpg, .jpeg, .png, .jfif"
                         />
                     </div>
                 ))

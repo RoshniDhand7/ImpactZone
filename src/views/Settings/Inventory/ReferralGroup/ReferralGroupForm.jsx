@@ -33,7 +33,7 @@ const ReferralGroupForm = () => {
         name: '',
         amount: 0,
         amountType: 'FIXED',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

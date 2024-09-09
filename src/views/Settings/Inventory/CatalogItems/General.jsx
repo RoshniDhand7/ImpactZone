@@ -198,7 +198,7 @@ const General = () => {
 
     const handleSave = (tab) => {
         let ignore = [];
-        if (data?.allowDiscount === 'false') {
+        if (!data?.allowDiscount) {
             ignore = ['days', 'defaultDiscount'];
         } else {
             ignore = ['days'];
@@ -225,7 +225,9 @@ const General = () => {
         if (data?.taxes) {
             setData((prev) => ({ ...prev, netPrice: data?.unitPrice - (data?.unitPrice * combinedTaxPercentage) / 100 }));
         }
-    }, [data?.taxes, data?.unitPrice]);
+    }, [data?.taxes, data?.unitPrice, combinedTaxPercentage]);
+
+    console.log('data>>', data);
 
     return (
         <div id="main-content">
@@ -236,12 +238,12 @@ const General = () => {
                 <CustomGridLayout>
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
-                    <CustomInput name="name" onChange={handleChange} data={data} />
-                    <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} />
-                    <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} />
+                    <CustomInput name="name" onChange={handleChange} data={data} required />
+                    <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} required />
+                    <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} required />
 
-                    <CustomInput name="itemCaption" onChange={handleChange} data={data} />
-                    <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} />
+                    <CustomInput name="itemCaption" onChange={handleChange} data={data} required />
+                    <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} required />
                     <CustomDropDown name="itemRecurring" label="Is this item Recurring" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown
                         name="itemPurchasedOneTime"
@@ -262,7 +264,7 @@ const General = () => {
             </CustomCard>
             <CustomCard col="12" title="Display">
                 <CustomGridLayout>
-                    <CustomDropDown name="category" options={categoryDropdown} onChange={handleChange} data={data} />
+                    <CustomDropDown name="category" options={categoryDropdown} onChange={handleChange} data={data} required />
                     <CustomMultiselect name="filterSet" options={filterSetDropDown} onChange={handleChange} data={data} />
                     <CustomMultiselect name="tags" options={tagsDropDown} onChange={handleChange} data={data} />
                 </CustomGridLayout>
@@ -280,7 +282,16 @@ const General = () => {
             </CustomCard>
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
-                    <CustomInputNumber prefix="$" name="unitPrice" onChange={handleChange} data={data} col={6} minFractionDigits={4} maxFractionDigits={4} />
+                    <CustomInputNumber
+                        prefix="$"
+                        name="unitPrice"
+                        onChange={handleChange}
+                        data={data}
+                        col={6}
+                        minFractionDigits={4}
+                        maxFractionDigits={4}
+                        required
+                    />
                     <CustomInputNumber
                         prefix="$"
                         name="netPrice"
@@ -308,14 +319,14 @@ const General = () => {
             <CustomCard col="12" title="Details">
                 <CustomGridLayout>
                     <CustomDropDown name="allowUnlimited" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomInputNumber name="minimumQuantity" onChange={handleChange} data={data} />
-                    <CustomInputNumber name="maximumQuantity" onChange={handleChange} data={data} />
-                    <CustomInputNumber name="defaultQuantity" onChange={handleChange} data={data} />
+                    <CustomInputNumber name="minimumQuantity" onChange={handleChange} data={data} required />
+                    <CustomInputNumber name="maximumQuantity" onChange={handleChange} data={data} required />
+                    <CustomInputNumber name="defaultQuantity" onChange={handleChange} data={data} required />
                     <CustomInputNumber name="defaultPrice" data={data} disabled={true} prefix="$" />
                     <CustomDropDown name="stockable" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
                     <CustomDropDown name="itemStart" options={itemStartOptions} onChange={handleChange} data={data} col={2} />
                     <CustomDropDown name="expiration" options={yesNoOptions} onChange={handleChange} data={data} col={4} />
-                    {data?.expiration === 'true' && (
+                    {data?.expiration && (
                         <>
                             <CustomDropDown name="days" options={daysOptions} onChange={handleChange} data={data} col={2} />
                             <CustomDropDown name="month" options={monthOptions} onChange={handleChange} data={data} col={2} />

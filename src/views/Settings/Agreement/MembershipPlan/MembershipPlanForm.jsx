@@ -184,7 +184,7 @@ const MembershipPlanForm = () => {
                         {(data?.autoPay === 'pricing_options_run_out' || data?.autoPay === 'set_schedule') && (
                             <>
                                 <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} />
-                                {data?.sellOnline === 'true' && <CustomEditor name="onlineDescription" onTextChange={handleChange} data={data} />}
+                                {data?.sellOnline && <CustomEditor name="onlineDescription" onTextChange={handleChange} data={data} />}
                             </>
                         )}
                     </CustomGridLayout>

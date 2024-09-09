@@ -31,7 +31,7 @@ const CommissionGroupForm = () => {
     const [data, setData] = useState({
         name: '',
         type: 'PRODUCTS',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

@@ -31,7 +31,7 @@ const ResourceTypeForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
-        isActive: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

@@ -7,7 +7,7 @@ export default function CustomDialog({
     visible,
     position,
     width = '30vw',
-    showHeader = 'true',
+    showHeader = true,
     height,
     onSave,
     loading,
