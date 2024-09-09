@@ -8,17 +8,16 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SpecialRestrictionOptions, defaultDiscountOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import { getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
 import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import AddServices from '../../Inventory/CatalogItems/AddServices';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const MembershipTypeForm = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     useEffect(() => {
-        dispatch(getClubs());
         dispatch(getAccessSchedules());
     }, [dispatch]);
     const [data, setData] = useState({
@@ -43,8 +42,8 @@ const MembershipTypeForm = () => {
     const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
     let { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
     MembershipTypesDropdown = MembershipTypesDropdown?.filter((item) => item.name !== data?.name);
+    const { clubsDropdown } = useGetClubs();
 
-    let { clubsDropdown } = useSelector((state) => state.clubs);
     const history = useHistory();
 
     const { loading } = useSelector((state) => state?.loader?.isLoading);

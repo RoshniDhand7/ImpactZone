@@ -6,23 +6,19 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import CustomPicker from '../../../../shared/ColorPicker/ColorPicker';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { calculateTimes, showFormErrors } from '../../../../utils/commonFunctions';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const DisplayOptions = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const { clubsDropdown } = useGetClubs();
 
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
-
-    let { clubsDropdown } = useSelector((state) => state.clubs);
     const [data, setData] = useState({
         calanderDisplay: [],
         popupDisplay: [],

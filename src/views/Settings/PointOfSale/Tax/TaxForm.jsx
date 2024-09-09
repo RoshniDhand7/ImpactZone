@@ -9,8 +9,8 @@ import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } fro
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { TaxRateTypeOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { addTax, editTax, getTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const TaxForm = () => {
     const history = useHistory();
@@ -20,11 +20,7 @@ const TaxForm = () => {
     useEffect(() => {
         dispatch(getTaxes());
     }, [dispatch]);
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
-
-    let { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
 
     const { allTaxDropdown } = useSelector((state) => state.taxes);
 

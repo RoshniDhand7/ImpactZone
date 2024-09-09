@@ -26,6 +26,7 @@ import SellPlanForm from '../views/Plans/SellPlanForm';
 import AllDrafts from '../views/Plans/AllDrafts';
 import PlanAgreement from '../views/Plans/Agreement';
 import SchedulingOptionsForm from '../views/Settings/ScheduleSetup/SchedulingOptionsForm';
+import RegisterForm from '../views/Settings/PointOfSale/Registers/RegisterForm';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -594,6 +595,18 @@ export const PrivateRoutes = [
                         name: 'Discount',
                         exact: true,
                         component: DiscountForm,
+                    },
+                    {
+                        path: '/register/add',
+                        name: 'Register',
+                        exact: true,
+                        component: RegisterForm,
+                    },
+                    {
+                        path: '/register/edit/:id',
+                        name: 'Register',
+                        exact: true,
+                        component: RegisterForm,
                     },
                 ],
             },

@@ -7,8 +7,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { CommissionGpTypeOptions } from '../../../../utils/dropdownConstants';
+import { catalogProductTypeOptions } from '../../../../utils/dropdownConstants';
 import { addCommissionGroups, editCommissionGroups, getCommissionGroup } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
+import SelectCatalogItems from '../CatalogItems/SelectCatalogItems';
 
 const CommissionGroupForm = () => {
     const history = useHistory();
@@ -23,6 +24,7 @@ const CommissionGroupForm = () => {
                         name: data.name,
                         type: data.type,
                         isActive: data.isActive,
+                        catalogs: data?.catalogs,
                     });
                 }),
             );
@@ -32,6 +34,7 @@ const CommissionGroupForm = () => {
         name: '',
         type: 'PRODUCTS',
         isActive: true,
+        catalogs: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -51,14 +54,11 @@ const CommissionGroupForm = () => {
             <CustomCard col="12" title="Add New Commission Group">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
-                    <CustomDropDown name="type" options={CommissionGpTypeOptions} data={data} onChange={handleChange} />
-
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
+                    <CustomDropDown name="type" options={catalogProductTypeOptions} data={data} onChange={handleChange} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col={4} />
                 </CustomGridLayout>
             </CustomCard>
-            <CustomCard col="12" title="Catalog Items">
-                <CustomGridLayout></CustomGridLayout>
-            </CustomCard>
+            <SelectCatalogItems data={data} setData={setData} id={id} loading={loading} name="Catalog Items" />
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.goBack()} />

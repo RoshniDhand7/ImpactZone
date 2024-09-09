@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import CustomCard from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
-import { useSelector, useDispatch } from 'react-redux';
-import { getClubs } from '../../../../../redux/actions/BusinessSettings/clubsAction';
+import { useDispatch } from 'react-redux';
 import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useHistory, useParams } from 'react-router-dom';
+import useGetClubs from '../../../../../hooks/useGetClubs';
 
 const Clubs = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const history = useHistory();
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
-
-    let { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
 
     const [loading, setLoading] = useState(false);
     useEffect(() => {

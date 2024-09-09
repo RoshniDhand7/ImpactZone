@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCatalogItem, deleteCatalogItem, getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
@@ -8,6 +8,7 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
+import useCatalogItems from '../../../../hooks/useCatalogItems';
 
 const CatalogItems = () => {
     const history = useHistory();
@@ -15,11 +16,7 @@ const CatalogItems = () => {
     const [visible, setVisible] = useState(false);
 
     const openOverlay = useRef(null);
-    useEffect(() => {
-        dispatch(getCatalogItems());
-    }, [dispatch]);
-
-    const { allCatalogItems } = useSelector((state) => state.catalogItems);
+    const { allCatalogItems } = useCatalogItems();
     const { loading } = useSelector((state) => state?.loader?.isLoading);
 
     const columns = [
@@ -28,7 +25,6 @@ const CatalogItems = () => {
         { field: 'unitPrice', header: 'Price' },
         { field: 'displayInPos', header: 'Event' },
         { field: 'isActive', header: 'Active' },
-        // { field: '', header: <PrimaryButton name="Deploy" className={'text-white'} label="Deploy  Selected Items" outlined /> },
     ];
 
     const onDelete = (col, position) => {

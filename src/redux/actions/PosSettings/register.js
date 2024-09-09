@@ -39,6 +39,8 @@ const addRegister = (data, setLoading, history) => async (dispatch) => {
     const res = await api('post', EndPoints.REGISTERS, data);
     if (res.success) {
         history.goBack();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     setLoading(false);
 };
@@ -48,6 +50,8 @@ const editRegister = (id, data, setLoading, history) => async (dispatch, getStat
     const res = await api('put', EndPoints.REGISTERS + id, data);
     if (res.success) {
         history.goBack();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     setLoading(false);
 };

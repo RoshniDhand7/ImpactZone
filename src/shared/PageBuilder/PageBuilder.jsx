@@ -12,20 +12,21 @@ import {
     getAgreementTemplate,
     getAssets,
 } from '../../redux/actions/AgreementSettings/AgreementTemplate';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CustomDialog from '../Overlays/CustomDialog';
 import { CustomGridLayout } from '../Cards/CustomCard';
 import { CustomInput, CustomMultiselect } from '../Input/AllInputs';
-import { getClubs } from '../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../utils/validations';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
 import { mergeFields } from '../../utils/constant';
+import useGetClubs from '../../hooks/useGetClubs';
 
 export default function PageBuilder({ id }) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
+
     const editorRef = useRef(null);
     useEffect(() => {
         const initEditor = () => {
@@ -218,7 +219,6 @@ export default function PageBuilder({ id }) {
     }, []);
     useEffect(() => {
         onGetAssets();
-        dispatch(getClubs());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

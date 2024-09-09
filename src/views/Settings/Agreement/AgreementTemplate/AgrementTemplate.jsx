@@ -8,14 +8,12 @@ import { addAgreementTemplate, deleteAgreementTemplates, getAgreementTemplates }
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const AgreementCategories = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
+    const { clubsDropdown } = useGetClubs();
 
     const [visible, setVisible] = useState(false);
     const [data, setData] = useState({
@@ -30,7 +28,6 @@ const AgreementCategories = () => {
     }, [dispatch]);
 
     const { allAgreementTemplates } = useSelector((state) => state.agreement);
-    const { clubsDropdown } = useSelector((state) => state.clubs);
 
     const columns = [
         { field: 'name', header: 'Name' },

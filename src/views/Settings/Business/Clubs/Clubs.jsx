@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const Clubs = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
-
-    const { allClubs } = useSelector((state) => state.clubs);
+    const { allClubs } = useGetClubs();
 
     const columns = [
         { field: 'phoneNumber', header: 'Phone Number' },

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRegisters } from '../../../../redux/actions/PosSettings/register';
+import { useHistory } from 'react-router-dom';
 
 const Registers = () => {
-    const history = useHistory();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(getRegisters());
@@ -17,14 +17,16 @@ const Registers = () => {
 
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'club', header: 'Club' },
+        { field: 'clubName', header: 'Club' },
     ];
 
-    const onEdit = (col) => {};
+    const onEdit = (col) => {
+        history.push(`/settings/pos/register/edit/${col._id}`);
+    };
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Register" linkTo="" contentPosition="end"></CustomFilterCard>
+            <CustomFilterCard buttonTitle="Add Register" linkTo="/settings/pos/register/add" contentPosition="end"></CustomFilterCard>
             <CustomTable data={allRegisters} columns={columns} onEdit={onEdit} />
         </>
     );

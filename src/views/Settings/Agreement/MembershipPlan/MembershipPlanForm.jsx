@@ -6,7 +6,6 @@ import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber } f
 import { useHistory, useParams } from 'react-router-dom';
 import { getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import {
     afterSixPaymentsOptions,
@@ -24,6 +23,7 @@ import CustomEditor from '../../../../shared/Input/CustomEditor';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addMembershipPlan, editMembershipPlan, getMembershipPlan } from '../../../../redux/actions/AgreementSettings/membershipPlan';
 import AddAgreementPlan from './AddAgreementPlan';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const MembershipPlanForm = () => {
     const history = useHistory();
@@ -39,7 +39,7 @@ const MembershipPlanForm = () => {
         agreementTemplate: '',
         assessedFee: [],
         services: [],
-        autoPay: '',
+        autoPay: 'set_schedule',
         oftenClientCharged: '',
         timePeriod: 0,
         noOfAutopays: '',
@@ -54,7 +54,6 @@ const MembershipPlanForm = () => {
 
     useEffect(() => {
         dispatch(getAgreementCategories());
-        dispatch(getClubs());
         dispatch(getMembersipTypes());
         dispatch(getAssesedFees());
     }, [dispatch]);
@@ -68,10 +67,15 @@ const MembershipPlanForm = () => {
     const { allAgreementTemplatesDropdown } = useSelector((state) => state.agreement);
     let { agreementCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
-    const { clubsDropdown } = useSelector((state) => state.clubs);
     const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
+    const { clubsDropdown } = useGetClubs();
+
     const handleSave = () => {
-        if (showFormErrors(data, setData, ['services'])) {
+        let ignore = ['services'];
+        if (data?.whenClientCharged !== 'sprecific_date') {
+            ignore = [...ignore, 'date'];
+        }
+        if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(editMembershipPlan(id, data, history));
             } else {

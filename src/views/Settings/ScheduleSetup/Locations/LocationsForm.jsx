@@ -7,7 +7,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addLocation, editLocation, getLocation } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 import { getLocationTypes } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 
@@ -19,7 +18,6 @@ const LocationsForm = () => {
 
     useEffect(() => {
         dispatch(getLocationTypes());
-        dispatch(getClubs());
     }, [dispatch]);
     const { allClubs } = useSelector((state) => state.clubs);
     const { locationTypeDropdown } = useSelector((state) => state.locationType);

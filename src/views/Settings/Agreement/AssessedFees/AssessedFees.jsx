@@ -8,7 +8,6 @@ import { deleteAssessedFees, getAssesedFees } from '../../../../redux/actions/Ag
 import moment from 'moment';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 
 const AssessedFees = () => {
@@ -20,7 +19,6 @@ const AssessedFees = () => {
         profitCenter: [],
     });
     useEffect(() => {
-        dispatch(getClubs());
         dispatch(getProfitCenters());
     }, [dispatch]);
 

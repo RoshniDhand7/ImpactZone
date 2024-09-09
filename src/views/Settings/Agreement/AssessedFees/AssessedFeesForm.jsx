@@ -7,11 +7,11 @@ import { getProfitCenters } from '../../../../redux/actions/InventorySettings/pr
 import { useDispatch, useSelector } from 'react-redux';
 import { AssessedTypeOptions, DeclinedaysOptions, daysOptions, monthDropdownOptions, preferedDueDay, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addAssessedFees, editAssessedFees, getAssesedFees, getAssessedFee } from '../../../../redux/actions/AgreementSettings/assessedFees';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const AssessedFeesForm = () => {
     const dispatch = useDispatch();
@@ -19,11 +19,10 @@ const AssessedFeesForm = () => {
     const { id } = useParams();
     useEffect(() => {
         dispatch(getProfitCenters());
-        dispatch(getClubs());
     }, [dispatch]);
+    const { clubsDropdown } = useGetClubs();
 
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
-    const { clubsDropdown } = useSelector((state) => state.clubs);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     const initialState = {
         name: '',

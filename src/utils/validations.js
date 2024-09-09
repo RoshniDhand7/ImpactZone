@@ -142,6 +142,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'clockInRequired':
         case 'state':
         case 'city':
+        case 'member':
         case 'eventType':
         case 'internalUse':
         case 'bookOutFrom':
@@ -149,7 +150,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'eventCommissionType':
         case 'waitListExpiration':
         case 'bookOutTo':
-        case 'club':
         case 'campaignGroup':
         case 'locationType':
         case 'allowCancelOnline':
@@ -192,6 +192,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'event':
         case 'services':
         case 'image':
+        case 'club':
             if (value.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {

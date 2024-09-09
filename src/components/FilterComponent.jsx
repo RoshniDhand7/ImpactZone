@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { CustomButton } from '../shared/Button/CustomButton';
 import { CustomDropDown, CustomMultiselect } from '../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../utils/dropdownConstants';
-import { getClubs } from '../redux/actions/BusinessSettings/clubsAction';
-import { useDispatch, useSelector } from 'react-redux';
+import useGetClubs from '../hooks/useGetClubs';
 
 export default function FilterComponent({ visible, onHide, onApply, value }) {
     const [data, setData] = useState({});
-    const dispatch = useDispatch();
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
-    useEffect(() => {
-        dispatch(getClubs());
-    }, [dispatch]);
 
     // useEffect(() => {
     //     if (value) {
@@ -30,7 +25,7 @@ export default function FilterComponent({ visible, onHide, onApply, value }) {
         setData({});
         onApply(data);
     };
-    const { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
 
     return (
         <Sidebar visible={visible} position="right" onHide={onHide}>

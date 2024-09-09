@@ -16,7 +16,6 @@ import {
 import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../../../redux/actions/InventorySettings/categoriesAction';
-import { getClubs } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
@@ -27,6 +26,7 @@ import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
 import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
 import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
 import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const General = () => {
     const dispatch = useDispatch();
@@ -77,7 +77,6 @@ const General = () => {
     useEffect(() => {
         dispatch(getProfitCenters());
         dispatch(getCategories());
-        dispatch(getClubs());
         dispatch(getTaxes());
         dispatch(getDiscountTypes());
         dispatch(getFilterSets());
@@ -96,7 +95,7 @@ const General = () => {
     categoryDropdown = [...categoryDropdown, ...defaultDiscountOptions];
     allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
-    let { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
     const { allTaxActiveDropdown, allTaxes } = useSelector((state) => state.taxes);
 
     useEffect(() => {
@@ -226,8 +225,6 @@ const General = () => {
             setData((prev) => ({ ...prev, netPrice: data?.unitPrice - (data?.unitPrice * combinedTaxPercentage) / 100 }));
         }
     }, [data?.taxes, data?.unitPrice, combinedTaxPercentage]);
-
-    console.log('data>>', data);
 
     return (
         <div id="main-content">

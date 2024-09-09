@@ -11,6 +11,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
+import useCatalogItems from '../../../../hooks/useCatalogItems';
 
 const Tracking = () => {
     const dispatch = useDispatch();
@@ -41,6 +42,14 @@ const Tracking = () => {
         dispatch(getReferralGroups());
         dispatch(getVendors());
     }, [dispatch]);
+    let { allCommissionGroups } = useSelector((state) => state.commissionGroup);
+
+    const { allCatalogItems } = useCatalogItems();
+    const finalCommissionGroups = allCommissionGroups?.filter((commissionGroup) =>
+        allCatalogItems?.some((catalogItem) => catalogItem._id === id && catalogItem.type === commissionGroup.type),
+    );
+
+    let commissionGroupsDropdown = finalCommissionGroups?.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
         if (id) {
@@ -66,7 +75,6 @@ const Tracking = () => {
         }
     }, [id, dispatch]);
 
-    const { commissionGroupsDropdown } = useSelector((state) => state.commissionGroup);
     const { referralGroupDropdown } = useSelector((state) => state.referralGroup);
     const { vendorsDropdown } = useSelector((state) => state.vendors);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
