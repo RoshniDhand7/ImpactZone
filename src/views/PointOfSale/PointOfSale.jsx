@@ -25,6 +25,7 @@ export default function PointOfSale() {
         variations: null,
         subVariations: null,
         promoCode: [],
+        accessCode: '',
     });
     const dispatch = useDispatch();
 
@@ -39,8 +40,6 @@ export default function PointOfSale() {
     const [openVariationDialog, setOpenVariationDialog] = useState(null);
     allCatalogFilterItems = processCatalogItems(allCatalogFilterItems).filter((item) => item.hasCategory);
     allCatalogItems = processCatalogItems(allCatalogItems);
-
-    console.log(allCatalogFilterItems, 'allCatalogItem');
 
     const getItemNamesAndSubvariations = (data) => {
         const result = [];

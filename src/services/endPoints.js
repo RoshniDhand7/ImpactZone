@@ -81,5 +81,6 @@ const endPoints = {
     DASHBOARD: '/dashboard-count/',
     PROMO_CODE: '/promo-code/',
     REGISTERS: '/cash-register/',
+    VERIFY_ACCESS_CODE: '/verify-cash-register/',
 };
 export default endPoints;

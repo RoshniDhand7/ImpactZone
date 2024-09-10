@@ -17,11 +17,12 @@ export default function CustomDialog({
     onClear,
     icon,
     onApply,
+    saveLabel = 'Save',
 }) {
     const footerContent = (
         <CustomButtonGroup>
             {onApply ? <PrimaryButton label="Apply" className="mx-2" loading={loading} onClick={onApply} /> : null}
-            {onSave ? <PrimaryButton label="Save" className="mx-2" loading={loading} onClick={onSave} /> : null}
+            {onSave ? <PrimaryButton label={saveLabel} className="mx-2" loading={loading} onClick={onSave} /> : null}
             {onCancel ? <LightButton label="Cancel" onClick={onCancel} /> : null}
             {onClear ? <LightButton label="Clear" onClick={onClear} /> : null}
         </CustomButtonGroup>

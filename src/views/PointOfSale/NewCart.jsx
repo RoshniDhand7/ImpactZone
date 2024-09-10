@@ -1,13 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateTax1, calculateUnitPrice } from './CartCal';
-import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
+import PrimaryButton, { CustomButton, LightButton } from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
-import { CustomChipInput } from '../../shared/Input/AllInputs';
-import { clearPOSPromo, getPromoCodeDetail } from '../../redux/actions/POS/PosActions';
+import { CustomChipInput, CustomInput } from '../../shared/Input/AllInputs';
+import { clearPOSPromo, getPromoCodeDetail, verifyCashRegisterAccessCode } from '../../redux/actions/POS/PosActions';
 import _ from 'lodash';
+import { CustomMenu } from '../../shared/CustomMenu';
+import useRegister from '../../hooks/useRegister';
+import CustomDialog from '../../shared/Overlays/CustomDialog';
+import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 
 const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
@@ -24,7 +28,7 @@ const NewCart = ({ data, setData, handleChange }) => {
         }
     }, [dispatch, data?.promoCode]);
 
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+    let { allDiscountTypes } = useSelector((state) => state.discountType);
     let { allPOSPromo } = useSelector((state) => state?.PointOfSale);
 
     const netCommission =
@@ -76,14 +80,14 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const netTotal = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
-        const netUnitPrice = unitPrice * item.quantity;
+        // const netUnitPrice = unitPrice * item.quantity;
         const taxValue = calculateTax1(unitPrice, item.totalTaxPercentage);
         const netPrice1 = (unitPrice - taxValue) * item.quantity;
-        const discount = calculateDiscount(item, allDiscountTypes);
-        const totalDiscountedPrice = netPrice1 - discount < 0 ? 0 : netPrice1 - discount;
-        const tax = calculateTax(item, totalDiscountedPrice);
+        // const discount = calculateDiscount(item, allDiscountTypes);
+        // const totalDiscountedPrice = netPrice1 - discount < 0 ? 0 : netPrice1 - discount;
+        // const tax = calculateTax(item, totalDiscountedPrice);
 
-        const netPrice = totalDiscountedPrice + tax;
+        // const netPrice = totalDiscountedPrice + tax;
         return sum + netPrice1;
     }, 0.0);
 
@@ -115,8 +119,32 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const finalTotal = netTotal + Number(netTotalTax);
 
+    const menuref = useRef();
+    let { allRegisters } = useRegister();
+
+    allRegisters = allRegisters?.map((item) => ({ label: item.name, command: () => setVisible(item._id) }));
+    const items = allRegisters;
+    const [visible, setVisible] = useState(null);
+
+    const onClose = () => {
+        setVisible(null);
+        setData((prev) => ({ ...prev, accessCode: '' }));
+    };
+    const handleSave = () => {
+        dispatch(
+            verifyCashRegisterAccessCode(data?.accessCode, () => {
+                setVisible(null);
+            }),
+        );
+    };
+
     return (
         <>
+            <CustomDialog title="Access Code" visible={visible} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Check In">
+                <CustomGridLayout>
+                    <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
+                </CustomGridLayout>
+            </CustomDialog>
             <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
                 <Cart
                     cartItems={data?.cartItems}
@@ -160,10 +188,25 @@ const NewCart = ({ data, setData, handleChange }) => {
                     </p>
                 </div>
             </CustomAccordion>
-            <CustomButtonGroup>
-                <CustomButton label="Pay" className="mx-2" severity="success" outlined={false} />
-                <PrimaryButton label="Save" />
-            </CustomButtonGroup>
+            <CustomMenu items={items} refid="popup_menu_left" ref={menuref} />
+            <div className="flex gap-3 flex-wrap">
+                <PrimaryButton label="Add/Drop" className="product-checkout-btn p-3 " />
+                <LightButton label="Reciepts" className="product-checkout-btn p-3" />
+                <PrimaryButton label="Drawer Summary" className="product-checkout-btn p-3" />
+                <LightButton
+                    label="Open Register"
+                    className="product-checkout-btn p-3"
+                    onClick={(event) => menuref.current.toggle(event)}
+                    aria-controls="popup_menu_left"
+                    disabled={data?.accessCode ? true : false}
+                />
+                <PrimaryButton label="No Sale" className="product-checkout-btn p-3" />
+                <LightButton label="Quick Cash" className="product-checkout-btn p-3" />
+                <PrimaryButton label="Pre-pay" className="product-checkout-btn p-3" />
+                <LightButton label="Card on File" className="product-checkout-btn p-3" />
+                <CustomButton label="Pay" className="w-5 p-4" severity="success" outlined={false} />
+                <PrimaryButton label="Save" className="w-5 p-4" />
+            </div>
         </>
     );
 };

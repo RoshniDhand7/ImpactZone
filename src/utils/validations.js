@@ -142,7 +142,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'clockInRequired':
         case 'state':
         case 'city':
-        case 'member':
         case 'eventType':
         case 'internalUse':
         case 'bookOutFrom':

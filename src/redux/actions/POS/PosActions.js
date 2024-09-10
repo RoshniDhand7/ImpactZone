@@ -3,11 +3,11 @@ import { types } from '../../types/types';
 import api from '../../../services/api';
 import { showToast } from '../toastAction';
 
-const getPromoCodeDetail = (setLoading,promoCode) => async (dispatch) => {
+const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', endPoints.PROMO_CODE,{},{promoCode:promoCode[0]});
+    const res = await api('get', endPoints.PROMO_CODE, {}, { promoCode: promoCode[0] });
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -16,17 +16,26 @@ const getPromoCodeDetail = (setLoading,promoCode) => async (dispatch) => {
             });
         }
     } else {
-        dispatch(showToast({ severity: 'error', summary: res.message  }));
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     if (setLoading) {
         setLoading(false);
     }
 };
+
+const verifyCashRegisterAccessCode = (accessCode, next) => async (dispatch) => {
+    const res = await api('get', endPoints.VERIFY_ACCESS_CODE, {}, { accessCode });
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 export const clearPOSPromo = () => {
     return {
         type: types.CLEAR_POS_PROMO,
-        payload:[]
+        payload: [],
     };
 };
 
-export {getPromoCodeDetail}
+export { getPromoCodeDetail, verifyCashRegisterAccessCode };

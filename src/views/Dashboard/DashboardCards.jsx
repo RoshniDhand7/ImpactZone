@@ -21,8 +21,6 @@ export default function DashboardCards() {
     let employeeCount = allDashboard?.employeeCount;
     let memberCount = allDashboard?.memberCount;
 
-    console.log(allDashboard, 'allDashboard');
-
     const cards = [
         {
             number: memberCount,

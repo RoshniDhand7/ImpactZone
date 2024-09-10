@@ -10,14 +10,18 @@ import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs'
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 
 const RegisterForm = () => {
     const history = useHistory();
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        dispatch(getEmployees());
+    }, [dispatch]);
 
-    let { allMembersDropdown } = useSelector((state) => state.members);
+    const { employeesDropdown } = useSelector((state) => state.employees);
     const { clubsDropdown } = useGetClubs();
 
     useEffect(() => {
@@ -58,13 +62,14 @@ const RegisterForm = () => {
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
-                        <CustomDropDown name="member" options={allMembersDropdown} data={data} onChange={handleChange} optionLabel="name" />
+                        <CustomDropDown name="employee" options={employeesDropdown} data={data} onChange={handleChange} optionLabel="name" />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Clubs">
                     <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
                     {data?.formErrors?.club && <div className="text-sm p-error">{data?.formErrors?.club}</div>}
                 </CustomCard>
+
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                     <LightButton label="Cancel" onClick={() => history.goBack()} />
