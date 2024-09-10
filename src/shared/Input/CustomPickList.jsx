@@ -49,21 +49,21 @@ const CustomPickList = ({
     }, [target?.length, name]);
 
     return (
-        <div className="card">
-            <PickList
-                source={source}
-                target={target}
-                onChange={handlePickListChange}
-                itemTemplate={itemTemplate}
-                breakpoint={breakpoint}
-                sourceHeader={sourceHeader}
-                targetHeader={targetHeader}
-                sourceStyle={sourceStyle}
-                targetStyle={targetStyle}
-                showSourceControls={showSourceControls}
-                showTargetControls={showTargetControls}
-            />
-        </div>
+        // <div className="card">
+        <PickList
+            source={source}
+            target={target}
+            onChange={handlePickListChange}
+            itemTemplate={itemTemplate}
+            breakpoint={breakpoint}
+            sourceHeader={sourceHeader}
+            targetHeader={targetHeader}
+            sourceStyle={sourceStyle}
+            targetStyle={targetStyle}
+            showSourceControls={showSourceControls}
+            showTargetControls={showTargetControls}
+        />
+        // </div>
     );
 };
 
