@@ -19,14 +19,14 @@ const MembersToSellItem = ({ data, setData }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (data?.memberSell?.label && !isRecentSearch) {
+        if (data?.memberSell && !isRecentSearch) {
             dispatch(
                 addRecentSearch({ name: data?.memberSell?.label, memberId: data?.memberSell.value }, () => {
                     dispatch(getSearchSuggestion());
                 }),
             );
         }
-    }, [data?.memberSell?.label, dispatch, isRecentSearch, data?.memberSell?.value]);
+    }, [data?.memberSell, dispatch, isRecentSearch, data?.memberSell?.value]);
 
     let { allMembers } = useSelector((state) => state.members);
     const { recentSuggesstions } = useSelector((state) => state?.POS);
@@ -64,17 +64,17 @@ const MembersToSellItem = ({ data, setData }) => {
                 data={data}
                 placeholder="Search by member"
             />
-            <div className="flex justify-content-end gap-5 mt-3">
-                {recentSuggesstions?.map((item) => {
-                    return (
+            {recentSuggesstions?.map((item) => {
+                return (
+                    <div className="flex justify-content-end gap-5 mt-3" key={item._id}>
                         <>
                             <div className="text-sm text-blue cursor-pointer" key={item._id} onClick={() => handleRecentSearch(item)}>
                                 {item.name}
                             </div>
                         </>
-                    );
-                })}
-            </div>
+                    </div>
+                );
+            })}
         </>
     );
 };

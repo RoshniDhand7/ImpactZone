@@ -110,33 +110,15 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
         });
         setDiscountOpen(null);
     };
-    // const handleSave = () => {
-    //     setData((prev) => {
-    //         const updatedCartDisTax = [...prev.cartItems];
-    //         updatedCartDisTax[discountOpen.rowIndex] = tempData[discountOpen.rowIndex];
 
-    //         return { ...prev, cartItems: updatedCartDisTax };
-    //     });
-
-    //     setTempData((prev) => {
-    //         const updatedTempData = { ...prev };
-    //         delete updatedTempData[discountOpen.rowIndex];
-    //         return updatedTempData;
-    //     });
-    //     onClose();
-    // };
     const handleSave = () => {
         setData((prev) => {
             const updatedCartDisTax = [...prev.cartItems];
-
-            // Add discount information to the cart item
             const updatedItem = {
-                ...tempData[discountOpen.rowIndex], // existing item data
-                discount: tempData[discountOpen.rowIndex].discount || {}, // assuming discount is in tempData
+                ...tempData[discountOpen.rowIndex],
+                discount: tempData[discountOpen.rowIndex].discount || {},
             };
-
             updatedCartDisTax[discountOpen.rowIndex] = updatedItem;
-
             return { ...prev, cartItems: updatedCartDisTax };
         });
 

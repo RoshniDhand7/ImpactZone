@@ -82,5 +82,6 @@ const endPoints = {
     PROMO_CODE: '/promo-code/',
     REGISTERS: '/cash-register/',
     VERIFY_ACCESS_CODE: '/verify-cash-register/',
+    CASH_REGISTER_CHECK_IN: '/cash-register-check-in/',
 };
 export default endPoints;

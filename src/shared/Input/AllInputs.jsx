@@ -11,7 +11,7 @@ import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
-import { capitalizeCamelCase } from '../../utils/commonFunctions';
+import { capitalizeCamelCase, denominationsToDollarConverter } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import Select from 'react-select';
 import { CascadeSelect } from 'primereact/cascadeselect';
@@ -382,6 +382,18 @@ export const CustomInputNumber = ({
         </InputLayout>
     );
 };
+
+export const CustomInputCurrentChange = ({ name, data, handleChange }) => {
+    return (
+        <div className="col-4 flex">
+            <CustomInputNumber col="6" name={name} data={data} onChange={handleChange} />
+            <div className="col-4 flex align-items-center justify-content-center">
+                <i className="pi pi-arrow-right"></i>
+            </div>
+            <span className="border col-2 flex align-items-center justify-content-center ">{denominationsToDollarConverter(data, name)}</span>
+        </div>
+    );
+};
 export const CustomInputDecimalNumber = ({
     label,
     name,
@@ -568,6 +580,7 @@ export const CustomReactSelect = ({
                 classNamePrefix="select"
                 defaultValue={defaultValue}
                 isDisabled={isDisabled}
+                id={data?.[name]}
                 isLoading={isLoading}
                 isClearable={isClearable}
                 isSearchable={isSearchable}

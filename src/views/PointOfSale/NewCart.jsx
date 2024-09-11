@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateTax1, calculateUnitPrice } from './CartCal';
@@ -8,10 +8,11 @@ import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
 import { CustomChipInput, CustomInput } from '../../shared/Input/AllInputs';
 import { clearPOSPromo, getPromoCodeDetail, verifyCashRegisterAccessCode } from '../../redux/actions/POS/PosActions';
 import _ from 'lodash';
-import { CustomMenu } from '../../shared/CustomMenu';
-import useRegister from '../../hooks/useRegister';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
+import OpenCashRegister from './OpenCashRegister';
+import RegistersDialog from './RegistersDialog';
+import useRegister from '../../hooks/useRegister';
 
 const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
@@ -119,33 +120,47 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const finalTotal = netTotal + Number(netTotalTax);
 
-    const menuref = useRef();
-    let { allRegisters } = useRegister();
-
-    allRegisters = allRegisters?.map((item) => ({ label: item.name, command: () => setVisible(item._id) }));
-    const items = allRegisters;
-    const [visible, setVisible] = useState(null);
+    const [registerId, setRegisterId] = useState(null);
+    const [cashRegisterOpen, setCashRegisterOpen] = useState(false);
+    const [openRegister, setOpenRegister] = useState(false);
 
     const onClose = () => {
-        setVisible(null);
+        setOpenRegister(false);
+        setRegisterId(null);
         setData((prev) => ({ ...prev, accessCode: '' }));
     };
     const handleSave = () => {
         dispatch(
             verifyCashRegisterAccessCode(data?.accessCode, () => {
-                setVisible(null);
+                setCashRegisterOpen(true);
             }),
         );
     };
+    let { allRegisters } = useRegister();
+    const hasActiveRegister = allRegisters?.some((item) => item.status);
 
     return (
         <>
-            <CustomDialog title="Access Code" visible={visible} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Check In">
+            <CustomDialog title="Access Code" visible={registerId} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Check In">
                 <CustomGridLayout>
                     <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
-            <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
+            <RegistersDialog
+                openRegister={openRegister}
+                onClose={onClose}
+                setOpenRegister={setOpenRegister}
+                setRegisterId={setRegisterId}
+                allRegisters={allRegisters}
+            />
+            <OpenCashRegister
+                cashRegisterOpen={cashRegisterOpen}
+                setCashRegisterOpen={setCashRegisterOpen}
+                registerId={registerId}
+                accessCode={data?.accessCode}
+                onClose={onClose}
+            />
+            <CustomAccordion isActive={false} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
                 <Cart
                     cartItems={data?.cartItems}
                     updateQuantity={updateQuantity}
@@ -156,7 +171,7 @@ const NewCart = ({ data, setData, handleChange }) => {
                     allDiscountDropdown={allDiscountTypes}
                 />
             </CustomAccordion>
-            <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
+            <CustomAccordion isActive={false} extraClassName="employee-accordion w-full" title="Pricing Details">
                 <CustomChipInput
                     name="promoCode"
                     max={1}
@@ -188,16 +203,17 @@ const NewCart = ({ data, setData, handleChange }) => {
                     </p>
                 </div>
             </CustomAccordion>
-            <CustomMenu items={items} refid="popup_menu_left" ref={menuref} />
             <div className="flex gap-3 flex-wrap">
                 <PrimaryButton label="Add/Drop" className="product-checkout-btn p-3 " />
                 <LightButton label="Reciepts" className="product-checkout-btn p-3" />
                 <PrimaryButton label="Drawer Summary" className="product-checkout-btn p-3" />
                 <LightButton
-                    label="Open Register"
+                    label={!hasActiveRegister ? 'Open Register' : 'Close Register'}
                     className="product-checkout-btn p-3"
-                    onClick={(event) => menuref.current.toggle(event)}
                     aria-controls="popup_menu_left"
+                    onClick={() => {
+                        !hasActiveRegister ? setOpenRegister(true) : setOpenRegister(false);
+                    }}
                     disabled={data?.accessCode ? true : false}
                 />
                 <PrimaryButton label="No Sale" className="product-checkout-btn p-3" />

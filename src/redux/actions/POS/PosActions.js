@@ -2,6 +2,7 @@ import endPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import api from '../../../services/api';
 import { showToast } from '../toastAction';
+import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 
 const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
     if (setLoading) {
@@ -31,6 +32,20 @@ const verifyCashRegisterAccessCode = (accessCode, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const cashRegisterCheckIn = (data, cashRegister, accessCode, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('post', endPoints.CASH_REGISTER_CHECK_IN, {
+        ...data,
+        cashRegister,
+        accessCode,
+    });
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
+};
 export const clearPOSPromo = () => {
     return {
         type: types.CLEAR_POS_PROMO,
@@ -38,4 +53,4 @@ export const clearPOSPromo = () => {
     };
 };
 
-export { getPromoCodeDetail, verifyCashRegisterAccessCode };
+export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn };

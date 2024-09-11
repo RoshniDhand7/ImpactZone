@@ -11,7 +11,7 @@ const CustomConfirm = (message, accept, reject) => {
             accept,
             reject,
             showHeader: false,
-            contentClassName: 'pt-4',
+            contentclassname: 'pt-4',
         });
     };
 

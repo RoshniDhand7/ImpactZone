@@ -63,7 +63,7 @@ const Search = ({ openModal, setOpenModal }) => {
                 }}
                 position="top"
                 width="50vw"
-                contentClassName="pb-2"
+                contentclassname="pb-2"
             >
                 <div>
                     <h3 className="text-bold mb-2">Search Member</h3>

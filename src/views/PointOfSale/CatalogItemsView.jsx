@@ -61,7 +61,7 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
                     </CustomButton>
                 </div>
                 <div className="bg-lightest-blue border-round p-4 mt-2 flex justify-content-between " style={{ height: '71vh', overflowY: 'auto' }}>
-                    <div class="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
+                    <div className="flex gap-2 flex-wrap w-full" style={{ height: 'fit-content' }}>
                         {allCatalogItems?.length > 0
                             ? allCatalogItems?.map((item) => (
                                   <div

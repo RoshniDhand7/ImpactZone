@@ -363,6 +363,26 @@ const processCatalogItems = (items) => {
         }));
 };
 
+const denominationsToDollarConverter = (data, type) => {
+    const conversionRates = {
+        pennies: 0.01,
+        nickels: 0.05,
+        dimes: 0.1,
+        quarters: 0.25,
+        singles: 1,
+        fives: 5,
+        tens: 10,
+        twenties: 20,
+        fifties: 50,
+        hundreds: 100,
+    };
+
+    if (!conversionRates[type]) return 'Invalid denomination type';
+
+    const amount = data[type] * conversionRates[type];
+    return amount.toFixed(4);
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -391,4 +411,5 @@ export {
     uploadSignImage,
     showFormErrorsRowEdit,
     processCatalogItems,
+    denominationsToDollarConverter,
 };

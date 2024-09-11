@@ -336,7 +336,7 @@ const EventClassesForm = () => {
                                     fieldName="schedule"
                                     col={4}
                                 />
-                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
+                                {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
                             </CustomGridLayout>
                         </div>
                     ))}

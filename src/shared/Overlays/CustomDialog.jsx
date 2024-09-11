@@ -13,7 +13,7 @@ export default function CustomDialog({
     loading,
     onCancel,
     children,
-    contentClassName,
+    contentclassname,
     onClear,
     icon,
     onApply,
@@ -51,7 +51,7 @@ export default function CustomDialog({
             resizable={false}
             blockScroll={true}
             position={position}
-            contentClassName={contentClassName}
+            contentclassname={contentclassname}
             showHeader={showHeader}
         >
             {children}
