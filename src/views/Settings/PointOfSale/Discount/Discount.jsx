@@ -25,7 +25,16 @@ const Discount = () => {
     const columns = [
         { field: 'discountName', header: 'Name' },
         { field: 'description', header: 'Description' },
-        { field: 'percentage', body: (r) => r.percentage + '%', header: 'Discount' },
+        {
+            body: (r) => (
+                <>
+                    {console.log('amountTypeamountType==>', r?.amountType)}
+                    {r.amount}
+                    {r.amountType === 'FIXED' ? '$' : '%'}
+                </>
+            ),
+            header: 'Discount',
+        },
         { field: 'startDate', body: (r) => moment(r.startDate).format('DD-MM-YYYY'), header: 'Start Date' },
         { field: 'endDate', body: (r) => moment(r.endDate).format('DD-MM-YYYY'), header: 'End Date' },
     ];

@@ -101,10 +101,6 @@ const CustomLogoImage = ({
                     </label>
                 </div>
             )}
-
-            {/* <div className="text-left ">
-                {errorMessage || data?.formErrors?.[name] ? <small className="p-error">{errorMessage || data?.formErrors?.[name]}</small> : null}
-            </div> */}
         </InputLayout>
     );
 };

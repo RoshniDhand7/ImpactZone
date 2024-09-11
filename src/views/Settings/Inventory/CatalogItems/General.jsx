@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomLogoImage from '../../../../shared/Image/LogoImage';
-import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import {
+    CustomCheckbox,
+    CustomDropDown,
+    CustomField,
+    CustomInput,
+    CustomInputNumber,
+    CustomInputSwitch,
+    CustomMultiselect,
+} from '../../../../shared/Input/AllInputs';
 import {
     catalogProductTypeOptions,
     daysOptions,
@@ -19,7 +27,7 @@ import { getCategories } from '../../../../redux/actions/InventorySettings/categ
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { PercentageDifference, showFormErrors } from '../../../../utils/commonFunctions';
+import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
 import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
@@ -27,6 +35,7 @@ import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discount
 import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
 import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { calculateNetAmount, percentageDifference } from '../../../../utils/taxHelpers';
 
 const General = () => {
     const dispatch = useDispatch();
@@ -62,9 +71,9 @@ const General = () => {
         unitPrice3: '',
         stockable: false,
         allowUnlimited: false,
-        minimumQuantity: 0,
+        minimumQuantity: 1,
         maximumQuantity: 0,
-        defaultQuantity: 0,
+        defaultQuantity: 1,
         expiration: false,
         days: '',
         month: '',
@@ -84,11 +93,8 @@ const General = () => {
     }, [dispatch]);
 
     const { filterSetDropDown } = useSelector((state) => state.filterSet);
-
     const { tagsDropDown } = useSelector((state) => state.tags);
-
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
-
     let { categoryDropdown } = useSelector((state) => state.category);
     let { allDiscountDropdown } = useSelector((state) => state.discountType);
 
@@ -98,36 +104,30 @@ const General = () => {
     const { clubsDropdown } = useGetClubs();
     const { allTaxActiveDropdown, allTaxes } = useSelector((state) => state.taxes);
 
-    useEffect(() => {
-        if (data?.unitPrice && data?.defaultQuantity) {
-            setData((prev) => ({ ...prev, defaultPrice: data?.unitPrice * data?.defaultQuantity }));
-        }
-    }, [data?.unitPrice, data?.defaultQuantity]);
+    // useEffect(() => {
+    //     if (data?.minimumQuantity && data?.maximumQuantity) {
+    //         let newFormErrors = { ...data.formErrors };
 
-    useEffect(() => {
-        if (data?.minimumQuantity && data?.maximumQuantity) {
-            let newFormErrors = { ...data.formErrors };
+    //         if (data.minimumQuantity >= data.maximumQuantity) {
+    //             newFormErrors['minimumQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
+    //             newFormErrors['maximumQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
+    //         } else {
+    //             newFormErrors['minimumQuantity'] = '';
+    //             newFormErrors['maximumQuantity'] = '';
+    //         }
 
-            if (data.minimumQuantity >= data.maximumQuantity) {
-                newFormErrors['minimumQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
-                newFormErrors['maximumQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
-            } else {
-                newFormErrors['minimumQuantity'] = '';
-                newFormErrors['maximumQuantity'] = '';
-            }
+    //         if (data.defaultQuantity < data.minimumQuantity) {
+    //             newFormErrors['defaultQuantity'] = 'Default Quantity must be greater than or equal to Minimum Quantity';
+    //         } else if (data.defaultQuantity > data.maximumQuantity) {
+    //             newFormErrors['defaultQuantity'] = 'Default Quantity must be less than or equal to Maximum Quantity';
+    //         } else {
+    //             newFormErrors['defaultQuantity'] = '';
+    //         }
 
-            if (data.defaultQuantity < data.minimumQuantity) {
-                newFormErrors['defaultQuantity'] = 'Default Quantity must be greater than or equal to Minimum Quantity';
-            } else if (data.defaultQuantity > data.maximumQuantity) {
-                newFormErrors['defaultQuantity'] = 'Default Quantity must be less than or equal to Maximum Quantity';
-            } else {
-                newFormErrors['defaultQuantity'] = '';
-            }
-
-            setData((prev) => ({ ...prev, formErrors: newFormErrors }));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data?.maximumQuantity, data?.minimumQuantity, data.defaultQuantity]);
+    //         setData((prev) => ({ ...prev, formErrors: newFormErrors }));
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [data?.maximumQuantity, data?.minimumQuantity, data.defaultQuantity]);
 
     useEffect(() => {
         if (id) {
@@ -191,10 +191,6 @@ const General = () => {
         }
     };
 
-    const val1 = PercentageDifference(data?.wholesaleCost, data?.unitPrice1);
-    const val2 = PercentageDifference(data?.wholesaleCost, data?.unitPrice2);
-    const val3 = PercentageDifference(data?.wholesaleCost, data?.unitPrice3);
-
     const handleSave = (tab) => {
         let ignore = [];
         if (!data?.allowDiscount) {
@@ -218,20 +214,49 @@ const General = () => {
         }
     };
 
-    const combinedTaxPercentage = allTaxes.filter((tax) => data?.taxes?.includes(tax._id)).reduce((total, tax) => total + tax.taxRatePercentage, 0);
-
-    useEffect(() => {
-        if (data?.taxes) {
-            setData((prev) => ({ ...prev, netPrice: data?.unitPrice - (data?.unitPrice * combinedTaxPercentage) / 100 }));
+    const netPrice = useMemo(() => {
+        if (data?.unitPrice) {
+            if (data?.taxes.length) {
+                let _totalTax = allTaxes.filter((tax) => data?.taxes?.includes(tax._id)).reduce((total, tax) => total + tax.taxRatePercentage, 0);
+                return calculateNetAmount(data?.unitPrice, _totalTax);
+            } else {
+                return data?.unitPrice;
+            }
+        } else {
+            return 0;
         }
-    }, [data?.taxes, data?.unitPrice, combinedTaxPercentage]);
+    }, [data, allTaxes]);
+
+    const defaultPrice = useMemo(() => {
+        if (data?.unitPrice && data?.defaultQuantity) {
+            return data?.unitPrice * data?.defaultQuantity;
+        } else {
+            return 0;
+        }
+    }, [data?.unitPrice, data?.defaultQuantity]);
+
+    const getMarkup = (val) => {
+        if (data?.wholesaleCost) {
+            const _diff = percentageDifference(data?.wholesaleCost, val);
+            return (
+                <>
+                    {_diff > 0 ? (
+                        <span className="text-green">{_diff.toFixed(2) + '%'}</span>
+                    ) : _diff < 0 ? (
+                        <span className="text-red">{_diff.toFixed(2) + '%'}</span>
+                    ) : (
+                        <span>{_diff.toFixed(2) + '%'}</span>
+                    )}
+                </>
+            );
+        } else {
+            return null;
+        }
+    };
 
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">
-                <CustomGridLayout extraClass="justify-content-end ">
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
-                </CustomGridLayout>
                 <CustomGridLayout>
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
@@ -257,6 +282,7 @@ const General = () => {
                         data={data}
                     />
                     <CustomDropDown name="itemSoldOnline" label="Is this item sold online" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Display">
@@ -279,49 +305,32 @@ const General = () => {
             </CustomCard>
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
-                    <CustomInputNumber
-                        prefix="$"
-                        name="unitPrice"
-                        onChange={handleChange}
-                        data={data}
-                        col={6}
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                        required
-                    />
-                    <CustomInputNumber
-                        prefix="$"
-                        name="netPrice"
-                        onChange={handleChange}
-                        data={data}
-                        col={6}
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                        disabled={true}
-                    />
-                    <CustomDropDown name="allowDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    {data?.allowDiscount && <CustomDropDown name="defaultDiscount" options={allDiscountDropdown} onChange={handleChange} data={data} col={6} />}
-                    <CustomDropDown name="overRideDiscount" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomInputNumber
-                        name="wholesaleCost"
-                        onChange={handleChange}
-                        data={data}
-                        col={6}
-                        prefix="$"
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                    />
+                    <CustomInputNumber prefix="$" data={data} onChange={handleChange} name="wholesaleCost" />
+                    <CustomInputNumber prefix="$" data={data} onChange={handleChange} name="unitPrice" required />
+                    <CustomInputNumber prefix="$" value={netPrice} name="netPrice" disabled />
+
+                    <CustomDropDown data={data} onChange={handleChange} name="allowDiscount" options={yesNoOptions} />
+                    {data?.allowDiscount && <CustomDropDown data={data} onChange={handleChange} name="defaultDiscount" options={allDiscountDropdown} />}
+                    <CustomDropDown data={data} onChange={handleChange} name="overRideDiscount" options={yesNoOptions} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Details">
                 <CustomGridLayout>
-                    <CustomDropDown name="allowUnlimited" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomInputNumber name="minimumQuantity" onChange={handleChange} data={data} required />
-                    <CustomInputNumber name="maximumQuantity" onChange={handleChange} data={data} required />
-                    <CustomInputNumber name="defaultQuantity" onChange={handleChange} data={data} required />
-                    <CustomInputNumber name="defaultPrice" data={data} disabled={true} prefix="$" />
-                    <CustomDropDown name="stockable" options={yesNoOptions} onChange={handleChange} data={data} col={6} />
-                    <CustomDropDown name="itemStart" options={itemStartOptions} onChange={handleChange} data={data} col={2} />
+                    <CustomInputNumber onChange={handleChange} data={data} required name="minimumQuantity" />
+                    {!data?.allowUnlimited && <CustomInputNumber onChange={handleChange} data={data} required name="maximumQuantity" col={2} />}
+                    <CustomCheckbox
+                        onChange={handleChange}
+                        data={data}
+                        name="allowUnlimited"
+                        label="Allow Unlimited (No Max Qty.)"
+                        col={2}
+                        extraClassName="my-auto"
+                    />
+                    <CustomInputNumber onChange={handleChange} data={data} required name="defaultQuantity" />
+
+                    <CustomInputNumber name="defaultPrice" value={defaultPrice} disabled={true} prefix="$" />
+                    <CustomDropDown name="stockable" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="itemStart" options={itemStartOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="expiration" options={yesNoOptions} onChange={handleChange} data={data} col={4} />
                     {data?.expiration && (
                         <>
@@ -333,78 +342,40 @@ const General = () => {
             </CustomCard>
             <CustomCard col="12" title="Dynamic Pricing">
                 <CustomGridLayout>
-                    <CustomDropDown name="moreThan1" label="More Than" options={unitPricingOptions} onChange={handleChange} data={data} col={2} />
-                    <CustomInputNumber
-                        name="unitPrice1"
-                        label="Unit Price"
-                        onChange={handleChange}
-                        data={data}
-                        prefix="$"
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                        col={2}
-                    />
-                    {data?.wholesaleCost && (
-                        <div className="text-center col-2">
-                            <span className=""> Markup:</span>
-                            {data?.unitPrice1 ? val1 : 0}
-                        </div>
-                    )}
+                    <CustomDropDown name="moreThan1" label="More Than" options={unitPricingOptions} onChange={handleChange} data={data} col={1} />
+                    <CustomInputNumber name="unitPrice1" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
+                    {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice1)}</CustomField>}
 
-                    <CustomDropDown
-                        name="moreThan2"
-                        label="More Than"
-                        className="mx-2"
-                        options={unitPricingOptions?.filter((item) => item?.value > data?.moreThan1)}
-                        onChange={handleChange}
-                        data={data}
-                        col={2}
-                        disabled={!data?.moreThan1}
-                    />
-                    <CustomInputNumber
-                        name="unitPrice2"
-                        label="Unit Price"
-                        onChange={handleChange}
-                        data={data}
-                        prefix="$"
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                        col={2}
-                    />
+                    {data?.moreThan1 ? (
+                        <>
+                            <CustomDropDown
+                                name="moreThan2"
+                                label="More Than"
+                                options={unitPricingOptions?.filter((item) => item?.value > data?.moreThan1)}
+                                onChange={handleChange}
+                                data={data}
+                                col={1}
+                            />
+                            <CustomInputNumber name="unitPrice2" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
+                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice2)}</CustomField>}
+                        </>
+                    ) : null}
 
-                    {data?.wholesaleCost && (
-                        <div className="text-center col-2">
-                            <span className=""> Markup:</span>
-                            {data?.unitPrice2 ? val2 : 0}
-                        </div>
-                    )}
+                    {data?.moreThan1 && data?.moreThan2 ? (
+                        <>
+                            <CustomDropDown
+                                name="moreThan3"
+                                label="More Than"
+                                options={unitPricingOptions?.filter((item) => item?.value > data?.moreThan2)}
+                                onChange={handleChange}
+                                data={data}
+                                col={1}
+                            />
+                            <CustomInputNumber name="unitPrice3" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
+                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice3)}</CustomField>}
+                        </>
+                    ) : null}
 
-                    <CustomDropDown
-                        name="moreThan3"
-                        label="More Than"
-                        options={unitPricingOptions?.filter((item) => item?.value > data?.moreThan2)}
-                        onChange={handleChange}
-                        data={data}
-                        col={2}
-                        className="mx-2"
-                        disabled={!data?.moreThan1 || !data?.moreThan2}
-                    />
-                    <CustomInputNumber
-                        name="unitPrice3"
-                        label="Unit Price"
-                        onChange={handleChange}
-                        data={data}
-                        prefix="$"
-                        minFractionDigits={4}
-                        maxFractionDigits={4}
-                        col={2}
-                    />
-                    {data?.wholesaleCost && (
-                        <div className="text-center col-2">
-                            <span className=""> Markup:</span>
-                            {data?.unitPrice3 ? val3 : 0}
-                        </div>
-                    )}
                     <CustomButtonGroup>
                         <PrimaryButton label="Save" className="mx-2" onClick={() => handleSave('')} loading={loading} />
                         <PrimaryButton label="Save & Next" className="mx-2" onClick={() => handleSave('?tab=tracking')} loading={loading} />

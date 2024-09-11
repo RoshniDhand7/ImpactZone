@@ -364,6 +364,7 @@ export const CustomInputNumber = ({
     disabled,
     customIndex,
     fieldName,
+    maxFractionDigits = 4,
     ...props
 }) => {
     return (
@@ -376,11 +377,13 @@ export const CustomInputNumber = ({
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 useGrouping={props.useGrouping || false}
                 disabled={disabled}
+                maxFractionDigits={maxFractionDigits}
                 {...props}
             />
         </InputLayout>
     );
 };
+
 export const CustomInputDecimalNumber = ({
     label,
     name,
@@ -608,6 +611,15 @@ export const CustomSelectCascade = ({
                 breakpoint="767px"
                 {...props}
             />
+        </InputLayout>
+    );
+};
+
+export const CustomField = ({ label, value, errorMessage, extraClassName, required, col = 1, children }) => {
+    return (
+        <InputLayout col={col} label={label} required={required} extraClassName={extraClassName} errorMessage={errorMessage}>
+            {value}
+            {children}
         </InputLayout>
     );
 };
