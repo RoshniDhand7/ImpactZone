@@ -79,6 +79,13 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     );
 }
 
+export const BalanceRow = ({ label, value, valueClass = 'text-green-600' }) => (
+    <div className="flex justify-content-between text-sm mb-2">
+        <span className="font-semibold">{label}</span>
+        <span className={`${valueClass} cstmValue`}>{value}</span>
+    </div>
+);
+
 export function CustomFilterCard({ children, buttonTitle, linkTo, onClick, extraClassName, title, titleClassName, contentPosition = 'between', disabled }) {
     const history = useHistory();
     return (

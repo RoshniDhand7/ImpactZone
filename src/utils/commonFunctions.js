@@ -383,6 +383,12 @@ const denominationsToDollarConverter = (data, type) => {
     return amount.toFixed(4);
 };
 
+const dateConversions = (date) => {
+    const formattedDate = moment(date).format('DD-MM-YYYY');
+    const formattedTime = moment(date).format('hh:mm');
+    return { formattedDate, formattedTime };
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -412,4 +418,5 @@ export {
     showFormErrorsRowEdit,
     processCatalogItems,
     denominationsToDollarConverter,
+    dateConversions,
 };

@@ -30,7 +30,7 @@ const RegisterForm = () => {
                 getRegister(id, (data) => {
                     setData({
                         name: data.name,
-                        member: data.member,
+                        employee: data.employee,
                         club: data.club,
                     });
                 }),
@@ -39,7 +39,7 @@ const RegisterForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         name: '',
-        member: null,
+        employee: null,
         club: null,
     });
     const handleChange = ({ name, value }) => {

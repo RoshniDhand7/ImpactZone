@@ -10,9 +10,10 @@ import { clearPOSPromo, getPromoCodeDetail, verifyCashRegisterAccessCode } from 
 import _ from 'lodash';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
-import OpenCashRegister from './OpenCashRegister';
 import RegistersDialog from './RegistersDialog';
 import useRegister from '../../hooks/useRegister';
+import OpenDrawer from './OpenDrawer';
+import CloseOutDrawer from './CloseOutDrawer';
 
 const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
@@ -121,9 +122,12 @@ const NewCart = ({ data, setData, handleChange }) => {
     const finalTotal = netTotal + Number(netTotalTax);
 
     const [registerId, setRegisterId] = useState(null);
-    const [cashRegisterOpen, setCashRegisterOpen] = useState(false);
+    const [cashRegisterOpen, setCashRegisterOpen] = useState({ open: false, closeRegister: {} });
+    const [cashRegisterClose, setCashRegisterClose] = useState({ open: false, closeRegister: {} });
     const [openRegister, setOpenRegister] = useState(false);
-
+    let { allRegisters } = useRegister();
+    const hasActiveRegister = allRegisters?.some((item) => item.isActive);
+    const activeRegisterIds = allRegisters?.find((item) => item.isActive);
     const onClose = () => {
         setOpenRegister(false);
         setRegisterId(null);
@@ -131,13 +135,21 @@ const NewCart = ({ data, setData, handleChange }) => {
     };
     const handleSave = () => {
         dispatch(
-            verifyCashRegisterAccessCode(data?.accessCode, () => {
-                setCashRegisterOpen(true);
+            verifyCashRegisterAccessCode(data?.accessCode, registerId, (res) => {
+                if (!hasActiveRegister) {
+                    setCashRegisterOpen({
+                        open: true,
+                        closeRegister: res?.data?.closeRegister,
+                    });
+                } else {
+                    setCashRegisterClose({
+                        open: true,
+                        closeRegister: res?.data,
+                    });
+                }
             }),
         );
     };
-    let { allRegisters } = useRegister();
-    const hasActiveRegister = allRegisters?.some((item) => item.status);
 
     return (
         <>
@@ -153,9 +165,16 @@ const NewCart = ({ data, setData, handleChange }) => {
                 setRegisterId={setRegisterId}
                 allRegisters={allRegisters}
             />
-            <OpenCashRegister
+            <OpenDrawer
                 cashRegisterOpen={cashRegisterOpen}
                 setCashRegisterOpen={setCashRegisterOpen}
+                registerId={registerId}
+                accessCode={data?.accessCode}
+                onClose={onClose}
+            />
+            <CloseOutDrawer
+                cashRegisterClose={cashRegisterClose}
+                setCashRegisterClose={setCashRegisterClose}
                 registerId={registerId}
                 accessCode={data?.accessCode}
                 onClose={onClose}
@@ -212,16 +231,16 @@ const NewCart = ({ data, setData, handleChange }) => {
                     className="product-checkout-btn p-3"
                     aria-controls="popup_menu_left"
                     onClick={() => {
-                        !hasActiveRegister ? setOpenRegister(true) : setOpenRegister(false);
+                        !hasActiveRegister ? setOpenRegister(true) : setRegisterId(activeRegisterIds?._id);
                     }}
                     disabled={data?.accessCode ? true : false}
                 />
-                <PrimaryButton label="No Sale" className="product-checkout-btn p-3" />
-                <LightButton label="Quick Cash" className="product-checkout-btn p-3" />
-                <PrimaryButton label="Pre-pay" className="product-checkout-btn p-3" />
-                <LightButton label="Card on File" className="product-checkout-btn p-3" />
-                <CustomButton label="Pay" className="w-5 p-4" severity="success" outlined={false} />
-                <PrimaryButton label="Save" className="w-5 p-4" />
+                <PrimaryButton label="No Sale" className="product-checkout-btn p-2" />
+                <LightButton label="Quick Cash" className="product-checkout-btn p-2" />
+                <PrimaryButton label="Pre-pay" className="product-checkout-btn p-2" />
+                <LightButton label="Card on File" className="product-checkout-btn p-2" />
+                <CustomButton label="Pay" className="w-5 p-3" severity="success" outlined={false} />
+                <PrimaryButton label="Save" className="w-5 p-3" />
             </div>
         </>
     );

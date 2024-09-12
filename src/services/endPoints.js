@@ -83,5 +83,6 @@ const endPoints = {
     REGISTERS: '/cash-register/',
     VERIFY_ACCESS_CODE: '/verify-cash-register/',
     CASH_REGISTER_CHECK_IN: '/cash-register-check-in/',
+    CASH_REGISTER_CHECK_OUT: '/cash-register-check-out/',
 };
 export default endPoints;

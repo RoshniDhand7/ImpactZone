@@ -71,7 +71,12 @@ const CatalogItemsView = ({ allCatalogItems, data, setData, handleCatalogItems, 
                                       className="cursor-pointer product-box"
                                       key={item._id}
                                   >
-                                      <img src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg} className="w-full h-full" alt="catalogImg" />
+                                      <img
+                                          src={getImageURL(item.img) ? getImageURL(item.img) : PlaceHolderImg}
+                                          onError={(e) => (e.target.src = '')}
+                                          className="w-full h-full"
+                                          alt="catalogImg"
+                                      />
                                       <div className="product-content">
                                           <p className="font-semibold text-sm text-dark-blue">{item?.itemCaption}</p>
                                           <p className="font-semibold text-sm text-dark-blue">$ {item.unitPrice}</p>

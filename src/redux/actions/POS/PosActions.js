@@ -24,10 +24,10 @@ const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
     }
 };
 
-const verifyCashRegisterAccessCode = (accessCode, next) => async (dispatch) => {
-    const res = await api('get', endPoints.VERIFY_ACCESS_CODE, {}, { accessCode });
+const verifyCashRegisterAccessCode = (accessCode, registerId, next) => async (dispatch) => {
+    const res = await api('get', endPoints.VERIFY_ACCESS_CODE, {}, { accessCode, registerId });
     if (res.success) {
-        next();
+        next(res);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
@@ -46,6 +46,20 @@ const cashRegisterCheckIn = (data, cashRegister, accessCode, next) => async (dis
     }
     dispatch(hideLoaderAction());
 };
+const cashRegisterCheckOut = (data, cashRegister, accessCode, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
+    const res = await api('post', endPoints.CASH_REGISTER_CHECK_OUT, {
+        ...data,
+        cashRegister,
+        accessCode,
+    });
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    dispatch(hideLoaderAction());
+};
 export const clearPOSPromo = () => {
     return {
         type: types.CLEAR_POS_PROMO,
@@ -53,4 +67,4 @@ export const clearPOSPromo = () => {
     };
 };
 
-export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn };
+export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut };
