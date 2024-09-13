@@ -14,6 +14,7 @@ import RegistersDialog from './RegistersDialog';
 import useRegister from '../../hooks/useRegister';
 import OpenDrawer from './OpenDrawer';
 import CloseOutDrawer from './CloseOutDrawer';
+import { showFormErrors } from '../../utils/commonFunctions';
 
 const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
@@ -128,32 +129,36 @@ const NewCart = ({ data, setData, handleChange }) => {
     let { allRegisters } = useRegister();
     const hasActiveRegister = allRegisters?.some((item) => item.isActive);
     const activeRegisterIds = allRegisters?.find((item) => item.isActive);
+    const { loading } = useSelector((state) => state?.loader?.isLoading);
+
     const onClose = () => {
         setOpenRegister(false);
         setRegisterId(null);
         setData((prev) => ({ ...prev, accessCode: '' }));
     };
     const handleSave = () => {
-        dispatch(
-            verifyCashRegisterAccessCode(data?.accessCode, registerId, (res) => {
-                if (!hasActiveRegister) {
-                    setCashRegisterOpen({
-                        open: true,
-                        closeRegister: res?.data?.closeRegister,
-                    });
-                } else {
-                    setCashRegisterClose({
-                        open: true,
-                        closeRegister: res?.data,
-                    });
-                }
-            }),
-        );
+        if (showFormErrors(data, setData, ['subVariations', 'variations'])) {
+            dispatch(
+                verifyCashRegisterAccessCode(data?.accessCode, registerId, (res) => {
+                    if (!hasActiveRegister) {
+                        setCashRegisterOpen({
+                            open: true,
+                            closeRegister: res?.data?.closeRegister,
+                        });
+                    } else {
+                        setCashRegisterClose({
+                            open: true,
+                            closeRegister: res?.data,
+                        });
+                    }
+                }),
+            );
+        }
     };
 
     return (
         <>
-            <CustomDialog title="Access Code" visible={registerId} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Check In">
+            <CustomDialog title="Access Code" visible={registerId} onCancel={onClose} loading={loading} onSave={handleSave} saveLabel="Check In">
                 <CustomGridLayout>
                     <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
                 </CustomGridLayout>

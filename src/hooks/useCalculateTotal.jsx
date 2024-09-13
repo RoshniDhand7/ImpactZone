@@ -22,7 +22,7 @@ const useCalculateTotal = (data) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
-    return { calculateTotal };
+    return { calculateTotal, denominationRates };
 };
 
 export default useCalculateTotal;

@@ -25,12 +25,14 @@ const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
 };
 
 const verifyCashRegisterAccessCode = (accessCode, registerId, next) => async (dispatch) => {
+    dispatch(showLoaderAction());
     const res = await api('get', endPoints.VERIFY_ACCESS_CODE, {}, { accessCode, registerId });
     if (res.success) {
         next(res);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
+    dispatch(hideLoaderAction());
 };
 const cashRegisterCheckIn = (data, cashRegister, accessCode, next) => async (dispatch) => {
     dispatch(showLoaderAction());

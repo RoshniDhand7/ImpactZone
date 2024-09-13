@@ -9,7 +9,7 @@ const Registers = () => {
     const { allRegisters } = useRegister();
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'clubName', header: 'Club' },
+        { field: 'club', header: 'Club' },
     ];
     const onEdit = (col) => {
         history.push(`/settings/pos/register/edit/${col._id}`);

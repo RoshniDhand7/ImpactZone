@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { cashRegisterCheckIn } from '../../redux/actions/POS/PosActions';
 import { getRegisters } from '../../redux/actions/PosSettings/register';
 import useCalculateTotal from '../../hooks/useCalculateTotal';
-import { dateConversions } from '../../utils/commonFunctions';
+import { dateConversions, showFormErrors } from '../../utils/commonFunctions';
 
 const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessCode, onClose }) => {
     const initialState = {
@@ -43,12 +43,14 @@ const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessC
     }, [calculateTotal]);
 
     const handleSave = () => {
-        dispatch(
-            cashRegisterCheckIn(data, registerId, accessCode, () => {
-                onClose1();
-                dispatch(getRegisters());
-            }),
-        );
+        if (showFormErrors(data, setData, ['comment'])) {
+            dispatch(
+                cashRegisterCheckIn(data, registerId, accessCode, () => {
+                    onClose1();
+                    dispatch(getRegisters());
+                }),
+            );
+        }
     };
 
     const { formattedDate, formattedTime } = dateConversions(cashRegisterOpen?.closeRegister?.createdAt);

@@ -25,6 +25,19 @@ const showFormErrors = (data, setData, ignore) => {
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
+
+// const showFormErrors = (data, setData, ignore) => {
+//     let formErrors = {};
+//     entries(data).forEach(([key, value]) => {
+//         formErrors = {
+//             ...formErrors,
+//             ...formValidation(key, value, data, ignore),
+//         };
+//     });
+
+//     setData({ ...data, formErrors });
+//     return !values(formErrors).some((v) => notEqual(v, ''));
+// };
 const showArrayFormErrors = (array, ignore) => {
     let isValid = true;
     let res = array.map((data) => {

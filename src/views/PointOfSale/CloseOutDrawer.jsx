@@ -1,13 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CustomCard, { BalanceRow, CustomGridLayout, CustomListItem } from '../../shared/Cards/CustomCard';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomInputCurrentChange, CustomInputNumber, CustomTextArea } from '../../shared/Input/AllInputs';
 import formValidation from '../../utils/validations';
 import useCalculateTotal from '../../hooks/useCalculateTotal';
-import { dateConversions } from '../../utils/commonFunctions';
+import { dateConversions, showFormErrors } from '../../utils/commonFunctions';
 import { cashRegisterCheckOut } from '../../redux/actions/POS/PosActions';
 import { useDispatch } from 'react-redux';
 import { getRegisters } from '../../redux/actions/PosSettings/register';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import ReactToPrint from 'react-to-print';
+import CashRegisterReceipt from './CashRegisterReceipt';
+import PrimaryButton from '../../shared/Button/CustomButton';
 
 const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, accessCode, onClose }) => {
     const initialState = {
@@ -34,9 +39,10 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
     };
 
     const dispatch = useDispatch();
+    const receiptRef = useRef();
 
     const [data, setData] = useState(initialState);
-    const { calculateTotal } = useCalculateTotal(data);
+    const { calculateTotal, denominationRates } = useCalculateTotal(data);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -70,16 +76,27 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
         return data?.cashAtStart + data?.totalCashSales - data?.total;
     }, [data?.cashAtStart, data?.totalCashSales, data?.total]);
     useEffect(() => {
-        setData((prev) => ({ ...prev, cashDifference: remaining }));
+        setData((prev) => ({ ...prev, cashDifference: Number(remaining?.toFixed(4)) }));
     }, [remaining]);
 
     const handleSave = () => {
-        dispatch(
-            cashRegisterCheckOut(data, registerId, accessCode, () => {
-                onClose1();
-                dispatch(getRegisters());
-            }),
-        );
+        let ignore = [];
+        if (data?.cashDifference === 0) {
+            ignore = ['comment'];
+        }
+        if (showFormErrors(data, setData, ignore)) {
+            dispatch(
+                cashRegisterCheckOut(data, registerId, accessCode, () => {
+                    onClose1();
+                    dispatch(getRegisters());
+                }),
+            );
+        }
+    };
+
+    const dateTemplate = (col) => {
+        const { formattedDate, formattedTime } = dateConversions(col?.createdAt);
+        return formattedDate + ' ' + formattedTime;
     };
 
     return (
@@ -91,6 +108,14 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
                         <CustomListItem name="openedBy" data={data} />
                         <CustomListItem name="openedAt" data={data} />
                         <CustomTextArea name="comment" col="12" data={data} onChange={handleChange} />
+                        <div>
+                            <ReactToPrint trigger={() => <PrimaryButton className="btn">Print Receipt</PrimaryButton>} content={() => receiptRef.current} />
+                        </div>
+
+                        {/* Hidden receipt component to be printed */}
+                        <div style={{ display: 'none' }}>
+                            <CashRegisterReceipt data={data} denominationRates={denominationRates} ref={receiptRef} />
+                        </div>
                     </CustomCard>
                     <CustomCard col="8" title="Cash Count">
                         <CustomGridLayout>
@@ -107,8 +132,27 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
                             <CustomInputNumber name="total" data={data} col="8" disabled={true} />
                         </CustomGridLayout>
                     </CustomCard>
-                    <CustomCard col="4" title="Last Close Out"></CustomCard>
-                    <CustomCard col="8" title="Balance">
+                    <CustomCard col="6" title="Last Close Out">
+                        <DataTable
+                            value={cashRegisterClose?.closeRegister?.closeRegisterList || []}
+                            size="normal"
+                            tableStyle={{ minWidth: '25rem' }}
+                            className="p-0"
+                            stripedRows
+                            scrollable
+                            scrollHeight="400px"
+                        >
+                            <Column field="createdAt" body={dateTemplate} header="Date/Time" style={{ width: '40%' }}></Column>
+                            <Column
+                                field="employee.firstName"
+                                header="Employee"
+                                body={(r) => r.employee.firstName + '' + r.employee.lastName}
+                                style={{ width: '20%' }}
+                            ></Column>
+                            <Column field="total" header="Cash" body={(r) => `$ ${r.total}`} style={{ width: '20%' }}></Column>
+                        </DataTable>
+                    </CustomCard>
+                    <CustomCard col="6" title="Balance">
                         <BalanceRow label="Cash At Start" value={data?.cashAtStart || 0} />
                         <BalanceRow label="Total Cash Sales" value={0} />
                         <BalanceRow label="Remaining Cash" value={data?.cashDifference || 0} valueClass="text-red-600" />
