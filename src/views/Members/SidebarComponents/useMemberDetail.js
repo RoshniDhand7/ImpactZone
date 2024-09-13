@@ -59,7 +59,7 @@ const useMemberDetail = () => {
                 firstName: getMember.firstName,
                 lastName: getMember.lastName,
                 barCode: getMember.barCode,
-                email: getMember?.email,
+                email: getMember?.email ?? '',
                 dob: getMember.dob ? new Date(getMember.dob) : '',
                 isActive: getMember.isActive,
                 image: getMember.image ? [getMember.image] : [],
