@@ -26,18 +26,6 @@ const showFormErrors = (data, setData, ignore) => {
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
 
-// const showFormErrors = (data, setData, ignore) => {
-//     let formErrors = {};
-//     entries(data).forEach(([key, value]) => {
-//         formErrors = {
-//             ...formErrors,
-//             ...formValidation(key, value, data, ignore),
-//         };
-//     });
-
-//     setData({ ...data, formErrors });
-//     return !values(formErrors).some((v) => notEqual(v, ''));
-// };
 const showArrayFormErrors = (array, ignore) => {
     let isValid = true;
     let res = array.map((data) => {
@@ -300,27 +288,33 @@ const getImageUrl = (image) => {
         return constants.baseUrl + image;
     }
 };
+const applyFilters = (events, filterOptions) => {
+    console.log(events, filterOptions, 'filterOptions');
+    const filterType = filterOptions.type || 'AND';
+    const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'type');
 
-function applyFilters(events, filterOptions) {
-    let _events = events;
-    let _keys = Object.keys(filterOptions);
+    if (!filterKeys.length) return events;
 
-    if (_keys.length) {
-        _events = _events.filter((event) => {
-            return _keys.every((key) => {
-                const _condition = filterOptions[key];
-                const _val = event[key];
+    const matchesCondition = (event, key) => {
+        const condition = filterOptions[key];
+        const eventValue = event[key];
 
-                if (Array.isArray(_val)) {
-                    return _condition.some((item) => _val.includes(item));
-                } else {
-                    return _condition(_val);
-                }
-            });
-        });
-    }
-    return _events;
-}
+        if (Array.isArray(eventValue)) {
+            return condition.some((item) => eventValue.includes(item));
+        } else {
+            return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
+        }
+    };
+
+    return events.filter((event) => {
+        if (filterType === 'AND') {
+            return filterKeys.every((key) => matchesCondition(event, key));
+        } else if (filterType === 'OR') {
+            return filterKeys.some((key) => matchesCondition(event, key));
+        }
+        return false;
+    });
+};
 
 function isFileObject(obj) {
     return obj instanceof File;

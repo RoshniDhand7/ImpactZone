@@ -7,7 +7,6 @@ import { showFormErrors } from '../../../../utils/commonFunctions';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
-import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';

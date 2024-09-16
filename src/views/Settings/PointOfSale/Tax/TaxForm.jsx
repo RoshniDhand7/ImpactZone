@@ -62,6 +62,8 @@ const TaxForm = () => {
         }
     };
 
+    console.log('data>>', data);
+
     return (
         <>
             <FormPage backText="Tax">
@@ -83,7 +85,7 @@ const TaxForm = () => {
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Clubs">
-                    <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
+                    <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} data={data} />
                 </CustomCard>
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PickList } from 'primereact/picklist';
+import InputLayout from '../Form/InputLayout';
 
 const CustomPickList = ({
     selected = [],
@@ -13,6 +14,12 @@ const CustomPickList = ({
     targetStyle = { height: '24rem' },
     showSourceControls = false,
     showTargetControls = false,
+    required,
+    label,
+    col = 12,
+    extraClassName,
+    data,
+    errorMessage,
 }) => {
     useEffect(() => {
         if (sourceData.length && selected) {
@@ -49,7 +56,7 @@ const CustomPickList = ({
     }, [target?.length, name]);
 
     return (
-        <div className="card">
+        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <PickList
                 source={source}
                 target={target}
@@ -63,7 +70,7 @@ const CustomPickList = ({
                 showSourceControls={showSourceControls}
                 showTargetControls={showTargetControls}
             />
-        </div>
+        </InputLayout>
     );
 };
 
