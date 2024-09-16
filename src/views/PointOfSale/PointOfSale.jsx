@@ -230,8 +230,10 @@ export default function PointOfSale() {
         setData((prev) => ({ ...prev, subVariations: null, variations: null }));
     };
 
+    console.log('data>>', data);
+
     const handleSave = () => {
-        if (showFormErrors(data, setData)) {
+        if (showFormErrors(data, setData, ['accessCode'])) {
             addToCart(openVariationDialog?.item, data);
             onClose();
         }

@@ -63,11 +63,8 @@ const RegisterForm = () => {
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="employee" options={employeesDropdown} data={data} onChange={handleChange} optionLabel="name" />
+                        <CustomDropDown name="club" options={clubsDropdown} data={data} onChange={handleChange} optionLabel="name" />
                     </CustomGridLayout>
-                </CustomCard>
-                <CustomCard col="12" title="Clubs">
-                    <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
-                    {data?.formErrors?.club && <div className="text-sm p-error">{data?.formErrors?.club}</div>}
                 </CustomCard>
 
                 <CustomButtonGroup>
