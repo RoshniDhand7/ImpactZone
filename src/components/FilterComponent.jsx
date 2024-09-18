@@ -14,11 +14,24 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
     const handleApply = () => {
         let _keys = Object.keys(data);
         let _filters = {};
+
+        console.log(_keys, '_keys');
         _keys.forEach((key) => {
-            if (data[key]?.length) {
-                _filters[key] = data[key];
+            const value = data[key];
+            console.log(value?.length, data, key, value, 'data[key]');
+
+            // Check if the value is not undefined, null, or an empty string/array
+            if (value && (Array.isArray(value) ? value.length > 0 : value !== '')) {
+                _filters[key] = value;
             }
         });
+
+        // _keys.forEach((key) => {
+        //     console.log(data[key]?.length, data, key, data[key], 'data[key]');
+        //     if (data[key]?.length) {
+        //         _filters[key] = data[key];
+        //     }
+        // });
 
         console.log(data, _filters, '_filters');
         onApply(_filters);
@@ -26,19 +39,19 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
     };
     const handleClear = () => {
         setData({
-            type: 'AND',
+            filterType: 'AND',
         });
         onApply(data);
     };
 
-    console.log('data>>', data);
+    console.log('dat211a>>', data);
 
     return (
         <Sidebar visible={visible} position="right" onHide={onHide} showCloseIcon={false}>
             <div className="flex flex-column justify-content-between h-full">
                 {children}
                 <div>
-                    <CustomRadioButtons label="" name="type" onChange={handleChange} data={data} options={filterType} />
+                    <CustomRadioButtons label="" name="filterType" onChange={handleChange} data={data} options={filterType} />
                     <hr className=" border-top-1 border-none surface-border" />
                     <div className="flex justify-content-end bottom-0">
                         <CustomButton label="Apply" onClick={handleApply} />

@@ -290,8 +290,8 @@ const getImageUrl = (image) => {
 };
 const applyFilters = (events, filterOptions) => {
     console.log(events, filterOptions, 'filterOptions');
-    const filterType = filterOptions.type || 'AND';
-    const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'type');
+    const filterType = filterOptions.filterType || 'AND';
+    const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'filterType');
 
     if (!filterKeys.length) return events;
 
@@ -299,8 +299,15 @@ const applyFilters = (events, filterOptions) => {
         const condition = filterOptions[key];
         const eventValue = event[key];
 
-        if (Array.isArray(eventValue)) {
-            return condition.some((item) => eventValue.includes(item));
+        console.log(condition, 'condition');
+        console.log(eventValue, 'eventValue');
+
+        if (Array.isArray(condition) && eventValue) {
+            console.log(
+                '23sd>>',
+                condition.some((item) => eventValue.includes(item)),
+            );
+            return condition.some((item) => eventValue && eventValue.includes(item));
         } else {
             return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
         }

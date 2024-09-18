@@ -6,7 +6,7 @@ import useGetClubs from '../../../../hooks/useGetClubs';
 
 const TaxFilter = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }) => {
     const [data, setData] = useState({
-        type: 'AND',
+        filterType: 'AND',
     });
     const { clubsDropdown } = useGetClubs();
     const handleChange = ({ name, value }) => {
@@ -27,7 +27,7 @@ const TaxFilter = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }) 
                 setData={setData}
             >
                 <div>
-                    <CustomDropDown col={12} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} showClear />
+                    <CustomDropDown col={12} name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
                     <CustomMultiselect col={12} name="club" options={clubsDropdown} data={data} onChange={handleChange} />
                 </div>
             </FilterComponent>

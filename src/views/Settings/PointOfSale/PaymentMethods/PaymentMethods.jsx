@@ -15,7 +15,7 @@ const PaymentMethods = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        type: 'AND',
+        filterType: 'AND',
     });
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
@@ -26,7 +26,7 @@ const PaymentMethods = () => {
 
     const { allPaymentMethod } = useSelector((state) => state.paymentMethod);
 
-    const { events, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allPaymentMethod);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allPaymentMethod);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -78,7 +78,7 @@ const PaymentMethods = () => {
                     <CustomDropDown col={12} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} showClear />
                 </div>
             </FilterComponent>
-            <CustomTable data={events} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

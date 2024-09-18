@@ -9,6 +9,9 @@ import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs'
 import formValidation from '../../../../utils/validations';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import useCatalogItems from '../../../../hooks/useCatalogItems';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import CatalogFilters from './CatalogFilters';
 
 const CatalogItems = () => {
     const history = useHistory();
@@ -26,6 +29,7 @@ const CatalogItems = () => {
         { field: 'displayInPos', header: 'Event' },
         { field: 'isActive', header: 'Active' },
     ];
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCatalogItems);
 
     const onDelete = (col, position) => {
         confirmDelete(
@@ -108,10 +112,9 @@ const CatalogItems = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add">
-                {/* <div className="col-12 flex  align-item-center p-0">
-                    <CustomDropDown name="productType" col={8} />
-                    <PrimaryButton label="Advanced Filters" col={4} onClick={(e) => openOverlay.current.toggle(e)} />
-                </div> */}
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
             </CustomFilterCard>
             <CustomOverlay ref={openOverlay} col={6}>
                 <div className="grid">
@@ -129,7 +132,8 @@ const CatalogItems = () => {
                     <CustomDropDown name="PriceRange" col={6} />
                 </div>
             </CustomOverlay>
-            <CustomTable data={allCatalogItems} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CatalogFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
             <CustomDialog title="Copy Catalog Items" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

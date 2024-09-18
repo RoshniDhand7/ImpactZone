@@ -18,7 +18,7 @@ const Tax = () => {
     }, [dispatch]);
 
     const { allTaxes } = useSelector((state) => state.taxes);
-    const { events, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allTaxes);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allTaxes);
 
     const columns = [
         { field: 'taxRateName', header: 'Tax Rate Name' },
@@ -52,13 +52,7 @@ const Tax = () => {
                 </div>
             </CustomFilterCard>
             <TaxFilter onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
-            {/* <SideBarFilters>
-                <div>
-                    <CustomDropDown col={12} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} showClear />
-                    <CustomMultiselect col={12} name="club" options={clubsDropdown} data={data} onChange={handleChange} />
-                </div>
-            </SideBarFilters> */}
-            <CustomTable data={events} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

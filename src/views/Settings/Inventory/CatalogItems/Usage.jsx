@@ -65,25 +65,24 @@ const Usage = () => {
         }
     };
 
-    const getUsageItems = () => {
-        dispatch(
-            getUsageItem(id, (data) => {
-                if (data.checkInDeduction) {
-                    setData({
-                        checkInDeduction: data.checkInDeduction,
-                    });
-                    setPayTo(data.paysTo);
-                    setPayFor(data.paysFor);
-                    setBundled(data.bundleRecipe);
-                    setUsageId(data._id);
-                }
-            }),
-        );
-    };
+    const getUsageItems = () => {};
 
     useEffect(() => {
         if (id) {
-            getUsageItems();
+            dispatch(
+                getUsageItem(id, (data) => {
+                    console.log('dataf>>', data.paysFor);
+                    if (data.checkInDeduction) {
+                        setData({
+                            checkInDeduction: data.checkInDeduction,
+                        });
+                        setPayTo(data.paysTo);
+                        setPayFor(data.paysFor);
+                        setBundled(data.bundleRecipe);
+                        setUsageId(data._id);
+                    }
+                }),
+            );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch]);
@@ -130,6 +129,8 @@ const Usage = () => {
             'center',
         );
     };
+
+    console.log('payFor>>', payFor);
 
     return (
         <>
