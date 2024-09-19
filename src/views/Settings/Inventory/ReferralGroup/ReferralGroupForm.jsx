@@ -9,6 +9,7 @@ import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { amountTypeOptions } from '../../../../utils/dropdownConstants';
 import { addReferralGroups, editReferralGroups, getReferralGroup } from '../../../../redux/actions/InventorySettings/referralGroupAction';
+import SelectCatalogItems from '../CatalogItems/SelectCatalogItems';
 
 const ReferralGroupForm = () => {
     const history = useHistory();
@@ -23,6 +24,7 @@ const ReferralGroupForm = () => {
                         name: data.name,
                         amount: data.amount,
                         amountType: data.amountType,
+                        catalogs: data?.catalogs,
                         isActive: data.isActive,
                     });
                 }),
@@ -34,6 +36,7 @@ const ReferralGroupForm = () => {
         amount: 0,
         amountType: 'FIXED',
         isActive: true,
+        catalogs: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -58,9 +61,7 @@ const ReferralGroupForm = () => {
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
-            <CustomCard col="12" title="Catalog Items">
-                <CustomGridLayout></CustomGridLayout>
-            </CustomCard>
+            <SelectCatalogItems data={data} setData={setData} id={id} loading={loading} name="Catalog Items" />
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
                 <LightButton label="Cancel" onClick={() => history.goBack()} />

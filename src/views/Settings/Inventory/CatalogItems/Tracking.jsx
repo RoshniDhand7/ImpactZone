@@ -11,7 +11,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
-import useCatalogItems from '../../../../hooks/useCatalogItems';
+import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 
 const Tracking = () => {
     const dispatch = useDispatch();

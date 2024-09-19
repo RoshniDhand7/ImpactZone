@@ -15,10 +15,8 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
         let _keys = Object.keys(data);
         let _filters = {};
 
-        console.log(_keys, '_keys');
         _keys.forEach((key) => {
             const value = data[key];
-            console.log(value?.length, data, key, value, 'data[key]');
 
             // Check if the value is not undefined, null, or an empty string/array
             if (value && (Array.isArray(value) ? value.length > 0 : value !== '')) {
@@ -26,14 +24,6 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
             }
         });
 
-        // _keys.forEach((key) => {
-        //     console.log(data[key]?.length, data, key, data[key], 'data[key]');
-        //     if (data[key]?.length) {
-        //         _filters[key] = data[key];
-        //     }
-        // });
-
-        console.log(data, _filters, '_filters');
         onApply(_filters);
         onHide();
     };
@@ -43,8 +33,6 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
         });
         onApply(data);
     };
-
-    console.log('dat211a>>', data);
 
     return (
         <Sidebar visible={visible} position="right" onHide={onHide} showCloseIcon={false}>

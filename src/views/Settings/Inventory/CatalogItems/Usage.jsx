@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { deleteUsageItem, editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory, useParams } from 'react-router-dom';
@@ -65,22 +65,17 @@ const Usage = () => {
         }
     };
 
-    const getUsageItems = () => {};
-
     useEffect(() => {
         if (id) {
             dispatch(
                 getUsageItem(id, (data) => {
-                    console.log('dataf>>', data.paysFor);
-                    if (data.checkInDeduction) {
-                        setData({
-                            checkInDeduction: data.checkInDeduction,
-                        });
-                        setPayTo(data.paysTo);
-                        setPayFor(data.paysFor);
-                        setBundled(data.bundleRecipe);
-                        setUsageId(data._id);
-                    }
+                    setData({
+                        checkInDeduction: data.checkInDeduction,
+                    });
+                    setPayTo(data.paysTo);
+                    setPayFor(data.paysFor);
+                    setBundled(data.bundleRecipe);
+                    setUsageId(data._id);
                 }),
             );
         }
@@ -130,12 +125,9 @@ const Usage = () => {
         );
     };
 
-    console.log('payFor>>', payFor);
-
     return (
         <>
             <CustomDropDown name="checkInDeduction" options={yesNoOptions} onChange={handleChange} data={data} />
-
             <CustomCard col="12" title="Pays To">
                 <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen('payTo')} extraClass="justify-content-end gap-2">
                     <div>
@@ -143,7 +135,7 @@ const Usage = () => {
                             label={'Remove All'}
                             onClick={() => {
                                 setPayTo([]);
-                                dispatch(deleteUsageItem(id, 'paysTo'));
+                                // dispatch(deleteUsageItem(id, 'paysTo'));
                             }}
                         />
                     </div>
@@ -157,7 +149,7 @@ const Usage = () => {
                             label={'Remove All'}
                             onClick={() => {
                                 setPayFor([]);
-                                dispatch(deleteUsageItem(id, 'paysFor'));
+                                // dispatch(deleteUsageItem(id, 'paysFor'));
                             }}
                         />
                     </div>
@@ -171,7 +163,7 @@ const Usage = () => {
                             label={'Remove All'}
                             onClick={() => {
                                 setBundled([]);
-                                dispatch(deleteUsageItem(id, 'bundleRecipe'));
+                                // dispatch(deleteUsageItem(id, 'bundleRecipe'));
                             }}
                         />
                     </div>

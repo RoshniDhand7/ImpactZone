@@ -288,8 +288,23 @@ const getImageUrl = (image) => {
         return constants.baseUrl + image;
     }
 };
+
+const isDateValue = (value) => {
+    if (value instanceof Date && !isNaN(value)) {
+        return true;
+    }
+    if (typeof value === 'string') {
+        const dateStringRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|([+-]\d{2}:\d{2})))?$/;
+
+        if (dateStringRegex.test(value)) {
+            const parsedDate = new Date(value);
+            return !isNaN(parsedDate.getTime());
+        }
+    }
+    return false;
+};
+
 const applyFilters = (events, filterOptions) => {
-    console.log(events, filterOptions, 'filterOptions');
     const filterType = filterOptions.filterType || 'AND';
     const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'filterType');
 
@@ -299,30 +314,26 @@ const applyFilters = (events, filterOptions) => {
         const condition = filterOptions[key];
         const eventValue = event[key];
 
-        console.log(condition, 'condition');
-        console.log(eventValue, 'eventValue');
+        if (typeof condition === 'number' && key === 'unitPrice') {
+            return eventValue <= condition;
+        }
+        if (isDateValue(condition) && isDateValue(eventValue)) {
+            const eventDate = new Date(eventValue);
+            const conditionDate = new Date(condition);
+            return eventDate.getDate() === conditionDate.getDate();
+        }
 
         if (Array.isArray(condition) && eventValue) {
-            console.log(
-                '23sd>>',
-                condition.some((item) => eventValue.includes(item)),
-            );
             return condition.some((item) => eventValue && eventValue.includes(item));
         } else {
             return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
         }
     };
 
-    return events.filter((event) => {
-        if (filterType === 'AND') {
-            return filterKeys.every((key) => matchesCondition(event, key));
-        } else if (filterType === 'OR') {
-            return filterKeys.some((key) => matchesCondition(event, key));
-        }
-        return false;
-    });
+    return events.filter((event) =>
+        filterType === 'AND' ? filterKeys.every((key) => matchesCondition(event, key)) : filterKeys.some((key) => matchesCondition(event, key)),
+    );
 };
-
 function isFileObject(obj) {
     return obj instanceof File;
 }

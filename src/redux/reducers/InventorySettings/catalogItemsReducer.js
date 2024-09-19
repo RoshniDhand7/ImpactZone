@@ -8,6 +8,7 @@ const intitalState = {
     catalogServiceFilterItems: [],
     catalogServiceDropdown: [],
     catalogDropDown: [],
+    catalogProductDropdown: [],
 };
 
 const catalogItemsReducer = (state = intitalState, action) => {
@@ -29,6 +30,7 @@ const catalogItemsReducer = (state = intitalState, action) => {
                 catalogServiceFilterItems: action.payload
                     ?.filter((item) => item.type === 'SERVICE')
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
+                catalogProductDropdown: action.payload.filter((item) => item.type === 'PRODUCT')?.map((item) => ({ name: item.name, value: item?._id })),
                 catalogServiceDropdown: action.payload?.filter((item) => item.type === 'SERVICE')?.map((item) => ({ name: item.name, value: item?._id })),
                 catalogDropDown: action.payload?.map((item) => ({ name: item.name, value: item?._id })),
             };

@@ -52,8 +52,6 @@ const Personal = () => {
         }
     }, [data]);
 
-    console.log(data1, 'data1');
-
     useEffect(() => {
         dispatch(getMemberAction(id));
     }, [dispatch, id]);

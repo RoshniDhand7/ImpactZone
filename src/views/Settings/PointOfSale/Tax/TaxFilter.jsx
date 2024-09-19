@@ -12,9 +12,6 @@ const TaxFilter = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }) 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
-
-    console.log(isFilterVisible, 'isFilterVisible');
-
     return (
         <>
             <FilterComponent
