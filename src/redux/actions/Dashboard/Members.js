@@ -81,17 +81,5 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
-const checkbaCodeAction = (val, setData) => async (dispatch) => {
-    const paylaod = {
-        barCode: val,
-    };
 
-    const res = await api('post', EndPoints.MEMBER_BARCODE, paylaod);
-    if (res.success) {
-        setData((prev) => ({ ...prev, uniqueBarCode: false }));
-    } else {
-        setData((prev) => ({ ...prev, uniqueBarCode: true }));
-    }
-};
-
-export { addMembers, getMembers, getMemberAction, editMemberAction, checkbaCodeAction };
+export { addMembers, getMembers, getMemberAction, editMemberAction };

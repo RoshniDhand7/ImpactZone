@@ -6,14 +6,16 @@ import CustomImageInput from '../../shared/Input/CustomImageInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
-import { getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
+import { getDefaultMembershipPlan, getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
-import { addMembers, checkbaCodeAction, getMembers } from '../../redux/actions/Dashboard/Members';
+import { addMembers, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
 import usePlacesAutocomplete from './usePlacesAutoComplete';
+import api from '../../services/api';
+import endPoints from '../../services/endPoints';
 
 const AddMembers = () => {
     const [data, setData] = useState({
@@ -52,6 +54,20 @@ const AddMembers = () => {
         dispatch(getCampaigns());
         dispatch(getMembershipPlans());
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(
+            getDefaultMembershipPlan((data1) => {
+                if (data1?.agreementPlan && data?.createType === 'PROSPECT') {
+                    setData((prev) => ({ ...prev, memberShipPlan: data1.agreementPlan }));
+                } else {
+                    setData((prev) => ({ ...prev, memberShipPlan: '' }));
+                }
+            }),
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data?.createType]);
+
     const { employeesDropdown } = useSelector((state) => state.employees);
     const { compaignDropdown } = useSelector((state) => state.campaign);
     let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
@@ -60,24 +76,13 @@ const AddMembers = () => {
     const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
     const memberagreement = allMembershipPlan?.filter((item) => !item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
 
-    useEffect(() => {
-        if (data.createType) {
-            const formErrors = formValidation('memberShipPlan', '', data);
-            setData((prev) => ({ ...prev, memberShipPlan: '', formErrors }));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.createType]);
-
-    useEffect(() => {
-        const formErrors = formValidation('barCode', data.barCode, data);
-
-        if (data.uniqueBarCode) {
-            setData((prev) => ({ ...prev, uniqueBarCode: true, formErrors }));
-        } else {
-            setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.uniqueBarCode]);
+    // useEffect(() => {
+    //     if (data.createType) {
+    //         const formErrors = formValidation('memberShipPlan', '', data);
+    //         setData((prev) => ({ ...prev, memberShipPlan: '', formErrors }));
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [data.createType]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -90,9 +95,25 @@ const AddMembers = () => {
         }
     };
 
-    const changeHandler = (val) => {
-        dispatch(checkbaCodeAction(val, setData));
+    const changeHandler = async (val) => {
+        const res = await api('post', endPoints.MEMBER_BARCODE, { barCode: val });
+        if (res.success) {
+            setData((prev) => ({ ...prev, uniqueBarCode: false }));
+        } else {
+            setData((prev) => ({ ...prev, uniqueBarCode: true }));
+        }
     };
+
+    useEffect(() => {
+        const formErrors = formValidation('barCode', data.uniqueBarCode, data);
+        if (data?.uniqueBarCode) {
+            formErrors['barCode'] = 'BarCode should be unique!';
+        } else {
+            formErrors['barCode'] = '';
+        }
+        setData((prev) => ({ ...prev, formErrors }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data.uniqueBarCode]);
 
     const debouncedChangeHandler = useMemo(
         () =>

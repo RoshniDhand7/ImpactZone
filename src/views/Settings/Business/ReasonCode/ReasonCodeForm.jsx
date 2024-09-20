@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { reasonCodeTypeOptions } from '../../../../utils/dropdownConstants';
 import { addReasonCode, editReasonCode, getReasonCode } from '../../../../redux/actions/BusinessSettings/reasonActions';
@@ -16,6 +16,7 @@ export default function ReasonCodeForm({ history }) {
     const [data, setData] = useState({
         reasonCodeType: '',
         reasonCode: '',
+        isActive: true,
     });
     useEffect(() => {
         if (id) {
@@ -24,6 +25,7 @@ export default function ReasonCodeForm({ history }) {
                     setData({
                         reasonCodeType: data.reasonCodeType,
                         reasonCode: data.reasonCode,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -48,7 +50,10 @@ export default function ReasonCodeForm({ history }) {
     return (
         <div>
             <FormPage backText="Reason Codes">
-                <CustomCard col="12" title="Active">
+                <CustomCard col="12" title="Reason Code">
+                    <CustomGridLayout extraClass="justify-content-end ">
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
+                    </CustomGridLayout>
                     <CustomGridLayout>
                         <CustomDropDown name="reasonCodeType" options={reasonCodeTypeOptions} data={data} onChange={handleChange} required />
                         <CustomInput name="reasonCode" data={data} onChange={handleChange} required />

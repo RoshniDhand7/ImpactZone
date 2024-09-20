@@ -237,8 +237,6 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
-            } else if (state.uniqueBarCode) {
-                formErrors[name] = `BarCode should be unique!`;
             } else {
                 formErrors[name] = '';
             }

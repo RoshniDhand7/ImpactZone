@@ -75,7 +75,12 @@ const Tracking = () => {
         }
     }, [id, dispatch]);
 
-    const { referralGroupDropdown } = useSelector((state) => state.referralGroup);
+    const { allReferralGroups } = useSelector((state) => state.referralGroup);
+
+    const finalReferralGroup = allReferralGroups
+        ?.filter((commissionGroup) => commissionGroup?.catalogs?.some((catalogItem) => catalogItem._id === id))
+        ?.map((item) => ({ name: item.name, id: item._id }));
+
     const { vendorsDropdown } = useSelector((state) => state.vendors);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     const handleSave = (tab) => {
@@ -93,7 +98,7 @@ const Tracking = () => {
                 <CustomGridLayout>
                     <CustomDropDown name="requireCommission" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="commissionGroup" options={commissionGroupsDropdown} onChange={handleChange} data={data} />
-                    <CustomDropDown name="referralGroup" options={referralGroupDropdown} onChange={handleChange} data={data} />
+                    <CustomDropDown name="referralGroup" options={finalReferralGroup} onChange={handleChange} data={data} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Details">

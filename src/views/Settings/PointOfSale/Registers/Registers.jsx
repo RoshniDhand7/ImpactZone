@@ -8,7 +8,7 @@ const Registers = () => {
     const history = useHistory();
     const { allRegisters } = useRegister();
     const columns = [
-        { field: 'name', header: 'Name' },
+        { field: 'registerId', header: 'Register Id' },
         { field: 'club', header: 'Club' },
     ];
     const onEdit = (col) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { addRegister, editRegister, getRegister } from '../../../../redux/actions/PosSettings/register';
 import formValidation from '../../../../utils/validations';
@@ -20,7 +20,6 @@ const RegisterForm = () => {
         dispatch(getEmployees());
     }, [dispatch]);
 
-    const { employeesDropdown } = useSelector((state) => state.employees);
     const { clubsDropdown } = useGetClubs();
 
     useEffect(() => {
@@ -28,8 +27,7 @@ const RegisterForm = () => {
             dispatch(
                 getRegister(id, (data) => {
                     setData({
-                        name: data.name,
-                        employee: data.employee,
+                        registerId: data.registerId,
                         club: data.club,
                     });
                 }),
@@ -37,8 +35,7 @@ const RegisterForm = () => {
         }
     }, [id, dispatch]);
     const [data, setData] = useState({
-        name: '',
-        employee: null,
+        registerId: '',
         club: null,
     });
     const handleChange = ({ name, value }) => {
@@ -60,8 +57,7 @@ const RegisterForm = () => {
             <FormPage backText="Register">
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
-                        <CustomInput name="name" data={data} onChange={handleChange} required />
-                        <CustomDropDown name="employee" options={employeesDropdown} data={data} onChange={handleChange} optionLabel="name" />
+                        <CustomInput name="registerId" data={data} onChange={handleChange} required />
                         <CustomDropDown name="club" options={clubsDropdown} data={data} onChange={handleChange} optionLabel="name" />
                     </CustomGridLayout>
                 </CustomCard>

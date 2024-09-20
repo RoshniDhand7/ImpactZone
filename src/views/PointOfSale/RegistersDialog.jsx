@@ -7,10 +7,9 @@ const RegistersDialog = ({ openRegister, onClose, setOpenRegister, setRegisterId
         setOpenRegister(false);
     };
 
-    const handleSave = () => {};
     return (
         <>
-            <CustomDialog title="Registers" visible={openRegister} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Next">
+            <CustomDialog title="Registers" visible={openRegister} onCancel={onClose} loading={false}>
                 <div style={{ overflow: 'auto', maxHeight: '220px' }}>
                     {allRegisters?.map((item) => (
                         <div
@@ -30,7 +29,7 @@ const RegistersDialog = ({ openRegister, onClose, setOpenRegister, setRegisterId
                                 },
                             }}
                         >
-                            {item.name}
+                            {item.registerId}
                         </div>
                     ))}
                 </div>
