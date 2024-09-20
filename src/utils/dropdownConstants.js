@@ -305,15 +305,15 @@ export const productTypeOptions = [
 export const itemSoldOptions = [
     {
         name: 'POS Only',
-        value: 'POS_ONLY',
+        value: 'POS',
     },
     {
         name: 'Agreements Only',
-        value: 'AGGREMENT_ONLY',
+        value: 'AGGREMENT',
     },
     {
         name: 'POS and Agreements',
-        value: 'POS_AND_AGREEMENTS',
+        value: 'POS_AGREEMENTS',
     },
     {
         name: 'Non-sale Item',

@@ -31,6 +31,27 @@ const getCatalogItemsFilter = (setLoading, category, filterSet, tags) => async (
         setLoading(false);
     }
 };
+
+const getPOSCatalogItems = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+
+    const res = await api('get', EndPoints.INVENTORY_CATALOG);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_CATALOG_ITEMS,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 const getCatalogItems = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);

@@ -25,6 +25,21 @@ const showFormErrors = (data, setData, ignore) => {
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
+const checkFormErrors = (data, ignore) => {
+    let formErrors = {};
+    entries(data).forEach(([key, value]) => {
+        formErrors = {
+            ...formErrors,
+            ...formValidation(key, value, data, ignore),
+        };
+    });
+    ignore?.forEach((name) => {
+        if (formErrors[name]) {
+            formErrors[name] = '';
+        }
+    });
+    return formErrors;
+};
 const showArrayFormErrors = (array, ignore) => {
     let isValid = true;
     let res = array.map((data) => {
@@ -366,6 +381,7 @@ const processCatalogItems = (items) => {
 export {
     capitalizeCamelCase,
     showFormErrors,
+    checkFormErrors,
     getAllCountries,
     getStatesByCountry,
     getCitiesByState,

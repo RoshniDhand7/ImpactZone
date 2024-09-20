@@ -22,8 +22,7 @@ const CatalogItems = () => {
     const columns = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
-        { field: 'displayInPos', header: 'Event' },
+        { field: 'netPrice', header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
 
@@ -107,28 +106,7 @@ const CatalogItems = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add">
-                {/* <div className="col-12 flex  align-item-center p-0">
-                    <CustomDropDown name="productType" col={8} />
-                    <PrimaryButton label="Advanced Filters" col={4} onClick={(e) => openOverlay.current.toggle(e)} />
-                </div> */}
-            </CustomFilterCard>
-            <CustomOverlay ref={openOverlay} col={6}>
-                <div className="grid">
-                    <CustomDropDown name="profitCenter" col={6} />
-                    <CustomDropDown name="itemStatus" col={6} />
-                    <CustomDropDown name="onlineStatus" col={6} />
-                    <CustomDropDown name="club" col={6} />
-                    <CustomDropDown name="salesItem" col={6} />
-                    <CustomDropDown name="POSCategory" col={6} />
-                    <CustomDropDown name="commissionItem" col={6} />
-                    <CustomDropDown name="discountItem" col={6} />
-                    <CustomDropDown name="paysForEvent" col={6} />
-                    <CustomDropDown name="createdBy" col={6} />
-                    <CustomDropDown name="createdDate" col={6} />
-                    <CustomDropDown name="PriceRange" col={6} />
-                </div>
-            </CustomOverlay>
+            <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add" />
             <CustomTable data={allCatalogItems} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
             <CustomDialog title="Copy Catalog Items" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>

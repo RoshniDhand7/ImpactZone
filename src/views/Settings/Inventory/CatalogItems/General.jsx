@@ -27,7 +27,7 @@ import { getCategories } from '../../../../redux/actions/InventorySettings/categ
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { showFormErrors } from '../../../../utils/commonFunctions';
+import { checkFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
 import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
 import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
@@ -35,7 +35,7 @@ import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discount
 import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
 import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
 import useGetClubs from '../../../../hooks/useGetClubs';
-import { calculateNetAmount, percentageDifference } from '../../../../utils/taxHelpers';
+import { calculateFinalAmount, calculateNetAmount, percentageDifference } from '../../../../utils/taxHelpers';
 
 const General = () => {
     const dispatch = useDispatch();
@@ -48,38 +48,39 @@ const General = () => {
         name: '',
         upc: '',
         profitCentre: '',
-        category: null,
         itemCaption: '',
         itemSold: '',
-        itemRecurring: false,
-        itemBeRedeemed: false,
-        itemPurchasedOneTime: false,
-        itemSoldOnline: false,
+        isRecurring: false,
+        isOneTimePurchaseable: false,
+        isRedeemable: false,
+        isSoldOnline: false,
+        isActive: true,
+        category: '',
         productType: 'GENERAL',
         clubs: [],
         taxes: [],
-        unitPrice: null,
-        promptForPrice: false,
+        wholesaleCost: '',
+        netPrice: 0,
+        unitPrice: 0,
+        defaultPrice: 0,
         allowDiscount: false,
-        defaultDiscount: null,
+        defaultDiscount: '',
         overRideDiscount: false,
-        moreThan1: 0,
-        moreThan2: 0,
-        moreThan3: 0,
-        unitPrice1: '',
-        unitPrice2: '',
-        unitPrice3: '',
-        stockable: false,
-        allowUnlimited: false,
         minimumQuantity: 1,
-        maximumQuantity: 0,
         defaultQuantity: 1,
+        maximumQuantity: 1,
+        allowUnlimited: false,
+        isStockable: false,
+        itemStart: '',
         expiration: false,
         days: '',
         month: '',
-        itemStart: '',
-        isActive: true,
-        wholesaleCost: '',
+        moreThan1: 0,
+        unitDiscount1: 0,
+        moreThan2: 0,
+        unitDiscount2: 0,
+        moreThan3: 0,
+        unitDiscount3: 0,
         filterSet: [],
         tags: [],
     });
@@ -104,84 +105,46 @@ const General = () => {
     const { clubsDropdown } = useGetClubs();
     const { allTaxActiveDropdown, allTaxes } = useSelector((state) => state.taxes);
 
-    // useEffect(() => {
-    //     if (data?.minimumQuantity && data?.maximumQuantity) {
-    //         let newFormErrors = { ...data.formErrors };
-
-    //         if (data.minimumQuantity >= data.maximumQuantity) {
-    //             newFormErrors['minimumQuantity'] = 'Minimum Quantity must be less than Maximum Quantity';
-    //             newFormErrors['maximumQuantity'] = 'Maximum Quantity must be greater than Minimum Quantity';
-    //         } else {
-    //             newFormErrors['minimumQuantity'] = '';
-    //             newFormErrors['maximumQuantity'] = '';
-    //         }
-
-    //         if (data.defaultQuantity < data.minimumQuantity) {
-    //             newFormErrors['defaultQuantity'] = 'Default Quantity must be greater than or equal to Minimum Quantity';
-    //         } else if (data.defaultQuantity > data.maximumQuantity) {
-    //             newFormErrors['defaultQuantity'] = 'Default Quantity must be less than or equal to Maximum Quantity';
-    //         } else {
-    //             newFormErrors['defaultQuantity'] = '';
-    //         }
-
-    //         setData((prev) => ({ ...prev, formErrors: newFormErrors }));
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [data?.maximumQuantity, data?.minimumQuantity, data.defaultQuantity]);
-
     useEffect(() => {
         if (id) {
             dispatch(
                 getCatalogItem(id, (data) => {
                     setData({
+                        ...data,
                         catalogImage: data.catalogImage ? [data.catalogImage] : [],
-                        type: data.type,
-                        name: data.name,
-                        upc: data.upc,
-                        profitCentre: data.profitCentre,
-                        category: data.category ?? 'None',
-                        itemCaption: data.itemCaption,
-                        itemSold: data.itemSold,
-                        itemRecurring: data.itemRecurring,
-                        itemBeRedeemed: data.itemBeRedeemed,
-                        itemPurchasedOneTime: data.itemPurchasedOneTime,
-                        itemSoldOnline: data.itemSoldOnline,
-                        productType: data.productType,
-                        clubs: data.clubs,
-                        taxes: data.taxes,
-                        unitPrice: data.unitPrice,
-                        promptForPrice: data.promptForPrice,
-                        allowDiscount: data.allowDiscount,
-                        defaultDiscount: data.defaultDiscount ?? 'None',
-                        overRideDiscount: data.overRideDiscount,
-                        moreThan1: data.moreThan1,
-                        moreThan2: data.moreThan2,
-                        moreThan3: data.moreThan3,
-                        unitPrice1: data.unitPrice1,
-                        unitPrice2: data.unitPrice2,
-                        unitPrice3: data.unitPrice3,
-                        stockable: data.stockable,
-                        allowUnlimited: data.allowUnlimited,
-                        minimumQuantity: data.minimumQuantity,
-                        maximumQuantity: data.maximumQuantity,
-                        defaultQuantity: data.defaultQuantity,
-                        expiration: data.expiration,
-                        days: data.days,
-                        month: data.month,
-                        itemStart: data.itemStart,
-                        isActive: data.isActive,
-                        wholesaleCost: data.wholesaleCost,
-                        filterSet: data.filterSet,
-                        tags: data.tags,
                     });
                 }),
             );
         }
     }, [id, dispatch]);
 
+    //Net Price, Unit price and taxs calculations
+    let _totalTax = useMemo(
+        () => allTaxes.filter((tax) => data?.taxes?.includes(tax._id)).reduce((total, tax) => total + tax.taxRatePercentage, 0),
+        [allTaxes, data?.taxes],
+    );
+    useEffect(() => {
+        handlePriceChange({ name: 'netPrice', value: data?.netPrice });
+    }, [_totalTax]);
+    const handlePriceChange = ({ name, value }) => {
+        const formErrors = formValidation(name, value, data);
+        let netPrice = 0;
+        let unitPrice = 0;
+        if (name === 'netPrice') {
+            netPrice = value;
+            unitPrice = calculateFinalAmount(netPrice, _totalTax);
+            setData((prev) => ({ ...prev, netPrice, unitPrice, formErrors }));
+        }
+        if (name === 'unitPrice') {
+            unitPrice = value;
+            netPrice = calculateNetAmount(unitPrice, _totalTax);
+            setData((prev) => ({ ...prev, netPrice, unitPrice, formErrors }));
+        }
+    };
+    // .........................................
+
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-
         if (name === 'moreThan1') {
             setData((prev) => ({ ...prev, [name]: value, moreThan2: 0, moreThan3: 0 }));
         } else if (name === 'moreThan2') {
@@ -214,30 +177,50 @@ const General = () => {
         }
     };
 
-    const netPrice = useMemo(() => {
-        if (data?.unitPrice) {
-            if (data?.taxes.length) {
-                let _totalTax = allTaxes.filter((tax) => data?.taxes?.includes(tax._id)).reduce((total, tax) => total + tax.taxRatePercentage, 0);
-                return calculateNetAmount(data?.unitPrice, _totalTax);
-            } else {
-                return data?.unitPrice;
-            }
-        } else {
-            return 0;
-        }
-    }, [data, allTaxes]);
+    // Minimum, Maximum, and Default Quantity
 
-    const defaultPrice = useMemo(() => {
-        if (data?.unitPrice && data?.defaultQuantity) {
-            return data?.unitPrice * data?.defaultQuantity;
-        } else {
-            return 0;
+    const handleQuantityChange = ({ name }) => {
+        let { defaultQuantity, minimumQuantity, maximumQuantity, allowUnlimited } = data;
+        if (name === 'minimumQuantity') {
+            if (defaultQuantity < minimumQuantity) {
+                defaultQuantity = minimumQuantity;
+            }
+            if (maximumQuantity < minimumQuantity) {
+                maximumQuantity = minimumQuantity;
+            }
         }
+        if (name === 'defaultQuantity') {
+            if (minimumQuantity > defaultQuantity) {
+                minimumQuantity = defaultQuantity;
+            }
+            if (maximumQuantity < defaultQuantity) {
+                maximumQuantity = defaultQuantity;
+            }
+        }
+        if (name === 'maximumQuantity' && !allowUnlimited) {
+            if (minimumQuantity > maximumQuantity) {
+                minimumQuantity = maximumQuantity;
+            }
+            if (defaultQuantity > maximumQuantity) {
+                defaultQuantity = maximumQuantity;
+            }
+        }
+        setData((prev) => ({ ...prev, maximumQuantity, defaultQuantity, minimumQuantity }));
+    };
+    const handleQuantity = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+    };
+    useEffect(() => {
+        let defaultPrice = 0;
+        if (data?.unitPrice && data?.defaultQuantity) {
+            defaultPrice = data?.unitPrice * data?.defaultQuantity;
+        }
+        setData((prev) => ({ ...prev, defaultPrice }));
     }, [data?.unitPrice, data?.defaultQuantity]);
 
     const getMarkup = (val) => {
-        if (data?.wholesaleCost) {
-            const _diff = percentageDifference(data?.wholesaleCost, val);
+        if (data?.wholesaleCost && val) {
+            const _diff = percentageDifference(data?.wholesaleCost, data?.netPrice - val);
             return (
                 <>
                     {_diff > 0 ? (
@@ -266,22 +249,22 @@ const General = () => {
 
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} required />
                     <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} required />
-                    <CustomDropDown name="itemRecurring" label="Is this item Recurring" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="isRecurring" label="Is this item Recurring?" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown
-                        name="itemPurchasedOneTime"
-                        label="Can this item only be purchased 1 time"
+                        name="isOneTimePurchaseable"
+                        label="Can this item only be purchased 1 time?"
                         options={yesNoOptions}
                         onChange={handleChange}
                         data={data}
                     />
                     <CustomDropDown
-                        name="itemBeRedeemed"
-                        label="Can this item be rendered at a later date"
+                        name="isRedeemable"
+                        label="Can this item be rendered at a later date?"
                         options={yesNoOptions}
                         onChange={handleChange}
                         data={data}
                     />
-                    <CustomDropDown name="itemSoldOnline" label="Is this item sold online" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="isSoldOnline" label="Is this item sold online?" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
@@ -306,18 +289,21 @@ const General = () => {
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>
                     <CustomInputNumber prefix="$" data={data} onChange={handleChange} name="wholesaleCost" />
-                    <CustomInputNumber prefix="$" data={data} onChange={handleChange} name="unitPrice" required />
-                    <CustomInputNumber prefix="$" value={netPrice} name="netPrice" disabled />
+                    <CustomInputNumber prefix="$" data={data} onChange={handlePriceChange} name="netPrice" required />
+                    <CustomInputNumber prefix="$" data={data} onChange={handlePriceChange} name="unitPrice" required />
 
-                    <CustomDropDown data={data} onChange={handleChange} name="allowDiscount" options={yesNoOptions} />
+                    <CustomDropDown data={data} onChange={handleChange} name="allowDiscount" options={yesNoOptions} clearIcon />
                     {data?.allowDiscount && <CustomDropDown data={data} onChange={handleChange} name="defaultDiscount" options={allDiscountDropdown} />}
-                    <CustomDropDown data={data} onChange={handleChange} name="overRideDiscount" options={yesNoOptions} />
+                    <CustomDropDown data={data} onChange={handleChange} name="overrideDiscount" options={yesNoOptions} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Details">
                 <CustomGridLayout>
-                    <CustomInputNumber onChange={handleChange} data={data} required name="minimumQuantity" />
-                    {!data?.allowUnlimited && <CustomInputNumber onChange={handleChange} data={data} required name="maximumQuantity" col={2} />}
+                    <CustomInputNumber onChange={handleQuantity} onBlur={handleQuantityChange} data={data} required name="minimumQuantity" />
+                    <CustomInputNumber onChange={handleQuantity} onBlur={handleQuantityChange} data={data} required name="defaultQuantity" />
+                    {!data?.allowUnlimited && (
+                        <CustomInputNumber onChange={handleQuantity} onBlur={handleQuantityChange} data={data} required name="maximumQuantity" col={2} />
+                    )}
                     <CustomCheckbox
                         onChange={handleChange}
                         data={data}
@@ -326,10 +312,9 @@ const General = () => {
                         col={2}
                         extraClassName="my-auto"
                     />
-                    <CustomInputNumber onChange={handleChange} data={data} required name="defaultQuantity" />
 
-                    <CustomInputNumber name="defaultPrice" value={defaultPrice} disabled={true} prefix="$" />
-                    <CustomDropDown name="stockable" options={yesNoOptions} onChange={handleChange} data={data} />
+                    <CustomInputNumber name="defaultPrice" data={data} disabled={true} prefix="$" />
+                    <CustomDropDown name="isStockable" options={yesNoOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="itemStart" options={itemStartOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="expiration" options={yesNoOptions} onChange={handleChange} data={data} col={4} />
                     {data?.expiration && (
@@ -343,8 +328,8 @@ const General = () => {
             <CustomCard col="12" title="Dynamic Pricing">
                 <CustomGridLayout>
                     <CustomDropDown name="moreThan1" label="More Than" options={unitPricingOptions} onChange={handleChange} data={data} col={1} />
-                    <CustomInputNumber name="unitPrice1" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
-                    {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice1)}</CustomField>}
+                    <CustomInputNumber name="unitDiscount1" label="Unit Discount" onChange={handleChange} data={data} prefix="$" col={2} />
+                    {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitDiscount1)}</CustomField>}
 
                     {data?.moreThan1 ? (
                         <>
@@ -356,8 +341,8 @@ const General = () => {
                                 data={data}
                                 col={1}
                             />
-                            <CustomInputNumber name="unitPrice2" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
-                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice2)}</CustomField>}
+                            <CustomInputNumber name="unitDiscount2" label="Unit Discount" onChange={handleChange} data={data} prefix="$" col={2} />
+                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitDiscount2)}</CustomField>}
                         </>
                     ) : null}
 
@@ -371,8 +356,8 @@ const General = () => {
                                 data={data}
                                 col={1}
                             />
-                            <CustomInputNumber name="unitPrice3" label="Unit Price" onChange={handleChange} data={data} prefix="$" col={2} />
-                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitPrice3)}</CustomField>}
+                            <CustomInputNumber name="unitDiscount3" label="Unit Discount" onChange={handleChange} data={data} prefix="$" col={2} />
+                            {data?.wholesaleCost && <CustomField label="Markup">{getMarkup(data?.unitDiscount3)}</CustomField>}
                         </>
                     ) : null}
 

@@ -27,6 +27,7 @@ import AllDrafts from '../views/Plans/AllDrafts';
 import PlanAgreement from '../views/Plans/Agreement';
 import SchedulingOptionsForm from '../views/Settings/ScheduleSetup/SchedulingOptionsForm';
 import RegisterForm from '../views/Settings/PointOfSale/Registers/RegisterForm';
+import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 
 const CompanyForm = lazy(() => import('../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../views/Settings/Business/ReasonCode/ReasonCodeForm'));
@@ -85,6 +86,11 @@ export const PrivateRoutes = [
         path: '/pos',
         name: 'Point Of Sale',
         component: PointOfSale,
+    },
+    {
+        path: '/pos2',
+        name: 'Point Of Sale',
+        component: PointOfSale2,
     },
     {
         path: '/plans',

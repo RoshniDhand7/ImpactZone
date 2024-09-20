@@ -5,7 +5,7 @@
     z-index: 9;
     overflow-y: auto;
     user-select: none;
-    top: 7rem;
+    top: $topbar-height;
     left: 0;
     transition:
         transform $transitionDuration,

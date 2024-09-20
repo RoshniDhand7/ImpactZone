@@ -29,4 +29,6 @@ export const clearPOSPromo = () => {
     };
 };
 
+
+
 export {getPromoCodeDetail}
