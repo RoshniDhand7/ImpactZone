@@ -266,6 +266,7 @@ export const CustomCalenderInput = ({
                 disabled={disabled}
                 readOnlyInput
                 showIcon
+                clearButtonClassName="mt-4"
                 {...props}
                 // icon="pi pi-clock"
                 // timeOnly

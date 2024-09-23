@@ -3,25 +3,24 @@ import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { CustomInputNumber, CustomMultiselect } from '../../../../../shared/Input/AllInputs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
     addEmployeeDepartment,
     deleteEmployeeDepartment,
     editEmployeeDepartment,
-    getDepartments,
     getEmployeeDepartments,
 } from '../../../../../redux/actions/EmployeeSettings/departmentsAction';
 import { useParams } from 'react-router-dom';
 import { confirmDelete } from '../../../../../utils/commonFunctions';
+import useDepartments from '../../../../../hooks/Employees/useDepartments';
 
 export default function EmployeeDepartments() {
     const { id } = useParams();
-    let { departmentsDropdown } = useSelector((state) => state?.department);
 
     const dispatch = useDispatch();
+    const { departmentsDropdown } = useDepartments();
 
     useEffect(() => {
-        dispatch(getDepartments());
         funcGetEmpDepartments(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);

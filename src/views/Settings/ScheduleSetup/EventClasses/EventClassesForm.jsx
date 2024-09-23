@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import {
+    CustomCalenderInput,
+    CustomCheckbox,
+    CustomDropDown,
+    CustomInputNumber,
+    CustomInputSwitch,
+    CustomMultiselect,
+} from '../../../../shared/Input/AllInputs';
 import { WeekDaysOption, classMeet } from '../../../../utils/dropdownConstants';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
@@ -45,6 +52,7 @@ const EventClassesForm = () => {
         onlineCapacity: null,
         clientPaylater: false,
         clientClassFree: false,
+        isActive: true,
     });
     useEffect(() => {
         dispatch(getLocations());
@@ -68,7 +76,9 @@ const EventClassesForm = () => {
         if (id) {
             dispatch(
                 getEventClass(id, (data) => {
-                    dispatch(getEmployeePay(data?.staff));
+                    if (data?.staff) {
+                        dispatch(getEmployeePay(data?.staff));
+                    }
                     setData({
                         event: data.event,
                         classMeet: data.classMeet,
@@ -85,6 +95,7 @@ const EventClassesForm = () => {
                         onlineCapacity: data.onlineCapacity,
                         clientPaylater: data.clientPaylater,
                         clientClassFree: data.clientClassFree,
+                        isActive: data.isActive,
                     });
                     if (data.instructor && data.instructor.length > 0) {
                         for (const instructorItem of data.instructor) {
@@ -296,6 +307,7 @@ const EventClassesForm = () => {
             <FormPage backText="Classes">
                 <CustomGridLayout>
                     <CustomDropDown name="event" label="Class Name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                 </CustomGridLayout>
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>

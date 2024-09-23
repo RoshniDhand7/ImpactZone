@@ -5,6 +5,10 @@ import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import EmployeeFilters from './EmployeeFilters';
+import moment from 'moment';
 
 const ManageEmployee = () => {
     const dispatch = useDispatch();
@@ -33,7 +37,7 @@ const ManageEmployee = () => {
         { field: 'barCode', header: 'BarCode' },
         { field: 'address', body: address, header: 'Address' },
         { field: 'primaryPhone', header: 'Primary Phone' },
-        { field: 'hireDate', header: 'Hire Date' },
+        { field: 'hireDate', body: (r) => (r?.hireDate ? moment(r?.hireDate).format('DD-MM-YYYY') : ''), header: 'Hire Date' },
         { field: 'terminationDate', header: 'Termination Date' },
     ];
     const onView = (col) => {
@@ -51,10 +55,18 @@ const ManageEmployee = () => {
             position,
         );
     };
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allEmployees);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Employee" linkTo="/settings/employee/manage-employee/add" />
-            <CustomTable data={allEmployees} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Employee" linkTo="/settings/employee/manage-employee/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <EmployeeFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
+            <CustomTable data={tableData} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
             {/* <CustomPaginator setPageNo={setPageNo} data={allEmployees} /> */}
         </>
     );

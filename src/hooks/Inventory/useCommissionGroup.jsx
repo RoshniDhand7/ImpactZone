@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCommissionGroups } from '../../redux/actions/InventorySettings/commissionGroupAction';
 
-const useCommission = () => {
+const useCommissionGroup = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -12,4 +12,4 @@ const useCommission = () => {
     return { allCommissionGroups, commissionGroupsDropdown };
 };
 
-export default useCommission;
+export default useCommissionGroup;

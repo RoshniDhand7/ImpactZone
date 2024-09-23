@@ -49,7 +49,7 @@ const CatalogFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisibl
                     <CustomMultiselect name="defaultDiscount" label="Discounts" options={allDiscountDropdown} onChange={handleChange} data={data} col={12} />
                     <CustomMultiselect name="paysFor" label="Pay for events" options={catalogProductDropdown} onChange={handleChange} data={data} col={12} />
                     <CustomDropDown col={12} name="employee" label="Created By" options={employeesDropdown} data={data} onChange={handleChange} showClear />
-                    <CustomCalenderInput name="createdAt" label="Created Date" data={data} onChange={handleChange} required col={12} />
+                    <CustomCalenderInput name="createdAt" label="Created Date" data={data} onChange={handleChange} required col={12} showButtonBar />
                     <CustomSlider
                         name="unitPrice"
                         label="Price Range"
