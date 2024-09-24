@@ -10,7 +10,7 @@ const referralGroupReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allReferralGroups: action.payload,
-                referralGroupDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })),
+                referralGroupDropdown: action.payload.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

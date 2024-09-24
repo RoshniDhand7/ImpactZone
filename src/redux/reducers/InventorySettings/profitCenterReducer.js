@@ -10,7 +10,9 @@ const profitCenterReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allProfitCenters: action.payload?.data,
-                profitCenterDropdown: action.payload?.data?.map((item) => ({ name: `${action.payload.glCode[item._id]} ${item.name}`, value: item._id })),
+                profitCenterDropdown: action.payload?.data
+                    ?.filter((item) => item.isActive)
+                    ?.map((item) => ({ name: `${action.payload.glCode[item._id]} ${item.name}`, value: item._id })),
             };
         default:
             return { ...state };

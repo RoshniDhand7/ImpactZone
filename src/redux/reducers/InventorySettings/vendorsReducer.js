@@ -10,7 +10,7 @@ const VendorsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allVendors: action.payload,
-                vendorsDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                vendorsDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

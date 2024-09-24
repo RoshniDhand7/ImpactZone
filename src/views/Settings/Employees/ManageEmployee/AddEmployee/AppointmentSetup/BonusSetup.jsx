@@ -51,6 +51,7 @@ const BonusSetup = ({ type }) => {
     }, [dispatch, type]);
 
     let { allEmployeesFilter } = useSelector((state) => state.employees);
+
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);

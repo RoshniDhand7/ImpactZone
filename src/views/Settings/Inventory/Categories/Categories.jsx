@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
@@ -7,10 +7,8 @@ import { useDispatch } from 'react-redux';
 import { deleteCategory } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
-import FilterComponent from '../../../../components/FilterComponent';
-import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
-import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import useCategory from '../../../../hooks/Inventory/useCategory';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 export default function Categories() {
     const history = useHistory();
@@ -47,13 +45,6 @@ export default function Categories() {
         history.push(`/settings/inventory/categories/edit/${col._id}`);
     };
 
-    const [data, setData] = useState({
-        filterType: 'AND',
-    });
-
-    const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
-    };
     return (
         <>
             <CustomFilterCard buttonTitle="Add Categories" linkTo="/settings/inventory/categories/add" contentPosition="end">
@@ -61,17 +52,7 @@ export default function Categories() {
                     <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
                 </div>
             </CustomFilterCard>
-            <FilterComponent
-                value={filters}
-                onApply={onApplyFilters}
-                visible={isFilterVisible}
-                onHide={onFilterClose}
-                data={data}
-                handleChange={handleChange}
-                setData={setData}
-            >
-                <CustomDropDown col={12} label="Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
-            </FilterComponent>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
             <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );

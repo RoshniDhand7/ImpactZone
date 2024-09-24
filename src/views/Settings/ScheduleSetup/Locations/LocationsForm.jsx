@@ -19,8 +19,6 @@ const LocationsForm = () => {
     const { locationTypeDropdown } = useLocationType();
     const { clubsDropdown } = useGetClubs();
 
-    console.log(clubsDropdown, 'clubsDropdown');
-
     useEffect(() => {
         if (id) {
             dispatch(

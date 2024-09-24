@@ -18,12 +18,12 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEmployees: action.payload,
-                employeesDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
+                employeesDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.firstName, value: item._id })),
             };
         case types.CHANGE_EMPLOYEES_FILTER_TYPE:
             return {
                 ...state,
-                allEmployeesFilter: action.payload,
+                allEmployeesFilter: action.payload?.filter((item) => item.isActive),
             };
         case types.CHANGE_EMPLOYEES_PAY_TYPE:
             return {

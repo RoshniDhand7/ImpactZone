@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteResourceType, getResourceTypes } from '../../../../redux/actions/MembersSettings/resourceType';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const ResourceType = () => {
     const history = useHistory();
@@ -34,10 +37,15 @@ const ResourceType = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allResourceType);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Resource Type" linkTo="/settings/members/resource-type/add" />
-            <CustomTable data={allResourceType} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Resource Type" linkTo="/settings/members/resource-type/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filters" onClick={onFilterOpen} className="mx-2" />
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

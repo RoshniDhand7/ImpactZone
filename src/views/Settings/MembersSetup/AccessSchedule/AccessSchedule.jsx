@@ -8,6 +8,9 @@ import { addAccessSchedule, deleteAccessSchedule, getAccessSchedules } from '../
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const AcessSchedule = () => {
     const history = useHistory();
@@ -53,6 +56,7 @@ const AcessSchedule = () => {
                 description: visible?.description,
                 schedule: visible?.schedule,
                 duration: visible?.duration,
+                isActive: visible?.isActive === 'No' ? false : true,
             };
             dispatch(
                 addAccessSchedule(payload, history, '', () => {
@@ -78,10 +82,16 @@ const AcessSchedule = () => {
             name: '',
         });
     };
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAccessSchedule);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Access Schedule" linkTo="/settings/members/access-schedule/add" />
-            <CustomTable data={allAccessSchedule} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomFilterCard buttonTitle="Add Access Schedule" linkTo="/settings/members/access-schedule/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filters" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
             <CustomDialog title={'Copy Access Schedule'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

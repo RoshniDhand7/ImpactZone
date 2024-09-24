@@ -314,7 +314,7 @@ const EventClassesForm = () => {
                         <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
                         <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} col="6" />
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
-                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} />
+                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate} />
                     </CustomGridLayout>
                     <CustomGridLayout extraClass="justify-content-end">
                         <PrimaryButton label="Add New Schedule" className="mx-2 " onClick={handleAddSchedule} loading={loading} />

@@ -86,5 +86,6 @@ const endPoints = {
     CASH_REGISTER_CHECK_OUT: '/cash-register-check-out/',
     DEFAULT_SETTINGS: '/default-setting/',
     GET_MEMBERSHIP_PLAN_INFO: '/member-agreement-plan',
+    CAMPAIGN_TYPES: '/campaign-type/',
 };
 export default endPoints;

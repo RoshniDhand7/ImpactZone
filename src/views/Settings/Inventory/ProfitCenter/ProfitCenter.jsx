@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
+import React from 'react';
+import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
@@ -8,9 +8,7 @@ import { deleteProfitCenters } from '../../../../redux/actions/InventorySettings
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useProfitCenters from '../../../../hooks/Inventory/useProfitCenters';
-import FilterComponent from '../../../../components/FilterComponent';
-import { CustomDropDown } from '../../../../shared/Input/AllInputs';
-import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 export default function ProfitCenter() {
     const history = useHistory();
@@ -39,14 +37,6 @@ export default function ProfitCenter() {
         history.push(`/settings/inventory/profit-center/edit/${col._id}`);
     };
 
-    const [data, setData] = useState({
-        filterType: 'AND',
-    });
-
-    const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
-    };
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add Profit Center" linkTo="/settings/inventory/profit-center/add" contentPosition="end">
@@ -55,19 +45,7 @@ export default function ProfitCenter() {
                 </div>
             </CustomFilterCard>
 
-            <FilterComponent
-                value={filters}
-                onApply={onApplyFilters}
-                visible={isFilterVisible}
-                onHide={onFilterClose}
-                data={data}
-                handleChange={handleChange}
-                setData={setData}
-            >
-                <CustomGridLayout>
-                    <CustomDropDown col={12} label="Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
-                </CustomGridLayout>
-            </FilterComponent>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
             <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );

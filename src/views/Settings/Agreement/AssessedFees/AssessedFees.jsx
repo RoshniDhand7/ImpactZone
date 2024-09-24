@@ -30,25 +30,6 @@ const AssessedFees = () => {
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
     const { clubsDropdown } = useSelector((state) => state.clubs);
 
-    // const filterAssessedFeesByData = (data1, keys) => {
-    //     console.log('kes>>', keys);
-    //     return data1?.filter((item) => {
-    //         return Object.keys(keys).every((key) => {
-    //             if (Array.isArray(keys[key])) {
-    //                 return keys[key].length === 0 || keys[key].includes(item[key]);
-    //             }
-
-    //             console.log(item[key], keys[key], keys[key], 'keys');
-    //             return item[key] === keys[key];
-    //         });
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     const result = filterAssessedFeesByData(allAssessedFees, data);
-    //     console.log(result, 'result');
-    // }, [allAssessedFees, data]);
-
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'type', header: 'Type' },

@@ -10,7 +10,7 @@ const camapignReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCompaigns: action.payload,
-                compaignDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })),
+                compaignDropdown: action.payload.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

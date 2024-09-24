@@ -10,7 +10,7 @@ const commissionGroupReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCommissionGroups: action.payload,
-                commissionGroupsDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                commissionGroupsDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

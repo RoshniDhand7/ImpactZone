@@ -10,7 +10,7 @@ const departmentReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allDepartments: action.payload,
-                departmentsDropdown: action.payload?.map((item) => ({ value: item._id, name: item.name })),
+                departmentsDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ value: item._id, name: item.name })),
             };
 
         default:

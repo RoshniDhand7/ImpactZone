@@ -10,7 +10,7 @@ const membershipTypeReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allMembershipTypes: action.payload,
-                MembershipTypesDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                MembershipTypesDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

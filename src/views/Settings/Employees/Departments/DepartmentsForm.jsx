@@ -17,9 +17,9 @@ const DepartmentsForm = () => {
     const { id } = useParams();
     const [data, setData] = useState({
         name: '',
-        showInCalender: '',
-        visibleOnline: '',
-        salesPersonOnline: '',
+        showInCalender: false,
+        visibleOnline: false,
+        salesPersonOnline: false,
         departmentCode: '',
         isActive: true,
     });

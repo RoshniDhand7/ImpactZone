@@ -10,7 +10,7 @@ const levelReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allLevels: action.payload,
-                levelDropdown: action.payload?.map((item) => ({ value: item._id, name: item.name })),
+                levelDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ value: item._id, name: item.name })),
             };
 
         default:

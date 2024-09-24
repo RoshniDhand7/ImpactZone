@@ -17,27 +17,33 @@ const catalogItemsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCatalogItems: action.payload,
-                allCatalogItemsFilter: action.payload?.map((item) => ({
-                    name: item.name,
-                    _id: item._id,
-                    upc: item.upc,
-                    unitPrice: item.unitPrice,
-                    img: item.catalogImage,
-                })),
+                allCatalogItemsFilter: action.payload
+                    ?.filter((item) => item.isActive)
+                    ?.map((item) => ({
+                        name: item.name,
+                        _id: item._id,
+                        upc: item.upc,
+                        unitPrice: item.unitPrice,
+                        img: item.catalogImage,
+                    })),
                 catalogTypeFilterItems: action.payload
-                    ?.filter((item) => item.type === 'PRODUCT')
+                    ?.filter((item) => item.type === 'PRODUCT' && item.isActive)
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
                 catalogServiceFilterItems: action.payload
-                    ?.filter((item) => item.type === 'SERVICE')
+                    ?.filter((item) => item.type === 'SERVICE' && item.isActive)
                     ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
-                catalogProductDropdown: action.payload.filter((item) => item.type === 'PRODUCT')?.map((item) => ({ name: item.name, value: item?._id })),
-                catalogServiceDropdown: action.payload?.filter((item) => item.type === 'SERVICE')?.map((item) => ({ name: item.name, value: item?._id })),
-                catalogDropDown: action.payload?.map((item) => ({ name: item.name, value: item?._id })),
+                catalogProductDropdown: action.payload
+                    .filter((item) => item.type === 'PRODUCT' && item.isActive)
+                    ?.map((item) => ({ name: item.name, value: item?._id })),
+                catalogServiceDropdown: action.payload
+                    ?.filter((item) => item.type === 'SERVICE' && item.isActive)
+                    ?.map((item) => ({ name: item.name, value: item?._id })),
+                catalogDropDown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item?._id })),
             };
         case types.CHANGE_CATALOG_ITEMS_FILTER:
             return {
                 ...state,
-                allCatalogFilterItems: action.payload,
+                allCatalogFilterItems: action.payload?.filter((item) => item.isActive),
             };
         case types.CHANGE_INVENTORY_CATALOG_VARIATION:
             return {
