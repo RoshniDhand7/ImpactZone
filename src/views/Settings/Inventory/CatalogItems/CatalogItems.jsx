@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCatalogItem, deleteCatalogItem, getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
-import { CustomFilterCard, CustomGridLayout, CustomOverlay } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import useCatalogItems from '../../../../hooks/useCatalogItems';
@@ -15,14 +15,13 @@ const CatalogItems = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
 
-    const openOverlay = useRef(null);
     const { allCatalogItems } = useCatalogItems();
     const { loading } = useSelector((state) => state?.loader?.isLoading);
 
     const columns = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'netPrice', header: 'Price' },
+        { field: 'unitPrice', header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
 

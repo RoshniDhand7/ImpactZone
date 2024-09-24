@@ -23,7 +23,11 @@ export default function InputLayout({ label, name, required, col, extraClassName
                 </label>
             )}
             {children}
-            {errorMessage || data?.formErrors?.[name] ? <small className="p-error">{errorMessage || data?.formErrors?.[name]}</small> : null}
+            {errorMessage || data?.formErrors?.[name] ? (
+                <small className="p-error" id="error-element">
+                    {errorMessage || data?.formErrors?.[name]}
+                </small>
+            ) : null}
         </div>
     );
 }

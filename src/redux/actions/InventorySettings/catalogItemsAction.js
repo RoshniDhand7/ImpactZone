@@ -37,11 +37,11 @@ const getPOSCatalogItems = (setLoading) => async (dispatch) => {
         setLoading(true);
     }
 
-    const res = await api('get', EndPoints.INVENTORY_CATALOG);
+    const res = await api('get', EndPoints.POS_INVENTORY_CATALOG);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_CATALOG_ITEMS,
+                type: types.CHANGE_POS_CATALOG_ITEMS,
                 payload: res.data,
             });
         }
@@ -299,4 +299,5 @@ export {
     editSubVariationCatalog,
     singleUsageDelete,
     getCatalogItemsFilter,
+    getPOSCatalogItems,
 };

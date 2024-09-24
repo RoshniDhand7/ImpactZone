@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
-import CustomCard from '../../shared/Cards/CustomCard';
-import { CustomAutoComplete } from '../../shared/Input/AllInputs';
 import SearchMembers from './new/SearchMembers';
 import Cart from './new/Cart';
+import Categories from './new/Categories';
+import SearchCatalog from './new/SearchCatalog';
+import CatalogItems from './new/CatalogItems';
 
 export default function PointOfSale2() {
     const [selectedMember, setSelectedMember] = useState('66dec5424df5dafecedbfeec');
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [cartItems, setCartItems] = useState([]);
+    const onAddItemIntoCart = (item) => {
+        setCartItems((prev) => {
+            return [...prev, item];
+        });
+    };
     return (
-        <div className="pos">
-            <div className="grid">
-                <div className="col-2">
-                    <CustomAutoComplete
-                        name="catalogItem"
-                        field="fullName"
-                        filtered={[]}
-                        data={[]}
-                        placeholder="Search by UPC/Item"
-                        itemTemplate={(item) => (
-                            <div>
-                                {item.upc}
-                                {item.name}
-                            </div>
-                        )}
-                    />
-                </div>
-                <div className="col-6">
-                    <CustomCard title="Most Purchased Items" col={12}></CustomCard>
-                </div>
-                <div className="col">
-                    <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
-                    <Cart />
-                </div>
+        <div className="grid">
+            <div className="col-2">
+                <SearchCatalog selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+                <Categories active={selectedCategory} setActive={setSelectedCategory} />
+            </div>
+            <div className="col-6">
+                <CatalogItems selectedCategory={selectedCategory} onAddItemIntoCart={onAddItemIntoCart} />
+            </div>
+            <div className="col">
+                <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+                <Cart cartItems={cartItems} setCartItems={setCartItems} />
             </div>
         </div>
     );
