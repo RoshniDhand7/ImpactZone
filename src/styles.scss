@@ -238,3 +238,9 @@ a:-webkit-any-link {
         z-index: 2;
     }
 }
+
+.ellipsis-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

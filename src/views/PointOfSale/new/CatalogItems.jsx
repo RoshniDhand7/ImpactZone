@@ -20,7 +20,7 @@ export default function CatalogItems({ selectedCategory, onAddItemIntoCart }) {
         <CustomCard title="Most Purchased Items" col={12}>
             <div className="grid">
                 {posCatalog.map((item) => (
-                    <Item item={item} onAddItemIntoCart={onAddItemIntoCart} />
+                    <Item key={item._id} item={item} onAddItemIntoCart={onAddItemIntoCart} />
                 ))}
             </div>
         </CustomCard>
@@ -40,9 +40,7 @@ function Item(props) {
                     onError={(e) => (e.target.src = placeholder)}
                 />
                 <div className="bg-lightest-blue border-round-md">
-                    <div className="text-center px-2" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {item?.itemCaption}
-                    </div>
+                    <div className="text-center px-2 ellipsis-text">{item?.itemCaption}</div>
                     <div className="text-center font-semibold">${item?.unitPrice}</div>
                 </div>
             </div>

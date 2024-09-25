@@ -2,6 +2,7 @@ import React from 'react';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { confirmPopup } from 'primereact/confirmpopup';
+import { calculateNetAmount, roundOfNumber } from '../../../utils/taxHelpers';
 
 export default function Cart({ cartItems, setCartItems }) {
     const onDeleteCartItem = (product) => {
@@ -10,10 +11,35 @@ export default function Cart({ cartItems, setCartItems }) {
             return [..._items];
         });
     };
+
+    const onQtyChange = (index, qty) => {
+        setCartItems((prev) => {
+            let _prev = [...prev];
+            _prev[index].quantity = qty;
+
+            return _prev;
+        });
+    };
+
+    const onWaiveTax = (index, qty) => {
+        setCartItems((prev) => {
+            let _prev = [...prev];
+            let _item = { ..._prev[index] };
+            let _finalUnitPrice = calculateNetAmount(_item.finalUnitPrice, _item?.taxPercentage);
+
+            _item.taxWaived = true;
+
+            _item.waivedTaxAmount = roundOfNumber(_item.finalUnitPrice - _finalUnitPrice);
+            _item.finalUnitPrice = roundOfNumber(_finalUnitPrice);
+            _prev[index] = _item;
+            return _prev;
+        });
+    };
+
     return (
         <CustomCard title="Cart" col={12}>
-            {cartItems?.map((item) => (
-                <CartItem item={item} onDeleteCartItem={onDeleteCartItem} />
+            {cartItems?.map((item, i) => (
+                <CartItem key={item?._id} index={i} item={item} onDeleteCartItem={onDeleteCartItem} onQtyChange={onQtyChange} onWaiveTax={onWaiveTax} />
             ))}
             <CartDetails />
         </CustomCard>
@@ -21,7 +47,13 @@ export default function Cart({ cartItems, setCartItems }) {
 }
 
 function CartItem(props) {
-    let item = props.item;
+    let { item, index, onWaiveTax } = props;
+    console.log('item==>', item);
+    let { itemCaption, name, taxWaived } = props.item;
+    let { allowDiscount, defaultDiscount, overRideDiscount } = props.item;
+    const { waivedTaxAmount, unitPrice, finalUnitPrice } = item;
+    let { minimumQuantity, maximumQuantity, quantity } = item;
+
     const onDelete = (event) => {
         confirmPopup({
             target: event.currentTarget,
@@ -36,7 +68,7 @@ function CartItem(props) {
             reject: () => {},
         });
     };
-    const onWaiveTax = (event) => {
+    const waiveTax = (event) => {
         confirmPopup({
             target: event.currentTarget,
             message: 'Do you want to waive tax on this item?',
@@ -44,40 +76,68 @@ function CartItem(props) {
             rejectClassName: 'p-button p-button-outlined p-button-secondary',
             acceptClassName: 'btn-dark',
             defaultFocus: 'reject',
-            accept: () => {},
+            accept: () => {
+                onWaiveTax(index);
+            },
             reject: () => {},
         });
     };
+
+    const onInc = () => {
+        props.onQtyChange(index, quantity + 1);
+    };
+    const onDec = () => {
+        props.onQtyChange(index, quantity - 1);
+    };
     return (
-        <div>
+        <>
             <div className="flex justify-content-between text-xl font-medium">
-                <div>{item?.name}</div>
-                <div>$180</div>
+                <div>{name}</div>
+                <div>${finalUnitPrice * quantity}</div>
             </div>
-            <div className="text-dark-gray">{item?.itemCaption}</div>
+            <div className="text-dark-gray ellipsis-text w-9">{itemCaption}</div>
             <div className="flex justify-content-between">
                 <div className="flex">
-                    <div className="mr-2 text-lg font-medium my-auto">${item?.unitPrice}</div>
-                    <div className="mr-2 text-lg font-medium line-through text-dark-gray my-auto">${item?.unitPrice}</div>
-                    <div className="bg-green-100 text-green-900 border-round-sm px-1 my-auto">10% OFF</div>
+                    <div className="mr-2 text-lg font-medium my-auto">${finalUnitPrice}</div>
+                    {finalUnitPrice !== unitPrice && <div className="mr-2 text-lg font-medium line-through text-dark-gray my-auto">${unitPrice}</div>}
+                    {allowDiscount && defaultDiscount && (
+                        <div className="bg-green-100 text-green-900 border-round-sm px-1 my-auto">
+                            {defaultDiscount?.amountType === 'PERCENTAGE' && `${defaultDiscount?.amount}% OFF`}
+                            {defaultDiscount?.amountType === 'FIXED' && `$${defaultDiscount?.amount} OFF`}
+                        </div>
+                    )}
                 </div>
 
-                {/* <div className="flex gap-2 align-items-center border-1 border-400 border-round-md px-3"> */}
                 <div className="flex gap-2 align-items-center">
-                    <i className={`pi pi-minus-circle text-xl text-gray-400 text-red-600 `}></i>
-                    <div className="text-xl font-medium">2</div>
-                    <i className={`pi pi-plus-circle text-xl text-gray- text-green-600`}></i>
+                    <i className={`pi pi-minus-circle text-xl text-gray-400 text-red-600 `} onClick={onDec}></i>
+                    <div className="text-xl font-medium">{quantity}</div>
+                    <i className={`pi pi-plus-circle text-xl text-gray- text-green-600`} onClick={onInc}></i>
                 </div>
             </div>
             <div className="flex justify-content-between my-3 ">
                 <div className="flex">
-                    <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer">
-                        <i className="pi pi-dollar"></i>
-                        Overwrite Discount
-                    </div>
-                    <div className="py-1 px-3 bg-primary-dark border-round-md mr-2 text-white cursor-pointer" onClick={onWaiveTax}>
-                        % Waive Tax
-                    </div>
+                    {allowDiscount && (
+                        <>
+                            <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer">
+                                {defaultDiscount ? (
+                                    `${defaultDiscount?.discountCode} Applied`
+                                ) : (
+                                    <>
+                                        <i className="pi pi-dollar"></i>
+                                        Apply Discount
+                                    </>
+                                )}
+                                {overRideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down"></i>}
+                            </div>
+                        </>
+                    )}
+                    {taxWaived ? (
+                        <div className="py-1 px-3 bg-green-100 text-green-900 border-round-md mr-2 cursor-pointer">${waivedTaxAmount} Tax Waived</div>
+                    ) : (
+                        <div className="py-1 px-3 bg-primary-dark border-round-md mr-2 text-white cursor-pointer" onClick={waiveTax}>
+                            % Waive Tax
+                        </div>
+                    )}
                 </div>
 
                 <div className="py-1 px-2 bg-red-100 border-round-md cursor-pointer" onClick={onDelete}>
@@ -86,7 +146,7 @@ function CartItem(props) {
             </div>
             <hr />
             <br />
-        </div>
+        </>
     );
 }
 function CartDetails() {
