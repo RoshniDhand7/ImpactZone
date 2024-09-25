@@ -48,16 +48,18 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
-    const { formattedDate, formattedTime } = dateConversions(cashRegisterClose?.closeRegister?.openRegister?.createdAt);
+    const { formattedDate, formattedTime } = dateConversions(cashRegisterClose?.registerDetail?.openRegister?.createdAt);
 
     useEffect(() => {
         setData((prev) => ({
             ...prev,
-            drawerName: cashRegisterClose?.closeRegister?.openRegister?.registerName,
+            drawerName: cashRegisterClose?.registerDetail?.openRegister?.registerName,
             openedAt: formattedDate + ' ' + formattedTime,
             openedBy:
-                cashRegisterClose?.closeRegister?.openRegister?.employee?.firstName + ' ' + cashRegisterClose?.closeRegister?.openRegister?.employee?.lastName,
-            cashAtStart: cashRegisterClose?.closeRegister?.openRegister?.total,
+                cashRegisterClose?.registerDetail?.openRegister?.employee?.firstName +
+                ' ' +
+                cashRegisterClose?.registerDetail?.openRegister?.employee?.lastName,
+            cashAtStart: cashRegisterClose?.registerDetail?.openRegister?.total,
         }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cashRegisterClose]);
@@ -68,7 +70,7 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
 
     const onClose1 = () => {
         onClose();
-        setCashRegisterClose({ open: false, closeRegister: {} });
+        setCashRegisterClose({ open: false, registerDetail: {} });
         setData(initialState);
     };
 
@@ -89,6 +91,7 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
                 cashRegisterCheckOut(data, registerId, accessCode, () => {
                     onClose1();
                     dispatch(getRegisters());
+                    localStorage.removeItem('registersDetail');
                 }),
             );
         }
@@ -134,7 +137,7 @@ const CloseOutDrawer = ({ cashRegisterClose, setCashRegisterClose, registerId, a
                     </CustomCard>
                     <CustomCard col="6" title="Last Close Out">
                         <DataTable
-                            value={cashRegisterClose?.closeRegister?.closeRegisterList || []}
+                            value={cashRegisterClose?.registerDetail?.closeRegisterList || []}
                             size="normal"
                             tableStyle={{ minWidth: '25rem' }}
                             className="p-0"

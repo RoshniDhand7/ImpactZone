@@ -414,6 +414,30 @@ const dateConversions = (date) => {
     return { formattedDate, formattedTime };
 };
 
+function adjustTime(e) {
+    let currentMin = e.value.getMinutes();
+    let startTime = e.value;
+    if (currentMin % 5 !== 0) {
+        startTime = new Date(e.value.getTime() + (5 - (currentMin % 5)) * 60000);
+    }
+    return startTime;
+}
+
+const timeString = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const time = `${hours}:${minutes}`;
+    return time;
+};
+const timeConvertToDate = (time) => {
+    const [hours, minutes] = time.split(':');
+    const currentDate = new Date();
+    currentDate.setHours(hours);
+    currentDate.setMinutes(minutes);
+    return currentDate;
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -444,4 +468,7 @@ export {
     processCatalogItems,
     denominationsToDollarConverter,
     dateConversions,
+    adjustTime,
+    timeString,
+    timeConvertToDate,
 };

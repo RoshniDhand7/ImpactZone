@@ -385,7 +385,7 @@ export const CustomInputNumber = ({
 
 export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange }) => {
     return (
-        <div className={`col-${col} flex`}>
+        <div className={`col-${col} flex align-items-center`}>
             <CustomInputNumber col="6" name={name} data={data} onChange={handleChange} />
             <div className="col-4 flex align-items-center justify-content-center">
                 <i className="pi pi-arrow-right"></i>

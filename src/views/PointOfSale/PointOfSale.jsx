@@ -26,6 +26,7 @@ export default function PointOfSale() {
         subVariations: null,
         promoCode: [],
         accessCode: '',
+        drawer: '',
     });
     const dispatch = useDispatch();
 

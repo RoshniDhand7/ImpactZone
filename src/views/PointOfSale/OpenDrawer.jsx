@@ -9,7 +9,7 @@ import { getRegisters } from '../../redux/actions/PosSettings/register';
 import useCalculateTotal from '../../hooks/useCalculateTotal';
 import { dateConversions, showFormErrors } from '../../utils/commonFunctions';
 
-const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessCode, onClose }) => {
+const OpenDrawer = ({ cashRegister, setCashRegister, registerId, accessCode, onClose }) => {
     const initialState = {
         pennies: 0,
         nickels: 0,
@@ -30,7 +30,7 @@ const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessC
 
     const onClose1 = () => {
         onClose();
-        setCashRegisterOpen({ open: false, closeRegister: {} });
+        setCashRegister({ open: false, registerDetail: {}, type: 'open' });
         setData(initialState);
     };
     const handleChange = ({ name, value }) => {
@@ -45,19 +45,20 @@ const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessC
     const handleSave = () => {
         if (showFormErrors(data, setData, ['comment'])) {
             dispatch(
-                cashRegisterCheckIn(data, registerId, accessCode, () => {
+                cashRegisterCheckIn({ cashRegister: registerId, accessCode, comment: data?.comment, total: data?.total }, () => {
                     onClose1();
                     dispatch(getRegisters());
+                    localStorage.setItem('registersDetail', JSON.stringify({ registerId, isActive: true }));
                 }),
             );
         }
     };
 
-    const { formattedDate, formattedTime } = dateConversions(cashRegisterOpen?.closeRegister?.createdAt);
+    const { formattedDate, formattedTime } = dateConversions(cashRegister?.registerDetail?.createdAt);
 
     return (
         <>
-            <CustomDialog title="" visible={cashRegisterOpen?.open} onCancel={onClose1} loading={false} onSave={handleSave} width="90%" saveLabel="StartDrawer">
+            <CustomDialog title="" visible={cashRegister?.open} onCancel={onClose1} loading={false} onSave={handleSave} width="90%" saveLabel="StartDrawer">
                 <CustomCard col="12" title="Cash Count">
                     <CustomGridLayout>
                         <CustomInputCurrentChange name="pennies" data={data} handleChange={handleChange} />
@@ -74,14 +75,14 @@ const OpenDrawer = ({ cashRegisterOpen, setCashRegisterOpen, registerId, accessC
                         <CustomTextArea name="comment" col="6" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
-                {Object?.keys(cashRegisterOpen.closeRegister)?.length !== 0 && (
+                {Object?.keys(cashRegister.registerDetail)?.length !== 0 && (
                     <CustomCard col="12" title="Last Close Out">
                         <div className="grid">
                             <div className="flex col-6">
                                 <h5>Name:</h5>
                                 <p className="mx-2">
-                                    {cashRegisterOpen?.closeRegister?.firstName} {cashRegisterOpen?.closeRegister?.middleInitial ?? ''}
-                                    {cashRegisterOpen?.closeRegister?.lastName}
+                                    {cashRegister?.registerDetail?.firstName} {cashRegister?.registerDetail?.middleInitial ?? ''}
+                                    {cashRegister?.registerDetail?.lastName}
                                 </p>
                             </div>
                             <div className="flex col-6">

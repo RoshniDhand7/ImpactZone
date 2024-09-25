@@ -87,5 +87,6 @@ const endPoints = {
     DEFAULT_SETTINGS: '/default-setting/',
     GET_MEMBERSHIP_PLAN_INFO: '/member-agreement-plan',
     CAMPAIGN_TYPES: '/campaign-type/',
+    REGISTER_SETTINGS: '/cash-register-setting/',
 };
 export default endPoints;

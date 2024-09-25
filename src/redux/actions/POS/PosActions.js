@@ -34,13 +34,9 @@ const verifyCashRegisterAccessCode = (accessCode, registerId, next) => async (di
     }
     dispatch(hideLoaderAction());
 };
-const cashRegisterCheckIn = (data, cashRegister, accessCode, next) => async (dispatch) => {
+const cashRegisterCheckIn = (payload, next) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('post', endPoints.CASH_REGISTER_CHECK_IN, {
-        ...data,
-        cashRegister,
-        accessCode,
-    });
+    const res = await api('post', endPoints.CASH_REGISTER_CHECK_IN, payload);
     if (res.success) {
         next();
     } else {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomFilterCard, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
@@ -9,20 +9,16 @@ import moment from 'moment';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import FilterComponent from '../../../../components/FilterComponent';
 
 const AssessedFees = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [data, setData] = useState({
-        isActive: 'active',
-        clubs: [],
-        profitCenter: [],
-    });
-    useEffect(() => {
-        dispatch(getProfitCenters());
-    }, [dispatch]);
 
     useEffect(() => {
+        dispatch(getProfitCenters());
         dispatch(getAssesedFees());
     }, [dispatch]);
 
@@ -36,11 +32,7 @@ const AssessedFees = () => {
         { field: 'profitCenter', header: 'Profit Center' },
         { field: 'amount', header: 'Amount' },
         { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Start Date' },
-        {
-            field: 'clubs',
-            body: (r) => r?.clubs?.map((item) => item.name).join(','),
-            header: 'Clubs',
-        },
+        { field: 'clubName', body: (r) => r.clubName.join(' , '), header: 'Club' },
         { field: 'isActive', header: 'Active' },
     ];
 
@@ -62,27 +54,51 @@ const AssessedFees = () => {
         );
     };
 
+    const [data, setData] = useState({
+        filterType: 'AND',
+    });
+
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAssessedFees);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Assessed Fees" linkTo="/settings/agreement/assessed-fees/add" />
-            <CustomSearchCard>
-                <CustomDropDown col={3} label="Status" name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
-                <CustomMultiselect col={3} label="Club" name="clubs" options={clubsDropdown} optionLabel="name" data={data} onChange={handleChange} />
-                <CustomMultiselect
-                    col={3}
-                    label="Profit Center"
-                    name="profitCenter"
-                    options={profitCenterDropdown}
-                    optionLabel="name"
-                    data={data}
-                    onChange={handleChange}
-                />
-            </CustomSearchCard>
-            <CustomTable data={allAssessedFees} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Assessed Fees" linkTo="/settings/agreement/assessed-fees/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <FilterComponent
+                value={filters}
+                onApply={onApplyFilters}
+                visible={isFilterVisible}
+                onHide={onFilterClose}
+                data={data}
+                handleChange={handleChange}
+                setData={setData}
+            >
+                <CustomGridLayout>
+                    <CustomDropDown
+                        col={12}
+                        label="Status"
+                        name="isActive"
+                        options={ActiveFilterDropdown}
+                        optionLabel="name"
+                        data={data}
+                        onChange={handleChange}
+                    />
+                    <CustomMultiselect col={12} label="Club" name="clubId" options={clubsDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect
+                        col={12}
+                        label="Profit Center"
+                        name="profitCenterId"
+                        options={profitCenterDropdown}
+                        data={data}
+                        onChange={handleChange}
+                    />
+                </CustomGridLayout>
+            </FilterComponent>
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

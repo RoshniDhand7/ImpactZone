@@ -44,7 +44,7 @@ const addRegister = (data, setLoading, history) => async (dispatch) => {
     }
     setLoading(false);
 };
-const editRegister = (id, data, setLoading, history) => async (dispatch, getState) => {
+const editRegister = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
     const res = await api('put', EndPoints.REGISTERS + id, data);
@@ -55,5 +55,13 @@ const editRegister = (id, data, setLoading, history) => async (dispatch, getStat
     }
     setLoading(false);
 };
+const registerSettings = (data, next) => async (dispatch) => {
+    const res = await api('post', EndPoints.REGISTER_SETTINGS, data);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
-export { getRegisters, getRegister, addRegister, editRegister };
+export { getRegisters, getRegister, addRegister, editRegister, registerSettings };
