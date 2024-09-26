@@ -314,6 +314,10 @@ const applyFilters = (events, filterOptions) => {
         const condition = filterOptions[key];
         const eventValue = event[key];
 
+        console.log(typeof eventValue, typeof condition, condition === eventValue, '1dfgg');
+        if (typeof condition === 'boolean') {
+            return condition === eventValue;
+        }
         if (typeof condition === 'number' && key === 'unitPrice') {
             return eventValue <= condition;
         }
@@ -326,9 +330,17 @@ const applyFilters = (events, filterOptions) => {
         if (Array.isArray(condition) && eventValue) {
             return condition.some((item) => eventValue && eventValue.includes(item));
         } else {
+            console.log('hi');
             return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
         }
     };
+
+    console.log(
+        events.filter((event) =>
+            filterType === 'AND' ? filterKeys.every((key) => matchesCondition(event, key)) : filterKeys.some((key) => matchesCondition(event, key)),
+        ),
+        'events>>',
+    );
 
     return events.filter((event) =>
         filterType === 'AND' ? filterKeys.every((key) => matchesCondition(event, key)) : filterKeys.some((key) => matchesCondition(event, key)),

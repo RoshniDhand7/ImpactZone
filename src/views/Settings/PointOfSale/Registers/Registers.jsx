@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import useRegister from '../../../../hooks/useRegister';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomCalenderInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
-import { useDispatch } from 'react-redux';
-import { registerSettings } from '../../../../redux/actions/PosSettings/register';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRegisters, registerSettings } from '../../../../redux/actions/PosSettings/register';
 import { timeConvertToDate, timeString } from '../../../../utils/commonFunctions';
 
 const Registers = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { allRegisters } = useRegister();
+    const [registerSetting, setRegisterSetting] = useState(false);
+
+    useEffect(() => {
+        dispatch(getRegisters());
+    }, [dispatch, registerSetting]);
+    const { allRegisters } = useSelector((state) => state.registers);
     const columns = [
         { field: 'registerId', header: 'Register Id' },
         { field: 'club', header: 'Club' },
@@ -21,7 +25,6 @@ const Registers = () => {
     const onEdit = (col) => {
         history.push(`/settings/pos/register/edit/${col._id}`);
     };
-    const [registerSetting, setRegisterSetting] = useState(false);
 
     const date = new Date();
     date.setHours(12, 0, 0);
@@ -57,6 +60,7 @@ const Registers = () => {
             autoCloseableTime: register.autoCloseableTime ? timeConvertToDate(register.autoCloseableTime) : date,
             amountLeftInDrawer: register.amountLeftInDrawer,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registerSetting]);
 
     console.log(timeConvertToDate(register.autoCloseableTime));

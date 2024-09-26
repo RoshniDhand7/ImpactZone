@@ -17,6 +17,8 @@ export default function useFilters(tableData) {
 
     const filterData = useMemo(() => applyFilters(tableData, data), [tableData, data]);
 
+    console.log(filterData, 'filterData');
+
     return {
         tableData: filterData,
         onFilterOpen: onOpen,

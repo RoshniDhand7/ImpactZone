@@ -61,7 +61,7 @@ export default function DashboardCards() {
     return (
         <div className="grid">
             {cards.map((item) => (
-                <StatsCard title={item.title} color={item.color} icon={item.icon} heading={item.number} />
+                <StatsCard title={item.title} key={item.title} color={item.color} icon={item.icon} heading={item.number} />
             ))}
         </div>
     );

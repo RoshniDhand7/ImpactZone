@@ -6,6 +6,9 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { deleteAgreementPromotion, getAgreementPromotions } from '../../../../redux/actions/AgreementSettings/agreementPromotions';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const AgreementPromotions = () => {
     const history = useHistory();
@@ -41,11 +44,16 @@ const AgreementPromotions = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementPromotion);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Agreement Promotions" linkTo="/settings/agreement/agreement-promotions/add" />
-            <CustomTable data={allAgreementPromotion} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Agreement Promotions" linkTo="/settings/agreement/agreement-promotions/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

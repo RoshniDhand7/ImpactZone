@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import formValidation from '../../../../utils/validations';
-import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber } from '../../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import { useHistory, useParams } from 'react-router-dom';
 import { getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,6 +50,7 @@ const MembershipPlanForm = () => {
         onlineDescription: '',
         oneTimePlan: '',
         membershipPlan: [],
+        isActive: true,
     });
 
     useEffect(() => {
@@ -117,6 +118,7 @@ const MembershipPlanForm = () => {
                         onlineDescription: data.onlineDescription,
                         oneTimePlan: data.oneTimePlan,
                         membershipPlan: data.membershipPlan,
+                        isActive: data.isActive,
                     });
                     const subCategory =
                         allAgreementCategories
@@ -135,6 +137,7 @@ const MembershipPlanForm = () => {
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
                         <CustomDropDown name="category" options={agreementCategoryDropdown} onChange={handleChange} data={data} required />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                         <CustomDropDown name="subCategory" options={subcategoryOptions} onChange={handleChange} data={data} required />
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} required />
