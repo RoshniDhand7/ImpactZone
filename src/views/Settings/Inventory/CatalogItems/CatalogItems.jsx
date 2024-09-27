@@ -21,7 +21,7 @@ const CatalogItems = () => {
     const columns = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
+        { field: 'netPrice', header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
 

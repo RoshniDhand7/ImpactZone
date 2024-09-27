@@ -41,7 +41,7 @@ function Item(props) {
                 />
                 <div className="bg-lightest-blue border-round-md">
                     <div className="text-center px-2 ellipsis-text">{item?.itemCaption}</div>
-                    <div className="text-center font-semibold">${item?.unitPrice}</div>
+                    <div className="text-center font-semibold">${item?.netPrice}</div>
                 </div>
             </div>
         </div>
