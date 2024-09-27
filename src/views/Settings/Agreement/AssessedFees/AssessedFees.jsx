@@ -12,6 +12,7 @@ import { getProfitCenters } from '../../../../redux/actions/InventorySettings/pr
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
+import useGetClubs from '../../../../hooks/useGetClubs';
 
 const AssessedFees = () => {
     const history = useHistory();
@@ -24,7 +25,7 @@ const AssessedFees = () => {
 
     let { allAssessedFees } = useSelector((state) => state.assessedFees);
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
-    const { clubsDropdown } = useSelector((state) => state.clubs);
+    const { clubsDropdown } = useGetClubs();
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -32,7 +33,7 @@ const AssessedFees = () => {
         { field: 'profitCenter', header: 'Profit Center' },
         { field: 'amount', header: 'Amount' },
         { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Start Date' },
-        { field: 'clubName', body: (r) => r.clubName.join(' , '), header: 'Club' },
+        { field: 'clubName', body: (r) => r?.clubName?.join(' , '), header: 'Club' },
         { field: 'isActive', header: 'Active' },
     ];
 

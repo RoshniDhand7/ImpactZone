@@ -57,19 +57,16 @@ const Registers = () => {
     useEffect(() => {
         setData({
             autoCloseable: register?.autoCloseable,
-            autoCloseableTime: register.autoCloseableTime ? timeConvertToDate(register.autoCloseableTime) : date,
-            amountLeftInDrawer: register.amountLeftInDrawer,
+            autoCloseableTime: register?.autoCloseableTime ? timeConvertToDate(register.autoCloseableTime) : date,
+            amountLeftInDrawer: register?.amountLeftInDrawer,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registerSetting]);
-
-    console.log(timeConvertToDate(register.autoCloseableTime));
 
     const handleSave = () => {
         dispatch(registerSettings({ ...data, autoCloseableTime: timeString(data?.autoCloseableTime) }, () => setRegisterSetting(false)));
     };
 
-    console.log(timeString(data.autoCloseableTime), 'data');
     return (
         <>
             <CustomFilterCard buttonTitle="Add Register" linkTo="/settings/pos/register/add" contentPosition="end">

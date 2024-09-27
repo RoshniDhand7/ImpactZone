@@ -54,10 +54,9 @@ const PaymentMethods = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Payment Methods" linkTo="/settings/pos/payment-methods/add" />
-            <div className="text-end w-full">
+            <CustomFilterCard buttonTitle="Add Payment Methods" linkTo="/settings/pos/payment-methods/add" contentPosition="end">
                 <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
-            </div>
+            </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
             <CustomTable data={tableData} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
         </>

@@ -130,8 +130,6 @@ const NewCart = ({ data, setData, handleChange }) => {
     const activeRegisters = allRegisters?.filter((item) => item.isActive)?.map((item) => ({ name: item.registerId, value: item._id }));
     const { loading } = useSelector((state) => state?.loader?.isLoading);
 
-    console.log('activeRegisters', allRegisters, activeRegisters);
-
     const onClose = () => {
         setOpenRegister((prev) => ({ ...prev, open: false }));
         setRegisterId(null);
@@ -162,10 +160,8 @@ const NewCart = ({ data, setData, handleChange }) => {
         if (registerDet) {
             setData((prev) => ({ ...prev, drawer: registerDet.registerId }));
         }
-        //
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [registerDet?.registerId]);
-
-    console.log(data, 'data');
 
     return (
         <>

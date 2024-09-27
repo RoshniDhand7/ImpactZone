@@ -8,6 +8,7 @@ import useGetClubs from '../../../../hooks/useGetClubs';
 const AgreementTemplateFilter = ({ filters, onApplyFilters, isFilterVisible, onFilterClose }) => {
     const [data, setData] = useState({
         filterType: 'AND',
+        clubsId: [],
     });
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
@@ -35,7 +36,7 @@ const AgreementTemplateFilter = ({ filters, onApplyFilters, isFilterVisible, onF
                         data={data}
                         onChange={handleChange}
                     />
-                    <CustomMultiselect col={12} label="Club" name="clubId" options={clubsDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect col={12} label="Club" name="clubsId" options={clubsDropdown} data={data} onChange={handleChange} showClear />
                 </CustomGridLayout>
             </FilterComponent>
         </>

@@ -1,9 +1,9 @@
 import { lazy } from 'react';
-
+import ClubsForm from '../../views/Settings/Business/Clubs/ClubsForm';
 const CompanyForm = lazy(() => import('../../views/Settings/Business/Company/CompanyForm'));
 const ReasonCodeForm = lazy(() => import('../../views/Settings/Business/ReasonCode/ReasonCodeForm'));
 const CustomizationForm = lazy(() => import('../../views/Settings/Business/Customization/CustomizationForm'));
-const ClubsForm = lazy(() => import('../../views/Settings/Business/Clubs/ClubsForm'));
+// const ClubsForm = lazy(() => import('../../views/Settings/Business/Clubs/ClubsForm'));
 const JobTitleForm = lazy(() => import('../../views/Settings/Business/JobTitle/JobTitleForm'));
 
 const BusinessSettingRoutes = [

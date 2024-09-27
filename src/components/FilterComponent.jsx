@@ -19,7 +19,7 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
             const value = data[key];
 
             // Check if the value is not undefined, null, or an empty string/array
-            if (value && (Array.isArray(value) ? value.length > 0 : value !== '')) {
+            if (value || (value === false && (Array.isArray(value) ? value.length > 0 : value !== ''))) {
                 _filters[key] = value;
             }
         });

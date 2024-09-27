@@ -104,7 +104,7 @@ export const PrivateRoutes = [
                 name: 'Business',
                 exact: true,
                 component: Business,
-                item: BusinessSettingRoutes,
+                items: BusinessSettingRoutes,
             },
             {
                 path: '/inventory',

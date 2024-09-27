@@ -9,8 +9,6 @@ const RegistersDialog = ({ openRegister, onClose, setOpenRegister, setRegisterId
 
     const registerDet = JSON.parse(localStorage.getItem('registersDetail'));
 
-    console.log(openRegister, 'registerId');
-
     return (
         <>
             <CustomDialog title="Registers" visible={openRegister?.open} onCancel={onClose} loading={false}>

@@ -72,11 +72,8 @@ const MembershipPlan = () => {
 
     const subcategoryOptions = useMemo(() => {
         return allAgreementCategories.find((category) => category._id === data.categoryId)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.categoryId]);
-
-    console.log(subcategoryOptions, 'subcategoryOptions');
-
-    console.log(data, 'data');
 
     return (
         <>
@@ -115,7 +112,7 @@ const MembershipPlan = () => {
                     <CustomDropDown name="subCategory" options={subcategoryOptions} onChange={handleChange} data={data} col={12} showClear />
                     <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} col={12} showClear />
                     <CustomInput name="name" label="Plan Name" data={data} onChange={handleChange} col={12} />
-                    <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} col={12} />
+                    <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} col={12} showClear />
                 </CustomGridLayout>
             </FilterComponent>
             <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
