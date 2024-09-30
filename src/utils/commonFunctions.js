@@ -25,6 +25,22 @@ const showFormErrors = (data, setData, ignore) => {
     setData({ ...data, formErrors });
     return !values(formErrors).some((v) => notEqual(v, ''));
 };
+const showFormErrors1 = (data, setData, ignore) => {
+    let formErrors = {};
+    entries(data).forEach(([key, value]) => {
+        formErrors = {
+            ...formErrors,
+            ...formValidation(key, value, data, ignore),
+        };
+    });
+    ignore?.forEach((name) => {
+        if (formErrors[name]) {
+            formErrors[name] = '';
+        }
+    });
+    setData({ ...data, formErrors });
+    return !values(formErrors).some((v) => notEqual(v, ''));
+};
 
 const showArrayFormErrors = (array, ignore) => {
     let isValid = true;
@@ -437,6 +453,19 @@ const timeConvertToDate = (time) => {
     currentDate.setMinutes(minutes);
     return currentDate;
 };
+const getSearchedData = (arr, keyword, keys) => {
+    if (keyword.length) {
+        arr = arr.filter((obj) =>
+            keys.some((key) => {
+                const keys = key.split('.');
+                let value = obj;
+                keys.forEach((k) => (value = value[k]));
+                return value.toLowerCase()?.includes(keyword?.toLowerCase());
+            }),
+        );
+    }
+    return arr;
+};
 
 export {
     capitalizeCamelCase,
@@ -471,4 +500,6 @@ export {
     adjustTime,
     timeString,
     timeConvertToDate,
+    showFormErrors1,
+    getSearchedData,
 };

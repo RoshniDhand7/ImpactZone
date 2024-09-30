@@ -8,9 +8,10 @@ import { deleteCommissionGroups } from '../../../../redux/actions/InventorySetti
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import FilterComponent from '../../../../components/FilterComponent';
-import { CustomDropDown } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown, catalogProductTypeOptions } from '../../../../utils/dropdownConstants';
 import useCommissionGroup from '../../../../hooks/Inventory/useCommissionGroup';
+import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 
 export default function CommissionGroup() {
     const history = useHistory();
@@ -44,6 +45,9 @@ export default function CommissionGroup() {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+
+    const { catalogDropDown } = useCatalogItems();
+
     return (
         <>
             <CustomFilterCard buttonTitle="Add Commission Group" linkTo="/settings/inventory/commission-group/add" contentPosition="end">
@@ -63,6 +67,7 @@ export default function CommissionGroup() {
                 <CustomGridLayout>
                     <CustomDropDown col={12} name="type" label="Group Type" options={catalogProductTypeOptions} data={data} onChange={handleChange} />
                     <CustomDropDown col={12} label="Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect col={12} label="Catalog Items" name="catalogs" options={catalogDropDown} data={data} onChange={handleChange} showClear />
                 </CustomGridLayout>
             </FilterComponent>
             <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />

@@ -55,13 +55,5 @@ const editRegister = (id, data, setLoading, history) => async (dispatch) => {
     }
     setLoading(false);
 };
-const registerSettings = (data, next) => async (dispatch) => {
-    const res = await api('post', EndPoints.REGISTER_SETTINGS, data);
-    if (res.success) {
-        next();
-    } else {
-        dispatch(showToast({ severity: 'error', summary: res.message }));
-    }
-};
 
-export { getRegisters, getRegister, addRegister, editRegister, registerSettings };
+export { getRegisters, getRegister, addRegister, editRegister };

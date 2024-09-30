@@ -137,7 +137,7 @@ export const CustomInputMask = ({
                 name={name}
                 value={data?.[name] || value}
                 onChange={(e) => onChange?.({ ...e, name: e.target.name, value: e.target.value })}
-                className={`border-none bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
+                className={` bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 mask={mask}
                 {...props}

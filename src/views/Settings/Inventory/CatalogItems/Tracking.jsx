@@ -78,7 +78,7 @@ const Tracking = () => {
     const { allReferralGroups } = useSelector((state) => state.referralGroup);
 
     const finalReferralGroup = allReferralGroups
-        ?.filter((commissionGroup) => commissionGroup?.catalogs?.some((catalogItem) => catalogItem._id === id))
+        ?.filter((referralGp) => referralGp?.catalogs?.some((catalogItem) => catalogItem === id))
         ?.map((item) => ({ name: item.name, id: item._id }));
 
     const { vendorsDropdown } = useSelector((state) => state.vendors);

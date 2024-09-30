@@ -100,6 +100,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'variationName':
         case 'discountCode':
         case 'comment':
+        case 'register':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {

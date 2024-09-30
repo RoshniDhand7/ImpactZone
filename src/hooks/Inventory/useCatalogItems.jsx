@@ -8,14 +8,14 @@ const useCatalogItems = () => {
         dispatch(getCatalogItems());
     }, [dispatch]);
 
-    const { allCatalogItems, catalogProductDropdown } = useSelector((state) => state.catalogItems);
+    const { allCatalogItems, catalogProductDropdown, catalogDropDown } = useSelector((state) => state.catalogItems);
     let CatalogItemsList = allCatalogItems?.map((item) => ({
         name: item.name,
         _id: item._id,
         upc: item.upc,
         unitPrice: item.unitPrice,
     }));
-    return { CatalogItemsList, allCatalogItems, catalogProductDropdown };
+    return { CatalogItemsList, allCatalogItems, catalogProductDropdown, catalogDropDown };
 };
 
 export default useCatalogItems;

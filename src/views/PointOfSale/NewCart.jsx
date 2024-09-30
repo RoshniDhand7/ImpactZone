@@ -170,13 +170,7 @@ const NewCart = ({ data, setData, handleChange }) => {
                     <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
-            <RegistersDialog
-                openRegister={openRegister}
-                onClose={onClose}
-                setOpenRegister={setOpenRegister}
-                setRegisterId={setRegisterId}
-                allRegisters={allRegisters}
-            />
+            <RegistersDialog openRegister={openRegister} setOpenRegister={setOpenRegister} setRegisterId={setRegisterId} allRegisters={allRegisters} />
             <OpenDrawer cashRegister={cashRegister} setCashRegister={setCashRegister} registerId={registerId} accessCode={data?.accessCode} onClose={onClose} />
             <CloseOutDrawer
                 cashRegisterClose={cashRegisterClose}
