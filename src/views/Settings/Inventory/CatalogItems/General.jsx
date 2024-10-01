@@ -84,6 +84,8 @@ const General = () => {
         filterSet: [],
         tags: [],
     });
+
+    console.log('data==>', data);
     useEffect(() => {
         dispatch(getProfitCenters());
         dispatch(getCategories());
@@ -161,7 +163,8 @@ const General = () => {
         } else {
             ignore = ['days'];
         }
-        if (showFormErrors(data, setData, ignore)) {
+
+        if (showFormErrors(data, setData, [...ignore, 'commissionGroup', 'variationName'])) {
             if (id) {
                 dispatch(editCatalogItem(id, data, history, tab));
             } else {
