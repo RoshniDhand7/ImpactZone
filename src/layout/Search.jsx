@@ -4,7 +4,6 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMembers } from '../redux/actions/Dashboard/Members';
 import { useHistory } from 'react-router-dom';
-import AdvanceSearch from './AdvanceSearch';
 
 const Search = ({ openModal, setOpenModal }) => {
     const dispatch = useDispatch();
@@ -54,8 +53,6 @@ const Search = ({ openModal, setOpenModal }) => {
         setValue(trimmedValue);
     };
 
-    const [openAdvanceSearch, setOpenAdvanceSearch] = useState(false);
-
     return (
         <>
             <CustomDialog
@@ -88,14 +85,13 @@ const Search = ({ openModal, setOpenModal }) => {
                 <div
                     className="text-right mt-4 text-blue cursor-pointer font-normal text-xl"
                     onClick={() => {
-                        setOpenAdvanceSearch(true);
+                        history.push('/members');
                         setOpenModal(false);
                     }}
                 >
-                    Advance Search
+                    Find Member
                 </div>
             </CustomDialog>
-            <AdvanceSearch openAdvanceSearch={openAdvanceSearch} setOpenAdvanceSearch={setOpenAdvanceSearch} />
         </>
     );
 };

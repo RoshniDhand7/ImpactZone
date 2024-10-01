@@ -327,7 +327,7 @@ const applyFilters = (events, filterOptions) => {
     if (!filterKeys.length) return events;
 
     const matchesCondition = (event, key) => {
-        const condition = filterOptions[key];
+        let condition = filterOptions[key];
         const eventValue = event[key];
 
         if (typeof condition === 'number' && key === 'unitPrice') {
@@ -337,6 +337,10 @@ const applyFilters = (events, filterOptions) => {
             const eventDate = new Date(eventValue);
             const conditionDate = new Date(condition);
             return eventDate.getDate() === conditionDate.getDate();
+        }
+        if (key === 'primaryPhone') {
+            condition = condition.replace(/\D/g, '');
+            return condition === eventValue;
         }
 
         if (Array.isArray(condition) && eventValue) {
@@ -453,18 +457,21 @@ const timeConvertToDate = (time) => {
     currentDate.setMinutes(minutes);
     return currentDate;
 };
-const getSearchedData = (arr, keyword, keys) => {
-    if (keyword.length) {
-        arr = arr.filter((obj) =>
-            keys.some((key) => {
-                const keys = key.split('.');
-                let value = obj;
-                keys.forEach((k) => (value = value[k]));
-                return value.toLowerCase()?.includes(keyword?.toLowerCase());
-            }),
-        );
-    }
-    return arr;
+
+const getSearchedData = (arr, filters) => {
+    return arr.filter((obj) => {
+        return Object.keys(filters).every((key) => {
+            if (!filters[key]) return true;
+
+            let value = obj[key]?.toString().toLowerCase();
+            if (key === 'primaryPhone') {
+                value = value.replace(/\D/g, '');
+                const filterValue = filters[key].replace(/\D/g, '');
+                return value.includes(filterValue);
+            }
+            return value.includes(filters[key].toLowerCase());
+        });
+    });
 };
 
 export {

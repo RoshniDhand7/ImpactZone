@@ -24,6 +24,7 @@ import ScheduleSettingRoutes from './Settings/ScheduleRoutes';
 import AgreementSettingsRoute from './Settings/AgreementRoutes';
 import MemberSettingsRoutes from './Settings/MemberRoutes';
 import PointOfSaleSettingRoutes from './Settings/PointOfSaleRoutes';
+import AllMembers from '../views/Members/AllMembers';
 
 export const PrivateRoutes = [
     {
@@ -38,8 +39,13 @@ export const PrivateRoutes = [
     },
     {
         path: '/member/:id',
-        name: 'Members',
+        name: 'Member',
         component: Members,
+    },
+    {
+        path: '/members/',
+        name: 'Members',
+        component: AllMembers,
     },
     {
         path: '/calender',
