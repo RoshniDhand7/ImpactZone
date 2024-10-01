@@ -8,6 +8,7 @@ const intitalState = {
     catalogServiceFilterItems: [],
     catalogServiceDropdown: [],
     catalogDropDown: [],
+    posCatalog: [],
     catalogProductDropdown: [],
 };
 
@@ -49,6 +50,11 @@ const catalogItemsReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCategoryVariations: action.payload,
+            };
+        case types.CHANGE_POS_CATALOG_ITEMS:
+            return {
+                ...state,
+                posCatalog: action.payload,
             };
         default:
             return { ...state };

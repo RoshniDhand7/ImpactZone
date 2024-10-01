@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import InputLayout from '../Form/InputLayout';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -14,6 +14,7 @@ import { Password } from 'primereact/password';
 import { capitalizeCamelCase, denominationsToDollarConverter } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 import { CascadeSelect } from 'primereact/cascadeselect';
 
 export const CustomInput = ({
@@ -357,6 +358,7 @@ export const CustomInputNumber = ({
     data,
     value,
     onChange,
+    onBlur,
     errorMessage,
     extraClassName,
     required,
@@ -365,6 +367,7 @@ export const CustomInputNumber = ({
     disabled,
     customIndex,
     fieldName,
+    maxFractionDigits = 4,
     ...props
 }) => {
     return (
@@ -374,9 +377,11 @@ export const CustomInputNumber = ({
                 name={name}
                 value={value || data?.[name] || 0}
                 onChange={(e) => onChange && onChange({ ...e, name: name, value: e.value, customIndex, fieldName })}
+                onBlur={(e) => onBlur && onBlur({ ...e, name: name, value: e.value, customIndex, fieldName })}
                 className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
                 useGrouping={props.useGrouping || false}
                 disabled={disabled}
+                maxFractionDigits={maxFractionDigits}
                 {...props}
             />
         </InputLayout>
@@ -622,6 +627,76 @@ export const CustomSelectCascade = ({
                 breakpoint="767px"
                 {...props}
             />
+        </InputLayout>
+    );
+};
+
+export const CustomAsyncReactSelect = ({
+    label,
+    name,
+    data,
+    value = '',
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    suggestions = [],
+    options,
+    defaultValue,
+    isClearable = true,
+    isSearchable = true,
+    showLabel,
+    ...props
+}) => {
+    let _options = useMemo(() => options?.map((item) => ({ label: item?.name, value: item?.value })), [options]);
+    let _suggestions = useMemo(() => suggestions?.map((item) => ({ label: item?.name, value: item?.value })), [suggestions]);
+
+    const handleChange = (e) => {
+        if (onChange) {
+            onChange({ e, name, value: e.value });
+        }
+    };
+
+    const loadOptions = (inputValue, callback) => {
+        setTimeout(() => {
+            callback(_options.filter((i) => i.label.toLowerCase().includes(inputValue.toLowerCase())));
+        }, 100);
+    };
+
+    const _value = useMemo(() => (value ? _options.find((item) => item?.value === value) : null), [value, _options]);
+
+    return (
+        <InputLayout
+            col={col || 12}
+            label={label}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+            showLabel={showLabel}
+        >
+            <AsyncSelect
+                className={`selectreact ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                value={_value}
+                loadOptions={loadOptions}
+                defaultOptions={_suggestions}
+                onChange={handleChange}
+                isClearable={isClearable}
+                isSearchable={isSearchable}
+                {...props}
+            />
+        </InputLayout>
+    );
+};
+
+export const CustomField = ({ label, value, errorMessage, extraClassName, required, col = 1, children }) => {
+    return (
+        <InputLayout col={col} label={label} required={required} extraClassName={extraClassName} errorMessage={errorMessage}>
+            {value}
+            {children}
         </InputLayout>
     );
 };

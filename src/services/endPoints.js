@@ -44,6 +44,7 @@ const endPoints = {
     SALES_COMMISSION: '/sales-commission/',
     NOTES: '/notes',
     ACCESS_SCHEDULE: '/access-schedule/',
+    POS_INVENTORY_CATALOG: '/pos-inventory-catalog/',
     INVENTORY_CATALOG: '/inventory-catalog/',
     INVENTORY_CATALOG_FILTER: '/inventory-catalog-filter/',
 

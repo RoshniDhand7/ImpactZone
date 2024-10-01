@@ -34,9 +34,11 @@ const DiscountForm = () => {
                     setData({
                         discountName: data.discountName,
                         discountCode: data.discountCode,
-                        percentage: data.percentage,
+                        amountType: data.amountType,
+                        amount: data.amount,
                         startDate: data.startDate ? new Date(data.startDate) : '',
                         endDate: data.endDate ? new Date(data.endDate) : '',
+                        indefinite: data.indefinite,
                         availableDiscount: data.availableDiscount,
                         description: data.description,
                         services: data.services,
@@ -44,8 +46,6 @@ const DiscountForm = () => {
                         multiItemDiscount: data.multiItemDiscount,
                         multiItemDiscountCheck: data.multiItemDiscountCheck,
                         isActive: data.isActive,
-                        amountType: data.amountType,
-                        indefinite: data.indefinite ? data.indefinite : false,
                         combinedDiscount: data.combinedDiscount,
                         itemUsedMoreThanOnce: data.itemUsedMoreThanOnce,
                         itemBogo: data.itemBogo,
@@ -63,34 +63,37 @@ const DiscountForm = () => {
     const [data, setData] = useState({
         discountName: '',
         discountCode: '',
-        percentage: 0,
+        amountType: 'FIXED',
+        amount: 0,
+        availableDiscount: null,
         startDate: '',
         endDate: '',
-        availableDiscount: null,
-        description: '',
+        indefinite: false,
+
+        combinedDiscount: false,
+        itemUsedMoreThanOnce: true,
+        itemBogo: false,
+
+        multiItemDiscountCheck: false,
+        multiItemDiscount: [
+            {
+                noOfItems: 0,
+                amountType: 'FIXED',
+                amount: 0,
+            },
+        ],
+
         services: [],
         salesCode: [],
         membershipType: [],
-        amountType: 'FIXED',
-        multiItemDiscount: [
-            {
-                value1: 0,
-                value2: 0,
-                amountType: 'FIXED',
-            },
-        ],
-        // sounds: '',
-        multiItemDiscountCheck: false,
-        indefinite: false,
-        combinedDiscount: false,
-        itemUsedMoreThanOnce: false,
-        itemBogo: false,
-        isActive: true,
+
         // days Schedule
-        selectedDays: [],
-        frequency: '',
+        days: [],
         timeRangeEnabled: false,
-        timeRange: { start: '', end: '' },
+        startTime: '',
+        endTime: '',
+        description: '',
+        isActive: true,
     });
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     useEffect(() => {
@@ -105,13 +108,19 @@ const DiscountForm = () => {
 
     const handleAdd = () => {
         const newDiscount = {
-            value1: 0,
-            value2: 0,
+            noOfItems: 0,
             amountType: 'FIXED',
+            amount: 0,
         };
         setData((prevData) => ({
             ...prevData,
             multiItemDiscount: [...prevData.multiItemDiscount, newDiscount],
+        }));
+    };
+    const handleRemove = (indexToRemove, fieldName) => {
+        setData((prevData) => ({
+            ...prevData,
+            [fieldName]: prevData[fieldName].filter((_, index) => index !== indexToRemove),
         }));
     };
 
@@ -127,18 +136,9 @@ const DiscountForm = () => {
             ..._newData,
         }));
     };
-    const handleRemove = (indexToRemove, fieldName) => {
-        setData((prevData) => ({
-            ...prevData,
-            [fieldName]: prevData[fieldName].filter((_, index) => index !== indexToRemove),
-        }));
-    };
 
     const handleSave = () => {
         let ignore = ['services'];
-        if (!data?.multiItemDiscountCheck) {
-            ignore = [...ignore, 'value1', 'value2'];
-        }
         if (data.indefinite) {
             ignore = [...ignore, 'endDate'];
         }
@@ -146,6 +146,9 @@ const DiscountForm = () => {
             ignore = [...ignore, 'days', 'startTime', 'endTime'];
         }
         if (showFormErrors(data, setData, ignore)) {
+            if (!data?.multiItemDiscountCheck) {
+                ignore = [...ignore, 'noOfItems', 'amount'];
+            }
             const validatedSchedule = showArrayFormErrors(data.multiItemDiscount, ignore);
 
             if (!validatedSchedule.isValid) {
@@ -163,113 +166,44 @@ const DiscountForm = () => {
                 if (id) {
                     dispatch(editDiscountType(id, discountData, history));
                 } else {
+                    console.log('discountData==>', discountData);
                     dispatch(addDiscountType(discountData, history));
                 }
             }
         }
     };
 
+    console.log(data);
+
     return (
         <>
             <FormPage backText="Discount Type">
                 <CustomCard col="12" title="Add Discount Type">
                     <CustomGridLayout>
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col="12" />
                         <CustomInput name="discountName" label="Name" data={data} onChange={handleChange} required />
                         <CustomInput name="discountCode" data={data} onChange={handleChange} required />
-
+                        <CustomDropDown name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={1} />
                         <CustomInputNumber
-                            name="percentage"
+                            label={`Amount (${data?.amountType === 'FIXED' ? '$' : '%'})`}
+                            name="amount"
                             data={data}
-                            label="Discount Amount"
                             onChange={handleChange}
                             required
-                            sufix="%"
-                            col="4"
-                            minFractionDigits={4}
                             maxFractionDigits={4}
+                            col={3}
                         />
-                        <CustomDropDown label="Amount Type" name="amountType" options={amountTypeOptions} data={data} onChange={handleChange} col={1} />
+
+                        <CustomDropDown name="availableDiscount" options={allDiscountDropdown} data={data} onChange={handleChange} optionLabel="name" />
                         <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required col={3} />
                         {!data?.indefinite && <CustomCalenderInput name="endDate" data={data} onChange={handleChange} required col={3} />}
-                        <CustomDropDown name="availableDiscount" options={allDiscountDropdown} data={data} onChange={handleChange} optionLabel="name" col={3} />
-                    </CustomGridLayout>
-                    <CustomGridLayout>
-                        <CustomCheckbox label="Indefinite" name="indefinite" onChange={handleChange} data={data} col="4" inputClass="mt-5 ml-5" />
-
                         <CustomCheckbox
-                            label="Multi Item Discount"
-                            name="multiItemDiscountCheck"
+                            label="No End Date(Indefinite )"
+                            name="indefinite"
                             onChange={handleChange}
                             data={data}
-                            col="4"
-                            inputClass="mt-5 ml-5"
+                            col="2"
+                            extraClassName="my-auto"
                         />
-                        <CustomCheckbox label="Specific Time" name="specificTime" onChange={handleChange} data={data} col="4" inputClass="mt-5 ml-5" />
-
-                        {data?.multiItemDiscountCheck && <PrimaryButton label="Add" className="mx-2 my-4  " onClick={handleAdd} loading={loading} />}
-
-                        {data?.multiItemDiscountCheck &&
-                            data?.multiItemDiscount?.map((item, index) => (
-                                <>
-                                    <CustomInputNumber
-                                        label="No of Items"
-                                        name="value1"
-                                        fieldName="multiItemDiscount"
-                                        customIndex={index}
-                                        data={item}
-                                        onChange={handleChangeDynamicField}
-                                        col="4"
-                                    />
-                                    <CustomInputNumber
-                                        label="Amount"
-                                        name="value2"
-                                        customIndex={index}
-                                        fieldName="multiItemDiscount"
-                                        data={item}
-                                        onChange={handleChangeDynamicField}
-                                        col="4"
-                                        minFractionDigits={4}
-                                        maxFractionDigits={4}
-                                    />
-                                    <CustomDropDown
-                                        label="Amount Type"
-                                        name="amountType"
-                                        customIndex={index}
-                                        fieldName="multiItemDiscount"
-                                        options={amountTypeOptions}
-                                        data={item}
-                                        onChange={handleChangeDynamicField}
-                                        col={1}
-                                    />
-                                    {index > 0 && <i class="pi pi-minus-circle mt-4 text-center" onClick={() => handleRemove(index, 'multiItemDiscount')}></i>}
-                                </>
-                            ))}
-
-                        {data?.specificTime && (
-                            <>
-                                <CustomMultiselect name="days" onChange={handleChange} data={data} options={WeekDaysOption} col={4} />
-                                <CustomCalenderInput
-                                    name="startTime"
-                                    onChange={handleChange}
-                                    data={data}
-                                    timeOnly
-                                    placeholder="Select Time"
-                                    hourFormat="12"
-                                    col={4}
-                                />
-                                <CustomCalenderInput
-                                    name="endTime"
-                                    onChange={handleChange}
-                                    data={data}
-                                    timeOnly
-                                    placeholder="Select Time"
-                                    hourFormat="12"
-                                    col={4}
-                                />
-                            </>
-                        )}
-
                         <CustomDropDown
                             label="Can this discount be combined with others?"
                             name="combinedDiscount"
@@ -285,7 +219,76 @@ const DiscountForm = () => {
                             onChange={handleChange}
                         />
                         <CustomDropDown label="Is this Item BOGO?" name="itemBogo" options={yesNoOptions} data={data} onChange={handleChange} />
+                        <CustomCheckbox
+                            label="Multi Item Discount"
+                            name="multiItemDiscountCheck"
+                            onChange={handleChange}
+                            data={data}
+                            col={data?.multiItemDiscountCheck ? 12 : 2}
+                            extraClassName="mt-2"
+                        />
+                        {data?.multiItemDiscountCheck && (
+                            <>
+                                {data?.multiItemDiscount?.map((item, index) => (
+                                    <>
+                                        <CustomInputNumber
+                                            name="noOfItems"
+                                            fieldName="multiItemDiscount"
+                                            customIndex={index}
+                                            data={item}
+                                            onChange={handleChangeDynamicField}
+                                        />
+                                        <CustomDropDown
+                                            name="amountType"
+                                            customIndex={index}
+                                            fieldName="multiItemDiscount"
+                                            options={amountTypeOptions}
+                                            data={item}
+                                            onChange={handleChangeDynamicField}
+                                            col={1}
+                                        />
+                                        <CustomInputNumber
+                                            name="amount"
+                                            label={`Amount (${item?.amountType === 'FIXED' ? '$' : '%'})`}
+                                            customIndex={index}
+                                            fieldName="multiItemDiscount"
+                                            data={item}
+                                            onChange={handleChangeDynamicField}
+                                            col={3}
+                                            maxFractionDigits={4}
+                                        />
+                                        <div className="col-4 my-auto">
+                                            {index > 0 ? (
+                                                <i class="pi pi-minus-circle cursor-pointer" onClick={() => handleRemove(index, 'multiItemDiscount')}></i>
+                                            ) : (
+                                                <i class="pi pi-plus-circle cursor-pointer" onClick={handleAdd}></i>
+                                            )}
+                                        </div>
+                                    </>
+                                ))}
+                            </>
+                        )}
+
+                        <CustomCheckbox
+                            label="Specific Time"
+                            name="specificTime"
+                            onChange={handleChange}
+                            data={data}
+                            col={data?.specificTime ? 12 : 2}
+                            extraClassName="mt-2"
+                        />
+
+                        {data?.specificTime && (
+                            <div className="col-12">
+                                <CustomGridLayout>
+                                    <CustomMultiselect name="days" onChange={handleChange} data={data} options={WeekDaysOption} required />
+                                    <CustomCalenderInput name="startTime" onChange={handleChange} data={data} timeOnly hourFormat="12" required />
+                                    <CustomCalenderInput name="endTime" onChange={handleChange} data={data} timeOnly hourFormat="12" required />
+                                </CustomGridLayout>
+                            </div>
+                        )}
                         <CustomTextArea name="description" data={data} onChange={handleChange} maxLength="200" />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} col="12" />
                     </CustomGridLayout>
                 </CustomCard>
                 <AddServices data={data} setData={setData} id={id} loading={loading} type="discount" name=" Catalog Item" />

@@ -1,8 +1,9 @@
 // Please write exact color name
 :root {
     --primaryDark: #252b42;
-    --sidebar-color: #fffff;
+    --sidebar-color: #ffffff;
     --primary-gray-color: #a6a6a6;
+    --primary-color: '#ff8800';
 
     --whiteColor: #fff;
     --darkGray: rgba(82, 82, 82, 1);
@@ -52,7 +53,7 @@ $bg-white: var(--bg-white);
 $border-color-primary: var(--border-color-primary);
 $sidebar-color: var(--sidebar-color);
 $sidebar-width: 270px;
-$topbar-height: 3rem;
+$topbar-height: 78px;
 $border-radius: 6px;
 $transitionDuration: 0.5s;
 $gutter: 5px;

@@ -13,7 +13,7 @@ export const getImageURL = (path) => {
             return URL.createObjectURL(path);
         }
     } else {
-        return;
+        return '';
     }
 };
 

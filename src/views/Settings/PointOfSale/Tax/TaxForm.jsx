@@ -48,6 +48,8 @@ const TaxForm = () => {
         club: '',
         isActive: true,
     });
+
+    console.log('data==>', data);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -66,19 +68,11 @@ const TaxForm = () => {
             <FormPage backText="Tax">
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
-                        <CustomInput name="taxRateName" data={data} onChange={handleChange} required />
-                        <CustomInputNumber
-                            name="taxRatePercentage"
-                            data={data}
-                            onChange={handleChange}
-                            required
-                            col="4"
-                            minFractionDigits={4}
-                            maxFractionDigits={4}
-                        />
-                        <CustomDropDown name="availableTaxRate" options={allTaxDropdown} data={data} onChange={handleChange} optionLabel="name" />
-                        <CustomDropDown name="taxRateType" options={TaxRateTypeOptions} data={data} onChange={handleChange} required />
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
+                        <CustomInput data={data} onChange={handleChange} name="taxRateName" required />
+                        <CustomInputNumber data={data} onChange={handleChange} name="taxRatePercentage" required maxFractionDigits={4} />
+                        <CustomDropDown data={data} onChange={handleChange} name="availableTaxRate" options={allTaxDropdown} />
+                        <CustomDropDown data={data} onChange={handleChange} name="taxRateType" options={TaxRateTypeOptions} required />
+                        <CustomInputSwitch data={data} onChange={handleChange} name="isActive" />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Clubs">

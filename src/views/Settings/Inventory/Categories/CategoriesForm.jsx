@@ -45,7 +45,7 @@ const CategoriesForm = () => {
     }, [id, dispatch]);
     const [data, setData] = useState({
         name: '',
-        displayInPos: false,
+        displayInPos: true,
         posButtonLabel: '',
         availableCategory: '',
         description: '',

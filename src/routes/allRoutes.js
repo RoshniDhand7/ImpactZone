@@ -25,6 +25,7 @@ import AgreementSettingsRoute from './Settings/AgreementRoutes';
 import MemberSettingsRoutes from './Settings/MemberRoutes';
 import PointOfSaleSettingRoutes from './Settings/PointOfSaleRoutes';
 import AllMembers from '../views/Members/AllMembers';
+import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 
 export const PrivateRoutes = [
     {
@@ -53,9 +54,14 @@ export const PrivateRoutes = [
         component: Calender,
     },
     {
-        path: '/pos',
+        path: '/pos2',
         name: 'Point Of Sale',
         component: PointOfSale,
+    },
+    {
+        path: '/pos',
+        name: 'Point Of Sale',
+        component: PointOfSale2,
     },
     {
         path: '/plans',

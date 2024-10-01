@@ -169,9 +169,22 @@ a:-webkit-any-link {
     border: 1px solid #f3f3f3;
     background-color: #f9f9f9;
     border-radius: 10px;
-    padding: 10px;
     box-shadow: 0px 2.5362117290496826px 6.76323127746582px -0.8454039096832275px #3232470d;
 }
+
+.sidebar-item {
+    cursor: pointer;
+    color: #a9a9a9;
+    &:hover {
+        background: $lightestblue;
+        color: $text-color-primary;
+    }
+    &.active {
+        background: $lightestblue;
+        color: $text-color-primary;
+    }
+}
+
 .responsive-height {
     height: 70vh;
     overflow: auto;
@@ -230,7 +243,8 @@ a:-webkit-any-link {
     }
 }
 
-// card button
-// .product-checkout-btn {
-//     width: auto;
-// }
+.ellipsis-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

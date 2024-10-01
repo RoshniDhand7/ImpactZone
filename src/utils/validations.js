@@ -165,7 +165,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'itemSold':
         case 'profitCenter':
         case 'category':
-        case 'noOfDays':
         case 'noOfMonths':
         case 'subCategory':
         case 'membershipType':
@@ -203,10 +202,8 @@ const formValidation = (name, value, state, ignore = []) => {
             break;
 
         case 'days':
-            if (typeof value == 'boolean') {
-                formErrors[name] = '';
-            } else if (!value.length) {
-                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            if (!value.length) {
+                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {
                 formErrors[name] = '';
             }
@@ -219,11 +216,40 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
+
         case 'minimumQuantity':
-        case 'maximumQuantity':
+            if (!number(value) || value === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else if (whiteSpaceCheck(value)) {
+                formErrors[name] = `Unnecessary space in word!`;
+            } else if (state?.defaultQuantity && value > state?.defaultQuantity) {
+                formErrors[name] = `${firstLetterToUppercase(name)} must be less than or equal to default Quantity!`;
+            } else if (state?.state?.maximumQuantity && value > state?.defaultQuantity) {
+                formErrors[name] = `${firstLetterToUppercase(name)} must be less than or equal to default Quantity!`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
         case 'defaultQuantity':
-        case 'variationMinQuantity':
-        case 'variationMaxQuantity':
+            if (!number(value) || value === 0) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else if (whiteSpaceCheck(value)) {
+                formErrors[name] = `Unnecessary space in word!`;
+            } else if (state?.minimumQuantity || state?.maximumQuantity) {
+                if (value < state?.minimumQuantity) {
+                    formErrors[name] = `Default Quantity must be more than or equal to Minimum Quantity!`;
+                } else if (!state?.allowUnlimited && value > state?.maximumQuantity) {
+                    formErrors[name] = `Default Quantity must be less than or equal to Maximum Quantity!`;
+                } else {
+                    formErrors[name] = '';
+                }
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
+        case 'maximumQuantity':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -263,6 +289,7 @@ const formValidation = (name, value, state, ignore = []) => {
 
         case 'taxRatePercentage':
         case 'amount':
+        case 'noOfItems':
         case 'sessionsValue':
         case 'pay':
         case 'bonusAmount':

@@ -1,32 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addCatalogItem, deleteCatalogItem, getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
-import { CustomFilterCard, CustomGridLayout, CustomOverlay } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import CatalogFilters from './CatalogFilters';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
+import CustomOverlay from '../../../../shared/CustomOverlay';
 
 const CatalogItems = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
 
-    const openOverlay = useRef(null);
-    const { allCatalogItems, catalogProductDropdown } = useCatalogItems();
+    const { allCatalogItems } = useCatalogItems();
     const { loading } = useSelector((state) => state?.loader?.isLoading);
 
     const columns = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
-        { field: 'displayInPos', header: 'Event' },
+        { field: 'netPrice', header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCatalogItems);
@@ -116,30 +115,9 @@ const CatalogItems = () => {
                     <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
                 </div>
             </CustomFilterCard>
-            <CustomOverlay ref={openOverlay} col={6}>
-                <div className="grid">
-                    <CustomDropDown name="profitCenter" col={6} />
-                    <CustomDropDown name="itemStatus" col={6} />
-                    <CustomDropDown name="onlineStatus" col={6} />
-                    <CustomDropDown name="club" col={6} />
-                    <CustomDropDown name="salesItem" col={6} />
-                    <CustomDropDown name="POSCategory" col={6} />
-                    <CustomDropDown name="commissionItem" col={6} />
-                    <CustomDropDown name="discountItem" col={6} />
-                    <CustomDropDown name="paysForEvent" col={6} />
-                    <CustomDropDown name="createdBy" col={6} />
-                    <CustomDropDown name="createdDate" col={6} />
-                    <CustomDropDown name="PriceRange" col={6} />
-                </div>
-            </CustomOverlay>
+
             <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
-            <CatalogFilters
-                onFilterClose={onFilterClose}
-                onApplyFilters={onApplyFilters}
-                filters={filters}
-                isFilterVisible={isFilterVisible}
-                catalogProductDropdown={catalogProductDropdown}
-            />
+            <CatalogFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
             <CustomDialog title="Copy Catalog Items" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

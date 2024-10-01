@@ -2,6 +2,8 @@
 @import './_bg-colors.scss';
 @import './_text-colors.scss';
 // Layout file
+
+@import './layout/_layout.scss';
 @import './layout/_topbar.scss';
 @import './layout/_navbar.scss';
 @import './layout/scrollbar.scss';
@@ -27,6 +29,7 @@
 @import './pages/_members.scss';
 @import './pages/_pointofsale.scss';
 @import './pages/_categoryfilter.scss';
+@import './pages/_pos.scss';
 
 ////// All components///////
 
