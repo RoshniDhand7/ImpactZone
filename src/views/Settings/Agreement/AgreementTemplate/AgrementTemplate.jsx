@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import { addAgreementTemplate, deleteAgreementTemplates, getAgreementTemplates } from '../../../../redux/actions/AgreementSettings/AgreementTemplate';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { CustomInput, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import { CustomInput, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import AgreementTemplateFilter from './AgreementTemplateFilter';
 
 const AgreementCategories = () => {
     const history = useHistory();
@@ -19,6 +22,7 @@ const AgreementCategories = () => {
     const [data, setData] = useState({
         name: '',
         club: [],
+        isActive: true,
     });
     const [loading, setLoading] = useState(false);
 
@@ -74,14 +78,20 @@ const AgreementCategories = () => {
             );
         }
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementTemplates);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Agreement Template" linkTo="/settings/agreement/template/add" />
-            <CustomTable data={allAgreementTemplates} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomFilterCard buttonTitle="Add Agreement Template" linkTo="/settings/agreement/template/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <AgreementTemplateFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
             <CustomDialog title="Copy Agreement Template" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                     <CustomMultiselect col="12" name="club" data={data} onChange={handleChange} options={clubsDropdown} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
         </>

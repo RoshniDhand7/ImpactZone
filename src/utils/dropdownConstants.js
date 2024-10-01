@@ -72,7 +72,6 @@ export const soundAudioOptions = [
 ];
 
 export const ActiveFilterDropdown = [
-    { name: 'All', value: () => true },
     { name: 'Active', value: (val) => val },
     { name: 'Inactive', value: (val) => !val },
 ];

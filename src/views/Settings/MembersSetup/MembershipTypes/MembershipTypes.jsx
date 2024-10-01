@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addMembershipType, deleteMembershipType, getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import MemberTypeFilter from './MemberTypeFilter';
 
 const MembershipTypes = () => {
     const history = useHistory();
@@ -89,10 +92,18 @@ const MembershipTypes = () => {
             name: '',
         });
     };
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembershipTypes);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Membership Types" linkTo="/settings/members/membership-types/add" />
-            <CustomTable data={allMembershipTypes} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomFilterCard buttonTitle="Add Membership Types" linkTo="/settings/members/membership-types/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <MemberTypeFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
             <CustomDialog title="Copy Membership Types" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

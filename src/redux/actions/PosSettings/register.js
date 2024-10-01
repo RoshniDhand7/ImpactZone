@@ -44,7 +44,7 @@ const addRegister = (data, setLoading, history) => async (dispatch) => {
     }
     setLoading(false);
 };
-const editRegister = (id, data, setLoading, history) => async (dispatch, getState) => {
+const editRegister = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
     const res = await api('put', EndPoints.REGISTERS + id, data);

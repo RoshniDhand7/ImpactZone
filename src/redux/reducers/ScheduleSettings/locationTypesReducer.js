@@ -10,7 +10,7 @@ const locationTypeReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allLocationType: action.payload,
-                locationTypeDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                locationTypeDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

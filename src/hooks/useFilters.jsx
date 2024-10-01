@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { applyFilters } from '../utils/commonFunctions';
 
-export default function useFilters(events) {
+export default function useFilters(tableData) {
     const [isVisible, setIsVisible] = useState(false);
     const [data, setData] = useState({});
 
@@ -15,10 +15,10 @@ export default function useFilters(events) {
         setData(e);
     };
 
-    const filterData = useMemo(() => applyFilters(events, data), [events, data]);
+    const filterData = useMemo(() => applyFilters(tableData, data), [tableData, data]);
 
     return {
-        events: filterData,
+        tableData: filterData,
         onFilterOpen: onOpen,
         onFilterClose: onClose,
         onApplyFilters: onApply,

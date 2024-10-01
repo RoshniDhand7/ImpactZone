@@ -9,10 +9,11 @@ import { CustomInput, CustomInputNumber } from '../../shared/Input/AllInputs';
 import CustomFilesInput from '../../shared/Input/CustomFilesInput';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { showFormErrors, uploadFiles, uploadImages } from '../../utils/commonFunctions';
-import { checkbaCodeAction } from '../../redux/actions/Dashboard/Members';
 import debounce from 'lodash.debounce';
 import { hideLoaderAction, showLoaderAction } from '../../redux/actions/loaderAction';
 import useCancelSellPlans from '../../hooks/useCancelSellPlans';
+import api from '../../services/api';
+import endPoints from '../../services/endPoints';
 
 const IdentificationTab = ({ onTabEnable }) => {
     const { id, newPlanId, memberId } = useParams();
@@ -35,13 +36,13 @@ const IdentificationTab = ({ onTabEnable }) => {
     }, [dispatch, memberId]);
 
     useEffect(() => {
-        const formErrors = formValidation('barCode', data.barCode, data);
-
-        if (data.uniqueBarCode) {
-            setData((prev) => ({ ...prev, uniqueBarCode: true, formErrors }));
+        const formErrors = formValidation('barCode', data.uniqueBarCode, data);
+        if (data?.uniqueBarCode) {
+            formErrors['barCode'] = 'BarCode should be unique!';
         } else {
-            setData((prev) => ({ ...prev, uniqueBarCode: false, formErrors }));
+            formErrors['barCode'] = '';
         }
+        setData((prev) => ({ ...prev, formErrors }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.uniqueBarCode]);
 
@@ -64,8 +65,13 @@ const IdentificationTab = ({ onTabEnable }) => {
             );
         }
     };
-    const changeHandler = (val) => {
-        dispatch(checkbaCodeAction(val, setData));
+    const changeHandler = async (val) => {
+        const res = await api('post', endPoints.MEMBER_BARCODE, { barCode: val });
+        if (res.success) {
+            setData((prev) => ({ ...prev, uniqueBarCode: false }));
+        } else {
+            setData((prev) => ({ ...prev, uniqueBarCode: true }));
+        }
     };
 
     const debouncedChangeHandler = useMemo(

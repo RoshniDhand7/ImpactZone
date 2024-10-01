@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import { showFormErrors } from '../../../../utils/commonFunctions';
@@ -17,10 +17,11 @@ const DepartmentsForm = () => {
     const { id } = useParams();
     const [data, setData] = useState({
         name: '',
-        showInCalender: '',
-        visibleOnline: '',
-        salesPersonOnline: '',
+        showInCalender: false,
+        visibleOnline: false,
+        salesPersonOnline: false,
         departmentCode: '',
+        isActive: true,
     });
 
     useEffect(() => {
@@ -33,6 +34,7 @@ const DepartmentsForm = () => {
                         visibleOnline: data.visibleOnline,
                         salesPersonOnline: data.salesPersonOnline,
                         departmentCode: data.departmentCode,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -63,6 +65,7 @@ const DepartmentsForm = () => {
                         <CustomDropDown name="visibleOnline" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="salesPersonOnline" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomInput data={data} name="departmentCode" onChange={handleChange} col={3} />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
 

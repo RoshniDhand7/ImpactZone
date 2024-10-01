@@ -5,6 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteJobTitle, getJobDetails } from '../../../../redux/actions/BusinessSettings/jobActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const JobTitle = () => {
     const history = useHistory();
@@ -14,10 +17,12 @@ const JobTitle = () => {
     }, [dispatch]);
 
     const { allJobTitle } = useSelector((state) => state.jobTitle);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allJobTitle);
 
     const columns = [
         { field: 'jobTitle', header: 'Name' },
         { field: 'description', header: 'Description' },
+        { field: 'isActive', header: 'Active' },
     ];
 
     const onDelete = (col, position) => {
@@ -35,8 +40,13 @@ const JobTitle = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Job Title" linkTo="/settings/business/job-title/add" />
-            <CustomTable data={allJobTitle} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Job Title" linkTo="/settings/business/job-title/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

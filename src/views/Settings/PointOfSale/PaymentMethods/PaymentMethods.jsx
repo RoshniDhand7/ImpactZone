@@ -1,42 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { CustomFilterCard, CustomSearchCard } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { deletePaymentMethod, getPaymentMethods } from '../../../../redux/actions/PosSettings/PaymentMethods';
-import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
-import { CustomDropDown } from '../../../../shared/Input/AllInputs';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const PaymentMethods = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [filteredPaymentMethod, setFilteredPaymentMethod] = useState([]);
-    const [data, setData] = useState({
-        isActive: 'all',
-    });
+
     useEffect(() => {
         dispatch(getPaymentMethods());
     }, [dispatch]);
 
     const { allPaymentMethod } = useSelector((state) => state.paymentMethod);
 
-    const filterPaymentMethod = () => {
-        let filtered = allPaymentMethod || [];
-        if (data?.isActive === 'active') {
-            filtered = filtered.filter((item) => item.isActive);
-        } else if (data?.isActive === 'inactive') {
-            filtered = filtered.filter((item) => !item.isActive);
-        } else {
-            filtered = allPaymentMethod;
-        }
-        setFilteredPaymentMethod(filtered);
-    };
-
-    useEffect(() => {
-        filterPaymentMethod();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allPaymentMethod);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -60,7 +43,7 @@ const PaymentMethods = () => {
             () => {
                 dispatch(
                     deletePaymentMethod(col._id, () => {
-                        dispatch(getPaymentMethods(data?.isActive));
+                        dispatch(getPaymentMethods());
                     }),
                 );
             },
@@ -69,16 +52,13 @@ const PaymentMethods = () => {
         );
     };
 
-    const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
-    };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Payment Methods" linkTo="/settings/pos/payment-methods/add" />
-            <CustomSearchCard>
-                <CustomDropDown col={3} name="isActive" options={ActiveFilterDropdown} optionLabel="name" data={data} onChange={handleChange} />
-            </CustomSearchCard>
-            <CustomTable data={filteredPaymentMethod} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Payment Methods" linkTo="/settings/pos/payment-methods/add" contentPosition="end">
+                <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} convertToboolean={true} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

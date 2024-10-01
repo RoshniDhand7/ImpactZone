@@ -5,9 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteTax, getTaxes } from '../../../../redux/actions/PosSettings/tax';
-import FilterComponent from '../../../../components/FilterComponent';
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
+import TaxFilter from './TaxFilter';
 
 const Tax = () => {
     const history = useHistory();
@@ -18,7 +18,7 @@ const Tax = () => {
     }, [dispatch]);
 
     const { allTaxes } = useSelector((state) => state.taxes);
-    const { events, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allTaxes);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allTaxes);
 
     const columns = [
         { field: 'taxRateName', header: 'Tax Rate Name' },
@@ -50,21 +50,9 @@ const Tax = () => {
                 <div className="text-end w-full">
                     <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
                 </div>
-
-                {/* <i className="pi pi-filter" onClick={onFilterOpen}></i> */}
-                {/* <CustomDropDown
-                    col={12}
-                    name="isActive"
-                    options={ActiveFilterDropdown}
-                    optionLabel="name"
-                    value={filters.isActive}
-                    onChange={({ name, value }) => onApplyFilters({ [name]: value })}
-                /> */}
             </CustomFilterCard>
-
-            <FilterComponent value={filters} onApply={onApplyFilters} visible={isFilterVisible} onHide={onFilterClose} />
-
-            <CustomTable data={events} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <TaxFilter onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

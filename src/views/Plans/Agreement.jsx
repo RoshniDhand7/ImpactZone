@@ -296,7 +296,7 @@ const PlanAgreement = React.forwardRef((props, ref) => {
                 }}
                 width="80vh"
                 height="60vh"
-                contentClassName="pb-2"
+                contentclassname="pb-2"
                 showHeader={false}
                 onClear={handleClearSign}
                 onSave={handleSave}

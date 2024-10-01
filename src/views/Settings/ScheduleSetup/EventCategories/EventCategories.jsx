@@ -5,6 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteEventCategory, getEventCategories } from '../../../../redux/actions/ScheduleSettings/eventCategoryAction';
+import useFilters from '../../../../hooks/useFilters';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const EventCategories = () => {
     const history = useHistory();
@@ -33,10 +36,17 @@ const EventCategories = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allEventCategories);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Event Categories" linkTo="/settings/schedule/event-categories/add" />
-            <CustomTable data={allEventCategories} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Event Categories" linkTo="/settings/schedule/event-categories/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

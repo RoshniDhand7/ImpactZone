@@ -103,7 +103,7 @@ const General = () => {
     allDiscountDropdown = [...allDiscountDropdown, ...defaultDiscountOptions];
 
     const { clubsDropdown } = useGetClubs();
-    const { allTaxActiveDropdown, allTaxes } = useSelector((state) => state.taxes);
+    const { allTaxDropdown, allTaxes } = useSelector((state) => state.taxes);
 
     useEffect(() => {
         if (id) {
@@ -284,7 +284,7 @@ const General = () => {
                 <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Taxes">
-                <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxActiveDropdown} onPickListChange={handleChange} />
+                <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxDropdown} onPickListChange={handleChange} />
             </CustomCard>
             <CustomCard col="12" title="Pricing">
                 <CustomGridLayout>

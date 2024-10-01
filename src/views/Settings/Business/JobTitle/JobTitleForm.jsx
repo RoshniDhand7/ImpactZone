@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { CustomInput, CustomTextArea } from '../../../../shared/Input/AllInputs';
+import { CustomInput, CustomInputSwitch, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ const JobTitleForm = () => {
     const [data, setData] = useState({
         jobTitle: '',
         description: '',
+        isActive: true,
     });
     useEffect(() => {
         if (id) {
@@ -24,6 +25,7 @@ const JobTitleForm = () => {
                     setData({
                         jobTitle: data.jobTitle,
                         description: data.description,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -38,27 +40,29 @@ const JobTitleForm = () => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-        if (id) {
-            dispatch(editJobTitle(id, data, setLoading, history));
-        } else {
-            dispatch(addJobTitle(data, setLoading, history));
+            if (id) {
+                dispatch(editJobTitle(id, data, setLoading, history));
+            } else {
+                dispatch(addJobTitle(data, setLoading, history));
+            }
         }
-    }
-
     };
     return (
-            <FormPage backText="Job Title">
-                <CustomCard col="12" title="Job Title">
-                    <CustomGridLayout>
-                        <CustomInput name="jobTitle" data={data} onChange={handleChange} required />
-                        <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />
-                    </CustomGridLayout>
-                </CustomCard>
-                <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
-                    <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
-                </CustomButtonGroup>
-            </FormPage>
+        <FormPage backText="Job Title">
+            <CustomCard col="12" title="Job Title">
+                <CustomGridLayout extraClass="justify-content-end ">
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
+                </CustomGridLayout>
+                <CustomGridLayout>
+                    <CustomInput name="jobTitle" data={data} onChange={handleChange} required />
+                    <CustomTextArea name="description" maxLength="266" data={data} onChange={handleChange} />
+                </CustomGridLayout>
+            </CustomCard>
+            <CustomButtonGroup>
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
+            </CustomButtonGroup>
+        </FormPage>
     );
 };
 

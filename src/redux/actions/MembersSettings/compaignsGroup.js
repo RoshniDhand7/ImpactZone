@@ -23,6 +23,17 @@ const getCampaignsGroups = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
+const getCampaignTypes = () => async (dispatch) => {
+    const res = await api('get', EndPoints.CAMPAIGN_TYPES);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_CAMPAIGN_TYPES,
+                payload: res.data,
+            });
+        }
+    }
+};
 
 const getCampaignsGroup = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
@@ -65,4 +76,4 @@ const deleteCampaignGroup = (id) => async (dispatch) => {
     }
 };
 
-export { getCampaignsGroups, addCampaignGroup, getCampaignsGroup, editCampaignGroup, deleteCampaignGroup };
+export { getCampaignsGroups, addCampaignGroup, getCampaignsGroup, editCampaignGroup, deleteCampaignGroup, getCampaignTypes };

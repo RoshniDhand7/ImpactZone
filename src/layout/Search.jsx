@@ -63,7 +63,7 @@ const Search = ({ openModal, setOpenModal }) => {
                 }}
                 position="top"
                 width="50vw"
-                contentClassName="pb-2"
+                contentclassname="pb-2"
             >
                 <div>
                     <h3 className="text-bold mb-2">Search Member</h3>
@@ -81,6 +81,15 @@ const Search = ({ openModal, setOpenModal }) => {
                         />
                         <i className="pi pi-search" />
                     </span>
+                </div>
+                <div
+                    className="text-right mt-4 text-blue cursor-pointer font-normal text-xl"
+                    onClick={() => {
+                        history.push('/members');
+                        setOpenModal(false);
+                    }}
+                >
+                    Find Member
                 </div>
             </CustomDialog>
         </>

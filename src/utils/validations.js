@@ -4,6 +4,7 @@ import zipcodes from 'zipcodes';
 
 const formValidation = (name, value, state, ignore = []) => {
     let formErrors = { ...state.formErrors };
+
     if (ignore.includes(name)) {
         if (formErrors[name]) {
             formErrors[name] = '';
@@ -95,10 +96,11 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'open':
         case 'allowWaitlist':
         case 'requireComment':
-        case 'employee':
         case 'itemCaption':
         case 'variationName':
         case 'discountCode':
+        case 'comment':
+        case 'register':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -142,7 +144,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'clockInRequired':
         case 'state':
         case 'city':
-        case 'member':
         case 'eventType':
         case 'internalUse':
         case 'bookOutFrom':
@@ -177,6 +178,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'defaultDiscount':
         case 'variations':
         case 'subVariations':
+        case 'employee':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value || value === null) {
@@ -262,8 +264,6 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
-            } else if (state.uniqueBarCode) {
-                formErrors[name] = `BarCode should be unique!`;
             } else {
                 formErrors[name] = '';
             }

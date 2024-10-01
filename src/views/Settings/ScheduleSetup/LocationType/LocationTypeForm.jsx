@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -22,6 +22,7 @@ const LocationTypeForm = () => {
                     setData({
                         name: data.name,
                         allowOverbooking: data.allowOverbooking,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -30,6 +31,7 @@ const LocationTypeForm = () => {
     const [data, setData] = useState({
         name: '',
         allowOverbooking: false,
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -51,7 +53,7 @@ const LocationTypeForm = () => {
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="allowOverbooking" options={yesNoOptions} data={data} onChange={handleChange} />
-                        {/* <CustomInputSwitch name="isActive" data={data} onChange={handleChange} /> */}
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>

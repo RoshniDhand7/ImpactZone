@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteScheduledEvent, getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import FilterComponent from '../../../../components/FilterComponent';
+import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { ActiveFilterDropdown, EventTypeOptions } from '../../../../utils/dropdownConstants';
 
 const EventSetup = () => {
     const history = useHistory();
@@ -41,11 +46,38 @@ const EventSetup = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(modifiedEvents);
+    const [data, setData] = useState({
+        filterType: 'AND',
+    });
+
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+    };
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Events" linkTo="/settings/schedule/events/add" />
-            <CustomTable data={modifiedEvents} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Events" linkTo="/settings/schedule/events/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <FilterComponent
+                value={filters}
+                onApply={onApplyFilters}
+                visible={isFilterVisible}
+                onHide={onFilterClose}
+                data={data}
+                handleChange={handleChange}
+                setData={setData}
+            >
+                <CustomGridLayout>
+                    <CustomDropDown col={12} label="Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomDropDown col={12} label="Type" name="eventType" options={EventTypeOptions} data={data} onChange={handleChange} showClear />
+                    <CustomInput name="name" data={data} onChange={handleChange} col={12} />
+                </CustomGridLayout>
+            </FilterComponent>
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

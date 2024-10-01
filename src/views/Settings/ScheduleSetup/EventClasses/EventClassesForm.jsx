@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import {
+    CustomCalenderInput,
+    CustomCheckbox,
+    CustomDropDown,
+    CustomInputNumber,
+    CustomInputSwitch,
+    CustomMultiselect,
+} from '../../../../shared/Input/AllInputs';
 import { WeekDaysOption, classMeet } from '../../../../utils/dropdownConstants';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
@@ -45,6 +52,7 @@ const EventClassesForm = () => {
         onlineCapacity: null,
         clientPaylater: false,
         clientClassFree: false,
+        isActive: true,
     });
     useEffect(() => {
         dispatch(getLocations());
@@ -68,7 +76,9 @@ const EventClassesForm = () => {
         if (id) {
             dispatch(
                 getEventClass(id, (data) => {
-                    dispatch(getEmployeePay(data?.staff));
+                    if (data?.staff) {
+                        dispatch(getEmployeePay(data?.staff));
+                    }
                     setData({
                         event: data.event,
                         classMeet: data.classMeet,
@@ -85,6 +95,7 @@ const EventClassesForm = () => {
                         onlineCapacity: data.onlineCapacity,
                         clientPaylater: data.clientPaylater,
                         clientClassFree: data.clientClassFree,
+                        isActive: data.isActive,
                     });
                     if (data.instructor && data.instructor.length > 0) {
                         for (const instructorItem of data.instructor) {
@@ -296,13 +307,14 @@ const EventClassesForm = () => {
             <FormPage backText="Classes">
                 <CustomGridLayout>
                     <CustomDropDown name="event" label="Class Name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                 </CustomGridLayout>
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>
                         <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
                         <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} col="6" />
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
-                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} />
+                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate} />
                     </CustomGridLayout>
                     <CustomGridLayout extraClass="justify-content-end">
                         <PrimaryButton label="Add New Schedule" className="mx-2 " onClick={handleAddSchedule} loading={loading} />
@@ -336,7 +348,7 @@ const EventClassesForm = () => {
                                     fieldName="schedule"
                                     col={4}
                                 />
-                                {index > 0 && <i class="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
+                                {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
                             </CustomGridLayout>
                         </div>
                     ))}

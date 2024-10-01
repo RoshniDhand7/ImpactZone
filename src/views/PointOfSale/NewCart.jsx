@@ -1,13 +1,20 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import CustomAccordion from '../../shared/Accordion/Accordion';
 import Cart from './Cart';
 import { calculateCommission, calculateDiscount, calculatePromoCodeDiscount, calculateTax, calculateTax1, calculateUnitPrice } from './CartCal';
-import PrimaryButton, { CustomButton, CustomButtonGroup } from '../../shared/Button/CustomButton';
+import PrimaryButton, { CustomButton, LightButton } from '../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../redux/actions/PosSettings/discountType';
-import { CustomChipInput } from '../../shared/Input/AllInputs';
-import { clearPOSPromo, getPromoCodeDetail } from '../../redux/actions/POS/PosActions';
+import { CustomChipInput, CustomDropDown, CustomInput } from '../../shared/Input/AllInputs';
+import { clearPOSPromo, getPromoCodeDetail, verifyCashRegisterAccessCode } from '../../redux/actions/POS/PosActions';
 import _ from 'lodash';
+import CustomDialog from '../../shared/Overlays/CustomDialog';
+import { CustomGridLayout } from '../../shared/Cards/CustomCard';
+import RegistersDialog from './RegistersDialog';
+import useRegister from '../../hooks/useRegister';
+import OpenDrawer from './OpenDrawer';
+import CloseOutDrawer from './CloseOutDrawer';
+import { showFormErrors } from '../../utils/commonFunctions';
 
 const NewCart = ({ data, setData, handleChange }) => {
     const dispatch = useDispatch();
@@ -24,7 +31,7 @@ const NewCart = ({ data, setData, handleChange }) => {
         }
     }, [dispatch, data?.promoCode]);
 
-    let { allDiscountDropdown, allDiscountTypes } = useSelector((state) => state.discountType);
+    let { allDiscountTypes } = useSelector((state) => state.discountType);
     let { allPOSPromo } = useSelector((state) => state?.PointOfSale);
 
     const netCommission =
@@ -76,14 +83,14 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const netTotal = data?.cartItems.reduce((sum, item) => {
         const unitPrice = calculateUnitPrice(item);
-        const netUnitPrice = unitPrice * item.quantity;
+        // const netUnitPrice = unitPrice * item.quantity;
         const taxValue = calculateTax1(unitPrice, item.totalTaxPercentage);
         const netPrice1 = (unitPrice - taxValue) * item.quantity;
-        const discount = calculateDiscount(item, allDiscountTypes);
-        const totalDiscountedPrice = netPrice1 - discount < 0 ? 0 : netPrice1 - discount;
-        const tax = calculateTax(item, totalDiscountedPrice);
+        // const discount = calculateDiscount(item, allDiscountTypes);
+        // const totalDiscountedPrice = netPrice1 - discount < 0 ? 0 : netPrice1 - discount;
+        // const tax = calculateTax(item, totalDiscountedPrice);
 
-        const netPrice = totalDiscountedPrice + tax;
+        // const netPrice = totalDiscountedPrice + tax;
         return sum + netPrice1;
     }, 0.0);
 
@@ -115,9 +122,64 @@ const NewCart = ({ data, setData, handleChange }) => {
 
     const finalTotal = netTotal + Number(netTotalTax);
 
+    const [registerId, setRegisterId] = useState(null);
+    const [cashRegister, setCashRegister] = useState({ open: false, registerDetail: {} });
+    const [cashRegisterClose, setCashRegisterClose] = useState({ open: false, registerDetail: {} });
+    const [openRegister, setOpenRegister] = useState({ open: false, type: '' });
+    let { allRegisters } = useRegister();
+    const activeRegisters = allRegisters?.filter((item) => item.isActive)?.map((item) => ({ name: item.registerId, value: item._id }));
+    const { loading } = useSelector((state) => state?.loader?.isLoading);
+
+    const onClose = () => {
+        setOpenRegister((prev) => ({ ...prev, open: false }));
+        setRegisterId(null);
+        setData((prev) => ({ ...prev, accessCode: '' }));
+    };
+    const handleSave = () => {
+        if (showFormErrors(data, setData, ['subVariations', 'variations'])) {
+            dispatch(
+                verifyCashRegisterAccessCode(data?.accessCode, registerId, (res) => {
+                    if (openRegister?.type === 'open') {
+                        setCashRegister({
+                            open: true,
+                            registerDetail: res?.data?.closeRegister,
+                            type: 'close',
+                        });
+                    } else {
+                        setCashRegisterClose({
+                            open: true,
+                            registerDetail: res?.data,
+                        });
+                    }
+                }),
+            );
+        }
+    };
+    const registerDet = JSON?.parse(localStorage?.getItem('registersDetail'));
+    useEffect(() => {
+        if (registerDet) {
+            setData((prev) => ({ ...prev, drawer: registerDet.registerId }));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [registerDet?.registerId]);
+
     return (
         <>
-            <CustomAccordion isActive={true} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
+            <CustomDialog title="Access Code" visible={registerId} onCancel={onClose} loading={loading} onSave={handleSave} saveLabel="Check In">
+                <CustomGridLayout>
+                    <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
+                </CustomGridLayout>
+            </CustomDialog>
+            <RegistersDialog openRegister={openRegister} setOpenRegister={setOpenRegister} setRegisterId={setRegisterId} allRegisters={allRegisters} />
+            <OpenDrawer cashRegister={cashRegister} setCashRegister={setCashRegister} registerId={registerId} accessCode={data?.accessCode} onClose={onClose} />
+            <CloseOutDrawer
+                cashRegisterClose={cashRegisterClose}
+                setCashRegisterClose={setCashRegisterClose}
+                registerId={registerId}
+                accessCode={data?.accessCode}
+                onClose={onClose}
+            />
+            <CustomAccordion isActive={false} extraClassName="employee-accordion cart-table w-full" title={'Cart'}>
                 <Cart
                     cartItems={data?.cartItems}
                     updateQuantity={updateQuantity}
@@ -128,7 +190,7 @@ const NewCart = ({ data, setData, handleChange }) => {
                     allDiscountDropdown={allDiscountTypes}
                 />
             </CustomAccordion>
-            <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title="Pricing Details">
+            <CustomAccordion isActive={false} extraClassName="employee-accordion w-full" title="Pricing Details">
                 <CustomChipInput
                     name="promoCode"
                     max={1}
@@ -160,10 +222,37 @@ const NewCart = ({ data, setData, handleChange }) => {
                     </p>
                 </div>
             </CustomAccordion>
-            <CustomButtonGroup>
-                <CustomButton label="Pay" className="mx-2" severity="success" outlined={false} />
-                <PrimaryButton label="Save" />
-            </CustomButtonGroup>
+            <div className="flex gap-3 flex-wrap">
+                <PrimaryButton label="Add/Drop" className="product-checkout-btn p-3 " />
+                <LightButton label="Reciepts" className="product-checkout-btn p-3" />
+                <PrimaryButton label="Drawer Summary" className="product-checkout-btn p-3" />
+
+                <LightButton
+                    label={'Open Register'}
+                    className="product-checkout-btn p-3"
+                    aria-controls="popup_menu_left"
+                    onClick={() => {
+                        setOpenRegister({ open: true, type: 'open' });
+                    }}
+                    disabled={data?.accessCode ? true : false}
+                />
+                <LightButton
+                    label={'Close Register'}
+                    className="product-checkout-btn p-3"
+                    aria-controls="popup_menu_left"
+                    onClick={() => {
+                        setOpenRegister({ open: true, type: 'close' });
+                    }}
+                    disabled={data?.accessCode ? true : false}
+                />
+                <CustomDropDown name="drawer" data={data} onChange={handleChange} options={activeRegisters} col={6} />
+                <PrimaryButton label="No Sale" className="product-checkout-btn p-2" />
+                <LightButton label="Quick Cash" className="product-checkout-btn p-2" />
+                <PrimaryButton label="Pre-pay" className="product-checkout-btn p-2" />
+                <LightButton label="Card on File" className="product-checkout-btn p-2" />
+                <CustomButton label="Pay" className="w-5 p-3" severity="success" outlined={false} />
+                <PrimaryButton label="Save" className="w-5 p-3" />
+            </div>
         </>
     );
 };

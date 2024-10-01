@@ -12,6 +12,7 @@ import { getProfile } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
 import Search from './Search';
 import { getMembers } from '../redux/actions/Dashboard/Members';
+import ClockInOutModal from './ClockInOutModal';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -28,23 +29,9 @@ export default function TopBar() {
         fontWeight: '600',
     };
 
-    // const [member, setMember] = useState('');
-
     useEffect(() => {
         dispatch(getMembers());
     }, [dispatch]);
-    // let { allMembers } = useSelector((state) => state.members);
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('member')) {
-    //         setMember(localStorage.getItem('member'));
-    //         console.log(localStorage.getItem('member'), 'ji');
-    //     } else {
-    //         setMember(allMembers?.[0]?._id);
-    //     }
-    // }, [allMembers, localStorage.getItem('member')]);
-
-    // console.log('member>>', member, allMembers);
 
     const getNavbar = () => {
         const items = [
@@ -115,6 +102,7 @@ export default function TopBar() {
     );
 
     const [openModal, setOpenModal] = useState(false);
+    const [openClockModal, setOpenClockModal] = useState(false);
 
     let iconItems = [
         {
@@ -136,7 +124,7 @@ export default function TopBar() {
         },
         {
             icon: 'pi pi-clock',
-            command: () => history.push('/dashboard'),
+            command: () => setOpenClockModal(true),
         },
         {
             icon: 'pi pi-cog',
@@ -157,6 +145,7 @@ export default function TopBar() {
     const end = (
         <div className="flex justify-content-between">
             <Search openModal={openModal} setOpenModal={setOpenModal} />
+            <ClockInOutModal openClockModal={openClockModal} setOpenClockModal={setOpenClockModal} />
 
             <Menubar style={{ border: 'none' }} model={iconItems} />
             <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>

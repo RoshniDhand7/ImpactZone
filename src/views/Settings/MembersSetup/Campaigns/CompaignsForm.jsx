@@ -7,8 +7,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { getCampaignsGroups } from '../../../../redux/actions/MembersSettings/compaignsGroup';
+import { getCampaignsGroups, getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 import { addCampaign, editCampaign, getCampaign } from '../../../../redux/actions/MembersSettings/campaigns';
+import CustomPickList from '../../../../shared/Input/CustomPickList';
 
 const CompaignsForm = () => {
     const history = useHistory();
@@ -17,9 +18,10 @@ const CompaignsForm = () => {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         dispatch(getCampaignsGroups());
+        dispatch(getCampaignTypes());
     }, [dispatch]);
 
-    const { compaignGroupDropdown } = useSelector((state) => state.compaignGroups);
+    const { compaignGroupDropdown, allCampaignsTypes } = useSelector((state) => state.compaignGroups);
 
     useEffect(() => {
         if (id) {
@@ -30,6 +32,7 @@ const CompaignsForm = () => {
                         campaignGroup: data.campaignGroup,
                         description: data.description,
                         isActive: data.isActive,
+                        campaignType: data.campaignType,
                     });
                 }),
             );
@@ -40,6 +43,7 @@ const CompaignsForm = () => {
         campaignGroup: '',
         description: '',
         isActive: true,
+        campaignType: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -54,6 +58,7 @@ const CompaignsForm = () => {
             }
         }
     };
+
     return (
         <FormPage backText="Campaigns">
             <CustomCard col="12" title="Add Campaign Details">
@@ -63,6 +68,9 @@ const CompaignsForm = () => {
                     <CustomTextArea name="description" maxLength="256" data={data} onChange={handleChange} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
+            </CustomCard>
+            <CustomCard col="12" title="Campaign Types">
+                <CustomPickList name="campaignType" selected={data?.campaignType} sourceData={allCampaignsTypes} onPickListChange={handleChange} />
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />

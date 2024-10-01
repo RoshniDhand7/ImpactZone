@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
-import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber } from '../../../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../../shared/Input/AllInputs';
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 import formValidation from '../../../../../utils/validations';
@@ -42,6 +42,7 @@ const Security = () => {
                         email: data.email,
                         multiClubClockIn: data.multiClubClockIn,
                         securityRoles: data.securityRoles,
+                        isActive: data.isActive,
                     });
                 }),
             );
@@ -59,8 +60,9 @@ const Security = () => {
         barCode: 0,
         accessCode: '',
         email: '',
-        multiClubClockIn: '',
+        multiClubClockIn: false,
         securityRoles: [],
+        isActive: true,
     });
 
     const handleChange = ({ name, value }) => {
@@ -97,6 +99,7 @@ const Security = () => {
                     />
                     <CustomCalenderInput name="dob" data={data} onChange={handleChange} />
                     <CustomInput name="socialSecurity" data={data} onChange={handleChange} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="System">

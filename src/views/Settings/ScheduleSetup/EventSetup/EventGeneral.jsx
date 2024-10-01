@@ -10,22 +10,20 @@ import {
     waitListExpirationOptions,
     yesNoOptions,
 } from '../../../../utils/dropdownConstants';
-import { getLocationTypes } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addScheduledEvent, getScheduledEvent, editScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import useLocationType from '../../../../hooks/Schedule/useLocationType';
 
 const EventGeneral = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
-    useEffect(() => {
-        dispatch(getLocationTypes());
-    }, [dispatch]);
-    const { locationTypeDropdown } = useSelector((state) => state.locationType);
+
+    const { locationTypeDropdown } = useLocationType();
     const [data, setData] = useState({
         isActive: true,
         name: '',
@@ -138,7 +136,7 @@ const EventGeneral = () => {
                     <CustomInput name="name" required data={data} onChange={handleChange} />
                     <CustomDropDown name="eventType" options={EventTypeOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="internalUse" options={yesNoOptions} onChange={handleChange} data={data} />
-                    <CustomDropDown name="locationType" data={data} onChange={handleChange} options={locationTypeDropdown} optionLabel="name" />
+                    <CustomDropDown name="locationType" data={data} onChange={handleChange} options={locationTypeDropdown} />
                     <CustomDropDown name="defaultMaxAttendes" options={defaultMaxAttendesOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="eventCommissionType" options={EventCommissionGroupOptions} onChange={handleChange} data={data} />
                     <CustomDropDown name="availableOnline" options={yesNoOptions} onChange={handleChange} data={data} />

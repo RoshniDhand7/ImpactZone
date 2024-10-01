@@ -68,8 +68,8 @@ const endPoints = {
     TAXES: '/tax/',
     PAYMENT_METHODS: '/payment-method/',
     DISCOUNT_TYPES: '/discount/',
-    MEMBERS: '/add-member/',
-    MEMBER_BARCODE: '/add-member-barcode/',
+    MEMBERS: '/member/',
+    MEMBER_BARCODE: '/member-barcode/',
     GET_MEMBERS: '/search-member',
     SELL_PLAN: '/plan/',
     DRAFT_PLAN: '/draft/',
@@ -82,5 +82,12 @@ const endPoints = {
     DASHBOARD: '/dashboard-count/',
     PROMO_CODE: '/promo-code/',
     REGISTERS: '/cash-register/',
+    VERIFY_ACCESS_CODE: '/verify-cash-register/',
+    CASH_REGISTER_CHECK_IN: '/cash-register-check-in/',
+    CASH_REGISTER_CHECK_OUT: '/cash-register-check-out/',
+    DEFAULT_SETTINGS: '/default-setting/',
+    GET_MEMBERSHIP_PLAN_INFO: '/member-agreement-plan',
+    CAMPAIGN_TYPES: '/campaign-type/',
+    REGISTER_SETTINGS: '/cash-register-setting/',
 };
 export default endPoints;

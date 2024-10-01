@@ -40,6 +40,23 @@ const checkFormErrors = (data, ignore) => {
     });
     return formErrors;
 };
+const showFormErrors1 = (data, setData, ignore) => {
+    let formErrors = {};
+    entries(data).forEach(([key, value]) => {
+        formErrors = {
+            ...formErrors,
+            ...formValidation(key, value, data, ignore),
+        };
+    });
+    ignore?.forEach((name) => {
+        if (formErrors[name]) {
+            formErrors[name] = '';
+        }
+    });
+    setData({ ...data, formErrors });
+    return !values(formErrors).some((v) => notEqual(v, ''));
+};
+
 const showArrayFormErrors = (array, ignore) => {
     let isValid = true;
     let res = array.map((data) => {
@@ -303,27 +320,55 @@ const getImageUrl = (image) => {
     }
 };
 
-function applyFilters(events, filterOptions) {
-    let _events = events;
-    let _keys = Object.keys(filterOptions);
-
-    if (_keys.length) {
-        _events = _events.filter((event) => {
-            return _keys.every((key) => {
-                const _condition = filterOptions[key];
-                const _val = event[key];
-
-                if (Array.isArray(_val)) {
-                    return _condition.some((item) => _val.includes(item));
-                } else {
-                    return _condition(_val);
-                }
-            });
-        });
+const isDateValue = (value) => {
+    if (value instanceof Date && !isNaN(value)) {
+        return true;
     }
-    return _events;
-}
+    if (typeof value === 'string') {
+        const dateStringRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|([+-]\d{2}:\d{2})))?$/;
 
+        if (dateStringRegex.test(value)) {
+            const parsedDate = new Date(value);
+            return !isNaN(parsedDate.getTime());
+        }
+    }
+    return false;
+};
+
+const applyFilters = (events, filterOptions) => {
+    const filterType = filterOptions.filterType || 'AND';
+    const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'filterType');
+
+    if (!filterKeys.length) return events;
+
+    const matchesCondition = (event, key) => {
+        let condition = filterOptions[key];
+        const eventValue = event[key];
+
+        if (typeof condition === 'number' && key === 'unitPrice') {
+            return eventValue <= condition;
+        }
+        if (isDateValue(condition) && isDateValue(eventValue)) {
+            const eventDate = new Date(eventValue);
+            const conditionDate = new Date(condition);
+            return eventDate.getDate() === conditionDate.getDate();
+        }
+        if (key === 'primaryPhone') {
+            condition = condition.replace(/\D/g, '');
+            return condition === eventValue;
+        }
+
+        if (Array.isArray(condition) && eventValue) {
+            return condition.some((item) => eventValue && eventValue.includes(item));
+        } else {
+            return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
+        }
+    };
+
+    return events.filter((event) =>
+        filterType === 'AND' ? filterKeys.every((key) => matchesCondition(event, key)) : filterKeys.some((key) => matchesCondition(event, key)),
+    );
+};
 function isFileObject(obj) {
     return obj instanceof File;
 }
@@ -378,6 +423,72 @@ const processCatalogItems = (items) => {
         }));
 };
 
+const denominationsToDollarConverter = (data, type) => {
+    const conversionRates = {
+        pennies: 0.01,
+        nickels: 0.05,
+        dimes: 0.1,
+        quarters: 0.25,
+        singles: 1,
+        fives: 5,
+        tens: 10,
+        twenties: 20,
+        fifties: 50,
+        hundreds: 100,
+    };
+
+    if (!conversionRates[type]) return 'Invalid denomination type';
+
+    const amount = data[type] * conversionRates[type];
+    return amount.toFixed(4);
+};
+
+const dateConversions = (date) => {
+    const formattedDate = moment(date).format('DD-MM-YYYY');
+    const formattedTime = moment(date).format('hh:mm');
+    return { formattedDate, formattedTime };
+};
+
+function adjustTime(e) {
+    let currentMin = e.value.getMinutes();
+    let startTime = e.value;
+    if (currentMin % 5 !== 0) {
+        startTime = new Date(e.value.getTime() + (5 - (currentMin % 5)) * 60000);
+    }
+    return startTime;
+}
+
+const timeString = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const time = `${hours}:${minutes}`;
+    return time;
+};
+const timeConvertToDate = (time) => {
+    const [hours, minutes] = time.split(':');
+    const currentDate = new Date();
+    currentDate.setHours(hours);
+    currentDate.setMinutes(minutes);
+    return currentDate;
+};
+
+const getSearchedData = (arr, filters) => {
+    return arr.filter((obj) => {
+        return Object.keys(filters).every((key) => {
+            if (!filters[key]) return true;
+
+            let value = obj[key]?.toString().toLowerCase();
+            if (key === 'primaryPhone') {
+                value = value.replace(/\D/g, '');
+                const filterValue = filters[key].replace(/\D/g, '');
+                return value.includes(filterValue);
+            }
+            return value.includes(filters[key].toLowerCase());
+        });
+    });
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -407,4 +518,11 @@ export {
     uploadSignImage,
     showFormErrorsRowEdit,
     processCatalogItems,
+    denominationsToDollarConverter,
+    dateConversions,
+    adjustTime,
+    timeString,
+    timeConvertToDate,
+    showFormErrors1,
+    getSearchedData,
 };

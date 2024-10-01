@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteCampaign, getCampaigns } from '../../../../redux/actions/MembersSettings/campaigns';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import FilterComponent from '../../../../components/FilterComponent';
+import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
+import { getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 
 const Campaigns = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCampaigns());
+        dispatch(getCampaignTypes());
     }, [dispatch]);
 
     const { allCompaigns } = useSelector((state) => state.campaign);
+    const { allCampaignsTypes } = useSelector((state) => state.compaignGroups);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -35,10 +43,34 @@ const Campaigns = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCompaigns);
+    const [data, setData] = useState({
+        filterType: 'AND',
+    });
+
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+    };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Compaigns" linkTo="/settings/members/campaigns/add" />
-            <CustomTable data={allCompaigns} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Compaigns" linkTo="/settings/members/campaigns/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filters" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <FilterComponent
+                value={filters}
+                onApply={onApplyFilters}
+                visible={isFilterVisible}
+                onHide={onFilterClose}
+                data={data}
+                handleChange={handleChange}
+                setData={setData}
+            >
+                <CustomGridLayout>
+                    <CustomDropDown col={12} label="Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect col={12} label="Type" name="campaignType" options={allCampaignsTypes} data={data} onChange={handleChange} showClear />
+                </CustomGridLayout>
+            </FilterComponent>
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

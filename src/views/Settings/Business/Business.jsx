@@ -5,6 +5,7 @@ import ReasonCode from './ReasonCode/ReasonCode';
 import Customization from './Customization/Customization';
 import Clubs from './Clubs/Clubs';
 import JobTitle from './JobTitle/JobTitle';
+import DefaultSettings from './Default/DefaultSettings';
 
 export default function Business() {
     const tabs = [
@@ -13,6 +14,7 @@ export default function Business() {
         { title: 'Customization', content: <Customization /> },
         { title: 'Clubs', content: <Clubs /> },
         { title: 'Job Title', content: <JobTitle /> },
+        { title: 'Default', content: <DefaultSettings /> },
     ];
     return <CustomTabView tabs={tabs} />;
 }

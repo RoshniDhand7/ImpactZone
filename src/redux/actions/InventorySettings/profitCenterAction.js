@@ -11,7 +11,7 @@ const getProfitCenters = (setLoading) => async (dispatch, getState) => {
     }
 
     const res = await api('get', EndPoints.PROFIT_CENTERS);
-    const glCode = res.data.reduce((acc, item) => {
+    const glCode = res?.data?.reduce((acc, item) => {
         acc[item._id] = item.glCode ? item.glCode : '';
         return acc;
     }, {});

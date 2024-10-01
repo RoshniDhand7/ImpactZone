@@ -26,7 +26,7 @@ const MembershipTypeForm = () => {
         discountType: 'None',
         accessRestriction: false,
         accessSchedule: null,
-        remotecheckin: '',
+        remotecheckin: false,
         transferToAnotherType: null,
         clubCreditAmount: '',
         specialRestriction: '',

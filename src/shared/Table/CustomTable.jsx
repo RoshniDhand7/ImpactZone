@@ -17,7 +17,10 @@ const CustomTable = ({
     reorderableRows,
     onRowReorder,
     customActionTemplate,
-    custAction,
+    selectionMode = 'checkbox',
+    cellSelection = false,
+    onCellSelect,
+    cellClassName,
 }) => {
     const actionTemplate = (data, index) => {
         return (
@@ -40,8 +43,11 @@ const CustomTable = ({
             reorderableRows={reorderableRows}
             onSelectionChange={setSelectedRow ? (e) => setSelectedRow(e.value) : ''}
             onRowReorder={onRowReorder}
-            selectionMode="checkbox"
+            selectionMode={selectionMode}
             showSelectionElement={showSelectionElement}
+            cellSelection={cellSelection}
+            onCellSelect={onCellSelect}
+            cellClassName={cellClassName}
         >
             {reorderableRows && <Column rowReorder style={{ width: '3rem' }} />}
             {columns.map((col, index) => (
@@ -50,10 +56,11 @@ const CustomTable = ({
                     field={col.field}
                     body={col.body}
                     header={col.header}
-                    selectionMode={col.selectionMode}
+                    selectionMode={col.selectionMode} // Enable selection only for specified columns
                     sortable={col.sortable}
                     sortField={col.field}
                     index={index}
+                    style={col.style}
                 />
             ))}
             {onView || onEdit || onDelete || customActionTemplate ? (

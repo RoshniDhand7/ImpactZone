@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete, truncateDescription } from '../../../../utils/commonFunctions';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteCategory, getCategories } from '../../../../redux/actions/InventorySettings/categoriesAction';
+import { useDispatch } from 'react-redux';
+import { deleteCategory } from '../../../../redux/actions/InventorySettings/categoriesAction';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import useCategory from '../../../../hooks/Inventory/useCategory';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 export default function Categories() {
     const history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getCategories());
-    }, [dispatch]);
-
-    const { allCategory } = useSelector((state) => state.category);
+    const { allCategory } = useCategory();
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCategory);
 
     const DescriptionComponent = (r, index) => {
         const truncatedDescription = truncateDescription(r.description);
@@ -43,10 +44,16 @@ export default function Categories() {
     const onEdit = (col) => {
         history.push(`/settings/inventory/categories/edit/${col._id}`);
     };
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Categories" linkTo="/settings/inventory/categories/add" />
-            <CustomTable data={allCategory} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Categories" linkTo="/settings/inventory/categories/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 }

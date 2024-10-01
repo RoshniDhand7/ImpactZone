@@ -4,23 +4,20 @@ import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addLocation, editLocation, getLocation } from '../../../../redux/actions/ScheduleSettings/locationsActions';
-import { getLocationTypes } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import useGetClubs from '../../../../hooks/useGetClubs';
+import useLocationType from '../../../../hooks/Schedule/useLocationType';
 
 const LocationsForm = () => {
     const history = useHistory();
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        dispatch(getLocationTypes());
-    }, [dispatch]);
-    const { allClubs } = useSelector((state) => state.clubs);
-    const { locationTypeDropdown } = useSelector((state) => state.locationType);
+    const { locationTypeDropdown } = useLocationType();
+    const { clubsDropdown } = useGetClubs();
 
     useEffect(() => {
         if (id) {
@@ -40,6 +37,7 @@ const LocationsForm = () => {
         name: '',
         locationType: '',
         club: [],
+        isActive: true,
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -60,15 +58,7 @@ const LocationsForm = () => {
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomDropDown name="locationType" options={locationTypeDropdown} data={data} onChange={handleChange} required />
-                    <CustomMultiselect
-                        name="club"
-                        options={allClubs?.map((item) => {
-                            return { label: item.name, value: item._id };
-                        })}
-                        data={data}
-                        optionLabel="label"
-                        onChange={handleChange}
-                    />
+                    <CustomMultiselect name="club" options={clubsDropdown} data={data} onChange={handleChange} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>

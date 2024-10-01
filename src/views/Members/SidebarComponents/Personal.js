@@ -17,7 +17,6 @@ import usePlacesAutocomplete from '../usePlacesAutoComplete';
 
 const Personal = () => {
     const { data, setData, initialState, getMember } = useMemberDetail();
-
     const [visiblePersonalDetail, setVisiblePersonal] = useState(null);
     const [visibleDemographics, setVisibleDemographics] = useState(null);
     const [visibleMembershipDetail, setVisibleMembershipDetail] = useState(null);
@@ -45,48 +44,17 @@ const Personal = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [dispatch, id],
     );
-    const [data1, setData1] = useState(initialState);
+    const [data1, setData1] = useState();
+
+    useEffect(() => {
+        if (data) {
+            setData1(data);
+        }
+    }, [data]);
 
     useEffect(() => {
         dispatch(getMemberAction(id));
-    }, [dispatch, id, visiblePersonalDetail, visibleDemographics, visibleMembershipDetail, visibleAccessCode]);
-
-    useEffect(() => {
-        if (getMember) {
-            setData1({
-                firstName: getMember.firstName,
-                lastName: getMember.lastName,
-                barCode: getMember.barCode,
-                email: getMember?.email,
-                dob: getMember.dob ? new Date(getMember.dob) : '',
-                isActive: getMember.isActive,
-                image: getMember.image ? [getMember.image] : [],
-                primaryPhone: getMember.primaryPhone,
-                driverLicense: getMember.driverLicense,
-                address: getMember.address,
-                newAccessCode: '',
-                gender: getMember.gender,
-                mobilePhone: getMember.mobilePhone,
-                workNumber: getMember.workNumber,
-                membershipType: getMember.membershipTypeId ? getMember?.membershipTypeId : null,
-                membershipTypeName: getMember?.membershipType ? getMember?.membershipType : null,
-                socialSecurity: getMember.socialSecurity,
-                occupation: getMember.occupation,
-                accessCode: '',
-                reAccessCode: '',
-                text: {
-                    membership: getMember?.text?.membership,
-                    services: getMember?.text?.services,
-                    booking: getMember?.text?.booking,
-                },
-                promotional: {
-                    membership: getMember?.promotional?.membership,
-                    services: getMember?.promotional?.services,
-                    booking: getMember?.promotional?.booking,
-                },
-            });
-        }
-    }, [getMember]);
+    }, [dispatch, id]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);
@@ -101,13 +69,13 @@ const Personal = () => {
     const handleSave = () => {
         let ignore = [];
         if (visiblePersonalDetail) {
-            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'barCode', 'accessCode', 'reAccessCode', 'membershipType'];
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'barCode', 'accessCode', 'reAccessCode', 'membershipType', 'image'];
         } else if (visibleDemographics) {
-            ignore = ['firstName', 'lastName', 'barCode', 'accessCode', 'reAccessCode', 'membershipType'];
+            ignore = ['firstName', 'lastName', 'barCode', 'accessCode', 'reAccessCode', 'membershipType', 'image'];
         } else if (visibleMembershipDetail) {
-            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'accessCode', 'reAccessCode'];
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'accessCode', 'reAccessCode', 'image'];
         } else if (visibleAccessCode) {
-            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'barCode', 'membershipType'];
+            ignore = ['primaryPhone', 'workNumber', 'address', 'email', 'firstName', 'lastName', 'barCode', 'membershipType', 'image'];
         }
         if (showFormErrors(data1, setData1, ignore)) {
             dispatch(
@@ -131,8 +99,8 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visiblePersonalDetail}
                 onCancel={() => {
-                    setData1(initialState);
                     setVisiblePersonal(null);
+                    setData1(data);
                 }}
                 loading={loading}
                 onSave={handleSave}
@@ -152,7 +120,7 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visibleDemographics}
                 onCancel={() => {
-                    setData1(initialState);
+                    setData1(data);
                     setVisibleDemographics(null);
                 }}
                 loading={loading}
@@ -161,7 +129,7 @@ const Personal = () => {
                 <CustomGridLayout>
                     <div className="md:col-12">
                         <label className="text-sm font-semibold">Address</label>
-                        {renderAutocomplete()}
+                        {data1 && renderAutocomplete()}
                     </div>
                     <CustomInput name="email" col={6} data={data1} onChange={handleChange} />
                     <CustomInputMask inputClass="border-1" col={6} name="primaryPhone" mask="(999) 999-9999" data={data1} onChange={handleChange} />
@@ -175,7 +143,7 @@ const Personal = () => {
                 title={'Edit'}
                 visible={visibleMembershipDetail}
                 onCancel={() => {
-                    setData1(initialState);
+                    setData1(data);
                     setVisibleMembershipDetail(null);
                 }}
                 loading={loading}

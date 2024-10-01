@@ -10,7 +10,7 @@ const accessScheduleReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allAccessSchedule: action.payload,
-                AccessScheduleDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                AccessScheduleDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
 
         default:

@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteDepartment, getDepartments } from '../../../../redux/actions/EmployeeSettings/departmentsAction';
+import { deleteDepartment } from '../../../../redux/actions/EmployeeSettings/departmentsAction';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import useFilters from '../../../../hooks/useFilters';
+import useDepartments from '../../../../hooks/Employees/useDepartments';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const Departments = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    let { allDepartments } = useSelector((state) => state?.department);
-    useEffect(() => {
-        dispatch(getDepartments());
-    }, [dispatch]);
+    let { allDepartments } = useDepartments();
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -33,11 +34,19 @@ const Departments = () => {
             position,
         );
     };
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allDepartments);
+
     return (
         <>
             <>
-                <CustomFilterCard buttonTitle="Add Departments" linkTo="/settings/employee/departments/add" />
-                <CustomTable data={allDepartments} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+                <CustomFilterCard buttonTitle="Add Departments" linkTo="/settings/employee/departments/add" contentPosition="end">
+                    <div className="text-end w-full">
+                        <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                    </div>
+                </CustomFilterCard>
+                <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+                <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
             </>
         </>
     );

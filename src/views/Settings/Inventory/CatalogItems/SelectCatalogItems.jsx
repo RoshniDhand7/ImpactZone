@@ -4,7 +4,7 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import useCatalogItems from '../../../../hooks/useCatalogItems';
+import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 
 const SelectCatalogItems = ({ data, setData, id, loading, name }) => {
     const [open, setOpen] = useState(false);

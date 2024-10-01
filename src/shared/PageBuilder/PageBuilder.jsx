@@ -15,7 +15,7 @@ import {
 import { useDispatch } from 'react-redux';
 import CustomDialog from '../Overlays/CustomDialog';
 import { CustomGridLayout } from '../Cards/CustomCard';
-import { CustomInput, CustomMultiselect } from '../Input/AllInputs';
+import { CustomInput, CustomInputSwitch, CustomMultiselect } from '../Input/AllInputs';
 import formValidation from '../../utils/validations';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
@@ -275,7 +275,7 @@ export default function PageBuilder({ id }) {
                 getAgreementTemplate(id, (data) => {
                     editorRef.current.setComponents(data.htmlContent);
                     editorRef.current.setStyle(data.cssContent);
-                    setData({ name: data.name, club: data.club });
+                    setData({ name: data.name, club: data.club, isActive: data.isActive });
                 }),
             );
         } else {
@@ -287,7 +287,7 @@ export default function PageBuilder({ id }) {
 
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ name: '', club: [] });
+    const [data, setData] = useState({ name: '', club: [], isActive: true });
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -301,6 +301,7 @@ export default function PageBuilder({ id }) {
     const onClose = () => {
         setVisible(false);
         setData({
+            ...data,
             name: '',
             club: '',
         });
@@ -334,6 +335,7 @@ export default function PageBuilder({ id }) {
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                     <CustomMultiselect col="12" name="club" data={data} onChange={handleChange} options={clubsDropdown} />
+                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomDialog>
             <div className="gpj" ref={editorRef}></div>

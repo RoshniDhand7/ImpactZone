@@ -37,6 +37,17 @@ const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
     }
     dispatch(hideLoaderAction());
 };
+
+const getDefaultMembershipPlan = (returnData) => async () => {
+    const res = await api('get', EndPoints.GET_MEMBERSHIP_PLAN_INFO);
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    }
+};
 const addMembershipPlan = (data, history) => async (dispatch) => {
     dispatch(showLoaderAction());
     const payload = {
@@ -74,4 +85,4 @@ const deleteMembershipPlan = (id) => async (dispatch) => {
     }
 };
 
-export { getMembershipPlans, getMembershipPlan, addMembershipPlan, editMembershipPlan, deleteMembershipPlan };
+export { getMembershipPlans, getMembershipPlan, addMembershipPlan, editMembershipPlan, deleteMembershipPlan, getDefaultMembershipPlan };

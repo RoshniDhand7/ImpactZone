@@ -14,11 +14,13 @@ const eventReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allEvents: action.payload,
-                allEventClasses: action.payload.filter((item) => item.eventType === 'Class'),
-                allEventsDropDown: action.payload.map((item) => ({ name: item.name, value: item._id })),
-                allEventClassesDropDown: action.payload.filter((item) => item.eventType === 'Class').map((item) => ({ name: item.name, value: item._id })),
+                allEventClasses: action.payload.filter((item) => item.eventType === 'Class' && item.isActive),
+                allEventsDropDown: action.payload.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
+                allEventClassesDropDown: action.payload
+                    .filter((item) => item.eventType === 'Class' && item.isActive)
+                    .map((item) => ({ name: item.name, value: item._id })),
                 allEventAppointmentDropDown: action.payload
-                    .filter((item) => item.eventType === 'Appointments')
+                    .filter((item) => item.eventType === 'Appointments' && item.isActive)
                     .map((item) => ({ name: item.name, value: item._id })),
             };
         case types.CHANGE_SCHEDULE_SERVICES_EVENTS:

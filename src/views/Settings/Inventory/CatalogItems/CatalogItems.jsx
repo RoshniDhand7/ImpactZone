@@ -8,7 +8,11 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import useCatalogItems from '../../../../hooks/useCatalogItems';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import CatalogFilters from './CatalogFilters';
+import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
+import CustomOverlay from '../../../../shared/CustomOverlay';
 
 const CatalogItems = () => {
     const history = useHistory();
@@ -24,6 +28,7 @@ const CatalogItems = () => {
         { field: 'netPrice', header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCatalogItems);
 
     const onDelete = (col, position) => {
         confirmDelete(
@@ -105,8 +110,14 @@ const CatalogItems = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add" />
-            <CustomTable data={allCatalogItems} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomFilterCard buttonTitle="Add Catalog Items" linkTo="/settings/inventory/catalog-item/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CatalogFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
             <CustomDialog title="Copy Catalog Items" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

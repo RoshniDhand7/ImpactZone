@@ -13,15 +13,17 @@ export default function CustomDialog({
     loading,
     onCancel,
     children,
-    contentClassName,
+    contentclassname,
     onClear,
     icon,
     onApply,
+    saveLabel = 'Save',
+    applyLabel = 'Apply',
 }) {
     const footerContent = (
         <CustomButtonGroup>
-            {onApply ? <PrimaryButton label="Apply" className="mx-2" loading={loading} onClick={onApply} /> : null}
-            {onSave ? <PrimaryButton label="Save" className="mx-2" loading={loading} onClick={onSave} /> : null}
+            {onApply ? <PrimaryButton label={applyLabel} className="mx-2" loading={loading} onClick={onApply} /> : null}
+            {onSave ? <PrimaryButton label={saveLabel} className="mx-2" loading={loading} onClick={onSave} /> : null}
             {onCancel ? <LightButton label="Cancel" onClick={onCancel} /> : null}
             {onClear ? <LightButton label="Clear" onClick={onClear} /> : null}
         </CustomButtonGroup>
@@ -50,7 +52,7 @@ export default function CustomDialog({
             resizable={false}
             blockScroll={true}
             position={position}
-            contentClassName={contentClassName}
+            contentclassname={contentclassname}
             showHeader={showHeader}
         >
             {children}

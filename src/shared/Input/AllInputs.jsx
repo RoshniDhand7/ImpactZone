@@ -11,7 +11,7 @@ import { Chips } from 'primereact/chips';
 import { InputNumber } from 'primereact/inputnumber';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
-import { capitalizeCamelCase } from '../../utils/commonFunctions';
+import { capitalizeCamelCase, denominationsToDollarConverter } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
@@ -138,7 +138,7 @@ export const CustomInputMask = ({
                 name={name}
                 value={data?.[name] || value}
                 onChange={(e) => onChange?.({ ...e, name: e.target.name, value: e.target.value })}
-                className={`border-none bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
+                className={` bg-surface-0 w-full ${inputClass || ''} ${errorMessage ? 'p-invalid' : ''}`}
                 disabled={disabled}
                 mask={mask}
                 {...props}
@@ -267,6 +267,7 @@ export const CustomCalenderInput = ({
                 disabled={disabled}
                 readOnlyInput
                 showIcon
+                clearButtonClassName="mt-4"
                 {...props}
                 // icon="pi pi-clock"
                 // timeOnly
@@ -387,6 +388,17 @@ export const CustomInputNumber = ({
     );
 };
 
+export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange }) => {
+    return (
+        <div className={`col-${col} flex align-items-center`}>
+            <CustomInputNumber col="6" name={name} data={data} onChange={handleChange} />
+            <div className="col-4 flex align-items-center justify-content-center">
+                <i className="pi pi-arrow-right"></i>
+            </div>
+            <span className="border col-2 flex align-items-center justify-content-center ">{denominationsToDollarConverter(data, name)}</span>
+        </div>
+    );
+};
 export const CustomInputDecimalNumber = ({
     label,
     name,
@@ -573,6 +585,7 @@ export const CustomReactSelect = ({
                 classNamePrefix="select"
                 defaultValue={defaultValue}
                 isDisabled={isDisabled}
+                id={data?.[name]}
                 isLoading={isLoading}
                 isClearable={isClearable}
                 isSearchable={isSearchable}

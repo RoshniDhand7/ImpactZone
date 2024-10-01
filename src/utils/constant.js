@@ -184,3 +184,7 @@ export const mergeFields = [
         value: '{{⁠Total_Amount_Due}}',
     },
 ];
+export const filterType = [
+    { name: 'Any of these', value: 'OR' },
+    { name: 'All of these', value: 'AND' },
+];

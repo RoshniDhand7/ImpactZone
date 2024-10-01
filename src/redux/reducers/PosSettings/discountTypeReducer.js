@@ -10,7 +10,7 @@ const discountTypeReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allDiscountTypes: action.payload,
-                allDiscountDropdown: action.payload?.map((item) => ({ value: item._id, name: item.discountName })),
+                allDiscountDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ value: item._id, name: item.discountName })),
             };
 
         default:

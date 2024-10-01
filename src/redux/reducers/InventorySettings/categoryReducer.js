@@ -10,7 +10,7 @@ const categoryReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCategory: action.payload,
-                categoryDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+                categoryDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

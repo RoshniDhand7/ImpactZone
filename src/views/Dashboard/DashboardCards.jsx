@@ -21,8 +21,6 @@ export default function DashboardCards() {
     let employeeCount = allDashboard?.employeeCount;
     let memberCount = allDashboard?.memberCount;
 
-    console.log(allDashboard, 'allDashboard');
-
     const cards = [
         {
             number: memberCount,
@@ -63,7 +61,7 @@ export default function DashboardCards() {
     return (
         <div className="grid">
             {cards.map((item) => (
-                <StatsCard title={item.title} color={item.color} icon={item.icon} heading={item.number} />
+                <StatsCard title={item.title} key={item.title} color={item.color} icon={item.icon} heading={item.number} />
             ))}
         </div>
     );

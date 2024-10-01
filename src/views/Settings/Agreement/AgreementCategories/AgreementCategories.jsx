@@ -5,6 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteAgreementCategories, getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import useFilters from '../../../../hooks/useFilters';
 
 const AgreementCategories = () => {
     const history = useHistory();
@@ -38,10 +41,16 @@ const AgreementCategories = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementCategories);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Agreement Categories" linkTo="/settings/agreement/categories/add" />
-            <CustomTable data={allAgreementCategories} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomFilterCard buttonTitle="Add Agreement Categories" linkTo="/settings/agreement/categories/add" contentPosition="end">
+                <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
+            </CustomFilterCard>
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
-import { deleteLevel, getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
+import { deleteLevel } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import useFilters from '../../../../hooks/useFilters';
+import useLevel from '../../../../hooks/Schedule/useLevel';
+import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 
 const Level = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getLevels());
-    }, [dispatch]);
-
-    const { allLevels } = useSelector((state) => state.level);
+    const { allLevels } = useLevel();
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -33,14 +33,17 @@ const Level = () => {
             position,
         );
     };
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allLevels);
+
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add">
-                {/* <div className="text-end w-full">
-                    <PrimaryButton label="Scheduling Options" className="mx-2 " onClick={() => history.push('/settings/schedule/levels/scheduling/')} />
-                </div> */}
+            <CustomFilterCard buttonTitle="Add Levels" linkTo="/settings/schedule/levels/add" contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
             </CustomFilterCard>
-            <CustomTable data={allLevels} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };
