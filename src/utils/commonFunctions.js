@@ -410,7 +410,7 @@ const processCatalogItems = (items) => {
             moreThan3: item.moreThan3,
             totalTaxPercentage: item.totalTaxPercentage,
             allowDiscount: item.allowDiscount,
-            overRideDiscount: item.overRideDiscount,
+            overrideDiscount: item.overrideDiscount,
             defaultDiscount: item.defaultDiscount ?? null,
             discount: item.discount ?? null,
             itemCaption: item.itemCaption,

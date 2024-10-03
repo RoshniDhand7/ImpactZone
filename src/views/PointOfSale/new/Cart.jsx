@@ -46,7 +46,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
 function CartItem(props) {
     let { item, index, onWaiveTax } = props;
     let { itemCaption, name, taxWaived, totalTax } = props.item;
-    let { allowDiscount, defaultDiscount, overRideDiscount } = props.item;
+    let { allowDiscount, defaultDiscount, overrideDiscount } = props.item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
     let { minimumQuantity, maximumQuantity, quantity } = item;
     const onDelete = (event) => {
@@ -145,7 +145,7 @@ function CartItem(props) {
                                         Apply Discount
                                     </>
                                 )}
-                                {overRideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down" onClick={showDiscountMenu}></i>}
+                                {overrideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down" onClick={showDiscountMenu}></i>}
                             </div>
                         </>
                     )}

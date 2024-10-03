@@ -80,7 +80,7 @@ const CatalogItems = () => {
                 promptForPrice: visible.promptForPrice,
                 allowDiscount: visible.allowDiscount,
                 defaultDiscount: visible.defaultDiscount,
-                overRideDiscount: visible.overRideDiscount,
+                overrideDiscount: visible.overrideDiscount,
                 moreThan1: visible.moreThan1,
                 moreThan2: visible.moreThan2,
                 moreThan3: visible.moreThan3,
