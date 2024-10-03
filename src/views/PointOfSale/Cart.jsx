@@ -40,7 +40,7 @@ const Cart = ({ cartItems, updateQuantity, removeItem, data, setData, netTotal, 
     const [tempData, setTempData] = useState(null);
 
     const handleDiscountOpen = (col, rowIndex) => {
-        if (col?.overRideDiscount || col?.defaultDiscount === null) {
+        if (col?.overrideDiscount || col?.defaultDiscount === null) {
             setTempData((prev) => ({
                 ...prev,
                 [rowIndex]: data?.cartItems?.[rowIndex],

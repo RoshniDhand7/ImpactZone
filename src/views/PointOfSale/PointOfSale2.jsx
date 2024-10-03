@@ -89,7 +89,7 @@ export default function PointOfSale2() {
         } else {
             const { _id, itemCaption, name } = product;
             const { defaultQuantity, minimumQuantity, maximumQuantity } = product;
-            const { netPrice, taxes, allowDiscount, defaultDiscount, overRideDiscount } = product;
+            const { netPrice, taxes, allowDiscount, defaultDiscount, overrideDiscount } = product;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = product;
             const taxPercentage = taxes.reduce((sum, item) => sum + item?.taxRatePercentage, 0);
             const taxWaived = false;
@@ -107,7 +107,7 @@ export default function PointOfSale2() {
 
                 defaultDiscount,
                 allowDiscount,
-                overRideDiscount,
+                overrideDiscount,
 
                 taxes,
                 taxPercentage,

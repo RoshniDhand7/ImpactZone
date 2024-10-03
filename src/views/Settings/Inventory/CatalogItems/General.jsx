@@ -65,7 +65,7 @@ const General = () => {
         defaultPrice: 0,
         allowDiscount: false,
         defaultDiscount: '',
-        overRideDiscount: false,
+        overrideDiscount: false,
         minimumQuantity: 1,
         defaultQuantity: 1,
         maximumQuantity: 1,
