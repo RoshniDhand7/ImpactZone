@@ -9,11 +9,10 @@ import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { editCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
-import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 
-const Tracking = () => {
+const Tracking = ({ editItem }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
@@ -42,44 +41,31 @@ const Tracking = () => {
         dispatch(getReferralGroups());
         dispatch(getVendors());
     }, [dispatch]);
-    let { allCommissionGroups } = useSelector((state) => state.commissionGroup);
 
-    const { allCatalogItems } = useCatalogItems();
-    const finalCommissionGroups = allCommissionGroups?.filter((commissionGroup) =>
-        allCatalogItems?.some((catalogItem) => catalogItem._id === id && catalogItem.type === commissionGroup.type),
-    );
-
-    let commissionGroupsDropdown = finalCommissionGroups?.map((item) => ({ name: item.name, value: item._id }));
+    const { allCommissionGroups } = useSelector((state) => state.commissionGroup);
+    const { allReferralGroups } = useSelector((state) => state.referralGroup);
+    let commissionGroupsDropdown = allCommissionGroups?.map((item) => ({ name: item.name, value: item._id }));
+    let referralGroupDropdown = allReferralGroups.map((item) => ({ name: item.name, value: item._id }));
 
     useEffect(() => {
-        if (id) {
-            dispatch(
-                getCatalogItem(id, (data) => {
-                    setData({
-                        requireCommission: data.requireCommission,
-                        commissionGroup: data.commissionGroup,
-                        referralGroup: data.referralGroup,
-                        memberRequired: data.memberRequired,
-                        caseQuantity: data.caseQuantity,
-                        vendor: data.vendor,
-                        trackingMinimumQuantity: data.trackingMinimumQuantity,
-                        trackingMaximumQuantity: data.trackingMaximumQuantity,
-                        recorderLevel: data.recorderLevel,
-                        trackingAlternateVendors: data.trackingAlternateVendors,
-                        time: data.createdAt ? new Date(data.createdAt) : new Date(),
-                        note: data.note,
-                        alternateItem: data.alternateItem,
-                    });
-                }),
-            );
+        if (editItem) {
+            setData({
+                requireCommission: editItem.requireCommission,
+                commissionGroup: editItem.commissionGroup,
+                referralGroup: editItem.referralGroup,
+                memberRequired: editItem.memberRequired,
+                caseQuantity: editItem.caseQuantity,
+                vendor: editItem.vendor,
+                trackingMinimumQuantity: editItem.trackingMinimumQuantity,
+                trackingMaximumQuantity: editItem.trackingMaximumQuantity,
+                recorderLevel: editItem.recorderLevel,
+                trackingAlternateVendors: editItem.trackingAlternateVendors,
+                time: editItem.createdAt ? new Date(editItem.createdAt) : new Date(),
+                note: editItem.note,
+                alternateItem: editItem.alternateItem,
+            });
         }
-    }, [id, dispatch]);
-
-    const { allReferralGroups } = useSelector((state) => state.referralGroup);
-
-    const finalReferralGroup = allReferralGroups
-        ?.filter((referralGp) => referralGp?.catalogs?.some((catalogItem) => catalogItem === id))
-        ?.map((item) => ({ name: item.name, id: item._id }));
+    }, [editItem]);
 
     const { vendorsDropdown } = useSelector((state) => state.vendors);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
@@ -97,8 +83,8 @@ const Tracking = () => {
             <CustomCard col="12" title="General">
                 <CustomGridLayout>
                     <CustomDropDown name="requireCommission" options={yesNoOptions} onChange={handleChange} data={data} />
-                    <CustomDropDown name="commissionGroup" options={commissionGroupsDropdown} onChange={handleChange} data={data} />
-                    <CustomDropDown name="referralGroup" options={finalReferralGroup} onChange={handleChange} data={data} />
+                    <CustomDropDown name="commissionGroup" options={commissionGroupsDropdown} onChange={handleChange} data={data} showClear />
+                    <CustomDropDown name="referralGroup" options={referralGroupDropdown} onChange={handleChange} data={data} showClear />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Details">

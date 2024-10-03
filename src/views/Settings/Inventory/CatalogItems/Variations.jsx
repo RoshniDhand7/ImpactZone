@@ -17,10 +17,13 @@ import { useParams } from 'react-router-dom';
 import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
 
-const Variations = () => {
-    const [open, setOpen] = useState(false);
-    const [variationId, setVariationId] = useState(null);
+const Variations = ({ editItem }) => {
     const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
+
+    const [variationId, setVariationId] = useState(null);
+
     const { id } = useParams();
 
     useEffect(() => {
@@ -161,9 +164,16 @@ const Variations = () => {
 
     return (
         <>
-            <CustomCard col="12" title="General">
+            <CustomCard col="12" title="Variations">
                 <CustomFilterCard buttonTitle="Add" onClick={() => setOpen(true)} />
-                <AddandEditVariatons visible={open} setOpen={setOpen} setVariationId={setVariationId} variationId={variationId} catalogId={id} />
+                <AddandEditVariatons
+                    visible={open}
+                    setOpen={setOpen}
+                    setVariationId={setVariationId}
+                    variationId={variationId}
+                    catalogId={id}
+                    catelogItem={editItem}
+                />
                 {products?.length > 0 &&
                     products?.map((item, i) => {
                         return (

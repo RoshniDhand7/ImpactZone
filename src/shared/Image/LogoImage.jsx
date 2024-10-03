@@ -64,7 +64,6 @@ const CustomLogoImage = ({
         setFiles([...s]);
         onFilesChange({ name, value: [] });
     };
-
     return (
         <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
             <input type="file" className=" " name={name} onChange={onFileChange} id={name} accept=".jpg, .jpeg, .png,.jfif" hidden {...props} />

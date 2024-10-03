@@ -21,23 +21,18 @@ import {
     unitPricingOptions,
     yesNoOptions,
 } from '../../../../utils/dropdownConstants';
-import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { checkFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
-import { addCatalogItem, editCatalogItem, getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { showFormErrors } from '../../../../utils/commonFunctions';
+import { addCatalogItem, editCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
-import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
-import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
-import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
-import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
+
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { calculateFinalAmount, calculateNetAmount, percentageDifference } from '../../../../utils/taxHelpers';
 
-const General = () => {
+const General = ({ editItem }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
@@ -85,16 +80,6 @@ const General = () => {
         tags: [],
     });
 
-    console.log('data==>', data);
-    useEffect(() => {
-        dispatch(getProfitCenters());
-        dispatch(getCategories());
-        dispatch(getTaxes());
-        dispatch(getDiscountTypes());
-        dispatch(getFilterSets());
-        dispatch(getTags());
-    }, [dispatch]);
-
     const { filterSetDropDown } = useSelector((state) => state.filterSet);
     const { tagsDropDown } = useSelector((state) => state.tags);
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
@@ -108,17 +93,51 @@ const General = () => {
     const { allTaxDropdown, allTaxes } = useSelector((state) => state.taxes);
 
     useEffect(() => {
-        if (id) {
-            dispatch(
-                getCatalogItem(id, (data) => {
-                    setData({
-                        ...data,
-                        catalogImage: data.catalogImage ? [data.catalogImage] : [],
-                    });
-                }),
-            );
+        if (editItem) {
+            setData({
+                catalogImage: editItem.catalogImage,
+                type: editItem.type,
+                name: editItem.name,
+                upc: editItem.upc,
+                profitCentre: editItem.profitCentre,
+                itemCaption: editItem.itemCaption,
+                itemSold: editItem.itemSold,
+                isRecurring: editItem.isRecurring,
+                isOneTimePurchaseable: editItem.isOneTimePurchaseable,
+                isRedeemable: editItem.isRedeemable,
+                isSoldOnline: editItem.isSoldOnline,
+                isActive: editItem.isActive,
+                category: editItem.category,
+                productType: editItem.productType,
+                clubs: editItem.clubs,
+                taxes: editItem.taxes,
+                wholesaleCost: editItem.wholesaleCost,
+                netPrice: editItem.netPrice,
+                unitPrice: editItem.unitPrice,
+                defaultPrice: editItem.defaultPrice,
+                allowDiscount: editItem.allowDiscount,
+                defaultDiscount: editItem.defaultDiscount,
+                overrideDiscount: editItem.overrideDiscount,
+                minimumQuantity: editItem.minimumQuantity,
+                defaultQuantity: editItem.defaultQuantity,
+                maximumQuantity: editItem.maximumQuantity,
+                allowUnlimited: editItem.allowUnlimited,
+                isStockable: editItem.isStockable,
+                itemStart: editItem.itemStart,
+                expiration: editItem.expiration,
+                days: editItem.days,
+                month: editItem.month,
+                moreThan1: editItem.moreThan1,
+                unitDiscount1: editItem.unitDiscount1,
+                moreThan2: editItem.moreThan2,
+                unitDiscount2: editItem.unitDiscount2,
+                moreThan3: editItem.moreThan3,
+                unitDiscount3: editItem.unitDiscount3,
+                filterSet: editItem.filterSet,
+                tags: editItem.tags,
+            });
         }
-    }, [id, dispatch]);
+    }, [editItem]);
 
     //Net Price, Unit price and taxs calculations
     let _totalTax = useMemo(

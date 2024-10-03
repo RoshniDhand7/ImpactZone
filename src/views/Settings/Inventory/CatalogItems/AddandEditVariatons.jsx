@@ -12,7 +12,7 @@ import {
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 
-const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, catalogId }) => {
+const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, catalogId, catelogItem }) => {
     const inistailState = {
         variationName: '',
         subVariation: [],
@@ -37,25 +37,21 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (catalogId) {
-            dispatch(
-                getCatalogItem(catalogId, (data) => {
-                    setData({
-                        variationName: '',
-                        subVariation: [],
-                        upc: data.upc,
-                        sku: 1,
-                        taxable: true,
-                        unitPrice: data.unitPrice,
-                        minimumQuantity: data.minimumQuantity,
-                        maximumQuantity: data.maximumQuantity,
-                        wholesaleCost: data.wholesaleCost ? data.wholesaleCost : 1,
-                        defaultQuantity: data.defaultQuantity,
-                    });
-                }),
-            );
+        if (catelogItem) {
+            setData({
+                variationName: '',
+                subVariation: [],
+                upc: catelogItem.upc,
+                sku: 1,
+                taxable: true,
+                netPrice: catelogItem.netPrice,
+                minimumQuantity: catelogItem.minimumQuantity,
+                maximumQuantity: catelogItem.maximumQuantity,
+                wholesaleCost: catelogItem.wholesaleCost,
+                defaultQuantity: catelogItem.defaultQuantity,
+            });
         }
-    }, [catalogId, dispatch]);
+    }, [catelogItem]);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -65,9 +61,7 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         if (variationId) {
             dispatch(
                 getVariationCatalog(variationId, (dt) => {
-                    if (variationId) {
-                        setData((prev) => ({ ...prev, variationName: dt.variationName }));
-                    }
+                    setData((prev) => ({ ...prev, variationName: dt.variationName }));
                 }),
             );
         }
@@ -77,17 +71,8 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         if (catalogId) {
             if (showFormErrors(data, setData)) {
                 const payload = {
-                    variationName: data.variationName,
-                    subVariation: data.subVariation,
+                    ...data,
                     _id: variationId,
-                    upc: data.upc,
-                    unitPrice: data.unitPrice,
-                    variationMinQuantity: data.minimumQuantity,
-                    variationMaxQuantity: data.maximumQuantity,
-                    variationWholesaleCost: data.wholesaleCost,
-                    defaultQuantity: data.defaultQuantity,
-                    sku: data.sku,
-                    taxable: data.taxable,
                 };
                 dispatch(
                     editVariationCatalog(catalogId, payload, () => {
