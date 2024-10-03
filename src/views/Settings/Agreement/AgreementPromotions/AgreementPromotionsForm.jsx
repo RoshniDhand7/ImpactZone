@@ -23,7 +23,7 @@ const AgreementPromotionsForm = () => {
     const [data, setData] = useState({
         code: '',
         name: '',
-        membershipPlan: '',
+        membershipPlan: null,
         startDate: '',
         endDate: '',
         uses: 0,

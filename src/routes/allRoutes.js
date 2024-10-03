@@ -44,7 +44,7 @@ export const PrivateRoutes = [
         component: Members,
     },
     {
-        path: '/members/',
+        path: '/allMembers/',
         name: 'Members',
         component: AllMembers,
     },

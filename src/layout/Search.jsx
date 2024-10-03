@@ -85,7 +85,7 @@ const Search = ({ openModal, setOpenModal }) => {
                 <div
                     className="text-right mt-4 text-blue cursor-pointer font-normal text-xl"
                     onClick={() => {
-                        history.push('/members');
+                        history.push('/allMembers');
                         setOpenModal(false);
                     }}
                 >

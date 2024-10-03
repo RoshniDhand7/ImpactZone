@@ -44,7 +44,7 @@ const Resources = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Resource Type" linkTo="/settings/members/resources/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Resource" linkTo="/settings/members/resources/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filters" onClick={onFilterOpen} className="mx-2" />
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />

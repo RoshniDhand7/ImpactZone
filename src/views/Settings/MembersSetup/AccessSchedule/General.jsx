@@ -51,7 +51,7 @@ const General = () => {
     };
     return (
         <div>
-            <CustomCard col="12" title="Add Campaign Group">
+            <CustomCard col="12" title="Add Access Schedule">
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomInput name="shortName" data={data} onChange={handleChange} required />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CustomInput, CustomInputMask } from '../shared/Input/AllInputs';
+import { CustomInput, CustomInputMask, CustomInputNumber } from '../shared/Input/AllInputs';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { CustomGridLayout } from '../shared/Cards/CustomCard';
@@ -56,7 +56,7 @@ const AdvanceSearch = ({ openAdvanceSearch, setOpenAdvanceSearch }) => {
                 <CustomGridLayout extraClass="align-items-end mb-4">
                     <CustomInput name="firstName" data={data} onChange={handleChange} col={2} />
                     <CustomInput name="lastName" data={data} onChange={handleChange} col={2} />
-                    <CustomInput name="barCode" data={data} onChange={handleChange} col={2} />
+                    <CustomInputNumber name="barCode" data={data} onChange={handleChange} col={2} />
                     <CustomInput name="agreement" data={data} onChange={handleChange} col={2} />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} col={2} />
                     <div className="lg:col-2 flex">

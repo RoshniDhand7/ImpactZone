@@ -110,7 +110,7 @@ const MembershipPlan = () => {
                         showClear
                     />
                     <CustomDropDown name="subCategory" options={subcategoryOptions} onChange={handleChange} data={data} col={12} showClear />
-                    <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} col={12} showClear />
+                    <CustomDropDown name="clubId" label="Club" options={clubsDropdown} onChange={handleChange} data={data} col={12} showClear />
                     <CustomInput name="name" label="Plan Name" data={data} onChange={handleChange} col={12} />
                     <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} col={12} showClear />
                 </CustomGridLayout>

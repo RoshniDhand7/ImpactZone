@@ -6,7 +6,7 @@ import { CustomFilterCard, CustomGridLayout } from '../../shared/Cards/CustomCar
 import PrimaryButton from '../../shared/Button/CustomButton';
 import useFilters from '../../hooks/useFilters';
 import FilterComponent from '../../components/FilterComponent';
-import { CustomInput, CustomInputMask } from '../../shared/Input/AllInputs';
+import { CustomInput, CustomInputMask, CustomInputNumber } from '../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import TableImage from '../../shared/Image/TableImage';
 
@@ -32,7 +32,7 @@ const AllMembers = () => {
     const initialState = {
         firstName: '',
         lastName: '',
-        barCode: '',
+        barCode: null,
         agreement: '',
         primaryPhone: '',
     };
@@ -75,7 +75,7 @@ const AllMembers = () => {
                 <CustomGridLayout>
                     <CustomInput name="firstName" data={data} onChange={handleChange} col={12} />
                     <CustomInput name="lastName" data={data} onChange={handleChange} col={12} />
-                    <CustomInput name="barCode" data={data} onChange={handleChange} col={12} />
+                    <CustomInputNumber name="barCode" data={data} onChange={handleChange} col={12} />
                     <CustomInput name="agreement" data={data} onChange={handleChange} col={12} />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} col={12} />
                 </CustomGridLayout>
