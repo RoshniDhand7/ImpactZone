@@ -85,7 +85,6 @@ const General = () => {
         tags: [],
     });
 
-    console.log('data==>', data);
     useEffect(() => {
         dispatch(getProfitCenters());
         dispatch(getCategories());

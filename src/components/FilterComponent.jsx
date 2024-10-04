@@ -11,6 +11,8 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
     //     }
     // }, [value, visible]);
 
+    console.log(data, '222dsdf');
+
     const handleApply = () => {
         let _keys = Object.keys(data);
         let _filters = {};
@@ -24,6 +26,8 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
             }
         });
 
+        console.log(_filters, '_filters');
+
         onApply(_filters);
         onHide();
     };
@@ -31,7 +35,6 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
         setData({
             filterType: 'AND',
         });
-        onApply(data);
     };
 
     return (

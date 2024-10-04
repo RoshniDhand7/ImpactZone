@@ -25,6 +25,10 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
         isActive: null,
         club: '',
         accessCode: '',
+        employeeTimesheet: {
+            club: null,
+            status: null,
+        },
     };
 
     const [data, setData] = useState(initialState);
@@ -39,7 +43,12 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
         if (showFormErrors(data, setData, ['club', 'name', 'accessCode'])) {
             dispatch(
                 getEmployeesFromBarCode(data?.barCode, (item) => {
-                    setData((prev) => ({ ...prev, name: item.firstName + ' ' + item.lastName, isActive: item.isActive }));
+                    setData((prev) => ({
+                        ...prev,
+                        name: item.firstName + ' ' + item.lastName,
+                        isActive: item.isActive,
+                        employeeTimesheet: item?.employeeTimesheet,
+                    }));
                 }),
             );
         }
@@ -79,6 +88,8 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 onSave={() => handleClock('CLOCK_OUT')}
                 saveLabel="ClockOut"
                 applyLabel="ClockIn"
+                // applydisabled={data?.employeeTimesheet?.status === 'CLOCK_IN' ? true : false}
+                // savedisabled={data?.employeeTimesheet?.status === 'CLOCK_OUT' ? true : false}
             >
                 <CustomGridLayout>
                     <div className="col-6">
@@ -91,7 +102,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                     </div>
                     <h3 className="text-bold mb-2 col-12">Employee</h3>
                     <CustomInput name="name" disabled={true} data={data} />
-                    <CustomDropDown name="isActive" options={yesNoOptions} data={data} label="Status" disabled={true} />
+                    <CustomDropDown name="isActive" options={yesNoOptions} data={data} disabled={true} />
                     <CustomDropDown name="club" options={clubsDropdown} data={data} onChange={handleChange} />
                     <CustomTextArea name="comment" data={data} onChange={handleChange} />
                 </CustomGridLayout>

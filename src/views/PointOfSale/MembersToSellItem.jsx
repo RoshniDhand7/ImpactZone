@@ -9,7 +9,6 @@ const MembersToSellItem = ({ data, setData }) => {
     const [isRecentSearch, setIsRecentSearch] = useState(false);
 
     const handleChange = ({ name, value }) => {
-        console.log(name, value);
         setData((prev) => ({ ...prev, [name]: value }));
         setIsRecentSearch(false);
     };
@@ -52,8 +51,6 @@ const MembersToSellItem = ({ data, setData }) => {
 
         setData((prev) => ({ ...prev, memberSell: _member }));
     };
-
-    console.log('allMembers==>', allMembers);
 
     return (
         <>

@@ -88,7 +88,8 @@ const Dashboard = () => {
                         {data.primaryPhone}
                     </p>
                     <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-envelope"></i>mike@gmail.com
+                        <i className="pi pi-envelope"></i>
+                        {data?.email ? data?.email : '----------'}
                     </p>
                 </CustomCard>
                 <CustomCard title="Billing History " col={12} height="200px">

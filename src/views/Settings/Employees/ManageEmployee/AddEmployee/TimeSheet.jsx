@@ -14,13 +14,12 @@ const TimeSheet = () => {
 
     const columns = [
         { field: 'club', header: 'Club' },
-        { field: 'notes', header: 'Department' },
+        { field: 'department.name', header: 'Department' },
         { field: 'notes', header: 'ClockIn' },
         { field: 'notes', header: 'ClockOut' },
         { field: 'notes', header: 'Duration' },
     ];
 
-    console.log(employeeTimeSheet, 'employeeTimeSheet');
     return <>{<CustomTable data={employeeTimeSheet} columns={columns} />}</>;
 };
 
