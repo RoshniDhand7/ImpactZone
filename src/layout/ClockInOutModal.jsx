@@ -88,8 +88,8 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 onSave={() => handleClock('CLOCK_OUT')}
                 saveLabel="ClockOut"
                 applyLabel="ClockIn"
-                // applydisabled={data?.employeeTimesheet?.status === 'CLOCK_IN' ? true : false}
-                // savedisabled={data?.employeeTimesheet?.status === 'CLOCK_OUT' ? true : false}
+                applydisabled={data?.employeeTimesheet?.status === 'CLOCK_IN' ? true : false}
+                savedisabled={data?.employeeTimesheet?.status === 'CLOCK_OUT' ? true : false}
             >
                 <CustomGridLayout>
                     <div className="col-6">
@@ -108,7 +108,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 </CustomGridLayout>
                 <CustomCard title="Alerts" col={12} />
             </CustomDialog>
-            <CustomDialog title="Access Code" visible={openAccessModal?.open} onCancel={onClose} loading={false} onSave={handleSave} saveLabel="Check In">
+            <CustomDialog title="Access Code" visible={openAccessModal?.open} onCancel={onClose} loading={loading} onSave={handleSave} saveLabel="Check In">
                 <CustomGridLayout>
                     <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
                 </CustomGridLayout>
