@@ -7,7 +7,7 @@ import placeholder from '../../../assets/images/placeholder.png';
 import { getImageURL } from '../../../utils/imageUrl';
 import { useMemo } from 'react';
 
-export default function CatalogItems({ selectedCategory, onAddItemIntoCart }) {
+export default function CatalogItems({ selectedCategory, onSelectProduct }) {
     let { posCatalog } = useSelector((state) => state.catalogItems);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function CatalogItems({ selectedCategory, onAddItemIntoCart }) {
         <CustomCard title="Most Purchased Items" col={12}>
             <div className="grid">
                 {posCatalog.map((item) => (
-                    <Item key={item._id} item={item} onAddItemIntoCart={onAddItemIntoCart} />
+                    <Item key={item._id} item={item} onSelectProduct={onSelectProduct} />
                 ))}
             </div>
         </CustomCard>
@@ -30,7 +30,7 @@ export default function CatalogItems({ selectedCategory, onAddItemIntoCart }) {
 function Item(props) {
     let item = props?.item;
     return (
-        <div className="col-3 p-1 cursor-pointer" onClick={() => props?.onAddItemIntoCart(item)}>
+        <div className="col-3 p-1 cursor-pointer" onClick={() => props?.onSelectProduct(item)}>
             <div className="bg-white border-1 surface-border p-2 border-round-md">
                 <img
                     className="bg-lightest-blue border-round-md"

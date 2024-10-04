@@ -1,40 +1,50 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { CustomAsyncReactSelect } from '../../../shared/Input/AllInputs';
-import { getMembers } from '../../../redux/actions/Dashboard/Members';
-import { getSearchSuggestion } from '../../../redux/actions/POSAction';
 import { useMemo } from 'react';
 
-export default function SearchCatalog({ selectedMember, setSelectedMember }) {
-    const dispatch = useDispatch();
-    let { allMembers } = useSelector((state) => state.members);
-    const { recentSuggesstions } = useSelector((state) => state?.POS);
+export default function SearchCatalog({ onSelectProduct }) {
+    let { posCatalog } = useSelector((state) => state.catalogItems);
+    const options = useMemo(() => {
+        let arr = [];
+        posCatalog.forEach((item) => {
+            if (item.variations?.length) {
+                item.variations.forEach((variation) => {
+                    variation.subVariations.forEach((subVariationItem) => {
+                        let { netPrice, defaultQuantity, minimumQuantity, maximumQuantity, _id, subVariation, upc } = subVariationItem;
+                        let productObj = {
+                            ...item,
+                            subVariationId: _id,
+                            itemCaption: `${item?.itemCaption}(${subVariation})`,
+                            netPrice,
+                            defaultQuantity,
+                            minimumQuantity,
+                            maximumQuantity,
+                            variations: [],
+                        };
+                        arr.push({ name: `${item.name} ${subVariation}(${upc})`, value: productObj });
+                    });
+                });
+            }
+            // else {
+            //     arr.push({ name: `${item.name} (${item.upc})`, value: item });
+            // }
+            arr.push({ name: `${item.name} (${item.upc})`, value: item });
+        });
 
-    const options = useMemo(() => allMembers.map((item) => ({ name: `${item.firstName} ${item?.MI} ${item?.lastName}`, value: item?._id })), [allMembers]);
-    const suggestions = useMemo(
-        () =>
-            recentSuggesstions.map((item) => ({
-                value: item.memberId,
-                name: item?.name,
-            })),
-        [recentSuggesstions],
-    );
+        return arr;
+    }, [posCatalog]);
 
-    useEffect(() => {
-        dispatch(getMembers());
-        dispatch(getSearchSuggestion());
-    }, [dispatch]);
     return (
         <div>
             <CustomAsyncReactSelect
                 name="memberSell"
                 field="fullName"
-                suggestions={suggestions}
+                suggestions={[]}
                 options={options}
                 placeholder="Search by UPC/Item"
                 showLabel={false}
-                value={selectedMember}
-                onChange={({ value }) => setSelectedMember(value)}
+                onChange={({ value }) => onSelectProduct(value)}
             />
         </div>
     );
