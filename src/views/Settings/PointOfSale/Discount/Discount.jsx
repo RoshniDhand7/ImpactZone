@@ -29,15 +29,14 @@ const Discount = () => {
         {
             body: (r) => (
                 <>
-                    {console.log('amountTypeamountType==>', r?.amountType)}
-                    {r.amount}
-                    {r.amountType === 'FIXED' ? '$' : '%'}
+                    {r.amountType === 'FIXED' ? '$' + '' + r.amount : r?.amount + '%'}
+                    {/* {r.amountType === 'FIXED' ? '$' : '%'} */}
                 </>
             ),
             header: 'Discount',
         },
         { field: 'startDate', body: (r) => moment(r.startDate).format('DD-MM-YYYY'), header: 'Start Date' },
-        { field: 'endDate', body: (r) => moment(r.endDate).format('DD-MM-YYYY'), header: 'End Date' },
+        { field: 'endDate', body: (r) => (r?.indefinite ? '-' : moment(r.endDate).format('DD-MM-YYYY')), header: 'End Date' },
     ];
 
     const onEdit = (col) => {

@@ -86,12 +86,14 @@ const AddMembers = () => {
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+
         if (name === 'barCode') {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
             if (value) {
                 debouncedChangeHandler(value);
             }
+        } else {
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
         }
     };
 
@@ -125,7 +127,7 @@ const AddMembers = () => {
     );
 
     const handleSave = () => {
-        if (showFormErrors(data, setData, ['workNumber'])) {
+        if (showFormErrors(data, setData)) {
             dispatch(
                 addMembers(data, () => {
                     history.goBack();
@@ -169,7 +171,7 @@ const AddMembers = () => {
                     <CustomInput name="driverLicense" data={data} onChange={handleChange} required />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} required />
                     <CustomInputMask name="mobilePhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
-                    <CustomInputMask name="workNumber" mask="(999) 999-9999" data={data} onChange={handleChange} />
+                    <CustomInputMask name="workNumber" mask="(999) 999-9999" data={data} onChange={handleChange} required />
                     <CustomInput name="workExt" data={data} onChange={handleChange} col="1" />
                 </CustomGridLayout>
             </CustomCard>

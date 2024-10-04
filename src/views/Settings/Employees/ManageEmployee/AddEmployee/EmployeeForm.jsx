@@ -11,6 +11,7 @@ import EmployeeDepartments from './EmployeeDepartments';
 import ClassesSetup from './Classes/ClassesSetup';
 import AppointmentSetup from './AppointmentSetup/AppointmentSetup';
 import SalesCommission from './SalesCommission/SalesCommission';
+import TimeSheet from './TimeSheet';
 
 const EmployeeForm = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const EmployeeForm = () => {
         { title: 'Classes Setup', content: <ClassesSetup /> },
         { title: 'Appointment Setup', content: <AppointmentSetup /> },
         { title: 'Sales Commision', content: <SalesCommission /> },
-        { title: 'Time Sheet', content: <h1>Tab 8</h1> },
+        { title: 'Time Sheet', content: <TimeSheet /> },
         { title: 'Notes', content: <Notes /> },
         {
             title: 'Certifications',

@@ -49,7 +49,6 @@ const TaxForm = () => {
         isActive: true,
     });
 
-    console.log('data==>', data);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));

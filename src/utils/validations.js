@@ -11,6 +11,7 @@ const formValidation = (name, value, state, ignore = []) => {
         }
         return formErrors;
     }
+    const singularFields = ['taxRatePercentage', 'amount', 'sessionsValue', 'pay', 'bonusAmount', 'payPerClassRate', 'baseRate', 'percentage', 'unitPrice'];
 
     switch (name) {
         case 'email':
@@ -305,7 +306,10 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'percentage':
         case 'unitPrice':
             if (!isNumberOrDecimal(value) || value === 0) {
-                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+                const message = singularFields.includes(name)
+                    ? `${firstLetterToUppercase(name)} is required!`
+                    : `${firstLetterToUppercase(name)} are required!`;
+                formErrors[name] = message;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
             } else if (value < 0) {

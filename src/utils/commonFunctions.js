@@ -360,6 +360,8 @@ const applyFilters = (events, filterOptions) => {
 
         if (Array.isArray(condition) && eventValue) {
             return condition.some((item) => eventValue && eventValue.includes(item));
+        } else if (typeof condition === 'string' && typeof eventValue === 'string') {
+            return eventValue.toLowerCase().trim().includes(condition.toLowerCase().trim());
         } else {
             return typeof condition === 'function' ? condition(eventValue) : condition === eventValue;
         }

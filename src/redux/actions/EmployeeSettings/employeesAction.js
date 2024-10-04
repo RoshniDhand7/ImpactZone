@@ -40,6 +40,18 @@ const getEmployeesFilterType = (type) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const getEmployeesFromBarCode = (barCode, returnData) => async (dispatch) => {
+    const res = await api('get', EndPoints.EMPLOYEE_BARCODE, {}, { barCode });
+    if (res.success) {
+        if (res.data) {
+            if (returnData) {
+                returnData(res.data);
+            }
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 const addEmployees =
     (data, setLoading, history, tab = '') =>
     async (dispatch) => {
@@ -62,6 +74,19 @@ const addEmployees =
         }
         setLoading(false);
     };
+
+const addEmployeesCheckInOut = (data, setLoading, onClose) => async (dispatch) => {
+    setLoading(true);
+
+    const res = await api('post', EndPoints.EMPLOYEE_CHECKINOUT, data);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        onClose();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
 const getEmployee = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.EMPLOYEE + id);
@@ -151,4 +176,34 @@ const deleteEmployee = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getEmployees, addEmployees, editEmployee, deleteEmployee, getEmployee, getEmployeePay, CalendarDefaultSorting, getEmployeesFilterType };
+
+const getEmployeeTimeSheet = (setLoading) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.EMPLOYEE_TIMESHEET);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_EMPLOYEE_TIMESHEET,
+                payload: res.data,
+            });
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+export {
+    getEmployees,
+    addEmployees,
+    editEmployee,
+    deleteEmployee,
+    getEmployee,
+    getEmployeePay,
+    CalendarDefaultSorting,
+    getEmployeesFilterType,
+    getEmployeesFromBarCode,
+    addEmployeesCheckInOut,
+    getEmployeeTimeSheet,
+};

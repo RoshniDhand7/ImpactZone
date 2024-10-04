@@ -155,7 +155,7 @@ const DiscountForm = () => {
                 setData((prev) => ({ ...prev, multiItemDiscount: validatedSchedule.data }));
             }
 
-            if (validatedSchedule.isValid) {
+            if (!validatedSchedule.isValid) {
                 const discountData = {
                     ...data,
                     services: getIds(data?.services),
@@ -166,14 +166,11 @@ const DiscountForm = () => {
                 if (id) {
                     dispatch(editDiscountType(id, discountData, history));
                 } else {
-                    console.log('discountData==>', discountData);
                     dispatch(addDiscountType(discountData, history));
                 }
             }
         }
     };
-
-    console.log(data);
 
     return (
         <>
@@ -194,7 +191,7 @@ const DiscountForm = () => {
                         />
 
                         <CustomDropDown name="availableDiscount" options={allDiscountDropdown} data={data} onChange={handleChange} optionLabel="name" />
-                        <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required col={3} />
+                        <CustomCalenderInput name="startDate" data={data} onChange={handleChange} required col={3} minDate={new Date()} />
                         {!data?.indefinite && <CustomCalenderInput name="endDate" data={data} onChange={handleChange} required col={3} />}
                         <CustomCheckbox
                             label="No End Date(Indefinite )"
