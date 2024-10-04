@@ -25,7 +25,9 @@ export default function PointOfSale2() {
         let gradTotal = 0;
         cartItems.forEach((item) => {
             netTotal += item?.netPrice * item?.quantity;
-            discount += item?.defaultDiscount?.amountAfterDiscount * item?.quantity;
+            if (item?.defaultDiscount) {
+                discount += item?.defaultDiscount?.amountAfterDiscount * item?.quantity;
+            }
             if (item?.taxWaived) {
                 waivedTaxAmount += item?.totalTax;
             }
@@ -33,7 +35,6 @@ export default function PointOfSale2() {
             total += item?.finalTotal;
         });
         gradTotal = total + tax - waivedTaxAmount;
-        console.log({ total, tax, discount, waivedTaxAmount });
         setCartDetails({ netTotal, total, tax, discount, waivedTaxAmount, gradTotal });
     }, [cartItems]);
 
@@ -59,7 +60,7 @@ export default function PointOfSale2() {
             }
 
             let finalNetPrice = netPrice;
-            if (allowDiscount) {
+            if (allowDiscount && defaultDiscount) {
                 finalNetPrice = netPrice - defaultDiscount.amountAfterDiscount;
             }
 
@@ -89,7 +90,7 @@ export default function PointOfSale2() {
             setSelectedItems(_selected);
         } else {
             const { _id, itemCaption, name, subVariationId } = product;
-            const { defaultQuantity, minimumQuantity, maximumQuantity } = product;
+            const { defaultQuantity, minimumQuantity, maximumQuantity, allowUnlimited } = product;
             const { netPrice, taxes, allowDiscount, defaultDiscount, overrideDiscount } = product;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = product;
             const taxPercentage = taxes.reduce((sum, item) => sum + item?.taxRatePercentage, 0);
@@ -118,6 +119,7 @@ export default function PointOfSale2() {
                 minimumQuantity,
                 maximumQuantity,
                 quantity,
+                allowUnlimited,
 
                 moreThan1,
                 moreThan2,

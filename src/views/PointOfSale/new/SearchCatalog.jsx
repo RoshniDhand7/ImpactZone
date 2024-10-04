@@ -26,9 +26,6 @@ export default function SearchCatalog({ onSelectProduct }) {
                     });
                 });
             }
-            // else {
-            //     arr.push({ name: `${item.name} (${item.upc})`, value: item });
-            // }
             arr.push({ name: `${item.name} (${item.upc})`, value: item });
         });
 
@@ -42,7 +39,7 @@ export default function SearchCatalog({ onSelectProduct }) {
                 field="fullName"
                 suggestions={[]}
                 options={options}
-                placeholder="Search by UPC/Item"
+                placeholder="Search by Item"
                 showLabel={false}
                 onChange={({ value }) => onSelectProduct(value)}
             />

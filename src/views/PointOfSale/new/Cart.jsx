@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { confirmPopup } from 'primereact/confirmpopup';
 import Lottie from 'lottie-react';
 import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDiscountTypes } from '../../../redux/actions/PosSettings/discountType';
+import { useRef } from 'react';
+import { OverlayPanel } from 'primereact/overlaypanel';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
+    const dispatch = useDispatch();
+    const op = useRef(null);
+    let { allDiscountTypes } = useSelector((state) => state.discountType);
+
+    useEffect(() => {
+        dispatch(getDiscountTypes());
+    }, [dispatch]);
+
+    console.log('allDiscountTypes==>', allDiscountTypes);
     const onDeleteCartItem = (index) => {
         setSelectedItems((prev) => {
             let _arr = [...prev];
@@ -34,21 +47,37 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
     };
 
     return (
-        <CustomCard title="Cart" col={12}>
-            {cartItems?.map((item, i) => (
-                <CartItem key={item?._id} index={i} item={item} onDeleteCartItem={onDeleteCartItem} onQtyChange={onQtyChange} onWaiveTax={onWaiveTax} />
-            ))}
-            <CartDetails cartDetails={cartDetails} />
-        </CustomCard>
+        <>
+            <OverlayPanel ref={op}>
+                {allDiscountTypes?.map((item) => (
+                    <div>{item.discountCode}</div>
+                ))}
+            </OverlayPanel>
+            <CustomCard title="Cart" col={12}>
+                {cartItems?.map((item, i) => (
+                    <CartItem
+                        key={item?._id}
+                        index={i}
+                        item={item}
+                        onDeleteCartItem={onDeleteCartItem}
+                        onQtyChange={onQtyChange}
+                        onWaiveTax={onWaiveTax}
+                        op={op}
+                    />
+                ))}
+                <CartDetails cartDetails={cartDetails} />
+            </CustomCard>
+        </>
     );
 }
 
 function CartItem(props) {
-    let { item, index, onWaiveTax } = props;
-    let { itemCaption, name, taxWaived, totalTax } = props.item;
-    let { allowDiscount, defaultDiscount, overrideDiscount } = props.item;
+    let { item, index, onWaiveTax, op } = props;
+    let { itemCaption, name, taxWaived, totalTax } = item;
+    let { allowDiscount, defaultDiscount, overrideDiscount } = item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
-    let { minimumQuantity, maximumQuantity, quantity } = item;
+    let { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;
+
     const onDelete = (event) => {
         confirmPopup({
             target: event.currentTarget,
@@ -93,7 +122,7 @@ function CartItem(props) {
     };
     const onInc = () => {
         let _qty = quantity + 1;
-        if (_qty <= maximumQuantity) {
+        if (_qty <= maximumQuantity || allowUnlimited) {
             props.onQtyChange(index, _qty);
         }
     };
@@ -104,7 +133,9 @@ function CartItem(props) {
         }
     };
 
-    const showDiscountMenu = () => {};
+    const showDiscountMenu = (e) => {
+        op.current.toggle(e);
+    };
     return (
         <>
             <div className="flex justify-content-between text-xl font-medium">
@@ -136,7 +167,7 @@ function CartItem(props) {
                 <div className="flex">
                     {allowDiscount && (
                         <>
-                            <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer">
+                            <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer" onClick={showDiscountMenu}>
                                 {defaultDiscount ? (
                                     `${defaultDiscount?.discountCode} Applied`
                                 ) : (
@@ -145,7 +176,7 @@ function CartItem(props) {
                                         Apply Discount
                                     </>
                                 )}
-                                {overrideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down" onClick={showDiscountMenu}></i>}
+                                {overrideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down"></i>}
                             </div>
                         </>
                     )}
