@@ -105,7 +105,6 @@ const Variations = ({ editItem }) => {
                 mode="currency"
                 currency="USD"
                 locale="en-US"
-                minFractionDigits={4}
                 maxFractionDigits={4}
                 useGrouping={false}
             />
@@ -117,15 +116,7 @@ const Variations = ({ editItem }) => {
     };
 
     const numberEditor = (options) => {
-        return (
-            <InputNumber
-                value={options.value}
-                onValueChange={(e) => handleChange(e, options)}
-                minFractionDigits={4}
-                maxFractionDigits={4}
-                useGrouping={false}
-            />
-        );
+        return <InputNumber value={options.value} onValueChange={(e) => handleChange(e, options)} maxFractionDigits={4} useGrouping={false} />;
     };
 
     const taxableEditor = (options) => {
@@ -155,16 +146,17 @@ const Variations = ({ editItem }) => {
         );
     };
 
-    const unitPriceTemplate = useCallback(
+    const markupPriceTemplate = useCallback(
         (r) => {
-            return <>{products[0]?.markupPrice && <>{PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}</>}</>;
+            // return <>{products[0]?.markupPrice && <>{PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}</>}</>;
+            return;
         },
         [products],
     );
 
     return (
         <>
-            <CustomCard col="12" title="Variations">
+            <CustomCard col="12" title="All Variations">
                 <CustomFilterCard buttonTitle="Add" onClick={() => setOpen(true)} />
                 <AddandEditVariatons
                     visible={open}
@@ -186,66 +178,28 @@ const Variations = ({ editItem }) => {
                                         onRowEditComplete={onRowEditComplete}
                                         tableStyle={{ minWidth: '50rem' }}
                                     >
-                                        <Column
-                                            field="subVariation"
-                                            header="Sub Variation"
-                                            editor={(options) => textEditor(options)}
-                                            style={{ width: '20%' }}
-                                        ></Column>
-                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} style={{ width: '20%' }}></Column>
-                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} style={{ width: '20%' }}></Column>
-                                        <Column
-                                            field="unitPrice"
-                                            header="Unit Price"
-                                            editor={(options) => priceEditor(options)}
-                                            style={{ width: '20%' }}
-                                        ></Column>
-                                        <Column field="unitPrice" header="Markup Price" body={unitPriceTemplate} style={{ width: '20%' }}></Column>
-                                        <Column
-                                            field="variationMinQuantity"
-                                            header="Minimum Quantity"
-                                            editor={(options) => numberEditor(options, 'variationMinQuantity')}
-                                            style={{ width: '20%' }}
-                                        ></Column>
-                                        <Column
-                                            field="variationMaxQuantity"
-                                            header="Maximum Quantity"
-                                            editor={(options) => numberEditor(options, 'variationMaxQuantity')}
-                                            style={{ width: '20%' }}
-                                        ></Column>
+                                        <Column field="subVariation" header="Sub Variation" editor={(options) => textEditor(options)} />
+                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} />
+                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} />
+                                        <Column field="netPrice" header="Net Price" editor={(options) => priceEditor(options)} />
+                                        <Column field="netPrice" header="Markup Price" body={markupPriceTemplate} />
+                                        <Column field="minimumQuantity" header="Min. Quantity" editor={(options) => numberEditor(options, 'minimumQuantity')} />
+                                        <Column field="maximumQuantity" header="Max. Quantity" editor={(options) => numberEditor(options, 'maximumQuantity')} />
                                         <Column
                                             field="defaultQuantity"
                                             header="Default Quantity"
                                             editor={(options) => numberEditor(options, 'defaultQuantity')}
-                                            style={{ width: '20%' }}
-                                        ></Column>
-                                        <Column
-                                            field="variationWholesaleCost"
-                                            header="WholeSale Cost"
-                                            editor={(options) => priceEditor(options)}
-                                            style={{ width: '20%' }}
-                                        ></Column>
+                                        />
+                                        <Column field="wholesaleCost" header="WholeSale Cost" editor={(options) => priceEditor(options)} />
                                         <Column
                                             field="reorderQuantity"
                                             header="Reorder Quantity"
                                             editor={(options) => numberEditor(options, 'reorderQuantity')}
-                                            style={{ width: '20%' }}
-                                        ></Column>
-                                        <Column
-                                            field="taxable"
-                                            body={taxableTemplate}
-                                            header="Taxable"
-                                            editor={(options) => taxableEditor(options)}
-                                            style={{ width: '20%' }}
-                                        ></Column>
+                                        />
+                                        <Column field="taxable" body={taxableTemplate} header="Taxable" editor={(options) => taxableEditor(options)} />
 
-                                        <Column
-                                            header="Actions"
-                                            rowEditor={true}
-                                            // headerStyle={{ width: '10%', minWidth: '8rem' }}
-                                            bodyStyle={{ textAlign: 'center' }}
-                                        ></Column>
-                                        <Column body={deleteTemplate}></Column>
+                                        <Column header="Actions" rowEditor={true} bodyStyle={{ textAlign: 'center' }} />
+                                        <Column body={deleteTemplate} />
                                     </DataTable>
                                 </CustomAccordion>
                             </>

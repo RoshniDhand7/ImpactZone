@@ -6,6 +6,7 @@ import SearchCatalog from './new/SearchCatalog';
 import CatalogItems from './new/CatalogItems';
 import Cart from './new/Cart';
 import { calculateDiscountedAmount, calculateTax, roundOfNumber } from '../../utils/taxHelpers';
+import VariationPopup from './new/VariationPopup';
 
 export default function PointOfSale2() {
     const [selectedMember, setSelectedMember] = useState('');
@@ -75,7 +76,7 @@ export default function PointOfSale2() {
     }, [selectedItems]);
 
     const onAddItemIntoCart = (product) => {
-        const index = selectedItems.findIndex((item) => item._id === product._id);
+        const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
         if (index >= 0) {
             let _selected = [...selectedItems];
             let _item = _selected[index];
@@ -87,7 +88,7 @@ export default function PointOfSale2() {
             _selected[index] = _item;
             setSelectedItems(_selected);
         } else {
-            const { _id, itemCaption, name } = product;
+            const { _id, itemCaption, name, subVariationId } = product;
             const { defaultQuantity, minimumQuantity, maximumQuantity } = product;
             const { netPrice, taxes, allowDiscount, defaultDiscount, overrideDiscount } = product;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = product;
@@ -97,6 +98,7 @@ export default function PointOfSale2() {
             const quantity = defaultQuantity;
             let obj = {
                 _id,
+                subVariationId,
                 name,
                 itemCaption,
 
@@ -129,19 +131,34 @@ export default function PointOfSale2() {
             });
         }
     };
+
+    const onSelectProduct = (product) => {
+        if (product?.variations?.length) {
+            setVariationProduct(product);
+        } else {
+            onAddItemIntoCart(product);
+        }
+    };
+
+    const [variationProduct, setVariationProduct] = useState(null);
+    const onCloseVariation = () => {
+        setVariationProduct(null);
+    };
+
     return (
         <div className="grid">
             <div className="col-2">
-                <SearchCatalog selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+                <SearchCatalog onSelectProduct={onSelectProduct} />
                 <Categories active={selectedCategory} setActive={setSelectedCategory} />
             </div>
             <div className="col-6">
-                <CatalogItems selectedCategory={selectedCategory} onAddItemIntoCart={onAddItemIntoCart} />
+                <CatalogItems selectedCategory={selectedCategory} onSelectProduct={onSelectProduct} />
             </div>
             <div className="col-4">
                 <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
                 <Cart cartItems={cartItems} setSelectedItems={setSelectedItems} cartDetails={cartDetails} />
             </div>
+            <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />
         </div>
     );
 }
