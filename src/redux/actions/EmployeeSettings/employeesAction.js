@@ -177,11 +177,23 @@ const deleteEmployee = (id) => async (dispatch) => {
     }
 };
 
-const getEmployeeTimeSheet = (setLoading) => async (dispatch) => {
+const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) => {
+    console.log(data, 'ljkhj');
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.EMPLOYEE_TIMESHEET);
+    const res = await api(
+        'get',
+        EndPoints.EMPLOYEE_TIMESHEET,
+        {},
+        {
+            empId: employeeId,
+            fromDate: moment(data?.from).format('DD-MM-YYYY'),
+            toDate: moment(data?.to).format('DD-MM-YYYY'),
+            clubs: data?.club,
+            departments: data?.department,
+        },
+    );
     if (res.success) {
         if (res.data) {
             dispatch({

@@ -1,26 +1,97 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeeTimeSheet } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import CustomTable from '../../../../../shared/Table/CustomTable';
+import { useParams } from 'react-router-dom';
+import _ from 'lodash';
+import moment from 'moment';
+import { diffHours } from '../../../../../utils/commonFunctions';
+import FilterComponent from '../../../../../components/FilterComponent';
+import useFilters from '../../../../../hooks/useFilters';
+import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
+import { CustomCalenderInput, CustomMultiselect } from '../../../../../shared/Input/AllInputs';
+import useGetClubs from '../../../../../hooks/useGetClubs';
+import PrimaryButton from '../../../../../shared/Button/CustomButton';
+import useDepartments from '../../../../../hooks/Employees/useDepartments';
 
 const TimeSheet = () => {
     const dispatch = useDispatch();
+    const { id } = useParams();
+    var startOfWeek = moment().utc().startOf('week').toDate();
+    var endOfWeek = moment().utc().endOf('week').toDate();
+    const initialData = {
+        filterType: 'AND',
+        from: startOfWeek,
+        to: endOfWeek,
+        club: null,
+        department: null,
+    };
+    const [data, setData] = useState(initialData);
 
     useEffect(() => {
-        dispatch(getEmployeeTimeSheet());
-    }, [dispatch]);
+        dispatch(getEmployeeTimeSheet(_, id, data));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, id]);
 
     const { employeeTimeSheet } = useSelector((state) => state?.employees);
 
     const columns = [
         { field: 'club', header: 'Club' },
         { field: 'department.name', header: 'Department' },
-        { field: 'notes', header: 'ClockIn' },
-        { field: 'notes', header: 'ClockOut' },
-        { field: 'notes', header: 'Duration' },
+        { field: 'clockIn', body: (r) => moment(r?.clockIn).format('hh:mm a'), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => moment(r?.clockOut).format('hh:mm a'), header: 'ClockOut' },
+        { field: 'duration', body: (r) => diffHours(r?.clockOut, r?.clockIn), header: 'Duration' },
+        { field: 'modifiedOn', header: 'Modified On' },
     ];
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
+        employeeTimeSheet,
+        'backend',
+        id,
+        getEmployeeTimeSheet,
+    );
 
-    return <>{<CustomTable data={employeeTimeSheet} columns={columns} />}</>;
+    const handleChange = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const { clubsDropdown } = useGetClubs();
+    const { departmentsDropdown } = useDepartments();
+
+    return (
+        <>
+            <CustomFilterCard contentPosition="end">
+                <div className="text-end w-full">
+                    <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
+                </div>
+            </CustomFilterCard>
+            <FilterComponent
+                value={filters}
+                onApply={onApplyFilters}
+                visible={isFilterVisible}
+                onHide={onFilterClose}
+                data={data}
+                handleChange={handleChange}
+                setData={setData}
+                initailData={initialData}
+            >
+                <CustomGridLayout>
+                    <CustomMultiselect col={12} label="Club" name="club" options={clubsDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect
+                        col={12}
+                        label="Department"
+                        name="department"
+                        options={departmentsDropdown}
+                        data={data}
+                        onChange={handleChange}
+                        showClear
+                    />
+                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} />
+                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} />
+                </CustomGridLayout>
+            </FilterComponent>
+            <CustomTable data={tableData} columns={columns} />
+        </>
+    );
 };
 
 export default TimeSheet;

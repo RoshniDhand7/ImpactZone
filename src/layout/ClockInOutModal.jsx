@@ -10,7 +10,6 @@ import { yesNoOptions } from '../utils/dropdownConstants';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 import useGetClubs from '../hooks/useGetClubs';
-import { showToast } from '../redux/actions/toastAction';
 
 const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
     const [openAccessModal, setOpenAccessModal] = useState({ open: false, data: {} });
 
     const initialState = {
-        date: new Date(),
+        // date: new Date(),
         barCode: null,
         name: '',
         isActive: null,
@@ -29,6 +28,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
             club: null,
             status: null,
         },
+        empId: null,
     };
 
     const [data, setData] = useState(initialState);
@@ -48,6 +48,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                         name: item.firstName + ' ' + item.lastName,
                         isActive: item.isActive,
                         employeeTimesheet: item?.employeeTimesheet,
+                        empId: item._id,
                     }));
                 }),
             );
@@ -71,7 +72,6 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
         }
     };
 
-    console.log(data, 'data');
     return (
         <>
             <CustomDialog
@@ -94,7 +94,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 <CustomGridLayout>
                     <div className="col-6">
                         <h5 className="text-bold mb-2">Date/Time</h5>
-                        {moment(data?.date).format('DD-MM-YYYY hh:mm A')}
+                        {moment(new Date()).format('DD-MM-YYYY hh:mm A')}
                     </div>
                     <div className="col-6 grid align-items-end ">
                         <CustomInputNumber name="barCode" col={12} data={data} onChange={handleChange} />
