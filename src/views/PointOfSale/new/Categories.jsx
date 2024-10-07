@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CustomCard from '../../../shared/Cards/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../../redux/actions/InventorySettings/categoriesAction';
 

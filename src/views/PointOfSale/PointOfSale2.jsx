@@ -20,6 +20,7 @@ export default function PointOfSale2() {
         let netTotal = 0;
         let tax = 0;
         let discount = 0;
+        let specialDiscount = 0;
         let waivedTaxAmount = 0;
         let total = 0;
         let gradTotal = 0;
@@ -28,6 +29,9 @@ export default function PointOfSale2() {
             if (item?.defaultDiscount) {
                 discount += item?.defaultDiscount?.amountAfterDiscount * item?.quantity;
             }
+            if (item?.specialDiscount) {
+                specialDiscount += item?.specialDiscount?.amountAfterDiscount * item?.quantity;
+            }
             if (item?.taxWaived) {
                 waivedTaxAmount += item?.totalTax;
             }
@@ -35,14 +39,14 @@ export default function PointOfSale2() {
             total += item?.finalTotal;
         });
         gradTotal = total + tax - waivedTaxAmount;
-        setCartDetails({ netTotal, total, tax, discount, waivedTaxAmount, gradTotal });
+        setCartDetails({ netTotal, total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal });
     }, [cartItems]);
 
     useEffect(() => {
         let _cart = selectedItems.map((item) => {
             let { netPrice } = item;
 
-            const { quantity, taxPercentage, allowDiscount, defaultDiscount } = item;
+            const { quantity, taxPercentage, allowDiscount, defaultDiscount, specialDiscount } = item;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = item;
             if (quantity > moreThan1) {
                 netPrice = netPrice - unitDiscount1;
@@ -60,8 +64,20 @@ export default function PointOfSale2() {
             }
 
             let finalNetPrice = netPrice;
+
             if (allowDiscount && defaultDiscount) {
                 finalNetPrice = netPrice - defaultDiscount.amountAfterDiscount;
+            }
+
+            if (specialDiscount && specialDiscount?.amountType === 'FIXED') {
+                specialDiscount.amountAfterDiscount = specialDiscount?.amount;
+            }
+            if (specialDiscount && specialDiscount?.amountType === 'PERCENTAGE') {
+                specialDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, specialDiscount?.amount);
+            }
+
+            if (specialDiscount && specialDiscount?.amountAfterDiscount) {
+                finalNetPrice = finalNetPrice - specialDiscount?.amountAfterDiscount;
             }
 
             finalNetPrice = roundOfNumber(finalNetPrice);
@@ -97,6 +113,8 @@ export default function PointOfSale2() {
             const taxWaived = false;
             const dynamicPricing = false;
             const quantity = defaultQuantity;
+
+            const specialDiscount = null;
             let obj = {
                 _id,
                 subVariationId,
@@ -109,6 +127,7 @@ export default function PointOfSale2() {
                 dynamicPricing,
 
                 defaultDiscount,
+                specialDiscount,
                 allowDiscount,
                 overrideDiscount,
 
