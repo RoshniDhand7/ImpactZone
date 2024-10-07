@@ -18,7 +18,6 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
         dispatch(getDiscountTypes());
     }, [dispatch]);
 
-    console.log('allDiscountTypes==>', allDiscountTypes);
     const onDeleteCartItem = (index) => {
         setSelectedItems((prev) => {
             let _arr = [...prev];
@@ -73,7 +72,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
 
 function CartItem(props) {
     let { item, index, onWaiveTax, op } = props;
-    let { itemCaption, name, taxWaived, totalTax } = item;
+    let { itemCaption, name, taxWaived } = item;
     let { allowDiscount, defaultDiscount, overrideDiscount } = item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
     let { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;

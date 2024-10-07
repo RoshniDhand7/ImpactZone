@@ -490,6 +490,12 @@ const getSearchedData = (arr, filters) => {
         });
     });
 };
+const diffHours = (dt2, dt1) => {
+    const date1 = new Date(dt1);
+    const date2 = new Date(dt2);
+    const diff = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60);
+    return Math.abs(Math.round(diff));
+};
 
 export {
     capitalizeCamelCase,
@@ -527,4 +533,5 @@ export {
     timeConvertToDate,
     showFormErrors1,
     getSearchedData,
+    diffHours,
 };

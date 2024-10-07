@@ -4,21 +4,19 @@ import { CustomButton } from '../shared/Button/CustomButton';
 import { CustomRadioButtons } from '../shared/Input/CustomRadioButton';
 import { filterType } from '../utils/constant';
 
-export default function FilterComponent({ visible, onHide, onApply, value, children, data, handleChange, setData }) {
+export default function FilterComponent({ visible, onHide, onApply, value, children, data, handleChange, setData, initailData }) {
     // useEffect(() => {
     //     if (value) {
     //         setData({ ...value });
     //     }
     // }, [value, visible]);
 
-    console.log(data, '222dsdf');
-
     const handleApply = () => {
         let _keys = Object.keys(data);
         let _filters = {};
-
         _keys.forEach((key) => {
             const value = data[key];
+            console.log('filters>>', _filters, data[key]);
 
             // Check if the value is not undefined, null, or an empty string/array
             if (value || (value === false && (Array.isArray(value) ? value.length > 0 : value !== ''))) {
@@ -26,15 +24,17 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
             }
         });
 
-        console.log(_filters, '_filters');
-
         onApply(_filters);
         onHide();
     };
     const handleClear = () => {
-        setData({
-            filterType: 'AND',
-        });
+        if (initailData) {
+            setData(initailData);
+        } else {
+            setData({
+                filterType: 'AND',
+            });
+        }
     };
 
     return (
