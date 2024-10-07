@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { confirmPopup } from 'primereact/confirmpopup';
 import Lottie from 'lottie-react';
 import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getDiscountTypes } from '../../../redux/actions/PosSettings/discountType';
-import { useRef } from 'react';
-import { OverlayPanel } from 'primereact/overlaypanel';
+import SelectDiscountPopup from './SelectDiscountPopup';
+import SpecialDiscountPopup from './SpecialDiscountPopup';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
     const dispatch = useDispatch();
-    const op = useRef(null);
-    let { allDiscountTypes } = useSelector((state) => state.discountType);
 
     useEffect(() => {
         dispatch(getDiscountTypes());
@@ -44,14 +42,49 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
             return _arr;
         });
     };
+    const [discountPopup, setDiscountPopup] = useState(false);
+    const [specialDiscountPopup, setSpecialDiscountPopup] = useState(false);
+
+    const onOverrideDiscount = (index, item) => {
+        setDiscountPopup({ index, item });
+    };
+    const onAddSpecialDiscount = (index, item) => {
+        setSpecialDiscountPopup({ index, item });
+    };
+
+    const onApplyDiscount = (index, discount) => {
+        setSelectedItems((prev) => {
+            let _arr = [...prev];
+            let _obj = _arr[index];
+            _obj.defaultDiscount = discount;
+            _arr[index] = _obj;
+            return _arr;
+        });
+    };
+    const onApplySpecialDiscount = (index, discount) => {
+        setSelectedItems((prev) => {
+            let _arr = [...prev];
+            let _obj = _arr[index];
+            _obj.specialDiscount = discount;
+            _arr[index] = _obj;
+            return _arr;
+        });
+    };
+
+    const onRemoveSpecialDiscount = (index) => {
+        setSelectedItems((prev) => {
+            let _arr = [...prev];
+            let _obj = _arr[index];
+            _obj.specialDiscount = null;
+            _arr[index] = _obj;
+            return _arr;
+        });
+    };
 
     return (
         <>
-            <OverlayPanel ref={op}>
-                {allDiscountTypes?.map((item) => (
-                    <div>{item.discountCode}</div>
-                ))}
-            </OverlayPanel>
+            <SelectDiscountPopup visible={discountPopup} setVisible={setDiscountPopup} onApply={onApplyDiscount} />
+            <SpecialDiscountPopup visible={specialDiscountPopup} setVisible={setSpecialDiscountPopup} onApply={onApplySpecialDiscount} />
             <CustomCard title="Cart" col={12}>
                 {cartItems?.map((item, i) => (
                     <CartItem
@@ -61,7 +94,9 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
                         onDeleteCartItem={onDeleteCartItem}
                         onQtyChange={onQtyChange}
                         onWaiveTax={onWaiveTax}
-                        op={op}
+                        onOverrideDiscount={onOverrideDiscount}
+                        onAddSpecialDiscount={onAddSpecialDiscount}
+                        onRemoveSpecialDiscount={onRemoveSpecialDiscount}
                     />
                 ))}
                 <CartDetails cartDetails={cartDetails} />
@@ -71,11 +106,12 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
 }
 
 function CartItem(props) {
-    let { item, index, onWaiveTax, op } = props;
-    let { itemCaption, name, taxWaived } = item;
-    let { allowDiscount, defaultDiscount, overrideDiscount } = item;
+    const { onDeleteCartItem, onWaiveTax, onQtyChange, onOverrideDiscount, onAddSpecialDiscount, onRemoveSpecialDiscount } = props;
+    const { item, index } = props;
+    const { itemCaption, name, taxWaived, totalTax } = item;
+    const { allowDiscount, defaultDiscount, overrideDiscount, specialDiscount } = item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
-    let { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;
+    const { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;
 
     const onDelete = (event) => {
         confirmPopup({
@@ -86,7 +122,7 @@ function CartItem(props) {
             acceptClassName: 'btn-dark',
             defaultFocus: 'reject',
             accept: () => {
-                props.onDeleteCartItem(index);
+                onDeleteCartItem(index);
             },
             reject: () => {},
         });
@@ -122,19 +158,32 @@ function CartItem(props) {
     const onInc = () => {
         let _qty = quantity + 1;
         if (_qty <= maximumQuantity || allowUnlimited) {
-            props.onQtyChange(index, _qty);
+            onQtyChange(index, _qty);
         }
     };
     const onDec = () => {
         let _qty = quantity - 1;
         if (_qty >= minimumQuantity) {
-            props.onQtyChange(index, _qty);
+            onQtyChange(index, _qty);
+        }
+    };
+    const showDiscountMenu = () => {
+        if (allowDiscount && !defaultDiscount) {
+            onOverrideDiscount(index, defaultDiscount);
+        } else if (defaultDiscount && overrideDiscount) {
+            onOverrideDiscount(index, defaultDiscount);
+        }
+    };
+    const showSpecialDiscount = () => {
+        if (allowDiscount) {
+            onAddSpecialDiscount(index, specialDiscount);
         }
     };
 
-    const showDiscountMenu = (e) => {
-        op.current.toggle(e);
+    const removeSpecialDiscount = () => {
+        onRemoveSpecialDiscount(index);
     };
+
     return (
         <>
             <div className="flex justify-content-between text-xl font-medium">
@@ -152,6 +201,13 @@ function CartItem(props) {
                             {defaultDiscount?.amountType === 'FIXED' && `$${defaultDiscount?.amount} OFF`}
                         </div>
                     )}
+                    {specialDiscount && (
+                        <div className="bg-green-100 text-green-900 border-round-sm px-1 ml-2 my-auto">
+                            Special {specialDiscount?.amountType === 'PERCENTAGE' && `${specialDiscount?.amount}% OFF`}
+                            {specialDiscount?.amountType === 'FIXED' && `$${specialDiscount?.amount} OFF`}
+                            <i className="pi pi-times ml-2 cursor-pointer" onClick={removeSpecialDiscount}></i>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex gap-2 align-items-center">
@@ -164,6 +220,15 @@ function CartItem(props) {
             </div>
             <div className="flex justify-content-between my-3 ">
                 <div className="flex">
+                    {taxWaived ? (
+                        <div className="py-1 px-3 bg-green-100 text-green-900 border-round-md mr-2 cursor-pointer" onClick={applyTax}>
+                            ${waivedTaxAmount} Tax Waived
+                        </div>
+                    ) : (
+                        <div className="py-1 px-3 bg-primary-dark border-round-md mr-2 text-white cursor-pointer" onClick={waiveTax}>
+                            % Waive Tax
+                        </div>
+                    )}
                     {allowDiscount && (
                         <>
                             <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer" onClick={showDiscountMenu}>
@@ -179,14 +244,12 @@ function CartItem(props) {
                             </div>
                         </>
                     )}
-                    {taxWaived ? (
-                        <div className="py-1 px-3 bg-green-100 text-green-900 border-round-md mr-2 cursor-pointer" onClick={applyTax}>
-                            ${waivedTaxAmount} Tax Waived
-                        </div>
-                    ) : (
-                        <div className="py-1 px-3 bg-primary-dark border-round-md mr-2 text-white cursor-pointer" onClick={waiveTax}>
-                            % Waive Tax
-                        </div>
+                    {allowDiscount && (
+                        <>
+                            <div className="py-1 px-2 bg-blue-100 border-round-md cursor-pointer" onClick={showSpecialDiscount}>
+                                <i className="pi pi-gift text-xl text-blue-600"></i>
+                            </div>
+                        </>
                     )}
                 </div>
 
@@ -200,7 +263,7 @@ function CartItem(props) {
     );
 }
 function CartDetails({ cartDetails }) {
-    let { total, tax, discount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
+    let { total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     return (
         <div>
             {total ? (
@@ -216,11 +279,18 @@ function CartDetails({ cartDetails }) {
                         <div className="text-dark-gray">Tax:</div>
                         <div className="font-medium text-red-600">+${tax}</div>
                     </div>
-                    <div className="flex justify-content-between">
-                        <div className="text-dark-gray">Discounts:</div>
-                        <div className="font-medium text-green-600">-${discount}</div>
-                    </div>
-
+                    {discount > 0 && (
+                        <div className="flex justify-content-between">
+                            <div className="text-dark-gray">Discounts:</div>
+                            <div className="font-medium text-green-600">-${discount}</div>
+                        </div>
+                    )}
+                    {specialDiscount > 0 && (
+                        <div className="flex justify-content-between">
+                            <div className="text-dark-gray">Special Discount:</div>
+                            <div className="font-medium text-green-600">-${specialDiscount}</div>
+                        </div>
+                    )}
                     {waivedTaxAmount > 0 && (
                         <div className="flex justify-content-between">
                             <div className="text-dark-gray">Waived Tax:</div>
