@@ -206,6 +206,35 @@ const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) 
         setLoading(false);
     }
 };
+const getallEmployeeTimeSheet = (setLoading, data) => async (dispatch) => {
+    console.log(data, 'ljkhj');
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api(
+        'get',
+        EndPoints.ALL_EMPLOYEE_TIMESHEET,
+        {},
+        {
+            fromDate: moment(data?.from).format('DD-MM-YYYY'),
+            toDate: moment(data?.to).format('DD-MM-YYYY'),
+            clubs: data?.club,
+            departments: data?.department,
+            employee: data?.employee,
+        },
+    );
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_ALL_EMPLOYEE_TIMESHEET,
+                payload: res.data,
+            });
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 export {
     getEmployees,
     addEmployees,
@@ -218,4 +247,5 @@ export {
     getEmployeesFromBarCode,
     addEmployeesCheckInOut,
     getEmployeeTimeSheet,
+    getallEmployeeTimeSheet,
 };

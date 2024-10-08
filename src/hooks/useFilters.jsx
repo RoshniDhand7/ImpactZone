@@ -15,15 +15,26 @@ export default function useFilters(tableData, filter = 'frontend', id, getFilter
     const onClose = () => {
         setIsVisible(false);
     };
+
+    useEffect(() => {
+        setFilteredData(tableData);
+    }, [tableData]);
+
     const onApply = (e) => {
-        if (id) {
-            dispatch(getFilteredData(_, id, e));
+        if (filter === 'backend') {
+            if (id) {
+                dispatch(getFilteredData(_, id, e));
+            } else {
+                dispatch(getFilteredData(_, e));
+            }
         } else {
             setData(e);
         }
     };
 
     const localFilteredData = useMemo(() => applyFilters(tableData, data), [tableData, data]);
+
+    console.log('filteredData>>', filteredData);
 
     useEffect(() => {
         if (filter === 'frontend') {
