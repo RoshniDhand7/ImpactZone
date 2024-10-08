@@ -16,6 +16,7 @@ export default function PointOfSale2() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
 
+    //Count final detailed price and calculations
     useEffect(() => {
         let netTotal = 0;
         let tax = 0;
@@ -42,12 +43,27 @@ export default function PointOfSale2() {
         setCartDetails({ netTotal, total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal });
     }, [cartItems]);
 
+    //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
     useEffect(() => {
+        let discounts = {};
+
+        selectedItems.forEach(({ defaultDiscount }) => {
+            if (defaultDiscount) {
+                if (discounts[defaultDiscount._id]) {
+                    discounts[defaultDiscount._id].count = discounts[defaultDiscount._id].count + 1;
+                } else {
+                    discounts[defaultDiscount._id] = { ...defaultDiscount, count: 1 };
+                }
+            }
+        });
         let _cart = selectedItems.map((item) => {
+            item = JSON.parse(JSON.stringify(item));
             let { netPrice } = item;
 
             const { quantity, taxPercentage, allowDiscount, defaultDiscount, specialDiscount } = item;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = item;
+
+            //Setting up the dynamic pricing according to the individual item count.
             if (quantity > moreThan1) {
                 netPrice = netPrice - unitDiscount1;
             } else if (quantity > moreThan2) {
@@ -55,29 +71,47 @@ export default function PointOfSale2() {
             } else if (quantity > moreThan3) {
                 netPrice = netPrice - unitDiscount3;
             }
-
-            if (allowDiscount && defaultDiscount?.amountType === 'FIXED') {
-                defaultDiscount.amountAfterDiscount = defaultDiscount?.amount;
-            }
-            if (allowDiscount && defaultDiscount?.amountType === 'PERCENTAGE') {
-                defaultDiscount.amountAfterDiscount = calculateDiscountedAmount(netPrice, defaultDiscount?.amount);
-            }
-
+            // here We are getting the final net price after dynamic pricing
             let finalNetPrice = netPrice;
 
-            if (allowDiscount && defaultDiscount) {
-                finalNetPrice = netPrice - defaultDiscount.amountAfterDiscount;
-            }
+            //if discounts are allowed on item
+            if (allowDiscount) {
+                //modifing the defaultDiscount obj according to the number of products using the same discount code
+                if (defaultDiscount?.multiItemDiscountCheck) {
+                    let count = discounts?.[defaultDiscount?._id]?.count;
 
-            if (specialDiscount && specialDiscount?.amountType === 'FIXED') {
-                specialDiscount.amountAfterDiscount = specialDiscount?.amount;
-            }
-            if (specialDiscount && specialDiscount?.amountType === 'PERCENTAGE') {
-                specialDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, specialDiscount?.amount);
-            }
+                    if (count) {
+                        defaultDiscount?.multiItemDiscount.forEach((discount) => {
+                            if (count >= discount?.noOfItems) {
+                                defaultDiscount.amount = discount.amount;
+                                defaultDiscount.amountType = discount.amountType;
+                            }
+                        });
+                    }
+                }
+                //calculating the discounts according to the discount type.
+                if (defaultDiscount?.amountType === 'FIXED') {
+                    defaultDiscount.amountAfterDiscount = defaultDiscount?.amount;
+                }
+                if (defaultDiscount?.amountType === 'PERCENTAGE') {
+                    defaultDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, defaultDiscount?.amount);
+                }
+                //If any discount is applied on item , so we subtract the discount amount from finalNetPrice
+                if (defaultDiscount) {
+                    finalNetPrice = netPrice - defaultDiscount.amountAfterDiscount;
+                }
 
-            if (specialDiscount && specialDiscount?.amountAfterDiscount) {
-                finalNetPrice = finalNetPrice - specialDiscount?.amountAfterDiscount;
+                // calculating the special discount according to the type
+                if (specialDiscount && specialDiscount?.amountType === 'FIXED') {
+                    specialDiscount.amountAfterDiscount = specialDiscount?.amount;
+                }
+                if (specialDiscount && specialDiscount?.amountType === 'PERCENTAGE') {
+                    specialDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, specialDiscount?.amount);
+                }
+                //If any special discount is applied on item, so we subtract the discount amount from finalNetPrice
+                if (specialDiscount && specialDiscount?.amountAfterDiscount) {
+                    finalNetPrice = finalNetPrice - specialDiscount?.amountAfterDiscount;
+                }
             }
 
             finalNetPrice = roundOfNumber(finalNetPrice);
@@ -92,6 +126,7 @@ export default function PointOfSale2() {
         setCartItems(_cart);
     }, [selectedItems]);
 
+    //When we add something in selected items.
     const onAddItemIntoCart = (product) => {
         const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
         if (index >= 0) {

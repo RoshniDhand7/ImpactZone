@@ -101,6 +101,12 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
                 ))}
                 <CartDetails cartDetails={cartDetails} />
             </CustomCard>
+            <div className="flex gap-2 mt-2">
+                <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />
+                <PrimaryButton className="w-full px-1" label="Quick Cash" />
+                <PrimaryButton className="w-full px-2" label="Pre-Pay" />
+                <PrimaryButton className="w-full px-1" label="Card File" />
+            </div>
         </>
     );
 }
@@ -179,7 +185,6 @@ function CartItem(props) {
             onAddSpecialDiscount(index, specialDiscount);
         }
     };
-
     const removeSpecialDiscount = () => {
         onRemoveSpecialDiscount(index);
     };
@@ -312,11 +317,13 @@ function CartDetails({ cartDetails }) {
                     {/* <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2 ">
                         <div className="text-dark-gray">Pre-Pay Balance</div>
                         <div className="font-medium text-green-600">$2.00</div>
-                    </div>
-                    <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2  ">
-                        <div className="text-dark-gray">Apply Promocode</div>
-                        <div className="font-medium text-green-600">$2.00</div>
                     </div> */}
+                    <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2  ">
+                        <input type="text" className="promo w-10 border-none h-full" placeholder="Apply Promocode" />
+                        <div className=" pb-1  px-3 bg-primary-dark text-sm border-round-md text-white cursor-pointer">Apply</div>
+                        {/* <div className="text-dark-gray">Apply Promocode</div>
+                        <div className="font-medium text-green-600">$2.00</div> */}
+                    </div>
                 </>
             ) : (
                 <Lottie animationData={emptyCartAnimation} loop={true} />
@@ -325,12 +332,6 @@ function CartDetails({ cartDetails }) {
             <div className="flex gap-2 mt-2">
                 <PrimaryButton label="Checkout" className="w-full" />
                 <CustomButton label="Save" severity="secondary" className="w-full" />
-            </div>
-            <div className="flex gap-2 mt-2">
-                <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />
-                <PrimaryButton className="w-full px-1" label="Quick Cash" />
-                <PrimaryButton className="w-full px-2" label="Pre-Pay" />
-                <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
         </div>
     );

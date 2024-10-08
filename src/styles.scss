@@ -248,3 +248,12 @@ a:-webkit-any-link {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.promo {
+    color: #525252;
+    padding: 3px;
+    font-size: 16px;
+    &:focus {
+        border: none;
+        outline: none;
+    }
+}

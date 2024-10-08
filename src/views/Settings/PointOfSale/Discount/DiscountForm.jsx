@@ -136,6 +136,7 @@ const DiscountForm = () => {
             ..._newData,
         }));
     };
+    console.log('data==>', data);
 
     const handleSave = () => {
         let ignore = ['services'];
@@ -150,14 +151,18 @@ const DiscountForm = () => {
                 ignore = [...ignore, 'noOfItems', 'amount'];
             }
             const validatedSchedule = showArrayFormErrors(data.multiItemDiscount, ignore);
+            console.log('validatedSchedule=>', validatedSchedule);
 
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, multiItemDiscount: validatedSchedule.data }));
             }
 
-            if (!validatedSchedule.isValid) {
+            if (validatedSchedule.isValid) {
+                // so items should always be in ascending order.
+                let multiItemDiscount = data?.multiItemDiscount.sort((a, b) => a.noOfItems - b.noOfItems);
                 const discountData = {
                     ...data,
+                    multiItemDiscount,
                     services: getIds(data?.services),
                     salesCode: getIds(data.salesCode),
                     membershipPlan: getIds(data?.membershipPlan),
