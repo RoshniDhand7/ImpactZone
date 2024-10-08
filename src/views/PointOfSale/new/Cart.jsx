@@ -108,7 +108,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails }) {
 function CartItem(props) {
     const { onDeleteCartItem, onWaiveTax, onQtyChange, onOverrideDiscount, onAddSpecialDiscount, onRemoveSpecialDiscount } = props;
     const { item, index } = props;
-    const { itemCaption, name, taxWaived, totalTax } = item;
+    const { itemCaption, name, taxWaived } = item;
     const { allowDiscount, defaultDiscount, overrideDiscount, specialDiscount } = item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
     const { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;

@@ -26,6 +26,7 @@ import MemberSettingsRoutes from './Settings/MemberRoutes';
 import PointOfSaleSettingRoutes from './Settings/PointOfSaleRoutes';
 import AllMembers from '../views/Members/AllMembers';
 import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
+import MorePos from '../views/More/MorePos';
 
 export const PrivateRoutes = [
     {
@@ -95,10 +96,20 @@ export const PrivateRoutes = [
             },
         ],
     },
+
     {
         path: '/more',
         name: 'More',
+        exact: true,
         component: More,
+        items: [
+            {
+                path: '/pos',
+                name: 'POS',
+                exact: true,
+                component: MorePos,
+            },
+        ],
     },
     {
         path: '/members/add',

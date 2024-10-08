@@ -7,6 +7,8 @@ export default function ProtectedRoute() {
         return routes.map((prop, i) => {
             let currentPath = parentPath + prop.path;
 
+            console.log('currentPath', currentPath);
+
             return (
                 <div key={i}>
                     <Route path={currentPath} key={currentPath + i} component={prop.component} exact={prop?.exact} />

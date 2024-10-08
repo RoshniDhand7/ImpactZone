@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeeTimeSheet } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
-import CustomTable from '../../../../../shared/Table/CustomTable';
-import { useParams } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import { diffHours } from '../../../../../utils/commonFunctions';
-import FilterComponent from '../../../../../components/FilterComponent';
-import useFilters from '../../../../../hooks/useFilters';
-import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
-import { CustomCalenderInput, CustomMultiselect } from '../../../../../shared/Input/AllInputs';
-import useGetClubs from '../../../../../hooks/useGetClubs';
-import PrimaryButton from '../../../../../shared/Button/CustomButton';
-import useDepartments from '../../../../../hooks/Employees/useDepartments';
+import { getallEmployeeTimeSheet } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { diffHours } from '../../../../utils/commonFunctions';
+import useFilters from '../../../../hooks/useFilters';
+import useGetClubs from '../../../../hooks/useGetClubs';
+import useDepartments from '../../../../hooks/Employees/useDepartments';
+import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
+import PrimaryButton from '../../../../shared/Button/CustomButton';
+import FilterComponent from '../../../../components/FilterComponent';
+import { CustomCalenderInput, CustomMultiselect } from '../../../../shared/Input/AllInputs';
+import CustomTable from '../../../../shared/Table/CustomTable';
+import useEmployees from '../../../../hooks/Employees/useEmployees';
 
 const TimeSheet = () => {
     const dispatch = useDispatch();
-    const { id } = useParams();
     var startOfWeek = moment().utc().startOf('week').toDate();
     var endOfWeek = moment().utc().endOf('week').toDate();
     const initialData = {
@@ -25,32 +24,35 @@ const TimeSheet = () => {
         to: endOfWeek,
         club: null,
         department: null,
+        employee: null,
     };
     const [data, setData] = useState(initialData);
 
     useEffect(() => {
-        dispatch(getEmployeeTimeSheet(_, id, data));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, id]);
+        dispatch(getallEmployeeTimeSheet(_, data));
 
-    const { employeeTimeSheet } = useSelector((state) => state?.employees);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
+
+    const { allTimesheet } = useSelector((state) => state?.employees);
 
     const columns = [
         { field: 'club', header: 'Club' },
+        { field: 'employeeName', header: 'Employee Name' },
         { field: 'department', header: 'Department' },
-        { field: 'clockIn', body: (r) => moment(r?.clockIn).format('hh:mm a'), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => moment(r?.clockOut).format('hh:mm a'), header: 'ClockOut' },
+        { field: 'clockIn', body: (r) => (r?.clockIn ? moment(r?.clockIn).format('hh:mm a') : null), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('hh:mm a') : null), header: 'ClockOut' },
         { field: 'duration', body: (r) => diffHours(r?.clockOut, r?.clockIn), header: 'Duration' },
         { field: 'modifiedOn', header: 'Modified On' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
-        employeeTimeSheet,
+        allTimesheet,
         'backend',
-        id,
-        getEmployeeTimeSheet,
+        null,
+        getallEmployeeTimeSheet,
     );
 
-    console.log(employeeTimeSheet, 'employeeTimeSheet');
+    console.log(allTimesheet, 'allTimesheet');
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
@@ -58,6 +60,7 @@ const TimeSheet = () => {
 
     const { clubsDropdown } = useGetClubs();
     const { departmentsDropdown } = useDepartments();
+    const { employeesDropdown } = useEmployees();
 
     return (
         <>
@@ -87,6 +90,7 @@ const TimeSheet = () => {
                         onChange={handleChange}
                         showClear
                     />
+                    <CustomMultiselect col={12} name="employee" options={employeesDropdown} data={data} onChange={handleChange} showClear />
                     <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} />
                     <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} />
                 </CustomGridLayout>

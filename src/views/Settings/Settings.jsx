@@ -2,7 +2,7 @@ import React from 'react';
 import Bussiness from '../../assets/icons/businessettings.png';
 import customer from '../../assets/icons/customer.png';
 import Employee from '../../assets/icons/Employee.png';
-import Schedule from '../../assets/icons/sedule.png';
+import Schedule from '../../assets/icons/schedule.png';
 import Point from '../../assets/icons/pointofsale.png';
 import Alerts from '../../assets/icons/alert.png';
 import Menu from '../../assets/icons/menulayout.png';
@@ -102,7 +102,7 @@ const Settings = () => {
                 <div className="bg-color">
                     <h3 className="text-bold mb-3">Settings</h3>
                     <div className="flex justify-content-center">
-                        <div className="p-3 border-round-xl btn-lightblue  ">
+                        <div className="p-3 border-round-xl btn-lightblue">
                             <div className="grid col-12">
                                 {settingsCard.map((box, i) => {
                                     return (

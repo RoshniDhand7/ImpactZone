@@ -11,6 +11,7 @@ const intitalState = {
     isAppointmentLevel: '',
     salesCode: [],
     employeeTimeSheet: [],
+    allTimesheet: [],
 };
 
 const employeesReducer = (state = intitalState, action) => {
@@ -54,6 +55,11 @@ const employeesReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 employeeTimeSheet: action.payload,
+            };
+        case types.CHANGE_ALL_EMPLOYEE_TIMESHEET:
+            return {
+                ...state,
+                allTimesheet: action.payload,
             };
         default:
             return { ...state };

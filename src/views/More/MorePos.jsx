@@ -2,105 +2,57 @@ import React from 'react';
 import Attendance from '../../assets/icons/Attendance.png';
 import CustomTransition from '../../shared/Transitions/CustomTransition';
 import Point from '../../assets/icons/pointofsale.png';
-import Schedule from '../../assets/icons/schedule.png';
-import Member from '../../assets/icons/membersetup.png';
-import CustomerRelations from '../../assets/icons/customerRelations.png';
-import Training from '../../assets/icons/traning.png';
-import Inventory from '../../assets/icons/inventorysetup.png';
-import Links from '../../assets/icons/Links.png';
-import Reports from '../../assets/icons/Reports.png';
-import Help from '../../assets/icons/Help.png';
-import Agreement from '../../assets/icons/agreementsetup.png';
-import MobileApp from '../../assets/icons/mobileapp.png';
-import Forms from '../../assets/icons/Forms.png';
-import Maintenance from '../../assets/icons/Maintenance.png';
-import FacilityLayout from '../../assets/icons/FacilityLayout.png';
+import Receipts from '../../assets/icons/Receipts.png';
+import CloseOutDrawer from '../../assets/icons/CloseOutDrawer.png';
+import Drawers from '../../assets/icons/Drawers.png';
+import DrawersSummary from '../../assets/icons/DrawersSummary.png';
+import GiftCardTransactions from '../../assets/icons/GiftCardTransactions.png';
 
 import { Link } from 'react-router-dom';
 
-export default function More() {
+export default function MorePos() {
     const moreCards = [
         {
-            img: Attendance,
-            link: '',
-            title: 'Attendance',
-        },
-        {
             img: Point,
-            link: '/more/pos',
+            link: '',
             title: 'Point of Sale',
         },
         {
-            img: Schedule,
+            img: Attendance,
             link: '',
-            title: 'Schedule',
+            title: 'Saved Carts',
         },
+
         {
-            img: Member,
-            link: '',
-            title: 'Members',
-        },
-        {
-            img: CustomerRelations,
-            link: '',
-            title: 'Customer Relations',
-        },
-        {
-            img: Training,
-            link: '',
-            title: 'Training',
-        },
-        {
-            img: Inventory,
-            link: '',
-            title: 'Inventory',
-        },
-        {
-            img: Links,
+            img: Receipts,
             link: '/more',
-            title: 'Links',
+            title: 'Receipts',
         },
         {
-            img: Reports,
+            img: CloseOutDrawer,
             link: '/more',
-            title: 'Reports',
+            title: 'Close Out Drawer',
         },
         {
-            img: Help,
+            img: Drawers,
             link: '/more',
-            title: 'Help',
+            title: 'Drawers',
         },
         {
-            img: Agreement,
+            img: DrawersSummary,
             link: '/more',
-            title: 'Agreements',
+            title: 'Drawers Summary',
         },
         {
-            img: MobileApp,
+            img: GiftCardTransactions,
             link: '/more',
-            title: 'Mobile App',
-        },
-        {
-            img: Forms,
-            link: '/more',
-            title: 'Forms',
-        },
-        {
-            img: Maintenance,
-            link: '/more',
-            title: 'Maintenance',
-        },
-        {
-            img: FacilityLayout,
-            link: '/more',
-            title: 'Facility Layout',
+            title: 'Gift Card Transactions',
         },
     ];
     return (
         <>
             <CustomTransition>
                 <div className="bg-color">
-                    <h3 className="text-bold mb-3">More</h3>
                     <div className="flex justify-content-center">
                         <div className="p-3 border-round-xl btn-lightblue w-full">
                             <div className="grid col-12">

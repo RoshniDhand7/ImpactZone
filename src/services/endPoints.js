@@ -92,5 +92,6 @@ const endPoints = {
     EMPLOYEE_BARCODE: '/employee-barcode/',
     EMPLOYEE_CHECKINOUT: '/employee-clockin-clockout/',
     EMPLOYEE_TIMESHEET: '/employee-timesheet/',
+    ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
 };
 export default endPoints;
