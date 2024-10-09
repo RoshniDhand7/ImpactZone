@@ -92,4 +92,8 @@ export const types = {
 
     CHANGE_PROMO_CODE: 'CHANGE_PROMO_CODE',
     CLEAR_POS_PROMO: 'CLEAR_POS_PROMO',
+
+    //more
+
+    CHANGE_DRAWERS: 'CHANGE_DRAWERS',
 };

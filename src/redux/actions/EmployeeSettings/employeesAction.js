@@ -178,7 +178,6 @@ const deleteEmployee = (id) => async (dispatch) => {
 };
 
 const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) => {
-    console.log(data, 'ljkhj');
     if (setLoading) {
         setLoading(true);
     }
@@ -207,7 +206,6 @@ const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) 
     }
 };
 const getallEmployeeTimeSheet = (setLoading, data) => async (dispatch) => {
-    console.log(data, 'ljkhj');
     if (setLoading) {
         setLoading(true);
     }

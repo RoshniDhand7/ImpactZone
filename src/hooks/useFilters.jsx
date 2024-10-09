@@ -34,8 +34,6 @@ export default function useFilters(tableData, filter = 'frontend', id, getFilter
 
     const localFilteredData = useMemo(() => applyFilters(tableData, data), [tableData, data]);
 
-    console.log('filteredData>>', filteredData);
-
     useEffect(() => {
         if (filter === 'frontend') {
             setFilteredData(localFilteredData);

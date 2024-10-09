@@ -16,7 +16,6 @@ export default function FilterComponent({ visible, onHide, onApply, value, child
         let _filters = {};
         _keys.forEach((key) => {
             const value = data[key];
-            console.log('filters>>', _filters, data[key]);
 
             // Check if the value is not undefined, null, or an empty string/array
             if (value || (value === false && (Array.isArray(value) ? value.length > 0 : value !== ''))) {

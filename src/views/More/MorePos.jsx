@@ -14,7 +14,7 @@ export default function MorePos() {
     const moreCards = [
         {
             img: Point,
-            link: '',
+            link: '/pos',
             title: 'Point of Sale',
         },
         {
@@ -35,12 +35,12 @@ export default function MorePos() {
         },
         {
             img: Drawers,
-            link: '/more',
+            link: '/more/pos/drawers',
             title: 'Drawers',
         },
         {
             img: DrawersSummary,
-            link: '/more',
+            link: '/more/pos/drawer-summary',
             title: 'Drawers Summary',
         },
         {
