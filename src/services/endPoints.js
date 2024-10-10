@@ -81,6 +81,7 @@ const endPoints = {
     ADD_RECENT_SUGGESSION: '/suggestion/',
     DASHBOARD: '/dashboard-count/',
     PROMO_CODE: '/promo-code/',
+    VALIDATE_PROMO_CODE: '/validate-promo-code/',
     REGISTERS: '/cash-register/',
     VERIFY_ACCESS_CODE: '/verify-cash-register/',
     CASH_REGISTER_CHECK_IN: '/cash-register-check-in/',

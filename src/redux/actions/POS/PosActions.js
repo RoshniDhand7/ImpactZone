@@ -4,26 +4,6 @@ import api from '../../../services/api';
 import { showToast } from '../toastAction';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 
-const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
-    const res = await api('get', endPoints.PROMO_CODE, {}, { promoCode: promoCode[0] });
-    if (res.success) {
-        if (res.data) {
-            dispatch({
-                type: types.CHANGE_PROMO_CODE,
-                payload: res.data,
-            });
-        }
-    } else {
-        dispatch(showToast({ severity: 'error', summary: res.message }));
-    }
-    if (setLoading) {
-        setLoading(false);
-    }
-};
-
 const verifyCashRegisterAccessCode = (accessCode, registerId, next) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', endPoints.VERIFY_ACCESS_CODE, {}, { accessCode, registerId });
@@ -65,4 +45,29 @@ export const clearPOSPromo = () => {
     };
 };
 
-export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut };
+const getPromoCodeDetail = (setLoading, promoCode) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', endPoints.PROMO_CODE, {}, { promoCode: promoCode[0] });
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_PROMO_CODE,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
+const validatePromoCodeAction = (promoCode, next) => async (dispatch) => {
+    const res = await api('post', endPoints.VALIDATE_PROMO_CODE, { promoCode });
+    next(res);
+};
+
+export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut, validatePromoCodeAction };

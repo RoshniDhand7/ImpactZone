@@ -257,3 +257,9 @@ a:-webkit-any-link {
         outline: none;
     }
 }
+
+.promo-error {
+    .p-message .p-message-wrapper {
+        padding: 4px !important;
+    }
+}
