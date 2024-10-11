@@ -134,14 +134,13 @@ export default function PointOfSale2() {
                     }
                 }
             }
-
             finalNetPrice = roundOfNumber(finalNetPrice);
 
             const finalTotal = finalNetPrice * quantity;
 
             const totalTax = calculateTax(finalTotal, taxPercentage);
 
-            return { ...item, netPrice, finalNetPrice, finalTotal, totalTax };
+            return { ...item, promoDiscount, netPrice, finalNetPrice, finalTotal, totalTax };
         });
 
         setCartItems(_cart);

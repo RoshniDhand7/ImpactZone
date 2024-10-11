@@ -5,9 +5,11 @@ export default function CartItem(props) {
     const { onDeleteCartItem, onWaiveTax, onQtyChange, onOverrideDiscount, onAddSpecialDiscount, onRemoveSpecialDiscount } = props;
     const { item, index } = props;
     const { itemCaption, name, taxWaived } = item;
-    const { allowDiscount, defaultDiscount, overrideDiscount, specialDiscount } = item;
+    const { allowDiscount, defaultDiscount, overrideDiscount, specialDiscount, promoDiscount } = item;
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
     const { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;
+
+    console.log('promoDiscountpromoDiscount=>', promoDiscount);
 
     const onDelete = (event) => {
         confirmPopup({
@@ -94,6 +96,12 @@ export default function CartItem(props) {
                         <div className="bg-green-100 text-green-900 border-round-sm px-1 my-auto">
                             {defaultDiscount?.amountType === 'PERCENTAGE' && `${defaultDiscount?.amount}% OFF`}
                             {defaultDiscount?.amountType === 'FIXED' && `$${defaultDiscount?.amount} OFF`}
+                        </div>
+                    )}
+                    {allowDiscount && promoDiscount && (
+                        <div className="bg-green-100 text-green-900 border-round-sm px-1 ml-2 my-auto">
+                            Promo {promoDiscount?.amountType === 'PERCENTAGE' && `${promoDiscount?.amount}% OFF`}
+                            {promoDiscount?.amountType === 'FIXED' && `$${promoDiscount?.amount} OFF`}
                         </div>
                     )}
                     {specialDiscount && (
