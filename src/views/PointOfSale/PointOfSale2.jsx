@@ -12,6 +12,8 @@ export default function PointOfSale2() {
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
 
+    const [appliedPromo, setAppliedPromo] = useState(null);
+
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
@@ -22,6 +24,7 @@ export default function PointOfSale2() {
         let tax = 0;
         let discount = 0;
         let specialDiscount = 0;
+        let promoDiscount = 0;
         let waivedTaxAmount = 0;
         let total = 0;
         let gradTotal = 0;
@@ -33,6 +36,9 @@ export default function PointOfSale2() {
             if (item?.specialDiscount) {
                 specialDiscount += item?.specialDiscount?.amountAfterDiscount * item?.quantity;
             }
+            if (item?.promoDiscount) {
+                promoDiscount += item?.promoDiscount?.amountAfterDiscount * item?.quantity;
+            }
             if (item?.taxWaived) {
                 waivedTaxAmount += item?.totalTax;
             }
@@ -40,14 +46,15 @@ export default function PointOfSale2() {
             total += item?.finalTotal;
         });
         gradTotal = total + tax - waivedTaxAmount;
-        setCartDetails({ netTotal, total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal });
+        setCartDetails({ netTotal, total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal });
     }, [cartItems]);
 
     //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
     useEffect(() => {
         let discounts = {};
 
-        selectedItems.forEach(({ defaultDiscount }) => {
+        selectedItems.forEach((item) => {
+            let { defaultDiscount } = item;
             if (defaultDiscount) {
                 if (discounts[defaultDiscount._id]) {
                     discounts[defaultDiscount._id].count = discounts[defaultDiscount._id].count + 1;
@@ -60,7 +67,9 @@ export default function PointOfSale2() {
             item = JSON.parse(JSON.stringify(item));
             let { netPrice } = item;
 
-            const { quantity, taxPercentage, allowDiscount, defaultDiscount, specialDiscount } = item;
+            const { quantity, taxPercentage } = item;
+            const { allowDiscount, defaultDiscount, specialDiscount } = item;
+            let { promoDiscount } = item;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = item;
 
             //Setting up the dynamic pricing according to the individual item count.
@@ -98,7 +107,7 @@ export default function PointOfSale2() {
                 }
                 //If any discount is applied on item , so we subtract the discount amount from finalNetPrice
                 if (defaultDiscount) {
-                    finalNetPrice = netPrice - defaultDiscount.amountAfterDiscount;
+                    finalNetPrice = finalNetPrice - defaultDiscount.amountAfterDiscount;
                 }
 
                 // calculating the special discount according to the type
@@ -112,19 +121,33 @@ export default function PointOfSale2() {
                 if (specialDiscount && specialDiscount?.amountAfterDiscount) {
                     finalNetPrice = finalNetPrice - specialDiscount?.amountAfterDiscount;
                 }
-            }
 
+                if (appliedPromo) {
+                    promoDiscount = appliedPromo;
+
+                    if (promoDiscount?.amountType === 'FIXED') {
+                        promoDiscount.amountAfterDiscount = promoDiscount?.amount;
+                    }
+                    if (promoDiscount?.amountType === 'PERCENTAGE') {
+                        promoDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, promoDiscount?.amount);
+                    }
+                    //If any discount is applied on item , so we subtract the discount amount from finalNetPrice
+                    if (promoDiscount) {
+                        finalNetPrice = finalNetPrice - promoDiscount.amountAfterDiscount;
+                    }
+                }
+            }
             finalNetPrice = roundOfNumber(finalNetPrice);
 
             const finalTotal = finalNetPrice * quantity;
 
             const totalTax = calculateTax(finalTotal, taxPercentage);
 
-            return { ...item, netPrice, finalNetPrice, finalTotal, totalTax };
+            return { ...item, promoDiscount, netPrice, finalNetPrice, finalTotal, totalTax };
         });
 
         setCartItems(_cart);
-    }, [selectedItems]);
+    }, [selectedItems, appliedPromo]);
 
     //When we add something in selected items.
     const onAddItemIntoCart = (product) => {
@@ -161,6 +184,7 @@ export default function PointOfSale2() {
                 netPrice,
                 dynamicPricing,
 
+                promoDiscount: null,
                 defaultDiscount,
                 specialDiscount,
                 allowDiscount,
@@ -212,7 +236,13 @@ export default function PointOfSale2() {
             </div>
             <div className="col-4">
                 <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
-                <Cart cartItems={cartItems} setSelectedItems={setSelectedItems} cartDetails={cartDetails} />
+                <Cart
+                    cartItems={cartItems}
+                    setSelectedItems={setSelectedItems}
+                    cartDetails={cartDetails}
+                    setAppliedPromo={setAppliedPromo}
+                    appliedPromo={appliedPromo}
+                />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />
         </div>
