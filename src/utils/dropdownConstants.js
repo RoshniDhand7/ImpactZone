@@ -75,6 +75,12 @@ export const ActiveFilterDropdown = [
     { name: 'Active', value: (val) => val },
     { name: 'Inactive', value: (val) => !val },
 ];
+
+export const ActiveFilterDropdown1 = [
+    { name: 'Active', value: true },
+    { name: 'Inactive', value: false },
+];
+
 export const taxRatePercentageDropdown = [
     { name: 'All', value: () => true },
     { name: '0-50', value: (val) => val >= 0 && val <= 50 },

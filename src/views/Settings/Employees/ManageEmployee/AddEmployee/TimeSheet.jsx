@@ -50,8 +50,6 @@ const TimeSheet = () => {
         getEmployeeTimeSheet,
     );
 
-    console.log(employeeTimeSheet, 'employeeTimeSheet');
-
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };

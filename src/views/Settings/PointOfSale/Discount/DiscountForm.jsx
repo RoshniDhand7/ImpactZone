@@ -136,7 +136,6 @@ const DiscountForm = () => {
             ..._newData,
         }));
     };
-    console.log('data==>', data);
 
     const handleSave = () => {
         let ignore = ['services'];
@@ -151,7 +150,6 @@ const DiscountForm = () => {
                 ignore = [...ignore, 'noOfItems', 'amount'];
             }
             const validatedSchedule = showArrayFormErrors(data.multiItemDiscount, ignore);
-            console.log('validatedSchedule=>', validatedSchedule);
 
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, multiItemDiscount: validatedSchedule.data }));

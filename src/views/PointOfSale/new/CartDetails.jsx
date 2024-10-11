@@ -8,7 +8,7 @@ import { validatePromoCodeAction } from '../../../redux/actions/POS/PosActions';
 
 export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo }) {
     const dispatch = useDispatch();
-    let { total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
+    let { total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [promo, setPromo] = useState('');
 
     const msgs = useRef(null);
@@ -57,6 +57,12 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                         <div className="flex justify-content-between">
                             <div className="text-dark-gray">Special Discount:</div>
                             <div className="font-medium text-green-600">-${specialDiscount.toFixed(2)}</div>
+                        </div>
+                    )}
+                    {promoDiscount > 0 && (
+                        <div className="flex justify-content-between">
+                            <div className="text-dark-gray">Promo Discount:</div>
+                            <div className="font-medium text-green-600">-${promoDiscount.toFixed(2)}</div>
                         </div>
                     )}
                     {waivedTaxAmount > 0 && (

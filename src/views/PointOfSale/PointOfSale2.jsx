@@ -24,6 +24,7 @@ export default function PointOfSale2() {
         let tax = 0;
         let discount = 0;
         let specialDiscount = 0;
+        let promoDiscount = 0;
         let waivedTaxAmount = 0;
         let total = 0;
         let gradTotal = 0;
@@ -35,6 +36,9 @@ export default function PointOfSale2() {
             if (item?.specialDiscount) {
                 specialDiscount += item?.specialDiscount?.amountAfterDiscount * item?.quantity;
             }
+            if (item?.promoDiscount) {
+                promoDiscount += item?.promoDiscount?.amountAfterDiscount * item?.quantity;
+            }
             if (item?.taxWaived) {
                 waivedTaxAmount += item?.totalTax;
             }
@@ -42,7 +46,7 @@ export default function PointOfSale2() {
             total += item?.finalTotal;
         });
         gradTotal = total + tax - waivedTaxAmount;
-        setCartDetails({ netTotal, total, tax, discount, specialDiscount, waivedTaxAmount, gradTotal });
+        setCartDetails({ netTotal, total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal });
     }, [cartItems]);
 
     //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
