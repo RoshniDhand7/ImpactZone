@@ -9,7 +9,6 @@ export default function CustomCard({ title, name, icon, children, col = 6, heigh
         <div className={`col-12 md:col-${col} ${extraClassName}`}>
             <div className={`bg-primary-dark border-round shadow-2 ${name ? 'p-2' : 'p-3'} ${name ? 'flex justify-content-between align-items-center' : ''}`}>
                 <div className="text-xl text-white justify-content-end align-items-end">{title}</div>
-
                 {name && (
                     <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer text-white" onClick={onClick}>
                         {icon && (

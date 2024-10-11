@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Menu } from 'primereact/menu';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 
@@ -8,9 +9,12 @@ import SelectDiscountPopup from './SelectDiscountPopup';
 import SpecialDiscountPopup from './SpecialDiscountPopup';
 import CartItem from './CartItem';
 import CartDetails from './CartDetails';
+import OpenDrawerModel from './Drawer/OpenDrawerModel';
+import CloseDraweModel from './Drawer/CloseDraweModel';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo }) {
     const dispatch = useDispatch();
+    const menu = useRef(null);
     useEffect(() => {
         dispatch(getDiscountTypes());
     }, [dispatch]);
@@ -75,11 +79,26 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
         });
     };
 
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [closeDrawer, setCloseDrawer] = useState(false);
+
+    let items = [
+        { label: 'Add/Drop' },
+        { label: 'Receipts' },
+        { label: 'Drawer Summary' },
+        { label: 'Open Register', command: () => setOpenDrawer(true) },
+        { label: 'Close Register', command: () => setCloseDrawer(true) },
+        { label: 'Saved Carts' },
+    ];
+
     return (
         <>
+            <OpenDrawerModel visible={openDrawer} setVisible={setOpenDrawer} />
+            <CloseDraweModel visible={closeDrawer} setVisible={setCloseDrawer} />
+            <Menu model={items} popup ref={menu} />
             <SelectDiscountPopup visible={discountPopup} setVisible={setDiscountPopup} onApply={onApplyDiscount} />
             <SpecialDiscountPopup visible={specialDiscountPopup} setVisible={setSpecialDiscountPopup} onApply={onApplySpecialDiscount} />
-            <CustomCard title="Cart" col={12}>
+            <CustomCard title="Cart" col={12} name="More Options" onClick={(event) => menu.current.toggle(event)}>
                 {cartItems?.map((item, i) => (
                     <CartItem
                         key={item?._id}
