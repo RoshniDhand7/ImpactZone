@@ -81,6 +81,21 @@ export default function CartItem(props) {
         onRemoveSpecialDiscount(index);
     };
 
+    const discountTemplate = (obj, icon, onRemove) => {
+        return (
+            <>
+                {allowDiscount && obj && (
+                    <div className="bg-green-100 text-green-900 border-round-sm px-1 mx-1 my-auto">
+                        {icon && <i className={`pi ${icon} text-sm mr-1`}></i>}
+                        {obj?.amountType === 'PERCENTAGE' && `${obj?.amount}% OFF`}
+                        {obj?.amountType === 'FIXED' && `$${obj?.amount} OFF`}
+                        {onRemove && <i className="pi pi-times ml-2 cursor-pointer" onClick={onRemove}></i>}
+                    </div>
+                )}
+            </>
+        );
+    };
+
     return (
         <>
             <div className="flex justify-content-between text-xl font-medium">
@@ -92,25 +107,10 @@ export default function CartItem(props) {
                 <div className="flex">
                     <div className="mr-2 text-lg font-medium my-auto">${finalNetPrice}</div>
                     {finalNetPrice !== netPrice && <div className="mr-2 text-lg font-medium line-through text-dark-gray my-auto">${netPrice}</div>}
-                    {allowDiscount && defaultDiscount && (
-                        <div className="bg-green-100 text-green-900 border-round-sm px-1 my-auto">
-                            {defaultDiscount?.amountType === 'PERCENTAGE' && `${defaultDiscount?.amount}% OFF`}
-                            {defaultDiscount?.amountType === 'FIXED' && `$${defaultDiscount?.amount} OFF`}
-                        </div>
-                    )}
-                    {allowDiscount && promoDiscount && (
-                        <div className="bg-green-100 text-green-900 border-round-sm px-1 ml-2 my-auto">
-                            Promo {promoDiscount?.amountType === 'PERCENTAGE' && `${promoDiscount?.amount}% OFF`}
-                            {promoDiscount?.amountType === 'FIXED' && `$${promoDiscount?.amount} OFF`}
-                        </div>
-                    )}
-                    {specialDiscount && (
-                        <div className="bg-green-100 text-green-900 border-round-sm px-1 ml-2 my-auto">
-                            Special {specialDiscount?.amountType === 'PERCENTAGE' && `${specialDiscount?.amount}% OFF`}
-                            {specialDiscount?.amountType === 'FIXED' && `$${specialDiscount?.amount} OFF`}
-                            <i className="pi pi-times ml-2 cursor-pointer" onClick={removeSpecialDiscount}></i>
-                        </div>
-                    )}
+                    {console.log(promoDiscount)}
+                    {discountTemplate(defaultDiscount, null)}
+                    {discountTemplate(specialDiscount, null, removeSpecialDiscount)}
+                    {discountTemplate(promoDiscount, 'pi-bookmark', null)}
                 </div>
 
                 <div className="flex gap-2 align-items-center">

@@ -20,6 +20,7 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                     console.log('res==>', res);
                     if (res.success) {
                         setAppliedPromo(res.data);
+                        setPromo('');
                     } else {
                         msgs.current.show({ severity: 'error', detail: res?.message });
                     }
@@ -40,28 +41,28 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                     </div>
                     <div className="flex justify-content-between">
                         <div className="text-dark-gray">Net Total:</div>
-                        <div className="font-medium ">${netTotal}</div>
+                        <div className="font-medium ">${netTotal.toFixed(2)}</div>
                     </div>
                     <div className="flex justify-content-between">
                         <div className="text-dark-gray">Tax:</div>
-                        <div className="font-medium text-red-600">+${tax}</div>
+                        <div className="font-medium text-red-600">+${tax.toFixed(2)}</div>
                     </div>
                     {discount > 0 && (
                         <div className="flex justify-content-between">
                             <div className="text-dark-gray">Discounts:</div>
-                            <div className="font-medium text-green-600">-${discount}</div>
+                            <div className="font-medium text-green-600">-${discount.toFixed(2)}</div>
                         </div>
                     )}
                     {specialDiscount > 0 && (
                         <div className="flex justify-content-between">
                             <div className="text-dark-gray">Special Discount:</div>
-                            <div className="font-medium text-green-600">-${specialDiscount}</div>
+                            <div className="font-medium text-green-600">-${specialDiscount.toFixed(2)}</div>
                         </div>
                     )}
                     {waivedTaxAmount > 0 && (
                         <div className="flex justify-content-between">
                             <div className="text-dark-gray">Waived Tax:</div>
-                            <div className="font-medium text-green-600">-${waivedTaxAmount}</div>
+                            <div className="font-medium text-green-600">-${waivedTaxAmount.toFixed(2)}</div>
                         </div>
                     )}
                     {/* <div className="flex justify-content-between">
@@ -74,13 +75,12 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                     </div> */}
                     <div className="flex justify-content-between">
                         <div className="text-dark-gray">Final Total:</div>
-                        <div className="font-medium ">${gradTotal}</div>
+                        <div className="font-medium ">${gradTotal.toFixed(2)}</div>
                     </div>
                     {/* <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2 ">
                         <div className="text-dark-gray">Pre-Pay Balance</div>
                         <div className="font-medium text-green-600">$2.00</div>
                     </div> */}
-                    {console.log(appliedPromo)}
                     {appliedPromo ? (
                         <div className="flex justify-content-between bg-white py-2 px-3 border-round-md my-2 border-1 border-green-600 border-dashed ">
                             <div className="text-dark-gray text-green-600">Promo {appliedPromo?.discountCode} Applied</div>

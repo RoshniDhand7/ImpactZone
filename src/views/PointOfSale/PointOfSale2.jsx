@@ -48,7 +48,6 @@ export default function PointOfSale2() {
     //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
     useEffect(() => {
         let discounts = {};
-        let promoDiscounts = {};
 
         selectedItems.forEach((item) => {
             let { defaultDiscount } = item;
@@ -181,7 +180,7 @@ export default function PointOfSale2() {
                 netPrice,
                 dynamicPricing,
 
-                promoDiscount: {},
+                promoDiscount: null,
                 defaultDiscount,
                 specialDiscount,
                 allowDiscount,
