@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -12,10 +12,7 @@ import { useDispatch } from 'react-redux';
 import { editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/MembersSettings/accessSchedule';
 
 const Access = () => {
-    const [access, setAccess] = useState({
-        duration: 30,
-        schedule: [],
-    });
+    const [access, setAccess] = useState({ duration: 30, schedule: [] });
     const { id } = useParams();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -38,32 +35,24 @@ const Access = () => {
         }
     }, [id, dispatch]);
 
-    const handleDateSelect = (selectInfo) => {
-        if (selectInfo.view.type === 'timeGridWeek') {
-            const dayName = moment(selectInfo.start).format('dddd');
-            selectInfo.view.calendar.unselect();
-            const newEvent = {
-                start: selectInfo.start.toISOString(),
-                end: selectInfo.end.toISOString(),
-            };
-            const calendarApi = selectInfo.view.calendar;
-            getSchedule(newEvent, dayName);
-            calendarApi.addEvent(newEvent);
+    const handleDateSelect = useCallback((selectInfo) => {
+        const { start, end, view } = selectInfo;
+        const dayName = moment(start).format('dddd');
+
+        if (view.type === 'timeGridWeek') {
+            const newEvent = { start: start.toISOString(), end: end.toISOString() };
+            addNewEvent(newEvent, dayName);
+            view.calendar.unselect();
+            view.calendar.addEvent(newEvent);
         }
-    };
-    const getSchedule = (event, dayName) => {
+    }, []);
+    const addNewEvent = (event, dayName) => {
         setAccess((prevAccess) => ({
             ...prevAccess,
-            schedule: [
-                ...prevAccess.schedule,
-                {
-                    day: dayName,
-                    startTime: event.start,
-                    endTime: event.end,
-                },
-            ],
+            schedule: [...prevAccess.schedule, { day: dayName, startTime: event.start, endTime: event.end }],
         }));
     };
+
     const deleteConfirm = (e, position) => {
         confirmDelete(
             () => {
@@ -73,39 +62,39 @@ const Access = () => {
             position,
         );
     };
-
-    const handleDeleteEvent = (e) => {
-        const deletedEventStartTime = moment(e.event.start).toISOString();
-        const deletedEventEndTime = moment(e.event.end).toISOString();
+    const handleDeleteEvent = useCallback((event) => {
+        const { start, end } = event.event;
+        const deletedEventStartTime = moment(start).toISOString();
+        const deletedEventEndTime = moment(end).toISOString();
 
         setAccess((prevAccess) => ({
             ...prevAccess,
-            schedule: prevAccess.schedule.filter(
-                (item) => !(moment(item.startTime).toISOString() === deletedEventStartTime && moment(item.endTime).toISOString() === deletedEventEndTime),
-            ),
+            schedule: prevAccess.schedule.filter((item) => item.startTime !== deletedEventStartTime || item.endTime !== deletedEventEndTime),
         }));
-    };
+    }, []);
 
-    const checkIsEventPresent = (day, newEventEndtime) => {
-        return access.schedule.some(
-            (sc) => day === sc.day && newEventEndtime.toISOString() > sc.startTime && day === sc.day && newEventEndtime.toISOString() <= sc.endTime,
-        );
-    };
-    const handleEventResize = (resized) => {
-        const dayName = moment(resized.event.end).format('dddd');
-        const checkIsEventAlreadyPresent = checkIsEventPresent(dayName, resized.event.end);
-
-        if (checkIsEventAlreadyPresent) {
-            return setAccess({ ...access });
-        }
-
-        access.schedule.map((item) => {
-            if (item.day === dayName && resized.oldEvent.end.toISOString() === item.endTime) {
-                item.endTime = resized.event.end.toISOString();
+    const handleEventResize = useCallback(
+        (resized) => {
+            const { end, oldEvent } = resized.event;
+            const dayName = moment(end).format('dddd');
+            if (isEventConflict(dayName, end)) {
+                return;
             }
-            return item;
-        });
-        setAccess({ ...access });
+            setAccess((prevAccess) => ({
+                ...prevAccess,
+                schedule: prevAccess.schedule.map((item) => {
+                    if (item.day === dayName && moment(oldEvent.end).toISOString() === item.endTime) {
+                        return { ...item, endTime: end.toISOString() };
+                    }
+                    return item;
+                }),
+            }));
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [access],
+    );
+    const isEventConflict = (day, endTime) => {
+        return access.schedule.some((sc) => day === sc.day && moment(endTime).toISOString() > sc.startTime && moment(endTime).toISOString() <= sc.endTime);
     };
 
     const handleAllAcess = () => {
@@ -156,7 +145,6 @@ const Access = () => {
                 editable={true}
                 eventStartEditable={false}
                 droppable={false}
-                eventResourceEditable={false}
                 eventResize={handleEventResize}
                 select={handleDateSelect}
                 eventClick={deleteConfirm}

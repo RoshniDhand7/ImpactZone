@@ -22,7 +22,7 @@ export default function More() {
     const moreCards = [
         {
             img: Attendance,
-            link: '',
+            link: '/more/attendance',
             title: 'Attendance',
         },
         {

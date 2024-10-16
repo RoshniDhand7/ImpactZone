@@ -29,6 +29,7 @@ import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
 import Drawers from '../views/More/Drawers/Drawers';
+import MoreAttandance from '../views/More/MoreAttandence';
 
 export const PrivateRoutes = [
     {
@@ -110,6 +111,26 @@ export const PrivateRoutes = [
                 name: 'POS',
                 exact: true,
                 component: MorePos,
+                items: [
+                    {
+                        path: '/drawer-summary',
+                        name: 'Drawer Summary',
+                        exact: true,
+                        component: DrawerSummary,
+                    },
+                    {
+                        path: '/drawers',
+                        name: 'Drawers',
+                        exact: true,
+                        component: Drawers,
+                    },
+                ],
+            },
+            {
+                path: '/attendance',
+                name: 'Attandance',
+                exact: true,
+                component: MoreAttandance,
                 items: [
                     {
                         path: '/drawer-summary',

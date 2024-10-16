@@ -39,7 +39,7 @@ const TimeSheet = () => {
         { field: 'club', header: 'Club' },
         { field: 'department', header: 'Department' },
         { field: 'clockIn', body: (r) => moment(r?.clockIn).format('hh:mm a'), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => moment(r?.clockOut).format('hh:mm a'), header: 'ClockOut' },
+        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('hh:mm a') : null), header: 'ClockOut' },
         { field: 'duration', body: (r) => diffHours(r?.clockOut, r?.clockIn), header: 'Duration' },
         { field: 'modifiedOn', header: 'Modified On' },
     ];

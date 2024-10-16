@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SearchMembers from './new/SearchMembers';
-
 import Categories from './new/Categories';
 import SearchCatalog from './new/SearchCatalog';
 import CatalogItems from './new/CatalogItems';

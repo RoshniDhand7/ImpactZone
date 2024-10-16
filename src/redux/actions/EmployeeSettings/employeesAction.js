@@ -191,6 +191,7 @@ const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) 
             toDate: moment(data?.to).format('DD-MM-YYYY'),
             clubs: data?.club,
             departments: data?.department,
+            filterType: data?.filterType,
         },
     );
     if (res.success) {
@@ -219,6 +220,7 @@ const getallEmployeeTimeSheet = (setLoading, data) => async (dispatch) => {
             clubs: data?.club,
             departments: data?.department,
             employee: data?.employee,
+            filterType: data?.filterType,
         },
     );
     if (res.success) {
