@@ -45,6 +45,7 @@ import dashboardReducer from './Dashboard/DashboardReducer';
 import PosReducer from './POS/PosReducer';
 import RegisterReducer from './PosSettings/registerReducer';
 import drawersReducer from './More/DrawersReducer';
+import moreAttendanceReducer from './More/AttendanceReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -93,4 +94,5 @@ export default combineReducers({
     PointOfSale: PosReducer,
     registers: RegisterReducer,
     drawers: drawersReducer,
+    moreAttendance: moreAttendanceReducer,
 });

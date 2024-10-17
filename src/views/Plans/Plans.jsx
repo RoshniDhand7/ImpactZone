@@ -39,7 +39,7 @@ export default function Plans() {
     };
     return (
         <div>
-            <CustomFilterCard title="Membership">
+            <CustomFilterCard title="Membership" titleClassName="font-bold text-xl">
                 <PrimaryButton onClick={() => history.push('/plans/drafts')}>Drafts</PrimaryButton>
             </CustomFilterCard>
             <CustomTable data={allMembershipPlan} columns={columns} customActionTemplate={customActionTemplate} />

@@ -37,7 +37,7 @@ export default function More() {
         },
         {
             img: Member,
-            link: '',
+            link: '/more/members',
             title: 'Members',
         },
         {

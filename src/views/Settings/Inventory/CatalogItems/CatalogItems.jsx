@@ -12,7 +12,6 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import CatalogFilters from './CatalogFilters';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
-import CustomOverlay from '../../../../shared/CustomOverlay';
 
 const CatalogItems = () => {
     const history = useHistory();

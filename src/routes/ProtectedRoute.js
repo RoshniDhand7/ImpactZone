@@ -6,7 +6,6 @@ export default function ProtectedRoute() {
     const getAuthRoutes = (routes, parentPath = '') => {
         return routes.map((prop, i) => {
             let currentPath = parentPath + prop.path;
-
             return (
                 <div key={i}>
                     <Route path={currentPath} key={currentPath + i} component={prop.component} exact={prop?.exact} />

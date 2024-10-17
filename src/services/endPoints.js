@@ -95,5 +95,6 @@ const endPoints = {
     EMPLOYEE_TIMESHEET: '/employee-timesheet/',
     ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
     DRAWERS: '/drawers/',
+    ATTENDANCE_CHECK_IN: '/attendance-checkin/',
 };
 export default endPoints;

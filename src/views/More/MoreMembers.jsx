@@ -1,21 +1,33 @@
 import React from 'react';
-import Alerts from '../../assets/icons/alert.png';
+import Maintenance from '../../assets/icons/Maintenance.png';
 import CustomTransition from '../../shared/Transitions/CustomTransition';
-import Checkinhistory from '../../assets/icons/Checkinhistory.png';
+import Manage from '../../assets/icons/Manage.png';
+import Reserve from '../../assets/icons/Reserve.png';
+import agreementsetup from '../../assets/icons/agreementsetup.png';
 
 import { Link } from 'react-router-dom';
 
-export default function MoreAttandance() {
+export default function MoreMembers() {
     const moreCards = [
         {
-            img: Checkinhistory,
-            link: '/more/attendance/check-in-history',
-            title: 'Check In History',
+            img: Manage,
+            link: '/more/members/manage',
+            title: 'Manage',
         },
         {
-            img: Alerts,
+            img: Maintenance,
             link: '',
-            title: 'Alerts',
+            title: 'Recurring Services',
+        },
+        {
+            img: Reserve,
+            link: '',
+            title: 'Reserve',
+        },
+        {
+            img: agreementsetup,
+            link: '',
+            title: 'Tasks',
         },
     ];
     return (

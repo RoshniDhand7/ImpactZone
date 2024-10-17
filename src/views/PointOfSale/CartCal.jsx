@@ -50,7 +50,7 @@ export const calculateDiscount = (item, allDiscountTypes) => {
     const taxValue = calculateTax1(unitPrice, totalTaxPercentage);
     const netPrice = (unitPrice - taxValue) * quantity;
 
-    const netUnitPrice = unitPrice * quantity;
+    // const netUnitPrice = unitPrice * quantity;
     const discountValue = matchingItem ? matchingItem?.value2 : newDiscount?.percentage;
     const amountType = matchingItem ? matchingItem?.amountType : newDiscount?.amountType;
 
@@ -68,7 +68,7 @@ export const calculateTax = (item, discount) => {
     const unitPrice = calculateUnitPrice(item);
     const taxValue = calculateTax1(unitPrice, item.totalTaxPercentage);
     const netPrice = (unitPrice - taxValue) * item.quantity;
-    const netUnitPrice = unitPrice * item.quantity;
+    // const netUnitPrice = unitPrice * item.quantity;
     const totalDiscountedPrice = netPrice - discount;
     return Number((totalDiscountedPrice * (item.totalTaxPercentage / 100)).toFixed(4)) < 0
         ? 0

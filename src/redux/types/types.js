@@ -96,4 +96,5 @@ export const types = {
     //more
 
     CHANGE_DRAWERS: 'CHANGE_DRAWERS',
+    CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
 };

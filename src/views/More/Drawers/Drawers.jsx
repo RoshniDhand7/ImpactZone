@@ -16,8 +16,8 @@ import _ from 'lodash';
 
 const Drawers = () => {
     const dispatch = useDispatch();
-    var startOfWeek = moment().utc().startOf('week').toDate();
-    var endOfWeek = moment().utc().endOf('week').toDate();
+    let startOfWeek = moment().utc().startOf('week').toDate();
+    let endOfWeek = moment().utc().endOf('week').toDate();
     const initialData = {
         filterType: 'AND',
         from: startOfWeek,
