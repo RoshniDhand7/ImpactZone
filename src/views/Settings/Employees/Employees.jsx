@@ -4,11 +4,12 @@ import ManageEmployee from './ManageEmployee/ManageEmployee';
 import SecurityRoles from './SecurityRoles/SecurityRoles';
 import Departments from './Departments/Departments';
 import TimeSheet from './Timesheet/Timesheet';
+import Availability from './Availability/Availability';
 
 export default function Employees() {
     const tabs = [
         { title: 'Manage Employee', content: <ManageEmployee /> },
-        { title: 'Availability', content: <h1>Availability</h1> },
+        { title: 'Availability', content: <Availability /> },
         { title: 'Timesheets', content: <TimeSheet /> },
         { title: 'Departments', content: <Departments /> },
         { title: 'Security Roles', content: <SecurityRoles /> },

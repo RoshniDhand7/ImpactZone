@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import AddAvailability from '../../views/Settings/Employees/Availability/AddAvailability';
 
 const ViewEmployeeForm = lazy(() => import('../../views/Settings/Employees/ManageEmployee/ViewEmployeeForm'));
 const EmployeeForm = lazy(() => import('../../views/Settings/Employees/ManageEmployee/AddEmployee/EmployeeForm'));
@@ -25,6 +26,12 @@ const EmployeeSettingRoute = [
         name: 'Employee',
         exact: true,
         component: ViewEmployeeForm,
+    },
+    {
+        path: '/availability/add',
+        name: 'Employee Availablity',
+        exact: true,
+        component: AddAvailability,
     },
     {
         path: '/departments/add',
