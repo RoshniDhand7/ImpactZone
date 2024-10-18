@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { useState } from 'react';
-import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import useRegister from '../../../../hooks/useRegister';
 import CashCalculator from './CashCalculator';
+import { CustomListItem } from '../../../../shared/Cards/CustomCard';
 
 export default function OpenDrawerModel({ visible, setVisible }) {
     const { allRegisters } = useRegister();
-    const [data, setData] = useState({ register: '', accessCode: '' });
+    const [data, setData] = useState({ register: '', accessCode: '', totalCash: 0, comment: '' });
     const [access, setAccess] = useState(null);
 
     const onClose = () => {
@@ -23,14 +24,31 @@ export default function OpenDrawerModel({ visible, setVisible }) {
     const onSubmit = () => {
         if (access) {
         } else {
-            setAccess(data.access);
+            setAccess(data.accessCode);
         }
     };
     return (
-        <CustomDialog title="Open Register" visible={visible} onCancel={onClose} onSave={onSubmit} saveLabel={access ? 'Start Drawer' : 'Next'}>
+        <CustomDialog
+            title="Open Register"
+            visible={visible}
+            onCancel={onClose}
+            onSave={onSubmit}
+            saveLabel={access ? 'Start Drawer' : 'Next'}
+            width={access ? '65vw' : '30vw'}
+        >
             {access ? (
                 <>
-                    <CashCalculator />
+                    <CashCalculator onChange={handleChange} />
+                    <div className="grid">
+                        <CustomTextArea col={6} data={data} name="comment" onChange={handleChange} />
+                        <div className="col flex flex-column pb-1">
+                            <div className="text-sm font-semibold mb-1">Last Close Out</div>
+                            <div className="border-round-md border-1 border-gray-300 py-2 px-3 h-full">
+                                <CustomListItem name="name" value={'Will Smith'} />
+                                <CustomListItem label="Close Out Date/ Time" value={'March-12- 2023 05:00 am'} />
+                            </div>
+                        </div>
+                    </div>
                 </>
             ) : (
                 <>

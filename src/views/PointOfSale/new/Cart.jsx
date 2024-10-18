@@ -11,8 +11,10 @@ import CartItem from './CartItem';
 import CartDetails from './CartDetails';
 import OpenDrawerModel from './Drawer/OpenDrawerModel';
 import CloseDraweModel from './Drawer/CloseDraweModel';
+import { useHistory } from 'react-router-dom';
 
-export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo }) {
+export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup }) {
+    const history = useHistory();
     const dispatch = useDispatch();
     const menu = useRef(null);
     useEffect(() => {
@@ -88,7 +90,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
         { label: 'Drawer Summary' },
         { label: 'Open Register', command: () => setOpenDrawer(true) },
         { label: 'Close Register', command: () => setCloseDrawer(true) },
-        { label: 'Saved Carts' },
+        { label: 'Saved Carts', command: () => history.push('/more/pos/saved-carts') },
     ];
 
     return (
@@ -112,7 +114,12 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
                         onRemoveSpecialDiscount={onRemoveSpecialDiscount}
                     />
                 ))}
-                <CartDetails cartDetails={cartDetails} setAppliedPromo={setAppliedPromo} appliedPromo={appliedPromo} />
+                <CartDetails
+                    cartDetails={cartDetails}
+                    setAppliedPromo={setAppliedPromo}
+                    appliedPromo={appliedPromo}
+                    onOpenSaveCartPopup={onOpenSaveCartPopup}
+                />
             </CustomCard>
             <div className="flex gap-2 mt-2">
                 <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />

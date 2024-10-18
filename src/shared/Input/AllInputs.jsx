@@ -388,14 +388,28 @@ export const CustomInputNumber = ({
     );
 };
 
-export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange }) => {
+export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange, ...props }) => {
+    let _total = denominationsToDollarConverter(data, name);
     return (
-        <div className={`col-${col} flex align-items-center`}>
-            <CustomInputNumber col="6" name={name} data={data} onChange={handleChange} />
-            <div className="col-4 flex align-items-center justify-content-center">
-                <i className="pi pi-arrow-right"></i>
+        <div className={`col-${col}`}>
+            <div className="text-sm font-semibold">{capitalizeCamelCase(name)}</div>
+            <div className="col grid">
+                <InputText
+                    id={name}
+                    name={name}
+                    value={data?.[name] || 0}
+                    onChange={(e) => handleChange && handleChange({ ...e, name: name, value: parseInt(e.target.value || 0) })}
+                    className={`w-5`}
+                    keyfilter="int"
+                    {...props}
+                />
+                <div className="col-2 text-center my-auto">
+                    <i className="pi pi-arrow-right "></i>
+                </div>
+                <div className="border col-4 border-round-md bg-green-600 text-white flex flex-column justify-content-center">
+                    <div className="py-auto">${_total}</div>
+                </div>
             </div>
-            <span className="border col-2 flex align-items-center justify-content-center ">{denominationsToDollarConverter(data, name)}</span>
         </div>
     );
 };
@@ -654,8 +668,9 @@ export const CustomAsyncReactSelect = ({
     let _suggestions = useMemo(() => suggestions?.map((item) => ({ label: item?.name, value: item?.value })), [suggestions]);
 
     const handleChange = (e) => {
+        console.log(e);
         if (onChange) {
-            onChange({ e, name, value: e.value });
+            onChange({ e, name, value: e?.value });
         }
     };
 

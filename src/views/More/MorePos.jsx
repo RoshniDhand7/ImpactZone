@@ -19,7 +19,7 @@ export default function MorePos() {
         },
         {
             img: Attendance,
-            link: '',
+            link: '/more/pos/saved-carts',
             title: 'Saved Carts',
         },
 

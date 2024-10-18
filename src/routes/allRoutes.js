@@ -30,6 +30,7 @@ import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
 import Drawers from '../views/More/Drawers/Drawers';
 import MoreAttandance from '../views/More/MoreAttandence';
+import SavedCarts from '../views/More/POS/SavedCarts';
 
 export const PrivateRoutes = [
     {
@@ -123,6 +124,12 @@ export const PrivateRoutes = [
                         name: 'Drawers',
                         exact: true,
                         component: Drawers,
+                    },
+                    {
+                        path: '/saved-carts',
+                        name: 'Saved Carts',
+                        exact: true,
+                        component: SavedCarts,
                     },
                 ],
             },

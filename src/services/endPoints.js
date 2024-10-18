@@ -95,5 +95,7 @@ const endPoints = {
     EMPLOYEE_TIMESHEET: '/employee-timesheet/',
     ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
     DRAWERS: '/drawers/',
+
+    SAVED_CART: '/point-of-sale/saved-carts/',
 };
 export default endPoints;

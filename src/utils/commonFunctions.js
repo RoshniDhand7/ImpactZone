@@ -439,10 +439,10 @@ const denominationsToDollarConverter = (data, type) => {
         hundreds: 100,
     };
 
-    if (!conversionRates[type]) return 'Invalid denomination type';
+    if (!conversionRates[type]) return 0;
 
     const amount = data[type] * conversionRates[type];
-    return amount.toFixed(4);
+    return amount;
 };
 
 const dateConversions = (date) => {

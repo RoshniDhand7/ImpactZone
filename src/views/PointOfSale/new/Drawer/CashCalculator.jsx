@@ -2,8 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { CustomInputCurrentChange, CustomInputNumber } from '../../../../shared/Input/AllInputs';
+import { useEffect } from 'react';
+import { denominationsToDollarConverter } from '../../../../utils/commonFunctions';
+import { useMemo } from 'react';
 
-export default function CashCalculator() {
+export default function CashCalculator({ name = 'totalCash', onChange }) {
     const [data, setData] = useState({
         pennies: 0,
         nickels: 0,
@@ -15,13 +18,26 @@ export default function CashCalculator() {
         twenties: 0,
         fifties: 0,
         hundreds: 0,
-        comment: '',
-        total: 0,
     });
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+
+    let sum = useMemo(
+        () =>
+            Object.keys(data)
+                .map((name) => denominationsToDollarConverter(data, name))
+                .reduce((a, b) => a + b, 0),
+        [data],
+    );
+
+    useEffect(() => {
+        if (onChange) {
+            onChange({ name, value: sum });
+        }
+    }, [sum]);
+
     return (
         <CustomGridLayout>
             <CustomInputCurrentChange name="pennies" data={data} handleChange={handleChange} />
@@ -34,7 +50,7 @@ export default function CashCalculator() {
             <CustomInputCurrentChange name="twenties" data={data} handleChange={handleChange} />
             <CustomInputCurrentChange name="fifties" data={data} handleChange={handleChange} />
             <CustomInputCurrentChange name="hundreds" data={data} handleChange={handleChange} />
-            <CustomInputNumber name="total" data={data} col="8" disabled={true} />
+            <CustomInputNumber name="total" col="8" disabled={true} value={sum} prefix="$" />
         </CustomGridLayout>
     );
 }
