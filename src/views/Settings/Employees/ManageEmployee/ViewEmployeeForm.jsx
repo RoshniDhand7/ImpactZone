@@ -45,35 +45,34 @@ const ViewEmployeeForm = () => {
     }, [id, dispatch]);
 
     return (
-        <>
-            <FormPage backText="Manage Employees" backTo="/settings/employee">
-                <CustomGridLayout>
-                    <CustomCard title="Security Details" height="200px">
-                        <CustomListItem name="dateOfBirth" data={data} />
-                        <CustomListItem name="socialSecurity" data={data} />
-                        <CustomListItem name="email" data={data} />
-                        <CustomListItem label="Multi-Club Clock In/Out" name="multiClubClockIn" data={data} />
-                        {/* <CustomListItem label="Available" name="available" />
+        <FormPage backText="Manage Employees" backTo="/settings/employee">
+            <CustomGridLayout>
+                <CustomCard title="Security Details" height="200px">
+                    <CustomListItem name="dateOfBirth" data={data} />
+                    <CustomListItem name="socialSecurity" data={data} />
+                    <CustomListItem name="email" data={data} />
+                    <CustomListItem label="Multi-Club Clock In/Out" name="multiClubClockIn" data={data} />
+                    {/* <CustomListItem label="Available" name="available" />
                         <CustomListItem label="Selected" name="available" /> */}
-                    </CustomCard>
-                    <CustomCard title="General Details" height="200px">
-                        <CustomListItem name="hireDate" data={data} />
-                        <CustomListItem name="adpId" data={data} />
-                        <CustomListItem name="primaryPhone" data={data} />
-                        <CustomListItem name="workPhone" data={data} />
-                        <CustomListItem name="mobilePhone" data={data} />
-                        <CustomListItem name="faxPhone" data={data} />
-                        <CustomListItem name="emergencyPhone" data={data} />
-                        <CustomListItem name="streetAddress" data={data} />
-                        <CustomListItem name="city" data={data} />
-                        <CustomListItem name="state" data={data} />
-                        <CustomListItem name="zipCode" data={data} />
-                        <CustomListItem name="emailUpdates" data={data} />
-                        <CustomListItem name="userName" data={data} />
-                        {/* <CustomListItem name="notes" data={data} />
+                </CustomCard>
+                <CustomCard title="General Details" height="200px">
+                    <CustomListItem name="hireDate" data={data} />
+                    <CustomListItem name="adpId" data={data} />
+                    <CustomListItem name="primaryPhone" data={data} />
+                    <CustomListItem name="workPhone" data={data} />
+                    <CustomListItem name="mobilePhone" data={data} />
+                    <CustomListItem name="faxPhone" data={data} />
+                    <CustomListItem name="emergencyPhone" data={data} />
+                    <CustomListItem name="streetAddress" data={data} />
+                    <CustomListItem name="city" data={data} />
+                    <CustomListItem name="state" data={data} />
+                    <CustomListItem name="zipCode" data={data} />
+                    <CustomListItem name="emailUpdates" data={data} />
+                    <CustomListItem name="userName" data={data} />
+                    {/* <CustomListItem name="notes" data={data} />
                         <CustomListItem name="departments" data={data} /> */}
-                    </CustomCard>
-                    {/* 
+                </CustomCard>
+                {/* 
                     <CustomCard title="Club Details" height="200px">
                         <CustomListItem name="available" />
                         <CustomListItem name="selected" />
@@ -99,9 +98,8 @@ const ViewEmployeeForm = () => {
                         <CustomListItem label="acquiredDate" name="available" />
                         <CustomListItem label="expirationDate" name="available" />
                     </CustomCard> */}
-                </CustomGridLayout>
-            </FormPage>
-        </>
+            </CustomGridLayout>
+        </FormPage>
     );
 };
 

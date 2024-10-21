@@ -9,8 +9,8 @@ const useEmployees = () => {
         dispatch(getEmployees());
     }, [dispatch]);
 
-    const { employeesDropdown } = useSelector((state) => state.employees);
-    return { employeesDropdown };
+    const { employeesDropdown, allEmployees } = useSelector((state) => state.employees);
+    return { employeesDropdown, allEmployees };
 };
 
 export default useEmployees;

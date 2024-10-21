@@ -46,6 +46,7 @@ import PosReducer from './POS/PosReducer';
 import RegisterReducer from './PosSettings/registerReducer';
 import drawersReducer from './More/DrawersReducer';
 import moreAttendanceReducer from './More/AttendanceReducer';
+import availabilityReducer from './EmployeesSettings/availabilityReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -95,4 +96,5 @@ export default combineReducers({
     registers: RegisterReducer,
     drawers: drawersReducer,
     moreAttendance: moreAttendanceReducer,
+    employeeAvailability: availabilityReducer,
 });

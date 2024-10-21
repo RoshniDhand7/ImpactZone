@@ -654,8 +654,12 @@ export const CustomAsyncReactSelect = ({
     let _suggestions = useMemo(() => suggestions?.map((item) => ({ label: item?.name, value: item?.value })), [suggestions]);
 
     const handleChange = (e) => {
-        if (onChange) {
-            onChange({ e, name, value: e.value });
+        console.log(e);
+        if (e && onChange) {
+            const newValue = e.value !== undefined ? e.value : e;
+            onChange({ e, name, value: newValue });
+        } else {
+            onChange({ e, name, value: null });
         }
     };
 
