@@ -496,6 +496,8 @@ const diffHours = (dt2, dt1) => {
     const diff = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60);
     return Math.abs(Math.round(diff));
 };
+var startOfWeek = moment().utc().startOf('week').toDate();
+var endOfWeek = moment().utc().endOf('week').toDate();
 
 export {
     capitalizeCamelCase,
@@ -534,4 +536,6 @@ export {
     showFormErrors1,
     getSearchedData,
     diffHours,
+    startOfWeek,
+    endOfWeek,
 };

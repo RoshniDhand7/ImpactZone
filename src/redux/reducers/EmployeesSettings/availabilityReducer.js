@@ -10,7 +10,7 @@ const availabilityReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 employeeClubs: action.payload?.map((item) => ({ name: item.name, value: item._id })),
-                availability: action?.payload?.availability,
+                availability: action?.payload?.map((item) => (item.availability ? item.availability : {})),
             };
         default:
             return { ...state };
