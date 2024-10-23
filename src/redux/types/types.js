@@ -90,10 +90,38 @@ export const types = {
 
     //POS
 
+    CHANGE_POS_REGISTERS: 'CHANGE_POS_REGISTERS',
     CHANGE_PROMO_CODE: 'CHANGE_PROMO_CODE',
     CLEAR_POS_PROMO: 'CLEAR_POS_PROMO',
 
     //more
 
     CHANGE_DRAWERS: 'CHANGE_DRAWERS',
+
+    POS: {
+        REGISTER: 'REGISTER',
+        REGISTER_SUMMARY: 'REGISTER_SUMMARY',
+        SAVED_CART: 'SAVED_CART',
+        CATEGORY: 'CATEGORY',
+        CATELOG: 'CATELOG',
+        MEMBER: 'MEMBER',
+        RECEIPT: 'RECEIPT',
+    },
+
+    SETTINGS: {
+        POS: {
+            TAX: 'TAX',
+            PAYMENT_METHOD: 'PAYMENT_METHOD',
+            REGISTER: 'REGISTER',
+            DISCOUNT: 'DISCOUNT',
+        },
+        INVENTORY: {
+            CATELOG: 'CATELOG',
+            PROFIT_CENTER: 'PROFIT_CENTER',
+            CATEGORY: 'CATEGORY',
+            VENDORS: 'VENDORS',
+            COMMISSION_GROUP: 'COMMISSION_GROUP',
+            REFERRAL_GROUP: 'REFERRAL_GROUP',
+        },
+    },
 };

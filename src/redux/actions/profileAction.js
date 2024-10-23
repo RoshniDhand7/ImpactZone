@@ -47,7 +47,6 @@ const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch
     }
     setLoading(false);
 };
-
 const getProfile = () => async (dispatch) => {
     const res = await api('get', endPoints.PROFILE);
     if (res.success) {

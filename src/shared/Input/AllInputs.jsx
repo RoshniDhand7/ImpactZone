@@ -275,6 +275,41 @@ export const CustomCalenderInput = ({
         </InputLayout>
     );
 };
+export const CustomTimeInput = ({
+    id,
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    customIndex,
+    fieldName,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Calendar
+                inputId={name}
+                name={name}
+                value={data?.[name] || value}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
+                readOnlyInput
+                showIcon
+                {...props}
+                icon="pi pi-clock"
+                timeOnly
+            />
+        </InputLayout>
+    );
+};
 export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
         <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>

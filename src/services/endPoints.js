@@ -1,4 +1,14 @@
 const endPoints = {
+    SETTINGS: {
+        POS: {
+            REGISTER: '/settings/pos/register/',
+        },
+    },
+    POS: {
+        REGISTER: '/point-of-sale/registers/',
+    },
+    VALIDATE_ACCESS_CODE: '/validate-access-code/',
+
     LOGIN: '/login',
     FORGOT_PASSWORD: '/forgot-password',
     CHANGE_FORGOT_PASSWORD: '/change-forgot-password',

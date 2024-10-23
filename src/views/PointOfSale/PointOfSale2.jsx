@@ -10,10 +10,15 @@ import SaveCartPopup from './new/SaveCartPopup';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getSavedCartAction } from '../../redux/actions/POS/savedCartActions';
+import { getRegistersAction } from '../../redux/actions/POS/registerActions';
 
 export default function PointOfSale2() {
     const dispatch = useDispatch();
     const location = useLocation();
+
+    useEffect(() => {
+        dispatch(getRegistersAction());
+    }, [dispatch]);
 
     useEffect(() => {
         let id = location?.state?.savedCartId;
