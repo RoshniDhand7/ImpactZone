@@ -22,13 +22,20 @@ const getRegisterAction = (id, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-const onSaveCartAction = (data, setLoading, next) => async (dispatch) => {
+const startRegisterAction = (data, setLoading, next) => async (dispatch) => {
+    let payload = {
+        accessCode: data.accessCode,
+        cashAtStart: data.totalCash,
+        cashRegister: data.register,
+        commentAtStart: data.comment,
+    };
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('post', endPoints.SAVED_CART, data);
+    const res = await api('post', endPoints.POS.REGISTER + '/start', payload);
     if (res.success) {
-        next();
+        dispatch(getRegistersAction());
+        next(res.data);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
@@ -37,4 +44,4 @@ const onSaveCartAction = (data, setLoading, next) => async (dispatch) => {
     }
 };
 
-export { getRegistersAction, getRegisterAction };
+export { getRegistersAction, getRegisterAction, startRegisterAction };

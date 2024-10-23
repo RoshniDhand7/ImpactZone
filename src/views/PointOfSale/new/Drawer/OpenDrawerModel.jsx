@@ -7,7 +7,7 @@ import CashCalculator from './CashCalculator';
 import { CustomListItem } from '../../../../shared/Cards/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { validateAccessCodeAction } from '../../../../redux/actions/helperActions';
-import { getRegisterAction } from '../../../../redux/actions/POS/registerActions';
+import { getRegisterAction, startRegisterAction } from '../../../../redux/actions/POS/registerActions';
 
 export default function OpenDrawerModel({ visible, setVisible }) {
     const dispatch = useDispatch();
@@ -36,14 +36,13 @@ export default function OpenDrawerModel({ visible, setVisible }) {
         setVisible(false);
     };
 
-    console.log('register==>', register);
-
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
     const onSubmit = () => {
         if (access) {
+            dispatch(startRegisterAction(data, setLoading, onClose));
         } else {
             if (data?.accessCode && data?.register) {
                 dispatch(
