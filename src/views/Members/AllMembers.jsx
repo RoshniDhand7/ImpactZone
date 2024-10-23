@@ -13,7 +13,6 @@ import TableImage from '../../shared/Image/TableImage';
 const AllMembers = () => {
     const location = useLocation();
     const isManageRoute = location.pathname.includes('/manage');
-    console.log(isManageRoute);
     const columns = [
         { field: 'image', body: ({ image }) => <TableImage image={image} />, header: 'Photo', style: { color: '#d0e1fd', width: '12%' } },
         {

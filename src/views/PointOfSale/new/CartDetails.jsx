@@ -17,7 +17,6 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
         if (promo.trim().length) {
             dispatch(
                 validatePromoCodeAction(promo, (res) => {
-                    console.log('res==>', res);
                     if (res.success) {
                         setAppliedPromo(res.data);
                         setPromo('');

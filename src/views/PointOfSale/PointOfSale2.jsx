@@ -149,7 +149,6 @@ export default function PointOfSale2() {
 
     //When we add something in selected items.
     const onAddItemIntoCart = (product) => {
-        console.log(product, 'product');
         const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
         if (index >= 0) {
             let _selected = [...selectedItems];

@@ -29,6 +29,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
             status: null,
         },
         empId: null,
+        clubs:[]
     };
 
     const [data, setData] = useState(initialState);
@@ -49,6 +50,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                         isActive: item.isActive,
                         employeeTimesheet: item?.employeeTimesheet,
                         empId: item._id,
+                        clubs: item?.clubs,
                     }));
                 }),
             );
@@ -103,7 +105,12 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                     <h3 className="text-bold mb-2 col-12">Employee</h3>
                     <CustomInput name="name" disabled={true} data={data} />
                     <CustomDropDown name="isActive" options={yesNoOptions} data={data} disabled={true} />
-                    <CustomDropDown name="club" options={clubsDropdown} data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        name="club"
+                        options={data?.clubs?.map((item) => ({ name: item.name, value: item._id }))}
+                        data={data}
+                        onChange={handleChange}
+                    />
                     <CustomTextArea name="comment" data={data} onChange={handleChange} />
                 </CustomGridLayout>
                 <CustomCard title="Alerts" col={12} />
