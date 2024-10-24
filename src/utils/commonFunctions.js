@@ -442,7 +442,8 @@ const denominationsToDollarConverter = (data, type) => {
     if (!conversionRates[type]) return 0;
 
     const amount = data[type] * conversionRates[type];
-    return amount;
+
+    return Math.round(amount * 10000) / 10000;
 };
 
 const dateConversions = (date) => {
