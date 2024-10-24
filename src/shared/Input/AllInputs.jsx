@@ -423,26 +423,34 @@ export const CustomInputNumber = ({
     );
 };
 
-export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange, ...props }) => {
+export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange, onClick, ...props }) => {
     let _total = denominationsToDollarConverter(data, name);
+
+    const onTotalClick = () => {
+        if (onClick) {
+            onClick({ name, value: parseInt(data?.[name] || 0) });
+        }
+    };
+
+    const onChange = (e) => {
+        if (handleChange) {
+            let value = e.target.value || 0;
+            handleChange({ ...e, name: name, value });
+        }
+    };
     return (
         <div className={`col-${col}`}>
             <div className="text-sm font-semibold">{capitalizeCamelCase(name)}</div>
             <div className="col grid">
-                <InputText
-                    id={name}
-                    name={name}
-                    value={data?.[name] || 0}
-                    onChange={(e) => handleChange && handleChange({ ...e, name: name, value: parseInt(e.target.value || 0) })}
-                    className={`w-5`}
-                    keyfilter="int"
-                    {...props}
-                />
+                <InputText id={name} name={name} value={data?.[name] || 0} onChange={onChange} className={`w-5`} keyfilter="int" {...props} />
                 <div className="col-2 text-center my-auto">
                     <i className="pi pi-arrow-right "></i>
                 </div>
-                <div className="border col-4 border-round-md bg-green-600 text-white flex flex-column justify-content-center">
-                    <div className="py-auto">${_total}</div>
+                <div
+                    onClick={onTotalClick}
+                    className="cursor-pointer border col-4 border-round-md bg-green-600 text-white flex flex-column justify-content-center"
+                >
+                    <div className="py-auto select-none">${_total}</div>
                 </div>
             </div>
         </div>

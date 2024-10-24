@@ -38,18 +38,22 @@ export default function CashCalculator({ name = 'totalCash', onChange }) {
         }
     }, [sum]);
 
+    const increaseValue = ({ name, value }) => {
+        setData((prev) => ({ ...prev, [name]: value + 1 }));
+    };
+
     return (
         <CustomGridLayout>
-            <CustomInputCurrentChange name="pennies" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="nickels" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="dimes" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="quarters" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="singles" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="fives" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="tens" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="twenties" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="fifties" data={data} handleChange={handleChange} />
-            <CustomInputCurrentChange name="hundreds" data={data} handleChange={handleChange} />
+            <CustomInputCurrentChange name="pennies" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="nickels" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="dimes" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="quarters" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="singles" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="fives" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="tens" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="twenties" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="fifties" data={data} handleChange={handleChange} onClick={increaseValue} />
+            <CustomInputCurrentChange name="hundreds" data={data} handleChange={handleChange} onClick={increaseValue} />
             <CustomInputNumber name="total" col="8" disabled={true} value={sum} prefix="$" />
         </CustomGridLayout>
     );
