@@ -28,8 +28,9 @@ import AllMembers from '../views/Members/AllMembers';
 import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
-import Drawers from '../views/More/Drawers/Drawers';
 import MoreAttandance from '../views/More/MoreAttandence';
+
+import Drawers from '../views/More/POS/Drawers';
 import SavedCarts from '../views/More/POS/SavedCarts';
 
 export const PrivateRoutes = [

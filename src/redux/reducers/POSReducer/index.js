@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     registers: [],
+    registerStatus: [],
     registersSummary: [],
     savedCarts: [],
     receipts: [],
@@ -15,6 +16,11 @@ const POSReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 registers: action.payload,
+            };
+        case types.POS.REGISTER_STATUS:
+            return {
+                ...state,
+                registerStatus: action.payload,
             };
         case types.POS.REGISTER_SUMMARY:
             return {

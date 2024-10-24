@@ -34,6 +34,9 @@ export default function OpenDrawerModel({ visible, setVisible }) {
 
     const onClose = () => {
         setVisible(false);
+        setData({ register: '', accessCode: '', totalCash: 0, comment: '' });
+        setAccess(null);
+        setRegister(null);
     };
 
     const handleChange = ({ name, value }) => {
@@ -72,10 +75,10 @@ export default function OpenDrawerModel({ visible, setVisible }) {
                             <div className="text-sm font-semibold mb-1">Last Close Out</div>
                             <div className="border-round-md border-1 border-gray-300 py-2 px-3 h-full">
                                 <CustomListItem
-                                    label="Name"
+                                    label="Closed By:"
                                     value={`${register?.closedBy?.firstName ? register?.closedBy?.firstName : ''} ${register?.closedBy?.lastName ? register?.closedBy?.lastName : ''}`}
                                 />
-                                <CustomListItem label="Close Out Date/ Time" value={register?.updatedAt ? register?.updatedAt : ''} />
+                                <CustomListItem label="Closed At:" value={register?.updatedAt ? register?.updatedAt : ''} />
                             </div>
                         </div>
                     </div>

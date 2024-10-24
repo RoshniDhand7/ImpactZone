@@ -5,7 +5,7 @@ import formValidation from '../../../../utils/validations';
 import { showFormErrors, timeConvertToDate } from '../../../../utils/commonFunctions';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { CustomDropDown, CustomInput, CustomInputSwitch, CustomTimeInput } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch, CustomTimeInput } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import useGetClubs from '../../../../hooks/useGetClubs';
 
@@ -27,6 +27,7 @@ const RegisterForm = () => {
                         name: data.name,
                         autoCloseable: data.autoCloseable,
                         autoCloseableTime: data.autoCloseableTime ? timeConvertToDate(data.autoCloseableTime) : '',
+                        amountToLeftIn: data?.amountToLeftIn,
                         isActive: data.isActive,
                     });
                 }),
@@ -40,6 +41,7 @@ const RegisterForm = () => {
         name: '',
         autoCloseable: true,
         autoCloseableTime: '',
+        amountToLeftIn: 0,
         isActive: true,
     });
 
@@ -75,7 +77,9 @@ const RegisterForm = () => {
                                 col={3}
                             />
                         )}
-                        <CustomInputSwitch col={1} name="autoCloseable" data={data} onChange={handleChange} />{' '}
+                        <CustomInputSwitch col={1} name="autoCloseable" data={data} onChange={handleChange} />
+
+                        <CustomInputNumber name="amountToLeftIn" data={data} onChange={handleChange} />
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>

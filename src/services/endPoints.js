@@ -6,6 +6,7 @@ const endPoints = {
     },
     POS: {
         REGISTER: '/point-of-sale/registers/',
+        REGISTER_STATUS: '/point-of-sale/registers/status',
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
 

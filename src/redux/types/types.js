@@ -100,6 +100,7 @@ export const types = {
 
     POS: {
         REGISTER: 'REGISTER',
+        REGISTER_STATUS: 'REGISTER_STATUS',
         REGISTER_SUMMARY: 'REGISTER_SUMMARY',
         SAVED_CART: 'SAVED_CART',
         CATEGORY: 'CATEGORY',

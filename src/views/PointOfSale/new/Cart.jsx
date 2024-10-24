@@ -87,7 +87,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
     let items = [
         { label: 'Add/Drop' },
         { label: 'Receipts' },
-        { label: 'Drawer Summary' },
+        { label: 'Drawer Summary', command: () => history.push('/more/pos/drawer-summary') },
         { label: 'Open Register', command: () => setOpenDrawer(true) },
         { label: 'Close Register', command: () => setCloseDrawer(true) },
         { label: 'Saved Carts', command: () => history.push('/more/pos/saved-carts') },
