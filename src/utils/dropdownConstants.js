@@ -501,3 +501,10 @@ export const memberTypeOptions = [
 ];
 
 export const LeadPriorityOptions = ['High', ' Medium', 'Low', 'Urgent'].map((name) => ({ name, value: name }));
+
+export const repeatWeekOptions = [
+    { name: 'Repeat indefinitely', value: 'INDEFINITELY' },
+    { name: 'Repeat next week', value: 'NEXT_WEEK' },
+    { name: 'Repeat next 2 weeks', value: 'NEXT_2_WEEKS' },
+    { name: 'Repeat next 4 weeks', value: 'NEXT_4_WEEKS' },
+];

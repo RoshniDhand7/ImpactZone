@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { CustomAsyncReactSelect } from '../../../shared/Input/AllInputs';
-import { useMemo } from 'react';
 
 export default function SearchCatalog({ onSelectProduct }) {
     let { posCatalog } = useSelector((state) => state.catalogItems);

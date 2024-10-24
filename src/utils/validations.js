@@ -217,7 +217,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'maximumAgeAllowed':
         case 'maximumDaysAllowed':
         case 'maximumDistanceAllowed':
-
         case 'minimumQuantity':
             if (!number(value) || value === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;

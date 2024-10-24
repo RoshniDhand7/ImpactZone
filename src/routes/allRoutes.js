@@ -29,6 +29,8 @@ import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
 import MoreAttandance from '../views/More/MoreAttandence';
+import CheckInHistory from '../views/More/Attendance/CheckInHistory';
+import MoreMembers from '../views/More/MoreMembers';
 
 import Drawers from '../views/More/POS/Drawers';
 import SavedCarts from '../views/More/POS/SavedCarts';
@@ -141,16 +143,22 @@ export const PrivateRoutes = [
                 component: MoreAttandance,
                 items: [
                     {
-                        path: '/drawer-summary',
-                        name: 'Drawer Summary',
-                        exact: true,
-                        component: DrawerSummary,
+                        path: '/check-in-history',
+                        name: 'Check in History',
+                        component: CheckInHistory,
                     },
+                ],
+            },
+            {
+                path: '/members',
+                name: 'Members',
+                exact: true,
+                component: MoreMembers,
+                items: [
                     {
-                        path: '/drawers',
-                        name: 'Drawers',
-                        exact: true,
-                        component: Drawers,
+                        path: '/manage',
+                        name: 'Manage Members',
+                        component: AllMembers,
                     },
                 ],
             },

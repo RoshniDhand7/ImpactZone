@@ -45,6 +45,8 @@ import dashboardReducer from './Dashboard/DashboardReducer';
 import Pos from './POS/PosReducer';
 import RegisterReducer from './PosSettings/registerReducer';
 import drawersReducer from './More/DrawersReducer';
+import moreAttendanceReducer from './More/AttendanceReducer';
+import availabilityReducer from './EmployeesSettings/availabilityReducer';
 
 import SettingsReducer from './SettingsReducer';
 import POSReducer from './POSReducer';
@@ -99,4 +101,6 @@ export default combineReducers({
 
     settings: SettingsReducer,
     pos: POSReducer,
+    moreAttendance: moreAttendanceReducer,
+    employeeAvailability: availabilityReducer,
 });

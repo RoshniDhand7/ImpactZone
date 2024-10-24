@@ -13,6 +13,7 @@ import { getAccessSchedules } from '../../../../redux/actions/MembersSettings/ac
 import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import AddServices from '../../Inventory/CatalogItems/AddServices';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import useDiscount from '../../../../hooks/useDiscount';
 
 const MembershipTypeForm = () => {
     const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const MembershipTypeForm = () => {
     let { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
     MembershipTypesDropdown = MembershipTypesDropdown?.filter((item) => item.name !== data?.name);
     const { clubsDropdown } = useGetClubs();
+    const { allDiscountDropdown } = useDiscount();
 
     const history = useHistory();
 
@@ -55,7 +57,7 @@ const MembershipTypeForm = () => {
                     setData({
                         name: data.name,
                         description: data.description,
-                        discountType: data.discountType,
+                        discountType: data.discountType === null ? 'None' : data.discountType,
                         accessRestriction: data.accessRestriction,
                         accessSchedule: data.accessSchedule,
                         remotecheckin: data.remotecheckin,
@@ -80,7 +82,7 @@ const MembershipTypeForm = () => {
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
-    const discountTypeOptions = defaultDiscountOptions;
+    const discountTypeOptions = [...defaultDiscountOptions, ...allDiscountDropdown];
 
     const onSave = () => {
         let ignore = [];
@@ -100,9 +102,19 @@ const MembershipTypeForm = () => {
         }
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
-                dispatch(editMembershipType(id, { ...data, services: getIds(data.services) }, history));
+                dispatch(
+                    editMembershipType(
+                        id,
+                        { ...data, services: getIds(data.services), discountType: data.discountType === 'None' ? null : data.discountType },
+                        history,
+                    ),
+                );
             } else {
-                dispatch(addMembershipType({ ...data, services: getIds(data.services) }, () => history.goBack()));
+                dispatch(
+                    addMembershipType({ ...data, services: getIds(data.services), discountType: data.discountType === 'None' ? null : data.discountType }, () =>
+                        history.goBack(),
+                    ),
+                );
             }
         }
     };

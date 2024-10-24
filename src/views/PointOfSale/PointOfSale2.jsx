@@ -36,12 +36,11 @@ export default function PointOfSale2() {
 
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
-
     const [appliedPromo, setAppliedPromo] = useState(null);
-
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
+    const [variationProduct, setVariationProduct] = useState(null);
 
     //Count final detailed price and calculations
     useEffect(() => {
@@ -245,7 +244,6 @@ export default function PointOfSale2() {
         }
     };
 
-    const [variationProduct, setVariationProduct] = useState(null);
     const onCloseVariation = () => {
         setVariationProduct(null);
     };

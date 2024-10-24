@@ -146,6 +146,7 @@ const General = ({ editItem }) => {
     );
     useEffect(() => {
         handlePriceChange({ name: 'netPrice', value: data?.netPrice });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_totalTax]);
     const handlePriceChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

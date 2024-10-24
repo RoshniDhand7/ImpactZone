@@ -108,5 +108,8 @@ const endPoints = {
     DRAWERS: '/drawers/',
 
     SAVED_CART: '/point-of-sale/saved-carts/',
+    ATTENDANCE_CHECK_IN: '/attendance-checkin/',
+    EMPLOYEE_CLUBS: '/employee-clubs/',
+    EMPLOYEE_AVAILABILITY: '/availability/',
 };
 export default endPoints;

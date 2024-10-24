@@ -496,6 +496,19 @@ const diffHours = (dt2, dt1) => {
     const diff = (date2.getTime() - date1.getTime()) / (1000 * 60 * 60);
     return Math.abs(Math.round(diff));
 };
+const diffHoursAndMinutes = (dt2, dt1) => {
+    const date1 = new Date(dt1);
+    const date2 = new Date(dt2);
+    const diffInMs = Math.abs(date2 - date1); // Difference in milliseconds
+
+    const hours = Math.floor(diffInMs / (1000 * 60 * 60)); // Full hours
+    const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60)); // Remaining minutes
+
+    return { hours, minutes };
+};
+
+var startOfWeek = moment().utc().startOf('week').toDate();
+var endOfWeek = moment().utc().endOf('week').toDate();
 
 export {
     capitalizeCamelCase,
@@ -534,4 +547,7 @@ export {
     showFormErrors1,
     getSearchedData,
     diffHours,
+    startOfWeek,
+    endOfWeek,
+    diffHoursAndMinutes,
 };

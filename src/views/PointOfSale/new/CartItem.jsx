@@ -9,8 +9,6 @@ export default function CartItem(props) {
     const { waivedTaxAmount, netPrice, finalNetPrice, finalTotal } = item;
     const { minimumQuantity, maximumQuantity, quantity, allowUnlimited } = item;
 
-    console.log('promoDiscountpromoDiscount=>', promoDiscount);
-
     const onDelete = (event) => {
         confirmPopup({
             target: event.currentTarget,
@@ -107,7 +105,6 @@ export default function CartItem(props) {
                 <div className="flex">
                     <div className="mr-2 text-lg font-medium my-auto">${finalNetPrice}</div>
                     {finalNetPrice !== netPrice && <div className="mr-2 text-lg font-medium line-through text-dark-gray my-auto">${netPrice}</div>}
-                    {console.log(promoDiscount)}
                     {discountTemplate(defaultDiscount, null)}
                     {discountTemplate(specialDiscount, null, removeSpecialDiscount)}
                     {discountTemplate(promoDiscount, 'pi-bookmark', null)}

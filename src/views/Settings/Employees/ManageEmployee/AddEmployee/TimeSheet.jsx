@@ -5,7 +5,7 @@ import CustomTable from '../../../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import { diffHours } from '../../../../../utils/commonFunctions';
+import { diffHours, diffHoursAndMinutes } from '../../../../../utils/commonFunctions';
 import FilterComponent from '../../../../../components/FilterComponent';
 import useFilters from '../../../../../hooks/useFilters';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
@@ -13,6 +13,7 @@ import { CustomCalenderInput, CustomMultiselect } from '../../../../../shared/In
 import useGetClubs from '../../../../../hooks/useGetClubs';
 import PrimaryButton from '../../../../../shared/Button/CustomButton';
 import useDepartments from '../../../../../hooks/Employees/useDepartments';
+import ClockInOutModal from '../../../../../layout/ClockInOutModal';
 
 const TimeSheet = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const TimeSheet = () => {
         department: null,
     };
     const [data, setData] = useState(initialData);
+    const [openClockModal, setOpenClockModal] = useState(false);
+    const [timesheetEditId, setTimesheetEditId] = useState(null);
 
     useEffect(() => {
         dispatch(getEmployeeTimeSheet(_, id, data));
@@ -38,9 +41,19 @@ const TimeSheet = () => {
     const columns = [
         { field: 'club', header: 'Club' },
         { field: 'department', header: 'Department' },
-        { field: 'clockIn', body: (r) => moment(r?.clockIn).format('hh:mm a'), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('hh:mm a') : null), header: 'ClockOut' },
-        { field: 'duration', body: (r) => diffHours(r?.clockOut, r?.clockIn), header: 'Duration' },
+        { field: 'clockIn', body: (r) => moment(r?.clockIn).format(' MM/DD/YYYY hh:mm a'), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockOut' },
+        {
+            field: 'duration',
+            body: (r) => {
+                if (r?.clockOut && r?.clockIn) {
+                    const { hours, minutes } = diffHoursAndMinutes(r?.clockOut, r?.clockIn);
+                    return `${hours} hours ${minutes} minutes`;
+                }
+                return '-';
+            },
+            header: 'Duration',
+        },
         { field: 'modifiedOn', header: 'Modified On' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
@@ -56,6 +69,11 @@ const TimeSheet = () => {
 
     const { clubsDropdown } = useGetClubs();
     const { departmentsDropdown } = useDepartments();
+
+    const handleEditTimeSheet = (col) => {
+        setTimesheetEditId(col?._id);
+        setOpenClockModal(true);
+    };
 
     return (
         <>
@@ -85,11 +103,17 @@ const TimeSheet = () => {
                         onChange={handleChange}
                         showClear
                     />
-                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} />
-                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} />
+                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} maxDate={data.to} />
+                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} minDate={data.from} />
                 </CustomGridLayout>
             </FilterComponent>
             <CustomTable data={tableData} columns={columns} />
+            <ClockInOutModal
+                openClockModal={openClockModal}
+                setOpenClockModal={setOpenClockModal}
+                timesheetEditId={timesheetEditId}
+                setTimesheetEditId={setTimesheetEditId}
+            />
         </>
     );
 };

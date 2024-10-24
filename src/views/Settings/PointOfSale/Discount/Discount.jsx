@@ -27,12 +27,9 @@ const Discount = () => {
         { field: 'discountName', header: 'Name' },
         { field: 'description', header: 'Description' },
         {
-            body: (r) => (
-                <>
-                    {r.amountType === 'FIXED' ? '$' + '' + r.amount : r?.amount + '%'}
-                    {/* {r.amountType === 'FIXED' ? '$' : '%'} */}
-                </>
-            ),
+            body: (r) => {
+                return `${r.amountType === 'FIXED' ? '$' + r.amount : r?.amount + '%'} `;
+            },
             header: 'Discount',
         },
         { field: 'startDate', body: (r) => moment(r.startDate).format('DD-MM-YYYY'), header: 'Start Date' },

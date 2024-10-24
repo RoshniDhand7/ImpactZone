@@ -7,10 +7,12 @@ import PrimaryButton from '../../shared/Button/CustomButton';
 import useFilters from '../../hooks/useFilters';
 import FilterComponent from '../../components/FilterComponent';
 import { CustomInput, CustomInputMask, CustomInputNumber } from '../../shared/Input/AllInputs';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import TableImage from '../../shared/Image/TableImage';
 
 const AllMembers = () => {
+    const location = useLocation();
+    const isManageRoute = location.pathname.includes('/manage');
     const columns = [
         { field: 'image', body: ({ image }) => <TableImage image={image} />, header: 'Photo', style: { color: '#d0e1fd', width: '12%' } },
         {
@@ -43,7 +45,9 @@ const AllMembers = () => {
     };
 
     useEffect(() => {
-        onFilterOpen();
+        if (!isManageRoute) {
+            onFilterOpen();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -57,7 +61,7 @@ const AllMembers = () => {
     return (
         <>
             <h3>Members</h3>
-            <CustomFilterCard contentPosition="end">
+            <CustomFilterCard buttonTitle={isManageRoute ? 'Add Member' : null} linkTo="/members/add" contentPosition="end">
                 <div className="text-end w-full">
                     <PrimaryButton label="Filter" icon="pi pi-filter" className="mx-2 " onClick={onFilterOpen} />
                 </div>

@@ -14,7 +14,7 @@ import {
     getCatalogVariations,
 } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useParams } from 'react-router-dom';
-import { PercentageDifference, confirmDelete } from '../../../../utils/commonFunctions';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
 
 const Variations = ({ editItem }) => {
@@ -146,67 +146,54 @@ const Variations = ({ editItem }) => {
         );
     };
 
-    const markupPriceTemplate = useCallback(
-        (r) => {
-            // return <>{products[0]?.markupPrice && <>{PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}</>}</>;
-            return;
-        },
-        [products],
-    );
+    const markupPriceTemplate = useCallback((r) => {
+        // return <>{products[0]?.markupPrice && <>{PercentageDifference(products[0]?.markupPrice, r?.unitPrice)}</>}</>;
+        return;
+    }, []);
 
     return (
-        <>
-            <CustomCard col="12" title="All Variations">
-                <CustomFilterCard buttonTitle="Add" onClick={() => setOpen(true)} />
-                <AddandEditVariatons
-                    visible={open}
-                    setOpen={setOpen}
-                    setVariationId={setVariationId}
-                    variationId={variationId}
-                    catalogId={id}
-                    catelogItem={editItem}
-                />
-                {products?.length > 0 &&
-                    products?.map((item, i) => {
-                        return (
-                            <>
-                                <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={customHeader(item)}>
-                                    <DataTable
-                                        value={item?.subVariations}
-                                        editMode="row"
-                                        dataKey="id"
-                                        onRowEditComplete={onRowEditComplete}
-                                        tableStyle={{ minWidth: '50rem' }}
-                                    >
-                                        <Column field="subVariation" header="Sub Variation" editor={(options) => textEditor(options)} />
-                                        <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} />
-                                        <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} />
-                                        <Column field="netPrice" header="Net Price" editor={(options) => priceEditor(options)} />
-                                        <Column field="netPrice" header="Markup Price" body={markupPriceTemplate} />
-                                        <Column field="minimumQuantity" header="Min. Quantity" editor={(options) => numberEditor(options, 'minimumQuantity')} />
-                                        <Column field="maximumQuantity" header="Max. Quantity" editor={(options) => numberEditor(options, 'maximumQuantity')} />
-                                        <Column
-                                            field="defaultQuantity"
-                                            header="Default Quantity"
-                                            editor={(options) => numberEditor(options, 'defaultQuantity')}
-                                        />
-                                        <Column field="wholesaleCost" header="WholeSale Cost" editor={(options) => priceEditor(options)} />
-                                        <Column
-                                            field="reorderQuantity"
-                                            header="Reorder Quantity"
-                                            editor={(options) => numberEditor(options, 'reorderQuantity')}
-                                        />
-                                        <Column field="taxable" body={taxableTemplate} header="Taxable" editor={(options) => taxableEditor(options)} />
+        <CustomCard col="12" title="All Variations">
+            <CustomFilterCard buttonTitle="Add" onClick={() => setOpen(true)} />
+            <AddandEditVariatons
+                visible={open}
+                setOpen={setOpen}
+                setVariationId={setVariationId}
+                variationId={variationId}
+                catalogId={id}
+                catelogItem={editItem}
+            />
+            {products?.length > 0 &&
+                products?.map((item, i) => {
+                    return (
+                        <>
+                            <CustomAccordion isActive={true} extraClassName="employee-accordion w-full" title={customHeader(item)}>
+                                <DataTable
+                                    value={item?.subVariations}
+                                    editMode="row"
+                                    dataKey="id"
+                                    onRowEditComplete={onRowEditComplete}
+                                    tableStyle={{ minWidth: '50rem' }}
+                                >
+                                    <Column field="subVariation" header="Sub Variation" editor={(options) => textEditor(options)} />
+                                    <Column field="sku" header="Sku" editor={(options) => numberEditor(options, 'sku')} />
+                                    <Column field="upc" header="UPC" editor={(options) => numberEditor(options, 'upc')} />
+                                    <Column field="netPrice" header="Net Price" editor={(options) => priceEditor(options)} />
+                                    <Column field="netPrice" header="Markup Price" body={markupPriceTemplate} />
+                                    <Column field="minimumQuantity" header="Min. Quantity" editor={(options) => numberEditor(options, 'minimumQuantity')} />
+                                    <Column field="maximumQuantity" header="Max. Quantity" editor={(options) => numberEditor(options, 'maximumQuantity')} />
+                                    <Column field="defaultQuantity" header="Default Quantity" editor={(options) => numberEditor(options, 'defaultQuantity')} />
+                                    <Column field="wholesaleCost" header="WholeSale Cost" editor={(options) => priceEditor(options)} />
+                                    <Column field="reorderQuantity" header="Reorder Quantity" editor={(options) => numberEditor(options, 'reorderQuantity')} />
+                                    <Column field="taxable" body={taxableTemplate} header="Taxable" editor={(options) => taxableEditor(options)} />
 
-                                        <Column header="Actions" rowEditor={true} bodyStyle={{ textAlign: 'center' }} />
-                                        <Column body={deleteTemplate} />
-                                    </DataTable>
-                                </CustomAccordion>
-                            </>
-                        );
-                    })}
-            </CustomCard>
-        </>
+                                    <Column header="Actions" rowEditor={true} bodyStyle={{ textAlign: 'center' }} />
+                                    <Column body={deleteTemplate} />
+                                </DataTable>
+                            </CustomAccordion>
+                        </>
+                    );
+                })}
+        </CustomCard>
     );
 };
 
