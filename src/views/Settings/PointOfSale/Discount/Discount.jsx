@@ -28,7 +28,7 @@ const Discount = () => {
         { field: 'description', header: 'Description' },
         {
             body: (r) => {
-                return `${r.amountType} === 'FIXED' ? '$'  ${r.amount} : ${r?.amount}  '%`;
+                return `${r.amountType === 'FIXED' ? '$' + r.amount : r?.amount + '%'} `;
             },
             header: 'Discount',
         },

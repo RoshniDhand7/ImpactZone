@@ -206,6 +206,17 @@ const getEmployeeTimeSheet = (setLoading, employeeId, data) => async (dispatch) 
         setLoading(false);
     }
 };
+
+const getOneEmployeeTimeSheet = (id, returnData) => async (dispatch) => {
+    const res = await api('get', EndPoints.EMPLOYEE_TIMESHEET + id);
+    if (res.success) {
+        if (res.data) {
+            returnData(res.data);
+        }
+    } else {
+        showToast({ severity: 'error', summary: res.message });
+    }
+};
 const getallEmployeeTimeSheet = (setLoading, data) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
@@ -248,4 +259,5 @@ export {
     addEmployeesCheckInOut,
     getEmployeeTimeSheet,
     getallEmployeeTimeSheet,
+    getOneEmployeeTimeSheet,
 };

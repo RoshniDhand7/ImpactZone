@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 import { getallEmployeeTimeSheet } from '../../../../redux/actions/EmployeeSettings/employeesAction';
-import { diffHours } from '../../../../utils/commonFunctions';
+import { diffHours, diffHoursAndMinutes } from '../../../../utils/commonFunctions';
 import useFilters from '../../../../hooks/useFilters';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import useDepartments from '../../../../hooks/Employees/useDepartments';
@@ -40,9 +40,19 @@ const TimeSheet = () => {
         { field: 'club', header: 'Club' },
         { field: 'employeeName', header: 'Employee Name' },
         { field: 'department', header: 'Department' },
-        { field: 'clockIn', body: (r) => (r?.clockIn ? moment(r?.clockIn).format('hh:mm a') : null), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('hh:mm a') : null), header: 'ClockOut' },
-        { field: 'duration', body: (r) => diffHours(r?.clockOut, r?.clockIn), header: 'Duration' },
+        { field: 'clockIn', body: (r) => (r?.clockIn ? moment(r?.clockIn).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockOut' },
+        {
+            field: 'duration',
+            body: (r) => {
+                if (r?.clockOut && r?.clockIn) {
+                    const { hours, minutes } = diffHoursAndMinutes(r?.clockOut, r?.clockIn);
+                    return `${hours} hours ${minutes} minutes`;
+                }
+                return '-';
+            },
+            header: 'Duration',
+        },
         { field: 'modifiedOn', header: 'Modified On' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
@@ -89,8 +99,8 @@ const TimeSheet = () => {
                         showClear
                     />
                     <CustomMultiselect col={12} name="employee" options={employeesDropdown} data={data} onChange={handleChange} showClear />
-                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} />
-                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} />
+                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} maxDate={data.to} />
+                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} minDate={data.from} />
                 </CustomGridLayout>
             </FilterComponent>
             <CustomTable data={tableData} columns={columns} />

@@ -308,18 +308,22 @@ const AddAvailability = () => {
             <FormPage backText="Availability" backTo="/settings/employee">
                 <CustomCard col={12} title="Availability">
                     <CustomGridLayout>
-                        <CustomAsyncReactSelect
-                            name="employee"
-                            field="fullName"
-                            suggestions={suggestions}
-                            options={employeeOptions}
-                            placeholder="Search employee"
-                            showLabel={false}
-                            value={data?.employee}
-                            onChange={handleChange}
-                            extraClassName=" p-3 mt-3"
-                            col={4}
-                        />
+                        <div className="col-4 ">
+                            <label className="font-bold ml-1 mb-3">Employee</label>
+                            <CustomAsyncReactSelect
+                                name="employee"
+                                field="fullName"
+                                suggestions={suggestions}
+                                options={employeeOptions}
+                                placeholder="Search employee"
+                                showLabel={false}
+                                value={data?.employee}
+                                onChange={handleChange}
+                                extraClassName="  "
+                                col={12}
+                            />
+                        </div>
+
                         <CustomDropDown name="club" options={employeeClubs} onChange={handleChange} data={data} />
                         <CustomDropDown name="trackAvailability" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomCalenderInput name="fromDate" onChange={handleChange} data={data} col={3} maxDate={data.toDate} />

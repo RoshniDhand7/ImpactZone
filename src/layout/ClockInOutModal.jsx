@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomDialog from '../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomTextArea } from '../shared/Input/AllInputs';
 import CustomCard, { CustomGridLayout } from '../shared/Cards/CustomCard';
 import moment from 'moment';
 import PrimaryButton from '../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
-import { addEmployeesCheckInOut, getEmployeesFromBarCode } from '../redux/actions/EmployeeSettings/employeesAction';
+import { addEmployeesCheckInOut, getEmployeesFromBarCode, getOneEmployeeTimeSheet } from '../redux/actions/EmployeeSettings/employeesAction';
 import { yesNoOptions } from '../utils/dropdownConstants';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
-import useGetClubs from '../hooks/useGetClubs';
 
-const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
+const ClockInOutModal = ({ openClockModal, setOpenClockModal, timesheetEditId, setTimesheetEditId }) => {
     const dispatch = useDispatch();
-    const { clubsDropdown } = useGetClubs();
 
     const [openAccessModal, setOpenAccessModal] = useState({ open: false, data: {} });
 
@@ -29,10 +27,27 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
             status: null,
         },
         empId: null,
-        clubs:[]
+        clubs: [],
     };
 
     const [data, setData] = useState(initialState);
+
+    useEffect(() => {
+        if (timesheetEditId) {
+            dispatch(
+                getOneEmployeeTimeSheet(timesheetEditId, (res) => {
+                    setData({
+                        barCode: res.barCode,
+                        name: res.firstName + ' ' + res.lastName,
+                        isActive: res.isActive,
+                        employeeTimesheet: res?.employeeTimesheet,
+                        empId: res._id,
+                        clubs: res?.clubs,
+                    });
+                }),
+            );
+        }
+    }, [timesheetEditId, dispatch]);
     const [loading, setLoading] = useState(false);
 
     const handleChange = ({ name, value }) => {
@@ -90,8 +105,8 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 onSave={() => handleClock('CLOCK_OUT')}
                 saveLabel="ClockOut"
                 applyLabel="ClockIn"
-                applydisabled={data?.employeeTimesheet?.status === 'CLOCK_IN' ? true : false}
-                savedisabled={data?.employeeTimesheet?.status === 'CLOCK_OUT' ? true : false}
+                applydisabled={data?.employeeTimesheet?.status === 'CLOCK_IN'}
+                savedisabled={data?.employeeTimesheet?.status === 'CLOCK_OUT'}
             >
                 <CustomGridLayout>
                     <div className="col-6">
@@ -115,7 +130,14 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 </CustomGridLayout>
                 <CustomCard title="Alerts" col={12} />
             </CustomDialog>
-            <CustomDialog title="Access Code" visible={openAccessModal?.open} onCancel={onClose} loading={loading} onSave={handleSave} saveLabel="Check In">
+            <CustomDialog
+                title="Access Code"
+                visible={openAccessModal?.open}
+                onCancel={onClose}
+                loading={loading}
+                onSave={handleSave}
+                saveLabel={data?.employeeTimesheet?.status === 'CLOCK_IN' ? 'Check Out' : 'Check In'}
+            >
                 <CustomGridLayout>
                     <CustomInput col="12" name="accessCode" data={data} onChange={handleChange} />
                 </CustomGridLayout>
