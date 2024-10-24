@@ -6,8 +6,34 @@ import CatalogItems from './new/CatalogItems';
 import Cart from './new/Cart';
 import { calculateDiscountedAmount, calculateTax, roundOfNumber } from '../../utils/taxHelpers';
 import VariationPopup from './new/VariationPopup';
+import SaveCartPopup from './new/SaveCartPopup';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getSavedCartAction } from '../../redux/actions/POS/savedCartActions';
+import { getRegistersAction } from '../../redux/actions/POS/registerActions';
 
 export default function PointOfSale2() {
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        dispatch(getRegistersAction());
+    }, [dispatch]);
+
+    useEffect(() => {
+        let id = location?.state?.savedCartId;
+        if (id) {
+            dispatch(
+                getSavedCartAction(id, (e) => {
+                    console.log(e);
+                    if (e.items) {
+                        setSelectedItems(e.items);
+                    }
+                }),
+            );
+        }
+    }, [location]);
+
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [appliedPromo, setAppliedPromo] = useState(null);
@@ -222,6 +248,22 @@ export default function PointOfSale2() {
         setVariationProduct(null);
     };
 
+    const [saveCartPopup, setSaveCartPopup] = useState(false);
+    const onCloseSaveCartPopup = () => {
+        setSaveCartPopup(false);
+    };
+
+    const onOpenSaveCartPopup = () => {
+        if (selectedItems?.length) {
+            setSaveCartPopup(true);
+        }
+    };
+
+    const onCartSaved = () => {
+        setSaveCartPopup(false);
+        setSelectedItems([]);
+    };
+
     return (
         <div className="grid">
             <div className="col-2">
@@ -239,9 +281,16 @@ export default function PointOfSale2() {
                     cartDetails={cartDetails}
                     setAppliedPromo={setAppliedPromo}
                     appliedPromo={appliedPromo}
+                    onOpenSaveCartPopup={onOpenSaveCartPopup}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />
+            <SaveCartPopup
+                visible={saveCartPopup}
+                onCancel={onCloseSaveCartPopup}
+                details={{ selectedMember, selectedItems, cartDetails }}
+                onCartSaved={onCartSaved}
+            />
         </div>
     );
 }

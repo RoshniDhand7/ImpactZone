@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     allPOSPromo: {},
+    registers: [],
 };
 
 const PosReducer = (state = intitalState, action) => {
@@ -14,6 +15,11 @@ const PosReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allPOSPromo: {},
+            };
+        case types.CHANGE_POS_REGISTERS:
+            return {
+                ...state,
+                registers: {},
             };
 
         default:

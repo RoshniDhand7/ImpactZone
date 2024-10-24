@@ -40,13 +40,16 @@ import sellPlanReducer from './Plans/SellPlanReducer';
 import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReducer';
 import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
-import POSReducer from './POSReducer';
+import POSReducer1 from './POSReducer1';
 import dashboardReducer from './Dashboard/DashboardReducer';
-import PosReducer from './POS/PosReducer';
+import Pos from './POS/PosReducer';
 import RegisterReducer from './PosSettings/registerReducer';
 import drawersReducer from './More/DrawersReducer';
 import moreAttendanceReducer from './More/AttendanceReducer';
 import availabilityReducer from './EmployeesSettings/availabilityReducer';
+
+import SettingsReducer from './SettingsReducer';
+import POSReducer from './POSReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -90,11 +93,14 @@ export default combineReducers({
     schedulingOptions: schedulingOptionsReducer,
     filterSet: filterSetReducer,
     tags: tagsReducer,
-    POS: POSReducer,
+    POS: POSReducer1,
     dashboard: dashboardReducer,
-    PointOfSale: PosReducer,
+    PointOfSale: Pos,
     registers: RegisterReducer,
     drawers: drawersReducer,
+
+    settings: SettingsReducer,
+    pos: POSReducer,
     moreAttendance: moreAttendanceReducer,
     employeeAvailability: availabilityReducer,
 });

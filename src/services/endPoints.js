@@ -1,4 +1,15 @@
 const endPoints = {
+    SETTINGS: {
+        POS: {
+            REGISTER: '/settings/pos/register/',
+        },
+    },
+    POS: {
+        REGISTER: '/point-of-sale/registers/',
+        REGISTER_STATUS: '/point-of-sale/registers/status',
+    },
+    VALIDATE_ACCESS_CODE: '/validate-access-code/',
+
     LOGIN: '/login',
     FORGOT_PASSWORD: '/forgot-password',
     CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
@@ -95,6 +106,8 @@ const endPoints = {
     EMPLOYEE_TIMESHEET: '/employee-timesheet/',
     ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
     DRAWERS: '/drawers/',
+
+    SAVED_CART: '/point-of-sale/saved-carts/',
     ATTENDANCE_CHECK_IN: '/attendance-checkin/',
     EMPLOYEE_CLUBS: '/employee-clubs/',
     EMPLOYEE_AVAILABILITY: '/availability/',

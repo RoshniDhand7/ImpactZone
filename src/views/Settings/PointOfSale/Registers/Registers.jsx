@@ -1,17 +1,23 @@
-import React from 'react';
-import CustomTable from '../../../../shared/Table/CustomTable';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import useRegister from '../../../../hooks/useRegister';
+import CustomTable from '../../../../shared/Table/CustomTable';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
+import { getRegistersAction } from '../../../../redux/actions/Settings/POS/registerActions';
 
 const Registers = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
+    const { registers } = useSelector((state) => state.settings.pos);
 
-    const { allRegisters } = useRegister();
+    useEffect(() => {
+        dispatch(getRegistersAction());
+    }, [dispatch]);
+
     const columns = [
-        { field: 'registerId', header: 'Register Id' },
+        { field: 'name', header: 'Name' },
         { field: 'club', header: 'Club' },
+        { field: 'isActive', header: 'Active' },
     ];
     const onEdit = (col) => {
         history.push(`/settings/pos/register/edit/${col._id}`);
@@ -20,7 +26,7 @@ const Registers = () => {
     return (
         <>
             <CustomFilterCard buttonTitle="Add Register" linkTo="/settings/pos/register/add"></CustomFilterCard>
-            <CustomTable data={allRegisters} columns={columns} onEdit={onEdit} />
+            <CustomTable data={registers} columns={columns} onEdit={onEdit} />
         </>
     );
 };

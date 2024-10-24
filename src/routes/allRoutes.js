@@ -28,10 +28,12 @@ import AllMembers from '../views/Members/AllMembers';
 import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
 import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
-import Drawers from '../views/More/Drawers/Drawers';
 import MoreAttandance from '../views/More/MoreAttandence';
 import CheckInHistory from '../views/More/Attendance/CheckInHistory';
 import MoreMembers from '../views/More/MoreMembers';
+
+import Drawers from '../views/More/POS/Drawers';
+import SavedCarts from '../views/More/POS/SavedCarts';
 
 export const PrivateRoutes = [
     {
@@ -125,6 +127,12 @@ export const PrivateRoutes = [
                         name: 'Drawers',
                         exact: true,
                         component: Drawers,
+                    },
+                    {
+                        path: '/saved-carts',
+                        name: 'Saved Carts',
+                        exact: true,
+                        component: SavedCarts,
                     },
                 ],
             },

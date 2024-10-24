@@ -275,6 +275,41 @@ export const CustomCalenderInput = ({
         </InputLayout>
     );
 };
+export const CustomTimeInput = ({
+    id,
+    label,
+    name,
+    data,
+    value,
+    onChange,
+    errorMessage,
+    extraClassName,
+    required,
+    col,
+    inputClass,
+    disabled,
+    customIndex,
+    fieldName,
+    ...props
+}) => {
+    return (
+        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <Calendar
+                inputId={name}
+                name={name}
+                value={data?.[name] || value}
+                onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: e.value, customIndex, fieldName })}
+                className={`w-full ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
+                disabled={disabled}
+                readOnlyInput
+                showIcon
+                {...props}
+                icon="pi pi-clock"
+                timeOnly
+            />
+        </InputLayout>
+    );
+};
 export const CustomInputSwitch = ({ label, name, data, value, onChange, errorMessage, extraClassName, required, col, inputClass, ...props }) => {
     return (
         <InputLayout col={col || 6} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
@@ -388,14 +423,28 @@ export const CustomInputNumber = ({
     );
 };
 
-export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange }) => {
+export const CustomInputCurrentChange = ({ name, col = 4, data, handleChange, ...props }) => {
+    let _total = denominationsToDollarConverter(data, name);
     return (
-        <div className={`col-${col} flex align-items-center`}>
-            <CustomInputNumber col="6" name={name} data={data} onChange={handleChange} />
-            <div className="col-4 flex align-items-center justify-content-center">
-                <i className="pi pi-arrow-right"></i>
+        <div className={`col-${col}`}>
+            <div className="text-sm font-semibold">{capitalizeCamelCase(name)}</div>
+            <div className="col grid">
+                <InputText
+                    id={name}
+                    name={name}
+                    value={data?.[name] || 0}
+                    onChange={(e) => handleChange && handleChange({ ...e, name: name, value: parseInt(e.target.value || 0) })}
+                    className={`w-5`}
+                    keyfilter="int"
+                    {...props}
+                />
+                <div className="col-2 text-center my-auto">
+                    <i className="pi pi-arrow-right "></i>
+                </div>
+                <div className="border col-4 border-round-md bg-green-600 text-white flex flex-column justify-content-center">
+                    <div className="py-auto">${_total}</div>
+                </div>
             </div>
-            <span className="border col-2 flex align-items-center justify-content-center ">{denominationsToDollarConverter(data, name)}</span>
         </div>
     );
 };

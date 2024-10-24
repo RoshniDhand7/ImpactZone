@@ -6,7 +6,7 @@ import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { validatePromoCodeAction } from '../../../redux/actions/POS/PosActions';
 
-export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo }) {
+export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup }) {
     const dispatch = useDispatch();
     let { total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [promo, setPromo] = useState('');
@@ -31,6 +31,7 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
     const onRemovePromo = () => {
         setAppliedPromo(null);
     };
+
     return (
         <>
             {total ? (
@@ -112,7 +113,7 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
             )}
             <div className="flex gap-2 mt-2">
                 <PrimaryButton label="Checkout" className="w-full" />
-                <CustomButton label="Save" severity="secondary" className="w-full" />
+                <CustomButton label="Save" severity="secondary" className="w-full" onClick={onOpenSaveCartPopup} />
             </div>
         </>
     );

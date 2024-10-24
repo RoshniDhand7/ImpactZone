@@ -68,7 +68,7 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
         const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
         displayValue = values ? values : '-';
     } else {
-        displayValue = formatValue(data[name]);
+        displayValue = formatValue(data?.[name]);
     }
 
     return (

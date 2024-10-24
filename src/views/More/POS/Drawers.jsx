@@ -13,6 +13,8 @@ import useGetClubs from '../../../hooks/useGetClubs';
 import useEmployees from '../../../hooks/Employees/useEmployees';
 import { ActiveFilterDropdown1 } from '../../../utils/dropdownConstants';
 import _ from 'lodash';
+import { getRegistersStatusAction } from '../../../redux/actions/POS/registerActions';
+import { formatDateTime } from '../../../utils/dateTime';
 
 const Drawers = () => {
     const dispatch = useDispatch();
@@ -27,37 +29,35 @@ const Drawers = () => {
         isActive: null,
     };
     const [data, setData] = useState(initialData);
+
     const columns = [
+        { header: 'Register', field: 'name' },
+        { header: 'Station', field: 'openedFrom' },
+        { header: 'Opened At', body: (e) => formatDateTime(e?.openedAt) },
+        { header: 'Opened By', field: 'openedBy' },
+        { header: 'Status', field: 'status' },
+        { header: 'Closed By', field: 'closedBy' },
         {
-            field: 'openRegister',
-            body: (r) => {
-                if (r?.openRegister) {
-                    const { formattedDate } = dateConversions(r.openRegister);
-                    return formattedDate;
+            header: 'Closed At',
+            body: (e) => {
+                if (e?.status === 'CLOSE') {
+                    return formatDateTime(e?.closedAt);
                 }
-                return null;
             },
-            header: 'Open Date',
         },
+        { header: 'Starting Amount', field: 'cashAtStart' },
         {
-            field: 'employeeName',
-            body: (r) => {
-                if (r?.closeRegister) {
-                    const { formattedDate } = dateConversions(r?.closeRegister);
-                    return formattedDate;
+            header: 'Ending Amount',
+            body: (e) => {
+                if (e?.status === 'CLOSE') {
+                    return e?.cashAtEnd;
                 }
-                return null;
             },
-            header: 'Close Date',
         },
-        { field: 'drawerStatus', header: 'Status' },
-        { field: 'employee', header: 'Open Employee' },
-        { field: 'openDrawerTotal', header: 'Starting Amount' },
-        { field: 'closeDrawerTotal', header: 'Ending Amount' },
     ];
 
     useEffect(() => {
-        dispatch(getDrawers(_, data));
+        dispatch(getRegistersStatusAction());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
@@ -70,12 +70,16 @@ const Drawers = () => {
 
     const { clubsDropdown } = useGetClubs();
     const { employeesDropdown } = useEmployees();
+
+    const { registerStatus } = useSelector((state) => state?.pos);
+    console.log('registerStatus==>', registerStatus);
+
     return (
         <>
             <CustomFilterCard contentPosition="end">
                 <PrimaryButton label="Filter" icon="pi pi-filter" className="mx-2 " onClick={onFilterOpen} />
             </CustomFilterCard>
-            <CustomTable data={tableData} columns={columns} />
+            <CustomTable data={registerStatus} columns={columns} />
             <FilterComponent
                 value={filters}
                 onApply={onApplyFilters}
