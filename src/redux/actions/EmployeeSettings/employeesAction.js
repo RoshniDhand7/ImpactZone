@@ -40,7 +40,8 @@ const getEmployeesFilterType = (type) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-const getEmployeesFromBarCode = (barCode, returnData) => async (dispatch) => {
+const getEmployeesFromBarCode = (barCode, setLoading, returnData) => async (dispatch) => {
+    setLoading(true);
     const res = await api('get', EndPoints.EMPLOYEE_BARCODE, {}, { barCode });
     if (res.success) {
         if (res.data) {
@@ -51,6 +52,7 @@ const getEmployeesFromBarCode = (barCode, returnData) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
+    setLoading(false);
 };
 const addEmployees =
     (data, setLoading, history, tab = '') =>
@@ -87,6 +89,7 @@ const addEmployeesCheckInOut = (data, setLoading, onClose) => async (dispatch) =
     }
     setLoading(false);
 };
+
 const getEmployee = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const res = await api('get', EndPoints.EMPLOYEE + id);
@@ -217,6 +220,18 @@ const getOneEmployeeTimeSheet = (id, returnData) => async (dispatch) => {
         showToast({ severity: 'error', summary: res.message });
     }
 };
+
+const editEmployeeTimeSheet = (id, data, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+
+    const res = await api('put', EndPoints.EMPLOYEE_TIMESHEET + id, data);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
 const getallEmployeeTimeSheet = (setLoading, data) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
@@ -260,4 +275,5 @@ export {
     getEmployeeTimeSheet,
     getallEmployeeTimeSheet,
     getOneEmployeeTimeSheet,
+    editEmployeeTimeSheet,
 };

@@ -36,6 +36,7 @@ export default function CashCalculator({ name = 'totalCash', onChange }) {
         if (onChange) {
             onChange({ name, value: sum });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sum]);
 
     const increaseValue = ({ name, value }) => {

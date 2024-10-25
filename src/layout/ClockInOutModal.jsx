@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CustomDialog from '../shared/Overlays/CustomDialog';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomTextArea } from '../shared/Input/AllInputs';
 import CustomCard, { CustomGridLayout } from '../shared/Cards/CustomCard';
 import moment from 'moment';
 import PrimaryButton from '../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
-import { addEmployeesCheckInOut, getEmployeesFromBarCode, getOneEmployeeTimeSheet } from '../redux/actions/EmployeeSettings/employeesAction';
+import { addEmployeesCheckInOut, getEmployeesFromBarCode } from '../redux/actions/EmployeeSettings/employeesAction';
 import { yesNoOptions } from '../utils/dropdownConstants';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
 
-const ClockInOutModal = ({ openClockModal, setOpenClockModal, timesheetEditId, setTimesheetEditId }) => {
+const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
 
     const [openAccessModal, setOpenAccessModal] = useState({ open: false, data: {} });
 
@@ -32,24 +33,6 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal, timesheetEditId, s
 
     const [data, setData] = useState(initialState);
 
-    useEffect(() => {
-        if (timesheetEditId) {
-            dispatch(
-                getOneEmployeeTimeSheet(timesheetEditId, (res) => {
-                    setData({
-                        barCode: res.barCode,
-                        name: res.firstName + ' ' + res.lastName,
-                        isActive: res.isActive,
-                        employeeTimesheet: res?.employeeTimesheet,
-                        empId: res._id,
-                        clubs: res?.clubs,
-                    });
-                }),
-            );
-        }
-    }, [timesheetEditId, dispatch]);
-    const [loading, setLoading] = useState(false);
-
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -58,7 +41,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal, timesheetEditId, s
     const handleFind = () => {
         if (showFormErrors(data, setData, ['club', 'name', 'accessCode'])) {
             dispatch(
-                getEmployeesFromBarCode(data?.barCode, (item) => {
+                getEmployeesFromBarCode(data?.barCode, setLoading, (item) => {
                     setData((prev) => ({
                         ...prev,
                         name: item.firstName + ' ' + item.lastName,
@@ -115,7 +98,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal, timesheetEditId, s
                     </div>
                     <div className="col-6 grid align-items-end ">
                         <CustomInputNumber name="barCode" col={12} data={data} onChange={handleChange} />
-                        <PrimaryButton label="Find" className="" onClick={handleFind} />
+                        <PrimaryButton label="Find" className="" onClick={handleFind} loading={loading} />
                     </div>
                     <h3 className="text-bold mb-2 col-12">Employee</h3>
                     <CustomInput name="name" disabled={true} data={data} />

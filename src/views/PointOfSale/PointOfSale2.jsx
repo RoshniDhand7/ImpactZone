@@ -25,14 +25,13 @@ export default function PointOfSale2() {
         if (id) {
             dispatch(
                 getSavedCartAction(id, (e) => {
-                    console.log(e);
                     if (e.items) {
                         setSelectedItems(e.items);
                     }
                 }),
             );
         }
-    }, [location]);
+    }, [location, dispatch]);
 
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
