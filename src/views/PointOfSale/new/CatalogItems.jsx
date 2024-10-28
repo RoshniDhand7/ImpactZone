@@ -49,8 +49,15 @@ export default function CatalogItems({ selectedCategory, onSelectProduct }) {
     return (
         <>
             <FilterPopup visible={visible} onClose={onClose} filters={filters} onApplyFilters={onApplyFilters} />
-            <CustomCard title="Most Purchased Items" col={12} name="Filter" onClick={() => setVisible(true)}>
-                <div className="grid">
+            <CustomCard
+                extraClassName="h-full flex flex-column"
+                bodyClassName="h-full"
+                title="Most Purchased Items"
+                col={12}
+                name="Filter"
+                onClick={() => setVisible(true)}
+            >
+                <div className="grid" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
                     {posCatalog.map((item) => (
                         <Item key={item._id} item={item} onSelectProduct={onSelectProduct} />
                     ))}

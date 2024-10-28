@@ -265,15 +265,15 @@ export default function PointOfSale2() {
     };
 
     return (
-        <div className="grid">
-            <div className="col-2">
+        <div className="pos grid">
+            <div className="col-2 flex flex-column">
                 <SearchCatalog onSelectProduct={onSelectProduct} />
                 <Categories active={selectedCategory} setActive={setSelectedCategory} />
             </div>
-            <div className="col-6">
+            <div className="col-6 flex flex-column">
                 <CatalogItems selectedCategory={selectedCategory} onSelectProduct={onSelectProduct} />
             </div>
-            <div className="col-4">
+            <div className="col-4 flex flex-column">
                 <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
                 <Cart
                     cartItems={cartItems}
