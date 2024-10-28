@@ -120,6 +120,16 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
 
+        case 'clockOut':
+            if (equal(length(value))) {
+                formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
+            } else if (new Date(value) < new Date(state?.clockIn)) {
+                formErrors[name] = `Clockout Time should not be less than Clock In Time`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+
         case 'otpCode':
             if (value.length === 4) {
                 formErrors[name] = '';

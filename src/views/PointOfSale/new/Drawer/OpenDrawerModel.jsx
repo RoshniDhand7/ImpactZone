@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { useState } from 'react';
 import { CustomDropDown, CustomInput, CustomTextArea } from '../../../../shared/Input/AllInputs';
-import useRegister from '../../../../hooks/useRegister';
 import CashCalculator from './CashCalculator';
 import { CustomListItem } from '../../../../shared/Cards/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +20,6 @@ export default function OpenDrawerModel({ visible, setVisible }) {
         () => registers.filter((item) => item?.registerStatus !== 'OPEN').map((item) => ({ name: item.name, value: item._id })),
         [registers],
     );
-
     useEffect(() => {
         if (data?.register) {
             dispatch(
@@ -30,6 +28,7 @@ export default function OpenDrawerModel({ visible, setVisible }) {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [access]);
 
     const onClose = () => {
