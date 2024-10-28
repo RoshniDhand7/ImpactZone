@@ -13,6 +13,9 @@ import OpenDrawerModel from './Drawer/OpenDrawerModel';
 import CloseDraweModel from './Drawer/CloseDraweModel';
 import { useHistory } from 'react-router-dom';
 
+import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
+import Lottie from 'lottie-react';
+
 export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -94,39 +97,62 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
     ];
 
     return (
-        <>
-            <OpenDrawerModel visible={openDrawer} setVisible={setOpenDrawer} />
-            <CloseDraweModel visible={closeDrawer} setVisible={setCloseDrawer} />
-            <Menu model={items} popup ref={menu} />
-            <SelectDiscountPopup visible={discountPopup} setVisible={setDiscountPopup} onApply={onApplyDiscount} />
-            <SpecialDiscountPopup visible={specialDiscountPopup} setVisible={setSpecialDiscountPopup} onApply={onApplySpecialDiscount} />
-            <CustomCard title="Cart" col={12} name="More Options" onClick={(event) => menu.current.toggle(event)}>
-                {cartItems?.map((item, i) => (
-                    <CartItem
-                        key={item?._id}
-                        index={i}
-                        item={item}
-                        onDeleteCartItem={onDeleteCartItem}
-                        onQtyChange={onQtyChange}
-                        onWaiveTax={onWaiveTax}
-                        onOverrideDiscount={onOverrideDiscount}
-                        onAddSpecialDiscount={onAddSpecialDiscount}
-                        onRemoveSpecialDiscount={onRemoveSpecialDiscount}
-                    />
-                ))}
-                <CartDetails
-                    cartDetails={cartDetails}
-                    setAppliedPromo={setAppliedPromo}
-                    appliedPromo={appliedPromo}
-                    onOpenSaveCartPopup={onOpenSaveCartPopup}
-                />
-            </CustomCard>
-            <div className="flex gap-2 mt-2">
+        <div className="h-full flex flex-column justify-content-between">
+            <div className="h-full">
+                <CustomCard
+                    extraClassName="h-full flex flex-column"
+                    bodyClassName="h-full"
+                    title="Cart"
+                    col={12}
+                    name="More Options"
+                    onClick={(event) => menu.current.toggle(event)}
+                >
+                    <div className="h-full flex flex-column justify-content-between">
+                        <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                            {cartItems?.length ? (
+                                <>
+                                    {cartItems?.map((item, i) => (
+                                        <CartItem
+                                            key={item?._id}
+                                            index={i}
+                                            item={item}
+                                            onDeleteCartItem={onDeleteCartItem}
+                                            onQtyChange={onQtyChange}
+                                            onWaiveTax={onWaiveTax}
+                                            onOverrideDiscount={onOverrideDiscount}
+                                            onAddSpecialDiscount={onAddSpecialDiscount}
+                                            onRemoveSpecialDiscount={onRemoveSpecialDiscount}
+                                        />
+                                    ))}
+                                </>
+                            ) : (
+                                <Lottie style={{ height: '90%' }} animationData={emptyCartAnimation} loop={true} />
+                            )}
+                        </div>
+                        <div>
+                            <CartDetails
+                                cartItems={cartItems}
+                                cartDetails={cartDetails}
+                                setAppliedPromo={setAppliedPromo}
+                                appliedPromo={appliedPromo}
+                                onOpenSaveCartPopup={onOpenSaveCartPopup}
+                            />
+                        </div>
+                    </div>
+                </CustomCard>
+            </div>
+            <div className="flex gap-2">
                 <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />
                 <PrimaryButton className="w-full px-1" label="Quick Cash" />
                 <PrimaryButton className="w-full px-2" label="Pre-Pay" />
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
-        </>
+
+            <OpenDrawerModel visible={openDrawer} setVisible={setOpenDrawer} />
+            <CloseDraweModel visible={closeDrawer} setVisible={setCloseDrawer} />
+            <Menu model={items} popup ref={menu} />
+            <SelectDiscountPopup visible={discountPopup} setVisible={setDiscountPopup} onApply={onApplyDiscount} />
+            <SpecialDiscountPopup visible={specialDiscountPopup} setVisible={setSpecialDiscountPopup} onApply={onApplySpecialDiscount} />
+        </div>
     );
 }

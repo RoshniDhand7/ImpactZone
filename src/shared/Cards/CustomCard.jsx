@@ -4,7 +4,7 @@ import PrimaryButton from '../Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 
-export default function CustomCard({ title, name, icon, children, col = 6, height, extraClassName, onClick }) {
+export default function CustomCard({ title, name, icon, children, col = 6, height, extraClassName, bodyClassName, onClick }) {
     return (
         <div className={`col-12 md:col-${col} ${extraClassName}`}>
             <div className={`bg-primary-dark border-round shadow-2 ${name ? 'p-2' : 'p-3'} ${name ? 'flex justify-content-between align-items-center' : ''}`}>
@@ -20,8 +20,8 @@ export default function CustomCard({ title, name, icon, children, col = 6, heigh
                     </div>
                 )}
             </div>
-            <div className="bg-lightest-blue border-round p-2 mt-2 " style={{ height: height, overflowY: 'auto' }}>
-                <div className="p-2">{children}</div>
+            <div className={`bg-lightest-blue border-round p-2 mt-2 ${bodyClassName} `} style={{ height: height, overflowY: 'auto' }}>
+                <div className="p-2 h-full">{children}</div>
             </div>
         </div>
     );
