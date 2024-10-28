@@ -2,7 +2,6 @@ import Dashboard from '../views/Dashboard/Dashboard';
 import CheckIn from '../views/CheckIn/CheckIn';
 import Members from '../views/Members/Members';
 import Calender from '../views/Calendar/Calendar';
-import PointOfSale from '../views/PointOfSale/PointOfSale';
 import Plans from '../views/Plans/Plans';
 import More from '../views/More/More';
 import Business from '../views/Settings/Business/Business';
@@ -25,7 +24,7 @@ import AgreementSettingsRoute from './Settings/AgreementRoutes';
 import MemberSettingsRoutes from './Settings/MemberRoutes';
 import PointOfSaleSettingRoutes from './Settings/PointOfSaleRoutes';
 import AllMembers from '../views/Members/AllMembers';
-import PointOfSale2 from '../views/PointOfSale/PointOfSale2';
+import PointOfSale2 from '../views/PointOfSale/PointOfSale';
 import MorePos from '../views/More/MorePos';
 import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
 import MoreAttandance from '../views/More/MoreAttandence';
@@ -60,11 +59,6 @@ export const PrivateRoutes = [
         path: '/calender',
         name: 'Calender',
         component: Calender,
-    },
-    {
-        path: '/pos2',
-        name: 'Point Of Sale',
-        component: PointOfSale,
     },
     {
         path: '/pos',

@@ -5,10 +5,7 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getCategories = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getCategories = () => async (dispatch) => {
     const res = await api('get', EndPoints.CATEGORIES);
     if (res.success) {
         if (res.data) {
@@ -19,9 +16,6 @@ const getCategories = (setLoading) => async (dispatch) => {
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
-    }
-    if (setLoading) {
-        setLoading(false);
     }
 };
 

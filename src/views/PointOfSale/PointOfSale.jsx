@@ -1,267 +1,323 @@
 import React, { useEffect, useState } from 'react';
-import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogItemsAction';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../redux/actions/InventorySettings/categoriesAction';
-import { getFilterSets } from '../../redux/actions/InventorySettings/filterSetsAction';
-import { getTags } from '../../redux/actions/InventorySettings/tagAction';
-import SearchByItem from './SearchByItem';
-import CategoryFilter from './CategoryFilter';
-import CatalogItemsView from './CatalogItemsView';
-import MembersToSellItem from './MembersToSellItem';
-import NewCart from './NewCart';
-import { CustomDropDown } from '../../shared/Input/AllInputs';
-import CustomDialog from '../../shared/Overlays/CustomDialog';
-import { processCatalogItems, showFormErrors } from '../../utils/commonFunctions';
-import formValidation from '../../utils/validations';
+import SearchMembers from './Cart/SearchMembers';
+import Categories from './Category/Categories';
+import CatalogItems from './Catalog/CatalogItems';
+import Cart from './Cart/Cart';
+import { calculateDiscountedAmount, calculateTax, roundOfNumber } from '../../utils/taxHelpers';
+import VariationPopup from './Cart/VariationPopup';
+import SaveCartPopup from './Cart/SaveCartPopup';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getSavedCartAction } from '../../redux/actions/POS/savedCartActions';
+import { getRegistersAction } from '../../redux/actions/POS/registerActions';
+import SearchCatalog from './Category/SearchCatalog';
+import CheckoutPopup from './Cart/CheckoutPopup';
+import { showToast } from '../../redux/actions/toastAction';
 
-export default function PointOfSale() {
-    const [data, setData] = useState({
-        catalogItem: '',
-        tags: [],
-        filterSet: [],
-        memberSell: '',
-        categoryId: 'all',
-        cartItems: [],
-        variations: null,
-        subVariations: null,
-        promoCode: [],
-        accessCode: '',
-        drawer: '',
-    });
+export default function PointOfSale2() {
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
-        dispatch(getCatalogItems());
-        dispatch(getCategories());
-        dispatch(getFilterSets());
-        dispatch(getTags());
+        dispatch(getRegistersAction());
     }, [dispatch]);
 
-    let { allCatalogItems, allCatalogFilterItems } = useSelector((state) => state.catalogItems);
-    const [openVariationDialog, setOpenVariationDialog] = useState(null);
-    allCatalogFilterItems = processCatalogItems(allCatalogFilterItems).filter((item) => item.hasCategory);
-    allCatalogItems = processCatalogItems(allCatalogItems);
-
-    const getItemNamesAndSubvariations = (data) => {
-        const result = [];
-
-        data.forEach((item) => {
-            result.push({ ...item, type: 'item' });
-            item.variation?.forEach((variation) => {
-                variation.subVariations?.forEach((subVar) => {
-                    result.push({
-                        name: subVar.subVariation,
-                        id: subVar._id,
-                        unitPrice: subVar.unitPrice,
-                        minimumQuantity: subVar.variationMinQuantity,
-                        maximumQuantity: subVar.variationMaxQuantity,
-                        defaultQuantity: subVar.defaultQuantity,
-                        defaultDiscount: item.defaultDiscount,
-                        allowDiscount: item.allowDiscount,
-                        fullName: `${subVar.upc} ${subVar.subVariation}`.trim(),
-                        upc: subVar.upc,
-                        catalogId: item._id,
-                        totalTaxPercentage: item.totalTaxPercentage,
-                        discount: item.discount ?? null,
-                        commissionGroup: item.commissionGroup ?? null,
-                        taxable: item.taxable,
-                        type: 'subVariation',
-                    });
-                });
-            });
-        });
-
-        return result;
-    };
-
-    const list = getItemNamesAndSubvariations(allCatalogItems);
-
-    const variationOptions =
-        allCatalogItems
-            ?.flatMap((item) => item || [])
-            .find((variation) => variation._id === openVariationDialog?._id)
-            ?.variation?.filter((iy) => iy.subVariations.length > 0)
-            .map(
-                (Var) =>
-                    ({
-                        name: Var.variationName,
-                        id: Var._id,
-                    }) || [],
-            ) || [];
-
-    const subVariationsOptions =
-        allCatalogItems
-            ?.flatMap((item) => item.variation || [])
-            .find((variation) => variation._id === data?.variations?.id)
-            ?.subVariations?.map(
-                (subVar) =>
-                    ({
-                        name: subVar.subVariation,
-                        id: subVar._id,
-                        unitPrice: subVar.unitPrice,
-                        minimumQuantity: subVar.variationMinQuantity,
-                        maximumQuantity: subVar.variationMaxQuantity,
-                        defaultQuantity: subVar.defaultQuantity,
-                        upc: subVar.upc,
-                        taxable: subVar.taxable,
-                    }) || [],
-            ) || [];
-
     useEffect(() => {
-        if (data?.catalogItem?.fullName) {
-            handleCatalogItems(data?.catalogItem);
+        let id = location?.state?.savedCartId;
+        if (id) {
+            dispatch(
+                getSavedCartAction(id, (e) => {
+                    if (e.items) {
+                        setSelectedItems(e.items);
+                    }
+                }),
+            );
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data?.catalogItem]);
+    }, [location, dispatch]);
 
-    const addToCart = (item, variation) => {
-        // const existingItem = data?.cartItems.find((cartItem) => cartItem._id === item._id);
-        let existingItem = null;
-        if (item && variation) {
-            existingItem = data?.cartItems.find((cartItem) => {
-                return (
-                    cartItem._id === item._id &&
-                    cartItem.variation?.id === variation?.variations?.id &&
-                    cartItem.subVariation?.id === variation?.subVariations?.id
-                );
-            });
-        } else if (item && item?.type === 'subVariation') {
-            existingItem = data?.cartItems.find((cartItem) => {
-                return cartItem?.id === item?.id;
-            });
-        } else if (item && !variation) {
-            existingItem = data?.cartItems.find((cartItem) => {
-                return cartItem?._id === item?._id;
-            });
-        }
+    const [selectedMember, setSelectedMember] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [appliedPromo, setAppliedPromo] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [cartDetails, setCartDetails] = useState({});
+    const [variationProduct, setVariationProduct] = useState(null);
 
-        let maximumQuantity = variation?.subVariations?.maximumQuantity ? variation?.subVariations?.maximumQuantity : item.maximumQuantity;
-        let defaultQuantity = variation?.subVariations?.defaultQuantity ? variation?.subVariations?.defaultQuantity : item.defaultQuantity;
-        if (existingItem) {
-            const newQuantity = existingItem.quantity + 1;
-            if (newQuantity <= maximumQuantity) {
-                if (variation === null) {
-                    setData((prev) => ({
-                        ...prev,
-                        catalogItem: '',
-                        cartItems: prev.cartItems.map((cartItem) =>
-                            cartItem._id === item._id
-                                ? {
-                                      ...cartItem,
-                                      quantity: newQuantity,
-                                      variation: variation?.variations?.name ? variation?.variations : null,
-                                      subVariation: item ? item : null,
-                                  }
-                                : cartItem,
-                        ),
-                    }));
+    //Count final detailed price and calculations
+    useEffect(() => {
+        let netTotal = 0;
+        let tax = 0;
+        let discount = 0;
+        let specialDiscount = 0;
+        let promoDiscount = 0;
+        let waivedTaxAmount = 0;
+        let total = 0;
+        let gradTotal = 0;
+        cartItems.forEach((item) => {
+            netTotal += item?.netPrice * item?.quantity;
+            if (item?.defaultDiscount) {
+                discount += item?.defaultDiscount?.amountAfterDiscount * item?.quantity;
+            }
+            if (item?.specialDiscount) {
+                specialDiscount += item?.specialDiscount?.amountAfterDiscount * item?.quantity;
+            }
+            if (item?.promoDiscount) {
+                promoDiscount += item?.promoDiscount?.amountAfterDiscount * item?.quantity;
+            }
+            if (item?.taxWaived) {
+                waivedTaxAmount += item?.totalTax;
+            }
+            tax += item?.totalTax;
+            total += item?.finalTotal;
+        });
+        gradTotal = total + tax - waivedTaxAmount;
+        setCartDetails({ netTotal, total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal });
+    }, [cartItems]);
+
+    //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
+    useEffect(() => {
+        let discounts = {};
+
+        selectedItems.forEach((item) => {
+            let { defaultDiscount } = item;
+            if (defaultDiscount) {
+                if (discounts[defaultDiscount._id]) {
+                    discounts[defaultDiscount._id].count = discounts[defaultDiscount._id].count + 1;
                 } else {
-                    setData((prev) => ({
-                        ...prev,
-                        catalogItem: '',
-                        cartItems: prev.cartItems.map((cartItem) =>
-                            cartItem.subVariation?.id
-                                ? cartItem.subVariation?.id === variation?.subVariations?.id
-                                    ? {
-                                          ...cartItem,
-                                          quantity: newQuantity,
-                                          variation: variation?.variations?.name ? variation?.variations : null,
-                                          subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                                      }
-                                    : cartItem
-                                : cartItem._id === item._id
-                                  ? {
-                                        ...cartItem,
-                                        quantity: newQuantity,
-                                        variation: variation?.variations?.name ? variation?.variations : null,
-                                        subVariation: variation?.subVariations?.name ? variation?.subVariations : null,
-                                    }
-                                  : cartItem,
-                        ),
-                    }));
+                    discounts[defaultDiscount._id] = { ...defaultDiscount, count: 1 };
                 }
             }
+        });
+        let _cart = selectedItems.map((item) => {
+            item = JSON.parse(JSON.stringify(item));
+            let { netPrice } = item;
+
+            const { quantity, taxPercentage } = item;
+            const { allowDiscount, defaultDiscount, specialDiscount } = item;
+            let { promoDiscount } = item;
+            const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = item;
+
+            //Setting up the dynamic pricing according to the individual item count.
+            if (quantity > moreThan3) {
+                netPrice = netPrice - unitDiscount3;
+            } else if (quantity > moreThan2) {
+                netPrice = netPrice - unitDiscount2;
+            } else if (quantity > moreThan1) {
+                netPrice = netPrice - unitDiscount1;
+            }
+            // here We are getting the final net price after dynamic pricing
+            let finalNetPrice = netPrice;
+
+            //if discounts are allowed on item
+            if (allowDiscount) {
+                //modifing the defaultDiscount obj according to the number of products using the same discount code
+                if (defaultDiscount?.multiItemDiscountCheck) {
+                    let count = discounts?.[defaultDiscount?._id]?.count;
+
+                    if (count) {
+                        defaultDiscount?.multiItemDiscount.forEach((discount) => {
+                            if (count >= discount?.noOfItems) {
+                                defaultDiscount.amount = discount.amount;
+                                defaultDiscount.amountType = discount.amountType;
+                            }
+                        });
+                    }
+                }
+                //calculating the discounts according to the discount type.
+                if (defaultDiscount?.amountType === 'FIXED') {
+                    defaultDiscount.amountAfterDiscount = defaultDiscount?.amount;
+                }
+                if (defaultDiscount?.amountType === 'PERCENTAGE') {
+                    defaultDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, defaultDiscount?.amount);
+                }
+                //If any discount is applied on item , so we subtract the discount amount from finalNetPrice
+                if (defaultDiscount) {
+                    finalNetPrice = finalNetPrice - defaultDiscount.amountAfterDiscount;
+                }
+
+                // calculating the special discount according to the type
+                if (specialDiscount && specialDiscount?.amountType === 'FIXED') {
+                    specialDiscount.amountAfterDiscount = specialDiscount?.amount;
+                }
+                if (specialDiscount && specialDiscount?.amountType === 'PERCENTAGE') {
+                    specialDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, specialDiscount?.amount);
+                }
+                //If any special discount is applied on item, so we subtract the discount amount from finalNetPrice
+                if (specialDiscount && specialDiscount?.amountAfterDiscount) {
+                    finalNetPrice = finalNetPrice - specialDiscount?.amountAfterDiscount;
+                }
+
+                if (appliedPromo) {
+                    promoDiscount = appliedPromo;
+
+                    if (promoDiscount?.amountType === 'FIXED') {
+                        promoDiscount.amountAfterDiscount = promoDiscount?.amount;
+                    }
+                    if (promoDiscount?.amountType === 'PERCENTAGE') {
+                        promoDiscount.amountAfterDiscount = calculateDiscountedAmount(finalNetPrice, promoDiscount?.amount);
+                    }
+                    //If any discount is applied on item , so we subtract the discount amount from finalNetPrice
+                    if (promoDiscount) {
+                        finalNetPrice = finalNetPrice - promoDiscount.amountAfterDiscount;
+                    }
+                }
+            }
+            finalNetPrice = roundOfNumber(finalNetPrice);
+
+            const finalTotal = finalNetPrice * quantity;
+
+            const totalTax = calculateTax(finalTotal, taxPercentage);
+
+            return { ...item, promoDiscount, netPrice, finalNetPrice, finalTotal, totalTax };
+        });
+
+        setCartItems(_cart);
+    }, [selectedItems, appliedPromo]);
+
+    //When we add something in selected items.
+    const onAddItemIntoCart = (product) => {
+        const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
+        if (index >= 0) {
+            let _selected = [...selectedItems];
+            let _item = _selected[index];
+            if (_item.quantity < _item.maximumQuantity) {
+                _item.quantity = _item.quantity + 1;
+            } else {
+                return;
+            }
+            _selected[index] = _item;
+            setSelectedItems(_selected);
         } else {
-            setData((prev) => ({
-                ...prev,
-                catalogItem: '',
-                cartItems: [
-                    ...(prev.cartItems || []),
-                    {
-                        ...item,
-                        quantity: defaultQuantity,
-                        variation: data?.variations ? variation?.variations : null,
-                        subVariation: data?.subVariations ? variation?.subVariations : null,
-                    },
-                ],
-            }));
+            const { _id, itemCaption, name, subVariationId } = product;
+            const { defaultQuantity, minimumQuantity, maximumQuantity, allowUnlimited } = product;
+            const { netPrice, taxes, allowDiscount, defaultDiscount, overrideDiscount } = product;
+            const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = product;
+            const taxPercentage = taxes.reduce((sum, item) => sum + item?.taxRatePercentage, 0);
+            const taxWaived = false;
+            const dynamicPricing = false;
+            const quantity = defaultQuantity;
+
+            const specialDiscount = null;
+            let obj = {
+                _id,
+                subVariationId,
+                name,
+                itemCaption,
+
+                taxWaived,
+
+                netPrice,
+                dynamicPricing,
+
+                promoDiscount: null,
+                defaultDiscount,
+                specialDiscount,
+                allowDiscount,
+                overrideDiscount,
+
+                taxes,
+                taxPercentage,
+
+                defaultQuantity,
+                minimumQuantity,
+                maximumQuantity,
+                quantity,
+                allowUnlimited,
+
+                moreThan1,
+                moreThan2,
+                moreThan3,
+                unitDiscount1,
+                unitDiscount2,
+                unitDiscount3,
+            };
+            setSelectedItems((prev) => {
+                return [...prev, obj];
+            });
         }
     };
 
-    const handleCatalogItems = (item) => {
-        if (item?.variation?.length > 0) {
-            const variationsWithSub = item.variation.filter((variation) => variation.subVariations?.length > 0);
-            if (variationsWithSub.length > 0) {
-                setOpenVariationDialog({ _id: item._id, item });
+    const onSelectProduct = (product) => {
+        if (product?.variations?.length) {
+            setVariationProduct(product);
+        } else {
+            onAddItemIntoCart(product);
+        }
+    };
+
+    const onCloseVariation = () => {
+        setVariationProduct(null);
+    };
+
+    const [saveCartPopup, setSaveCartPopup] = useState(false);
+    const onCloseSaveCartPopup = () => {
+        setSaveCartPopup(false);
+    };
+
+    const onOpenSaveCartPopup = () => {
+        if (selectedItems?.length) {
+            if (selectedMember) {
+                setSaveCartPopup(true);
+            } else {
+                dispatch(showToast({ severity: 'warn', summary: 'Member not selected!' }));
             }
         } else {
-            addToCart(item, null);
+            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty!' }));
         }
     };
 
-    useEffect(() => {
-        if (data?.subVariations === null) {
-            const formErrors = formValidation('subVariations', data?.subVariations, data);
-            setData((prev) => ({ ...prev, formErrors }));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data?.subVariations, data?.variations]);
+    const onCartSaved = () => {
+        setSaveCartPopup(false);
+        setSelectedItems([]);
+    };
 
-    const handleChange = ({ name, value }) => {
-        const formErrors = formValidation(name, value, data);
-        if (name === 'variations') {
-            setData((prev) => ({ ...prev, [name]: value, subVariations: [], formErrors }));
+    const [checkoutPopup, setCheckoutPopup] = useState(false);
+
+    const onOpenCheckout = () => {
+        if (selectedItems.length) {
+            if (selectedMember) {
+                setCheckoutPopup(true);
+            } else {
+                dispatch(showToast({ severity: 'warn', summary: 'Member not selected!' }));
+            }
         } else {
-            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty!' }));
         }
     };
-
-    const onClose = () => {
-        setOpenVariationDialog(null);
-        setData((prev) => ({ ...prev, subVariations: null, variations: null }));
-    };
-
-    const handleSave = () => {
-        if (showFormErrors(data, setData, ['accessCode'])) {
-            addToCart(openVariationDialog?.item, data);
-            onClose();
-        }
+    const onCloseCheckout = () => {
+        setCheckoutPopup(false);
     };
 
     return (
-        <>
-            <div className="flex gap-2">
-                <div className="product-sidebar p-2">
-                    <SearchByItem data={data} allCatalogItems={list} handleChange={handleChange} setData={setData} />
-                    <CategoryFilter data={data} setData={setData} />
-                </div>
-                <CatalogItemsView
-                    allCatalogItems={allCatalogFilterItems}
-                    data={data}
-                    setData={setData}
-                    handleCatalogItems={handleCatalogItems}
-                    handleChange={handleChange}
-                />
-                <CustomDialog title="Select Variation" visible={openVariationDialog !== null} onCancel={onClose} loading={false} onSave={handleSave}>
-                    <CustomDropDown col={12} label="Variations" name="variations" data={data} onChange={handleChange} options={variationOptions} />
-                    <CustomDropDown col={12} label="Sub Variations" name="subVariations" data={data} onChange={handleChange} options={subVariationsOptions} />
-                </CustomDialog>
-
-                <div className="cart-view">
-                    <MembersToSellItem data={data} setData={setData} />
-                    <NewCart data={data} setData={setData} handleChange={handleChange} />
-                </div>
+        <div className="pos grid">
+            <div className="col-2 flex flex-column">
+                <SearchCatalog onSelectProduct={onSelectProduct} />
+                <Categories active={selectedCategory} setActive={setSelectedCategory} />
             </div>
-        </>
+            <div className="col-6 flex flex-column">
+                <CatalogItems selectedCategory={selectedCategory} onSelectProduct={onSelectProduct} />
+            </div>
+            <div className="col-4 flex flex-column">
+                <SearchMembers selectedMember={selectedMember} setSelectedMember={setSelectedMember} />
+                <Cart
+                    cartItems={cartItems}
+                    setSelectedItems={setSelectedItems}
+                    cartDetails={cartDetails}
+                    setAppliedPromo={setAppliedPromo}
+                    appliedPromo={appliedPromo}
+                    onOpenSaveCartPopup={onOpenSaveCartPopup}
+                    onOpenCheckout={onOpenCheckout}
+                />
+            </div>
+            <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />
+            <SaveCartPopup
+                visible={saveCartPopup}
+                onCancel={onCloseSaveCartPopup}
+                details={{ selectedMember, selectedItems, cartDetails }}
+                onCartSaved={onCartSaved}
+            />
+
+            <CheckoutPopup visible={checkoutPopup} onCancel={onCloseCheckout} />
+        </div>
     );
 }
