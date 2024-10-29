@@ -31,11 +31,9 @@ const EmployeeForm = () => {
         },
     ];
     return (
-        <>
-            <FormPage backText="Manage Employees" backTo="/settings/employee">
-                <CustomTabView tabs={tabs} disabledTabIndices={id ? [] : [1, 2, 3, 4, 5, 6, 7, 8, 9]} scrollable={true} />
-            </FormPage>
-        </>
+        <FormPage backText="Manage Employees" backTo="/settings/employee">
+            <CustomTabView tabs={tabs} disabledTabIndices={id ? [] : [1, 2, 3, 4, 5, 6, 7, 8, 9]} scrollable={true} />
+        </FormPage>
     );
 };
 

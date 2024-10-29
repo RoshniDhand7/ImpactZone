@@ -49,8 +49,8 @@ const EditTimesheetModal = ({ timesheetEditId, visible, setVisible, setTimesheet
     };
     return (
         <CustomDialog title="Edit Timesheet" visible={visible} onCancel={onClose} onSave={onSubmit} loading={loading}>
-            <CustomCalenderInput data={data} onChange={handleChange} name="clockIn" required col={12} timeOnly hourFormat="12" />
-            <CustomCalenderInput data={data} onChange={handleChange} name="clockOut" required col={12} timeOnly hourFormat="12" />
+            <CustomCalenderInput data={data} onChange={handleChange} name="clockIn" required col={12} showTime hourFormat="12" />
+            <CustomCalenderInput data={data} onChange={handleChange} name="clockOut" required col={12} showTime hourFormat="12" />
         </CustomDialog>
     );
 };

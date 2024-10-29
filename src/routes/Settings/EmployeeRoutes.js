@@ -34,6 +34,12 @@ const EmployeeSettingRoute = [
         component: AddAvailability,
     },
     {
+        path: '/availability/edit/:id',
+        name: 'Employee Availablity',
+        exact: true,
+        component: AddAvailability,
+    },
+    {
         path: '/departments/add',
         name: 'Employee',
         exact: true,
