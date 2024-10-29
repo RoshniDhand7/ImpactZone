@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown } from '../../../../shared/Input/AllInputs';
 import useEmployees from '../../../../hooks/Employees/useEmployees';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAvailability, getClubFromEmployee } from '../../../../redux/actions/EmployeeSettings/availabilityAction';
+import { addAvailability, getAvailability, getClubFromEmployee } from '../../../../redux/actions/EmployeeSettings/availabilityAction';
 import formValidation from '../../../../utils/validations';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { durationTypeOptions, repeatWeekOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
@@ -14,7 +14,7 @@ import moment from 'moment';
 import { Button } from 'primereact/button';
 import PrimaryButton, { CustomButtonGroup } from '../../../../shared/Button/CustomButton';
 import { confirmDelete, endOfWeek, showFormErrors, startOfWeek } from '../../../../utils/commonFunctions';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 
 const AddAvailability = () => {
@@ -37,8 +37,23 @@ const AddAvailability = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+    const { id } = useParams();
     const { allEmployees } = useEmployees();
     const calendarRef = useRef(null);
+    useEffect(() => {
+        if (id) {
+            dispatch(
+                getAvailability(id, (res) => {
+                    console.log(res, 'res');
+                    setData({
+                        employee: res.employee,
+                        club: res.club,
+                    });
+                }),
+            );
+        }
+    }, [id]);
+    console.log(data, 'data>>');
 
     const { employeeClubs, availability } = useSelector((state) => state?.employeeAvailability);
     const employeeOptions = useMemo(
@@ -136,8 +151,13 @@ const AddAvailability = () => {
             );
         }
     };
+
+    console.log('availability>>', availability, data?.club && Object.keys(availability)?.length > 0);
     useEffect(() => {
-        if (data?.club && availability) {
+        console.log('hi>>');
+        if (data?.club && Object.keys(availability)?.length > 0) {
+            console.log('hi1>>');
+
             let avail = availability?.find((item) => item?.club === data?.club);
             let otherEvents = availability
                 ?.filter((item) => item?.club !== data?.club && item.events?.length > 0)
@@ -151,7 +171,11 @@ const AddAvailability = () => {
                     ],
                     [],
                 );
+
+            console.log('avail>>', avail, availability, data?.club);
             if (avail && avail?.events !== data?.events) {
+                console.log('hi12>>');
+
                 setData((prev) => ({
                     ...prev,
                     trackAvailability: avail.trackAvailability,
@@ -174,7 +198,7 @@ const AddAvailability = () => {
                 calendarRef.current.getApi().gotoDate(fromDate);
             }
         }
-    }, [data?.fromDate]); // Trigger the effect when 'fromDate' changes
+    }, [data?.fromDate]);
 
     const deleteConfirm = (e, position) => {
         confirmDelete(
@@ -280,7 +304,7 @@ const AddAvailability = () => {
         return repeatedEvents;
     };
 
-    let eventsofWeek = data?.events.filter((event) => {
+    let eventsofWeek = data?.events?.filter((event) => {
         const eventStart = new Date(event.start);
         const eventEnd = new Date(event.end);
         return (
