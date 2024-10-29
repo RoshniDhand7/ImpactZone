@@ -272,7 +272,7 @@ export default function PointOfSale2() {
         setSelectedItems([]);
     };
 
-    const [checkoutPopup, setCheckoutPopup] = useState(true);
+    const [checkoutPopup, setCheckoutPopup] = useState(false);
 
     const onOpenCheckout = () => {
         if (!drawer) {
