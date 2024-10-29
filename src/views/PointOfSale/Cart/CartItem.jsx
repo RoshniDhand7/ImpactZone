@@ -119,7 +119,7 @@ export default function CartItem(props) {
                 </div>
             </div>
             <div className="flex justify-content-between my-3 ">
-                <div className="flex">
+                <div className="flex ellipsis-text">
                     {taxWaived ? (
                         <div className="py-1 px-3 bg-green-100 text-green-900 border-round-md mr-2 cursor-pointer" onClick={applyTax}>
                             ${waivedTaxAmount} Tax Waived
@@ -131,7 +131,7 @@ export default function CartItem(props) {
                     )}
                     {allowDiscount && (
                         <>
-                            <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer" onClick={showDiscountMenu}>
+                            <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer ellipsis-text" onClick={showDiscountMenu}>
                                 {defaultDiscount ? (
                                     `${defaultDiscount?.discountCode} Applied`
                                 ) : (
@@ -140,7 +140,7 @@ export default function CartItem(props) {
                                         Apply Discount
                                     </>
                                 )}
-                                {overrideDiscount && <i className="ml-3 my-auto pi pi-chevron-circle-down"></i>}
+                                {overrideDiscount && <i className="ml-1 my-auto pi pi-chevron-circle-down"></i>}
                             </div>
                         </>
                     )}

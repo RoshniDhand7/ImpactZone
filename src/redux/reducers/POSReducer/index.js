@@ -1,5 +1,6 @@
 import { types } from '../../types/types';
 const intitalState = {
+    drawer: '',
     registers: [],
     registerStatus: [],
     registersSummary: [],
@@ -12,6 +13,11 @@ const intitalState = {
 
 const POSReducer = (state = intitalState, action) => {
     switch (action.type) {
+        case types.POS.SELECT_DRAWER:
+            return {
+                ...state,
+                drawer: action.payload,
+            };
         case types.POS.REGISTER:
             return {
                 ...state,

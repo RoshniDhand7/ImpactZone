@@ -16,4 +16,8 @@
 .pos {
     min-height: calc(100vh - 13px - $topbar-height);
     // background-color: aquamarine;
+
+    .drawer-select:focus-visible {
+        outline: none;
+    }
 }
