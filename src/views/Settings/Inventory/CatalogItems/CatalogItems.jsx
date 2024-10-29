@@ -12,6 +12,7 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import CatalogFilters from './CatalogFilters';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
+import { roundOfNumber } from '../../../../utils/taxHelpers';
 
 const CatalogItems = () => {
     const history = useHistory();
@@ -24,7 +25,7 @@ const CatalogItems = () => {
     const columns = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'netPrice', header: 'Price' },
+        { body: (r) => roundOfNumber(r.netPrice), header: 'Price' },
         { field: 'isActive', header: 'Active' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCatalogItems);

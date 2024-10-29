@@ -38,7 +38,7 @@ const CustomTable = ({
             value={convertToboolean ? convertBooleanValues(data) : data}
             tableStyle={{ minWidth: '50rem' }}
             paginator
-            rows={5}
+            rows={10}
             selection={selectedRow}
             reorderableRows={reorderableRows}
             onSelectionChange={setSelectedRow ? (e) => setSelectedRow(e.value) : ''}

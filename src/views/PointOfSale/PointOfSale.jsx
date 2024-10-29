@@ -7,7 +7,7 @@ import { calculateDiscountedAmount, calculateTax, roundOfNumber } from '../../ut
 import VariationPopup from './Cart/VariationPopup';
 import SaveCartPopup from './Cart/SaveCartPopup';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSavedCartAction } from '../../redux/actions/POS/savedCartActions';
 import { getRegistersAction } from '../../redux/actions/POS/registerActions';
 import SearchCatalog from './Category/SearchCatalog';
@@ -34,7 +34,7 @@ export default function PointOfSale2() {
             );
         }
     }, [location, dispatch]);
-
+    const { drawer } = useSelector((state) => state.pos);
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [appliedPromo, setAppliedPromo] = useState(null);
@@ -164,9 +164,10 @@ export default function PointOfSale2() {
             }
             finalNetPrice = roundOfNumber(finalNetPrice);
 
-            const finalTotal = finalNetPrice * quantity;
+            const finalTotal = roundOfNumber(finalNetPrice * quantity);
 
             const totalTax = calculateTax(finalTotal, taxPercentage);
+            netPrice = roundOfNumber(netPrice);
 
             return { ...item, promoDiscount, netPrice, finalNetPrice, finalTotal, totalTax };
         });
@@ -255,15 +256,15 @@ export default function PointOfSale2() {
     };
 
     const onOpenSaveCartPopup = () => {
-        if (selectedItems?.length) {
-            if (selectedMember) {
-                setSaveCartPopup(true);
-            } else {
-                dispatch(showToast({ severity: 'warn', summary: 'Member not selected!' }));
-            }
-        } else {
-            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty!' }));
+        if (!selectedItems.length) {
+            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty. Add items to proceed.' }));
+            return;
         }
+        if (!selectedMember) {
+            dispatch(showToast({ severity: 'warn', summary: 'Please select a member to continue.' }));
+            return;
+        }
+        setSaveCartPopup(true);
     };
 
     const onCartSaved = () => {
@@ -274,15 +275,19 @@ export default function PointOfSale2() {
     const [checkoutPopup, setCheckoutPopup] = useState(false);
 
     const onOpenCheckout = () => {
-        if (selectedItems.length) {
-            if (selectedMember) {
-                setCheckoutPopup(true);
-            } else {
-                dispatch(showToast({ severity: 'warn', summary: 'Member not selected!' }));
-            }
-        } else {
-            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty!' }));
+        if (!drawer) {
+            dispatch(showToast({ severity: 'warn', summary: 'Please select drawers to proceed with checkout.' }));
+            return;
         }
+        if (!selectedItems.length) {
+            dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty. Add items to proceed.' }));
+            return;
+        }
+        if (!selectedMember) {
+            dispatch(showToast({ severity: 'warn', summary: 'Please select a member to continue.' }));
+            return;
+        }
+        setCheckoutPopup(true);
     };
     const onCloseCheckout = () => {
         setCheckoutPopup(false);
