@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import FilterPopup from './FilterPopup';
 import { getFilterSets } from '../../../redux/actions/InventorySettings/filterSetsAction';
 import { getTags } from '../../../redux/actions/InventorySettings/tagAction';
+import { roundOfNumber } from '../../../utils/taxHelpers';
 
 export default function CatalogItems({ selectedCategory, onSelectProduct }) {
     let { posCatalog } = useSelector((state) => state.catalogItems);
@@ -81,7 +82,7 @@ function Item(props) {
                 />
                 <div className="bg-lightest-blue border-round-md">
                     <div className="text-center px-2 ellipsis-text">{item?.itemCaption}</div>
-                    <div className="text-center font-semibold">${item?.netPrice}</div>
+                    <div className="text-center font-semibold">${roundOfNumber(item?.netPrice)}</div>
                 </div>
             </div>
         </div>

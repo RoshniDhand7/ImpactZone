@@ -4,21 +4,24 @@ import PrimaryButton from '../Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 
-export default function CustomCard({ title, name, icon, children, col = 6, height, extraClassName, bodyClassName, onClick }) {
+export default function CustomCard({ title, name, icon, children, col = 6, height, extraClassName, bodyClassName, onClick, headers }) {
     return (
         <div className={`col-12 md:col-${col} ${extraClassName}`}>
             <div className={`bg-primary-dark border-round shadow-2 ${name ? 'p-2' : 'p-3'} ${name ? 'flex justify-content-between align-items-center' : ''}`}>
                 <div className="text-xl text-white justify-content-end align-items-end">{title}</div>
-                {name && (
-                    <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer text-white" onClick={onClick}>
-                        {icon && (
-                            <>
-                                <i className={`pi ${icon}`}></i> &nbsp;
-                            </>
-                        )}
-                        {name}
-                    </div>
-                )}
+                <div className="flex">
+                    {headers && <>{headers}</>}
+                    {name && (
+                        <div className="py-1 px-3 border-400 border-round-md mr-2 border-1 cursor-pointer text-white" onClick={onClick}>
+                            {icon && (
+                                <>
+                                    <i className={`pi ${icon}`}></i> &nbsp;
+                                </>
+                            )}
+                            {name}
+                        </div>
+                    )}
+                </div>
             </div>
             <div className={`bg-lightest-blue border-round p-2 mt-2 ${bodyClassName} `} style={{ height: height, overflowY: 'auto' }}>
                 <div className="p-2 h-full">{children}</div>

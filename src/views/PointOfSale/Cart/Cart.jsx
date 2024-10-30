@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 
 import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
 import Lottie from 'lottie-react';
+import DrawerSelector from './Drawer/DrawerSelector';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout }) {
     const history = useHistory();
@@ -96,6 +97,14 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
         { label: 'Saved Carts', command: () => history.push('/more/pos/saved-carts') },
     ];
 
+    const headers = <DrawerSelector />;
+    const [height, setHeight] = useState(0);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        setHeight(ref?.current?.clientHeight);
+    }, [setHeight]);
+
     return (
         <div className="h-full flex flex-column justify-content-between">
             <div className="h-full">
@@ -105,10 +114,11 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
                     title="Cart"
                     col={12}
                     name="More Options"
+                    headers={headers}
                     onClick={(event) => menu.current.toggle(event)}
                 >
-                    <div className="h-full flex flex-column justify-content-between">
-                        <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                    <div className="h-full flex flex-column justify-content-between" ref={ref}>
+                        <div style={{ maxHeight: `${height - 200}px`, overflowY: 'auto' }}>
                             {cartItems?.length ? (
                                 <>
                                     {cartItems?.map((item, i) => (

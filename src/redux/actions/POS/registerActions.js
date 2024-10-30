@@ -3,6 +3,13 @@ import api from '../../../services/api';
 import { types } from '../../types/types';
 import { showToast } from '../toastAction';
 
+const onSelectDrawerAction = (drawer) => async (dispatch) => {
+    dispatch({
+        type: types.POS.SELECT_DRAWER,
+        payload: drawer,
+    });
+};
+
 const getRegistersAction = () => async (dispatch) => {
     const res = await api('get', endPoints.POS.REGISTER);
     if (res.success) {
@@ -34,6 +41,7 @@ const startRegisterAction = (data, setLoading, next) => async (dispatch) => {
     }
     const res = await api('post', endPoints.POS.REGISTER + '/start', payload);
     if (res.success) {
+        localStorage.setItem('drawer', data.register);
         dispatch(getRegistersAction());
         next(res.data);
     } else {
@@ -81,4 +89,4 @@ const getRegistersStatusAction = () => async (dispatch) => {
     }
 };
 
-export { getRegistersAction, getRegisterAction, startRegisterAction, closeRegisterAction, getRegistersStatusAction };
+export { getRegistersAction, getRegisterAction, startRegisterAction, closeRegisterAction, getRegistersStatusAction, onSelectDrawerAction };
