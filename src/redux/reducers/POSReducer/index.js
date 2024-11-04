@@ -9,6 +9,7 @@ const intitalState = {
     categories: [],
     catalogs: [],
     members: [],
+    recentMembers: [],
 };
 
 const POSReducer = (state = intitalState, action) => {
@@ -57,6 +58,11 @@ const POSReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 members: action.payload,
+            };
+        case types.POS.RECENT_MEMBER:
+            return {
+                ...state,
+                recentMembers: action.payload,
             };
 
         default:

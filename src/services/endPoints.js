@@ -5,6 +5,7 @@ const endPoints = {
         },
     },
     POS: {
+        SALE: '/point-of-sale/sale/',
         REGISTER: '/point-of-sale/registers/',
         REGISTER_STATUS: '/point-of-sale/registers/status',
     },

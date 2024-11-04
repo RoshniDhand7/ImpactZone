@@ -33,6 +33,7 @@ import MoreMembers from '../views/More/MoreMembers';
 
 import Drawers from '../views/More/POS/Drawers';
 import SavedCarts from '../views/More/POS/SavedCarts';
+import Receipts from '../views/More/POS/Receipts';
 
 export const PrivateRoutes = [
     {
@@ -127,6 +128,12 @@ export const PrivateRoutes = [
                         name: 'Saved Carts',
                         exact: true,
                         component: SavedCarts,
+                    },
+                    {
+                        path: '/receipts',
+                        name: 'Receipts',
+                        exact: true,
+                        component: Receipts,
                     },
                 ],
             },
