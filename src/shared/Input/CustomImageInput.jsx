@@ -19,7 +19,7 @@ export default function CustomImageInput({
     col,
     required,
     removeable,
-    editable,
+    editable = true,
     ...props
 }) {
     const [files, setFiles] = useState(value || data?.[name] || []);
@@ -130,22 +130,24 @@ export default function CustomImageInput({
                             </label>
                         </div>
                     )}
-                    <div className="absolute camera-icon">
-                        <input
-                            name={name}
-                            onChange={onFileChange}
-                            id={name}
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            {...props}
-                            multiple={multiple}
-                            // capture="camera"
-                        />
-                        <label htmlFor={name}>
-                            <img src={Camera} alt="" style={{ width: '20px', height: '20px' }} />
-                        </label>
-                    </div>
+                    {editable && (
+                        <div className="absolute camera-icon">
+                            <input
+                                name={name}
+                                onChange={onFileChange}
+                                id={name}
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                {...props}
+                                multiple={multiple}
+                                // capture="camera"
+                            />
+                            <label htmlFor={name}>
+                                <img src={Camera} alt="" style={{ width: '20px', height: '20px' }} />
+                            </label>
+                        </div>
+                    )}
                 </div>
             </InputLayout>
         </>
