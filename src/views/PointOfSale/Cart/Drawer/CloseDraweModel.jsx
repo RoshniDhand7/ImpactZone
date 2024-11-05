@@ -26,6 +26,9 @@ export default function CloseDraweModel({ visible, setVisible }) {
             dispatch(
                 getRegisterAction(data?.register, (e) => {
                     setRegister(e);
+                    if (e?.sales) {
+                        setSales({ cash: e?.sales?.CASH, cheque: e?.sales?.CHEQUE });
+                    }
                 }),
             );
         }
@@ -47,8 +50,8 @@ export default function CloseDraweModel({ visible, setVisible }) {
     const openedAt = registerStatus?.createdAt ? registerStatus?.createdAt : '';
 
     let [sales, setSales] = useState({
-        cash: 300,
-        cheque: 321,
+        cash: 0,
+        cheque: 0,
     });
 
     //Cash added in drawer when drawer started

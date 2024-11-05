@@ -109,6 +109,7 @@ export const types = {
         CATEGORY: 'CATEGORY',
         CATELOG: 'CATELOG',
         MEMBER: 'MEMBER',
+        RECENT_MEMBER: 'RECENT_MEMBER',
         RECEIPT: 'RECEIPT',
     },
 

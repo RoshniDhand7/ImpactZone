@@ -13,6 +13,7 @@ import { getRegistersAction } from '../../redux/actions/POS/registerActions';
 import SearchCatalog from './Category/SearchCatalog';
 import CheckoutPopup from './Cart/CheckoutPopup';
 import { showToast } from '../../redux/actions/toastAction';
+import { onCheckoutAction } from '../../redux/actions/POS/saleActions';
 
 export default function PointOfSale2() {
     const dispatch = useDispatch();
@@ -273,6 +274,7 @@ export default function PointOfSale2() {
     };
 
     const [checkoutPopup, setCheckoutPopup] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onOpenCheckout = () => {
         if (!drawer) {
@@ -291,6 +293,20 @@ export default function PointOfSale2() {
     };
     const onCloseCheckout = () => {
         setCheckoutPopup(false);
+    };
+
+    const onCheckout = ({ method, printReceiept }) => {
+        let payload = { member: selectedMember, paymentType: method, amount: cartDetails?.gradTotal, cartItems, cartDetails, cashRegister: drawer };
+        dispatch(
+            onCheckoutAction(payload, setLoading, (e) => {
+                setSelectedItems([]);
+                setSelectedMember('');
+                onCloseCheckout();
+                if (printReceiept) {
+                    window.print();
+                }
+            }),
+        );
     };
 
     return (
@@ -322,7 +338,7 @@ export default function PointOfSale2() {
                 onCartSaved={onCartSaved}
             />
 
-            <CheckoutPopup visible={checkoutPopup} onCancel={onCloseCheckout} />
+            <CheckoutPopup loading={loading} onCheckout={onCheckout} cartDetails={cartDetails} visible={checkoutPopup} onCancel={onCloseCheckout} />
         </div>
     );
 }

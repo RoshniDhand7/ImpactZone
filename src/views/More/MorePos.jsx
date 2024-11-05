@@ -25,7 +25,7 @@ export default function MorePos() {
 
         {
             img: Receipts,
-            link: '/more',
+            link: '/more/pos/receipts',
             title: 'Receipts',
         },
         {
