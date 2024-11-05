@@ -21,6 +21,7 @@ const CustomTable = ({
     cellSelection = false,
     onCellSelect,
     cellClassName,
+    minWidth = '50rem',
 }) => {
     const actionTemplate = (data, index) => {
         return (
@@ -36,7 +37,7 @@ const CustomTable = ({
     return (
         <DataTable
             value={convertToboolean ? convertBooleanValues(data) : data}
-            tableStyle={{ minWidth: '50rem' }}
+            tableStyle={{ minWidth }}
             paginator
             rows={10}
             selection={selectedRow}
