@@ -50,6 +50,7 @@ import availabilityReducer from './EmployeesSettings/availabilityReducer';
 
 import SettingsReducer from './SettingsReducer';
 import POSReducer from './POSReducer';
+import checkInReducer from './CheckIn/CheckInReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -103,4 +104,5 @@ export default combineReducers({
     pos: POSReducer,
     moreAttendance: moreAttendanceReducer,
     employeeAvailability: availabilityReducer,
+    checkin: checkInReducer,
 });

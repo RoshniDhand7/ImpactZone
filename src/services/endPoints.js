@@ -112,5 +112,8 @@ const endPoints = {
     ATTENDANCE_CHECK_IN: '/attendance-checkin/',
     EMPLOYEE_CLUBS: '/employee-clubs/',
     EMPLOYEE_AVAILABILITY: '/availability/',
+    CHECK_IN: '/check-in/',
+    CHECK_IN_LAST: '/check-in/last/',
+    RECENT_CHECK_IN: '/check-in/history/',
 };
 export default endPoints;
