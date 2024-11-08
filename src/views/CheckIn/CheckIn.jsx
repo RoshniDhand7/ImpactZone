@@ -180,33 +180,39 @@ export default function CheckIn() {
             )}
 
             <CustomGridLayout>
-                <div className="col-12 md:col-3 flex flex-column justify-content-between ">
+                <div className="col-12 md:col-3 flex flex-column  ">
                     {/* Events Section */}
 
-                    <div className="flex align-items-center  justify-content-between">
+                    <div className="flex align-items-center justify-content-between">
                         <h3 className="font-semibold text-lg m-0">Events</h3>
                         <label className="m-0 text-secondary">Calendar</label>
                         <label className="m-0 text-secondary">Quick Enroll</label>
                     </div>
-                    <CustomTable data={[]} columns={column1} minWidth="0rem" paginator={false} />
+                    <CustomTable data={[]} columns={column1} minWidth="0rem" paginator={false} className={'custom-table-height'} />
 
                     {/* Services Section */}
-                    <div className="flex align-items-center  justify-content-between">
+                    <div className="flex align-items-center  justify-content-between mt-3">
                         <h3 className="font-semibold text-lg ">Redeemable</h3>
                         <label className="mb-2 block">POS</label>
                     </div>
-                    <CustomTable data={getCheckInData?.plan?.[0]?.services} columns={column2} minWidth="0rem" paginator={false} />
+                    <CustomTable
+                        data={getCheckInData?.plan?.[0]?.services}
+                        columns={column2}
+                        minWidth="0rem"
+                        paginator={false}
+                        className={'custom-table-height'}
+                    />
 
                     {/* Resources Section */}
-                    <div className="flex align-items-center justify-content-between">
+                    <div className="flex align-items-center justify-content-between mt-3">
                         <h3 className="font-semibold text-lg ">Resources</h3>
                         <label className=" block">Calendar</label>
                         <label className=" block">Reserve</label>
                     </div>
-                    <CustomTable data={[]} columns={column3} minWidth="0rem" paginator={false} />
+                    <CustomTable data={[]} columns={column3} minWidth="0rem" paginator={false} className={'custom-table-height'} />
                 </div>
 
-                <div className="col-9">
+                <div className="col-9 flex flex-column ">
                     <CustomGridLayout>
                         <CustomCard title="Member Details" col={6} height="200px">
                             <CustomListItem name="membershipType" data={data} />

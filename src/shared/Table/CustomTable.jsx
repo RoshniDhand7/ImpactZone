@@ -23,6 +23,8 @@ const CustomTable = ({
     cellClassName,
     minWidth = '50rem',
     paginator = true,
+    style,
+    className,
 }) => {
     const actionTemplate = (data, index) => {
         return (
@@ -50,6 +52,9 @@ const CustomTable = ({
             cellSelection={cellSelection}
             onCellSelect={onCellSelect}
             cellClassName={cellClassName}
+            rowClassName={'h-full'}
+            style={style}
+            className={className}
         >
             {reorderableRows && <Column rowReorder style={{ width: '3rem' }} />}
             {columns.map((col, index) => (
