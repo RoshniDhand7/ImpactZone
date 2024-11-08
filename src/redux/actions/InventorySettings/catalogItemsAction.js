@@ -112,6 +112,8 @@ const addCatalogItem =
             } else {
                 history.goBack();
             }
+        } else {
+            dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
         }
         dispatch(hideLoaderAction());
     };
@@ -139,6 +141,8 @@ const editCatalogItem =
             } else {
                 history.goBack();
             }
+        } else {
+            dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
         }
         dispatch(hideLoaderAction());
     };

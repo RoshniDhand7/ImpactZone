@@ -59,7 +59,7 @@ const General = ({ editItem }) => {
         unitPrice: 0,
         defaultPrice: 0,
         allowDiscount: false,
-        defaultDiscount: '',
+        defaultDiscount: null,
         overrideDiscount: false,
         minimumQuantity: 1,
         defaultQuantity: 1,
