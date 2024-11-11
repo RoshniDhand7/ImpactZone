@@ -12,6 +12,7 @@ import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
 import RecentCheckIn from './RecentCheckIn';
 import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
 import { showToast } from '../../redux/actions/toastAction';
+import Reserve from './Reserve';
 
 export default function CheckIn() {
     const dispatch = useDispatch();
@@ -38,8 +39,6 @@ export default function CheckIn() {
 
     const { allMembers } = useMembers();
 
-    console.log('allMembers==>', allMembers);
-
     const suggestions = useMemo(
         () =>
             allMembers.map((item) => ({
@@ -49,13 +48,12 @@ export default function CheckIn() {
         [allMembers],
     );
 
+    const [reserve, setReserve] = useState(false);
     const memberOptions = useMemo(() => allMembers?.map((item) => ({ name: `${item.firstName} ${item.MI} ${item.lastName}`, value: item?._id })), [allMembers]);
 
     useEffect(() => {
         dispatch(getCheckInLast());
     }, [dispatch]);
-
-    useEffect(() => {}, [data?.member]);
 
     const { getCheckInData } = useSelector((state) => state.checkin);
 
@@ -201,20 +199,15 @@ export default function CheckIn() {
                         <div className="flex align-items-center justify-content-between mt-3">
                             <h3 className="font-semibold text-lg ">Resources</h3>
                             <label className=" block">Calendar</label>
-                            <label className=" block">Reserve</label>
+                            <label className=" block cursor-pointer" onClick={() => setReserve(true)}>
+                                Reserve
+                            </label>
                         </div>
                         <CustomTable data={[]} columns={column3} minWidth="0rem" paginator={false} className={'custom-table-height'} />
                     </div>
                 </div>
+                <Reserve reserve={reserve} setReserve={setReserve} suggestions={suggestions} memberOptions={memberOptions} member={data?.member} />
 
-                {/* <CustomCard title="Member Details" col={6} height="200px">
-                            <CustomListItem name="membershipType" data={data} />
-                            <CustomListItem name="lastVisit" data={data} />
-                            <CustomListItem name="barCode" data={data} />
-                            <CustomListItem name="agreementNo" label="Agreement#" data={data} />
-                            <CustomListItem name="notes" data={data} />
-                            <CustomListItem name="secondaryMembers" data={data} />
-                        </CustomCard> */}
                 <CustomCard title="Agreements" col={4} height="200px">
                     <CustomListItem name="agreement" data={data} />
                     <CustomListItem name="expiryDate" data={data} />

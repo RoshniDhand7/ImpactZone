@@ -1,22 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteResource, getResources } from '../../../../redux/actions/MembersSettings/resources';
+import { deleteResource } from '../../../../redux/actions/MembersSettings/resources';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import useResources from '../../../../hooks/Members/useResources';
 
 const Resources = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getResources());
-    }, [dispatch]);
-
-    const { allResources } = useSelector((state) => state.resources);
+    const { allResources } = useResources();
 
     const columns = [
         { field: 'name', header: 'Resource Name' },
