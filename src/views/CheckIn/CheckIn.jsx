@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCheckIn, getCheckInLast } from '../../redux/actions/CheckIn/CheckIn';
 import { getImageURL } from '../../utils/imageUrl';
 import RecentCheckIn from './RecentCheckIn';
+import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
+import { showToast } from '../../redux/actions/toastAction';
 
 export default function CheckIn() {
     const dispatch = useDispatch();
@@ -35,6 +37,8 @@ export default function CheckIn() {
     };
 
     const { allMembers } = useMembers();
+
+    console.log('allMembers==>', allMembers);
 
     const suggestions = useMemo(
         () =>
@@ -116,22 +120,31 @@ export default function CheckIn() {
     // ];
     console.log(data, 'data');
 
+    const handleScanner = ({ value }) => {
+        let _member = allMembers.find((item) => item.barCode == value);
+        if (_member) {
+            handleChange({ name: 'member', value: _member._id });
+        } else {
+            dispatch(showToast({ severity: 'warn', summary: 'No member found with the provided barcode. Please verify the barcode and try again.' }));
+        }
+    };
+
     return (
         <>
-            <div className="col-12 mt-3">
-                <label className="font-bold ml-1 mb-3">
-                    Member Search
-                    <CustomAsyncReactSelect
-                        name="member"
-                        suggestions={suggestions}
-                        options={memberOptions}
-                        placeholder="Search Member"
-                        showLabel={false}
-                        value={data.member}
-                        onChange={handleChange}
-                        col={12}
-                    />
-                </label>
+            <div className="grid">
+                <CustomAsyncReactSelect
+                    name="member"
+                    suggestions={suggestions}
+                    options={memberOptions}
+                    placeholder="Search Member"
+                    showLabel={false}
+                    value={data.member}
+                    onChange={handleChange}
+                    col={11}
+                />
+                <div className="col-1 text-center">
+                    <BarcodeScanner onChnage={handleScanner} />
+                </div>
             </div>
 
             {data?.member && (
