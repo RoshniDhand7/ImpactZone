@@ -180,7 +180,7 @@ export default function CloseDraweModel({ visible, setVisible }) {
             ) : (
                 <>
                     <CustomDropDown data={data} onChange={handleChange} name="register" options={registersDropdown} required col={12} />
-                    <CustomInput data={data} onChange={handleChange} name="accessCode" required col={12} />
+                    <CustomInput data={data} onChange={handleChange} name="accessCode" required col={12} autocomplete="off" />
                 </>
             )}
         </CustomDialog>
