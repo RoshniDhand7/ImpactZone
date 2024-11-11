@@ -81,6 +81,43 @@ export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
         </div>
     );
 }
+export function CustomGridItem({ label, name, data, value, keys, dynamicKey }) {
+    if (!label) {
+        if (name) {
+            label = capitalizeCamelCase(name);
+        }
+    }
+    const formatValue = (val) => {
+        if (typeof val === 'boolean') {
+            return val ? 'Yes' : 'No';
+        }
+        if (val && typeof val === 'object') {
+            if (val.name) {
+                // Check if the object has a 'name' key
+                return val.name;
+            }
+            return JSON.stringify(val);
+        }
+        return val ? val : '-';
+    };
+
+    let displayValue = '-';
+    if (value) {
+        displayValue = formatValue(value);
+    } else if (keys && Array.isArray(keys)) {
+        const values = keys.map((key) => formatValue(key[dynamicKey])).join(', ');
+        displayValue = values ? values : '-';
+    } else {
+        displayValue = formatValue(data?.[name]);
+    }
+
+    return (
+        <div className="text-sm mb-2">
+            <span className="font-semibold ">{label}</span>
+            <span className="text-dark-gray cstmValue">{displayValue}</span>
+        </div>
+    );
+}
 
 export const BalanceRow = ({ label, value, valueClass = 'text-green-600' }) => (
     <div className="flex justify-content-between text-sm mb-2">
