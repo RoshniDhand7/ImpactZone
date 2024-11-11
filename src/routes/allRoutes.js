@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import Dashboard from '../views/Dashboard/Dashboard';
 import CheckIn from '../views/CheckIn/CheckIn';
 import Members from '../views/Members/Members';
@@ -24,9 +25,9 @@ import AgreementSettingsRoute from './Settings/AgreementRoutes';
 import MemberSettingsRoutes from './Settings/MemberRoutes';
 import PointOfSaleSettingRoutes from './Settings/PointOfSaleRoutes';
 import AllMembers from '../views/Members/AllMembers';
-import PointOfSale2 from '../views/PointOfSale/PointOfSale';
+// import PointOfSale from '../views/PointOfSale/PointOfSale';
 import MorePos from '../views/More/MorePos';
-import DrawerSummary from '../views/More/DrawerSummary/DrawerSummary';
+
 import MoreAttandance from '../views/More/MoreAttandence';
 import CheckInHistory from '../views/More/Attendance/CheckInHistory';
 import MoreMembers from '../views/More/MoreMembers';
@@ -34,6 +35,9 @@ import MoreMembers from '../views/More/MoreMembers';
 import Drawers from '../views/More/POS/Drawers';
 import SavedCarts from '../views/More/POS/SavedCarts';
 import Receipts from '../views/More/POS/Receipts';
+import DrawerSummary from '../views/More/POS/DrawerSummary';
+
+const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 
 export const PrivateRoutes = [
     {
@@ -64,7 +68,7 @@ export const PrivateRoutes = [
     {
         path: '/pos',
         name: 'Point Of Sale',
-        component: PointOfSale2,
+        component: PointOfSale,
     },
     {
         path: '/plans',
@@ -112,7 +116,7 @@ export const PrivateRoutes = [
                 component: MorePos,
                 items: [
                     {
-                        path: '/drawer-summary',
+                        path: '/drawer-summary/:id',
                         name: 'Drawer Summary',
                         exact: true,
                         component: DrawerSummary,
