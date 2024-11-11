@@ -17,6 +17,7 @@ export default function CustomDialog({
     onClear,
     icon,
     onApply,
+    onHide,
     saveLabel = 'Save',
     applyLabel = 'Apply',
     applydisabled = false,
@@ -48,7 +49,7 @@ export default function CustomDialog({
             headerClassName="justify-content-start"
             visible={visible}
             style={{ width, height }}
-            onHide={onCancel}
+            onHide={onCancel || onHide}
             footer={onSave || onCancel ? footerContent : ''}
             draggable={false}
             resizable={false}

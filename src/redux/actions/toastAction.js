@@ -6,3 +6,4 @@ export const showToast = (obj) => async (dispatch) => {
         dispatch({ type: types.SHOW_TOAST, payload: {} });
     }, 10);
 };
+// {severity:"",summary:"",detail:""}
