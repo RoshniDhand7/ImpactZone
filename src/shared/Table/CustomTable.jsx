@@ -52,7 +52,6 @@ const CustomTable = ({
             cellSelection={cellSelection}
             onCellSelect={onCellSelect}
             cellClassName={cellClassName}
-            rowClassName={'h-full'}
             style={style}
             className={className}
         >

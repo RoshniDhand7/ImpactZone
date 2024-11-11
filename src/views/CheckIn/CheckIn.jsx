@@ -98,22 +98,6 @@ export default function CheckIn() {
         },
     ];
 
-    // const checkIns = [
-    //     {
-    //         name: 'Jerry Brown',
-    //         status: 'active',
-    //         time: '10:34 AM',
-    //         profileImage: 'path-to-image1.jpg',
-    //     },
-    //     {
-    //         name: 'Merry',
-    //         status: 'canceled',
-    //         reason: 'Membership Cancelled',
-    //         time: '10:34 AM',
-    //         profileImage: 'path-to-image2.jpg',
-    //     },
-    //     // ...additional check-in data
-    // ];
     console.log(data, 'data');
 
     return (
@@ -180,62 +164,56 @@ export default function CheckIn() {
             )}
 
             <CustomGridLayout>
-                <div className="col-12 md:col-3 flex flex-column  ">
+                <div className="grid col-12">
                     {/* Events Section */}
 
-                    <div className="flex align-items-center justify-content-between">
-                        <h3 className="font-semibold text-lg m-0">Events</h3>
-                        <label className="m-0 text-secondary">Calendar</label>
-                        <label className="m-0 text-secondary">Quick Enroll</label>
+                    <div className="col-4">
+                        <div className="flex align-items-center  justify-content-between mt-3">
+                            <h3 className="font-semibold text-lg m-0">Events</h3>
+                            <label className="m-0 text-secondary">Calendar</label>
+                            <label className="m-0 text-secondary">Quick Enroll</label>
+                        </div>
+                        <CustomTable data={[]} columns={column1} minWidth="0rem" paginator={false} className={''} />
                     </div>
-                    <CustomTable data={[]} columns={column1} minWidth="0rem" paginator={false} className={'custom-table-height'} />
-
-                    {/* Services Section */}
-                    <div className="flex align-items-center  justify-content-between mt-3">
-                        <h3 className="font-semibold text-lg ">Redeemable</h3>
-                        <label className="mb-2 block">POS</label>
+                    <div className="col-4">
+                        {/* Services Section */}
+                        <div className="flex align-items-center  justify-content-between mt-3">
+                            <h3 className="font-semibold text-lg ">Redeemable</h3>
+                            <label className="mb-2 block">POS</label>
+                        </div>
+                        <CustomTable data={getCheckInData?.plan?.[0]?.services} columns={column2} minWidth="0rem" paginator={false} className={''} />
                     </div>
-                    <CustomTable
-                        data={getCheckInData?.plan?.[0]?.services}
-                        columns={column2}
-                        minWidth="0rem"
-                        paginator={false}
-                        className={'custom-table-height'}
-                    />
-
-                    {/* Resources Section */}
-                    <div className="flex align-items-center justify-content-between mt-3">
-                        <h3 className="font-semibold text-lg ">Resources</h3>
-                        <label className=" block">Calendar</label>
-                        <label className=" block">Reserve</label>
+                    <div className="col-4">
+                        {/* Resources Section */}
+                        <div className="flex align-items-center justify-content-between mt-3">
+                            <h3 className="font-semibold text-lg ">Resources</h3>
+                            <label className=" block">Calendar</label>
+                            <label className=" block">Reserve</label>
+                        </div>
+                        <CustomTable data={[]} columns={column3} minWidth="0rem" paginator={false} className={'custom-table-height'} />
                     </div>
-                    <CustomTable data={[]} columns={column3} minWidth="0rem" paginator={false} className={'custom-table-height'} />
                 </div>
 
-                <div className="col-9 flex flex-column ">
-                    <CustomGridLayout>
-                        <CustomCard title="Member Details" col={6} height="200px">
+                {/* <CustomCard title="Member Details" col={6} height="200px">
                             <CustomListItem name="membershipType" data={data} />
                             <CustomListItem name="lastVisit" data={data} />
                             <CustomListItem name="barCode" data={data} />
                             <CustomListItem name="agreementNo" label="Agreement#" data={data} />
                             <CustomListItem name="notes" data={data} />
                             <CustomListItem name="secondaryMembers" data={data} />
-                        </CustomCard>
-                        <CustomCard title="Agreements" col={6} height="200px">
-                            <CustomListItem name="agreement" data={data} />
-                            <CustomListItem name="expiryDate" data={data} />
-                            <CustomListItem name="pastDue" data={data} />
-                            <CustomListItem name="fees" label="Agreement#" data={data} />
-                            <CustomListItem name="totalPastDue" data={data} />
-                            <CustomListItem name="totalNextDue" data={data} />
-                            <CustomListItem name="nextDueDate" data={data} />
-                        </CustomCard>
-                        <CustomCard title="POS" col={12} height="200px">
-                            <CustomTable data={getCheckInData?.posSale} columns={posColumn} minWidth="0rem" paginator={false} />
-                        </CustomCard>
-                    </CustomGridLayout>
-                </div>
+                        </CustomCard> */}
+                <CustomCard title="Agreements" col={4} height="200px">
+                    <CustomListItem name="agreement" data={data} />
+                    <CustomListItem name="expiryDate" data={data} />
+                    <CustomListItem name="pastDue" data={data} />
+                    <CustomListItem name="fees" label="Agreement#" data={data} />
+                    <CustomListItem name="totalPastDue" data={data} />
+                    <CustomListItem name="totalNextDue" data={data} />
+                    <CustomListItem name="nextDueDate" data={data} />
+                </CustomCard>
+                <CustomCard title="POS" col={8} height="200px">
+                    <CustomTable data={getCheckInData?.posSale} columns={posColumn} minWidth="0rem" paginator={false} />
+                </CustomCard>
             </CustomGridLayout>
             <RecentCheckIn />
         </>
