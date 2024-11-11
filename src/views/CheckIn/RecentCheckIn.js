@@ -31,7 +31,6 @@ const RecentCheckIn = () => {
         canceled: 'bg-red-100',
     };
     const CheckInCard = ({ checkIn }) => {
-        console.log(checkIn, 'checkIn');
         const borderColor = statusColors?.active || 'gray-500';
         const backgroundColor = statusBackgrounds?.active || 'bg-gray-100';
 

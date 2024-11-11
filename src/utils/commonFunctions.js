@@ -340,8 +340,10 @@ const applyFilters = (events, filterOptions) => {
     const filterKeys = Object.keys(filterOptions).filter((key) => key !== 'filterType');
 
     if (!filterKeys.length) return events;
+    console.log(events, filterOptions, 'events');
 
     const matchesCondition = (event, key) => {
+        console.log(event, key, 'key');
         let condition = filterOptions[key];
         const eventValue = event[key];
 
@@ -357,6 +359,8 @@ const applyFilters = (events, filterOptions) => {
             condition = condition.replace(/\D/g, '');
             return condition === eventValue;
         }
+
+        console.log(eventValue, condition);
 
         if (Array.isArray(condition) && eventValue) {
             return condition.some((item) => eventValue && eventValue.includes(item));
