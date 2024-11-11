@@ -8,7 +8,7 @@ import CustomCard, { CustomGridLayout, CustomListItem } from '../../shared/Cards
 import CustomTable from '../../shared/Table/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCheckIn, getCheckInLast } from '../../redux/actions/CheckIn/CheckIn';
-import { getImageURL } from '../../utils/imageUrl';
+import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
 import RecentCheckIn from './RecentCheckIn';
 import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
 import { showToast } from '../../redux/actions/toastAction';
@@ -138,8 +138,8 @@ export default function CheckIn() {
                             <div className="avatar-img">
                                 <img
                                     className="fit-cover rounded-full border-white border-2"
-                                    src={getImageURL(getCheckInData?.image) || 'default-avatar-url.jpg'}
-                                    onError={(e) => (e.target.src = 'default-avatar-url.jpg')}
+                                    src={getImageURL(getCheckInData?.image)}
+                                    onError={(e) => (e.target.src = getDefaultImage())}
                                     alt=""
                                 />
                             </div>
