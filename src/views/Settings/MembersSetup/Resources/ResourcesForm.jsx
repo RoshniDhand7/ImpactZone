@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomInput, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
@@ -11,6 +11,7 @@ import { getResourceTypes } from '../../../../redux/actions/MembersSettings/reso
 import { addResource, editResource, getResource } from '../../../../redux/actions/MembersSettings/resources';
 import { getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 import { hoursOptions } from '../../../../utils/dropdownConstants';
+import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 
 const ResourcesForm = () => {
     const history = useHistory();
@@ -20,9 +21,12 @@ const ResourcesForm = () => {
     useEffect(() => {
         dispatch(getResourceTypes());
         dispatch(getLocations());
+        dispatch(getCatalogItems());
     }, [dispatch]);
     const { locationDropdown } = useSelector((state) => state.locations);
     const { resourceTypeDropdown } = useSelector((state) => state.resourceType);
+    const { catalogServiceDropdown } = useSelector((state) => state.catalogItems);
+
     useEffect(() => {
         if (id) {
             dispatch(
@@ -35,6 +39,7 @@ const ResourcesForm = () => {
                         usedInEvents: data.usedInEvents,
                         pastDue: data.pastDue,
                         isActive: data.isActive,
+                        services: data.services,
                     });
                 }),
             );
@@ -48,13 +53,14 @@ const ResourcesForm = () => {
         usedInEvents: '',
         pastDue: '',
         isActive: true,
+        services: [],
     });
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
     const handleSave = () => {
-        if (showFormErrors(data, setData)) {
+        if (showFormErrors(data, setData, ['services'])) {
             if (id) {
                 dispatch(editResource(id, data, setLoading, history));
             } else {
@@ -72,6 +78,7 @@ const ResourcesForm = () => {
                     <CustomInput name="availableQuantity" data={data} onChange={handleChange} />
                     <CustomInput name="usedInEvents" data={data} onChange={handleChange} />
                     <CustomDropDown name="pastDue" options={hoursOptions} data={data} onChange={handleChange} required />
+                    <CustomMultiselect name="services" options={catalogServiceDropdown} data={data} onChange={handleChange} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>

@@ -11,11 +11,12 @@ import formValidation from '../../utils/validations';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLocations } from '../../redux/actions/ScheduleSettings/locationsActions';
 import { getResourceTypes } from '../../redux/actions/MembersSettings/resourceType';
+import { getResourcesList, resourceReserveReturn } from '../../redux/actions/CheckIn/CheckIn';
+import { getResources } from '../../redux/actions/MembersSettings/resources';
 
 const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        filterType: 'AND',
         reserveMember: '',
         reserveDate: new Date(),
     });
@@ -34,22 +35,37 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         dispatch(getResourceTypes());
         dispatch(getLocations());
     }, [dispatch]);
-    const { allResources } = useResources();
+    useEffect(() => {
+        if (data?.reserveMember && data?.reserveDate) {
+            dispatch(getResourcesList(data));
+        }
+    }, [data?.reserveMember, data?.reserveDate]);
+    const { resourceList } = useSelector((state) => state.checkin);
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allResources);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(resourceList);
     const { locationDropdown } = useSelector((state) => state.locations);
     const { resourceTypeDropdown } = useSelector((state) => state.resourceType);
 
     const pastDueTemplate = (r) => {
+        console.log(r);
         const now = new Date();
         const createdAt = new Date(r?.createdAt);
-        const diffInMs = now - createdAt.getTime();
+        const diffInMs = now - createdAt;
 
         const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-        console.log('Difference in hours:', diffInHours);
-        return diffInHours;
+        console.log('diffInHours', diffInHours > r.pastDue);
+        return (
+            <div
+                className={`${diffInHours > r.pastDue ? 'h-1rem w-4 border-circle bg-red-500 inline-block' : 'h-1rem w-4 border-circle bg-green-500 inline-block'}`}
+            ></div>
+        );
     };
+
+    const handleReserveReturn = (r) => {
+        dispatch(resourceReserveReturn(r?._id, data, r?.isAvailable, () => dispatch(getResourcesList(data))));
+    };
+
     const reserveColumn = [
         { field: 'name', header: 'Resource' },
         { field: 'resourceType', header: 'Resource Type' },
@@ -60,7 +76,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
             header: 'Resources Available',
         },
         { field: '', body: pastDueTemplate, header: 'Past Due' },
-        { field: '', header: 'Services Available' },
+        { field: '', body: (r) => (r?.services?.length > 0 ? r?.services?.map((item) => item.name).join(' , ') : 'Free'), header: 'Services Available' },
     ];
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -71,10 +87,9 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         setFilteredData((prev) => ({ ...prev, [name]: value }));
     };
     console.log('data>>', data);
-    const customActionTemplate = () => {
-        return <PrimaryButton name="Return" label="Return" />;
+    const customActionTemplate = (r) => {
+        return <PrimaryButton name="status" label={r?.isAvailable ? 'Reserve' : 'Return'} onClick={() => handleReserveReturn(r)} />;
     };
-    // Calculate the difference in milliseconds
 
     return (
         <>
@@ -105,7 +120,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
                         />
                     </div>
 
-                    <CustomCalenderInput label="Date" name="reserveDate" data={data} onChange={handleChange} col={6} />
+                    <CustomCalenderInput label="Date" name="reserveDate" data={data} onChange={handleChange} col={6} minDate={new Date()} />
                 </CustomGridLayout>
                 {<CustomTable convertToboolean={false} data={tableData} columns={reserveColumn} customActionTemplate={customActionTemplate} />}
                 <FilterComponent

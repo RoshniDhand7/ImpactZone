@@ -32,6 +32,7 @@ export default function CloseDraweModel({ visible, setVisible }) {
                 }),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [access]);
 
     const onClose = () => {

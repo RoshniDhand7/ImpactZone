@@ -52,8 +52,7 @@ const AddAvailability = () => {
                 }),
             );
         }
-    }, [id]);
-    console.log(data, 'data>>');
+    }, [id, dispatch]);
 
     const { employeeClubs, availability } = useSelector((state) => state?.employeeAvailability);
     const employeeOptions = useMemo(
@@ -97,6 +96,7 @@ const AddAvailability = () => {
                 view.calendar.addEvent(newEvent);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [data],
     );
     const addNewEvent = useCallback(
@@ -188,6 +188,7 @@ const AddAvailability = () => {
             }
             setDisableEvents(otherEvents);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.club, availability]);
 
     useEffect(() => {
@@ -257,6 +258,7 @@ const AddAvailability = () => {
                 end: new Date(moment(data.toDate).add(1, 'days')),
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.toDate, data.fromDate]);
 
     const handleRepeat = (repeatOption, event) => {

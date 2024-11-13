@@ -3,6 +3,7 @@ const intitalState = {
     getCheckInData: {},
     getCheckInHistory: [],
     recentCheckIn: [],
+    resourceList: [],
 };
 
 const checkInReducer = (state = intitalState, action) => {
@@ -21,6 +22,11 @@ const checkInReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 recentCheckIn: action.payload,
+            };
+        case types.CHANGE_RESOURCES_LIST:
+            return {
+                ...state,
+                resourceList: action.payload,
             };
         default:
             return { ...state };
