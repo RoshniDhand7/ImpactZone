@@ -36,6 +36,7 @@ import Drawers from '../views/More/POS/Drawers';
 import SavedCarts from '../views/More/POS/SavedCarts';
 import Receipts from '../views/More/POS/Receipts';
 import DrawerSummary from '../views/More/POS/DrawerSummary';
+import Profile from '../views/Profile/Profile';
 
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 
@@ -230,5 +231,11 @@ export const PrivateRoutes = [
                 items: PointOfSaleSettingRoutes,
             },
         ],
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        exact: true,
+        component: Profile,
     },
 ];

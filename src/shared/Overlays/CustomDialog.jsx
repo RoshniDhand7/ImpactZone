@@ -22,6 +22,7 @@ export default function CustomDialog({
     applyLabel = 'Apply',
     applydisabled = false,
     savedisabled = false,
+    footer,
 }) {
     const footerContent = (
         <CustomButtonGroup>
@@ -46,11 +47,11 @@ export default function CustomDialog({
         <Dialog
             modal
             header={headerElement}
-            headerClassName="justify-content-start"
+            headerClassName="justify-content-start text-center"
             visible={visible}
             style={{ width, height }}
             onHide={onCancel || onHide}
-            footer={onSave || onCancel ? footerContent : ''}
+            footer={footer || (onSave || onCancel ? footerContent : '')}
             draggable={false}
             resizable={false}
             blockScroll={true}
