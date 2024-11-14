@@ -10,6 +10,7 @@ import FilterPopup from './FilterPopup';
 import { getFilterSets } from '../../../redux/actions/InventorySettings/filterSetsAction';
 import { getTags } from '../../../redux/actions/InventorySettings/tagAction';
 import { roundOfNumber } from '../../../utils/taxHelpers';
+import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
 
 export default function CatalogItems({ selectedCategory, onSelectProduct }) {
     let { posCatalog } = useSelector((state) => state.catalogItems);
@@ -59,8 +60,8 @@ export default function CatalogItems({ selectedCategory, onSelectProduct }) {
                 onClick={() => setVisible(true)}
             >
                 <div className="grid" style={{ maxHeight: '90vh', overflowY: 'auto' }}>
-                    {posCatalog.map((item) => (
-                        <Item key={item._id} item={item} onSelectProduct={onSelectProduct} />
+                    {posCatalog.map((item, i) => (
+                        <Item index={i} key={item._id} item={item} onSelectProduct={onSelectProduct} />
                     ))}
                 </div>
             </CustomCard>
@@ -71,7 +72,7 @@ export default function CatalogItems({ selectedCategory, onSelectProduct }) {
 function Item(props) {
     let item = props?.item;
     return (
-        <div className="col-3 p-1 cursor-pointer" onClick={() => props?.onSelectProduct(item)}>
+        <CustomAnimatedCard index={props.index} className="col-3 p-1 cursor-pointer" onClick={() => props?.onSelectProduct(item)}>
             <div className="bg-white border-1 surface-border p-2 border-round-md">
                 <img
                     className="bg-lightest-blue border-round-md"
@@ -85,6 +86,6 @@ function Item(props) {
                     <div className="text-center font-semibold">${roundOfNumber(item?.netPrice)}</div>
                 </div>
             </div>
-        </div>
+        </CustomAnimatedCard>
     );
 }
