@@ -63,7 +63,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
 
     const handleReserveReturn = (r) => {
         console.log(r?.status, 'status');
-        if (r?.status === 'RESERVED') {
+        if (r?.isBookedForMember) {
             dispatch(resourceReturn(data, r?.reserveId, () => dispatch(getResourcesList(data))));
         } else {
             dispatch(resourceReserve(r?._id, data, () => dispatch(getResourcesList(data))));
@@ -76,7 +76,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         { field: 'location', header: 'Location' },
         {
             field: '',
-            body: (r) => `${r?.remainingQuantity === 0 ? r?.availableQuantity : r?.remainingQuantity}/${r?.availableQuantity}`,
+            body: (r) => `${r?.reserveCount}/${r?.availableQuantity}`,
             header: 'Resources Available',
         },
         { field: '', body: pastDueTemplate, header: 'Past Due' },
@@ -92,7 +92,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     };
     console.log('data>>', data);
     const customActionTemplate = (r) => {
-        return <PrimaryButton name="status" label={r?.status === 'RESERVED' ? 'Return' : 'Reserve'} onClick={() => handleReserveReturn(r)} />;
+        return <PrimaryButton name="status" label={r?.isBookedForMember ? 'Return' : 'Reserve'} onClick={() => handleReserveReturn(r)} />;
     };
 
     return (
