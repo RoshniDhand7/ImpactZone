@@ -64,11 +64,10 @@ const getResourcesList = (data, setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
-const resourceReserveReturn = (id, data, status, next) => async (dispatch) => {
-    const res = await api('post', endPoints.RESERVE_RETURN + id, {
-        status: status ? 'RESERVE' : 'RETURN',
+const resourceReserve = (id, data, next) => async (dispatch) => {
+    const res = await api('post', endPoints.RESOURCE_RESERVE + id, {
         member: data?.reserveMember,
-        reserveDate: data?.reserveDate,
+        date: data?.reserveDate,
     });
     if (res.success) {
         if (res.data) {
@@ -79,5 +78,16 @@ const resourceReserveReturn = (id, data, status, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const resourceReturn = (data, reserveId, next) => async (dispatch) => {
+    const res = await api('post', endPoints.RESOURCES_RETURN + reserveId, {
+        reserveDate: data?.reserveDate,
+    });
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
-export { getCheckIn, getRecentCheckInHistory, getCheckInLast, resourceReserveReturn, getResourcesList };
+export { getCheckIn, getRecentCheckInHistory, getCheckInLast, resourceReserve, resourceReturn, getResourcesList };

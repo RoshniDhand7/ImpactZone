@@ -115,7 +115,8 @@ const endPoints = {
     CHECK_IN: '/check-in/',
     CHECK_IN_LAST: '/check-in/last/',
     RECENT_CHECK_IN: '/check-in/history/',
-    RESERVE_RETURN: '/check-in/resources/',
+    RESOURCE_RESERVE: '/check-in/resources/',
+    RESOURCES_RETURN: '/check-in/resources/return/',
     RESOURCES_LIST: '/check-in/resources/',
 };
 export default endPoints;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useResources from '../../hooks/Members/useResources';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomFilterCard, CustomGridLayout } from '../../shared/Cards/CustomCard';
 import PrimaryButton from '../../shared/Button/CustomButton';
@@ -11,8 +10,7 @@ import formValidation from '../../utils/validations';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLocations } from '../../redux/actions/ScheduleSettings/locationsActions';
 import { getResourceTypes } from '../../redux/actions/MembersSettings/resourceType';
-import { getResourcesList, resourceReserveReturn } from '../../redux/actions/CheckIn/CheckIn';
-import { getResources } from '../../redux/actions/MembersSettings/resources';
+import { getResourcesList, resourceReserve, resourceReturn } from '../../redux/actions/CheckIn/CheckIn';
 
 const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) => {
     const dispatch = useDispatch();
@@ -39,6 +37,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         if (data?.reserveMember && data?.reserveDate) {
             dispatch(getResourcesList(data));
         }
+        //eslint-disable-next-line
     }, [data?.reserveMember, data?.reserveDate]);
     const { resourceList } = useSelector((state) => state.checkin);
 
@@ -63,7 +62,12 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     };
 
     const handleReserveReturn = (r) => {
-        dispatch(resourceReserveReturn(r?._id, data, r?.isAvailable, () => dispatch(getResourcesList(data))));
+        console.log(r?.status, 'status');
+        if (r?.status === 'RESERVED') {
+            dispatch(resourceReturn(data, r?.reserveId, () => dispatch(getResourcesList(data))));
+        } else {
+            dispatch(resourceReserve(r?._id, data, () => dispatch(getResourcesList(data))));
+        }
     };
 
     const reserveColumn = [
@@ -88,7 +92,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     };
     console.log('data>>', data);
     const customActionTemplate = (r) => {
-        return <PrimaryButton name="status" label={r?.isAvailable ? 'Reserve' : 'Return'} onClick={() => handleReserveReturn(r)} />;
+        return <PrimaryButton name="status" label={r?.status === 'RESERVED' ? 'Return' : 'Reserve'} onClick={() => handleReserveReturn(r)} />;
     };
 
     return (
@@ -120,7 +124,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
                         />
                     </div>
 
-                    <CustomCalenderInput label="Date" name="reserveDate" data={data} onChange={handleChange} col={6} minDate={new Date()} />
+                    <CustomCalenderInput label="Date" name="reserveDate" data={data} onChange={handleChange} col={6} />
                 </CustomGridLayout>
                 {<CustomTable convertToboolean={false} data={tableData} columns={reserveColumn} customActionTemplate={customActionTemplate} />}
                 <FilterComponent
