@@ -37,6 +37,8 @@ import SavedCarts from '../views/More/POS/SavedCarts';
 import Receipts from '../views/More/POS/Receipts';
 import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
+import Receipt from '../views/More/POS/Receipt';
+
 
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 
@@ -139,6 +141,12 @@ export const PrivateRoutes = [
                         name: 'Receipts',
                         exact: true,
                         component: Receipts,
+                    },
+                    {
+                        path: '/receipt/:id',
+                        name: 'Receipt',
+                        exact: true,
+                        component: Receipt,
                     },
                 ],
             },

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../shared/Cards/CustomCard';
 import PrimaryButton from '../../../shared/Button/CustomButton';
 import CustomTable from '../../../shared/Table/CustomTable';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import { getReceiptsAction } from '../../../redux/actions/POS/saleActions';
@@ -12,15 +12,9 @@ const Receipts = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [data, setData] = useState([]);
-
+    const { receipts } = useSelector((state) => state.pos);
     useEffect(() => {
-        dispatch(
-            getReceiptsAction((e) => {
-                setData(e);
-            }),
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        dispatch(getReceiptsAction());
     }, [dispatch]);
 
     const columns = [
@@ -42,10 +36,7 @@ const Receipts = () => {
                 <div
                     className="py-1  border-primary border-round-md mr-2 border-1 cursor-pointer text-center"
                     onClick={() => {
-                        history.push({
-                            pathname: '/pos',
-                            state: { savedCartId: r?._id },
-                        });
+                        history.push(`/more/pos/receipt/${r._id}`);
                     }}
                 >
                     <i className="pi pi-file-pdf"></i> &nbsp; Receipt
@@ -60,7 +51,7 @@ const Receipts = () => {
             <CustomFilterCard contentPosition="end">
                 <PrimaryButton label="Filter" icon="pi pi-filter" className="mx-2 " />
             </CustomFilterCard>
-            <CustomTable data={data} columns={columns} />
+            <CustomTable data={receipts} columns={columns} />
         </>
     );
 };

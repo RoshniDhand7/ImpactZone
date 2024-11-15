@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
 import Lottie from 'lottie-react';
 import DrawerSelector from './Drawer/DrawerSelector';
+import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout }) {
     const history = useHistory();
@@ -122,17 +123,19 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
                             {cartItems?.length ? (
                                 <>
                                     {cartItems?.map((item, i) => (
-                                        <CartItem
-                                            key={item?._id}
-                                            index={i}
-                                            item={item}
-                                            onDeleteCartItem={onDeleteCartItem}
-                                            onQtyChange={onQtyChange}
-                                            onWaiveTax={onWaiveTax}
-                                            onOverrideDiscount={onOverrideDiscount}
-                                            onAddSpecialDiscount={onAddSpecialDiscount}
-                                            onRemoveSpecialDiscount={onRemoveSpecialDiscount}
-                                        />
+                                        <CustomAnimatedCard>
+                                            <CartItem
+                                                key={item?._id}
+                                                index={i}
+                                                item={item}
+                                                onDeleteCartItem={onDeleteCartItem}
+                                                onQtyChange={onQtyChange}
+                                                onWaiveTax={onWaiveTax}
+                                                onOverrideDiscount={onOverrideDiscount}
+                                                onAddSpecialDiscount={onAddSpecialDiscount}
+                                                onRemoveSpecialDiscount={onRemoveSpecialDiscount}
+                                            />
+                                        </CustomAnimatedCard>
                                     ))}
                                 </>
                             ) : (

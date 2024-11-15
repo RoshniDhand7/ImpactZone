@@ -14,12 +14,10 @@ import Integration from '../../assets/icons/integration.png';
 import Mobile from '../../assets/icons/mobileapp.png';
 import Training from '../../assets/icons/traning.png';
 import Noti from '../../assets/icons/notifications.png';
-
-import { Link } from 'react-router-dom';
-import CustomTransition from '../../shared/Transitions/CustomTransition';
+import GridNavigation from '../../shared/GridNavigation/GridNavigation';
 
 const Settings = () => {
-    const settingsCard = [
+    const items = [
         {
             img: Bussiness,
             link: '/settings/business',
@@ -96,36 +94,7 @@ const Settings = () => {
             title: 'Notifications',
         },
     ];
-    return (
-        <>
-            <CustomTransition>
-                <div className="bg-color">
-                    <h3 className="text-bold mb-3">Settings</h3>
-                    <div className="flex justify-content-center">
-                        <div className="p-3 border-round-xl btn-lightblue">
-                            <div className="grid col-12">
-                                {settingsCard.map((box, i) => {
-                                    return (
-                                        <div key={i} className="lg:col-3 md:col-4 sm:col-6 col-12  p-3">
-                                            <Link to={box.link}>
-                                                <div className="bg-style bg-white cursor-pointer  border-round flex flex-column justify-content-center  align-items-center py-5 ">
-                                                    <div className="" style={{ width: '60px', height: '60px' }}>
-                                                        <img src={box.img} alt="" />
-                                                    </div>
-
-                                                    <div className="mt-3 text-base">{box.title}</div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </CustomTransition>
-        </>
-    );
+    return <GridNavigation items={items} title="Settings" />;
 };
 
 export default Settings;

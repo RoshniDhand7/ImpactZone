@@ -7,8 +7,6 @@ export default function BarcodeScanner({ onChnage }) {
     const [visible, setVisible] = useState(false);
 
     const onUpdate = (err, result) => {
-        // console.log('==>', err);
-        // console.log('result==>', result);
         if (result) {
             console.log('results==>', result);
             if (onChnage) {
