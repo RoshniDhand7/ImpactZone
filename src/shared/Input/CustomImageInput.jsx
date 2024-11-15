@@ -5,6 +5,7 @@ import { getImageURL } from '../../utils/imageUrl.js';
 import { showToast } from '../../redux/actions/toastAction';
 import InputLayout from '../Form/InputLayout.jsx';
 import Camera from '../../assets/images/camera.png';
+import CustomAvatar from '../Avatar/Avatar.jsx';
 
 export default function CustomImageInput({
     label,
@@ -20,6 +21,8 @@ export default function CustomImageInput({
     required,
     removeable,
     editable = true,
+    showLabel = true,
+    showAvatar = false,
     ...props
 }) {
     const [files, setFiles] = useState(value || data?.[name] || []);
@@ -91,7 +94,16 @@ export default function CustomImageInput({
 
     return (
         <>
-            <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+            <InputLayout
+                showLabel={showLabel}
+                col={col || 12}
+                label={label}
+                name={name}
+                required={required}
+                extraClassName={extraClassName}
+                data={data}
+                errorMessage={errorMessage}
+            >
                 <div className="image-box relative">
                     {files && files.length ? (
                         <div className="h-full">
@@ -119,14 +131,19 @@ export default function CustomImageInput({
                         </div>
                     ) : (
                         <div
-                            className="photo-upload "
+                            className="photo-upload flex justify-content-center align-items-center"
                             style={{
                                 height: '100%',
                                 width: '100%',
+                                backgroundColor: '#a6a6a6',
                             }}
                         >
                             <label htmlFor={name}>
-                                <img className="w-full h-full fit-cover" src={DefaultImg} onError={(e) => (e.target.src = '')} alt="" />
+                                {showAvatar ? (
+                                    <CustomAvatar label={data?.firstName} size={'xlarge'} shape="circle" />
+                                ) : (
+                                    <img className="w-full h-full fit-cover" src={DefaultImg} onError={(e) => (e.target.src = '')} alt="" />
+                                )}
                             </label>
                         </div>
                     )}
