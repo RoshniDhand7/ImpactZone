@@ -16,10 +16,10 @@ import Forms from '../../assets/icons/Forms.png';
 import Maintenance from '../../assets/icons/Maintenance.png';
 import FacilityLayout from '../../assets/icons/FacilityLayout.png';
 
-import { Link } from 'react-router-dom';
+import GridNavigation from '../../shared/GridNavigation/GridNavigation';
 
 export default function More() {
-    const moreCards = [
+    const items = [
         {
             img: Attendance,
             link: '/more/attendance',
@@ -99,30 +99,7 @@ export default function More() {
     return (
         <>
             <CustomTransition>
-                <div className="bg-color">
-                    <h3 className="text-bold mb-3">More</h3>
-                    <div className="flex justify-content-center">
-                        <div className="p-3 border-round-xl btn-lightblue w-full">
-                            <div className="grid col-12">
-                                {moreCards.map((box, i) => {
-                                    return (
-                                        <div key={i} className="lg:col-3 md:col-4 sm:col-6 col-12  p-3">
-                                            <Link to={box.link}>
-                                                <div className="bg-style bg-white cursor-pointer  border-round flex flex-column justify-content-center  align-items-center py-5 ">
-                                                    <div className="" style={{ width: '60px', height: '60px' }}>
-                                                        <img src={box.img} alt="" />
-                                                    </div>
-
-                                                    <div className="mt-3 text-base">{box.title}</div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <GridNavigation title="More" items={items} />
             </CustomTransition>
         </>
     );

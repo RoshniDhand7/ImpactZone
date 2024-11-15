@@ -38,12 +38,25 @@ const onCheckoutAction = (data, setLoading, next) => async (dispatch) => {
     }
     setLoading(false);
 };
-const getReceiptsAction = (next) => async (dispatch) => {
+const getReceiptsAction = () => async (dispatch) => {
     const res = await api('get', endPoints.POS.SALE);
+    if (res.success) {
+        dispatch({
+            type: types.POS.RECEIPT,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+const getReceiptAction = (id, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+    const res = await api('get', endPoints.POS.SALE + id);
     if (res.success) {
         next(res.data);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
+    setLoading(false);
 };
-export { onCheckoutAction, addRecentMemberAction, getReceiptsAction };
+export { onCheckoutAction, addRecentMemberAction, getReceiptsAction, getReceiptAction };

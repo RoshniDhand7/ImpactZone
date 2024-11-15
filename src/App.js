@@ -11,7 +11,8 @@ function App() {
             {isAuthenticated() ? (
                 <>
                     <TopBar />
-                    <Suspense fallback={<ProgressBar mode="indeterminate" style={{ height: '2px' }} />}>
+
+                    <Suspense fallback={<ProgressBar mode="indeterminate" style={{ height: '3px' }} />}>
                         <div className="main-container p-2">
                             <Switch>
                                 <ProtectedRoute />
