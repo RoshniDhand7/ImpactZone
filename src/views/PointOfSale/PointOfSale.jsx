@@ -321,7 +321,7 @@ export default function PointOfSale2() {
         if (receiptData?._id) {
             handlePrint();
         }
-    }, [receiptData, handlePrint]);
+    }, [receiptData]);
 
     return (
         <div className="pos grid">
