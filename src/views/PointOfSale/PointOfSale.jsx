@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SearchMembers from './Cart/SearchMembers';
 import Categories from './Category/Categories';
 import CatalogItems from './Catalog/CatalogItems';
@@ -14,6 +14,8 @@ import SearchCatalog from './Category/SearchCatalog';
 import CheckoutPopup from './Cart/CheckoutPopup';
 import { showToast } from '../../redux/actions/toastAction';
 import { onCheckoutAction } from '../../redux/actions/POS/saleActions';
+import { PrintReceipt } from '../More/POS/Receipt';
+import { useReactToPrint } from 'react-to-print';
 
 export default function PointOfSale2() {
     const dispatch = useDispatch();
@@ -275,6 +277,12 @@ export default function PointOfSale2() {
 
     const [checkoutPopup, setCheckoutPopup] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [receiptData, setReceiptData] = useState({});
+    const printRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
 
     const onOpenCheckout = () => {
         if (!drawer) {
@@ -303,11 +311,17 @@ export default function PointOfSale2() {
                 setSelectedMember('');
                 onCloseCheckout();
                 if (printReceiept) {
-                    window.print();
+                    setReceiptData(e);
                 }
             }),
         );
     };
+
+    useEffect(() => {
+        if (receiptData?._id) {
+            handlePrint();
+        }
+    }, [receiptData, handlePrint]);
 
     return (
         <div className="pos grid">
@@ -339,6 +353,9 @@ export default function PointOfSale2() {
             />
 
             <CheckoutPopup loading={loading} onCheckout={onCheckout} cartDetails={cartDetails} visible={checkoutPopup} onCancel={onCloseCheckout} />
+            <div className="hidden">
+                <PrintReceipt ref={printRef} data={receiptData} />
+            </div>
         </div>
     );
 }
