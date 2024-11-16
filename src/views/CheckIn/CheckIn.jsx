@@ -100,10 +100,11 @@ export default function CheckIn() {
         },
     ];
 
-    console.log(data, 'data');
+    console.log('allMembers==>', allMembers);
 
     const handleScanner = ({ value }) => {
         let _member = allMembers.find((item) => item.barCode === value);
+        console.log('_member==>', _member);
         if (_member) {
             handleChange({ name: 'member', value: _member._id });
         } else {

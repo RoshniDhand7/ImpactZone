@@ -8,9 +8,8 @@ export default function BarcodeScanner({ onChnage }) {
 
     const onUpdate = (err, result) => {
         if (result) {
-            console.log('results==>', result);
             if (onChnage) {
-                onChnage({ value: result.text });
+                onChnage({ value: parseInt(result.text) });
             }
             setVisible(false);
         }
