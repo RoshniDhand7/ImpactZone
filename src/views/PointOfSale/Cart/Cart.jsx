@@ -123,9 +123,8 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
                             {cartItems?.length ? (
                                 <>
                                     {cartItems?.map((item, i) => (
-                                        <CustomAnimatedCard>
+                                        <CustomAnimatedCard key={item?._id}>
                                             <CartItem
-                                                key={item?._id}
                                                 index={i}
                                                 item={item}
                                                 onDeleteCartItem={onDeleteCartItem}

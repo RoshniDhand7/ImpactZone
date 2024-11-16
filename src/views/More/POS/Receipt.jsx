@@ -14,7 +14,19 @@ const skeletonStyle = {
 };
 
 export default function Receipt() {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState({});
     const printRef = useRef();
+
+    useEffect(() => {
+        dispatch(
+            getReceiptAction(id, setLoading, (e) => {
+                setData(e);
+            }),
+        );
+    }, [dispatch, id]);
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
@@ -25,25 +37,12 @@ export default function Receipt() {
             <div className="flex justify-content-end">
                 <button onClick={handlePrint}>Print</button>
             </div>
-            <PrintableContent ref={printRef} />
+            <PrintReceipt ref={printRef} data={data} loading={loading} />
         </CustomCard>
     );
 }
 
-const PrintableContent = React.forwardRef((props, ref) => {
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        dispatch(
-            getReceiptAction(id, setLoading, (e) => {
-                setData(e);
-            }),
-        );
-    }, [dispatch, id]);
-
+export const PrintReceipt = React.forwardRef(({ data, loading }, ref) => {
     return (
         <div
             id="pos-receipt-235tsdgds"
@@ -116,7 +115,7 @@ const PrintableContent = React.forwardRef((props, ref) => {
                 </thead>
                 <tbody>
                     {data?.cartItems?.map((item) => (
-                        <tr>
+                        <tr key={item._id}>
                             <td>
                                 {item.name} ({item.itemCaption})
                             </td>
