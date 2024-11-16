@@ -121,7 +121,7 @@ const PrintableContent = React.forwardRef((props, ref) => {
                                 {item.name} ({item.itemCaption})
                             </td>
                             <td>{item.quantity}</td>
-                            <td>{item.netPrice - item.finalNetPrice}</td>
+                            <td>{(item.netPrice - item.finalNetPrice)?.toFixed(2)}</td>
                             <td style={{ textAlign: 'end' }}>{(item.netPrice * 2)?.toFixed(2)}</td>
                         </tr>
                     ))}
