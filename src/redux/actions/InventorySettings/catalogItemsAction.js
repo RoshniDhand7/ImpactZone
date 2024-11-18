@@ -190,6 +190,8 @@ const editSubVariationCatalog = (id, data, next) => async (dispatch) => {
     const res = await api('put', EndPoints.INVENTORY_SUB_VARIATION + id, payload);
     if (res.success) {
         next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     dispatch(hideLoaderAction());
 };

@@ -265,7 +265,7 @@ const General = ({ editItem }) => {
             <CustomCard col="12" title="General">
                 <CustomGridLayout>
                     <CustomLogoImage name="catalogImage" data={data} onFilesChange={handleChange} removeable col={12} />
-                    <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} />
+                    <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} disabled={id} />
                     <CustomInput name="name" onChange={handleChange} data={data} required />
                     <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} required />
                     <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} required />

@@ -7,6 +7,8 @@ import cart from '../../assets/icons/cart.png';
 import { Tooltip } from 'primereact/tooltip';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton from '../../shared/Button/CustomButton';
+import PlanFilters from './PlanFilters';
+import useFilters from '../../hooks/useFilters';
 
 export default function Plans() {
     const dispatch = useDispatch();
@@ -16,6 +18,8 @@ export default function Plans() {
     }, [dispatch]);
 
     const { allMembershipPlan } = useSelector((state) => state.membershipPlan);
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembershipPlan);
 
     const columns = [
         { field: 'name', header: ' Plan ' },
@@ -40,9 +44,13 @@ export default function Plans() {
     return (
         <div>
             <CustomFilterCard title="Membership" titleClassName="font-bold text-xl">
-                <PrimaryButton onClick={() => history.push('/plans/drafts')}>Drafts</PrimaryButton>
+                <div className="flex gap-2">
+                    <PrimaryButton onClick={onFilterOpen}>Filters</PrimaryButton>
+                    <PrimaryButton onClick={() => history.push('/plans/drafts')}>Drafts</PrimaryButton>
+                </div>
             </CustomFilterCard>
-            <CustomTable data={allMembershipPlan} columns={columns} customActionTemplate={customActionTemplate} />
+            <PlanFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
+            <CustomTable data={tableData} columns={columns} customActionTemplate={customActionTemplate} />
         </div>
     );
 }
