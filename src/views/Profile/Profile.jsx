@@ -4,9 +4,10 @@ import CustomCard, { CustomListItem } from '../../shared/Cards/CustomCard';
 import { CustomInput, CustomPassword } from '../../shared/Input/AllInputs';
 import CustomImageInput from '../../shared/Input/CustomImageInput';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../utils/validations';
 import { showFormErrors } from '../../utils/commonFunctions';
+import { onChangePassword } from '../../redux/actions/profileAction';
 
 const Profile = () => {
     const [openModal, setOpenModal] = useState();
@@ -34,7 +35,7 @@ const Profile = () => {
                     }}
                 />
             </div>
-            <ChangePasswordModal openModal={openModal} setOpenModal={setOpenModal} />
+            {openModal && <ChangePasswordModal openModal={openModal} setOpenModal={setOpenModal} />}
         </>
     );
 };
@@ -59,7 +60,9 @@ const ProfileImageCard = ({ handleChange }) => {
 };
 
 const ChangePasswordModal = ({ openModal, setOpenModal }) => {
-    const [data, setData] = useState({ old_password: '', new_password: '', confirm_password: '' });
+    const [data, setData] = useState({ password: '', newPassword: '', confirmPassword: '' });
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -68,7 +71,11 @@ const ChangePasswordModal = ({ openModal, setOpenModal }) => {
 
     const onSubmit = () => {
         if (showFormErrors(data, setData)) {
-            // dispatch(onLogin(data, history, setLoading));
+            dispatch(
+                onChangePassword(data, setLoading, () => {
+                    setOpenModal(false);
+                }),
+            );
         }
     };
 
@@ -86,7 +93,7 @@ const ChangePasswordModal = ({ openModal, setOpenModal }) => {
             footer={
                 <div className="grid">
                     <div className="col-6">
-                        <PrimaryButton className={'w-full'} label="Save Changes" onClick={onSubmit} />
+                        <PrimaryButton className={'w-full'} label="Save Changes" loading={loading} onClick={onSubmit} />
                     </div>
                     <div className="col-6">
                         <LightButton
@@ -100,9 +107,9 @@ const ChangePasswordModal = ({ openModal, setOpenModal }) => {
                 </div>
             }
         >
-            <CustomPassword type="password" label={'Old Password'} extraClassName="w-full" name="old_password" data={data} onChange={handleChange} required />
-            <CustomPassword label={'New Password'} extraClassName="w-full" name="new_password" data={data} onChange={handleChange} required />
-            <CustomPassword label={'Confirm Password'} extraClassName="w-full" name="confirm_password" data={data} onChange={handleChange} required />
+            <CustomPassword type="password" label={'Old Password'} extraClassName="w-full" name="password" data={data} onChange={handleChange} required />
+            <CustomPassword label={'New Password'} extraClassName="w-full" name="newPassword" data={data} onChange={handleChange} required />
+            <CustomPassword label={'Confirm Password'} extraClassName="w-full" name="confirmPassword" data={data} onChange={handleChange} required />
         </CustomDialog>
     );
 };

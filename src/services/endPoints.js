@@ -14,6 +14,7 @@ const endPoints = {
     LOGIN: '/login',
     FORGOT_PASSWORD: '/forgot-password',
     CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
+    CHANGE_PASSWORD: '/change-password',
     PROFILE: '/profile',
     COMPANY: '/company',
     REASON_CODE: '/reason-code/',

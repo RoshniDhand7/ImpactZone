@@ -26,12 +26,24 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
         case 'password':
+        case 'newPassword':
             if (equal(length(value))) {
                 formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
                 formErrors[name] = `Unnecessary space in word!`;
             } else if (!passwordValidation(value)) {
                 formErrors[name] = `Please enter a password with 8-16 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character`;
+            } else {
+                formErrors[name] = '';
+            }
+            break;
+        case 'confirmPassword':
+            if (equal(length(value))) {
+                formErrors[name] = `${FirstletterUpperCase(name)} is required!`;
+            } else if (whiteSpaceCheck(value)) {
+                formErrors[name] = `Unnecessary space in word!`;
+            } else if (value !== state['newPassword']) {
+                formErrors[name] = 'Password does not match';
             } else {
                 formErrors[name] = '';
             }

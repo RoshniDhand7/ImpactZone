@@ -47,6 +47,19 @@ const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch
     }
     setLoading(false);
 };
+
+const onChangePassword = (payload, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+    const res = await api('post', endPoints.CHANGE_PASSWORD, payload);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
+
 const getProfile = () => async (dispatch) => {
     const res = await api('get', endPoints.PROFILE);
     if (res.success) {
@@ -55,4 +68,4 @@ const getProfile = () => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword };
+export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword, onChangePassword };
