@@ -80,7 +80,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
             header: 'Resources Available',
         },
         { field: '', body: pastDueTemplate, header: 'Past Due' },
-        { field: '', body: (r) => (r?.services?.length > 0 ? r?.services?.map((item) => item.name).join(' , ') : 'Free'), header: 'Services Available' },
+        { field: 'serviceCount', header: 'Services Available' },
     ];
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -126,7 +126,7 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
 
                     <CustomCalenderInput label="Date" name="reserveDate" data={data} onChange={handleChange} col={6} />
                 </CustomGridLayout>
-                {<CustomTable convertToboolean={false} data={tableData} columns={reserveColumn} customActionTemplate={customActionTemplate} />}
+                <CustomTable convertToboolean={false} data={tableData} columns={reserveColumn} customActionTemplate={customActionTemplate} />
                 <FilterComponent
                     value={filters}
                     onApply={onApplyFilters}
