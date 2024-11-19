@@ -36,6 +36,7 @@ export default function SelectDiscountPopup({ visible, setVisible, onApply }) {
             onClose();
         }
     };
+
     return (
         <CustomDialog title="Select Discount" visible={visible} onCancel={onClose} onApply={onSubmit}>
             <CustomDropDown name="discount" col={12} data={data} onChange={handleChange} options={allDiscountDropdown} />

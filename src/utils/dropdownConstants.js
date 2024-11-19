@@ -2,6 +2,17 @@ import moment from 'moment';
 import ringTone1 from '../assets/sounds/morning_alarm.mp3';
 import ringTone2 from '../assets/sounds/samsung_ringtone.mp3';
 
+export const addDropOptions = [
+    {
+        name: 'Add',
+        value: 'add',
+    },
+    {
+        name: 'Drop',
+        value: 'drop',
+    },
+];
+
 export const yesNoOptions = [
     {
         name: 'Yes',

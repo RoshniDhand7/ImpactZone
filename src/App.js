@@ -5,6 +5,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import { Redirect, Switch } from 'react-router-dom';
 import { ProgressBar } from 'primereact/progressbar';
 import { isAuthenticated } from './services/auth';
+import RecentCheckIn from './views/CheckIn/RecentCheckIn';
 function App() {
     return (
         <>
@@ -19,6 +20,7 @@ function App() {
                             </Switch>
                         </div>
                     </Suspense>
+                    <RecentCheckIn />
                 </>
             ) : (
                 <Redirect to="/login" />

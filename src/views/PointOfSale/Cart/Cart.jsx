@@ -17,6 +17,7 @@ import emptyCartAnimation from '../../../assets/lottie/emptyCart.json';
 import Lottie from 'lottie-react';
 import DrawerSelector from './Drawer/DrawerSelector';
 import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
+import AddDropPopup from './AddDropPopup';
 
 export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout }) {
     const history = useHistory();
@@ -88,9 +89,10 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
 
     const [openDrawer, setOpenDrawer] = useState(false);
     const [closeDrawer, setCloseDrawer] = useState(false);
+    const [openAddDrop, setOpenAddDrop] = useState(false);
 
     let items = [
-        { label: 'Add/Drop' },
+        { label: 'Add/Drop', command: () => setOpenAddDrop(true) },
         { label: 'Receipts', command: () => history.push('/more/pos/receipts') },
         { label: 'Drawer Summary', command: () => history.push('/more/pos/drawers') },
         { label: 'Open Register', command: () => setOpenDrawer(true) },
@@ -161,6 +163,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
 
+            <AddDropPopup visible={openAddDrop} setVisible={setOpenAddDrop} />
             <OpenDrawerModel visible={openDrawer} setVisible={setOpenDrawer} />
             <CloseDraweModel visible={closeDrawer} setVisible={setCloseDrawer} />
             <Menu model={items} popup ref={menu} />
