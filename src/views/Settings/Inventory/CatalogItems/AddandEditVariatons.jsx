@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
@@ -15,6 +15,8 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         setVariationId('');
         setData({ variationName: '', subVariations: [] });
     };
+
+    const orgSubVariations = useRef([]);
 
     useEffect(() => {
         if (catelogItem) {
@@ -42,7 +44,9 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         if (variationId) {
             dispatch(
                 getVariationCatalog(variationId, (dt) => {
-                    setData((prev) => ({ ...prev, variationName: dt.variationName }));
+                    const result = dt.map((item) => item.subVariation) || [];
+                    orgSubVariations.current = result;
+                    setData((prev) => ({ ...prev, variationName: dt[0].variationName, subVariations: result }));
                 }),
             );
         }
@@ -51,6 +55,8 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
     const handleSave = () => {
         if (catalogId) {
             if (showFormErrors(data, setData)) {
+                //remove the duplicated sub-variations
+                data.subVariations = [...new Set(data.subVariations.filter((item) => !orgSubVariations.current?.includes(item)) || [])];
                 const payload = {
                     ...data,
                     _id: variationId,
@@ -61,7 +67,7 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
                         setData({
                             ...data,
                             variationName: '',
-                            subVariation: [],
+                            subVariations: [],
                         });
                         dispatch(getCatalogVariations(catalogId));
                     }),
