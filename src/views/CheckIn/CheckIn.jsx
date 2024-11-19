@@ -9,7 +9,6 @@ import CustomTable from '../../shared/Table/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCheckIn, getCheckInLast } from '../../redux/actions/CheckIn/CheckIn';
 import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
-import RecentCheckIn from './RecentCheckIn';
 import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
 import { showToast } from '../../redux/actions/toastAction';
 import Reserve from './Reserve';
@@ -222,7 +221,6 @@ export default function CheckIn() {
                     <CustomTable data={getCheckInData?.posSale} columns={posColumn} minWidth="0rem" paginator={false} />
                 </CustomCard>
             </CustomGridLayout>
-            <RecentCheckIn />
         </>
     );
 }

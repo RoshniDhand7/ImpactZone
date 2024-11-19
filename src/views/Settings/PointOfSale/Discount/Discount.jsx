@@ -33,7 +33,7 @@ const Discount = () => {
             header: 'Discount',
         },
         { field: 'startDate', body: (r) => moment(r.startDate).format('DD-MM-YYYY'), header: 'Start Date' },
-        { field: 'endDate', body: (r) => (r?.indefinite ? '-' : moment(r.endDate).format('DD-MM-YYYY')), header: 'End Date' },
+        { field: 'endDate', body: (r) => (r?.endDate ? moment(r.endDate).format('DD-MM-YYYY') : '-'), header: 'End Date' },
     ];
 
     const onEdit = (col) => {
