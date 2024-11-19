@@ -284,7 +284,7 @@ export default function PointOfSale2() {
         content: () => printRef.current,
     });
 
-    const onOpenCheckout = () => {
+    const ifValid = () => {
         if (!drawer) {
             dispatch(showToast({ severity: 'warn', summary: 'Please select drawers to proceed with checkout.' }));
             return;
@@ -297,7 +297,11 @@ export default function PointOfSale2() {
             dispatch(showToast({ severity: 'warn', summary: 'Please select a member to continue.' }));
             return;
         }
-        setCheckoutPopup(true);
+        return true;
+    };
+
+    const onOpenCheckout = () => {
+        ifValid() && setCheckoutPopup(true);
     };
     const onCloseCheckout = () => {
         setCheckoutPopup(false);
@@ -315,6 +319,10 @@ export default function PointOfSale2() {
                 }
             }),
         );
+    };
+
+    const quickCashHandler = () => {
+        ifValid() && onCheckout({ method: 'CASH', printReceiept: false });
     };
 
     useEffect(() => {
@@ -342,6 +350,7 @@ export default function PointOfSale2() {
                     appliedPromo={appliedPromo}
                     onOpenSaveCartPopup={onOpenSaveCartPopup}
                     onOpenCheckout={onOpenCheckout}
+                    quickCashHandler={quickCashHandler}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />

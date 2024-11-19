@@ -19,7 +19,16 @@ import DrawerSelector from './Drawer/DrawerSelector';
 import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
 import AddDropPopup from './AddDropPopup';
 
-export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout }) {
+export default function Cart({
+    cartItems,
+    setSelectedItems,
+    cartDetails,
+    setAppliedPromo,
+    appliedPromo,
+    onOpenSaveCartPopup,
+    onOpenCheckout,
+    quickCashHandler,
+}) {
     const history = useHistory();
     const dispatch = useDispatch();
     const menu = useRef(null);
@@ -158,7 +167,7 @@ export default function Cart({ cartItems, setSelectedItems, cartDetails, setAppl
             </div>
             <div className="flex gap-2">
                 <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />
-                <PrimaryButton className="w-full px-1" label="Quick Cash" />
+                <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={quickCashHandler} />
                 <PrimaryButton className="w-full px-2" label="Pre-Pay" />
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
