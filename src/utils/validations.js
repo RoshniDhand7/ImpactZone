@@ -202,6 +202,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'variations':
         case 'subVariations':
         case 'employee':
+        case 'sellOnline':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value || value === null) {
