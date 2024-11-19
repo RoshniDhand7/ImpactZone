@@ -71,6 +71,7 @@ const RecentCheckIn = () => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+    if (!getCheckInHistory?.length) return null;
     return (
         <div className="p-2">
             <div className="flex justify-content-between align-items-center">
