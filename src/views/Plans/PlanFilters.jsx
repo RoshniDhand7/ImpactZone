@@ -11,7 +11,7 @@ const PlanFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }
         dispatch(getAgreementCategories());
     }, [dispatch]);
 
-    const allAgreementCategories = useSelector((state) => state.agreement.allAgreementCategories);
+    const agreementCategoryDropdown = useSelector((state) => state.agreement.agreementCategoryDropdown);
 
     const [data, setData] = useState({
         filterType: 'AND',
@@ -33,7 +33,15 @@ const PlanFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }
         >
             <CustomGridLayout>
                 <CustomInput col={12} label="Plan" name="name" data={data} onChange={handleChange} />
-                <CustomMultiselect col="12" name="category" label="Category" data={data} onChange={handleChange} options={allAgreementCategories} showClear />
+                <CustomMultiselect
+                    col="12"
+                    name="categoryId"
+                    label="Category"
+                    data={data}
+                    onChange={handleChange}
+                    options={agreementCategoryDropdown}
+                    showClear
+                />
             </CustomGridLayout>
         </FilterComponent>
     );
