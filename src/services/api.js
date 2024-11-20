@@ -6,6 +6,7 @@ const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'a
     try {
         let headers = {
             'Content-Type': contentType,
+            // 'ngrok-skip-browser-warning': '123',
         };
         if (isAuthenticated()) {
             headers = {

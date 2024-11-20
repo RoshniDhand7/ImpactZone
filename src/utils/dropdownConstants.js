@@ -5,11 +5,11 @@ import ringTone2 from '../assets/sounds/samsung_ringtone.mp3';
 export const addDropOptions = [
     {
         name: 'Add',
-        value: 'add',
+        value: 'ADD',
     },
     {
         name: 'Drop',
-        value: 'drop',
+        value: 'DROP',
     },
 ];
 

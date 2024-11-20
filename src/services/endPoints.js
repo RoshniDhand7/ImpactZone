@@ -8,6 +8,7 @@ const endPoints = {
         SALE: '/point-of-sale/sale/',
         REGISTER: '/point-of-sale/registers/',
         REGISTER_STATUS: '/point-of-sale/registers/status',
+        ADD_DROP: '/point-of-sale/add-drop',
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
 

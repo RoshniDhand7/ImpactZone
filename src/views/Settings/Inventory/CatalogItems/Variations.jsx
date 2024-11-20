@@ -69,34 +69,26 @@ const Variations = ({ editItem }) => {
     const [products, setProducts] = useState([]);
     const onRowEditComplete = (e) => {
         const { newData } = e;
+
+        //check validation
         if (!newData.upc) {
             dispatch(showToast({ severity: 'error', summary: 'UPC is required' }));
             return;
         }
-        const updatedProducts = products.map((product) => {
-            const updatedSubVariations = product.subVariations.map((subVariation) => {
-                if (subVariation._id === newData._id) {
-                    dispatch(
-                        editSubVariationCatalog(
-                            newData._id,
-                            {
-                                subVariation: newData.subVariation,
-                                ...newData,
-                            },
-                            () => {
-                                dispatch(getCatalogVariations(id));
-                            },
-                        ),
-                    );
-                    return { ...subVariation, ...newData };
-                }
-                return subVariation;
-            });
 
-            return { ...product, subVariations: updatedSubVariations };
-        });
-
-        setProducts(updatedProducts);
+        //save data if valid
+        dispatch(
+            editSubVariationCatalog(
+                newData._id,
+                {
+                    subVariation: newData.subVariation,
+                    ...newData,
+                },
+                () => {
+                    dispatch(getCatalogVariations(id));
+                },
+            ),
+        );
     };
 
     const textEditor = (options) => {
