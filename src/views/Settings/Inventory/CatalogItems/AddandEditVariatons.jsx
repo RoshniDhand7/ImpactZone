@@ -44,9 +44,9 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         if (variationId) {
             dispatch(
                 getVariationCatalog(variationId, (dt) => {
-                    const result = dt.map((item) => item.subVariation) || [];
+                    const result = dt.subVariation?.map((item) => item.subVariation) || [];
                     orgSubVariations.current = result;
-                    setData((prev) => ({ ...prev, variationName: dt[0].variationName, subVariations: result }));
+                    setData((prev) => ({ ...prev, variationName: dt.variationName, subVariations: result }));
                 }),
             );
         }
@@ -56,7 +56,7 @@ const AddandEditVariatons = ({ visible, setOpen, setVariationId, variationId, ca
         if (catalogId) {
             if (showFormErrors(data, setData)) {
                 //remove the duplicated sub-variations
-                data.subVariations = [...new Set(data.subVariations.filter((item) => !orgSubVariations.current?.includes(item)) || [])];
+                data.subVariations = data.subVariations.filter((item) => !orgSubVariations.current?.includes(item)) || [];
                 const payload = {
                     ...data,
                     _id: variationId,
