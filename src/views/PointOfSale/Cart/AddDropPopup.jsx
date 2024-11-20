@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../shared/Input/AllInputs';
 import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { addDropOptions } from '../../../utils/dropdownConstants';
@@ -6,8 +5,6 @@ import { useEffect, useState } from 'react';
 import { showFormErrors } from '../../../utils/commonFunctions';
 
 const AddDropPopup = ({ visible, setVisible }) => {
-    const dispatch = useDispatch();
-
     const [data, setData] = useState({ discount: '', amount: '' });
 
     // useEffect(() => {

@@ -3,6 +3,9 @@ const endPoints = {
         POS: {
             REGISTER: '/settings/pos/register/',
         },
+        MEMBER_SETUP: {
+            MEMBERSHIP_TYPE: '/settings/member-setup/membership-type/',
+        },
     },
     POS: {
         SALE: '/point-of-sale/sale/',
