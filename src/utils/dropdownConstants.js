@@ -226,18 +226,51 @@ for (let i = 12; i <= 72; i += 12) {
 }
 
 export const reasonCodeTypeOptions = [
-    'Agreement Hold',
-    'Cancel Pending POS Transaction',
-    'Cancel Agreement',
-    'Cancel Price',
-    'Commission Override',
-    'Drawer Adjustment',
-    'Event Status',
-    'Freeze Agreement',
-    'No Sale',
-    'Void',
-    'Waive Tax',
-].map((name) => ({ name, value: name }));
+    {
+        name: 'Agreement Hold',
+        value: 'AGREEMENT_HOLD',
+    },
+    {
+        name: 'Cancel Pending POS Transaction',
+        value: 'CANCEL_PENDING_POS_TRANSACTION',
+    },
+    {
+        name: 'Cancel Agreement',
+        value: 'CANCEL_AGREEMENT',
+    },
+    {
+        name: 'Cancel Price',
+        value: 'CANCEL_PRICE',
+    },
+    {
+        name: 'Commission Override',
+        value: 'COMMISSION_OVERRIDE',
+    },
+    {
+        name: 'Drawer Adjustment',
+        value: 'DRAWER_ADJUSTMENT',
+    },
+    {
+        name: 'Event Status',
+        value: 'EVENT_STATUS',
+    },
+    {
+        name: 'Freeze Agreement',
+        value: 'FREEZE_AGREEMENT',
+    },
+    {
+        name: 'No Sale',
+        value: 'NO_SALE',
+    },
+    {
+        name: 'Void',
+        value: 'VOID',
+    },
+    {
+        name: 'Waive Tax',
+        value: 'WAIVE_TAX',
+    },
+];
 
 export const itemStartOptions = ['Upon Purchase', 'Upon next visit', 'Upon first use'].map((name) => ({ name, value: name.toUpperCase() }));
 

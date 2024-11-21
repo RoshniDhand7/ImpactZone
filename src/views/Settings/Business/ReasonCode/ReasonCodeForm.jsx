@@ -51,12 +51,10 @@ export default function ReasonCodeForm({ history }) {
         <div>
             <FormPage backText="Reason Codes">
                 <CustomCard col="12" title="Reason Code">
-                    <CustomGridLayout extraClass="justify-content-end ">
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
-                    </CustomGridLayout>
                     <CustomGridLayout>
                         <CustomDropDown name="reasonCodeType" options={reasonCodeTypeOptions} data={data} onChange={handleChange} required />
                         <CustomInput name="reasonCode" data={data} onChange={handleChange} required />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomButtonGroup>
