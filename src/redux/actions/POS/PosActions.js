@@ -70,4 +70,16 @@ const validatePromoCodeAction = (promoCode, next) => async (dispatch) => {
     next(res);
 };
 
-export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut, validatePromoCodeAction };
+const addDropCheck = (data, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+    const res = await api('post', endPoints.POS.ADD_DROP, data);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
+
+export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut, validatePromoCodeAction, addDropCheck };

@@ -28,6 +28,7 @@ export default function CloseDraweModel({ visible, setVisible }) {
                     setRegister(e);
                     if (e?.sales) {
                         setSales({ cash: e?.sales?.CASH, cheque: e?.sales?.CHEQUE });
+                        setAddDrop({ add: e?.addDrop?.ADD, drop: e?.addDrop?.DROP });
                     }
                 }),
             );
@@ -55,6 +56,11 @@ export default function CloseDraweModel({ visible, setVisible }) {
         cheque: 0,
     });
 
+    let [addDrop, setAddDrop] = useState({
+        add: 0,
+        drop: 0,
+    });
+
     //Cash added in drawer when drawer started
     let cashAtStart = registerStatus?.cashAtStart;
     //Total cash that is currently in drawer including cash that we added at start
@@ -63,13 +69,18 @@ export default function CloseDraweModel({ visible, setVisible }) {
     //Total cash sale for that drawer
     let cashSale = sales?.cash;
 
+    let cashAdd = addDrop?.add;
+
+    let cashDrop = addDrop?.drop;
+
     let amountToLeftIn = register?.amountToLeftIn;
 
     const cashDifference = useMemo(() => {
-        let _total = cashAtStart + cashSale;
+        let _total = cashAtStart + cashSale + cashAdd;
+        _total = _total - cashDrop;
         let _diff = totalCash - _total;
         return _diff;
-    }, [cashAtStart, cashSale, totalCash]);
+    }, [cashAtStart, cashSale, totalCash, cashAdd, cashDrop]);
 
     const totalCashOut = useMemo(() => {
         let _total = cashAtStart + cashSale;
@@ -151,6 +162,18 @@ export default function CloseDraweModel({ visible, setVisible }) {
                                         <div className="text-dark-gray">Cash at Start:</div>
                                         <div className="font-medium text-green-600">${cashAtStart}</div>
                                     </div>
+                                    {cashAdd > 0 && (
+                                        <div className="flex justify-content-between">
+                                            <div className="text-dark-gray">Cash Add:</div>
+                                            <div className="font-medium text-green-600">${cashAdd}</div>
+                                        </div>
+                                    )}
+                                    {cashDrop > 0 && (
+                                        <div className="flex justify-content-between">
+                                            <div className="text-dark-gray">Cash Drop:</div>
+                                            <div className="font-medium text-red-600">$-{cashDrop}</div>
+                                        </div>
+                                    )}
                                     <div className="flex justify-content-between">
                                         <div className="text-dark-gray">Total Cash Sales:</div>
                                         <div className="font-medium text-green-600">${cashSale}</div>

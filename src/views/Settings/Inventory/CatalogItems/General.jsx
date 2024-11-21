@@ -116,7 +116,7 @@ const General = ({ editItem }) => {
                 unitPrice: editItem.unitPrice,
                 defaultPrice: editItem.defaultPrice,
                 allowDiscount: editItem.allowDiscount,
-                defaultDiscount: editItem.defaultDiscount,
+                defaultDiscount: editItem.allowDiscount ? editItem.defaultDiscount || 'None' : data.defaultDiscount,
                 overrideDiscount: editItem.overrideDiscount,
                 minimumQuantity: editItem.minimumQuantity,
                 defaultQuantity: editItem.defaultQuantity,

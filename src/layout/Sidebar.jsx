@@ -97,7 +97,7 @@ export default function Sidebar() {
             <div className="menu-bar">
                 <ul className="p-0 list-none side-menu">
                     {items.map((item, index) => (
-                        <li className="mb-2">
+                        <li className="mb-2" key={item.label}>
                             <Link to={item.path} className={`flex gap-3 p-2 ${activeItem === index ? 'active' : ''} `} onClick={() => setActiveItem(index)}>
                                 {item.icon}
                                 {item.label}
