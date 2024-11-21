@@ -29,7 +29,7 @@ const AddDropPopup = ({ visible, setVisible }) => {
     const onSubmit = () => {
         if (showFormErrors(data, setData)) {
             if (!drawer) {
-                dispatch(showToast({ severity: 'error', summary: 'Register is not selected' }));
+                dispatch(showToast({ severity: 'error', summary: 'Please select a drawer to proceed further.' }));
                 return;
             }
             data.cashRegister = drawer;
