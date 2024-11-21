@@ -21,6 +21,19 @@ const getReasonsDetails = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
+const getNoSaleReasons = (setLoading) => async (dispatch) => {
+    setLoading(true);
+    const res = await api('get', EndPoints.POS.NO_SALE_REASON_CODE);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_NO_SALE_REASONS,
+                payload: res.data,
+            });
+        }
+    }
+    setLoading(false);
+};
 const addReasonCode = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
@@ -62,4 +75,4 @@ const deleteReasonCode = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-export { getReasonsDetails, addReasonCode, editReasonCode, deleteReasonCode, getReasonCode };
+export { getReasonsDetails, addReasonCode, editReasonCode, deleteReasonCode, getReasonCode, getNoSaleReasons };

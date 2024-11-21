@@ -12,6 +12,8 @@ const endPoints = {
         REGISTER: '/point-of-sale/registers/',
         REGISTER_STATUS: '/point-of-sale/registers/status',
         ADD_DROP: '/point-of-sale/add-drop',
+        NO_SALE_REASON_CODE: '/point-of-sale/no-sale/reason-code',
+        NO_SALE: '/point-of-sale/no-sale',
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
 
@@ -22,6 +24,7 @@ const endPoints = {
     PROFILE: '/profile',
     COMPANY: '/company',
     REASON_CODE: '/reason-code/',
+    NO_SALE_REASON: '/reason-code/',
     UPLOAD_FILES: '/upload',
     JOB_TITLE: '/title/',
     CLUBS: '/clubs/',

@@ -3,7 +3,7 @@ import { Menu } from 'primereact/menu';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDiscountTypes } from '../../../redux/actions/PosSettings/discountType';
 import SelectDiscountPopup from './SelectDiscountPopup';
 import SpecialDiscountPopup from './SpecialDiscountPopup';
@@ -18,6 +18,9 @@ import Lottie from 'lottie-react';
 import DrawerSelector from './Drawer/DrawerSelector';
 import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
 import AddDropPopup from './AddDropPopup';
+import NoSalePopup from './NoSalePopup';
+import QuickCashPopup from './QuickCashPopup';
+import { showToast } from '../../../redux/actions/toastAction';
 
 export default function Cart({
     cartItems,
@@ -27,10 +30,12 @@ export default function Cart({
     appliedPromo,
     onOpenSaveCartPopup,
     onOpenCheckout,
-    quickCashHandler,
+    ifCartValidated,
+    onCheckout,
 }) {
     const history = useHistory();
     const dispatch = useDispatch();
+    const drawer = useSelector((state) => state.pos.drawer);
     const menu = useRef(null);
     useEffect(() => {
         dispatch(getDiscountTypes());
@@ -96,6 +101,8 @@ export default function Cart({
         });
     };
 
+    const [openQuickCash, setOpenQuickCash] = useState(false);
+    const [openNoSale, setOpenNoSale] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [closeDrawer, setCloseDrawer] = useState(false);
     const [openAddDrop, setOpenAddDrop] = useState(false);
@@ -116,6 +123,18 @@ export default function Cart({
     useEffect(() => {
         setHeight(ref?.current?.clientHeight);
     }, [setHeight]);
+
+    const handleQuickCash = () => {
+        ifCartValidated() && setOpenQuickCash(true);
+    };
+
+    const handleNoSale = () => {
+        if (!drawer) {
+            dispatch(showToast({ severity: 'error', summary: 'Please select a drawer to proceed further.' }));
+            return;
+        }
+        setOpenNoSale(true);
+    };
 
     return (
         <div className="h-full flex flex-column justify-content-between">
@@ -166,12 +185,14 @@ export default function Cart({
                 </CustomCard>
             </div>
             <div className="flex gap-2">
-                <CustomButton className="w-full px-2" label="No Sale" severity="secondary" />
-                <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={quickCashHandler} />
+                <CustomButton className="w-full px-2" label="No Sale" severity="secondary" onClick={handleNoSale} />
+                <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={handleQuickCash} />
                 <PrimaryButton className="w-full px-2" label="Pre-Pay" />
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
 
+            <NoSalePopup visible={openNoSale} setVisible={setOpenNoSale} />
+            <QuickCashPopup visible={openQuickCash} setVisible={setOpenQuickCash} cartDetails={cartDetails} onCheckout={onCheckout} />
             <AddDropPopup visible={openAddDrop} setVisible={setOpenAddDrop} />
             <OpenDrawerModel visible={openDrawer} setVisible={setOpenDrawer} />
             <CloseDraweModel visible={closeDrawer} setVisible={setCloseDrawer} />

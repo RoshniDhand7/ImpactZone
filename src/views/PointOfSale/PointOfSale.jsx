@@ -284,7 +284,7 @@ export default function PointOfSale2() {
         content: () => printRef.current,
     });
 
-    const ifValid = () => {
+    const ifCartValidated = () => {
         if (!drawer) {
             dispatch(showToast({ severity: 'warn', summary: 'Please select drawers to proceed with checkout.' }));
             return;
@@ -301,28 +301,25 @@ export default function PointOfSale2() {
     };
 
     const onOpenCheckout = () => {
-        ifValid() && setCheckoutPopup(true);
+        ifCartValidated() && setCheckoutPopup(true);
     };
     const onCloseCheckout = () => {
         setCheckoutPopup(false);
     };
 
-    const onCheckout = ({ method, printReceiept }) => {
+    const onCheckout = ({ method, printReceiept }, setExtraLoading, next) => {
         let payload = { member: selectedMember, paymentType: method, amount: cartDetails?.gradTotal, cartItems, cartDetails, cashRegister: drawer };
         dispatch(
-            onCheckoutAction(payload, setLoading, (e) => {
+            onCheckoutAction(payload, setLoading, setExtraLoading, (e) => {
                 setSelectedItems([]);
                 setSelectedMember('');
                 onCloseCheckout();
                 if (printReceiept) {
                     setReceiptData(e);
                 }
+                next?.();
             }),
         );
-    };
-
-    const quickCashHandler = () => {
-        ifValid() && onCheckout({ method: 'CASH', printReceiept: false });
     };
 
     useEffect(() => {
@@ -350,7 +347,8 @@ export default function PointOfSale2() {
                     appliedPromo={appliedPromo}
                     onOpenSaveCartPopup={onOpenSaveCartPopup}
                     onOpenCheckout={onOpenCheckout}
-                    quickCashHandler={quickCashHandler}
+                    ifCartValidated={ifCartValidated}
+                    onCheckout={onCheckout}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />
