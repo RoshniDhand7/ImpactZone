@@ -276,7 +276,6 @@ export default function PointOfSale2() {
     };
 
     const [checkoutPopup, setCheckoutPopup] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [receiptData, setReceiptData] = useState({});
     const printRef = useRef();
 
@@ -307,10 +306,10 @@ export default function PointOfSale2() {
         setCheckoutPopup(false);
     };
 
-    const onCheckout = ({ method, printReceiept }, setExtraLoading, next) => {
+    const onCheckout = ({ method, printReceiept }, setLoading, next) => {
         let payload = { member: selectedMember, paymentType: method, amount: cartDetails?.gradTotal, cartItems, cartDetails, cashRegister: drawer };
         dispatch(
-            onCheckoutAction(payload, setLoading, setExtraLoading, (e) => {
+            onCheckoutAction(payload, setLoading, (e) => {
                 setSelectedItems([]);
                 setSelectedMember('');
                 onCloseCheckout();
@@ -359,7 +358,7 @@ export default function PointOfSale2() {
                 onCartSaved={onCartSaved}
             />
 
-            <CheckoutPopup loading={loading} onCheckout={onCheckout} cartDetails={cartDetails} visible={checkoutPopup} onCancel={onCloseCheckout} />
+            <CheckoutPopup onCheckout={onCheckout} cartDetails={cartDetails} visible={checkoutPopup} onCancel={onCloseCheckout} />
             <div className="hidden">
                 <PrintReceipt ref={printRef} data={receiptData} />
             </div>

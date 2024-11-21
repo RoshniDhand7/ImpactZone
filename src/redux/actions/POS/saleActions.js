@@ -27,9 +27,8 @@ const addRecentMemberAction = (member) => async (dispatch, getState) => {
 
     localStorage.setItem('recent_pos_sale_members', JSON.stringify(_arr));
 };
-const onCheckoutAction = (data, setLoading, setExtraLoading, next) => async (dispatch) => {
+const onCheckoutAction = (data, setLoading, next) => async (dispatch) => {
     setLoading?.(true);
-    setExtraLoading?.(true);
     const res = await api('post', endPoints.POS.SALE, data);
     if (res.success) {
         next(res.data);
@@ -38,7 +37,6 @@ const onCheckoutAction = (data, setLoading, setExtraLoading, next) => async (dis
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     setLoading?.(false);
-    setExtraLoading?.(false);
 };
 const getReceiptsAction = () => async (dispatch) => {
     const res = await api('get', endPoints.POS.SALE);
