@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { CustomDropDown, CustomInput, CustomInputNumber } from '../../../shared/Input/AllInputs';
 import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { addDropOptions } from '../../../utils/dropdownConstants';
@@ -9,12 +8,11 @@ import { showToast } from '../../../redux/actions/toastAction';
 import formValidation from '../../../utils/validations';
 
 const AddDropPopup = ({ visible, setVisible }) => {
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const drawer = useSelector((state) => state.pos.drawer);
-    const initialData = { paymentType: '', amount: '', accessCode: '' };
+    const [data, setData] = useState({ discount: '', amount: '' });
 
-    const [data, setData] = useState(initialData);
+    // useEffect(() => {
+    //     dispatch(getDiscountTypes());
+    // }, [dispatch]);
 
     const onClose = () => {
         setVisible(false);

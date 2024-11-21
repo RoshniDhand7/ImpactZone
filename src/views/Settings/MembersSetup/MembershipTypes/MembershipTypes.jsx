@@ -5,12 +5,13 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMembershipType, deleteMembershipType, getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
+import { addMembershipType, deleteMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import MemberTypeFilter from './MemberTypeFilter';
+import { getMembersipTypes } from '../../../../redux/actions/Settings/MembershipSetup/membershipType';
 
 const MembershipTypes = () => {
     const history = useHistory();
@@ -19,7 +20,10 @@ const MembershipTypes = () => {
         dispatch(getMembersipTypes());
     }, [dispatch]);
 
-    const { allMembershipTypes } = useSelector((state) => state.membershipTypes);
+    const { membershipTypes } = useSelector((state) => state.settings.members);
+    const allMembershipTypes2 = useSelector((state) => console.log(state));
+
+    // const { membershipTypes } = useSelector((state) => state.membershipTypes);
     const { loading } = useSelector((state) => state?.loader?.isLoading);
     const [visible, setVisible] = useState(false);
 
@@ -93,7 +97,7 @@ const MembershipTypes = () => {
         });
     };
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembershipTypes);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(membershipTypes);
 
     return (
         <>

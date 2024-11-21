@@ -134,6 +134,9 @@ export const types = {
             COMMISSION_GROUP: 'COMMISSION_GROUP',
             REFERRAL_GROUP: 'REFERRAL_GROUP',
         },
+        MEMBER_SETUP: {
+            MEMEBERSHIP_TYPE: 'MEMEBERSHIP_TYPE',
+        },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
 };
