@@ -8,7 +8,7 @@ const getCompanyDetails = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.COMPANY);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.COMPANY);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -30,7 +30,7 @@ const editCompany = (data, setLoading, history) => async (dispatch) => {
         data.logo = '';
     }
 
-    const res = await api('put', EndPoints.COMPANY, data);
+    const res = await api('put', EndPoints.SETTINGS.BUSINESS.COMPANY, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
