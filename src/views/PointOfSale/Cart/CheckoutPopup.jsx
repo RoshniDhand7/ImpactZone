@@ -3,16 +3,17 @@ import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import PrimaryButton, { LightButton } from '../../../shared/Button/CustomButton';
 import { CustomCheckbox } from '../../../shared/Input/AllInputs';
 
-export default function CheckoutPopup({ visible, onCancel, cartDetails, onCheckout, loading }) {
+export default function CheckoutPopup({ visible, onCancel, cartDetails, onCheckout }) {
     let { tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [method, setMethod] = useState('CASH');
     const [printReceiept, setPrintReceiept] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const onClose = () => {
         onCancel();
     };
     const onSubmit = () => {
-        onCheckout({ method, printReceiept });
+        onCheckout({ method, printReceiept }, setLoading);
     };
 
     return (

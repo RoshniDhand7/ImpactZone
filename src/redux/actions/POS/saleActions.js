@@ -28,7 +28,7 @@ const addRecentMemberAction = (member) => async (dispatch, getState) => {
     localStorage.setItem('recent_pos_sale_members', JSON.stringify(_arr));
 };
 const onCheckoutAction = (data, setLoading, next) => async (dispatch) => {
-    setLoading(true);
+    setLoading?.(true);
     const res = await api('post', endPoints.POS.SALE, data);
     if (res.success) {
         next(res.data);
@@ -36,7 +36,7 @@ const onCheckoutAction = (data, setLoading, next) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
-    setLoading(false);
+    setLoading?.(false);
 };
 const getReceiptsAction = () => async (dispatch) => {
     const res = await api('get', endPoints.POS.SALE);
@@ -59,4 +59,16 @@ const getReceiptAction = (id, setLoading, next) => async (dispatch) => {
     }
     setLoading(false);
 };
-export { onCheckoutAction, addRecentMemberAction, getReceiptsAction, getReceiptAction };
+const addNoSale = (data, setLoading, next) => async (dispatch) => {
+    setLoading(true);
+
+    const res = await api('post', endPoints.POS.NO_SALE, data);
+    if (res.success) {
+        dispatch(showToast({ severity: 'success', summary: res.message }));
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    setLoading(false);
+};
+export { onCheckoutAction, addRecentMemberAction, getReceiptsAction, getReceiptAction, addNoSale };
