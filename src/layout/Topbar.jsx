@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../assets/icons/Navlogo.png';
 // import Profile from '../assets/icons/profilepic.png';
-import { Avatar } from 'primereact/avatar';
 import { Menubar } from 'primereact/menubar';
 import { Menu } from 'primereact/menu';
 import { useEffect } from 'react';
@@ -13,6 +12,7 @@ import { Tooltip } from 'primereact/tooltip';
 import Search from './Search';
 import { getMembers } from '../redux/actions/Dashboard/Members';
 import ClockInOutModal from './ClockInOutModal';
+import CustomAvatar from '../shared/Avatar/Avatar';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -136,12 +136,7 @@ export default function TopBar() {
             items: [],
         },
     ];
-    const getFirstCharacter = (name = '') => {
-        let words = name.split(' ');
-        let firstLetters = words.map((word) => word?.charAt(0).toUpperCase());
-        firstLetters = firstLetters.slice(0, 2);
-        return firstLetters;
-    };
+
     const end = (
         <div className="flex justify-content-between">
             <Search openModal={openModal} setOpenModal={setOpenModal} />
@@ -149,12 +144,7 @@ export default function TopBar() {
 
             <Menubar style={{ border: 'none' }} model={iconItems} />
             <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>
-                <Avatar
-                    // image={Profile}
-                    label={getFirstCharacter(user?.firstName)}
-                    size="large"
-                    shape="circle"
-                />
+                <CustomAvatar label={user?.firstName} />
                 <div className="flex">
                     <div className="flex m-2">
                         <span className="font-semibold text-base  ">{user?.firstName || 'Loading...'}</span>
