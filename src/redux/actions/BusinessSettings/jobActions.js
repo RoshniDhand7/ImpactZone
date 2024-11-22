@@ -8,7 +8,7 @@ const getJobDetails = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.JOB_TITLE);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.JOB_TITLE);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -24,7 +24,7 @@ const getJobDetails = (setLoading) => async (dispatch) => {
 const addJobTitle = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.JOB_TITLE, data);
+    const res = await api('post', EndPoints.SETTINGS.BUSINESS.JOB_TITLE, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -33,7 +33,7 @@ const addJobTitle = (data, setLoading, history) => async (dispatch) => {
 };
 const getJobTitle = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.JOB_TITLE + id);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.JOB_TITLE + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -46,7 +46,7 @@ const getJobTitle = (id, returnData) => async (dispatch) => {
 const editJobTitle = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.JOB_TITLE + id, data);
+    const res = await api('put', EndPoints.SETTINGS.BUSINESS.JOB_TITLE + id, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -54,7 +54,7 @@ const editJobTitle = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(false);
 };
 const deleteJobTitle = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.JOB_TITLE + id);
+    const res = await api('delete', EndPoints.SETTINGS.BUSINESS.JOB_TITLE + id);
     if (res.success) {
         dispatch(getJobDetails(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));

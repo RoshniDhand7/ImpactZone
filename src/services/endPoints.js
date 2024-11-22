@@ -10,9 +10,9 @@ const endPoints = {
         //BUSINESS
         BUSINESS: {
             COMPANY: '/company',
-            REASON_CODE: '/reason-code',
-            CLUBS: '/clubs',
-            JOB_TITLE: '/title',
+            REASON_CODE: '/reason-code/',
+            CLUBS: '/clubs/',
+            JOB_TITLE: '/title/',
             DEFAULT_SETTING: '/dashboard-setting',
         },
 

@@ -8,7 +8,7 @@ const getReasonsDetails = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.REASON_CODE);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.REASON_CODE);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -37,7 +37,7 @@ const getNoSaleReasons = (setLoading) => async (dispatch) => {
 const addReasonCode = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.REASON_CODE, data);
+    const res = await api('post', EndPoints.SETTINGS.BUSINESS.REASON_CODE, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -46,7 +46,7 @@ const addReasonCode = (data, setLoading, history) => async (dispatch) => {
 };
 const getReasonCode = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.REASON_CODE + id);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.REASON_CODE + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -59,7 +59,7 @@ const getReasonCode = (id, returnData) => async (dispatch) => {
 const editReasonCode = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.REASON_CODE + id, data);
+    const res = await api('put', EndPoints.SETTINGS.BUSINESS.REASON_CODE + id, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -67,7 +67,7 @@ const editReasonCode = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(false);
 };
 const deleteReasonCode = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.REASON_CODE + id);
+    const res = await api('delete', EndPoints.SETTINGS.BUSINESS.REASON_CODE + id);
     if (res.success) {
         dispatch(getReasonsDetails(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
