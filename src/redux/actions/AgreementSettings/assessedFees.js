@@ -6,7 +6,7 @@ import { showToast } from '../toastAction';
 
 const getAssesedFees = () => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.ASSESSED_FEE);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -21,7 +21,7 @@ const getAssesedFees = () => async (dispatch) => {
 };
 const addAssessedFees = (data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('post', EndPoints.ASSESSED_FEE, data);
+    const res = await api('post', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE, data);
     if (res.success) {
         next();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -33,7 +33,7 @@ const addAssessedFees = (data, next) => async (dispatch) => {
 
 const editAssessedFees = (id, data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('put', EndPoints.ASSESSED_FEE + id, data);
+    const res = await api('put', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE + id, data);
     if (res.success) {
         next();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -45,7 +45,7 @@ const editAssessedFees = (id, data, next) => async (dispatch) => {
 
 const getAssessedFee = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.ASSESSED_FEE + id);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -57,7 +57,7 @@ const getAssessedFee = (id, returnData) => async (dispatch) => {
 };
 
 const deleteAssessedFees = (id, next) => async (dispatch) => {
-    const res = await api('delete', EndPoints.ASSESSED_FEE + id);
+    const res = await api('delete', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE + id);
     if (res.success) {
         next();
         dispatch(showToast({ severity: 'success', summary: res.message }));

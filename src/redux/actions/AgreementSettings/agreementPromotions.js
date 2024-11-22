@@ -8,7 +8,7 @@ const getAgreementPromotions = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.AGREEMENT_PROMOTION);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -25,7 +25,7 @@ const getAgreementPromotions = (setLoading) => async (dispatch) => {
 };
 const getAgreementPromotion = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.AGREEMENT_PROMOTION + id);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -38,7 +38,7 @@ const getAgreementPromotion = (id, returnData) => async (dispatch) => {
 const addAgreementPromotion = (data, history) => async (dispatch) => {
     dispatch(showLoaderAction());
 
-    const res = await api('post', EndPoints.AGREEMENT_PROMOTION, data);
+    const res = await api('post', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION, data);
     if (res.success) {
         history.goBack();
     }
@@ -47,14 +47,14 @@ const addAgreementPromotion = (data, history) => async (dispatch) => {
 const editAgreementPromotion = (id, data, history) => async (dispatch) => {
     dispatch(showLoaderAction());
 
-    const res = await api('put', EndPoints.AGREEMENT_PROMOTION + id, data);
+    const res = await api('put', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION + id, data);
     if (res.success) {
         history.goBack();
     }
     dispatch(hideLoaderAction());
 };
 const deleteAgreementPromotion = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.AGREEMENT_PROMOTION + id);
+    const res = await api('delete', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION + id);
     if (res.success) {
         dispatch(getAgreementPromotions(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));

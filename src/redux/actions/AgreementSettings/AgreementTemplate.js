@@ -8,7 +8,7 @@ const getAgreementTemplates = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.AGREEMENT_TEMPLATE);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -25,7 +25,7 @@ const getAgreementTemplates = (setLoading) => async (dispatch) => {
 };
 const getAgreementTemplate = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.AGREEMENT_TEMPLATE + id);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -38,7 +38,7 @@ const getAgreementTemplate = (id, returnData) => async (dispatch) => {
 const addAgreementTemplate = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.AGREEMENT_TEMPLATE, data);
+    const res = await api('post', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE, data);
     if (res.success) {
         next();
     }
@@ -47,14 +47,14 @@ const addAgreementTemplate = (data, setLoading, next) => async (dispatch) => {
 const editAgreementTemplate = (id, data, setLoading, next) => async (dispatch, getState) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.AGREEMENT_TEMPLATE + id, data);
+    const res = await api('put', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE + id, data);
     if (res.success) {
         next();
     }
     setLoading(false);
 };
 const deleteAgreementTemplates = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.AGREEMENT_TEMPLATE + id);
+    const res = await api('delete', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE + id);
     if (res.success) {
         dispatch(getAgreementTemplates(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
