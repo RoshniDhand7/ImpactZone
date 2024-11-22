@@ -9,6 +9,24 @@ const endPoints = {
             CAMPAIGN: '/settings/member-setup/campaign/',
             CAMPAIGN_GROUP: '/settings/member-setup/campaign-group/',
         },
+
+        //BUSINESS
+        BUSINESS: {
+            COMPANY: '/company',
+            REASON_CODE: '/reason-code/',
+            CLUBS: '/clubs/',
+            JOB_TITLE: '/title/',
+            DEFAULT_SETTING: '/dashboard-setting/',
+        },
+
+        //AGREEMENT SETUP
+        AGREEMENT_SETUP: {
+            AGREEMENT_TEMPLATE: '/settings/agreement-setup/agreement-template/',
+            AGREEMENT_CATEGORY: '/settings/agreement-setup/agreement-category/',
+            ASSESSED_FEE: '/settings/agreement-setup/assessed-fee/',
+            AGREEMENT_PLAN: '/settings/agreement-setup/agreement-plan/',
+            AGREEMENT_PROMOTION: '/settings/agreement-setup/agreement-promotion/',
+        },
     },
     POS: {
         SALE: '/point-of-sale/sale/',
@@ -20,17 +38,15 @@ const endPoints = {
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
 
-    LOGIN: '/login',
-    FORGOT_PASSWORD: '/forgot-password',
-    CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
-    CHANGE_PASSWORD: '/change-password',
-    PROFILE: '/profile',
-    COMPANY: '/company',
-    REASON_CODE: '/reason-code/',
-    NO_SALE_REASON: '/reason-code/',
+    AUTH: {
+        PROFILE: '/profile',
+        LOGIN: '/login',
+        FORGOT_PASSWORD: '/forgot-password',
+        CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
+        CHANGE_PASSWORD: '/change-password',
+    },
+
     UPLOAD_FILES: '/upload',
-    JOB_TITLE: '/title/',
-    CLUBS: '/clubs/',
     EMPLOYEE: '/employee/',
     EMPLOYEE_TYPE: '/employee-data/',
     EMPLOYEE_PAY_TYPE: '/employee-class/',
@@ -86,7 +102,6 @@ const endPoints = {
     CLASSES: '/schedule-classes/',
     MEMBERSHIP_TYPES: '/member-setup/',
     ASSESSED_FEE: '/assessed-fee/',
-    MEMBERSHIP_PLAN: '/membership-plan/',
     AGREEMENT_PROMOTION: '/agreement-promotion/',
     TAXES: '/tax/',
     PAYMENT_METHODS: '/payment-method/',

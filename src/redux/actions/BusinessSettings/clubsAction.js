@@ -8,7 +8,7 @@ const getClubs = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.CLUBS);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.CLUBS);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -23,7 +23,7 @@ const getClubs = (setLoading) => async (dispatch) => {
 };
 const getClub = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.CLUBS + id);
+    const res = await api('get', EndPoints.SETTINGS.BUSINESS.CLUBS + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -41,7 +41,7 @@ const editClub = (id, data, setLoading, history) => async (dispatch) => {
         phoneNumber: data?.phoneNumber?.replace(/\D/g, ''),
     };
 
-    const res = await api('put', EndPoints.CLUBS + id, payload);
+    const res = await api('put', EndPoints.SETTINGS.BUSINESS.CLUBS + id, payload);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));

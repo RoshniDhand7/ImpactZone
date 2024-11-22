@@ -9,7 +9,7 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.MEMBERSHIP_PLAN);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -27,7 +27,7 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
 const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
     const params = { memberId: memberId };
-    const res = await api('get', EndPoints.MEMBERSHIP_PLAN + id, {}, params);
+    const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN + id, {}, params);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -56,7 +56,7 @@ const addMembershipPlan = (data, history) => async (dispatch) => {
         membershipPlan: getIds(data?.membershipPlan),
     };
 
-    const res = await api('post', EndPoints.MEMBERSHIP_PLAN, payload);
+    const res = await api('post', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN, payload);
     if (res.success) {
         history.goBack();
     }
@@ -69,14 +69,14 @@ const editMembershipPlan = (id, data, history) => async (dispatch, getState) => 
         services: getIds(data?.services),
         membershipPlan: getIds(data?.membershipPlan),
     };
-    const res = await api('put', EndPoints.MEMBERSHIP_PLAN + id, payload);
+    const res = await api('put', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN + id, payload);
     if (res.success) {
         history.goBack();
     }
     dispatch(hideLoaderAction());
 };
 const deleteMembershipPlan = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.MEMBERSHIP_PLAN + id);
+    const res = await api('delete', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN + id);
     if (res.success) {
         dispatch(getMembershipPlans(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));

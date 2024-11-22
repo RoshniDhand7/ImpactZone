@@ -8,7 +8,7 @@ import { showToast } from './toastAction';
 const onLogin = (payload, history, setLoading) => async (dispatch) => {
     setLoading(true);
     payload = { email: payload.email, password: payload.password };
-    const res = await api('post', endPoints.LOGIN, payload);
+    const res = await api('post', endPoints.AUTH.LOGIN, payload);
     if (res.success) {
         dispatch({ type: types.PROFILE, payload: res.data });
         authenticate(res.data.token, () => {
@@ -26,7 +26,7 @@ const onLogin = (payload, history, setLoading) => async (dispatch) => {
 const onForgotPassword = (payload, setLoading, next) => async (dispatch) => {
     setLoading(true);
     payload = { email: payload.email };
-    const res = await api('post', endPoints.FORGOT_PASSWORD, payload);
+    const res = await api('post', endPoints.AUTH.FORGOT_PASSWORD, payload);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
@@ -38,7 +38,7 @@ const onForgotPassword = (payload, setLoading, next) => async (dispatch) => {
 
 const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch) => {
     setLoading(true);
-    const res = await api('post', endPoints.CHANGE_FORGOT_PASSWORD, payload);
+    const res = await api('post', endPoints.AUTH.CHANGE_FORGOT_PASSWORD, payload);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         history.push('/login');
@@ -50,7 +50,7 @@ const onChangeForgotPassword = (payload, history, setLoading) => async (dispatch
 
 const onChangePassword = (payload, setLoading, next) => async (dispatch) => {
     setLoading(true);
-    const res = await api('post', endPoints.CHANGE_PASSWORD, payload);
+    const res = await api('post', endPoints.AUTH.CHANGE_PASSWORD, payload);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
         next();
@@ -61,7 +61,7 @@ const onChangePassword = (payload, setLoading, next) => async (dispatch) => {
 };
 
 const getProfile = () => async (dispatch) => {
-    const res = await api('get', endPoints.PROFILE);
+    const res = await api('get', endPoints.AUTH.PROFILE);
     if (res.success) {
         dispatch({ type: types.PROFILE, payload: res.data });
     } else {
