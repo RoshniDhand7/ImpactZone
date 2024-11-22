@@ -8,7 +8,11 @@ const CustomAvatar = ({ ...props }) => {
         return firstLetters;
     };
 
-    return <Avatar {...props} label={props.label && getFirstCharacter(props.label)} size={props.size || 'large'} shape="circle" />;
+    return (
+        <Avatar {...props} label={props.label && getFirstCharacter(props.label)} size={props.size || 'large'} shape="circle">
+            {props.children}
+        </Avatar>
+    );
 };
 
 export default CustomAvatar;

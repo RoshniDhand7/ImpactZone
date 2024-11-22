@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Avatar } from 'primereact/avatar';
 import { Badge } from 'primereact/badge';
 import { useDropzone } from 'react-dropzone';
 import { getImageURL } from '../../utils/imageUrl';
+import CustomAvatar from '../Avatar/Avatar';
 
 const PhotoUpload = ({ name, value, data, onDropChange, multiple = true }) => {
     const [selectedImages, setSelectedImages] = useState(value || data?.[name] || []);
@@ -69,18 +69,18 @@ const PhotoUpload = ({ name, value, data, onDropChange, multiple = true }) => {
                 {isDragActive ? (
                     isDragReject ? (
                         <>
-                            <Avatar icon="pi pi-exclamation-triangle" size="large" className="bg-red-50" style={{ color: '#252B42' }} shape="circle" />
+                            <CustomAvatar icon="pi pi-exclamation-triangle" className="bg-red-50" style={{ color: '#252B42' }} />
                             <p className="text-color-secondary font-medium text-lg">Only image files are allowed!</p>
                         </>
                     ) : (
                         <>
-                            <Avatar icon="pi pi-download" size="large" className="bg-green-50" style={{ color: '#252B42' }} shape="circle" />
+                            <CustomAvatar icon="pi pi-download" className="bg-green-50" style={{ color: '#252B42' }} />
                             <p className="text-color-secondary font-medium text-lg">Drop the photo here...</p>
                         </>
                     )
                 ) : (
                     <>
-                        <Avatar icon="pi pi-file" size="large" style={{ backgroundColor: '#F2F5FE', color: '#252B42' }} shape="circle" />
+                        <CustomAvatar icon="pi pi-file" style={{ backgroundColor: '#F2F5FE', color: '#252B42' }} />
                         <p className="text-color-secondary font-medium text-lg">Drag your photo here or browse.</p>
                     </>
                 )}
@@ -88,9 +88,9 @@ const PhotoUpload = ({ name, value, data, onDropChange, multiple = true }) => {
             <div className="flex flex-wrap my-2">
                 {selectedImages?.length > 0 &&
                     selectedImages?.map((image, index) => (
-                        <Avatar className="p-overlay-badge my-2 mr-3" image={getImageURL(image)} size="xlarge">
+                        <CustomAvatar className="p-overlay-badge my-2 mr-3" image={getImageURL(image)} size="xlarge">
                             <Badge value="X" icon="pi pi-fast-forward" severity="danger" className="cursor-pointer" onClick={() => removeImage(index)} />
-                        </Avatar>
+                        </CustomAvatar>
                     ))}
             </div>
         </>
