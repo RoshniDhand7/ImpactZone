@@ -56,7 +56,7 @@ const QuickCashPopup = ({ visible, setVisible, cartDetails, onCheckout }) => {
         >
             <CashCalculator onChange={handleChange} />
             <div className="mt-3 py-2 px-4 flex justify-content-between border-1 border-dashed">
-                <div>{returnMoney === 0 && <PrimaryButton label="Exact Change" onClick={checkoutHandler} loading={loading} />}</div>
+                <PrimaryButton label="Exact Change" onClick={checkoutHandler} loading={loading} />
                 <div className="">
                     <div className="flex gap-2">
                         <div className="text-dark-gray pe-2">Item Total:</div>
