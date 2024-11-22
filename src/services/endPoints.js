@@ -13,16 +13,16 @@ const endPoints = {
             REASON_CODE: '/reason-code/',
             CLUBS: '/clubs/',
             JOB_TITLE: '/title/',
-            DEFAULT_SETTING: '/dashboard-setting',
+            DEFAULT_SETTING: '/dashboard-setting/',
         },
 
         //AGREEMENT SETUP
         AGREEMENT_SETUP: {
-            AGREEMENT_TEMPLATE: '/settings/agreement-setup/agreement-template',
-            AGREEMENT_CATEGORY: '/settings/agreement-setup/agreement-category',
-            ASSESSED_FEE: '/settings/agreement-setup/assessed-fee',
-            AGREEMENT_PLAN: '/membership-plan/',
-            AGREEMENT_PROMOTION: '/settings/agreement-setup/agreement-promotion',
+            AGREEMENT_TEMPLATE: '/settings/agreement-setup/agreement-template/',
+            AGREEMENT_CATEGORY: '/settings/agreement-setup/agreement-category/',
+            ASSESSED_FEE: '/settings/agreement-setup/assessed-fee/',
+            AGREEMENT_PLAN: '/settings/agreement-setup/agreement-plan/',
+            AGREEMENT_PROMOTION: '/settings/agreement-setup/agreement-promotion/',
         },
     },
     POS: {

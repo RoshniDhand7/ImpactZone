@@ -40,8 +40,7 @@ const MembershipPlan = () => {
         { field: 'category', header: 'Category' },
         { field: 'membershipType', body: (r) => r?.membershipType?.name, header: 'Membership Type' },
         {
-            field: 'clubs',
-            body: (r) => r?.clubs?.map((item) => item.name).join(','),
+            field: 'noOfMembers',
             header: 'No. of Members',
         },
         { field: 'sellOnline', header: 'Sold Online' },
