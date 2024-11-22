@@ -51,10 +51,12 @@ import availabilityReducer from './EmployeesSettings/availabilityReducer';
 import SettingsReducer from './SettingsReducer';
 import POSReducer from './POSReducer';
 import checkInReducer from './CheckIn/CheckInReducer';
+import tableLoaderReducer from './tableLoaderReducer';
 
 export default combineReducers({
     loader: loaderReducer,
     toast: toastReducer,
+    tableLoader: tableLoaderReducer,
     profile: profileReducer,
     company: companyReducer,
     reasonCode: reasonCodeReducer,

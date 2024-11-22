@@ -4,3 +4,10 @@ export const hideLoaderAction = () => async (dispatch) => {
 export const showLoaderAction = () => async (dispatch) => {
     dispatch({ type: 'SHOW_LOADER' });
 };
+
+export const hideTableLoaderAction = () => async (dispatch) => {
+    dispatch({ type: 'HIDE_TABLE_LOADER' });
+};
+export const showTableLoaderAction = () => async (dispatch) => {
+    dispatch({ type: 'SHOW_TABLE_LOADER' });
+};

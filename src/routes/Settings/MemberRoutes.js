@@ -8,13 +8,13 @@ const ResourcesForm = lazy(() => import('../../views/Settings/MembersSetup/Resou
 const MembershipTypeForm = lazy(() => import('../../views/Settings/MembersSetup/MembershipTypes/MembershipTypeForm'));
 const MemberSettingsRoutes = [
     {
-        path: '/membership-types/add',
+        path: '/membership-type/add',
         name: 'Members',
         exact: true,
         component: MembershipTypeForm,
     },
     {
-        path: '/membership-types/edit/:id',
+        path: '/membership-type/edit/:id',
         name: 'Members',
         exact: true,
         component: MembershipTypeForm,

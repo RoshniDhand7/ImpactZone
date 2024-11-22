@@ -60,7 +60,7 @@ const Settings = () => {
         },
         {
             img: Member,
-            link: '/settings/members',
+            link: '/settings/member-setup',
             title: 'Members Setup',
         },
         {

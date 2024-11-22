@@ -1,4 +1,5 @@
 import api from '../../../services/api';
+import endPoints from '../../../services/endPoints';
 import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
@@ -8,7 +9,7 @@ const getCampaigns = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.COMPAIGN);
+    const res = await api('get', endPoints.COMPAIGN);
     if (res.success) {
         if (res.data) {
             dispatch({

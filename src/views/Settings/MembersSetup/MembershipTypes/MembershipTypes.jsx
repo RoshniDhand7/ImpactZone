@@ -11,7 +11,7 @@ import formValidation from '../../../../utils/validations';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import MemberTypeFilter from './MemberTypeFilter';
-import { getMembersipTypes } from '../../../../redux/actions/Settings/MembershipSetup/membershipType';
+import { getMembersipTypes, reorderPriority } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const MembershipTypes = () => {
     const history = useHistory();
@@ -21,10 +21,6 @@ const MembershipTypes = () => {
     }, [dispatch]);
 
     const { membershipTypes } = useSelector((state) => state.settings.members);
-    const allMembershipTypes2 = useSelector((state) => console.log(state));
-
-    // const { membershipTypes } = useSelector((state) => state.membershipTypes);
-    const { loading } = useSelector((state) => state?.loader?.isLoading);
     const [visible, setVisible] = useState(false);
 
     const columns = [
@@ -36,11 +32,12 @@ const MembershipTypes = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/membership-types/edit/${col._id}`);
+        history.push(`/settings/member-setup/membership-type/edit/${col._id}`);
     };
     const onCopy = (col) => {
         setVisible(col);
     };
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     const onDelete = (col, position) => {
         confirmDelete(
@@ -57,18 +54,18 @@ const MembershipTypes = () => {
             const payload = {
                 name: data.name,
                 description: visible.description,
-                discountType: visible.discountType,
+                discount: visible.discount,
                 accessRestriction: visible.accessRestriction,
                 accessSchedule: visible.accessSchedule,
-                remotecheckin: visible.remotecheckin,
+                remoteCheckin: visible.remoteCheckin,
                 transferToAnotherType: visible.transferToAnotherType,
                 clubCreditAmount: visible.clubCreditAmount,
-                specialRestriction: visible.specialRestriction,
+                specialRestrictions: visible.specialRestrictions,
                 minimumAgeAllowed: visible.minimumAgeAllowed,
                 maximumAgeAllowed: visible.maximumAgeAllowed,
                 maximumDaysAllowed: visible.maximumDaysAllowed,
                 maximumDistanceAllowed: visible.maximumDistanceAllowed,
-                club: visible.club,
+                clubs: visible.clubs,
                 services: visible.services,
                 isActive: visible.isActive,
             };
@@ -97,18 +94,35 @@ const MembershipTypes = () => {
         });
     };
 
+    const handleRowReorder = (reorderedData) => {
+        dispatch(
+            reorderPriority(reorderedData.value, () => {
+                dispatch(getMembersipTypes());
+            }),
+        );
+    };
+
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(membershipTypes);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Membership Types" linkTo="/settings/members/membership-types/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Membership Types" linkTo="/settings/member-setup/membership-type/add" contentPosition="end">
                 <div className="text-end w-full">
                     <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
                 </div>
             </CustomFilterCard>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomTable
+                data={tableData}
+                columns={columns}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onCopy={onCopy}
+                loading={isTableLoading}
+                reorderableRows={true}
+                onRowReorder={handleRowReorder}
+            />
             <MemberTypeFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomDialog title="Copy Membership Types" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog title="Copy Membership Types" visible={visible} onCancel={onClose} loading={isTableLoading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                 </CustomGridLayout>

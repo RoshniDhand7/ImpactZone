@@ -219,7 +219,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'services':
         case 'image':
         case 'club':
-            if (value.length === 0) {
+        case 'clubs':
+            if (value?.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
                 formErrors[name] = '';
@@ -227,7 +228,7 @@ const formValidation = (name, value, state, ignore = []) => {
             break;
 
         case 'days':
-            if (!value.length) {
+            if (!value?.length) {
                 formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
             } else {
                 formErrors[name] = '';

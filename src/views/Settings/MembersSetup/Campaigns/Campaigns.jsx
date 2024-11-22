@@ -4,13 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteCampaign, getCampaigns } from '../../../../redux/actions/MembersSettings/campaigns';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 import { getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
+import { deleteCampaign, getCampaigns } from '../../../../redux/actions/Settings/MembershipSetup/campaignsAction';
 
 const Campaigns = () => {
     const history = useHistory();
@@ -20,7 +20,7 @@ const Campaigns = () => {
         dispatch(getCampaignTypes());
     }, [dispatch]);
 
-    const { allCompaigns } = useSelector((state) => state.campaign);
+    const allCompaigns = useSelector((state) => state?.settings?.members?.campaigns);
     const { allCampaignsTypes } = useSelector((state) => state.compaignGroups);
 
     const columns = [
@@ -31,7 +31,7 @@ const Campaigns = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/campaigns/edit/${col._id}`);
+        history.push(`/settings/member-setup/campaigns/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
@@ -53,7 +53,7 @@ const Campaigns = () => {
     };
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Compaigns" linkTo="/settings/members/campaigns/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Compaigns" linkTo="/settings/member-setup/campaigns/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filters" className="mx-2" onClick={onFilterOpen} />
             </CustomFilterCard>
             <FilterComponent

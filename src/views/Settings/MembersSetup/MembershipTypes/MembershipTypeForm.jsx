@@ -10,10 +10,10 @@ import { SpecialRestrictionOptions, defaultDiscountOptions, yesNoOptions } from 
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import { getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
-import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import AddServices from '../../Inventory/CatalogItems/AddServices';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import useDiscount from '../../../../hooks/useDiscount';
+import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const MembershipTypeForm = () => {
     const dispatch = useDispatch();
@@ -24,31 +24,32 @@ const MembershipTypeForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
-        discountType: 'None',
+        discount: 'None',
         accessRestriction: false,
         accessSchedule: null,
-        remotecheckin: false,
+        remoteCheckin: false,
         transferToAnotherType: null,
         clubCreditAmount: '',
-        specialRestriction: '',
+        specialResrictions: '',
         minimumAgeAllowed: 0,
         maximumAgeAllowed: 0,
         maximumDaysAllowed: 0,
         maximumDistanceAllowed: 0,
-        club: [],
+        clubs: [],
         services: [],
         isActive: true,
     });
 
     const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
-    let { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
-    MembershipTypesDropdown = MembershipTypesDropdown?.filter((item) => item.name !== data?.name);
+    let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
+    membershipTypesDropdown = membershipTypesDropdown?.filter((item) => item.name !== data?.name);
+
     const { clubsDropdown } = useGetClubs();
     const { allDiscountDropdown } = useDiscount();
 
     const history = useHistory();
 
-    const { loading } = useSelector((state) => state?.loader?.isLoading);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     useEffect(() => {
         if (id) {
@@ -57,18 +58,18 @@ const MembershipTypeForm = () => {
                     setData({
                         name: data.name,
                         description: data.description,
-                        discountType: data.discountType === null ? 'None' : data.discountType,
+                        discount: data.discount === null ? 'None' : data.discount,
                         accessRestriction: data.accessRestriction,
                         accessSchedule: data.accessSchedule,
-                        remotecheckin: data.remotecheckin,
+                        remoteCheckin: data.remoteCheckin,
                         transferToAnotherType: data.transferToAnotherType,
                         clubCreditAmount: data.clubCreditAmount,
-                        specialRestriction: data.specialRestriction,
+                        specialResrictions: data.specialResrictions,
                         minimumAgeAllowed: data.minimumAgeAllowed,
                         maximumAgeAllowed: data.maximumAgeAllowed,
                         maximumDaysAllowed: data.maximumDaysAllowed,
                         maximumDistanceAllowed: data.maximumDistanceAllowed,
-                        club: data.club,
+                        clubs: data.clubs,
                         services: data.services,
                         isActive: true,
                     });
@@ -86,7 +87,7 @@ const MembershipTypeForm = () => {
 
     const onSave = () => {
         let ignore = [];
-        switch (data?.specialRestriction) {
+        switch (data?.specialResrictions) {
             case 'By Age':
                 ignore = ['maximumDaysAllowed', 'maximumDistanceAllowed', 'services'];
                 break;
@@ -97,21 +98,17 @@ const MembershipTypeForm = () => {
                 ignore = ['maximumAgeAllowed', 'minimumAgeAllowed', 'maximumDistanceAllowed', 'services'];
                 break;
             default:
-                ignore = ['maximumDaysAllowed', 'maximumDistanceAllowed', 'minimumAgeAllowed', 'maximumAgeAllowed', 'services'];
+                ignore = ['maximumDaysAllowed', 'maximumDistanceAllowed', 'minimumAgeAllowed', 'maximumAgeAllowed', 'services', 'clubs'];
                 break;
         }
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(
-                    editMembershipType(
-                        id,
-                        { ...data, services: getIds(data.services), discountType: data.discountType === 'None' ? null : data.discountType },
-                        history,
-                    ),
+                    editMembershipType(id, { ...data, services: getIds(data.services), discount: data.discount === 'None' ? null : data.discount }, history),
                 );
             } else {
                 dispatch(
-                    addMembershipType({ ...data, services: getIds(data.services), discountType: data.discountType === 'None' ? null : data.discountType }, () =>
+                    addMembershipType({ ...data, services: getIds(data.services), discount: data.discount === 'None' ? null : data.discount }, () =>
                         history.goBack(),
                     ),
                 );
@@ -126,27 +123,27 @@ const MembershipTypeForm = () => {
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomInput name="description" data={data} onChange={handleChange} />
-                        <CustomDropDown name="discountType" options={discountTypeOptions} onChange={handleChange} data={data} />
+                        <CustomDropDown name="discount" options={discountTypeOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="accessRestriction" options={yesNoOptions} onChange={handleChange} data={data} />
                         {data?.accessRestriction && (
                             <CustomDropDown name="accessSchedule" options={AccessScheduleDropdown} onChange={handleChange} data={data} />
                         )}
-                        <CustomDropDown name="remotecheckin" options={yesNoOptions} onChange={handleChange} data={data} />
-                        <CustomDropDown name="transferToAnotherType" options={MembershipTypesDropdown} onChange={handleChange} data={data} />
+                        <CustomDropDown name="remoteCheckin" options={yesNoOptions} onChange={handleChange} data={data} />
+                        <CustomDropDown name="transferToAnotherType" options={membershipTypesDropdown} onChange={handleChange} data={data} />
                         <CustomInputNumber prefix="$" name="clubCreditAmount" data={data} onChange={handleChange} col="4" />
-                        <CustomDropDown name="specialRestriction" options={SpecialRestrictionOptions} onChange={handleChange} data={data} />
-                        {data?.specialRestriction === 'By Age' && (
+                        <CustomDropDown name="specialResrictions" options={SpecialRestrictionOptions} onChange={handleChange} data={data} />
+                        {data?.specialResrictions === 'By Age' && (
                             <>
                                 <CustomInputNumber name="minimumAgeAllowed" data={data} onChange={handleChange} col="4" />
                                 <CustomInputNumber name="maximumAgeAllowed" data={data} onChange={handleChange} col="4" />
                             </>
                         )}
-                        {data?.specialRestriction === 'By Location' && (
+                        {data?.specialResrictions === 'By Location' && (
                             <>
                                 <CustomInputNumber name="maximumDistanceAllowed" data={data} onChange={handleChange} col="4" />
                             </>
                         )}
-                        {data?.specialRestriction === 'By Days' && (
+                        {data?.specialResrictions === 'By Days' && (
                             <>
                                 <CustomInputNumber name="maximumDaysAllowed" data={data} onChange={handleChange} col="4" />
                             </>
@@ -154,11 +151,11 @@ const MembershipTypeForm = () => {
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title=" Clubs">
-                    <CustomPickList name="club" selected={data?.club} sourceData={clubsDropdown} onPickListChange={handleChange} />
+                    <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
                 </CustomCard>
-                <AddServices data={data} setData={setData} id={id} loading={loading} name="Add Services" />
+                <AddServices data={data} setData={setData} id={id} loading={isTableLoading} name="Add Services" />
                 <CustomButtonGroup>
-                    <PrimaryButton label="Save" className="mx-2" onClick={onSave} loading={loading} />
+                    <PrimaryButton label="Save" className="mx-2" onClick={onSave} loading={isTableLoading} />
                     <LightButton label="Cancel" onClick={() => history.goBack()} />
                 </CustomButtonGroup>
             </FormPage>

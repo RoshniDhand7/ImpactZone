@@ -4,19 +4,20 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteCampaignGroup, getCampaignsGroups } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteCampaignGroup, getCampaignGroups } from '../../../../redux/actions/Settings/MembershipSetup/campaignsGroupAction';
 
 const CompaignGroups = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCampaignsGroups());
+        dispatch(getCampaignGroups());
     }, [dispatch]);
 
-    const { allCompaignGroups } = useSelector((state) => state.compaignGroups);
+    const allCompaignGroups = useSelector((state) => state?.settings?.members?.campaignGroups);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -24,7 +25,7 @@ const CompaignGroups = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/campaign-group/edit/${col._id}`);
+        history.push(`/settings/member-setup/campaign-group/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
@@ -40,11 +41,11 @@ const CompaignGroups = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Compaigns Group" linkTo="/settings/members/campaign-group/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Compaigns Group" linkTo="/settings/member-setup/campaign-group/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

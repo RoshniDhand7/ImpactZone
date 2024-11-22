@@ -8,20 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { getCampaignsGroups, getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
-import { addCampaign, editCampaign, getCampaign } from '../../../../redux/actions/MembersSettings/campaigns';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
+import { addCampaign, editCampaign, getCampaign } from '../../../../redux/actions/Settings/MembershipSetup/campaignsAction';
 
 const CompaignsForm = () => {
     const history = useHistory();
     const { id } = useParams();
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
     useEffect(() => {
         dispatch(getCampaignsGroups());
         dispatch(getCampaignTypes());
     }, [dispatch]);
 
-    const { compaignGroupDropdown, allCampaignsTypes } = useSelector((state) => state.compaignGroups);
+    const { compaignGroupDropdown, allCampaignsTypes } = useSelector((state) => state.settings.members);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     useEffect(() => {
         if (id) {
@@ -52,9 +52,9 @@ const CompaignsForm = () => {
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
             if (id) {
-                dispatch(editCampaign(id, data, setLoading, history));
+                dispatch(editCampaign(id, data, history));
             } else {
-                dispatch(addCampaign(data, setLoading, history));
+                dispatch(addCampaign(data, history));
             }
         }
     };
@@ -73,7 +73,7 @@ const CompaignsForm = () => {
                 <CustomPickList name="campaignType" selected={data?.campaignType} sourceData={allCampaignsTypes} onPickListChange={handleChange} />
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
+                <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={isTableLoading} />
                 <LightButton label="Cancel" onClick={() => history.goBack()} />
             </CustomButtonGroup>
         </FormPage>

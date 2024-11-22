@@ -25,6 +25,7 @@ const CustomTable = ({
     paginator = true,
     style,
     className,
+    loading = false,
 }) => {
     const actionTemplate = (data, index) => {
         return (
@@ -54,6 +55,7 @@ const CustomTable = ({
             cellClassName={cellClassName}
             style={style}
             className={className}
+            loading={loading}
         >
             {reorderableRows && <Column rowReorder style={{ width: '3rem' }} />}
             {columns.map((col, index) => (

@@ -1,13 +1,16 @@
 import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideTableLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getMembersipTypes = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getMembersipTypes = () => async (dispatch, getState) => {
+    const state = getState();
+    let membershipTypes = state.settings.members.membershipTypes;
+    if (!membershipTypes?.length) {
+        dispatch(showTableLoaderAction());
     }
+
     const res = await api('get', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE);
     if (res.success) {
         if (res.data) {
@@ -19,22 +22,30 @@ const getMembersipTypes = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
+    dispatch(hideTableLoaderAction());
+};
+
+export const reorderPriority = (membershipTypes, next) => async (dispatch) => {
+    const res = await api('post', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE_REORDER_PRIORITY, {
+        membershipTypes: membershipTypes?.map((item) => item?._id),
+    });
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
 };
 
 const addMembershipType = (data, next) => async (dispatch) => {
-    dispatch(showLoaderAction());
-
+    dispatch(showTableLoaderAction());
     const res = await api('post', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE, data);
     if (res.success) {
         next();
     }
-    dispatch(hideLoaderAction());
+    dispatch(hideTableLoaderAction());
 };
+
 const getMembershipType = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE + id);
     if (res.success) {
         if (res.data) {
@@ -43,16 +54,14 @@ const getMembershipType = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const editMembershipType = (id, data, history) => async (dispatch, getState) => {
-    dispatch(showLoaderAction());
-
+    dispatch(showTableLoaderAction());
     const res = await api('put', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE + id, data);
     if (res.success) {
         history.goBack();
     }
-    dispatch(hideLoaderAction());
+    dispatch(hideTableLoaderAction());
 };
 const deleteMembershipType = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.SETTINGS.MEMBER_SETUP.MEMBERSHIP_TYPE + id);

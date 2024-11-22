@@ -5,6 +5,9 @@ const endPoints = {
         },
         MEMBER_SETUP: {
             MEMBERSHIP_TYPE: '/settings/member-setup/membership-type/',
+            MEMBERSHIP_TYPE_REORDER_PRIORITY: '/settings/member-setup/membership-type/reorder-priority/',
+            CAMPAIGN: '/settings/member-setup/campaign/',
+            CAMPAIGN_GROUP: '/settings/member-setup/campaign-group/',
         },
     },
     POS: {

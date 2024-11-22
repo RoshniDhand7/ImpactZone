@@ -39,7 +39,6 @@ import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
 
-
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 
 export const PrivateRoutes = [
@@ -225,7 +224,7 @@ export const PrivateRoutes = [
                 items: AgreementSettingsRoute,
             },
             {
-                path: '/members',
+                path: '/member-setup',
                 name: 'Members',
                 exact: true,
                 component: MembersSetup,
