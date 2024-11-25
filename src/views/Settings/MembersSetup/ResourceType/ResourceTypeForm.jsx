@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addResourceType, editResourceType, getResourceType } from '../../../../redux/actions/MembersSettings/resourceType';
+import { addResourceType, editResourceType, getResourceType } from '../../../../redux/actions/Settings/MembershipSetup/resourceTypeAction';
 
 const ResourceTypeForm = () => {
     const history = useHistory();

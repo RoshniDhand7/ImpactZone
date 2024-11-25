@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getResources } from '../../redux/actions/MembersSettings/resources';
+import { getResources } from '../../redux/actions/Settings/MembershipSetup/resourceAction';
 
 const useResources = () => {
     const dispatch = useDispatch();
@@ -9,9 +9,10 @@ const useResources = () => {
         dispatch(getResources());
     }, [dispatch]);
 
-    const { allResources } = useSelector((state) => state.resources);
+    const { resource } = useSelector((state) => state.settings.members);
 
-    return { allResources };
+    console.log(resource);
+    return { allResources: resource };
 };
 
 export default useResources;

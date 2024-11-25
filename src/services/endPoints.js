@@ -8,6 +8,9 @@ const endPoints = {
             MEMBERSHIP_TYPE_REORDER_PRIORITY: '/settings/member-setup/membership-type/reorder-priority/',
             CAMPAIGN: '/settings/member-setup/campaign/',
             CAMPAIGN_GROUP: '/settings/member-setup/campaign-group/',
+            ACCESS_SCHEDULE: '/settings/member-setup/access-schedule/',
+            RESOURCE_TYPE: '/settings/member-setup/resource-type/',
+            RESOURCE: '/settings/member-setup/resource/',
         },
 
         //BUSINESS

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { addAccessSchedule, editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/MembersSettings/accessSchedule';
 import CustomPicker from '../../../../shared/ColorPicker/ColorPicker';
 import { CustomInput, CustomInputSwitch, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
+import { addAccessSchedule, editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/Settings/MembershipSetup/AccessScheduleAction';
 
 const General = () => {
     const history = useHistory();

@@ -4,13 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
-import { addAccessSchedule, deleteAccessSchedule, getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { addAccessSchedule, deleteAccessSchedule, getAccessSchedules } from '../../../../redux/actions/Settings/MembershipSetup/AccessScheduleAction';
 
 const AcessSchedule = () => {
     const history = useHistory();
@@ -19,8 +19,9 @@ const AcessSchedule = () => {
         dispatch(getAccessSchedules());
     }, [dispatch]);
 
-    const { allAccessSchedule } = useSelector((state) => state.accessSchedule);
-    const { loading } = useSelector((state) => state?.loader?.isLoading);
+    const { assessSchedule } = useSelector((state) => state?.settings?.members);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
+
     const [visible, setVisible] = useState(false);
 
     const columns = [
@@ -31,7 +32,7 @@ const AcessSchedule = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/access-schedule/edit/${col._id}`);
+        history.push(`/settings/member-setup/access-schedule/edit/${col._id}`);
     };
     const onCopy = (col) => {
         setVisible(col);
@@ -83,16 +84,16 @@ const AcessSchedule = () => {
         });
     };
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAccessSchedule);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(assessSchedule);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Access Schedule" linkTo="/settings/members/access-schedule/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Access Schedule" linkTo="/settings/member-setup/access-schedule/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filters" className="mx-2" onClick={onFilterOpen} />
             </CustomFilterCard>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} loading={isTableLoading} />
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomDialog title={'Copy Access Schedule'} visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
+            <CustomDialog title={'Copy Access Schedule'} visible={visible} onCancel={onClose} loading={isTableLoading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />
                 </CustomGridLayout>
