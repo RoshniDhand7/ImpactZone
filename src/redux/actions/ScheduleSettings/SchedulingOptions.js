@@ -34,7 +34,7 @@ const addScheduling = (data) => async (dispatch) => {
 const editScheduling = (id, data, setLoading, history) => async (dispatch, getState) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.LEVELS + id, data);
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL + id, data);
     if (res.success) {
         history.goBack();
     }

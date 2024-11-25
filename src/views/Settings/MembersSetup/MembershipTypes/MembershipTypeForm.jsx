@@ -30,7 +30,7 @@ const MembershipTypeForm = () => {
         remoteCheckin: false,
         transferToAnotherType: null,
         clubCreditAmount: '',
-        specialResrictions: '',
+        specialResrictions: 'None',
         minimumAgeAllowed: 0,
         maximumAgeAllowed: 0,
         maximumDaysAllowed: 0,

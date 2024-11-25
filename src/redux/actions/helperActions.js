@@ -16,4 +16,9 @@ const validateAccessCodeAction = (accessCode, setLoading, next) => async (dispat
         setLoading(false);
     }
 };
-export { validateAccessCodeAction };
+
+const createEndpoint = (base, paths) => {
+    return Object.fromEntries(Object.entries(paths).map(([key, value]) => [key, `${base}${value}/`]));
+};
+
+export { validateAccessCodeAction, createEndpoint };

@@ -8,7 +8,7 @@ const getLevels = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.LEVELS);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -26,7 +26,7 @@ const getLevels = (setLoading) => async (dispatch) => {
 
 const getLevel = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.LEVELS + id);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -40,7 +40,7 @@ const getLevel = (id, returnData) => async (dispatch) => {
 const addLevel = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.LEVELS, data);
+    const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL, data);
     if (res.success) {
         history.goBack();
     }
@@ -49,14 +49,14 @@ const addLevel = (data, setLoading, history) => async (dispatch) => {
 const editLevel = (id, data, setLoading, history) => async (dispatch, getState) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.LEVELS + id, data);
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL + id, data);
     if (res.success) {
         history.goBack();
     }
     setLoading(false);
 };
 const deleteLevel = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.LEVELS + id);
+    const res = await api('delete', EndPoints.SETTINGS.SCHEDULE_SETUP.LEVEL + id);
     if (res.success) {
         dispatch(getLevels(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
