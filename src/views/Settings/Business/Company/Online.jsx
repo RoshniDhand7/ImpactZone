@@ -18,7 +18,7 @@ const Online = (allCompany) => {
                 bookOutFrom: allCompany?.bookOutFrom,
                 bookOutTo: allCompany?.bookOutTo,
                 allowCancelOnline: allCompany?.allowCancelOnline,
-                timeBeforeEvent: allCompany?.timeBeforeEvent,
+                timeBeforeEvent: allCompany?.timeBeforeEvent && allCompany?.timeBeforeEvent / 60, //convert time from minutes to hrs
             });
         }
     }, [allCompany]);
@@ -34,10 +34,12 @@ const Online = (allCompany) => {
     };
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(editCompany(data, setLoading, history));
+            data.timeBeforeEvent = data.timeBeforeEvent * 60; //convert time from hrs to minutes
+            dispatch(editCompany(allCompany._id, data, setLoading, history));
         }
     };
     const history = useHistory();
+
     return (
         <>
             <CustomCard col="12" title="Booking">

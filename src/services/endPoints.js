@@ -12,8 +12,8 @@ const endPoints = {
 
         //BUSINESS
         BUSINESS: {
-            COMPANY: '/company',
-            REASON_CODE: '/reason-code/',
+            COMPANY: '/settings/business/company/',
+            REASON_CODE: '/settings/business/reason-code/',
             CLUBS: '/clubs/',
             JOB_TITLE: '/title/',
             DEFAULT_SETTING: '/dashboard-setting/',

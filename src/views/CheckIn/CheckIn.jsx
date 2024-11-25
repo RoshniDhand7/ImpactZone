@@ -69,23 +69,21 @@ export default function CheckIn() {
         }
     }, [getCheckInData]);
 
-    console.log(getCheckInData, 'getCheckInData');
-
     const column1 = [
-        { field: 'employee', header: 'Name' },
-        { field: 'employee', header: 'Date/Time' },
-        { field: 'employee', header: 'Location' },
+        { field: 'employee1', header: 'Name' },
+        { field: 'employee2', header: 'Date/Time' },
+        { field: 'employee3', header: 'Location' },
     ];
 
     const column2 = [
         { field: 'name', header: 'Name' },
-        { field: '', header: 'Count' },
-        { field: '', header: 'Expires' },
+        { field: 'count', header: 'Count' },
+        { field: 'expires', header: 'Expires' },
     ];
     const column3 = [
-        { field: '', header: 'Name' },
-        { field: '', header: 'Count' },
-        { field: '', header: 'Expires' },
+        { field: 'name', header: 'Name' },
+        { field: 'count', header: 'Count' },
+        { field: 'expires', header: 'Expires' },
     ];
 
     const posColumn = [
@@ -99,11 +97,8 @@ export default function CheckIn() {
         },
     ];
 
-    console.log('allMembers==>', allMembers);
-
     const handleScanner = ({ value }) => {
         let _member = allMembers.find((item) => item.barCode === value);
-        console.log('_member==>', _member);
         if (_member) {
             handleChange({ name: 'member', value: _member._id });
         } else {

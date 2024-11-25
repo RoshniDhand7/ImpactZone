@@ -21,7 +21,7 @@ const getCompanyDetails = (setLoading) => async (dispatch) => {
         setLoading(false);
     }
 };
-const editCompany = (data, setLoading, history) => async (dispatch) => {
+const editCompany = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
     if (data?.logo?.length) {
         data.logo = await uploadImages(data.logo);
@@ -30,7 +30,7 @@ const editCompany = (data, setLoading, history) => async (dispatch) => {
         data.logo = '';
     }
 
-    const res = await api('put', EndPoints.SETTINGS.BUSINESS.COMPANY, data);
+    const res = await api('put', EndPoints.SETTINGS.BUSINESS.COMPANY + id, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
