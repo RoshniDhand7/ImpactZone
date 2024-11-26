@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getMemberAction } from '../../../redux/actions/Dashboard/Members';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getMemberData } from '../../../redux/actions/MembersPortal/memberPortalActions';
 
 const useMemberDetail = () => {
     const { id } = useParams();
 
+    const memberData = useSelector((state) => state.membersPortal.dashboard);
     const dispatch = useDispatch();
 
     const initialState = {
@@ -49,48 +50,47 @@ const useMemberDetail = () => {
     const [data, setData] = useState(initialState);
 
     useEffect(() => {
-        dispatch(getMemberAction(id));
-    }, [dispatch, id]);
-    const { getMember } = useSelector((state) => state.members);
+        !memberData && dispatch(getMemberData(id, 'dashboard'));
+    }, []);
 
     useEffect(() => {
-        if (getMember) {
+        if (memberData) {
             setData({
-                firstName: getMember.firstName,
-                lastName: getMember.lastName,
-                barCode: getMember.barCode,
-                email: getMember?.email ?? '',
-                dob: getMember.dob ? new Date(getMember.dob) : '',
-                isActive: getMember.isActive,
-                image: getMember.image ? [getMember.image] : [],
-                MI: getMember.MI,
-                primaryPhone: getMember.primaryPhone,
-                driverLicense: getMember.driverLicense,
-                address: getMember.address,
-                gender: getMember.gender,
-                mobilePhone: getMember.mobilePhone,
-                workNumber: getMember.workNumber,
-                membershipType: getMember.membershipTypeId ? getMember?.membershipTypeId : null,
-                membershipTypeName: getMember?.membershipType ? getMember?.membershipType : null,
-                socialSecurity: getMember.socialSecurity,
-                occupation: getMember.occupation,
-                accessCode: getMember.accessCode,
+                firstName: memberData.firstName,
+                lastName: memberData.lastName,
+                barCode: memberData.barCode,
+                email: memberData?.email ?? '',
+                dob: memberData.dob ? new Date(memberData.dob) : '',
+                isActive: memberData.isActive,
+                image: memberData.image ? [memberData.image] : [],
+                MI: memberData.MI,
+                primaryPhone: memberData.primaryPhone,
+                driverLicense: memberData.driverLicense,
+                address: memberData.address,
+                gender: memberData.gender,
+                mobilePhone: memberData.mobilePhone,
+                workNumber: memberData.workNumber,
+                membershipType: memberData.membershipTypeId ? memberData?.membershipTypeId : null,
+                membershipTypeName: memberData?.membershipType ? memberData?.membershipType : null,
+                socialSecurity: memberData.socialSecurity,
+                occupation: memberData.occupation,
+                accessCode: memberData.accessCode,
                 reAccessCode: '',
                 text: {
-                    membership: getMember?.text?.membership,
-                    services: getMember?.text?.services,
-                    booking: getMember?.text?.booking,
+                    membership: memberData?.text?.membership,
+                    services: memberData?.text?.services,
+                    booking: memberData?.text?.booking,
                 },
                 promotional: {
-                    membership: getMember?.promotional?.membership,
-                    services: getMember?.promotional?.services,
-                    booking: getMember?.promotional?.booking,
+                    membership: memberData?.promotional?.membership,
+                    services: memberData?.promotional?.services,
+                    booking: memberData?.promotional?.booking,
                 },
             });
         }
-    }, [getMember]);
+    }, [memberData]);
 
-    return { data, setData, initialState, getMember };
+    return { data, setData, initialState };
 };
 
 export default useMemberDetail;

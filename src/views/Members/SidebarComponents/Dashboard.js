@@ -40,7 +40,7 @@ const Dashboard = () => {
     return (
         <div className="grid">
             <div className="md:col-8">
-                <ProfileDetail data={data || {}} id={id} />
+                <ProfileDetail data={data || {}} />
                 <TopLayout />
                 <CustomCard title="Alerts" col={12} height="200px">
                     <p className="text-sm font-medium flex gap-2 align-items-center mb-3 text-red-600">
