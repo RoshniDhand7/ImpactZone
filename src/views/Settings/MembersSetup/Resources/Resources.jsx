@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { deleteResource } from '../../../../redux/actions/MembersSettings/resources';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
-import useResources from '../../../../hooks/Members/useResources';
+import { getResources } from '../../../../redux/actions/Settings/MembershipSetup/resourceAction';
 
 const Resources = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { allResources } = useResources();
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
+    useEffect(() => {
+        dispatch(getResources());
+    }, [dispatch]);
+
+    const { resource } = useSelector((state) => state.settings.members);
+
+    console.log(resource, 'resource');
 
     const columns = [
         { field: 'name', header: 'Resource Name' },
@@ -25,7 +32,7 @@ const Resources = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/members/resources/edit/${col._id}`);
+        history.push(`/settings/member-setup/resources/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
@@ -37,15 +44,15 @@ const Resources = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allResources);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(resource);
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Resource" linkTo="/settings/members/resources/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Resource" linkTo="/settings/member-setup/resources/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filters" onClick={onFilterOpen} className="mx-2" />
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

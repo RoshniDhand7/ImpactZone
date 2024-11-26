@@ -22,6 +22,7 @@ const Campaigns = () => {
 
     const allCompaigns = useSelector((state) => state?.settings?.members?.campaigns);
     const { allCampaignsTypes } = useSelector((state) => state.compaignGroups);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -70,7 +71,7 @@ const Campaigns = () => {
                     <CustomMultiselect col={12} label="Type" name="campaignType" options={allCampaignsTypes} data={data} onChange={handleChange} showClear />
                 </CustomGridLayout>
             </FilterComponent>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

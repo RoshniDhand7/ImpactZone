@@ -1,16 +1,17 @@
-import { createEndpoint } from '../redux/actions/helperActions';
-
 const endPoints = {
     SETTINGS: {
         POS: {
             REGISTER: '/settings/pos/register/',
         },
-        MEMBER_SETUP: createEndpoint('/settings/member-setup/', {
-            MEMBERSHIP_TYPE: 'membership-type',
-            MEMBERSHIP_TYPE_REORDER_PRIORITY: 'membership-type/reorder-priority',
-            CAMPAIGN: 'campaign',
-            CAMPAIGN_GROUP: 'campaign-group',
-        }),
+        MEMBER_SETUP: {
+            MEMBERSHIP_TYPE: '/settings/member-setup/membership-type/',
+            MEMBERSHIP_TYPE_REORDER_PRIORITY: '/settings/member-setup/membership-type/reorder-priority/',
+            CAMPAIGN: '/settings/member-setup/campaign/',
+            CAMPAIGN_GROUP: '/settings/member-setup/campaign-group/',
+            ACCESS_SCHEDULE: '/settings/member-setup/access-schedule/',
+            RESOURCE_TYPE: '/settings/member-setup/resource-type/',
+            RESOURCE: '/settings/member-setup/resource/',
+        },
 
         //BUSINESS
         BUSINESS: {
@@ -22,19 +23,19 @@ const endPoints = {
         },
 
         //AGREEMENT SETUP
-        AGREEMENT_SETUP: createEndpoint('/settings/agreement-setup/', {
-            AGREEMENT_TEMPLATE: 'agreement-template',
-            AGREEMENT_CATEGORY: 'agreement-category',
-            ASSESSED_FEE: 'assessed-fee',
-            AGREEMENT_PLAN: 'agreement-plan',
-            AGREEMENT_PROMOTION: 'agreement-promotion',
-        }),
+        AGREEMENT_SETUP: {
+            AGREEMENT_TEMPLATE: '/settings/agreement-setup/agreement-template/',
+            AGREEMENT_CATEGORY: '/settings/agreement-setup/agreement-category/',
+            ASSESSED_FEE: '/settings/agreement-setup/assessed-fee/',
+            AGREEMENT_PLAN: '/settings/agreement-setup/agreement-plan/',
+            AGREEMENT_PROMOTION: '/settings/agreement-setup/agreement-promotion/',
+        },
 
         //SCHEDULE SETUP
-        SCHEDULE_SETUP: createEndpoint('/settings/schedule-setup/', {
-            LEVEL: 'level',
-            LOCATION_TYPE: 'location-type',
-        }),
+        SCHEDULE_SETUP: {
+            LEVEL: '/settings/schedule-setup/level/',
+            LOCATION_TYPE: '/settings/schedule-setup/location-type/',
+        },
     },
     POS: {
         SALE: '/point-of-sale/sale/',

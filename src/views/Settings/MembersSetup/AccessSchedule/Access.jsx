@@ -9,7 +9,7 @@ import PrimaryButton, { CustomButtonGroup } from '../../../../shared/Button/Cust
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/MembersSettings/accessSchedule';
+import { editAccessSchedule, getAccessSchedule } from '../../../../redux/actions/Settings/MembershipSetup/AccessScheduleAction';
 
 const Access = () => {
     const [access, setAccess] = useState({ duration: 30, schedule: [] });

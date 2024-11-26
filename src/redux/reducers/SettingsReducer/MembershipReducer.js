@@ -7,6 +7,11 @@ const intitalState = {
     campaignGroups: [],
     compaignGroupDropdown: [],
     allCampaignsTypes: [],
+    assessSchedule: [],
+    accessScheduleDropdown: [],
+    resourceType: [],
+    resourceTypeDropdown: [],
+    resource: [],
 };
 
 const MembershipReducer = (state = intitalState, action) => {
@@ -33,6 +38,23 @@ const MembershipReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 allCampaignsTypes: action.payload?.map((item) => ({ name: item.name, value: item._id })),
+            };
+        case types.SETTINGS.MEMBER_SETUP.ACCESS_SCHEDULE:
+            return {
+                ...state,
+                assessSchedule: action.payload,
+                accessScheduleDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
+            };
+        case types.SETTINGS.MEMBER_SETUP.RESOURCE_TYPE:
+            return {
+                ...state,
+                resourceType: action.payload,
+                resourceTypeDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
+            };
+        case types.SETTINGS.MEMBER_SETUP.RESOURCE:
+            return {
+                ...state,
+                resource: action.payload,
             };
 
         default:
