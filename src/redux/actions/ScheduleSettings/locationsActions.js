@@ -8,7 +8,7 @@ const getLocations = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.LOCATIONS);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -26,7 +26,7 @@ const getLocations = (setLoading) => async (dispatch) => {
 
 const getLocation = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.LOCATIONS + id);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -40,7 +40,7 @@ const getLocation = (id, returnData) => async (dispatch) => {
 const addLocation = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('post', EndPoints.LOCATIONS, data);
+    const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION, data);
     if (res.success) {
         history.goBack();
     }
@@ -49,14 +49,14 @@ const addLocation = (data, setLoading, history) => async (dispatch) => {
 const editLocation = (id, data, setLoading, history) => async (dispatch, getState) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.LOCATIONS + id, data);
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION + id, data);
     if (res.success) {
         history.goBack();
     }
     setLoading(false);
 };
 const deleteLocation = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.LOCATIONS + id);
+    const res = await api('delete', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION + id);
     if (res.success) {
         dispatch(getLocations(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));

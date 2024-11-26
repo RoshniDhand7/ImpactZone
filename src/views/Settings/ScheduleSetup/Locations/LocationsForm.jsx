@@ -58,7 +58,7 @@ const LocationsForm = () => {
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomDropDown name="locationType" options={locationTypeDropdown} data={data} onChange={handleChange} required />
-                    <CustomMultiselect name="club" options={clubsDropdown} data={data} onChange={handleChange} />
+                    <CustomMultiselect name="club" options={clubsDropdown} data={data} onChange={handleChange} required />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>

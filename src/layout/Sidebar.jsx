@@ -16,19 +16,13 @@ import { Link, useRouteMatch } from 'react-router-dom';
 
 export default function Sidebar() {
     const { url } = useRouteMatch();
-    const [activeItem, setActiveItem] = useState(null);
+    const [active, setActive] = useState('Dashboard');
 
-    useEffect(() => {
-        setActiveItem(0);
-    }, []);
-
-    const items = [
+    const categories = [
         {
             label: 'Dashboard',
             icon: <DashboardIcon />,
             path: `${url}/dashboard`,
-
-            // command: () => navigate('/dashboard'),
         },
         {
             label: 'Personal',
@@ -93,18 +87,20 @@ export default function Sidebar() {
     ];
 
     return (
-        <div className="layout-sidebar bg-light-gray">
-            <div className="menu-bar">
-                <ul className="p-0 list-none side-menu">
-                    {items.map((item, index) => (
-                        <li className="mb-2" key={item.label}>
-                            <Link to={item.path} className={`flex gap-3 p-2 ${activeItem === index ? 'active' : ''} `} onClick={() => setActiveItem(index)}>
-                                {item.icon}
-                                {item.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+        <div className="h-full">
+            <div className="div-shadow h-full">
+                <div className="text-xl font-semibold p-2">Categories</div>
+                {categories.map((item) => (
+                    <Link
+                        key={item?.label}
+                        className={`flex gap-2 align-items-center py-2 px-3 sidebar-item ${item.label === active && 'active'}`}
+                        to={item.path}
+                        onClick={() => setActive(item?.label)}
+                    >
+                        {item.icon}
+                        {item.label}
+                    </Link>
+                ))}
             </div>
         </div>
     );

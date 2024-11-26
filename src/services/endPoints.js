@@ -35,6 +35,7 @@ const endPoints = {
         SCHEDULE_SETUP: {
             LEVEL: '/settings/schedule-setup/level/',
             LOCATION_TYPE: '/settings/schedule-setup/location-type/',
+            LOCATION: '/settings/schedule-setup/location/',
         },
     },
     POS: {
@@ -67,7 +68,6 @@ const endPoints = {
     EMPLOYEE_CLASSES: '/employee-classes/',
     UPDATE_CLASS_LEVEL: '/employee-classes-level/',
     UPDATE_APPOINTMENT_CLASS_LEVEL: '/employee-appointment-level/',
-    LOCATIONS: '/location/',
     COMPAIGNS_GROUP: '/campaign-group/',
     COMPAIGN: '/campaign/',
     RESOURCE_TYPE: '/resource-type/',

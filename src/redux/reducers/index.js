@@ -52,6 +52,7 @@ import SettingsReducer from './SettingsReducer';
 import POSReducer from './POSReducer';
 import checkInReducer from './CheckIn/CheckInReducer';
 import tableLoaderReducer from './tableLoaderReducer';
+import membersPortalReducer from './Members/MembersReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -76,6 +77,7 @@ export default combineReducers({
     referralGroup: referralGroupReducer,
     commissionGroup: commissionGroupReducer,
     vendors: VendorsReducer,
+    membersPortal: membersPortalReducer,
     category: categoryReducer,
     profitCenter: profitCenterReducer,
     certificates: certificateReducer,

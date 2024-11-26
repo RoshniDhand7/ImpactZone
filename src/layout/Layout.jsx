@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Sidebar from './Sidebar';
+import { CustomGridLayout } from '../shared/Cards/CustomCard';
+import { useDispatch } from 'react-redux';
+import { types } from '../redux/types/types';
 
 export default function Layout({ children }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     // const [mobileMenuActive, setMobileMenuActive] = useState(false);
+    const dispatch = useDispatch();
 
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': !isSidebarOpen,
@@ -16,6 +20,10 @@ export default function Layout({ children }) {
         if (!isDesktop()) {
             setIsSidebarOpen(false);
         }
+
+        return () => {
+            dispatch({ type: types.RESET_MEMBER_DATA });
+        };
     }, []);
 
     // const toggleSidebar = () => {
@@ -46,14 +54,11 @@ export default function Layout({ children }) {
     };
 
     return (
-        <div className={wrapperClass}>
-            <div className="sidebar-view">
+        <CustomGridLayout>
+            <div className="col-2">
                 <Sidebar />
             </div>
-
-            <div className="layout-main-container">
-                <div className="layout-main ">{children}</div>
-            </div>
-        </div>
+            <div className="col-10">{children}</div>
+        </CustomGridLayout>
     );
 }
