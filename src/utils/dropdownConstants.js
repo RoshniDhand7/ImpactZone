@@ -440,7 +440,7 @@ export const classMeet = ['One Time', 'Weekly', 'Biweekly', 'Monthly'].map((name
     value: index + 1,
 }));
 export const WeekDaysOption = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((name) => ({ name, value: name }));
-export const SpecialRestrictionOptions = ['None', 'By Age', 'By Location', 'By Days'].map((name) => ({ name, value: name }));
+export const SpecialRestrictionOptions = ['None', 'By Age', 'By Location', 'By Days'].map((name) => ({ name, value: name.toUpperCase() }));
 export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No Show Fee', 'Freeze Fee', 'Cancellation Fee'].map((name) => ({
     name,
     value: name,

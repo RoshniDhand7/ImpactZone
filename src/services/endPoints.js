@@ -15,8 +15,8 @@ const endPoints = {
 
         //BUSINESS
         BUSINESS: {
-            COMPANY: '/company',
-            REASON_CODE: '/reason-code/',
+            COMPANY: '/settings/business/company/',
+            REASON_CODE: '/settings/business/reason-code/',
             CLUBS: '/clubs/',
             JOB_TITLE: '/title/',
             DEFAULT_SETTING: '/dashboard-setting/',
@@ -29,6 +29,12 @@ const endPoints = {
             ASSESSED_FEE: '/settings/agreement-setup/assessed-fee/',
             AGREEMENT_PLAN: '/settings/agreement-setup/agreement-plan/',
             AGREEMENT_PROMOTION: '/settings/agreement-setup/agreement-promotion/',
+        },
+
+        //SCHEDULE SETUP
+        SCHEDULE_SETUP: {
+            LEVEL: '/settings/schedule-setup/level/',
+            LOCATION_TYPE: '/settings/schedule-setup/location-type/',
         },
     },
     POS: {
@@ -61,8 +67,6 @@ const endPoints = {
     EMPLOYEE_CLASSES: '/employee-classes/',
     UPDATE_CLASS_LEVEL: '/employee-classes-level/',
     UPDATE_APPOINTMENT_CLASS_LEVEL: '/employee-appointment-level/',
-    LEVELS: '/level/',
-    LOCATION_TYPE: '/location-type/',
     LOCATIONS: '/location/',
     COMPAIGNS_GROUP: '/campaign-group/',
     COMPAIGN: '/campaign/',

@@ -35,7 +35,7 @@ const CustomizationForm = ({ history }) => {
     };
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(editCompany(data, setLoading, history));
+            dispatch(editCompany(allCompany._id, data, setLoading, history));
         }
     };
 
