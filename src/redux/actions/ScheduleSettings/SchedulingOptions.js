@@ -6,7 +6,7 @@ import { showToast } from '../toastAction';
 
 const getSchedulings = () => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.SCHEDULING_OPTIONS);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_OPTION);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -23,7 +23,7 @@ const getSchedulings = () => async (dispatch) => {
 const addScheduling = (data) => async (dispatch) => {
     dispatch(showLoaderAction());
 
-    const res = await api('post', EndPoints.SCHEDULING_OPTIONS, data);
+    const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_OPTION, data);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
     } else {

@@ -8,7 +8,7 @@ const getEvents = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.SCHEDULE_EVENTS);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -45,7 +45,7 @@ const getServicesEvents = (id, setLoading) => async (dispatch) => {
 };
 const getScheduledEvent = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.SCHEDULE_EVENTS + id);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -78,7 +78,7 @@ const addScheduledEvent =
             requiredToCreate: { employee, location, member },
             requiredtoComplete: { employee: employee1, location: location1, member: member1, memberVerification, employeeVerification, autoComplete },
         };
-        const res = await api('post', EndPoints.SCHEDULE_EVENTS, payload);
+        const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP, payload);
         if (res.success) {
             if (tab) {
                 history.replace(`/settings/schedule/events/edit/${res.data._id}/${tab}`);
@@ -106,7 +106,7 @@ const editScheduledEvent =
     async (dispatch) => {
         setLoading(true);
 
-        const res = await api('put', EndPoints.SCHEDULE_EVENTS + id, data);
+        const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP + id, data);
         if (res.success) {
             if (tab) {
                 history.replace(`/settings/schedule/events/edit/${res.data._id}/${tab}`);
@@ -129,7 +129,7 @@ const singleServiceDelete = (eventId, colId, next) => async (dispatch) => {
     }
 };
 const deleteScheduledEvent = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.SCHEDULE_EVENTS + id);
+    const res = await api('delete', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP + id);
     if (res.success) {
         dispatch(getEvents(() => {}));
         dispatch(showToast({ severity: 'success', summary: res.message }));
