@@ -9,7 +9,7 @@ const getEventClasses = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', EndPoints.CLASSES);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -27,7 +27,7 @@ const getEventClasses = (setLoading) => async (dispatch) => {
 
 const getEventClass = (id, returnData) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.CLASSES + id);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -46,7 +46,7 @@ const addClasses = (data, history) => async (dispatch) => {
         schedule: data?.schedule?.map((item) => ({ ...item, startTime: getTime(item.startTime) })),
         pay: data?.payType,
     };
-    const res = await api('post', EndPoints.CLASSES, payload);
+    const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES, payload);
     if (res.success) {
         history.goBack();
     }
@@ -59,14 +59,14 @@ const editClasses = (id, data, history) => async (dispatch, getState) => {
         schedule: data?.schedule?.map((item) => ({ ...item, startTime: getTime(item.startTime) })),
         pay: data?.payType,
     };
-    const res = await api('put', EndPoints.CLASSES + id, payload);
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES + id, payload);
     if (res.success) {
         history.goBack();
     }
     dispatch(hideLoaderAction());
 };
 const deleteClasses = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.CLASSES + id);
+    const res = await api('delete', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES + id);
     if (res.success) {
         dispatch(getEventClasses());
         dispatch(showToast({ severity: 'success', summary: res.message }));

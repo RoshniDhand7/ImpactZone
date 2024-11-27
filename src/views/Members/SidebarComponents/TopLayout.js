@@ -7,35 +7,42 @@ import { ReactComponent as AlertIcon } from '../../../assets/svg/checkin.svg';
 import { ReactComponent as MessageIcon } from '../../../assets/svg/message.svg';
 
 const TopLayout = () => {
+    const LIST = [
+        {
+            label: 'Quick Enroll',
+            icon: <DocumentIcon />,
+        },
+        {
+            label: 'Calendar',
+            icon: <CalendarIcon />,
+        },
+        {
+            label: 'POS',
+            icon: <POSIcon />,
+        },
+        {
+            label: 'Create Task',
+            icon: <TaskIcon />,
+        },
+        {
+            label: 'Create Alert',
+            icon: <AlertIcon />,
+        },
+        {
+            label: 'Send Message',
+            icon: <MessageIcon />,
+        },
+    ];
+
     return (
-        <>
-            <div className=" p-4 border-round-xl shadow-2 align-items-center bg-lightest-blue flex gap-5 mb-3 justify-content-between">
-                <div className="text-center">
-                    <DocumentIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">Quick Enroll</p>
+        <div className="p-3 border-round-xl shadow-2 align-items-center bg-lightest-blue flex gap-5 mb-3 justify-content-between">
+            {LIST.map((item) => (
+                <div className="text-center cursor-pointer hover:surface-200 p-2 border-round" key={item.label} style={{ minWidth: '90px' }}>
+                    {item.icon}
+                    <p className="font-semibold text-xs text-dark-blue mt-2 cursor-pointer">{item.label}</p>
                 </div>
-                <div className="text-center">
-                    <CalendarIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">Calendar</p>
-                </div>
-                <div className="text-center">
-                    <POSIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">POS</p>
-                </div>
-                <div className="text-center">
-                    <TaskIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">Create Task</p>
-                </div>
-                <div className="text-center">
-                    <AlertIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">Create Alert</p>
-                </div>
-                <div className="text-center">
-                    <MessageIcon />
-                    <p className="font-semibold text-xs text-dark-blue mt-2">Send Message</p>
-                </div>
-            </div>
-        </>
+            ))}
+        </div>
     );
 };
 

@@ -16,7 +16,8 @@ import { showFormErrors } from '../../../utils/commonFunctions';
 import usePlacesAutocomplete from '../usePlacesAutoComplete';
 
 const Personal = () => {
-    const { data, setData, initialState, getMember } = useMemberDetail();
+    const { data, setData, initialState } = useMemberDetail();
+    const memberData = useSelector((state) => state.membersPortal.dashboard);
     const [visiblePersonalDetail, setVisiblePersonal] = useState(null);
     const [visibleDemographics, setVisibleDemographics] = useState(null);
     const [visibleMembershipDetail, setVisibleMembershipDetail] = useState(null);
@@ -156,7 +157,7 @@ const Personal = () => {
             </CustomDialog>
             <CustomDialog
                 width="73vh"
-                title={getMember?.accessCode ? 'Edit' : 'Add'}
+                title={memberData?.accessCode ? 'Edit' : 'Add'}
                 visible={visibleAccessCode}
                 onCancel={() => {
                     setData1(initialState);
@@ -166,7 +167,7 @@ const Personal = () => {
                 onSave={handleSave}
             >
                 <CustomGridLayout>
-                    {getMember?.accessCode ? (
+                    {memberData?.accessCode ? (
                         <>
                             <CustomInput name="oldAccessCode" col={6} data={data1} onChange={handleChange} />
                             <CustomInput name="accessCode" col={6} data={data1} onChange={handleChange} />
@@ -182,7 +183,7 @@ const Personal = () => {
             </CustomDialog>
             <div className="grid">
                 <div className="md:col-12">
-                    <ProfileDetail data={data} setData={setData} id={id} initialState={initialState} getMember={getMember} />
+                    <ProfileDetail data={memberData || {}} />
                     <TopLayout />
                     <div className="grid">
                         <CustomCard
