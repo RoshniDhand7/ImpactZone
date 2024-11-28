@@ -23,7 +23,7 @@ const AssessedFees = () => {
         dispatch(getAssesedFees());
     }, [dispatch]);
 
-    let { allAssessedFees } = useSelector((state) => state.assessedFees);
+    let allAssessedFees = useSelector((state) => state.settings.agreement.assessedFees);
     const { profitCenterDropdown } = useSelector((state) => state.profitCenter);
     const { clubsDropdown } = useGetClubs();
 
