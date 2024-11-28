@@ -169,3 +169,7 @@ export function CustomFilterCard1({ children, buttonTitle, linkTo, onClick, extr
         </div>
     );
 }
+
+export const CusomCardBlue = ({ children }) => {
+    return <div className="p-3 border-round-xl shadow-2 align-items-center bg-lightest-blue flex gap-5 mb-3 justify-content-between">{children}</div>;
+};

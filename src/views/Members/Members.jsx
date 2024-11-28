@@ -3,6 +3,8 @@ import Layout from '../../layout/Layout';
 import { Route, Switch } from 'react-router-dom';
 import Personal from './SidebarComponents/Personal';
 import Dashboard from './SidebarComponents/Dashboard';
+import Services from './SidebarComponents/Services';
+import Agreement from './SidebarComponents/Agreement';
 
 export default function Members() {
     return (
@@ -11,6 +13,8 @@ export default function Members() {
                 <Switch>
                     <Route path={`/member/:id/dashboard`} component={Dashboard} />
                     <Route path={`/member/:id/personal`} component={Personal} />
+                    <Route path={`/member/:id/agreement`} component={Agreement} />
+                    <Route path={`/member/:id/services`} component={Services} />
                 </Switch>
             </Layout>
         </div>

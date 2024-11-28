@@ -33,4 +33,16 @@ const getMembers = () => async (dispatch) => {
     }
 };
 
-export { getMembers, getMemberData };
+const getServices = () => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBER_SERVICES);
+    if (res.success) {
+        dispatch({
+            type: types.CHANGE_SERVICES,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { getMembers, getMemberData, getServices };

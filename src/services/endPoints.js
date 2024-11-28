@@ -53,6 +53,7 @@ const endPoints = {
     //member
 
     MEMBERS: '/memberV2/',
+    MEMBER_SERVICES: '/memberV2/services',
 
     AUTH: {
         PROFILE: '/profile',
