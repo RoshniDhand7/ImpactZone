@@ -4,13 +4,14 @@ import { uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
+
 const getMemberData = (id, key) => async (dispatch, getState) => {
     const state = getState();
     console.log(state, 'state');
     if (state.membersPortal?.dashboard?._id !== id) {
         dispatch(showLoaderAction());
     }
-    const res = await api('get', endPoints.MEMBERS + id);
+    const res = await api('get', endPoints.MEMBERS_V2.MEMBERS + id);
     if (res.success) {
         if (res.data) {
             dispatch({
@@ -23,7 +24,7 @@ const getMemberData = (id, key) => async (dispatch, getState) => {
 };
 
 const getMembers = () => async (dispatch) => {
-    const res = await api('get', endPoints.MEMBERS);
+    const res = await api('get', endPoints.MEMBERS_V2.MEMBERS);
     if (res.success) {
         dispatch({
             type: types.CHANGE_MEMBERS,
@@ -50,7 +51,7 @@ const addMembers = (data, next) => async (dispatch) => {
         ...(data?.workNumber && { workNumber: data?.workNumber?.replace(/\D/g, '') }),
     };
 
-    const res = await api('post', endPoints.MEMBERS, paylaod);
+    const res = await api('post', endPoints.MEMBERS_V2.MEMBERS, paylaod);
     if (res.success) {
         next();
     } else {
@@ -73,7 +74,7 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
         ...(data?.workNumber && { workNumber: data?.workNumber?.replace(/\D/g, '') }),
     };
 
-    const res = await api('put', endPoints.MEMBERS + id, paylaod);
+    const res = await api('put', endPoints.MEMBERS_V2.MEMBERS + id, paylaod);
     if (res.success) {
         next();
     } else {
@@ -84,7 +85,7 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
 };
 
 const getServices = () => async (dispatch) => {
-    const res = await api('get', endPoints.MEMBER_SERVICES);
+    const res = await api('get', endPoints.MEMBERS_V2.SERVICES);
     if (res.success) {
         dispatch({
             type: types.CHANGE_SERVICES,
@@ -95,4 +96,16 @@ const getServices = () => async (dispatch) => {
     }
 };
 
-export { getMembers, getMemberData, addMembers, editMemberAction, getServices };
+const getAgreements = (id) => async (dispatch) => {
+    const res = await api('get', `${endPoints.MEMBERS_V2.AGREEMENT}?memberId=${id}`);
+    if (res.success) {
+        dispatch({
+            type: types.CHANGE_AGREEMENT,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements };

@@ -3,6 +3,7 @@ const intitalState = {
     members: [],
     allMembersDropdown: [],
     member: {},
+    agreement: [],
     services: [],
 };
 
@@ -32,6 +33,11 @@ const membersPortalReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 services: action.payload,
+            };
+        case types.CHANGE_AGREEMENT:
+            return {
+                ...state,
+                agreement: action.payload,
             };
         default:
             return { ...state };

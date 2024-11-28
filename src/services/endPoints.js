@@ -52,8 +52,11 @@ const endPoints = {
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
     //member
 
-    MEMBERS: '/memberV2/',
-    MEMBER_SERVICES: '/memberV2/services',
+    MEMBERS_V2: {
+        MEMBERS: '/memberV2/',
+        SERVICES: '/memberV2/services/',
+        AGREEMENT: '/memberV2/agreement/',
+    },
 
     AUTH: {
         PROFILE: '/profile',

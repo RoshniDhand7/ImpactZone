@@ -4,8 +4,15 @@ import TopLayout from './TopLayout';
 import viewIcon from '../../../assets/icons/view.png';
 import CustomTable from '../../../shared/Table/CustomTable';
 import moment from 'moment';
+import { useEffect } from 'react';
+import { getAgreements } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const Agreement = ({ data = {} }) => {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const agreement = useSelector((state) => state.membersPortal.agreement);
     const columns = [
         { field: 'service', header: 'Service', style: { width: '300px' } },
         { field: 'date', header: 'Date', body: (r) => moment(r?.date).format('DD-MM-YYYY'), style: { width: '150px' } },
@@ -19,16 +26,21 @@ const Agreement = ({ data = {} }) => {
         { field: 'terminationDate', header: 'Termination Date', body: () => '-' },
     ];
 
-    const customActionTemplate = (r) => {
-        return (
-            <>
-                <span>
-                    <img src={viewIcon} alt="eye icon" />
-                </span>
-                <span className="ps-2"></span>
-            </>
-        );
-    };
+    useEffect(() => {
+        dispatch(getAgreements(id));
+    }, []);
+
+    // const customActionTemplate = (r) => {
+    //     return (
+    //         <>
+    //             <span>
+    //                 <img src={viewIcon} alt="eye icon" />
+    //             </span>
+    //             <span className="ps-2"></span>
+    //         </>
+    //     );
+    // };
+
     return (
         <div>
             <ProfileDetail />
@@ -87,7 +99,7 @@ const Agreement = ({ data = {} }) => {
                     <CustomListItem name="referrals" data={data} />
                 </CustomCard>
             </div>
-            <CustomTable data={[]} columns={columns} customActionTemplate={customActionTemplate} />
+            <CustomTable data={agreement} columns={columns} />
         </div>
     );
 };

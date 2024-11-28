@@ -18,7 +18,7 @@ const Services = () => {
     const columns = [
         { field: 'service', header: 'Service', style: { width: '300px' } },
         { field: 'date', header: 'Date', body: (r) => moment(r?.date).format('DD-MM-YYYY'), style: { width: '150px' } },
-        { field: 'primaryPhone', header: 'Receipt#', body: () => '-' },
+        { field: 'primaryPhone', header: 'Receipt#', body: () => '#RC3234' },
         { field: 'netPrice', header: 'Price', body: (r) => '$' + r.netPrice },
         { field: 'primaryPhone', header: 'Expiration Date', body: () => '-' },
         { field: 'primaryPhone', header: 'Sessions Purchased', body: () => '-' },
