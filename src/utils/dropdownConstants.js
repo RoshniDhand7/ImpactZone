@@ -178,21 +178,20 @@ for (let i = 1; i <= 30; i++) {
     };
     daysOptions.push(option);
 }
-export const DeclinedaysOptions = [];
+export const declineDaysOptions = [
+    {
+        name: 'Immediately',
+        value: 0,
+    },
+];
 
-const immediatelyOption = {
-    name: 'Immediately',
-    value: 0,
-};
 for (let i = 1; i <= 30; i++) {
     const option = {
         name: `${i} days`,
         value: i,
     };
-    DeclinedaysOptions.push(option);
+    declineDaysOptions.push(option);
 }
-
-DeclinedaysOptions.unshift(immediatelyOption);
 
 export const monthOptions = [];
 
@@ -441,12 +440,19 @@ export const classMeet = ['One Time', 'Weekly', 'Biweekly', 'Monthly'].map((name
 }));
 export const WeekDaysOption = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((name) => ({ name, value: name }));
 export const SpecialRestrictionOptions = ['None', 'By Age', 'By Location', 'By Days'].map((name) => ({ name, value: name.toUpperCase() }));
-export const AssessedTypeOptions = ['Annual Fee', 'Late Fee', 'Decline Fee', 'No Show Fee', 'Freeze Fee', 'Cancellation Fee'].map((name) => ({
-    name,
-    value: name,
-}));
+export const assessedTypeOptions = [
+    { name: 'Annual Fee', value: 'ANNUAL_FEE' },
+    { name: 'Late Fee', value: 'LATE_FEE' },
+    { name: 'Decline Fee', value: 'DECLINE_FEE' },
+    { name: 'No Show Fee', value: 'NO_SHOW_FEE' },
+    { name: 'Freeze Fee', value: 'FREEZE_FEE' },
+    { name: 'Cancellation Fee', value: 'CANCELLATION_FEE' },
+];
 
-export const preferedDueDay = ['Month and Day', 'Number of Days from Begin Date'].map((name) => ({ name, value: name }));
+export const preferedDueDay = [
+    { name: 'Month and Day', value: 'MONTH_AND_DAY' },
+    { name: 'Number of Days from Begin Date', value: 'DAYS_FROM_BEGIN_DATE' },
+];
 
 export const timePeriodFormatOptions = ['AM', 'PM'].map((name) => ({ name, value: name }));
 

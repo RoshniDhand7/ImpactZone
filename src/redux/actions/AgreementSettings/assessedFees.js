@@ -10,7 +10,7 @@ const getAssesedFees = () => async (dispatch) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_ASSESSED_FEES,
+                type: types.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE,
                 payload: res.data,
             });
         }

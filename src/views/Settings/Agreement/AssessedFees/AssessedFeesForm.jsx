@@ -5,7 +5,7 @@ import formValidation from '../../../../utils/validations';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { AssessedTypeOptions, DeclinedaysOptions, daysOptions, monthDropdownOptions, preferedDueDay, yesNoOptions } from '../../../../utils/dropdownConstants';
+import { assessedTypeOptions, daysOptions, declineDaysOptions, monthDropdownOptions, preferedDueDay, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
@@ -27,12 +27,12 @@ const AssessedFeesForm = () => {
     const initialState = {
         name: '',
         isActive: true,
-        type: 'Annual Fee',
+        type: 'ANNUAL_FEE',
         profitCenter: '',
         amount: 0,
         recurring: false,
         membershipPlan: [],
-        preferedDueDate: 'Month and Day',
+        dueDateDeterminedBy: 'MONTH_AND_DAY',
         noOfDays: 0,
         noOfMonths: 0,
         clubs: [],
@@ -52,7 +52,7 @@ const AssessedFeesForm = () => {
                         amount: data.amount,
                         recurring: data.recurring,
                         membershipPlan: data.membershipPlan,
-                        preferedDueDate: data.preferedDueDate,
+                        dueDateDeterminedBy: data.dueDateDeterminedBy,
                         noOfDays: data.noOfDays,
                         noOfMonths: data.noOfMonths,
                         clubs: data.clubs,
@@ -72,7 +72,7 @@ const AssessedFeesForm = () => {
                 amount: 0,
                 recurring: false,
                 membershipPlan: [],
-                preferedDueDate: '',
+                dueDateDeterminedBy: '',
                 noOfDays: 0,
                 noOfMonths: 0,
                 clubs: [],
@@ -84,15 +84,14 @@ const AssessedFeesForm = () => {
 
     const onSave = () => {
         let ignore = [];
-
         switch (data?.type) {
-            case 'Annual Fee':
-                if (data?.preferedDueDate === 'Number of Days from Begin Date') {
+            case 'ANNUAL_FEE':
+                if (data?.dueDateDeterminedBy === 'DAYS_FROM_BEGIN_DATE') {
                     ignore = ['noOfMonths'];
                 }
                 break;
-            case 'Late Fee':
-            case 'Decline Fee':
+            case 'LATE_FEE':
+            case 'DECLINE_FEE':
                 ignore = ['noOfMonths'];
                 break;
             default:
@@ -123,37 +122,28 @@ const AssessedFeesForm = () => {
         <>
             <FormPage backText="Assessed Fee">
                 <CustomCard col="12" title="General">
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     <CustomGridLayout>
                         <CustomInput name="name" data={data} onChange={handleChange} required />
-                        <CustomDropDown name="type" options={AssessedTypeOptions} onChange={handleChange} data={data} />
+                        <CustomDropDown name="type" options={assessedTypeOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} required />
-                        <CustomInputNumber
-                            name="amount"
-                            options={yesNoOptions}
-                            onChange={handleChange}
-                            data={data}
-                            col="4"
-                            required
-                            minFractionDigits={4}
-                            maxFractionDigits={4}
-                        />
-                        {(data?.type === 'Annual Fee' || data?.type === 'Freeze Fee') && (
+                        <CustomInputNumber name="amount" options={yesNoOptions} onChange={handleChange} data={data} required maxFractionDigits={4} />
+                        {(data?.type === 'ANNUAL_FEE' || data?.type === 'FREEZE_FEE') && (
                             <CustomDropDown name="recurring" options={yesNoOptions} onChange={handleChange} data={data} />
                         )}
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
-                {data?.type === 'Annual Fee' && (
+                {data?.type === 'ANNUAL_FEE' && (
                     <CustomCard col="12" title="Preferred Due Date">
                         <CustomGridLayout>
                             <CustomDropDown
-                                name="preferedDueDate"
+                                name="dueDateDeterminedBy"
                                 label="Choose how the prefered due day will be determined"
                                 options={preferedDueDay}
                                 onChange={handleChange}
                                 data={data}
                             />
-                            {data?.preferedDueDate === 'Month and Day' ? (
+                            {data?.dueDateDeterminedBy === 'MONTH_AND_DAY' ? (
                                 <>
                                     <CustomDropDown name="noOfMonths" options={monthDropdownOptions} onChange={handleChange} data={data} />
                                     <CustomDropDown name="noOfDays" options={daysOptions} onChange={handleChange} data={data} />
@@ -166,13 +156,13 @@ const AssessedFeesForm = () => {
                         </CustomGridLayout>
                     </CustomCard>
                 )}
-                {(data?.type === 'Late Fee' || data?.type === 'Decline Fee') && (
+                {(data?.type === 'LATE_FEE' || data?.type === 'DECLINE_FEE') && (
                     <CustomCard col="12" title="Preferred Due Date">
                         <CustomGridLayout>
                             <CustomDropDown
                                 name="noOfDays"
                                 label="Choose how the prefered due day will be determined"
-                                options={data?.type === 'Late Fee' ? daysOptions : DeclinedaysOptions}
+                                options={data?.type === 'LATE_FEE' ? daysOptions : declineDaysOptions}
                                 onChange={handleChange}
                                 data={data}
                             />
@@ -182,7 +172,7 @@ const AssessedFeesForm = () => {
                 <CustomCard col="12" title=" Clubs">
                     <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
                 </CustomCard>
-                {data?.type === 'Annual Fee' && (
+                {data?.type === 'ANNUAL_FEE' && (
                     <CustomCard col="12" title="Membership Plans">
                         <CustomPickList name="membershipPlan" selected={data?.membershipPlan} sourceData={[]} onPickListChange={handleChange} />
                     </CustomCard>
