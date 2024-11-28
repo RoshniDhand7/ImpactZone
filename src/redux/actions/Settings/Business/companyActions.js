@@ -1,25 +1,26 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { uploadImages } from '../../../utils/commonFunctions';
-import { types } from '../../types/types';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { uploadImages } from '../../../../utils/commonFunctions';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getCompanyDetails = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getCompanyDetail = () => async (dispatch, getState) => {
+    const state = getState();
+    let company = state.settings.business.company;
+    if (!Object.keys(company)?.length > 0) {
+        dispatch(showLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.COMPANY);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_COMPANY,
+                type: types.SETTINGS.BUSSINESS.COMPANY,
                 payload: res.data,
             });
         }
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideLoaderAction());
 };
 const editCompany = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
@@ -37,4 +38,4 @@ const editCompany = (id, data, setLoading, history) => async (dispatch) => {
     }
     setLoading(false);
 };
-export { getCompanyDetails, editCompany };
+export { getCompanyDetail, editCompany };

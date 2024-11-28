@@ -4,19 +4,19 @@ import FormPage from '../../../../shared/Layout/FormPage';
 import General from './General';
 import Online from './Online';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
+import { getCompanyDetail } from '../../../../redux/actions/Settings/Business/companyActions';
 
 export default function CompanyForm() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getCompanyDetails());
+        dispatch(getCompanyDetail());
     }, [dispatch]);
-    let { allCompany } = useSelector((state) => state?.company);
+    let { company } = useSelector((state) => state?.settings.business);
 
     const tabs = [
-        { title: 'General', content: General(allCompany) },
-        { title: 'Online', content: Online(allCompany) },
+        { title: 'General', content: General(company) },
+        { title: 'Online', content: Online(company) },
     ];
 
     return (

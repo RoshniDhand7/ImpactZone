@@ -1,29 +1,28 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getJobDetails = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getJobDetails = () => async (dispatch, getState) => {
+    const state = getState();
+    let jobTitle = state.settings.business.jobTitle;
+    if (!jobTitle?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.JOB_TITLE);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_JOB_TITLE,
+                type: types.SETTINGS.BUSSINESS.JOB_TITLE,
                 payload: res.data,
             });
         }
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const addJobTitle = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
-
     const res = await api('post', EndPoints.SETTINGS.BUSINESS.JOB_TITLE, data);
     if (res.success) {
         history.goBack();

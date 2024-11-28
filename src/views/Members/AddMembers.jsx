@@ -11,11 +11,11 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Butt
 import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
-import { addMembers, getMembers } from '../../redux/actions/Dashboard/Members';
 import formValidation from '../../utils/validations';
 import usePlacesAutocomplete from './usePlacesAutoComplete';
 import api from '../../services/api';
 import endPoints from '../../services/endPoints';
+import { addMembers, getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 
 const AddMembers = () => {
     const [data, setData] = useState({

@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { addEmployees, editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useParams } from 'react-router';
-import { getJobDetails } from '../../../../../redux/actions/BusinessSettings/jobActions';
 import { getSecurityRoles } from '../../../../../redux/actions/EmployeeSettings/securityRolesAction';
+import { getJobDetails } from '../../../../../redux/actions/Settings/Business/jobActions';
 
 const Security = () => {
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const Security = () => {
         }
     }, [id, dispatch]);
 
-    const { allJobTitle } = useSelector((state) => state.jobTitle);
+    const { jobTitle } = useSelector((state) => state.settings.business);
     const [data, setData] = useState({
         firstName: '',
         lastName: '',
@@ -92,7 +92,7 @@ const Security = () => {
                         name="jobTitle"
                         data={data}
                         onChange={handleChange}
-                        options={allJobTitle?.map((item, index) => {
+                        options={jobTitle?.map((item, index) => {
                             return { label: item.jobTitle, value: item._id };
                         })}
                         optionLabel="label"

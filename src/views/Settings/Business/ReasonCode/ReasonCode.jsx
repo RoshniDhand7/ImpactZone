@@ -4,12 +4,12 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteReasonCode, getReasonsDetails } from '../../../../redux/actions/BusinessSettings/reasonActions';
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import FilterComponent from '../../../../components/FilterComponent';
 import { ActiveFilterDropdown, reasonCodeTypeOptions } from '../../../../utils/dropdownConstants';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
+import { deleteReasonCode, getReasonsDetails } from '../../../../redux/actions/Settings/Business/reasonActions';
 
 export default function ReasonCode() {
     const history = useHistory();
@@ -18,8 +18,10 @@ export default function ReasonCode() {
         dispatch(getReasonsDetails());
     }, [dispatch]);
 
-    const { allReasonCode } = useSelector((state) => state.reasonCode);
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allReasonCode);
+    const { reasonCode } = useSelector((state) => state.settings.business);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
+
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(reasonCode);
 
     const columns = [
         { field: 'reasonCode', header: 'Name' },
@@ -75,7 +77,7 @@ export default function ReasonCode() {
                     />
                 </CustomGridLayout>
             </FilterComponent>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 }

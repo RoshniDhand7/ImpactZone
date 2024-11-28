@@ -19,7 +19,7 @@ const endPoints = {
             REASON_CODE: '/settings/business/reason-code/',
             CLUBS: '/clubs/',
             JOB_TITLE: '/title/',
-            DEFAULT_SETTING: '/dashboard-setting/',
+            DEFAULT_SETTING: '/default-setting/',
         },
 
         //AGREEMENT SETUP

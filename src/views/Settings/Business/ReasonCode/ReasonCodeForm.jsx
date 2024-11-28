@@ -4,11 +4,11 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import { CustomDropDown, CustomInput, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { reasonCodeTypeOptions } from '../../../../utils/dropdownConstants';
-import { addReasonCode, editReasonCode, getReasonCode } from '../../../../redux/actions/BusinessSettings/reasonActions';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import { addReasonCode, editReasonCode, getReasonCode } from '../../../../redux/actions/Settings/Business/reasonActions';
 
 export default function ReasonCodeForm({ history }) {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export default function ReasonCodeForm({ history }) {
                 </CustomCard>
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" loading={loading} className="mx-2" onClick={handleSave} />
-                    <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
+                    <LightButton label="Cancel" onClick={() => history.replace('/settings/business/?tab=reason-code')} />
                 </CustomButtonGroup>
             </FormPage>
         </div>

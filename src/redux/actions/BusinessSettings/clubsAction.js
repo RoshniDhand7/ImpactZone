@@ -4,10 +4,7 @@ import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 
-const getClubs = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getClubs = () => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.CLUBS);
     if (res.success) {
         if (res.data) {
@@ -16,9 +13,6 @@ const getClubs = (setLoading) => async (dispatch) => {
                 payload: res.data,
             });
         }
-    }
-    if (setLoading) {
-        setLoading(false);
     }
 };
 const getClub = (id, returnData) => async (dispatch) => {

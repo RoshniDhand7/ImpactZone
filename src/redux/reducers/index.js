@@ -2,9 +2,7 @@ import { combineReducers } from 'redux';
 import loaderReducer from './loaderReducer';
 import toastReducer from './toastReducer';
 import profileReducer from './profileReducer';
-import companyReducer from './BusinessSettings/companyReducer';
 import reasonCodeReducer from './BusinessSettings/reasonReducer';
-import jobTitleReducer from './BusinessSettings/jobReducer';
 import clubsReducer from './BusinessSettings/clubsReducer';
 import employeesReducer from './EmployeesSettings/employeesReducer';
 import securityRolesReducer from './EmployeesSettings/securityRolesReducer';
@@ -59,9 +57,7 @@ export default combineReducers({
     toast: toastReducer,
     tableLoader: tableLoaderReducer,
     profile: profileReducer,
-    company: companyReducer,
     reasonCode: reasonCodeReducer,
-    jobTitle: jobTitleReducer,
     clubs: clubsReducer,
     employees: employeesReducer,
     securityRole: securityRolesReducer,
@@ -103,7 +99,6 @@ export default combineReducers({
     PointOfSale: Pos,
     registers: RegisterReducer,
     drawers: drawersReducer,
-
     settings: SettingsReducer,
     pos: POSReducer,
     moreAttendance: moreAttendanceReducer,
