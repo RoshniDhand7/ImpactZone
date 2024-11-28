@@ -28,9 +28,10 @@ const AllMembers = () => {
         { field: 'barCode', header: 'Barcode' },
         { field: '', header: 'Status/Reason' },
     ];
-    const { allMembers } = useMembers();
+    const { members } = useMembers();
+    console.log(members, 'members');
     const history = useHistory();
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembers);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(members);
     const initialState = {
         firstName: '',
         lastName: '',

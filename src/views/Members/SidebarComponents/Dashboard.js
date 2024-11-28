@@ -13,8 +13,11 @@ const Dashboard = () => {
     const data = useSelector((state) => state.membersPortal.dashboard);
 
     useEffect(() => {
-        !data && dispatch(getMemberData(id, 'dashboard'));
-    }, []);
+        if (data?._id !== id) {
+            dispatch(getMemberData(id, 'dashboard'));
+        }
+        //eslint-disable-next-line
+    }, [id]);
 
     const PURCHASED_ITEMS = [
         {

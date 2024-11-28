@@ -50,8 +50,8 @@ const useMemberDetail = () => {
     const [data, setData] = useState(initialState);
 
     useEffect(() => {
-        !memberData && dispatch(getMemberData(id, 'dashboard'));
-    }, []);
+        dispatch(getMemberData(id, 'dashboard'));
+    }, [dispatch, id]);
 
     useEffect(() => {
         if (memberData) {

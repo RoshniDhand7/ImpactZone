@@ -5,12 +5,12 @@ import { useHistory } from 'react-router-dom';
 import useMembers from '../hooks/Members/useMembers';
 
 const Search = ({ openModal, setOpenModal }) => {
-    let { allMembers } = useMembers();
+    let { members } = useMembers();
     const [value, setValue] = useState('');
     const [items, setItems] = useState([]);
     const history = useHistory();
 
-    allMembers = allMembers.map((item) => ({
+    members = members?.map((item) => ({
         firstName: item.firstName,
         middleName: item.MI,
         lastName: item.lastName,
@@ -20,7 +20,7 @@ const Search = ({ openModal, setOpenModal }) => {
 
     const search = (event) => {
         let query = event.query;
-        let _filteredItems = allMembers.filter((item) => {
+        let _filteredItems = members.filter((item) => {
             let _item = `${item.firstName} ${item.middleName} ${item.lastName}`.trim();
             let _query = query.trim().toLowerCase();
             return _item.toLowerCase().includes(_query);

@@ -5,11 +5,11 @@ import { DataTable } from 'primereact/datatable';
 import { CustomGridLayout } from '../shared/Cards/CustomCard';
 import PrimaryButton from '../shared/Button/CustomButton';
 import CustomDialog from '../shared/Overlays/CustomDialog';
-import { getMembers } from '../redux/actions/Dashboard/Members';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchedData } from '../utils/commonFunctions';
 import moment from 'moment';
 import TableImage from '../shared/Image/TableImage';
+import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
 
 const AdvanceSearch = ({ openAdvanceSearch, setOpenAdvanceSearch }) => {
     const initialState = {
@@ -29,15 +29,15 @@ const AdvanceSearch = ({ openAdvanceSearch, setOpenAdvanceSearch }) => {
         dispatch(getMembers());
     }, [dispatch]);
 
-    let { allMembers } = useSelector((state) => state.members);
-    const [filteredMembers, setFilteredMembers] = useState(allMembers);
+    let { members } = useSelector((state) => state.memberPortal);
+    const [filteredMembers, setFilteredMembers] = useState(members);
 
     useEffect(() => {
-        setFilteredMembers(allMembers);
-    }, [allMembers]);
+        setFilteredMembers(members);
+    }, [members]);
 
     const clearFilter = () => {
-        setFilteredMembers(allMembers);
+        setFilteredMembers(members);
         setData(initialState);
     };
 
@@ -64,7 +64,7 @@ const AdvanceSearch = ({ openAdvanceSearch, setOpenAdvanceSearch }) => {
                             label="Search"
                             className=" my-0"
                             onClick={() => {
-                                const filteredMembers = getSearchedData(allMembers, data);
+                                const filteredMembers = getSearchedData(members, data);
                                 setFilteredMembers(filteredMembers);
                             }}
                         />

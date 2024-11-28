@@ -36,19 +36,19 @@ export default function CheckIn() {
         dispatch(getCheckIn(value));
     };
 
-    const { allMembers } = useMembers();
+    const { members } = useMembers();
 
     const suggestions = useMemo(
         () =>
-            allMembers.map((item) => ({
+            members.map((item) => ({
                 value: item._id,
                 name: `${item.firstName} ${item.MI} ${item.lastName}`,
             })),
-        [allMembers],
+        [members],
     );
 
     const [reserve, setReserve] = useState(false);
-    const memberOptions = useMemo(() => allMembers?.map((item) => ({ name: `${item.firstName} ${item.MI} ${item.lastName}`, value: item?._id })), [allMembers]);
+    const memberOptions = useMemo(() => members?.map((item) => ({ name: `${item.firstName} ${item.MI} ${item.lastName}`, value: item?._id })), [members]);
 
     useEffect(() => {
         dispatch(getCheckInLast());
@@ -98,7 +98,7 @@ export default function CheckIn() {
     ];
 
     const handleScanner = ({ value }) => {
-        let _member = allMembers.find((item) => item.barCode === value);
+        let _member = members.find((item) => item.barCode === value);
         if (_member) {
             handleChange({ name: 'member', value: _member._id });
         } else {

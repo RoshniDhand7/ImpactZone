@@ -50,6 +50,9 @@ const endPoints = {
         NO_SALE: '/point-of-sale/no-sale',
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
+    //member
+
+    MEMBERS: '/memberV2/',
 
     AUTH: {
         PROFILE: '/profile',
@@ -114,7 +117,7 @@ const endPoints = {
     TAXES: '/tax/',
     PAYMENT_METHODS: '/payment-method/',
     DISCOUNT_TYPES: '/discount/',
-    MEMBERS: '/member/',
+    // MEMBERS: '/member/',
     MEMBER_BARCODE: '/member-barcode/',
     GET_MEMBERS: '/search-member',
     SELL_PLAN: '/plan/',
