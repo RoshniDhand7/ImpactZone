@@ -5,9 +5,9 @@ import { CustomInput, CustomInputSwitch, CustomTextArea } from '../../../../shar
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { addJobTitle, editJobTitle, getJobTitle } from '../../../../redux/actions/BusinessSettings/jobActions';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import { addJobTitle, editJobTitle, getJobTitle } from '../../../../redux/actions/Settings/Business/jobActions';
 
 const JobTitleForm = () => {
     const history = useHistory();

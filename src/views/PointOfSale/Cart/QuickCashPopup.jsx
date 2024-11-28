@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { useEffect, useState } from 'react';
 import formValidation from '../../../utils/validations';
-import { getReasonsDetails } from '../../../redux/actions/BusinessSettings/reasonActions';
 import CashCalculator from './Drawer/CashCalculator';
 import PrimaryButton from '../../../shared/Button/CustomButton';
+import { getReasonsDetails } from '../../../redux/actions/Settings/Business/reasonActions';
 
 const QuickCashPopup = ({ visible, setVisible, cartDetails, onCheckout }) => {
     const dispatch = useDispatch();

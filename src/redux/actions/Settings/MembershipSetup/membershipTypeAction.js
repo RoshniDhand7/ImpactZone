@@ -6,7 +6,8 @@ import { showToast } from '../../toastAction';
 
 const getMembersipTypes = () => async (dispatch, getState) => {
     const state = getState();
-    let membershipTypes = state.settings.members.membershipTypes;
+    let membershipTypes = state.settings.members.membershipTypes || state.settings.members.membershipTypesDropdown;
+    console.log(membershipTypes, 'membershipTypes');
     if (!membershipTypes?.length) {
         dispatch(showTableLoaderAction());
     }

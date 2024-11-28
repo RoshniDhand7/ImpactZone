@@ -1,25 +1,25 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getReasonsDetails = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getReasonsDetails = () => async (dispatch, getState) => {
+    const state = getState();
+    let reasonCode = state.settings.business.reasonCode;
+    if (!reasonCode?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.REASON_CODE);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_REASON_CODE,
+                type: types.SETTINGS.BUSSINESS.REASON_CODE,
                 payload: res.data,
             });
         }
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const getNoSaleReasons = (setLoading) => async (dispatch) => {
     setLoading(true);
@@ -27,7 +27,7 @@ const getNoSaleReasons = (setLoading) => async (dispatch) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_NO_SALE_REASONS,
+                type: types.POS.NO_SALE_REASON_CODE,
                 payload: res.data,
             });
         }

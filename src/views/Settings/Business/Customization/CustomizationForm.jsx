@@ -4,9 +4,9 @@ import CustomCard from '../../../../shared/Cards/CustomCard';
 import CustomLogoImage from '../../../../shared/Image/LogoImage';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { editCompany, getCompanyDetails } from '../../../../redux/actions/BusinessSettings/companyActions';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import { editCompany, getCompanyDetail } from '../../../../redux/actions/Settings/Business/companyActions';
 
 const CustomizationForm = ({ history }) => {
     const dispatch = useDispatch();
@@ -14,14 +14,14 @@ const CustomizationForm = ({ history }) => {
         logo: [],
     });
     useEffect(() => {
-        dispatch(getCompanyDetails());
+        dispatch(getCompanyDetail());
     }, [dispatch]);
-    let { allCompany } = useSelector((state) => state?.company);
+    let { company } = useSelector((state) => state?.settings?.business);
 
     useEffect(() => {
-        if (allCompany) {
+        if (company) {
             setData({
-                logo: allCompany?.logo ? [allCompany?.logo] : [],
+                logo: company?.logo ? [company?.logo] : [],
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +35,7 @@ const CustomizationForm = ({ history }) => {
     };
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(editCompany(allCompany._id, data, setLoading, history));
+            dispatch(editCompany(company._id, data, setLoading, history));
         }
     };
 
@@ -47,7 +47,7 @@ const CustomizationForm = ({ history }) => {
                 </CustomCard>
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />
-                    <LightButton label="Cancel" onClick={() => history.replace('/settings/business')} />
+                    <LightButton label="Cancel" onClick={() => history.replace('/settings/business/?tab=customization/')} />
                 </CustomButtonGroup>
             </FormPage>
         </>

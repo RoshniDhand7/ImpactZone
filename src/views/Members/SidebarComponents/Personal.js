@@ -9,11 +9,11 @@ import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { genderOptions } from '../../../utils/dropdownConstants';
 import formValidation from '../../../utils/validations';
 import { useDispatch, useSelector } from 'react-redux';
-import { editMemberAction, getMemberAction } from '../../../redux/actions/Dashboard/Members';
 import moment from 'moment';
-import { getMembersipTypes } from '../../../redux/actions/MembersSettings/membershipTypes';
 import { showFormErrors } from '../../../utils/commonFunctions';
 import usePlacesAutocomplete from '../usePlacesAutoComplete';
+import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { editMemberAction, getMemberData } from '../../../redux/actions/MembersPortal/memberPortalActions';
 
 const Personal = () => {
     const { data, setData, initialState } = useMemberDetail();
@@ -53,10 +53,6 @@ const Personal = () => {
         }
     }, [data]);
 
-    useEffect(() => {
-        dispatch(getMemberAction(id));
-    }, [dispatch, id]);
-
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);
         setData1((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -65,7 +61,7 @@ const Personal = () => {
     useEffect(() => {
         dispatch(getMembersipTypes());
     }, [dispatch]);
-    const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
+    const { membershipTypesDropdown } = useSelector((state) => state.settings.members);
 
     const handleSave = () => {
         let ignore = [];
@@ -81,7 +77,7 @@ const Personal = () => {
         if (showFormErrors(data1, setData1, ignore)) {
             dispatch(
                 editMemberAction(id, data1, () => {
-                    dispatch(getMemberAction(id));
+                    dispatch(getMemberData(id, 'dashboard'));
                     setData1(initialState);
                     setVisiblePersonal(null);
                     setVisibleDemographics(null);
@@ -152,7 +148,7 @@ const Personal = () => {
             >
                 <CustomGridLayout>
                     <CustomInputNumber name="barCode" col={6} data={data1} onChange={handleChange} />
-                    <CustomDropDown name="membershipType" col={6} data={data1} options={MembershipTypesDropdown} onChange={handleChange} draggable={false} />
+                    <CustomDropDown name="membershipType" col={6} data={data1} options={membershipTypesDropdown} onChange={handleChange} draggable={false} />
                 </CustomGridLayout>
             </CustomDialog>
             <CustomDialog

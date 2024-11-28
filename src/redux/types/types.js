@@ -124,6 +124,7 @@ export const types = {
         MEMBER: 'MEMBER',
         RECENT_MEMBER: 'RECENT_MEMBER',
         RECEIPT: 'RECEIPT',
+        NO_SALE_REASON_CODE: 'NO_SALE_REASON_CODE',
     },
 
     SETTINGS: {
@@ -155,6 +156,11 @@ export const types = {
             AGREEMENT_PLAN: 'AGREEMENT_PLAN',
             AGREEMENT_CATEGORY: 'AGREEMENT_CATEGORY',
             AGREEMENT_PROMOTION: 'AGREEMENT_PROMOTION',
+        },
+        BUSSINESS: {
+            COMPANY: 'COMPANY',
+            REASON_CODE: 'REASON_CODE',
+            JOB_TITLE: 'JOB_TITLE',
         },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',

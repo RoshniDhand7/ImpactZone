@@ -4,48 +4,48 @@ import { CustomDropDown, CustomInput, CustomInputMask } from '../../../../shared
 import { checkInLimitOptions, perOptions, restrictionOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import { useDispatch } from 'react-redux';
 import { getAllCountries, getCitiesByState, getStatesByCountry, showFormErrors } from '../../../../utils/commonFunctions';
-import { editCompany } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import formValidation from '../../../../utils/validations';
+import { editCompany } from '../../../../redux/actions/Settings/Business/companyActions';
 
-const General = (allCompany) => {
+const General = (company) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (allCompany) {
+        if (company) {
             setData({
-                companyId: allCompany?._id,
-                billingCountry: allCompany?.billingCountry,
-                companyName: allCompany?.companyName,
-                multiClubInOut: allCompany?.multiClubInOut,
-                clockInRequired: allCompany?.clockInRequired,
-                country: allCompany?.country,
-                address1: allCompany?.address1,
-                address2: allCompany?.address2,
-                city: allCompany?.city,
-                state: allCompany?.state,
-                zipCode: allCompany?.zipCode,
-                workNumber: allCompany?.workNumber,
-                workExtention: allCompany?.workExtention,
-                faxNumber: allCompany?.faxNumber,
-                primaryEmail: allCompany?.primaryEmail,
-                alternateEmail: allCompany?.alternateEmail,
-                companyUrl: allCompany?.companyUrl,
-                companyCode: allCompany?.companyCode,
-                batchId: allCompany?.batchId,
-                checkInLimit: allCompany?.checkInLimit,
-                per: allCompany?.per,
-                restrictionType: allCompany?.restrictionType,
+                companyId: company?._id,
+                billingCountry: company?.billingCountry,
+                companyName: company?.companyName,
+                multiClubInOut: company?.multiClubInOut,
+                clockInRequired: company?.clockInRequired,
+                country: company?.country,
+                address1: company?.address1,
+                address2: company?.address2,
+                city: company?.city,
+                state: company?.state,
+                zipCode: company?.zipCode,
+                workNumber: company?.workNumber,
+                workExtention: company?.workExtention,
+                faxNumber: company?.faxNumber,
+                primaryEmail: company?.primaryEmail,
+                alternateEmail: company?.alternateEmail,
+                companyUrl: company?.companyUrl,
+                companyCode: company?.companyCode,
+                batchId: company?.batchId,
+                checkInLimit: company?.checkInLimit,
+                per: company?.per,
+                restrictionType: company?.restrictionType,
             });
-            if (allCompany?.country === 'US') {
-                const cities = getCitiesByState(allCompany.country, allCompany.state);
+            if (company?.country === 'US') {
+                const cities = getCitiesByState(company.country, company.state);
                 setCities(cities);
             }
         }
-    }, [allCompany]);
+    }, [company]);
 
     const [data, setData] = useState({
         companyId: '',
@@ -97,7 +97,7 @@ const General = (allCompany) => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            dispatch(editCompany(allCompany._id, data, setLoading, history));
+            dispatch(editCompany(company._id, data, setLoading, history));
         }
     };
 

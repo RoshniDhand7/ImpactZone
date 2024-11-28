@@ -11,7 +11,7 @@ const reasonCodeReducer = (state = intitalState, action) => {
                 ...state,
                 allReasonCode: action.payload,
             };
-        case types.CHANGE_NO_SALE_REASONS:
+        case types.POS.NO_SALE_REASON_CODE:
             return {
                 ...state,
                 noSaleReasons: action.payload,

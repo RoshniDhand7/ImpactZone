@@ -4,24 +4,24 @@ import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { daysOptions, hoursOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
-import { editCompany } from '../../../../redux/actions/BusinessSettings/companyActions';
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import { editCompany } from '../../../../redux/actions/Settings/Business/companyActions';
 
-const Online = (allCompany) => {
+const Online = (company) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-        if (allCompany) {
+        if (company) {
             setData({
-                bookOutFrom: allCompany?.bookOutFrom,
-                bookOutTo: allCompany?.bookOutTo,
-                allowCancelOnline: allCompany?.allowCancelOnline,
-                timeBeforeEvent: allCompany?.timeBeforeEvent && allCompany?.timeBeforeEvent / 60, //convert time from minutes to hrs
+                bookOutFrom: company?.bookOutFrom,
+                bookOutTo: company?.bookOutTo,
+                allowCancelOnline: company?.allowCancelOnline,
+                timeBeforeEvent: company?.timeBeforeEvent && company?.timeBeforeEvent / 60, //convert time from minutes to hrs
             });
         }
-    }, [allCompany]);
+    }, [company]);
     const [data, setData] = useState({
         bookOutFrom: '',
         bookOutTo: '',
@@ -35,7 +35,7 @@ const Online = (allCompany) => {
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
             data.timeBeforeEvent = data.timeBeforeEvent * 60; //convert time from hrs to minutes
-            dispatch(editCompany(allCompany._id, data, setLoading, history));
+            dispatch(editCompany(company._id, data, setLoading, history));
         }
     };
     const history = useHistory();
