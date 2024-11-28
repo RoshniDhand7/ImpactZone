@@ -1,128 +1,97 @@
-import React from 'react';
-import CustomCard from '../../../shared/Cards/CustomCard';
+import React, { useEffect } from 'react';
+import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
 import UserImg1 from '../../../assets/images/Frame.png';
 import { useParams } from 'react-router-dom';
 import ProfileDetail from './ProfileDetail';
 import TopLayout from './TopLayout';
-import useMemberDetail from './useMemberDetail';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMemberData } from '../../../redux/actions/MembersPortal/memberPortalActions';
 
 const Dashboard = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.membersPortal.dashboard);
 
-    const { data, setData, initialState, getMember } = useMemberDetail();
+    useEffect(() => {
+        !data && dispatch(getMemberData(id, 'dashboard'));
+    }, []);
+
+    const PURCHASED_ITEMS = [
+        {
+            label: 'Protein Powder',
+        },
+        {
+            label: 'Protein Powder',
+        },
+        {
+            label: 'Protein Powder',
+        },
+        {
+            label: 'Protein Powder',
+        },
+        {
+            label: 'Protein Powder',
+        },
+        {
+            label: 'Protein Powder',
+        },
+    ];
 
     return (
         <div className="grid">
             <div className="md:col-8">
-                <ProfileDetail data={data} setData={setData} id={id} initialState={initialState} getMember={getMember} />
+                <ProfileDetail data={data || {}} />
                 <TopLayout />
-                <CustomCard title="Alerts " col={12} height="200px">
+                <CustomCard title="Alerts" col={12} height="200px">
                     <p className="text-sm font-medium flex gap-2 align-items-center mb-3 text-red-600">
                         <i className="pi pi-exclamation-triangle"></i> Past Due by 35 days
                     </p>
                 </CustomCard>
                 <div className="flex">
                     <CustomCard title="Tasks" col={6} height="200px">
-                        <p className="text-sm flex gap-2 align-items-center mb-3">
-                            <span>Active: </span>2
-                        </p>
-                        <p className="text-sm flex gap-2 align-items-center mb-3">
-                            <span>Notes: </span>2
-                        </p>
-                        <p className="text-sm flex gap-2 align-items-center mb-3">
-                            <span>Medical History: </span>2
-                        </p>
+                        <CustomListItem name="Active" data={data} value={'2'} />
+                        <CustomListItem name="notes" data={data} value={'2'} />
+                        <CustomListItem label="Medical History" data={data} value={'2'} />
                     </CustomCard>
                     <CustomCard title="Services" col={6} height="200px">
-                        <p className="text-sm flex gap-2 align-items-center mb-3">
-                            <span>PT 30-2/5 </span>2
-                        </p>
-                        <p className="text-sm flex gap-2 align-items-center mb-3">
-                            <span>Group X-10/10 </span>
-                        </p>
+                        <CustomListItem name="alpha" data={data} value={'2'} />
+                        <CustomListItem name="beta" data={data} value={'2'} />
                     </CustomCard>
                 </div>
                 <CustomCard title="Most Purchased Items" col={12} height="200px">
                     <div className="flex justify-content-between">
-                        <div className="">
-                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1} alt="protein"></img>
+                        {PURCHASED_ITEMS.map((item, index) => (
+                            <div key={index} className="">
+                                <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
+                                    <img src={UserImg1} alt="protein"></img>
+                                </div>
+                                <small className="font-semibold text-dark-blue">{item.label}</small>
                             </div>
-                            <small className="font-semibold text-dark-blue">Protein Powder</small>
-                        </div>
-                        <div className="">
-                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1} alt="protein"></img>
-                            </div>
-                            <small className="font-semibold text-dark-blue">Protein Powder</small>
-                        </div>
-                        <div className="">
-                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1} alt="protein"></img>
-                            </div>
-                            <small className="font-semibold text-dark-blue">Protein Powder</small>
-                        </div>
-                        <div className="">
-                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1} alt="protein"></img>
-                            </div>
-                            <small className="font-semibold text-dark-blue">Protein Powder</small>
-                        </div>
-                        <div className="">
-                            <div className="bg-white border-1 border-400 border-round-xl purchased-item p-1">
-                                <img src={UserImg1} alt="protein"></img>
-                            </div>
-                            <small className="font-semibold text-dark-blue">Protein Powder</small>
-                        </div>
+                        ))}
                     </div>
                 </CustomCard>
             </div>
             <div className="md:col-4">
-                <CustomCard title="Personal " col={12} height="200px">
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-map-marker"></i>
-                        {data.address}
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-phone"></i>
-                        {data.primaryPhone}
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <i className="pi pi-envelope"></i>
-                        {data?.email ? data?.email : '----------'}
-                    </p>
+                <CustomCard title="Personal" col={12} height="200px">
+                    <CustomListItem name="address" data={data} />
+                    <CustomListItem name="primaryPhone" data={data} />
+                    <CustomListItem name="email" data={data} />
                 </CustomCard>
                 <CustomCard title="Billing History " col={12} height="200px">
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Agreement: </span>Impact 1
-                    </p>
-                    <p className="text-sm flex gap-2 text-green align-items-center mb-3">
-                        <span className="text-dark-gray">Team: </span>Open
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Expiration: </span>N/A
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Start Date: </span>1/1/2022
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Last Billing: </span>12/5/22
-                    </p>
-                    <h3 className="text-sm font-medium mb-3">Last 3 Pos Transactions: </h3>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">Raw Whole Food Bar</p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">PB Cup Lite (Shake)</p>
+                    <CustomListItem label={'Agreement'} name="agreement" data={data} />
+                    <CustomListItem label={'Team'} name="team" data={data} />
+                    <CustomListItem label={'Expiration'} name="expirationDate" data={data} />
+                    <CustomListItem label={'Start Date'} name="startData" data={data} />
+                    <CustomListItem label={'Last Billing'} name="lastBilling" data={data} />
+                    <CustomListItem label={'Last 3 Pos Transactions'} name="" data={data} />
+                    <CustomListItem label={'PB Cup Lite (Shake)'} name="" data={data} />
+                    <CustomListItem label={'Raw Whole Food Bar'} name="" data={data} />
+                    <CustomListItem label={'PB Cup Lite (Shake)'} name="" data={data} />
                 </CustomCard>
                 <CustomCard title="Payment Method" col={12} height="200px">
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Card on File: </span>0049
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Next Due: </span>$06.92
-                    </p>
-                    <p className="text-sm flex gap-2 align-items-center mb-3">
-                        <span>Past Due: </span>$00.00
-                    </p>
+                    <CustomListItem label={'Card on File'} name="" data={data} value="32fd32" />
+                    <CustomListItem label={'Next Due'} name="" data={data} value={'$06.92'} />
+                    <CustomListItem label={'Past Due'} name="" data={data} value={'$00.00'} />
                 </CustomCard>
             </div>
         </div>
