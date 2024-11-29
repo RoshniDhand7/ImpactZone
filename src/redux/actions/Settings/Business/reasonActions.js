@@ -14,7 +14,7 @@ const getReasonsDetails = () => async (dispatch, getState) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.SETTINGS.BUSSINESS.REASON_CODE,
+                type: types.SETTINGS.BUSINESS.REASON_CODE,
                 payload: res.data,
             });
         }

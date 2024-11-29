@@ -7,8 +7,8 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAllCountries, getCitiesByState, getStatesByCountry, mobileFormatted, showFormErrors } from '../../../../utils/commonFunctions';
-import { editClub, getClub } from '../../../../redux/actions/BusinessSettings/clubsAction';
 import formValidation from '../../../../utils/validations';
+import { editClub, getClub } from '../../../../redux/actions/Settings/Business/clubsAction';
 
 const ClubsForm = () => {
     const history = useHistory();

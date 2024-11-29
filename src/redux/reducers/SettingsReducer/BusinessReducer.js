@@ -4,16 +4,18 @@ const intitalState = {
     reasonCode: [],
     noSaleReasons: [],
     jobTitle: [],
+    clubs: [],
+    clubsDropdown: [],
 };
 
 const businessReducer = (state = intitalState, action) => {
     switch (action.type) {
-        case types.SETTINGS.BUSSINESS.COMPANY:
+        case types.SETTINGS.BUSINESS.COMPANY:
             return {
                 ...state,
                 company: action.payload,
             };
-        case types.SETTINGS.BUSSINESS.REASON_CODE:
+        case types.SETTINGS.BUSINESS.REASON_CODE:
             return {
                 ...state,
                 reasonCode: action.payload,
@@ -23,10 +25,16 @@ const businessReducer = (state = intitalState, action) => {
                 ...state,
                 noSaleReasons: action.payload,
             };
-        case types.SETTINGS.BUSSINESS.JOB_TITLE:
+        case types.SETTINGS.BUSINESS.JOB_TITLE:
             return {
                 ...state,
                 jobTitle: action.payload,
+            };
+        case types.SETTINGS.BUSINESS.CLUBS:
+            return {
+                ...state,
+                clubs: action.payload,
+                clubsDropdown: action.payload?.map((item) => ({ name: item.name, value: item._id })),
             };
         default:
             return { ...state };

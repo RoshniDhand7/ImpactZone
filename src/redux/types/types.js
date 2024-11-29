@@ -157,10 +157,11 @@ export const types = {
             AGREEMENT_CATEGORY: 'AGREEMENT_CATEGORY',
             AGREEMENT_PROMOTION: 'AGREEMENT_PROMOTION',
         },
-        BUSSINESS: {
+        BUSINESS: {
             COMPANY: 'COMPANY',
             REASON_CODE: 'REASON_CODE',
             JOB_TITLE: 'JOB_TITLE',
+            CLUBS: 'CLUBS',
         },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',

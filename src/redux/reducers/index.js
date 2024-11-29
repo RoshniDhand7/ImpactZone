@@ -3,7 +3,6 @@ import loaderReducer from './loaderReducer';
 import toastReducer from './toastReducer';
 import profileReducer from './profileReducer';
 import reasonCodeReducer from './BusinessSettings/reasonReducer';
-import clubsReducer from './BusinessSettings/clubsReducer';
 import employeesReducer from './EmployeesSettings/employeesReducer';
 import securityRolesReducer from './EmployeesSettings/securityRolesReducer';
 import departmentReducer from './EmployeesSettings/departmentsReducer';
@@ -58,7 +57,6 @@ export default combineReducers({
     tableLoader: tableLoaderReducer,
     profile: profileReducer,
     reasonCode: reasonCodeReducer,
-    clubs: clubsReducer,
     employees: employeesReducer,
     securityRole: securityRolesReducer,
     department: departmentReducer,

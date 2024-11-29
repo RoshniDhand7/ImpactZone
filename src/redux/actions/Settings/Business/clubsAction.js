@@ -1,22 +1,27 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideTableLoaderAction, showTableLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getClubs = () => async (dispatch) => {
+const getClubs = () => async (dispatch, getState) => {
+    const state = getState();
+    let clubs = state.settings.business.clubs;
+    if (!clubs?.length) {
+        dispatch(showTableLoaderAction());
+    }
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.CLUBS);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_CLUBS,
+                type: types.SETTINGS.BUSINESS.CLUBS,
                 payload: res.data,
             });
         }
     }
+    dispatch(hideTableLoaderAction());
 };
-const getClub = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
+const getClub = (id, returnData) => async () => {
     const res = await api('get', EndPoints.SETTINGS.BUSINESS.CLUBS + id);
     if (res.success) {
         if (res.data) {
@@ -25,11 +30,9 @@ const getClub = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const editClub = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
-
     const payload = {
         ...data,
         phoneNumber: data?.phoneNumber?.replace(/\D/g, ''),

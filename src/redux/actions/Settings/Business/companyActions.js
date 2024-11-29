@@ -15,7 +15,7 @@ const getCompanyDetail = () => async (dispatch, getState) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.SETTINGS.BUSSINESS.COMPANY,
+                type: types.SETTINGS.BUSINESS.COMPANY,
                 payload: res.data,
             });
         }

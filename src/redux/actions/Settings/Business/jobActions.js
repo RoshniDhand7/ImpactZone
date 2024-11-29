@@ -14,7 +14,7 @@ const getJobDetails = () => async (dispatch, getState) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.SETTINGS.BUSSINESS.JOB_TITLE,
+                type: types.SETTINGS.BUSINESS.JOB_TITLE,
                 payload: res.data,
             });
         }

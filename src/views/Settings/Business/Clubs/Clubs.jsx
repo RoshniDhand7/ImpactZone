@@ -2,10 +2,12 @@ import React from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { useSelector } from 'react-redux';
 
 const Clubs = () => {
     const history = useHistory();
-    const { allClubs } = useGetClubs();
+    const { clubs } = useGetClubs();
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     const columns = [
         { field: 'phoneNumber', header: 'Phone Number' },
@@ -18,7 +20,7 @@ const Clubs = () => {
     };
     return (
         <>
-            <CustomTable data={allClubs} columns={columns} onEdit={onEdit} />
+            <CustomTable data={clubs} columns={columns} onEdit={onEdit} loading={isTableLoading} />
         </>
     );
 };
