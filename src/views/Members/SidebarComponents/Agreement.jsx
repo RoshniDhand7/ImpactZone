@@ -16,6 +16,7 @@ const Agreement = ({ data = {} }) => {
     const { id } = useParams();
     const agreement = useSelector((state) => state.membersPortal.agreement);
     const [openModal, setOpenModal] = useState(false);
+    const [itemData, setItemData] = useState(null);
 
     const columns = [
         { field: 'name', header: 'Agreement Name' },
@@ -59,7 +60,7 @@ const Agreement = ({ data = {} }) => {
                     // }}
                     height="250px"
                 >
-                    <CustomListItem name="Campaign" data={data} />
+                    <CustomListItem name="Campaign" data={agreement?.[0]?.campaign} />
                     <CustomListItem name="referredBy" data={data} />
                     <CustomListItem name="referrals" data={data} />
                 </CustomCard>
@@ -96,15 +97,7 @@ const Agreement = ({ data = {} }) => {
                     <CustomListItem name="Type" data={data} />
                     <CustomListItem name="Term" data={data} />
                 </CustomCard>
-                <CustomCard
-                    title="Relationships"
-                    col={6}
-                    name="Edit"
-                    // onClick={() => {
-                    //     setVisiblePersonal(id);
-                    // }}
-                    height="250px"
-                >
+                <CustomCard title="Relationships" col={6} name="Edit" onClick={() => {}} height="250px">
                     <CustomListItem label="Pays for" data={data} />
                     <CustomListItem label="Pays by" data={data} />
                     <CustomListItem label="Shares w/" data={data} />
@@ -114,10 +107,11 @@ const Agreement = ({ data = {} }) => {
                 data={agreement}
                 columns={columns}
                 onView={(data) => {
-                    console.log('view data', data);
+                    setOpenModal(true);
+                    setItemData(data);
                 }}
             />
-            <AgreementView openModal={openModal} setOpenModal={setOpenModal} />
+            <AgreementView itemData={itemData} setItemData={setItemData} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     );
 };
