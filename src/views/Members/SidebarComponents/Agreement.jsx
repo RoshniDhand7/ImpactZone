@@ -4,7 +4,7 @@ import TopLayout from './TopLayout';
 import viewIcon from '../../../assets/icons/view.png';
 import CustomTable from '../../../shared/Table/CustomTable';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAgreements } from '../../../redux/actions/MembersPortal/memberPortalActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ const Agreement = ({ data = {} }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const agreement = useSelector((state) => state.membersPortal.agreement);
+    const [openModal, setOpenModal] = useState(false);
+
     const columns = [
         { field: 'name', header: 'Agreement Name' },
         { field: 'agreementNo', header: 'Agreement #' },
@@ -115,7 +117,7 @@ const Agreement = ({ data = {} }) => {
                     console.log('view data', data);
                 }}
             />
-            <AgreementView openModal={true} setOpenModal={() => {}} />
+            <AgreementView openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     );
 };

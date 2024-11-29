@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { getAgreementView } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { useParams } from 'react-router-dom';
 
 const AgreementView = ({ openModal, setOpenModal }) => {
     const [data, setData] = useState({});
+    const { id } = useParams();
 
     useEffect(() => {
-        getAgreementView();
+        getAgreementView(id, setData);
     }, []);
+
     return (
         <CustomDialog
             visible={openModal}
