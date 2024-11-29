@@ -5,19 +5,20 @@ const intitalState = {
     member: {},
     agreement: [],
     services: [],
+    checkIn: [],
 };
 
 const membersPortalReducer = (state = intitalState, action) => {
     switch (action.type) {
-        case types.CHANGE_MEMBER_DATA:
+        case types.MEMBER.MEMBER_DATA:
             return {
                 ...state,
                 [action.payload.key]: action.payload.data,
             };
-        case types.RESET_MEMBER_DATA: {
+        case types.MEMBER.RESET_MEMBER_DATA: {
             return intitalState;
         }
-        case types.CHANGE_MEMBERS: {
+        case types.MEMBER.MEMBER: {
             return {
                 ...state,
                 members: action.payload,
@@ -29,15 +30,20 @@ const membersPortalReducer = (state = intitalState, action) => {
                 ...state,
                 member: action.payload,
             };
-        case types.CHANGE_SERVICES:
+        case types.MEMBER.SERVICES:
             return {
                 ...state,
                 services: action.payload,
             };
-        case types.CHANGE_AGREEMENT:
+        case types.MEMBER.AGREEMENT:
             return {
                 ...state,
                 agreement: action.payload,
+            };
+        case types.MEMBER.CHECK_IN:
+            return {
+                ...state,
+                checkIn: action.payload,
             };
         default:
             return { ...state };

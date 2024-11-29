@@ -11,11 +11,11 @@ const getMemberData = (id, key) => async (dispatch, getState) => {
     if (state.membersPortal?.dashboard?._id !== id) {
         dispatch(showLoaderAction());
     }
-    const res = await api('get', endPoints.MEMBERS_V2.MEMBERS + id);
+    const res = await api('get', endPoints.MEMBERS_V2.MEMBER + id);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_MEMBER_DATA,
+                type: types.MEMBER.MEMBER_DATA,
                 payload: { data: res.data, key },
             });
         }
@@ -27,7 +27,7 @@ const getMembers = () => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.MEMBERS);
     if (res.success) {
         dispatch({
-            type: types.CHANGE_MEMBERS,
+            type: types.MEMBER.MEMBER,
             payload: res.data,
         });
     } else {
@@ -88,7 +88,7 @@ const getServices = () => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.SERVICES);
     if (res.success) {
         dispatch({
-            type: types.CHANGE_SERVICES,
+            type: types.MEMBER.SERVICES,
             payload: res.data,
         });
     } else {
@@ -97,10 +97,10 @@ const getServices = () => async (dispatch) => {
 };
 
 const getAgreements = (id) => async (dispatch) => {
-    const res = await api('get', `${endPoints.MEMBERS_V2.AGREEMENT}?memberId=${id}`);
+    const res = await api('get', endPoints.MEMBERS_V2.AGREEMENT, {}, { memberId: id });
     if (res.success) {
         dispatch({
-            type: types.CHANGE_AGREEMENT,
+            type: types.MEMBER.AGREEMENT,
             payload: res.data,
         });
     } else {
@@ -108,4 +108,16 @@ const getAgreements = (id) => async (dispatch) => {
     }
 };
 
-export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements };
+const getCheckIn = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.CHECK_IN, {}, { memberId: id });
+    if (res.success) {
+        dispatch({
+            type: types.MEMBER.CHECK_IN,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements, getCheckIn };

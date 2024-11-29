@@ -22,7 +22,7 @@ export default function Layout({ children }) {
         }
 
         return () => {
-            dispatch({ type: types.RESET_MEMBER_DATA });
+            dispatch({ type: types.MEMBER.RESET_MEMBER_DATA });
         };
     }, []);
 

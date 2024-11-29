@@ -54,8 +54,10 @@ const endPoints = {
 
     MEMBERS_V2: {
         MEMBERS: '/memberV2/',
+        MEMBER: '/memberV2/detail/',
         SERVICES: '/memberV2/services/',
         AGREEMENT: '/memberV2/agreement/',
+        CHECK_IN: '/memberV2/check-in/',
     },
 
     AUTH: {

@@ -115,6 +115,15 @@ export const types = {
 
     // Members
 
+    MEMBER: {
+        MEMBER: 'MEMBER',
+        MEMBER_DATA: 'MEMBER_DATA',
+        CHECK_IN: 'CHECK_IN',
+        AGREEMENT: 'AGREEMENT',
+        SERVICES: 'SERVICES',
+        RESET_MEMBER_DATA: 'RESET_MEMBER_DATA',
+    },
+
     POS: {
         SELECT_DRAWER: 'SELECT_DRAWER',
         REGISTER: 'REGISTER',
