@@ -202,6 +202,24 @@ const uploadFiles = async (files) => {
             formData.append('file', item);
             const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
             if (res.success && res.data) {
+                return res.data;
+            }
+        }
+    });
+
+    const filesArray = await Promise.all(promises);
+    return filesArray;
+};
+
+const uploadFiles1 = async (files) => {
+    const promises = files.map(async (item) => {
+        if (typeof item === 'string') {
+            return item;
+        } else {
+            const formData = new FormData();
+            formData.append('file', item);
+            const res = await api('post', EndPoints.UPLOAD_FILES, formData, {}, 'multipart/form-data');
+            if (res.success && res.data) {
                 return {
                     path: res.data.path,
                     originalname: res.data.originalname,
@@ -555,4 +573,5 @@ export {
     startOfWeek,
     endOfWeek,
     diffHoursAndMinutes,
+    uploadFiles1,
 };

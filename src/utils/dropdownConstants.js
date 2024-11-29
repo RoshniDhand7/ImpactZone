@@ -558,3 +558,17 @@ export const repeatWeekOptions = [
     { name: 'Repeat next 2 weeks', value: 'NEXT_2_WEEKS' },
     { name: 'Repeat next 4 weeks', value: 'NEXT_4_WEEKS' },
 ];
+export const documentTypeOptions = [
+    {
+        name: 'License',
+        value: 'LICENSE',
+    },
+    {
+        name: 'Passport',
+        value: 'PASSPORT',
+    },
+    {
+        name: 'Other',
+        value: 'OTHER',
+    },
+];
