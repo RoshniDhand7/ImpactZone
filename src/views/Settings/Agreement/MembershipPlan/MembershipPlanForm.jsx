@@ -15,6 +15,9 @@ import {
     yesNoOptions,
 } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
+
+
+
 import { getAgreementTemplates } from '../../../../redux/actions/AgreementSettings/AgreementTemplate';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
@@ -37,19 +40,20 @@ const MembershipPlanForm = () => {
         name: '',
         membershipType: '',
         agreementTemplate: '',
+        isOneTimePlan: true,
         assessedFee: [],
         services: [],
-        autoPay: 'set_schedule',
-        oftenClientCharged: '',
+        autoPay: 'ON_SET_SCHEDULE',
+        howOftenWillClientsBeCharged: '',
         timePeriod: 0,
         noOfAutopays: '',
-        whenClientCharged: '',
+        whenWillClientsBeCharged: '',
         date: '',
-        afterSixPayments: '',
+        whatHappensAfterAutopayPayments: '',
         sellOnline: '',
         onlineDescription: '',
         oneTimePlan: '',
-        membershipPlan: [],
+        membershipPlans: [],
         isActive: true,
     });
 
@@ -61,19 +65,18 @@ const MembershipPlanForm = () => {
 
     useEffect(() => {
         dispatch(getAgreementTemplates());
-        localStorage.removeItem('gjsProject');
     }, [dispatch]);
 
-    const { allAssessedFeesDropdown } = useSelector((state) => state.assessedFees);
+    const allAssessedFeesDropdown = useSelector((state) => state.settings.agreement.assessedFeesDropdown);
     const { allAgreementTemplatesDropdown } = useSelector((state) => state.agreement);
     let { agreementCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
-    const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
+    const MembershipTypesDropdown = useSelector((state) => state.settings.members.membershipTypesDropdown);
     const { clubsDropdown } = useGetClubs();
 
     const handleSave = () => {
         let ignore = ['services'];
-        if (data?.whenClientCharged !== 'sprecific_date') {
+        if (data?.whenWillClientsBeCharged !== 'SPECIFIC_DATE') {
             ignore = [...ignore, 'date'];
         }
         if (showFormErrors(data, setData, ignore)) {
@@ -108,16 +111,16 @@ const MembershipPlanForm = () => {
                         assessedFee: data?.assessedFee?.id,
                         services: data.services,
                         autoPay: data.autoPay,
-                        oftenClientCharged: data.oftenClientCharged,
+                        howOftenWillClientsBeCharged: data.howOftenWillClientsBeCharged,
                         timePeriod: data.timePeriod,
                         noOfAutopays: data.noOfAutopays,
-                        whenClientCharged: data.whenClientCharged,
+                        whenWillClientsBeCharged: data.whenWillClientsBeCharged,
                         date: data.date,
-                        afterSixPayments: data.afterSixPayments,
+                        whatHappensAfterAutopayPayments: data.whatHappensAfterAutopayPayments,
                         sellOnline: data.sellOnline,
                         onlineDescription: data.onlineDescription,
                         oneTimePlan: data.oneTimePlan,
-                        membershipPlan: data.membershipPlan,
+                        membershipPlans: data.membershipPlans,
                         isActive: data.isActive,
                     });
                     const subCategory =
@@ -137,13 +140,14 @@ const MembershipPlanForm = () => {
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
                         <CustomDropDown name="category" options={agreementCategoryDropdown} onChange={handleChange} data={data} required />
-                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
+
                         <CustomDropDown name="subCategory" options={subcategoryOptions} onChange={handleChange} data={data} required />
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="agreementTemplate" options={allAgreementTemplatesDropdown} onChange={handleChange} data={data} />
                         <CustomDropDown label="Is this a one time plan ?" name="oneTimePlan" options={yesNoOptions} onChange={handleChange} data={data} />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>
                 <CustomCard col="12" title="Assessed Fees">
@@ -153,9 +157,9 @@ const MembershipPlanForm = () => {
                 <CustomCard col="12" title="Contract Options">
                     <CustomGridLayout>
                         <CustomDropDown name="autoPay" options={autoPayOptions} onChange={handleChange} data={data} />
-                        {data?.autoPay === 'set_schedule' && (
+                        {data?.autoPay === 'ON_SET_SCHEDULE' && (
                             <CustomDropDown
-                                name="oftenClientCharged"
+                                name="howOftenWillClientsBeCharged"
                                 label="How Often will Clients Be Charged"
                                 options={oftenClientChargedOptions}
                                 onChange={handleChange}
@@ -163,23 +167,23 @@ const MembershipPlanForm = () => {
                             />
                         )}
                         {data?.autoPay && <CustomInputNumber name="timePeriod" data={data} onChange={handleChange} col="4" suffix="Month" />}
-                        {data?.oftenClientCharged === 'no_of_autopays' && (
+                        {data?.howOftenWillClientsBeCharged === 'NO_OF_AUTOPAYS' && (
                             <CustomInput name="noOfAutopays" label="Number of AutoPays" data={data} onChange={handleChange} col="4" keyfilter="int" />
                         )}
 
-                        {data?.autoPay === 'set_schedule' && (
+                        {data?.autoPay === 'ON_SET_SCHEDULE' && (
                             <>
                                 <CustomDropDown
-                                    name="whenClientCharged"
+                                    name="whenWillClientsBeCharged"
                                     label="When will Clients Be Charged"
                                     options={whenClientChargedOptions}
                                     onChange={handleChange}
                                     data={data}
                                 />
-                                {data?.whenClientCharged === 'specific_date' && <CustomCalenderInput name="date" data={data} onChange={handleChange} />}
-                                {data?.oftenClientCharged === 'no_of_autopays' && (
+                                {data?.whenWillClientsBeCharged === 'SPECIFIC_DATE' && <CustomCalenderInput name="date" data={data} onChange={handleChange} />}
+                                {data?.howOftenWillClientsBeCharged === 'NO_OF_AUTOPAYS' && (
                                     <CustomDropDown
-                                        name="afterSixPayments"
+                                        name="whatHappensAfterAutopayPayments"
                                         label={` What happens after ${data?.noOfAutopays} payments`}
                                         options={afterSixPaymentsOptions}
                                         onChange={handleChange}
@@ -188,12 +192,11 @@ const MembershipPlanForm = () => {
                                 )}
                             </>
                         )}
-                        {(data?.autoPay === 'pricing_options_run_out' || data?.autoPay === 'set_schedule') && (
-                            <>
-                                <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} />
-                                {data?.sellOnline && <CustomEditor name="onlineDescription" onTextChange={handleChange} data={data} />}
-                            </>
-                        )}
+
+                        <>
+                            <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} />
+                            {data?.sellOnline && <CustomEditor name="onlineDescription" onTextChange={handleChange} data={data} />}
+                        </>
                     </CustomGridLayout>
                 </CustomCard>
                 <AddAgreementPlan data={data} setData={setData} id={id} loading={loading} type="discount" />

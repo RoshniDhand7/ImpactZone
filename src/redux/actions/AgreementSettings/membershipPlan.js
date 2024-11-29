@@ -48,7 +48,7 @@ const getDefaultMembershipPlan = (returnData) => async () => {
         }
     }
 };
-const addMembershipPlan = (data, history) => async (dispatch) => {
+const  addMembershipPlan = (data, history) => async (dispatch) => {
     dispatch(showLoaderAction());
     const payload = {
         ...data,

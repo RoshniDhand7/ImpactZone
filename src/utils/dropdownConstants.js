@@ -473,62 +473,62 @@ export const genderOptions = [
 export const autoPayOptions = [
     {
         name: 'On a set schedule',
-        value: 'set_schedule',
+        value: 'ON_SET_SCHEDULE',
     },
     {
         name: 'When the pricing options run out',
-        value: 'pricing_options_run_out',
+        value: 'ON_PRICING_OPTIONS_RUN_OUT',
     },
 ];
 
 export const oftenClientChargedOptions = [
     {
         name: 'Set number of autopays',
-        value: 'no_of_autopays',
+        value: 'NO_OF_AUTOPAYS',
     },
     {
         name: 'Month-To-Month',
-        value: 'month_to_month',
+        value: 'MONTH_TO_MONTH',
     },
 ];
 export const whenClientChargedOptions = [
     {
         name: 'On the Sale Date',
-        value: 'on_sale_date',
+        value: 'ON_SALE_DATE',
     },
     {
         name: '1st of the month',
-        value: 'first_of_month',
+        value: '1ST_OF_MONTH',
     },
     {
         name: '15th of the month',
-        value: 'mid_of_month',
+        value: '15TH_OF_MONTH',
     },
     {
         name: '1st or 15th of the month',
-        value: 'first_or_fifteen_month',
+        value: '1ST_OR_15TH_OF_MONTH',
     },
     {
         name: '15th or last day of the month',
-        value: 'fifteen_last_day_month',
+        value: '15TH_OR_LAST_OF_MONTH',
     },
     {
         name: 'last day of the month',
-        value: 'last_of_month',
+        value: 'LAST_OF_MONTH',
     },
     {
         name: 'Specific Date',
-        value: 'specific_date',
+        value: 'SPECIFIC_DATE',
     },
 ];
 export const afterSixPaymentsOptions = [
     {
         name: 'Contract Expires',
-        value: 'contract_expires',
+        value: 'CONTRACT_EXPIRES',
     },
     {
-        name: 'Contract Automatically renews every 6 payments',
-        value: 'contract_automatically_renews_every',
+        name: 'Contract Automatically renews after Autopays completed',
+        value: 'CONTRACT_RENEWS',
     },
 ];
 
