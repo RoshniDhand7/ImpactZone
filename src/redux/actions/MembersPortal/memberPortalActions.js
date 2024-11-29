@@ -108,6 +108,15 @@ const getAgreements = (id) => async (dispatch) => {
     }
 };
 
+const getAgreementView = (id, setData) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.AGREEMENT_VIEW + id);
+    if (res.success) {
+        setData(res.data);
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
 const getCheckIn = (id) => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.CHECK_IN, {}, { memberId: id });
     if (res.success) {
@@ -132,4 +141,4 @@ const getDocuments = (id) => async (dispatch) => {
     }
 };
 
-export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements, getCheckIn, getDocuments };
+export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements, getCheckIn, getDocuments, getAgreementView };

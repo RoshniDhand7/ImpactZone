@@ -9,6 +9,7 @@ import { getAgreements } from '../../../redux/actions/MembersPortal/memberPortal
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { CustomCheckbox, CustomInput } from '../../../shared/Input/AllInputs';
+import AgreementView from './AgreementView';
 
 const Agreement = ({ data = {} }) => {
     const dispatch = useDispatch();
@@ -114,6 +115,7 @@ const Agreement = ({ data = {} }) => {
                     console.log('view data', data);
                 }}
             />
+            <AgreementView openModal={true} setOpenModal={() => {}} />
         </div>
     );
 };
