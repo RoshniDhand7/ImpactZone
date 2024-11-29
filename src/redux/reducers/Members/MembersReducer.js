@@ -3,6 +3,8 @@ const intitalState = {
     members: [],
     allMembersDropdown: [],
     member: {},
+    agreement: [],
+    services: [],
 };
 
 const membersPortalReducer = (state = intitalState, action) => {
@@ -13,7 +15,7 @@ const membersPortalReducer = (state = intitalState, action) => {
                 [action.payload.key]: action.payload.data,
             };
         case types.RESET_MEMBER_DATA: {
-            return {};
+            return intitalState;
         }
         case types.CHANGE_MEMBERS: {
             return {
@@ -26,6 +28,16 @@ const membersPortalReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 member: action.payload,
+            };
+        case types.CHANGE_SERVICES:
+            return {
+                ...state,
+                services: action.payload,
+            };
+        case types.CHANGE_AGREEMENT:
+            return {
+                ...state,
+                agreement: action.payload,
             };
         default:
             return { ...state };

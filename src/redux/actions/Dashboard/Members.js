@@ -17,7 +17,7 @@ const getMembers = () => async (dispatch) => {
 
 const getMemberAction = (id) => async (dispatch) => {
     dispatch(showLoaderAction());
-    const res = await api('get', EndPoints.MEMBERS + id);
+    const res = await api('get', EndPoints.MEMBERS_V2.MEMBERS + id);
     if (res.success) {
         if (res.data) {
             dispatch({
