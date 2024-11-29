@@ -39,6 +39,11 @@ const membersPortalReducer = (state = intitalState, action) => {
                 ...state,
                 agreement: action.payload,
             };
+        case types.CHANGE_DOCUMENTS:
+            return {
+                ...state,
+                documents: action.payload,
+            };
         default:
             return { ...state };
     }

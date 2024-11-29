@@ -108,4 +108,16 @@ const getAgreements = (id) => async (dispatch) => {
     }
 };
 
-export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements };
+const getDocuments = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.DOCUMENT, null, { memberId: id });
+    if (res.success) {
+        dispatch({
+            type: types.CHANGE_DOCUMENTS,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements, getDocuments };
