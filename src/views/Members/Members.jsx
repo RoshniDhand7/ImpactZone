@@ -6,6 +6,7 @@ import Dashboard from './SidebarComponents/Dashboard';
 import Services from './SidebarComponents/Services';
 import Agreement from './SidebarComponents/Agreement';
 import Documents from './SidebarComponents/Documents';
+import CheckIn from './SidebarComponents/CheckIn';
 
 export default function Members() {
     return (
@@ -17,6 +18,7 @@ export default function Members() {
                     <Route path={`/member/:id/agreement`} component={Agreement} />
                     <Route path={`/member/:id/services`} component={Services} />
                     <Route path={`/member/:id/documents`} component={Documents} />
+                    <Route path={`/member/:id/check-in`} component={CheckIn} />
                 </Switch>
             </Layout>
         </div>

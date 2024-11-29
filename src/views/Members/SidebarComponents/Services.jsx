@@ -13,7 +13,7 @@ const Services = () => {
 
     useEffect(() => {
         dispatch(getServices());
-    }, []);
+    }, [dispatch]);
 
     const columns = [
         { field: 'service', header: 'Service', style: { width: '300px' } },
