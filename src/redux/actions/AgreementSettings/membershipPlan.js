@@ -48,12 +48,12 @@ const getDefaultMembershipPlan = (returnData) => async () => {
         }
     }
 };
-const  addMembershipPlan = (data, history) => async (dispatch) => {
+const addMembershipPlan = (data, history) => async (dispatch) => {
     dispatch(showLoaderAction());
     const payload = {
         ...data,
         services: getIds(data?.services),
-        membershipPlan: getIds(data?.membershipPlan),
+        membershipPlans: getIds(data?.membershipPlans),
     };
 
     const res = await api('post', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN, payload);

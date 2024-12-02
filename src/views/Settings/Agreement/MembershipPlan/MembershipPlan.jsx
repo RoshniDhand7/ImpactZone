@@ -48,7 +48,7 @@ const MembershipPlan = () => {
     ];
 
     const onEdit = (col) => {
-        history.push(`/settings/agreement/membership-plan/edit/${col._id}`);
+        history.push(`/settings/agreement/agreement-plan/edit/${col._id}`);
     };
 
     const onDelete = (col, position) => {
@@ -76,7 +76,7 @@ const MembershipPlan = () => {
 
     return (
         <>
-            <CustomFilterCard buttonTitle="Add Agreement Plan" linkTo="/settings/agreement/membership-plan/add" contentPosition="end">
+            <CustomFilterCard buttonTitle="Add Agreement Plan" linkTo="/settings/agreement/agreement-plan/add" contentPosition="end">
                 <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
             </CustomFilterCard>
             <FilterComponent

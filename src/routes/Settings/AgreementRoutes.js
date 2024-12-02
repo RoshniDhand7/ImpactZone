@@ -43,13 +43,13 @@ const AgreementSettingsRoute = [
         component: AssessedFeesForm,
     },
     {
-        path: '/membership-plan/add',
+        path: '/agreement-plan/add',
         name: 'Membership Plan',
         exact: true,
         component: MembershipPlanForm,
     },
     {
-        path: '/membership-plan/edit/:id',
+        path: '/agreement-plan/edit/:id',
         name: 'Membership Plan',
         exact: true,
         component: MembershipPlanForm,
