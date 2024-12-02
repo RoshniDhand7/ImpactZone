@@ -1,6 +1,7 @@
 import { types } from '../../types/types';
 const intitalState = {
     assessedFees: [],
+    assessedFeesDropdown: [],
     agreementTemplates: [],
     agreementPlans: [],
     agreementCategories: [],
@@ -13,12 +14,16 @@ const AgreementReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 assessedFees: action.payload,
+                assessedFeesDropdown: action.payload.map((item) => ({
+                    name: `${item.name} ($${item.amount} ${item.type}) (${item.recurring ? 'Recurring' : 'One Time'})`,
+                    value: item._id,
+                })),
             };
         case types.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE:
             return {
                 ...state,
                 agreementTemplates: action.payload,
-            };          
+            };
         case types.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN:
             return {
                 ...state,
