@@ -30,7 +30,7 @@ export const phoneValidation = (phone) => {
 };
 
 export const passwordValidation = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
     return regex.test(password);
 };
 

@@ -5,7 +5,7 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
+import { getMembersipTypes } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const AddMembershipType = ({ data, setData, id, loading, name }) => {
     const [open, setOpen] = useState(false);
@@ -22,8 +22,7 @@ const AddMembershipType = ({ data, setData, id, loading, name }) => {
             }
         }
     }, [data?.membershipType, open, id]);
-
-    const { allMembershipTypes } = useSelector((state) => state.membershipTypes);
+    const { membershipTypes } = useSelector((state) => state.settings.members);
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
@@ -81,7 +80,7 @@ const AddMembershipType = ({ data, setData, id, loading, name }) => {
             >
                 <CustomGridLayout>
                     {open && (
-                        <CustomTable convertToboolean={false} data={allMembershipTypes} columns={columns} selectedRow={selected} setSelectedRow={setSelected} />
+                        <CustomTable convertToboolean={false} data={membershipTypes} columns={columns} selectedRow={selected} setSelectedRow={setSelected} />
                     )}
                 </CustomGridLayout>
             </CustomDialog>

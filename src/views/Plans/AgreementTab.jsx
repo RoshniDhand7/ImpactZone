@@ -7,7 +7,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
-import { getMembersipTypes } from '../../redux/actions/MembersSettings/membershipTypes';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
@@ -17,6 +16,7 @@ import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/com
 import { AutoComplete } from 'primereact/autocomplete';
 import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
+import { getMembersipTypes } from '../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -57,7 +57,8 @@ const AgreementTab = ({ onTabEnable }) => {
 
     const { id, newPlanId, memberId } = useParams();
 
-    const { MembershipTypesDropdown } = useSelector((state) => state.membershipTypes);
+    let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
+
     const { employeesDropdown } = useSelector((state) => state.employees);
     const { compaignDropdown } = useSelector((state) => state.campaign);
 
@@ -230,7 +231,7 @@ const AgreementTab = ({ onTabEnable }) => {
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
                     <CustomGroupInput name="agreementNo" data={data} onChange={handleChange} required prefixName={data?.club?.name} />
-                    <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required disabled />
+                    <CustomDropDown name="membershipType" options={membershipTypesDropdown} onChange={handleChange} data={data} required disabled />
                     <CustomDropDown
                         name="oftenClientCharged"
                         label="How Often will Clients Be Charged"

@@ -6,7 +6,6 @@ import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, Cu
 import { useHistory, useParams } from 'react-router-dom';
 import { getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMembersipTypes } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import {
     afterSixPaymentsOptions,
     autoPayOptions,
@@ -25,6 +24,7 @@ import { showFormErrors } from '../../../../utils/commonFunctions';
 import { addMembershipPlan, editMembershipPlan, getMembershipPlan } from '../../../../redux/actions/AgreementSettings/membershipPlan';
 import AddAgreementPlan from './AddAgreementPlan';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { getMembersipTypes } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const MembershipPlanForm = () => {
     const history = useHistory();

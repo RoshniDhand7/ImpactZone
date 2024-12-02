@@ -26,7 +26,7 @@ export default function TopBar() {
                 logout(() => history.push('/login'));
             }),
         );
-    }, [dispatch]);
+    }, [dispatch, history]);
 
     const menuRight = useRef(null);
     const active = {

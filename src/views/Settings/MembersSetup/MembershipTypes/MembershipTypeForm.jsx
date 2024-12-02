@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SpecialRestrictionOptions, defaultDiscountOptions, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getIds, showFormErrors } from '../../../../utils/commonFunctions';
-import { getAccessSchedules } from '../../../../redux/actions/MembersSettings/accessSchedule';
 import AddServices from '../../Inventory/CatalogItems/AddServices';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import useDiscount from '../../../../hooks/useDiscount';
 import { addMembershipType, editMembershipType, getMembershipType } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getAccessSchedules } from '../../../../redux/actions/Settings/MembershipSetup/AccessScheduleAction';
 
 const MembershipTypeForm = () => {
     const dispatch = useDispatch();
@@ -39,8 +39,8 @@ const MembershipTypeForm = () => {
         services: [],
         isActive: true,
     });
+    const { assessScheduleDropdown } = useSelector((state) => state?.settings?.members);
 
-    const { AccessScheduleDropdown } = useSelector((state) => state.accessSchedule);
     let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
     membershipTypesDropdown = membershipTypesDropdown?.filter((item) => item.name !== data?.name);
 
@@ -126,7 +126,7 @@ const MembershipTypeForm = () => {
                         <CustomDropDown name="discount" options={discountTypeOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="accessRestriction" options={yesNoOptions} onChange={handleChange} data={data} />
                         {data?.accessRestriction && (
-                            <CustomDropDown name="accessSchedule" options={AccessScheduleDropdown} onChange={handleChange} data={data} />
+                            <CustomDropDown name="accessSchedule" options={assessScheduleDropdown} onChange={handleChange} data={data} />
                         )}
                         <CustomDropDown name="remoteCheckin" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomDropDown name="transferToAnotherType" options={membershipTypesDropdown} onChange={handleChange} data={data} />

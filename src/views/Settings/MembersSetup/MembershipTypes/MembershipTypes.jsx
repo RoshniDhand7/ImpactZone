@@ -5,13 +5,17 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../shared/Input/AllInputs';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMembershipType, deleteMembershipType } from '../../../../redux/actions/MembersSettings/membershipTypes';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import MemberTypeFilter from './MemberTypeFilter';
-import { getMembersipTypes, reorderPriority } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import {
+    addMembershipType,
+    deleteMembershipType,
+    getMembersipTypes,
+    reorderPriority,
+} from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 
 const MembershipTypes = () => {
     const history = useHistory();
