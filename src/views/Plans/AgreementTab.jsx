@@ -15,8 +15,8 @@ import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
 import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
-import { getMembers } from '../../redux/actions/Dashboard/Members';
 import useCancelSellPlans from '../../hooks/useCancelSellPlans';
+import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const AgreementTab = ({ onTabEnable }) => {
 
     const [items, setItems] = useState([]);
 
-    let { allMembers } = useSelector((state) => state.members);
+    let allMembers = useSelector((state) => state.membersPortal.members);
 
     allMembers = allMembers.map((item) => ({
         firstName: item.firstName,

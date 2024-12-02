@@ -12,7 +12,7 @@ const AgreementView = ({ openModal, setOpenModal, itemData, setItemData }) => {
 
     useEffect(() => {
         itemData?._id && dispatch(getAgreementView(itemData?._id, setData));
-    }, [itemData]);
+    }, [itemData, dispatch]);
 
     const columns = [
         { field: 'name', header: 'Service Name' },

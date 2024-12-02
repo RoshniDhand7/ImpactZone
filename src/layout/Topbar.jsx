@@ -10,9 +10,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
 import Search from './Search';
-import { getMembers } from '../redux/actions/Dashboard/Members';
 import ClockInOutModal from './ClockInOutModal';
 import CustomAvatar from '../shared/Avatar/Avatar';
+import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
 
 export default function TopBar() {
     const dispatch = useDispatch();
