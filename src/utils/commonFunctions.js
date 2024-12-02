@@ -193,7 +193,7 @@ const uploadImages = async (images) => {
     return urls;
 };
 
-const uploadFiles = async (files) => {
+const uploadFiles1 = async (files) => {
     const promises = files.map(async (item) => {
         if (typeof item === 'string') {
             return item;
@@ -211,7 +211,7 @@ const uploadFiles = async (files) => {
     return filesArray;
 };
 
-const uploadFiles1 = async (files) => {
+const uploadFiles = async (files) => {
     const promises = files.map(async (item) => {
         if (typeof item === 'string') {
             return item;

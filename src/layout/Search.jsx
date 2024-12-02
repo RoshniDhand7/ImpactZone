@@ -2,10 +2,19 @@ import React, { useEffect, useState } from 'react';
 import CustomDialog from '../shared/Overlays/CustomDialog';
 import { AutoComplete } from 'primereact/autocomplete';
 import { useHistory } from 'react-router-dom';
-import useMembers from '../hooks/Members/useMembers';
+import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Search = ({ openModal, setOpenModal }) => {
-    let { members } = useMembers();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (openModal) {
+            dispatch(getMembers());
+        }
+    }, [openModal, dispatch]);
+
+    let members = useSelector((state) => state.membersPortal.members);
+
     const [value, setValue] = useState('');
     const [items, setItems] = useState([]);
     const history = useHistory();

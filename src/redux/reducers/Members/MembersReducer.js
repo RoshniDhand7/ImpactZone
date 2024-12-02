@@ -25,7 +25,7 @@ const membersPortalReducer = (state = intitalState, action) => {
                 allMembersDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
             };
         }
-        case types.CHANGE_VIEW_MEMBERS:
+        case types.MEMBER.VIEW_MEMBER:
             return {
                 ...state,
                 member: action.payload,
@@ -40,7 +40,7 @@ const membersPortalReducer = (state = intitalState, action) => {
                 ...state,
                 agreement: action.payload,
             };
-        case types.CHANGE_DOCUMENTS:
+        case types.MEMBER.DOCUMENTS:
             return {
                 ...state,
                 documents: action.payload,

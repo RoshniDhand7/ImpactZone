@@ -1,14 +1,13 @@
-import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
-import ProfileDetail from './ProfileDetail';
-import TopLayout from './TopLayout';
-import viewIcon from '../../../assets/icons/view.png';
-import CustomTable from '../../../shared/Table/CustomTable';
+import CustomCard, { CustomListItem } from '../../../../shared/Cards/CustomCard';
+import ProfileDetail from '../ProfileDetail';
+import TopLayout from '../TopLayout';
+import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { getAgreements } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { getAgreements } from '../../../../redux/actions/MembersPortal/memberPortalActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { CustomCheckbox, CustomInput } from '../../../shared/Input/AllInputs';
+import { CustomCheckbox, CustomInput } from '../../../../shared/Input/AllInputs';
 import AgreementView from './AgreementView';
 
 const Agreement = ({ data = {} }) => {
@@ -33,18 +32,7 @@ const Agreement = ({ data = {} }) => {
 
     useEffect(() => {
         dispatch(getAgreements(id));
-    }, []);
-
-    // const customActionTemplate = (r) => {
-    //     return (
-    //         <>
-    //             <span>
-    //                 <img src={viewIcon} alt="eye icon" />
-    //             </span>
-    //             <span className="ps-2"></span>
-    //         </>
-    //     );
-    // };
+    }, [dispatch, id]);
 
     return (
         <div>

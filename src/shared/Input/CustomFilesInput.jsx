@@ -85,6 +85,8 @@ export default function CustomFilesInput({
         setFiles(newArr);
     };
 
+    console.log(files, 'files');
+
     return (
         <>
             <input
@@ -145,9 +147,11 @@ export default function CustomFilesInput({
                                         </div>
                                         <div className="md:col-3 text-main-color  ">{parseInt(file?.size || fileSize / 1024)}kb</div>
                                         {/* <div className="md:col-3 text-main-color text-center">{getDate(file?.lastModified)}</div> */}
-                                        <div className="md:col-6 text-main-color text-center">
-                                            <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{ width: '15px' }} />
-                                        </div>
+                                        {!disabled && (
+                                            <div className="md:col-6 text-main-color text-center">
+                                                <img className="pointer" onClick={() => onDelete(i)} src={Cross} alt="" style={{ width: '15px' }} />
+                                            </div>
+                                        )}
                                     </>
                                 ))}
                             </div>

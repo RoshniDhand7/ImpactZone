@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
-import CustomDialog from '../../../shared/Overlays/CustomDialog';
-import { getAgreementView } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import CustomCard, { CustomListItem } from '../../../../shared/Cards/CustomCard';
+import CustomDialog from '../../../../shared/Overlays/CustomDialog';
+import { getAgreementView } from '../../../../redux/actions/MembersPortal/memberPortalActions';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import CustomTable from '../../../shared/Table/CustomTable';
+import CustomTable from '../../../../shared/Table/CustomTable';
 
 const AgreementView = ({ openModal, setOpenModal, itemData, setItemData }) => {
     const [data, setData] = useState({});

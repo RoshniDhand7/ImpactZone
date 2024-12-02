@@ -133,12 +133,49 @@ const getDocuments = (id) => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.DOCUMENT, null, { memberId: id });
     if (res.success) {
         dispatch({
-            type: types.CHANGE_DOCUMENTS,
+            type: types.MEMBER.DOCUMENTS,
             payload: res.data,
         });
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const addMemberDocuments = (id, data, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.MEMBERS_V2.DOCUMENT + id, data);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 
-export { getMembers, getMemberData, addMembers, editMemberAction, getServices, getAgreements, getCheckIn, getDocuments, getAgreementView };
+const getDocumentView = (id, next) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.DOCUMENT_VIEW + id);
+    if (res.success) {
+        if (res.data) {
+            next(res.data);
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export {
+    getMembers,
+    getMemberData,
+    addMembers,
+    editMemberAction,
+    getServices,
+    getAgreements,
+    getCheckIn,
+    getDocuments,
+    getAgreementView,
+    addMemberDocuments,
+    getDocumentView,
+};

@@ -13,11 +13,7 @@ const memberReducer = (state = intitalState, action) => {
                 allMembers: action.payload,
                 allMembersDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
             };
-        case types.CHANGE_VIEW_MEMBERS:
-            return {
-                ...state,
-                getMember: action.payload,
-            };
+
         default:
             return { ...state };
     }

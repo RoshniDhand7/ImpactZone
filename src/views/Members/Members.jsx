@@ -4,8 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import Personal from './SidebarComponents/Personal';
 import Dashboard from './SidebarComponents/Dashboard';
 import Services from './SidebarComponents/Services';
-import Agreement from './SidebarComponents/Agreement';
-import Documents from './SidebarComponents/Documents';
+import Agreement from './SidebarComponents/Agreements/Agreement';
+import Documents from './SidebarComponents/Documents/Documents';
 import CheckIn from './SidebarComponents/CheckIn';
 
 export default function Members() {

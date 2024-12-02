@@ -60,6 +60,7 @@ const endPoints = {
         AGREEMENT_VIEW: '/memberV2/agreement-view/',
         DOCUMENT: '/memberV2/document/',
         CHECK_IN: '/memberV2/check-in/',
+        DOCUMENT_VIEW: '/memberV2/document-view/',
     },
 
     AUTH: {
