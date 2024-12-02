@@ -60,12 +60,14 @@ const onChangePassword = (payload, setLoading, next) => async (dispatch) => {
     setLoading(false);
 };
 
-const getProfile = () => async (dispatch) => {
+const getProfile = (next) => async (dispatch) => {
     const res = await api('get', endPoints.AUTH.PROFILE);
     if (res.success) {
         dispatch({ type: types.PROFILE, payload: res.data });
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
+        next();
     }
 };
 export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword, onChangePassword };
+

@@ -16,14 +16,18 @@ import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
 
 export default function TopBar() {
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getProfile());
-    }, [dispatch]);
-
     const { user } = useSelector((state) => state?.profile);
     const history = useHistory();
     const location = useLocation();
+
+    useEffect(() => {
+        dispatch(
+            getProfile(() => {
+                logout(() => history.push('/login'));
+            }),
+        );
+    }, [dispatch]);
+
     const menuRight = useRef(null);
     const active = {
         fontWeight: '600',

@@ -16,8 +16,6 @@ import {
 } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 
-
-
 import { getAgreementTemplates } from '../../../../redux/actions/AgreementSettings/AgreementTemplate';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
@@ -53,7 +51,7 @@ const MembershipPlanForm = () => {
         sellOnline: '',
         onlineDescription: '',
         oneTimePlan: '',
-        membershipPlans: [],
+        agreementPlans: [],
         isActive: true,
     });
 
@@ -120,7 +118,7 @@ const MembershipPlanForm = () => {
                         sellOnline: data.sellOnline,
                         onlineDescription: data.onlineDescription,
                         oneTimePlan: data.oneTimePlan,
-                        membershipPlans: data.membershipPlans,
+                        agreementPlans: data.agreementPlans,
                         isActive: data.isActive,
                     });
                     const subCategory =

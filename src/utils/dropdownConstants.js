@@ -357,7 +357,7 @@ export const itemSoldOptions = [
     },
     {
         name: 'Agreements Only',
-        value: 'AGGREMENT',
+        value: 'AGREEMENT',
     },
     {
         name: 'POS and Agreements',
