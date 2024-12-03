@@ -4,10 +4,10 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteAgreementCategories, getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 import useFilters from '../../../../hooks/useFilters';
+import { deleteAgreementCategories, getAgreementCategories } from '../../../../redux/actions/Settings/AgreementSetup/agreementCategoriesAction';
 
 const AgreementCategories = () => {
     const history = useHistory();
@@ -16,7 +16,7 @@ const AgreementCategories = () => {
         dispatch(getAgreementCategories());
     }, [dispatch]);
 
-    const { allAgreementCategories } = useSelector((state) => state.agreement);
+    const agreementCategories = useSelector((state) => state.settings.agreement.agreementCategories);
 
     const columns = [
         { field: 'name', header: 'Agreement Categories' },
@@ -41,7 +41,7 @@ const AgreementCategories = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementCategories);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementCategories);
 
     return (
         <>

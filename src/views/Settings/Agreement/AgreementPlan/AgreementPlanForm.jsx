@@ -4,7 +4,6 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import formValidation from '../../../../utils/validations';
 import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
 import { useHistory, useParams } from 'react-router-dom';
-import { getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     afterSixPaymentsOptions,
@@ -14,19 +13,19 @@ import {
     yesNoOptions,
 } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-
-import { getAgreementTemplates } from '../../../../redux/actions/AgreementSettings/AgreementTemplate';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
-import { getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
 import AddServices from '../../Inventory/CatalogItems/AddServices';
 import CustomEditor from '../../../../shared/Input/CustomEditor';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addMembershipPlan, editMembershipPlan, getMembershipPlan } from '../../../../redux/actions/AgreementSettings/membershipPlan';
+import { addMembershipPlan, editMembershipPlan, getMembershipPlan } from '../../../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 import AddAgreementPlan from './AddAgreementPlan';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { getMembersipTypes } from '../../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getAssesedFees } from '../../../../redux/actions/Settings/AgreementSetup/assessedFeeAction';
+import { getAgreementTemplates } from '../../../../redux/actions/Settings/AgreementSetup/AgreementTemplateAction';
+import { getAgreementCategories } from '../../../../redux/actions/Settings/AgreementSetup/agreementCategoriesAction';
 
-const MembershipPlanForm = () => {
+const AgreementPlanForm = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -65,9 +64,14 @@ const MembershipPlanForm = () => {
         dispatch(getAgreementTemplates());
     }, [dispatch]);
 
+    const state = useSelector((state) => console.log(state));
+    console.log(state);
+
     const allAssessedFeesDropdown = useSelector((state) => state.settings.agreement.assessedFeesDropdown);
-    const { allAgreementTemplatesDropdown } = useSelector((state) => state.agreement);
-    let { agreementCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
+    const agreementTemplatesDropdown = useSelector((state) => state.settings.agreement.agreementTemplatesDropdown);
+    let { agreementCategoriesDropdown, agreementCategories } = useSelector((state) => state.settings.agreement);
+
+    console.log(agreementCategories, agreementCategoriesDropdown, 'agreementCategoriesDropdown');
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
     const MembershipTypesDropdown = useSelector((state) => state.settings.members.membershipTypesDropdown);
     const { clubsDropdown } = useGetClubs();
@@ -90,7 +94,7 @@ const MembershipPlanForm = () => {
         if (name === 'category') {
             setData((prev) => ({ ...prev, [name]: value, formErrors }));
             const subCategory =
-                allAgreementCategories.find((category) => category._id === value)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
+                agreementCategories.find((category) => category._id === value)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
             setSubcategoryOptions(subCategory);
         }
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -122,9 +126,8 @@ const MembershipPlanForm = () => {
                         isActive: data.isActive,
                     });
                     const subCategory =
-                        allAgreementCategories
-                            .find((category) => category._id === data.category)
-                            ?.subCategories?.map((item) => ({ name: item, value: item })) || [];
+                        agreementCategories.find((category) => category._id === data.category)?.subCategories?.map((item) => ({ name: item, value: item })) ||
+                        [];
                     setSubcategoryOptions(subCategory);
                 }),
             );
@@ -137,13 +140,13 @@ const MembershipPlanForm = () => {
             <FormPage backText="Agreement Plan">
                 <CustomCard col="12" title="General">
                     <CustomGridLayout>
-                        <CustomDropDown name="category" options={agreementCategoryDropdown} onChange={handleChange} data={data} required />
+                        <CustomDropDown name="category" options={agreementCategoriesDropdown} onChange={handleChange} data={data} required />
 
                         <CustomDropDown name="subCategory" options={subcategoryOptions} onChange={handleChange} data={data} required />
                         <CustomInput name="name" data={data} onChange={handleChange} required />
                         <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
-                        <CustomDropDown name="agreementTemplate" options={allAgreementTemplatesDropdown} onChange={handleChange} data={data} />
+                        <CustomDropDown name="agreementTemplate" options={agreementTemplatesDropdown} onChange={handleChange} data={data} />
                         <CustomDropDown label="Is this a one time plan ?" name="oneTimePlan" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
@@ -208,4 +211,4 @@ const MembershipPlanForm = () => {
     );
 };
 
-export default MembershipPlanForm;
+export default AgreementPlanForm;

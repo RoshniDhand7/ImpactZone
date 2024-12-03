@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
+import { getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 const useAgreementPlan = () => {
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(getMembershipPlans());
     }, [dispatch]);
 
-    const { allMembershipPlan, allMembershipPlanDropdown } = useSelector((state) => state.membershipPlan);
+    const { agreementPlans, agreementPlansDropdown } = useSelector((state) => state.settings.agreement);
 
-    return { allMembershipPlan, allMembershipPlanDropdown };
+    return { agreementPlans, agreementPlansDropdown };
 };
 
 export default useAgreementPlan;

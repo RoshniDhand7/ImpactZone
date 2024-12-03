@@ -7,7 +7,11 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addAgreementCategories, editAgreementCategories, getAgreementCategory } from '../../../../redux/actions/AgreementSettings/agreementCategories';
+import {
+    addAgreementCategories,
+    editAgreementCategories,
+    getAgreementCategory,
+} from '../../../../redux/actions/Settings/AgreementSetup/agreementCategoriesAction';
 
 const AgreementCategoriesForm = () => {
     const history = useHistory();

@@ -10,8 +10,8 @@ import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addAssessedFees, editAssessedFees, getAssesedFees, getAssessedFee } from '../../../../redux/actions/AgreementSettings/assessedFees';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { addAssessedFee, editAssessedFee, getAssesedFees, getAssessedFee } from '../../../../redux/actions/Settings/AgreementSetup/assessedFeeAction';
 
 const AssessedFeesForm = () => {
     const dispatch = useDispatch();
@@ -102,14 +102,14 @@ const AssessedFeesForm = () => {
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(
-                    editAssessedFees(id, data, () => {
+                    editAssessedFee(id, data, () => {
                         dispatch(getAssesedFees());
                         history.goBack();
                     }),
                 );
             } else {
                 dispatch(
-                    addAssessedFees(data, () => {
+                    addAssessedFee(data, () => {
                         dispatch(getAssesedFees());
                         history.goBack();
                     }),

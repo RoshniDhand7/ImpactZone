@@ -1,10 +1,10 @@
 import { lazy } from 'react';
 import AgreementPromotionsForm from '../../views/Settings/Agreement/AgreementPromotions/AgreementPromotionsForm';
+import AgreementPlanForm from '../../views/Settings/Agreement/AgreementPlan/AgreementPlanForm';
 
 const AgreementTemplateForm = lazy(() => import('../../views/Settings/Agreement/AgreementTemplate/AgreementTemplateForm'));
 const AgreementCategoriesForm = lazy(() => import('../../views/Settings/Agreement/AgreementCategories/AgreementCategoriesForm'));
 const AssessedFeesForm = lazy(() => import('../../views/Settings/Agreement/AssessedFees/AssessedFeesForm'));
-const MembershipPlanForm = lazy(() => import('../../views/Settings/Agreement/MembershipPlan/MembershipPlanForm'));
 const AgreementSettingsRoute = [
     {
         path: '/template/add',
@@ -46,13 +46,13 @@ const AgreementSettingsRoute = [
         path: '/agreement-plan/add',
         name: 'Membership Plan',
         exact: true,
-        component: MembershipPlanForm,
+        component: AgreementPlanForm,
     },
     {
         path: '/agreement-plan/edit/:id',
         name: 'Membership Plan',
         exact: true,
-        component: MembershipPlanForm,
+        component: AgreementPlanForm,
     },
     {
         path: '/agreement-promotions/add',

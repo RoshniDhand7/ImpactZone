@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import loaderReducer from './loaderReducer';
 import toastReducer from './toastReducer';
 import profileReducer from './profileReducer';
-import reasonCodeReducer from './BusinessSettings/reasonReducer';
 import employeesReducer from './EmployeesSettings/employeesReducer';
 import securityRolesReducer from './EmployeesSettings/securityRolesReducer';
 import departmentReducer from './EmployeesSettings/departmentsReducer';
@@ -13,7 +12,6 @@ import comapignGroupReducer from './MembersSettings/compaignGroupReducer';
 import camapignReducer from './MembersSettings/campaignReducer';
 import resourceTypeReducer from './MembersSettings/resourceTypeReducer';
 import resourcesReducer from './MembersSettings/resourcesReducer';
-import agreementReducer from './AgreementSettings/agreementReducer';
 import referralGroupReducer from './InventorySettings/referralGroupsReducer';
 import commissionGroupReducer from './InventorySettings/commissionGroupsReducer';
 import VendorsReducer from './InventorySettings/vendorsReducer';
@@ -26,9 +24,6 @@ import eventReducer from './ScheduleSettings/eventsReducer';
 import eventCategoryReducer from './ScheduleSettings/eventCategories';
 import eventClassesReducer from './ScheduleSettings/eventClassesReducer';
 import membershipTypeReducer from './MembersSettings/membershipTypeReducer';
-import assesedFeesReducer from './AgreementSettings/assessedFeesReducer';
-import membershipPlanReducer from './AgreementSettings/membershipPlanReducer';
-import agreementPromotionReducer from './AgreementSettings/agreementPromotionsReducer';
 import taxReducer from './PosSettings/taxReducer';
 import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 import discountTypeReducer from './PosSettings/discountTypeReducer';
@@ -56,7 +51,6 @@ export default combineReducers({
     toast: toastReducer,
     tableLoader: tableLoaderReducer,
     profile: profileReducer,
-    reasonCode: reasonCodeReducer,
     employees: employeesReducer,
     securityRole: securityRolesReducer,
     department: departmentReducer,
@@ -67,7 +61,6 @@ export default combineReducers({
     campaign: camapignReducer,
     resourceType: resourceTypeReducer,
     resources: resourcesReducer,
-    agreement: agreementReducer,
     referralGroup: referralGroupReducer,
     commissionGroup: commissionGroupReducer,
     vendors: VendorsReducer,
@@ -81,9 +74,6 @@ export default combineReducers({
     eventCategory: eventCategoryReducer,
     eventClasses: eventClassesReducer,
     membershipTypes: membershipTypeReducer,
-    assessedFees: assesedFeesReducer,
-    membershipPlan: membershipPlanReducer,
-    agreementPromotion: agreementPromotionReducer,
     taxes: taxReducer,
     paymentMethod: paymentMethodReducer,
     discountType: discountTypeReducer,

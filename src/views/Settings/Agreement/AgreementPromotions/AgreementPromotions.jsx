@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
-import { deleteAgreementPromotion, getAgreementPromotions } from '../../../../redux/actions/AgreementSettings/agreementPromotions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteAgreementPromotion, getAgreementPromotions } from '../../../../redux/actions/Settings/AgreementSetup/agreementPromotionsAction';
 
 const AgreementPromotions = () => {
     const history = useHistory();
@@ -17,7 +17,7 @@ const AgreementPromotions = () => {
         dispatch(getAgreementPromotions());
     }, [dispatch]);
 
-    const { allAgreementPromotion } = useSelector((state) => state.agreementPromotion);
+    const { agreementPromotions } = useSelector((state) => state.settings.agreement);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -36,7 +36,7 @@ const AgreementPromotions = () => {
             () => {
                 dispatch(
                     deleteAgreementPromotion(col._id, () => {
-                        dispatch(allAgreementPromotion());
+                        dispatch(getAgreementPromotions());
                     }),
                 );
             },
@@ -44,7 +44,7 @@ const AgreementPromotions = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementPromotion);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementPromotions);
 
     return (
         <>

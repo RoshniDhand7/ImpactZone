@@ -24,13 +24,13 @@ const MembershipTypeForm = () => {
     const [data, setData] = useState({
         name: '',
         description: '',
-        discount: 'None',
+        discount: 'NONE',
         accessRestriction: false,
         accessSchedule: null,
         remoteCheckin: false,
         transferToAnotherType: null,
         clubCreditAmount: '',
-        specialResrictions: 'None',
+        specialResrictions: 'NONE',
         minimumAgeAllowed: 0,
         maximumAgeAllowed: 0,
         maximumDaysAllowed: 0,
@@ -58,7 +58,7 @@ const MembershipTypeForm = () => {
                     setData({
                         name: data.name,
                         description: data.description,
-                        discount: data.discount === null ? 'None' : data.discount,
+                        discount: data.discount === null ? 'NONE' : data.discount,
                         accessRestriction: data.accessRestriction,
                         accessSchedule: data.accessSchedule,
                         remoteCheckin: data.remoteCheckin,
@@ -104,11 +104,11 @@ const MembershipTypeForm = () => {
         if (showFormErrors(data, setData, ignore)) {
             if (id) {
                 dispatch(
-                    editMembershipType(id, { ...data, services: getIds(data.services), discount: data.discount === 'None' ? null : data.discount }, history),
+                    editMembershipType(id, { ...data, services: getIds(data.services), discount: data.discount === 'NONE' ? null : data.discount }, history),
                 );
             } else {
                 dispatch(
-                    addMembershipType({ ...data, services: getIds(data.services), discount: data.discount === 'None' ? null : data.discount }, () =>
+                    addMembershipType({ ...data, services: getIds(data.services), discount: data.discount === 'NONE' ? null : data.discount }, () =>
                         history.goBack(),
                     ),
                 );
@@ -132,18 +132,18 @@ const MembershipTypeForm = () => {
                         <CustomDropDown name="transferToAnotherType" options={membershipTypesDropdown} onChange={handleChange} data={data} />
                         <CustomInputNumber prefix="$" name="clubCreditAmount" data={data} onChange={handleChange} col="4" />
                         <CustomDropDown name="specialResrictions" options={SpecialRestrictionOptions} onChange={handleChange} data={data} />
-                        {data?.specialResrictions === 'By Age' && (
+                        {data?.specialResrictions === 'BY_AGE' && (
                             <>
                                 <CustomInputNumber name="minimumAgeAllowed" data={data} onChange={handleChange} col="4" />
                                 <CustomInputNumber name="maximumAgeAllowed" data={data} onChange={handleChange} col="4" />
                             </>
                         )}
-                        {data?.specialResrictions === 'By Location' && (
+                        {data?.specialResrictions === 'BY_LOCATION' && (
                             <>
                                 <CustomInputNumber name="maximumDistanceAllowed" data={data} onChange={handleChange} col="4" />
                             </>
                         )}
-                        {data?.specialResrictions === 'By Days' && (
+                        {data?.specialResrictions === 'BY_DAYS' && (
                             <>
                                 <CustomInputNumber name="maximumDaysAllowed" data={data} onChange={handleChange} col="4" />
                             </>

@@ -4,16 +4,16 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { deleteMembershipPlan, getMembershipPlans } from '../../../../redux/actions/AgreementSettings/membershipPlan';
+import { deleteMembershipPlan, getMembershipPlans } from '../../../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import FilterComponent from '../../../../components/FilterComponent';
 import useFilters from '../../../../hooks/useFilters';
 import { CustomDropDown, CustomInput } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown, yesNoOptions } from '../../../../utils/dropdownConstants';
 import useGetClubs from '../../../../hooks/useGetClubs';
-import { getAgreementCategories } from '../../../../redux/actions/AgreementSettings/agreementCategories';
+import { getAgreementCategories } from '../../../../redux/actions/Settings/AgreementSetup/agreementCategoriesAction';
 
-const MembershipPlan = () => {
+const AgreementPlan = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -32,7 +32,7 @@ const MembershipPlan = () => {
         }
     };
 
-    const { allMembershipPlan } = useSelector((state) => state.membershipPlan);
+    const { agreementPlans } = useSelector((state) => state.settings.agreement);
 
     const columns = [
         { field: 'name', header: ' Plan Name' },
@@ -56,7 +56,7 @@ const MembershipPlan = () => {
             () => {
                 dispatch(
                     deleteMembershipPlan(col._id, () => {
-                        dispatch(allMembershipPlan());
+                        dispatch(agreementPlans());
                     }),
                 );
             },
@@ -65,12 +65,12 @@ const MembershipPlan = () => {
         );
     };
     const { clubsDropdown } = useGetClubs();
-    let { agreementCategoryDropdown, allAgreementCategories } = useSelector((state) => state.agreement);
+    let { agreementCategoriesDropdown, agreementCategories } = useSelector((state) => state.settings.agreement);
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembershipPlan);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementPlans);
 
     const subcategoryOptions = useMemo(() => {
-        return allAgreementCategories.find((category) => category._id === data.categoryId)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
+        return agreementCategories.find((category) => category._id === data.categoryId)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.categoryId]);
 
@@ -103,7 +103,7 @@ const MembershipPlan = () => {
                         col={12}
                         label="Category"
                         name="categoryId"
-                        options={agreementCategoryDropdown}
+                        options={agreementCategoriesDropdown}
                         onChange={handleChange}
                         data={data}
                         showClear
@@ -119,4 +119,4 @@ const MembershipPlan = () => {
     );
 };
 
-export default MembershipPlan;
+export default AgreementPlan;

@@ -6,7 +6,6 @@ import CustomImageInput from '../../shared/Input/CustomImageInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
-import { getDefaultMembershipPlan, getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
@@ -16,6 +15,7 @@ import usePlacesAutocomplete from './usePlacesAutoComplete';
 import api from '../../services/api';
 import endPoints from '../../services/endPoints';
 import { addMembers, getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
+import { getDefaultMembershipPlan, getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 const AddMembers = () => {
     const [data, setData] = useState({
@@ -70,11 +70,11 @@ const AddMembers = () => {
 
     const { employeesDropdown } = useSelector((state) => state.employees);
     const { compaignDropdown } = useSelector((state) => state.campaign);
-    let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
+    let { agreementPlans } = useSelector((state) => state.settings.agreement);
     const loading = useSelector((state) => state.loader.isLoading);
 
-    const prospectAgreement = allMembershipPlan?.filter((item) => item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
-    const memberagreement = allMembershipPlan?.filter((item) => !item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
+    const prospectAgreement = agreementPlans?.filter((item) => item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
+    const memberagreement = agreementPlans?.filter((item) => !item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
 
     // useEffect(() => {
     //     if (data.createType) {

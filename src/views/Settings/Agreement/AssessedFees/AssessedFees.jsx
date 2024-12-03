@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { deleteAssessedFees, getAssesedFees } from '../../../../redux/actions/AgreementSettings/assessedFees';
 import moment from 'moment';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
@@ -13,6 +12,7 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
 import useGetClubs from '../../../../hooks/useGetClubs';
+import { deleteAssessedFee, getAssesedFees } from '../../../../redux/actions/Settings/AgreementSetup/assessedFeeAction';
 
 const AssessedFees = () => {
     const history = useHistory();
@@ -45,7 +45,7 @@ const AssessedFees = () => {
         confirmDelete(
             () => {
                 dispatch(
-                    deleteAssessedFees(col._id, () => {
+                    deleteAssessedFee(col._id, () => {
                         dispatch(getAssesedFees());
                     }),
                 );

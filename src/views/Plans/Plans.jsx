@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../shared/Cards/CustomCard';
 import CustomTable from '../../shared/Table/CustomTable';
-import { getMembershipPlans } from '../../redux/actions/AgreementSettings/membershipPlan';
 import { useDispatch, useSelector } from 'react-redux';
 import cart from '../../assets/icons/cart.png';
 import { Tooltip } from 'primereact/tooltip';
@@ -9,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import PlanFilters from './PlanFilters';
 import useFilters from '../../hooks/useFilters';
+import { getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 export default function Plans() {
     const dispatch = useDispatch();
@@ -17,9 +17,9 @@ export default function Plans() {
         dispatch(getMembershipPlans());
     }, [dispatch]);
 
-    const { allMembershipPlan } = useSelector((state) => state.membershipPlan);
+    const { agreementPlans } = useSelector((state) => state.settings.agreement);
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allMembershipPlan);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementPlans);
 
     const columns = [
         { field: 'name', header: ' Plan ' },

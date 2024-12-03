@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import CustomCard, { CustomFilterCard, CustomListItem } from '../../shared/Cards/CustomCard';
 import { AutoComplete } from 'primereact/autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMembershipPlan } from '../../redux/actions/AgreementSettings/membershipPlan';
 import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import { addSellPlan, editSellPlan } from '../../redux/actions/Plans/SellPlan';
@@ -10,6 +9,7 @@ import { getIds, showFormErrors } from '../../utils/commonFunctions';
 import formValidation from '../../utils/validations';
 import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
+import { getMembershipPlan } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 const PlanTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();

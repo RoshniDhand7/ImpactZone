@@ -4,7 +4,7 @@ import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import useAgreementPlan from '../../../../hooks/Agreement/useAgreementPlan';
 import PrimaryButton, { CustomButtonGroup } from '../../../../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
-import { addDefaultSettings, getdefaultSetting } from '../../../../redux/actions/BusinessSettings/defaultSettingsAction';
+import { addDefaultSettings, getdefaultSetting } from '../../../../redux/actions/Settings/Business/defaultSettingActions';
 
 const DefaultSettings = () => {
     const [data, setData] = useState({
@@ -15,7 +15,7 @@ const DefaultSettings = () => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const { allMembershipPlanDropdown } = useAgreementPlan();
+    const { agreementPlansDropdown } = useAgreementPlan();
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         dispatch(
@@ -34,7 +34,7 @@ const DefaultSettings = () => {
         <>
             <CustomCard col="12" title="Default">
                 <CustomGridLayout>
-                    <CustomDropDown name="agreementPlan" options={allMembershipPlanDropdown} data={data} onChange={handleChange} required />
+                    <CustomDropDown name="agreementPlan" options={agreementPlansDropdown} data={data} onChange={handleChange} required />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

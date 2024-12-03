@@ -23,7 +23,7 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
         }
     }, [data?.membershipPlan, open, id]);
 
-    const { allMembershipPlanFilter } = useSelector((state) => state.membershipPlan);
+    const { agreementPlanFilter } = useSelector((state) => state.settings.agreement);
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
@@ -83,7 +83,7 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
                     {open && (
                         <CustomTable
                             convertToboolean={false}
-                            data={allMembershipPlanFilter}
+                            data={agreementPlanFilter}
                             columns={columns}
                             selectedRow={selected}
                             setSelectedRow={setSelected}

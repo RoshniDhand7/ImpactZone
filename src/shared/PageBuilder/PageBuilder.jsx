@@ -4,14 +4,7 @@ import './PageBuilder.css';
 import grapesjs from 'grapesjs';
 import plugin from 'grapesjs-preset-newsletter';
 import constants from '../../constants';
-import {
-    addAgreementTemplate,
-    addAssets,
-    deleteAsset,
-    editAgreementTemplate,
-    getAgreementTemplate,
-    getAssets,
-} from '../../redux/actions/AgreementSettings/AgreementTemplate';
+
 import { useDispatch } from 'react-redux';
 import CustomDialog from '../Overlays/CustomDialog';
 import { CustomGridLayout } from '../Cards/CustomCard';
@@ -21,6 +14,14 @@ import { showFormErrors } from '../../utils/commonFunctions';
 import { useHistory } from 'react-router-dom';
 import { mergeFields } from '../../utils/constant';
 import useGetClubs from '../../hooks/useGetClubs';
+import {
+    addAgreementTemplate,
+    addAssets,
+    deleteAsset,
+    editAgreementTemplate,
+    getAgreementTemplate,
+    getAssets,
+} from '../../redux/actions/Settings/AgreementSetup/AgreementTemplateAction';
 
 export default function PageBuilder({ id }) {
     const history = useHistory();

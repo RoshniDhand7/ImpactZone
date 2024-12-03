@@ -5,9 +5,10 @@ import { confirmDelete } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { getMembershipPlans } from '../../../../redux/actions/AgreementSettings/membershipPlan';
+import { getMembershipPlans } from '../../../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 const AddAgreementPlan = ({ data, setData, id, loading }) => {
+    console.log(data, setData, id, loading, 'data');
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const dispatch = useDispatch();
@@ -16,15 +17,14 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
         dispatch(getMembershipPlans());
     }, [dispatch]);
     useEffect(() => {
-        if (id) {
-            if (open) {
-                setSelected(data?.membershipPlan);
-            }
+        if (open) {
+            setSelected(data?.agreementPlans);
         }
-    }, [data?.membershipPlan, open, id]);
+    }, [data?.agreementPlans, open, id]);
+    console.log(selected, 'selected');
 
-    let { allMembershipPlan } = useSelector((state) => state.membershipPlan);
-    allMembershipPlan = allMembershipPlan
+    let { agreementPlans } = useSelector((state) => state.settings.agreement);
+    agreementPlans = agreementPlans
         ?.filter((item) => item.membershipType?._id === data.membershipType)
         ?.map((item) => ({ name: item.name, _id: item._id, category: item.category, noofMembers: item.noOfMembers ? item.noOfMembers : null }));
 
@@ -44,7 +44,7 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
     const handleServiceDelete = (col) => {
         confirmDelete(
             () => {
-                setData((prev) => ({ ...prev, membershipPlan: data?.membershipPlan?.filter((item) => item._id !== col?._id) }));
+                setData((prev) => ({ ...prev, agreementPlans: data?.agreementPlans?.filter((item) => item._id !== col?._id) }));
             },
             `Do you want to delete this Agreement Plan ?`,
             'center',
@@ -52,9 +52,10 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
     };
 
     const handleSave = () => {
-        setData((prev) => ({ ...prev, membershipPlan: selected }));
+        setData((prev) => ({ ...prev, agreementPlans: selected }));
         setOpen(false);
     };
+    console.log(selected);
 
     return (
         <>
@@ -64,13 +65,13 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
                         <PrimaryButton
                             label={'Remove All'}
                             onClick={() => {
-                                setData((prev) => ({ ...prev, membershipPlan: [] }));
+                                setData((prev) => ({ ...prev, agreementPlans: [] }));
                                 setSelected([]);
                             }}
                         />
                     </div>
                 </CustomFilterCard1>
-                <CustomTable data={data?.membershipPlan} columns={columns1} showSelectionElement={false} onDelete={handleServiceDelete} />
+                <CustomTable data={data?.agreementPlans} columns={columns1} showSelectionElement={false} onDelete={handleServiceDelete} />
             </CustomCard>
             <CustomDialog
                 title={'Add Agreement Plan'}
@@ -84,7 +85,7 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
             >
                 <CustomGridLayout>
                     {open && (
-                        <CustomTable convertToboolean={false} data={allMembershipPlan} columns={columns} selectedRow={selected} setSelectedRow={setSelected} />
+                        <CustomTable convertToboolean={false} data={agreementPlans} columns={columns} selectedRow={selected} setSelectedRow={setSelected} />
                     )}
                 </CustomGridLayout>
             </CustomDialog>

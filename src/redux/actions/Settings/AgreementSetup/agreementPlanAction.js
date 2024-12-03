@@ -1,9 +1,9 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { getIds } from '../../../utils/commonFunctions';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { getIds } from '../../../../utils/commonFunctions';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
 const getMembershipPlans = (setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -13,7 +13,7 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_MEMBERSHIP_PLAN,
+                type: types.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN,
                 payload: res.data,
             });
         }

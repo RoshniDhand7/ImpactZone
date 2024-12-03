@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { getAgreementTemplates } from '../../redux/actions/AgreementSettings/AgreementTemplate';
 import PrimaryButton, { CustomButtonGroup } from '../../shared/Button/CustomButton';
 import { mergeFields } from '../../utils/constant';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
@@ -11,6 +10,7 @@ import { getImageURL } from '../../utils/imageUrl';
 import { useReactToPrint } from 'react-to-print';
 import { editSellPlan, getSellPlanAgreement } from '../../redux/actions/Plans/SellPlan';
 import moment from 'moment';
+import { getAgreementTemplates } from '../../redux/actions/Settings/AgreementSetup/AgreementTemplateAction';
 var domToPdf = require('dom-to-pdf');
 
 const PlanAgreement = React.forwardRef((props, ref) => {
@@ -23,8 +23,8 @@ const PlanAgreement = React.forwardRef((props, ref) => {
     const componentRef = useRef();
     const [signatures, setSignatures] = useState([]);
     const { newPlanId, agreementId } = useParams();
-    let { allAgreementTemplates } = useSelector((state) => state.agreement);
-    const agreementTemplate = allAgreementTemplates?.find((item) => item._id === agreementId);
+    let agreementTemplates = useSelector((state) => state.settings.agreement.agreementTemplates);
+    const agreementTemplate = agreementTemplates?.find((item) => item._id === agreementId);
 
     useEffect(() => {
         setLoading(true);

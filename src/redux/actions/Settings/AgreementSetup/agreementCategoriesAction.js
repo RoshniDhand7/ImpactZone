@@ -1,8 +1,8 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
 const getAgreementCategories = (setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -12,7 +12,7 @@ const getAgreementCategories = (setLoading) => async (dispatch) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_AGREEMENT_CATEGORY,
+                type: types.SETTINGS.AGREEMENT_SETUP.AGREEMENT_CATEGORY,
                 payload: res.data,
             });
         }

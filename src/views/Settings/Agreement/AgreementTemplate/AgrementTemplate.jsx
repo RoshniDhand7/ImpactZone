@@ -4,7 +4,6 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
-import { addAgreementTemplate, deleteAgreementTemplates, getAgreementTemplates } from '../../../../redux/actions/AgreementSettings/AgreementTemplate';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { CustomInput, CustomInputSwitch, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import formValidation from '../../../../utils/validations';
@@ -12,6 +11,11 @@ import useGetClubs from '../../../../hooks/useGetClubs';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import AgreementTemplateFilter from './AgreementTemplateFilter';
+import {
+    addAgreementTemplate,
+    deleteAgreementTemplates,
+    getAgreementTemplates,
+} from '../../../../redux/actions/Settings/AgreementSetup/AgreementTemplateAction';
 
 const AgreementCategories = () => {
     const history = useHistory();
@@ -31,7 +35,7 @@ const AgreementCategories = () => {
         localStorage.removeItem('gjsProject');
     }, [dispatch]);
 
-    const { allAgreementTemplates } = useSelector((state) => state.agreement);
+    const agreementTemplates = useSelector((state) => state.settings.agreement.agreementTemplates);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -78,7 +82,7 @@ const AgreementCategories = () => {
             );
         }
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAgreementTemplates);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementTemplates);
 
     return (
         <>
