@@ -9,7 +9,7 @@ const getCampaigns = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
-    const res = await api('get', endPoints.COMPAIGN);
+    const res = await api('get', endPoints.SETTINGS.MEMBER_SETUP.CAMPAIGN);
     if (res.success) {
         if (res.data) {
             dispatch({
