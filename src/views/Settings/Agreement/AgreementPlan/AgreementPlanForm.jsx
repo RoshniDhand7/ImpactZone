@@ -41,12 +41,12 @@ const AgreementPlanForm = () => {
         assessedFee: [],
         services: [],
         autoPay: 'ON_SET_SCHEDULE',
-        howOftenWillClientsBeCharged: '',
-        timePeriod: 0,
+        howOftenWillClientsBeCharged: 'MONTH_TO_MONTH',
+        timePeriod: 1,
         noOfAutopays: '',
-        whenWillClientsBeCharged: '',
+        whenWillClientsBeCharged: 'ON_SALE_DATE',
         date: '',
-        whatHappensAfterAutopayPayments: '',
+        whatHappensAfterAutopayPayments: 'CONTRACT_EXPIRES',
         sellOnline: '',
         onlineDescription: '',
         oneTimePlan: '',
@@ -121,7 +121,7 @@ const AgreementPlanForm = () => {
                         whatHappensAfterAutopayPayments: data.whatHappensAfterAutopayPayments,
                         sellOnline: data.sellOnline,
                         onlineDescription: data.onlineDescription,
-                        oneTimePlan: data.oneTimePlan,
+                        isOneTimePlan: data.isOneTimePlan,
                         agreementPlans: data.agreementPlans,
                         isActive: data.isActive,
                     });
@@ -147,7 +147,7 @@ const AgreementPlanForm = () => {
                         <CustomDropDown name="club" options={clubsDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="membershipType" options={MembershipTypesDropdown} onChange={handleChange} data={data} required />
                         <CustomDropDown name="agreementTemplate" options={agreementTemplatesDropdown} onChange={handleChange} data={data} />
-                        <CustomDropDown label="Is this a one time plan ?" name="oneTimePlan" options={yesNoOptions} onChange={handleChange} data={data} />
+                        <CustomDropDown label="Is this a one time plan ?" name="isOneTimePlan" options={yesNoOptions} onChange={handleChange} data={data} />
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomCard>

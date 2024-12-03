@@ -21,29 +21,32 @@ const AddMembers = () => {
     const [data, setData] = useState({
         createType: 'PROSPECT',
         barCode: 0,
-        memberShipPlan: '',
         note: '',
         firstName: '',
         lastName: '',
         MI: '',
         gender: 'MALE',
         dob: '',
-        driverLicense: '',
+        image: [],
+        govtId: '',
         primaryPhone: '',
         mobilePhone: '',
         workNumber: '',
         address: '',
-        leadpriority: '',
-        salesPerson: '',
-        campaign: '',
-        issue: '',
-        tour: '',
-        firstVisit: '',
-        begin: '',
-        expiration: '',
-        image: [],
         latitude: 30.72,
         longitude: 76.64,
+
+        leadPriority: 'NONE',
+        salesPerson: '',
+        campaign: '',
+
+        issuedOn: '',
+        tourOn: '',
+        startOn: '',
+        beginOn: '',
+        expireOn: '',
+        agreementPlan: '',
+
         uniqueBarCode: false,
     });
     const dispatch = useDispatch();
@@ -59,9 +62,9 @@ const AddMembers = () => {
         dispatch(
             getDefaultMembershipPlan((data1) => {
                 if (data1?.agreementPlan && data?.createType === 'PROSPECT') {
-                    setData((prev) => ({ ...prev, memberShipPlan: data1.agreementPlan }));
+                    setData((prev) => ({ ...prev, agreementPlan: data1.agreementPlan }));
                 } else {
-                    setData((prev) => ({ ...prev, memberShipPlan: '' }));
+                    setData((prev) => ({ ...prev, agreementPlan: '' }));
                 }
             }),
         );
@@ -73,16 +76,8 @@ const AddMembers = () => {
     let { agreementPlans } = useSelector((state) => state.settings.agreement);
     const loading = useSelector((state) => state.loader.isLoading);
 
-    const prospectAgreement = agreementPlans?.filter((item) => item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
-    const memberagreement = agreementPlans?.filter((item) => !item.oneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
-
-    // useEffect(() => {
-    //     if (data.createType) {
-    //         const formErrors = formValidation('memberShipPlan', '', data);
-    //         setData((prev) => ({ ...prev, memberShipPlan: '', formErrors }));
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [data.createType]);
+    const prospectAgreement = agreementPlans?.filter((item) => item.isOneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
+    const memberagreement = agreementPlans?.filter((item) => !item.isOneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -151,7 +146,7 @@ const AddMembers = () => {
                         <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
                         <CustomDropDown
                             col="4"
-                            name="memberShipPlan"
+                            name="agreementPlan"
                             data={data}
                             required
                             onChange={handleChange}
@@ -168,7 +163,7 @@ const AddMembers = () => {
                     <CustomInput name="lastName" data={data} onChange={handleChange} required col="3" />
                     <CustomDropDown name="gender" data={data} onChange={handleChange} options={genderOptions} />
                     <CustomCalenderInput label="Date Of Birth" name="dob" data={data} onChange={handleChange} maxDate={new Date()} />
-                    <CustomInput name="driverLicense" data={data} onChange={handleChange} required />
+                    <CustomInput name="govtId" data={data} onChange={handleChange} required />
                     <CustomInputMask name="primaryPhone" mask="(999) 999-9999" data={data} onChange={handleChange} required />
                     <CustomInputMask name="mobilePhone" mask="(999) 999-9999" data={data} onChange={handleChange} />
                     <CustomInputMask name="workNumber" mask="(999) 999-9999" data={data} onChange={handleChange} required />
@@ -187,7 +182,7 @@ const AddMembers = () => {
             <CustomCard col="12" title="Sale">
                 <CustomGridLayout>
                     {data?.createType === 'PROSPECT' && (
-                        <CustomDropDown label="Lead Priority" name="leadpriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
+                        <CustomDropDown name="leadPriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
                     )}
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
                     <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
@@ -195,11 +190,11 @@ const AddMembers = () => {
             </CustomCard>
             <CustomCard col="12" title="Date">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="issue" data={data} onChange={handleChange} required />
-                    {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tour" data={data} onChange={handleChange} />}
+                    <CustomCalenderInput name="issuedOn" data={data} onChange={handleChange} required />
+                    {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tourOn" data={data} onChange={handleChange} />}
                     <CustomCalenderInput name="firstVisit" data={data} onChange={handleChange} />
-                    <CustomCalenderInput name="begin" required data={data} onChange={handleChange} maxDate={data.expiration} />
-                    <CustomCalenderInput name="expiration" required data={data} onChange={handleChange} minDate={data.begin} />
+                    <CustomCalenderInput name="beginOn" required data={data} onChange={handleChange} maxDate={data.expiration} />
+                    <CustomCalenderInput name="expireOn" required data={data} onChange={handleChange} minDate={data.begin} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>
