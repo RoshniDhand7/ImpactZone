@@ -6,6 +6,7 @@ import ReferralGroup from './ReferralGroup/ReferralGroup';
 import CommissionGroup from './CommissionGroup/CommissionGroup';
 import CatalogItems from './CatalogItems/CatalogItems';
 import CategoriesTags from './Categories/CategoriesTags';
+import PrePays from './PrePays/PrePays';
 
 export default function Inventory() {
     const tabs = [
@@ -15,6 +16,7 @@ export default function Inventory() {
         { title: 'Vendors', content: <Vendors /> },
         { title: 'Commission Group', content: <CommissionGroup /> },
         { title: 'Referral Group', content: <ReferralGroup /> },
+        { title: 'Pre Pays', content: <PrePays /> },
     ];
     return <CustomTabView tabs={tabs} />;
 }

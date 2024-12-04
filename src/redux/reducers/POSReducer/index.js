@@ -10,6 +10,7 @@ const intitalState = {
     catalogs: [],
     members: [],
     recentMembers: [],
+    noSaleReasons: [],
 };
 
 const POSReducer = (state = intitalState, action) => {
@@ -63,6 +64,11 @@ const POSReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 recentMembers: action.payload,
+            };
+        case types.POS.NO_SALE_REASON_CODE:
+            return {
+                ...state,
+                noSaleReasons: action.payload,
             };
 
         default:

@@ -2,7 +2,7 @@ import { types } from '../../types/types';
 const intitalState = {
     company: [],
     reasonCode: [],
-    noSaleReasons: [],
+
     jobTitle: [],
     clubs: [],
     clubsDropdown: [],
@@ -19,11 +19,6 @@ const businessReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 reasonCode: action.payload,
-            };
-        case types.POS.NO_SALE_REASON_CODE:
-            return {
-                ...state,
-                noSaleReasons: action.payload,
             };
         case types.SETTINGS.BUSINESS.JOB_TITLE:
             return {

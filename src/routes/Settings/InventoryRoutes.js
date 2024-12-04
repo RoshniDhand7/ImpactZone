@@ -1,11 +1,12 @@
 import { lazy } from 'react';
-import AddCatalogItems from '../../views/Settings/Inventory/CatalogItems/AddCatalogItems';
 
 const ProfitCenterForm = lazy(() => import('../../views/Settings/Inventory/ProfitCenter/ProfitCenterForm'));
 const CategoriesForm = lazy(() => import('../../views/Settings/Inventory/Categories/CategoriesForm'));
 const VendorForm = lazy(() => import('../../views/Settings/Inventory/Vendors/VendorForm'));
 const ReferralGroupForm = lazy(() => import('../../views/Settings/Inventory/ReferralGroup/ReferralGroupForm'));
 const CommissionGroupForm = lazy(() => import('../../views/Settings/Inventory/CommissionGroup/CommissionGroupForm'));
+const PrePayForm = lazy(() => import('../../views/Settings/Inventory/PrePays/PrePayForm'));
+const AddCatalogItems = lazy(() => import('../../views/Settings/Inventory/CatalogItems/AddCatalogItems'));
 const InventorySettingsRoutes = [
     {
         path: '/catalog-item/add',
@@ -78,6 +79,18 @@ const InventorySettingsRoutes = [
         name: 'Commission Group',
         exact: true,
         component: CommissionGroupForm,
+    },
+    {
+        path: '/pre-pay/add',
+        name: 'Pre Pay',
+        exact: true,
+        component: PrePayForm,
+    },
+    {
+        path: '/pre-pay/edit/:id',
+        name: 'Pre Pay',
+        exact: true,
+        component: PrePayForm,
     },
 ];
 export default InventorySettingsRoutes;
