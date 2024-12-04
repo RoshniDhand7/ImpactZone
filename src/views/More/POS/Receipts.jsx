@@ -23,12 +23,12 @@ const Receipts = () => {
             body: (e) => formatDateTime(e?.createdAt),
         },
         {
-            body: (r) => `${r.employee.firstName} ${r.employee.lastName}`,
+            body: (r) => `${r?.employee?.firstName} ${r?.employee?.lastName}`,
             header: 'Sale By',
         },
 
-        { body: (r) => `${r.member.firstName} ${r.member.lastName}`, header: 'Customer' },
-        { body: (r) => `$${r.amount}`, header: 'Price' },
+        { body: (r) => `${r?.member?.firstName} ${r?.member?.lastName}`, header: 'Customer' },
+        { body: (r) => `$${r?.amount}`, header: 'Price' },
         { field: 'cashRegister', header: 'Station' },
         {
             field: 'employeeName',
