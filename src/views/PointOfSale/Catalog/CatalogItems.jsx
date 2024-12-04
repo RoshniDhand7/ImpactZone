@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import CustomCard from '../../../shared/Cards/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getPOSCatalogItems } from '../../../redux/actions/InventorySettings/catalogItemsAction';
 import placeholder from '../../../assets/images/placeholder.png';
 import { getImageURL } from '../../../utils/imageUrl';
 import { useMemo } from 'react';
@@ -11,17 +10,26 @@ import { getFilterSets } from '../../../redux/actions/InventorySettings/filterSe
 import { getTags } from '../../../redux/actions/InventorySettings/tagAction';
 import { roundOfNumber } from '../../../utils/taxHelpers';
 import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
+import { getCatalogItems } from '../../../redux/actions/POS/catalogActions';
 
 export default function CatalogItems({ selectedCategory, onSelectProduct }) {
-    let { posCatalog } = useSelector((state) => state.catalogItems);
+    let posCatalog = useSelector((state) => state.pos.catalogs);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getPOSCatalogItems());
+        dispatch(getCatalogItems());
         dispatch(getFilterSets());
         dispatch(getTags());
     }, [dispatch]);
 
-    posCatalog = useMemo(() => posCatalog.filter((item) => !selectedCategory || item.category === selectedCategory), [selectedCategory, posCatalog]);
+    posCatalog = useMemo(() => {
+        if (!selectedCategory) {
+            return posCatalog.filter((item) => item.type !== 'PRE_PAY');
+        } else if (selectedCategory === 'PRE_PAY') {
+            return posCatalog.filter((item) => item.type === 'PRE_PAY');
+        } else {
+            return posCatalog.filter((item) => item.category === selectedCategory);
+        }
+    }, [selectedCategory, posCatalog]);
 
     const [filters, setFilters] = useState(null);
     const [visible, setVisible] = useState(false);

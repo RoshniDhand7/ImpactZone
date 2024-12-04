@@ -6,6 +6,7 @@ const intitalState = {
     vendors: [],
     commissionGroups: [],
     referralGroups: [],
+    prePays: [],
 };
 
 const InventoryReducer = (state = intitalState, action) => {
@@ -39,6 +40,11 @@ const InventoryReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 referralGroups: action.payload,
+            };
+        case types.SETTINGS.INVENTORY.PRE_PAY:
+            return {
+                ...state,
+                prePays: action.payload,
             };
 
         default:

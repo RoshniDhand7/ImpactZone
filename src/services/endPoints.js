@@ -12,7 +12,6 @@ const endPoints = {
             RESOURCE_TYPE: '/settings/member-setup/resource-type/',
             RESOURCE: '/settings/member-setup/resource/',
         },
-
         //BUSINESS
         BUSINESS: {
             COMPANY: '/settings/business/company/',
@@ -40,6 +39,9 @@ const endPoints = {
             SCHEDULE_OPTION: '/settings/schedule-setup/schedule-option/',
             CLASSES: '/settings/schedule-setup/class/',
         },
+        INVENTORY_SETUP: {
+            PRE_PAY: '/settings/inventory-setup/pre-pay/',
+        },
     },
     POS: {
         SALE: '/point-of-sale/sale/',
@@ -48,6 +50,7 @@ const endPoints = {
         ADD_DROP: '/point-of-sale/add-drop',
         NO_SALE_REASON_CODE: '/point-of-sale/no-sale/reason-code',
         NO_SALE: '/point-of-sale/no-sale',
+        CATALOG: '/point-of-sale/catalog',
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
     //member

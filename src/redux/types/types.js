@@ -151,6 +151,7 @@ export const types = {
             VENDORS: 'VENDORS',
             COMMISSION_GROUP: 'COMMISSION_GROUP',
             REFERRAL_GROUP: 'REFERRAL_GROUP',
+            PRE_PAY: 'PRE_PAY',
         },
         MEMBER_SETUP: {
             MEMEBERSHIP_TYPE: 'MEMEBERSHIP_TYPE',

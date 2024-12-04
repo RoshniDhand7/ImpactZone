@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { showFormErrors } from '../../../utils/commonFunctions';
 import formValidation from '../../../utils/validations';
 import { addNoSale } from '../../../redux/actions/POS/saleActions';
-import { getNoSaleReasons } from '../../../redux/actions/Settings/Business/reasonActions';
+import { getNoSaleReasons } from '../../../redux/actions/POS/noSaleActions';
 
 const NoSalePopup = ({ visible, setVisible }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const drawer = useSelector((state) => state.pos.drawer);
     const initialData = { reasonCode: '', accessCode: '' };
-    const noSaleReasons = useSelector((state) => state.settings.business.noSaleReasons);
+    const noSaleReasons = useSelector((state) => state.pos.noSaleReasons);
 
     const [data, setData] = useState(initialData);
 

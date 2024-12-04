@@ -23,6 +23,9 @@ export default function Categories({ active, setActive }) {
                         <i className="pi pi-th-large mr-1"></i> {item?.posButtonLabel || item?.name}
                     </div>
                 ))}
+                <div className={`py-2 px-3 sidebar-item ${active === 'PRE_PAY' && 'active'}`} onClick={() => setActive('PRE_PAY')}>
+                    <i className="pi pi-money-bill mr-1"></i> Pre Pay
+                </div>
             </div>
         </div>
     );

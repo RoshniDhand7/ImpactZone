@@ -178,6 +178,8 @@ export default function PointOfSale2() {
         setCartItems(_cart);
     }, [selectedItems, appliedPromo]);
 
+    console.log('selectedItems==>', selectedItems);
+
     //When we add something in selected items.
     const onAddItemIntoCart = (product) => {
         const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
@@ -192,7 +194,7 @@ export default function PointOfSale2() {
             _selected[index] = _item;
             setSelectedItems(_selected);
         } else {
-            const { _id, itemCaption, name, subVariationId } = product;
+            const { _id, itemCaption, name, subVariationId, type } = product;
             const { defaultQuantity, minimumQuantity, maximumQuantity, allowUnlimited } = product;
             const { netPrice, taxes, allowDiscount, defaultDiscount, overrideDiscount } = product;
             const { moreThan1, moreThan2, moreThan3, unitDiscount1, unitDiscount2, unitDiscount3 } = product;
@@ -207,7 +209,7 @@ export default function PointOfSale2() {
                 subVariationId,
                 name,
                 itemCaption,
-
+                type,
                 taxWaived,
 
                 netPrice,
