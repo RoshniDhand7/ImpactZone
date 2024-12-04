@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLocationTypes } from '../../redux/actions/ScheduleSettings/locationTypeActions';
+import { getLocationTypes } from '../../redux/actions/Settings/ScheduleSetup/locationTypeActions';
 
 const useLocationType = () => {
     const dispatch = useDispatch();
@@ -9,9 +9,9 @@ const useLocationType = () => {
         dispatch(getLocationTypes());
     }, [dispatch]);
 
-    const { allLocationType, locationTypeDropdown } = useSelector((state) => state.locationType);
+    const { locationType, locationTypeDropdown } = useSelector((state) => state.settings.schedule);
 
-    return { allLocationType, locationTypeDropdown };
+    return { locationType, locationTypeDropdown };
 };
 
 export default useLocationType;

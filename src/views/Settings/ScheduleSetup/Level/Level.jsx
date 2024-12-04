@@ -3,17 +3,17 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
-import { deleteLevel } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import useLevel from '../../../../hooks/Schedule/useLevel';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteLevel } from '../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const Level = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { allLevels } = useLevel();
+    const { levels } = useLevel();
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -33,7 +33,7 @@ const Level = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allLevels);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(levels);
 
     return (
         <>

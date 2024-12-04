@@ -12,11 +12,11 @@ import {
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
-import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
 import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
+import { getLevels } from '../../../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const PaySetup = () => {
     const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const PaySetup = () => {
         }
     }, [allAppointmentPay]);
 
-    const { levelDropdown } = useSelector((state) => state.level);
+    const { levelDropdown } = useSelector((state) => state.settings.schedule);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);

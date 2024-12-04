@@ -7,16 +7,16 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { getCampaignsGroups, getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { addCampaign, editCampaign, getCampaign } from '../../../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getCampaignGroups, getCampaignTypes } from '../../../../redux/actions/Settings/MembershipSetup/campaignsGroupAction';
 
 const CompaignsForm = () => {
     const history = useHistory();
     const { id } = useParams();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCampaignsGroups());
+        dispatch(getCampaignGroups());
         dispatch(getCampaignTypes());
     }, [dispatch]);
 

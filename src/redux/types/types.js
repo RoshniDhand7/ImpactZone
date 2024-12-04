@@ -174,6 +174,11 @@ export const types = {
             JOB_TITLE: 'JOB_TITLE',
             CLUBS: 'CLUBS',
         },
+        SCHEDULE_SETUP: {
+            LEVEL: 'LEVEL',
+            LOCATION_TYPE: 'LOCATION_TYPE',
+            LOCATION: 'LOCATION',
+        },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
 };

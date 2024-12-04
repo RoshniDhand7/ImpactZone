@@ -5,7 +5,6 @@ import { LeadPriorityOptions, genderOptions, memberTypeOptions } from '../../uti
 import CustomImageInput from '../../shared/Input/CustomImageInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
-import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
@@ -16,6 +15,7 @@ import api from '../../services/api';
 import endPoints from '../../services/endPoints';
 import { addMembers, getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 import { getDefaultMembershipPlan, getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
+import { getCampaigns } from '../../redux/actions/Settings/MembershipSetup/campaignsAction';
 
 const AddMembers = () => {
     const [data, setData] = useState({
@@ -35,11 +35,9 @@ const AddMembers = () => {
         address: '',
         latitude: 30.72,
         longitude: 76.64,
-
         leadPriority: 'NONE',
         salesPerson: '',
         campaign: '',
-
         issuedOn: '',
         tourOn: '',
         startOn: '',
@@ -72,7 +70,7 @@ const AddMembers = () => {
     }, [data?.createType]);
 
     const { employeesDropdown } = useSelector((state) => state.employees);
-    const { compaignDropdown } = useSelector((state) => state.campaign);
+    const { campaignDropdown } = useSelector((state) => state.settings.members);
     let { agreementPlans } = useSelector((state) => state.settings.agreement);
     const loading = useSelector((state) => state.loader.isLoading);
 
@@ -185,7 +183,7 @@ const AddMembers = () => {
                         <CustomDropDown name="leadPriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
                     )}
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
-                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
+                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Date">

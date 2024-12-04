@@ -7,11 +7,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 import { hoursOptions } from '../../../../utils/dropdownConstants';
 import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { addResource, editResource, getResource } from '../../../../redux/actions/Settings/MembershipSetup/resourceAction';
 import { getResourceTypes } from '../../../../redux/actions/Settings/MembershipSetup/resourceTypeAction';
+import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 
 const ResourcesForm = () => {
     const history = useHistory();
@@ -23,7 +23,7 @@ const ResourcesForm = () => {
         dispatch(getLocations());
         dispatch(getCatalogItems());
     }, [dispatch]);
-    const { locationDropdown } = useSelector((state) => state.locations);
+    const { locationDropdown } = useSelector((state) => state.settings.schedule);
     const { resourceTypeDropdown } = useSelector((state) => state.settings.members);
     const { catalogServiceDropdown } = useSelector((state) => state.catalogItems);
 

@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteLocation, getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
@@ -12,6 +11,7 @@ import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllI
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import useLocationType from '../../../../hooks/Schedule/useLocationType';
+import { deleteLocation, getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 
 const Locations = () => {
     const history = useHistory();
@@ -20,7 +20,7 @@ const Locations = () => {
         dispatch(getLocations());
     }, [dispatch]);
 
-    const { allLocations } = useSelector((state) => state.locations);
+    const { location } = useSelector((state) => state.settings.schedule);
     const { clubsDropdown } = useGetClubs();
     const { locationTypeDropdown } = useLocationType();
 
@@ -44,7 +44,7 @@ const Locations = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allLocations);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(location);
     const [data, setData] = useState({
         filterType: 'AND',
     });

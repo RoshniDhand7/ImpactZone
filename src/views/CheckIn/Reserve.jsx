@@ -8,9 +8,9 @@ import FilterComponent from '../../components/FilterComponent';
 import useFilters from '../../hooks/useFilters';
 import formValidation from '../../utils/validations';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLocations } from '../../redux/actions/ScheduleSettings/locationsActions';
-import { getResourceTypes } from '../../redux/actions/MembersSettings/resourceType';
 import { getResourcesList, resourceReserve, resourceReturn } from '../../redux/actions/CheckIn/CheckIn';
+import { getResourceTypes } from '../../redux/actions/Settings/MembershipSetup/resourceTypeAction';
+import { getLocations } from '../../redux/actions/Settings/ScheduleSetup/locationsActions';
 
 const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) => {
     const dispatch = useDispatch();
@@ -42,8 +42,8 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     const { resourceList } = useSelector((state) => state.checkin);
 
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(resourceList);
-    const { locationDropdown } = useSelector((state) => state.locations);
-    const { resourceTypeDropdown } = useSelector((state) => state.resourceType);
+    const { locationDropdown } = useSelector((state) => state.settings.schedule);
+    const { resourceTypeDropdown } = useSelector((state) => state.settings.members);
 
     const pastDueTemplate = (r) => {
         console.log(r);

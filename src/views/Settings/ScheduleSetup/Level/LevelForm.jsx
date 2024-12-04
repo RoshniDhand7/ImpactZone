@@ -5,9 +5,9 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addLevel, editLevel, getLevel } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
+import { addLevel, editLevel, getLevel } from '../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const LevelForm = () => {
     const history = useHistory();
