@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addCampaignGroup, editCampaignGroup, getCampaignsGroup } from '../../../../redux/actions/MembersSettings/compaignsGroup';
+import { addCampaignGroup, editCampaignGroup, getCampaignsGroup } from '../../../../redux/actions/Settings/MembershipSetup/campaignsGroupAction';
 
 const CompaignGroupForm = () => {
     const history = useHistory();

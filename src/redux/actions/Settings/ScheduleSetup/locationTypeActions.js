@@ -1,31 +1,23 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { showToast } from '../../toastAction';
 
-const getLocationTypes = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getLocationTypes = () => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION_TYPE);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_LOCATION_TYPE,
+                type: types.SETTINGS.SCHEDULE_SETUP.LOCATION_TYPE,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
 };
 
 const getLocationType = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION_TYPE + id);
     if (res.success) {
         if (res.data) {
@@ -34,12 +26,10 @@ const getLocationType = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 
 const addLocationType = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
-
     const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION_TYPE, data);
     if (res.success) {
         history.goBack();

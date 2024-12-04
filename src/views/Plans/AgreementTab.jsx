@@ -7,7 +7,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
-import { getCampaigns } from '../../redux/actions/MembersSettings/campaigns';
 import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -17,6 +16,7 @@ import { AutoComplete } from 'primereact/autocomplete';
 import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 import { getMembersipTypes } from '../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getCampaigns } from '../../redux/actions/Settings/MembershipSetup/campaignsAction';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -60,7 +60,7 @@ const AgreementTab = ({ onTabEnable }) => {
     let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
 
     const { employeesDropdown } = useSelector((state) => state.employees);
-    const { compaignDropdown } = useSelector((state) => state.campaign);
+    const { campaignDropdown } = useSelector((state) => state.settings.members);
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -261,7 +261,7 @@ const AgreementTab = ({ onTabEnable }) => {
                         />
                     </div>
                     {/* <CustomInput name="referredBy" col={3} data={data} onChange={handleChange} /> */}
-                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={compaignDropdown} optionLabel="name" />
+                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Dates">

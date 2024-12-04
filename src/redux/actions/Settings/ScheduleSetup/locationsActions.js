@@ -1,31 +1,23 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { showToast } from '../../toastAction';
 
-const getLocations = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getLocations = () => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_LOCATIONS,
+                type: types.SETTINGS.SCHEDULE_SETUP.LOCATION,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
 };
 
 const getLocation = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.LOCATION + id);
     if (res.success) {
         if (res.data) {
@@ -34,7 +26,6 @@ const getLocation = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 
 const addLocation = (data, setLoading, history) => async (dispatch) => {

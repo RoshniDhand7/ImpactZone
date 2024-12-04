@@ -14,12 +14,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { getLocations } from '../../../../redux/actions/ScheduleSettings/locationsActions';
 import { getEvents, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
 import { convertToDateTime, showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
 import { getEmployeePay, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/ScheduleSettings/eventClassesAction';
 import { types } from '../../../../redux/types/types';
+import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const EventClassesForm = () => {
         dispatch(getEvents());
         dispatch(getEmployees());
     }, [dispatch]);
-    const { locationDropdown } = useSelector((state) => state.locations);
+    const { locationDropdown } = useSelector((state) => state.settings.schedule);
     const { allEventClassesDropDown } = useSelector((state) => state.event);
 
     let { allEventClasses } = useSelector((state) => state.event);

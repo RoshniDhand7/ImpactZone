@@ -5,10 +5,10 @@ import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCar
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addLocationType, editLocationType, getLocationType } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
+import { addLocationType, editLocationType, getLocationType } from '../../../../redux/actions/Settings/ScheduleSetup/locationTypeActions';
 
 const LocationTypeForm = () => {
     const history = useHistory();

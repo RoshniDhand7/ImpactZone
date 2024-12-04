@@ -4,17 +4,17 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteLocationType } from '../../../../redux/actions/ScheduleSettings/locationTypeActions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import useLocationType from '../../../../hooks/Schedule/useLocationType';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteLocationType } from '../../../../redux/actions/Settings/ScheduleSetup/locationTypeActions';
 
 const LocationType = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const { allLocationType } = useLocationType();
+    const { locationType } = useLocationType();
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -35,7 +35,7 @@ const LocationType = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allLocationType);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(locationType);
 
     return (
         <>

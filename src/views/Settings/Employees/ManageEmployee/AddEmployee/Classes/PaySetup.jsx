@@ -16,8 +16,8 @@ import { CustomDropDown, CustomInputSwitch, CustomMultiselect } from '../../../.
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
-import { getLevels } from '../../../../../../redux/actions/ScheduleSettings/levelActions';
 import formValidation from '../../../../../../utils/validations';
+import { getLevels } from '../../../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 export default function PaySetup() {
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function PaySetup() {
         dispatch(getLevels());
     }, [dispatch]);
 
-    const { levelDropdown } = useSelector((state) => state.level);
+    const { levelDropdown } = useSelector((state) => state.settings.schedule);
     const uniqueId = useId();
 
     const handleChange = ({ name, value }) => {

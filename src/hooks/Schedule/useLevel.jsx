@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLevels } from '../../redux/actions/ScheduleSettings/levelActions';
+import { getLevels } from '../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const useLevel = () => {
     const dispatch = useDispatch();
@@ -9,9 +9,9 @@ const useLevel = () => {
         dispatch(getLevels());
     }, [dispatch]);
 
-    const { allLevels, levelDropdown } = useSelector((state) => state.level);
+    const { levels, levelDropdown } = useSelector((state) => state.settings.schedule);
 
-    return { allLevels, levelDropdown };
+    return { levels, levelDropdown };
 };
 
 export default useLevel;

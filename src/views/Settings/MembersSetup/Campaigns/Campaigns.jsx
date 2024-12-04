@@ -9,8 +9,8 @@ import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
-import { getCampaignTypes } from '../../../../redux/actions/MembersSettings/compaignsGroup';
 import { deleteCampaign, getCampaigns } from '../../../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getCampaignTypes } from '../../../../redux/actions/Settings/MembershipSetup/campaignsGroupAction';
 
 const Campaigns = () => {
     const history = useHistory();
@@ -21,7 +21,7 @@ const Campaigns = () => {
     }, [dispatch]);
 
     const allCompaigns = useSelector((state) => state?.settings?.members?.campaigns);
-    const { allCampaignsTypes } = useSelector((state) => state.compaignGroups);
+    const { allCampaignsTypes } = useSelector((state) => state.settings.members);
     const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     const columns = [

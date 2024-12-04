@@ -4,11 +4,10 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteResource } from '../../../../redux/actions/MembersSettings/resources';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
-import { getResources } from '../../../../redux/actions/Settings/MembershipSetup/resourceAction';
+import { deleteResource, getResources } from '../../../../redux/actions/Settings/MembershipSetup/resourceAction';
 
 const Resources = () => {
     const history = useHistory();

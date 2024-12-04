@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import FormPage from '../../../../shared/Layout/FormPage';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLevels } from '../../../../redux/actions/ScheduleSettings/levelActions';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import CustomTable from '../../../../shared/Table/CustomTable';
@@ -18,6 +17,7 @@ import {
     getScheduledEventService,
     getServicesEvents,
 } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getLevels } from '../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const AddandEditServices = () => {
     const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const AddandEditServices = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.services, open]);
 
-    const { levelDropdown, allLevels } = useSelector((state) => state.level);
+    const { levelDropdown, levels } = useSelector((state) => state.settings.schedule);
     let filterdLevelsDropdown = levelDropdown.filter((item) => !allServicesEventsLevels.map((ed) => ed).includes(item.name));
 
     const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
@@ -87,7 +87,7 @@ const AddandEditServices = () => {
         { field: 'upc', header: 'UPC' },
     ];
 
-    const levelIndex = allLevels?.findIndex((item) => item._id === data.level);
+    const levelIndex = levels?.findIndex((item) => item._id === data.level);
     const handleSave = () => {
         const formErrors = formValidation('services', selected, data);
         setData((prev) => ({ ...prev, services: selected, formErrors }));
