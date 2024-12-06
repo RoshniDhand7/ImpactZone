@@ -17,7 +17,7 @@ const Notes = () => {
     const columns = [
         { field: 'createdAt', body: (r) => moment(r?.createdAt).format('MMMM-DD-YYYY'), header: 'Date' },
         { field: 'createdAt', body: (r) => moment(r?.createdAt).format('hh:mm A'), header: 'Time' },
-        { field: 'note', header: 'Text' },
+        { field: 'name', header: 'Text' },
         { field: 'member', header: 'User' },
     ];
 

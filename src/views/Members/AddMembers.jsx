@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask, CustomInputNumber, CustomTextArea } from '../../shared/Input/AllInputs';
-import { LeadPriorityOptions, genderOptions, memberTypeOptions } from '../../utils/dropdownConstants';
+import { LeadPriorityOptions, genderOptions } from '../../utils/dropdownConstants';
 import CustomImageInput from '../../shared/Input/CustomImageInput';
 import { useDispatch, useSelector } from 'react-redux';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
@@ -119,10 +119,8 @@ const AddMembers = () => {
                         <CustomImageInput name="image" data={data} onFilesChange={handleChange} required editable={true} />
                     </div>
                     <CustomGridLayout extraClass="col-10">
-                        <CustomDropDown col="4" name="createType" data={data} onChange={handleChange} required options={memberTypeOptions} />
                         <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
-
-                        {data?.createType === 'PROSPECT' && <CustomTextArea name="note" data={data} onChange={handleChange} />}
+                        <CustomTextArea name="note" data={data} onChange={handleChange} />
                     </CustomGridLayout>
                 </CustomGridLayout>
             </CustomCard>
@@ -151,9 +149,7 @@ const AddMembers = () => {
             </CustomCard>
             <CustomCard col="12" title="Sale">
                 <CustomGridLayout>
-                    {data?.createType === 'PROSPECT' && (
-                        <CustomDropDown name="leadPriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
-                    )}
+                    <CustomDropDown name="leadPriority" data={data} onChange={handleChange} options={LeadPriorityOptions} />
                     <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
                     <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
@@ -161,7 +157,7 @@ const AddMembers = () => {
             <CustomCard col="12" title="Date">
                 <CustomGridLayout>
                     <CustomCalenderInput name="issuedOn" data={data} onChange={handleChange} required />
-                    {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tourOn" data={data} onChange={handleChange} />}
+                    <CustomCalenderInput name="tourOn" data={data} onChange={handleChange} />
                     <CustomCalenderInput name="firstVisit" data={data} onChange={handleChange} />
                     <CustomCalenderInput name="beginOn" required data={data} onChange={handleChange} maxDate={data.expiration} />
                 </CustomGridLayout>

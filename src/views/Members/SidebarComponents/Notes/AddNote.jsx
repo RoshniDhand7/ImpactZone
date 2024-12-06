@@ -7,7 +7,7 @@ import { showFormErrors } from '../../../../utils/commonFunctions';
 const AddNote = ({ openNotes, setOpenNotes, dispatch, id }) => {
     const [loading, setLoading] = useState(false);
     const initialState = {
-        name: '',
+        note: '',
     };
 
     const [data, setData] = useState(initialState);
@@ -26,6 +26,7 @@ const AddNote = ({ openNotes, setOpenNotes, dispatch, id }) => {
             );
         }
     };
+    console.log(data);
     return (
         <>
             <CustomDialog
@@ -38,7 +39,7 @@ const AddNote = ({ openNotes, setOpenNotes, dispatch, id }) => {
                 loading={loading}
                 onSave={handleSave}
             >
-                <CustomTextArea name="name" label="Note" maxLength="266" data={data} onChange={handleChange} inputClass="h-17rem	" />
+                <CustomTextArea name="note" label="Note" maxLength="266" data={data} onChange={handleChange} inputClass="h-17rem	" />
             </CustomDialog>
         </>
     );
