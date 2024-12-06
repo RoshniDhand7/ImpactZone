@@ -15,7 +15,7 @@ import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addScheduledEvent, getScheduledEvent, editScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { addScheduledEvent, getScheduledEvent, editScheduledEvent } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import useLocationType from '../../../../hooks/Schedule/useLocationType';
 
 const EventGeneral = () => {

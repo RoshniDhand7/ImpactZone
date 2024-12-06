@@ -36,8 +36,10 @@ const endPoints = {
             LOCATION_TYPE: '/settings/schedule-setup/location-type/',
             LOCATION: '/settings/schedule-setup/location/',
             EVENT_SETUP: '/settings/schedule-setup/event-setup/',
+            EVENT_CATEGORY: '/settings/schedule-setup/event-category/',
             SCHEDULE_OPTION: '/settings/schedule-setup/schedule-option/',
             CLASSES: '/settings/schedule-setup/class/',
+            SCHEDULE_EVENTS_LEVEL: '/event-setup-level-services/',
         },
         INVENTORY_SETUP: {
             PRE_PAY: '/settings/inventory-setup/pre-pay/',
@@ -75,7 +77,7 @@ const endPoints = {
     },
 
     UPLOAD_FILES: '/upload',
-    EMPLOYEE: '/employee/',
+    EMPLOYEE: '/settings/manage-employee/general/',
     EMPLOYEE_TYPE: '/employee-data/',
     EMPLOYEE_PAY_TYPE: '/employee-class/',
     DEFAULT_CALENDAR: '/employee-appointment-sort/',

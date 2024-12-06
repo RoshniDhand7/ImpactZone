@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteScheduledEvent, getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { deleteScheduledEvent, getEvents } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
@@ -18,8 +18,8 @@ const EventSetup = () => {
         dispatch(getEvents());
     }, [dispatch]);
 
-    const { allEvents } = useSelector((state) => state.event);
-    const modifiedEvents = allEvents?.map((item) => ({
+    const { events } = useSelector((state) => state.settings.schedule);
+    const modifiedEvents = events?.map((item) => ({
         ...item,
         internalUse: item.internalUse ? true : false,
     }));

@@ -11,7 +11,7 @@ import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../../../../../shared/Cards/CustomCard';
 import { CustomDropDown, CustomInputNumber, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import { AppointmentPayPriorityOptions, amountTypeOptions } from '../../../../../../utils/dropdownConstants';
-import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents } from '../../../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 
 const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visible, employeeAppartId, setEmployeeAppartId }) => {
     const dispatch = useDispatch();
@@ -30,9 +30,9 @@ const AddandEditAppointmentPay = ({ funcGetEmpAppointment, id, setVisible, visib
     }, [dispatch]);
     let { isAppointmentLevel, allAppointmentPayDropdown } = useSelector((state) => state?.employees);
 
-    const { allEvents } = useSelector((state) => state.event);
+    const { events } = useSelector((state) => state.settings.schedule);
 
-    const filteredEvents = allEvents
+    const filteredEvents = events
         ?.filter((item) => item.eventLevel?.some((level) => isAppointmentLevel.includes(level)) && item.eventType === 'Appointments')
         ?.map((item) => ({ name: item.name, value: item._id }));
 

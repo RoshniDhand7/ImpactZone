@@ -8,7 +8,7 @@ import { WeekDaysOption, yesNoOptions } from '../../../utils/dropdownConstants';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { confirmDelete, showArrayFormErrors, showFormErrors } from '../../../utils/commonFunctions';
 import moment from 'moment';
-import { addScheduling, getSchedulings } from '../../../redux/actions/ScheduleSettings/SchedulingOptions';
+import { addScheduling, getSchedulings } from '../../../redux/actions/Settings/ScheduleSetup/SchedulingOptionsActions';
 
 const SchedulingOptionsForm = () => {
     const dispatch = useDispatch();
@@ -36,27 +36,27 @@ const SchedulingOptionsForm = () => {
         dispatch(getSchedulings());
     }, [dispatch]);
 
-    const allSchedulingOptions = useSelector((state) => state?.schedulingOptions?.allSchedulingOptions);
+    const { schedulingOptions } = useSelector((state) => state?.settings.schedule);
 
     useEffect(() => {
-        if (allSchedulingOptions?.length) {
+        if (schedulingOptions?.length) {
             setData({
-                allowWaitlist: allSchedulingOptions?.[0]?.allowWaitlist,
-                requireComment: allSchedulingOptions?.[0]?.requireComment,
+                allowWaitlist: schedulingOptions?.[0]?.allowWaitlist,
+                requireComment: schedulingOptions?.[0]?.requireComment,
                 date: '',
                 open: '',
                 startTime: '',
                 endTime: '',
-                hoursOperation: allSchedulingOptions?.[0]?.hoursOperation?.map((item) => ({
+                hoursOperation: schedulingOptions?.[0]?.hoursOperation?.map((item) => ({
                     ...item,
                     startTime: new Date(item.startTime),
                     endTime: new Date(item.endTime),
                 })),
-                allTimingsList: allSchedulingOptions?.[0]?.timingAndHoliday?.length,
+                allTimingsList: schedulingOptions?.[0]?.timingAndHoliday?.length,
             });
-            setAllTimingsList(allSchedulingOptions?.[0]?.timingAndHoliday);
+            setAllTimingsList(schedulingOptions?.[0]?.timingAndHoliday);
         }
-    }, [allSchedulingOptions]);
+    }, [schedulingOptions]);
 
     const handleAddSchedule = () => {
         const newSchedule = {

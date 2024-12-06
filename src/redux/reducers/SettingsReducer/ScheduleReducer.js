@@ -6,6 +6,17 @@ const intitalState = {
     locationTypeDropdown: [],
     location: [],
     locationDropdown: [],
+    events: [],
+    eventsDropDown: [],
+    servicesEvents: [],
+    servicesEventsLevels: [],
+    eventClassesDropDown: [],
+    eventAppointmentDropdown: [],
+    eventCategories: [],
+    classes: [],
+    schedulingOptions: [],
+    eventAppointmentDropDown: [],
+    eventClasses: [],
 };
 
 const scheduleReducer = (state = intitalState, action) => {
@@ -27,6 +38,40 @@ const scheduleReducer = (state = intitalState, action) => {
                 ...state,
                 location: action.payload,
                 locationDropdown: action.payload?.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
+            };
+        case types.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP:
+            return {
+                ...state,
+                events: action.payload,
+                eventClasses: action.payload.filter((item) => item.eventType === 'Class' && item.isActive),
+                eventsDropDown: action.payload.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
+                eventClassesDropDown: action.payload
+                    .filter((item) => item.eventType === 'Class' && item.isActive)
+                    .map((item) => ({ name: item.name, value: item._id })),
+                eventAppointmentDropDown: action.payload
+                    .filter((item) => item.eventType === 'Appointments' && item.isActive)
+                    .map((item) => ({ name: item.name, value: item._id })),
+            };
+        case types.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL:
+            return {
+                ...state,
+                servicesEvents: action.payload,
+                servicesEventsLevels: action.payload.EventService?.map((item) => item?.eventLevel?.name),
+            };
+        case types.SETTINGS.SCHEDULE_SETUP.EVENT_CATEGORY:
+            return {
+                ...state,
+                eventCategories: action.payload,
+            };
+        case types.SETTINGS.SCHEDULE_SETUP.CLASSES:
+            return {
+                ...state,
+                classes: action.payload,
+            };
+        case types.SETTINGS.SCHEDULE_SETUP.SCHEDULE_OPTION:
+            return {
+                ...state,
+                schedulingOptions: action.payload,
             };
 
         default:

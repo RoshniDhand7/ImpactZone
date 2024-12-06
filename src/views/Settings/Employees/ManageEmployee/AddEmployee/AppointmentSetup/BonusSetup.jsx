@@ -17,7 +17,7 @@ import formValidation from '../../../../../../utils/validations';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
 import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
-import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents } from '../../../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 
@@ -69,9 +69,9 @@ const BonusSetup = ({ type }) => {
 
     const { catalogServiceDropdown } = useSelector((state) => state.catalogItems);
     let { isAppointmentLevel } = useSelector((state) => state?.employees);
-    const { allEvents } = useSelector((state) => state.event);
+    const { events } = useSelector((state) => state.settings.schedule);
 
-    const filteredEvents = allEvents
+    const filteredEvents = events
         ?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments')
         ?.map((item) => ({ name: item.name, value: item._id }));
 

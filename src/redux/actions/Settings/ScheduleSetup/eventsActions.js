@@ -1,46 +1,34 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getEvents = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getEvents = () => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_SCHEDULE_EVENTS,
+                type: types.SETTINGS.SCHEDULE_SETUP.EVENT_SETUP,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
-    }
-    if (setLoading) {
-        setLoading(false);
     }
 };
 
-const getServicesEvents = (id, setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
-    const res = await api('get', EndPoints.SCHEDULE_EVENTS_LEVEL + id);
+const getServicesEvents = (id) => async (dispatch) => {
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL + id);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_SCHEDULE_SERVICES_EVENTS,
+                type: types.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
-    }
-    if (setLoading) {
-        setLoading(false);
     }
 };
 const getScheduledEvent = (id, returnData) => async (dispatch) => {
@@ -56,7 +44,6 @@ const getScheduledEvent = (id, returnData) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 const getScheduledEventService = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SCHEDULE_EVENT_LEVEL + id);
     if (res.success) {
         if (res.data) {
@@ -65,7 +52,6 @@ const getScheduledEventService = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const addScheduledEvent =
     (data, setLoading, history, tab = '') =>

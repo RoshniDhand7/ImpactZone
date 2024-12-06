@@ -16,7 +16,7 @@ import {
     editScheduledEventServices,
     getScheduledEventService,
     getServicesEvents,
-} from '../../../../redux/actions/ScheduleSettings/eventsActions';
+} from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { getLevels } from '../../../../redux/actions/Settings/ScheduleSetup/levelActions';
 
 const AddandEditServices = () => {
@@ -55,7 +55,7 @@ const AddandEditServices = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [eventId, dispatch]);
 
-    const { allServicesEventsLevels } = useSelector((state) => state.event);
+    const { servicesEventsLevels } = useSelector((state) => state.settings.schedule);
 
     useEffect(() => {
         if (id) {
@@ -67,7 +67,7 @@ const AddandEditServices = () => {
     }, [data.services, open]);
 
     const { levelDropdown, levels } = useSelector((state) => state.settings.schedule);
-    let filterdLevelsDropdown = levelDropdown.filter((item) => !allServicesEventsLevels.map((ed) => ed).includes(item.name));
+    let filterdLevelsDropdown = levelDropdown.filter((item) => !servicesEventsLevels.map((ed) => ed).includes(item.name));
 
     const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
 

@@ -4,10 +4,10 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmDelete } from '../../../../utils/commonFunctions';
-import { deleteEventCategory, getEventCategories } from '../../../../redux/actions/ScheduleSettings/eventCategoryAction';
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteEventCategory, getEventCategories } from '../../../../redux/actions/Settings/ScheduleSetup/eventCategoryAction';
 
 const EventCategories = () => {
     const history = useHistory();
@@ -16,7 +16,7 @@ const EventCategories = () => {
         dispatch(getEventCategories());
     }, [dispatch]);
 
-    const { allEventCategories } = useSelector((state) => state.eventCategory);
+    const { eventCategories } = useSelector((state) => state.settings.schedule);
 
     const columns = [
         { field: 'name', header: 'Name' },
@@ -36,7 +36,7 @@ const EventCategories = () => {
             position,
         );
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allEventCategories);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(eventCategories);
 
     return (
         <>

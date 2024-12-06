@@ -12,15 +12,11 @@ import categoryReducer from './InventorySettings/categoryReducer';
 import profitCenterReducer from './InventorySettings/profitCenterReducer';
 import certificateReducer from './EmployeesSettings/certificationReducer';
 import catalogItemsReducer from './InventorySettings/catalogItemsReducer';
-import eventReducer from './ScheduleSettings/eventsReducer';
-import eventCategoryReducer from './ScheduleSettings/eventCategories';
-import eventClassesReducer from './ScheduleSettings/eventClassesReducer';
 import taxReducer from './PosSettings/taxReducer';
 import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 import discountTypeReducer from './PosSettings/discountTypeReducer';
 import memberReducer from './Dashboard/MembersReducer';
 import sellPlanReducer from './Plans/SellPlanReducer';
-import schedulingOptionsReducer from './ScheduleSettings/SchedulingOptionsReducer';
 import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
 import POSReducer1 from './POSReducer1';
@@ -53,15 +49,11 @@ export default combineReducers({
     profitCenter: profitCenterReducer,
     certificates: certificateReducer,
     catalogItems: catalogItemsReducer,
-    event: eventReducer,
-    eventCategory: eventCategoryReducer,
-    eventClasses: eventClassesReducer,
     taxes: taxReducer,
     paymentMethod: paymentMethodReducer,
     discountType: discountTypeReducer,
     members: memberReducer,
     plans: sellPlanReducer,
-    schedulingOptions: schedulingOptionsReducer,
     filterSet: filterSetReducer,
     tags: tagsReducer,
     POS: POSReducer1,

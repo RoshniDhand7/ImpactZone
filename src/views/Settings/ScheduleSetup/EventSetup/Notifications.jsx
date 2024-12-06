@@ -6,7 +6,7 @@ import formValidation from '../../../../utils/validations';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { useDispatch } from 'react-redux';
 
 const Notifications = () => {

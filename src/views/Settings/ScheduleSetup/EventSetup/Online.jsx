@@ -7,7 +7,7 @@ import formValidation from '../../../../utils/validations';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
-import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 
 const Online = () => {
     const { id } = useParams();

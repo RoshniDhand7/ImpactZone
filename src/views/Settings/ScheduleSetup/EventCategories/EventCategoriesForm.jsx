@@ -8,8 +8,8 @@ import CustomPickList from '../../../../shared/Input/CustomPickList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addEventCategory, editEventCategory, getEventCategory } from '../../../../redux/actions/ScheduleSettings/eventCategoryAction';
-import { getEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
+import { addEventCategory, editEventCategory, getEventCategory } from '../../../../redux/actions/Settings/ScheduleSetup/eventCategoryAction';
 
 const EventCategoriesForm = () => {
     const { id } = useParams();
@@ -37,7 +37,7 @@ const EventCategoriesForm = () => {
     }, [id, dispatch]);
     const history = useHistory();
     const loading = useSelector((state) => state?.loader?.isLoading);
-    const { allEventsDropDown } = useSelector((state) => state?.event);
+    const { eventsDropDown } = useSelector((state) => state?.settings.schedule);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -61,13 +61,7 @@ const EventCategoriesForm = () => {
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                 </CustomGridLayout>
                 <CustomCard title="Add Event Setups" col="12">
-                    <CustomPickList
-                        name="event"
-                        selected={data?.event}
-                        sourceData={allEventsDropDown}
-                        onPickListChange={handleChange}
-                        showTargetControls={true}
-                    />
+                    <CustomPickList name="event" selected={data?.event} sourceData={eventsDropDown} onPickListChange={handleChange} showTargetControls={true} />
                 </CustomCard>
                 <CustomButtonGroup>
                     <PrimaryButton label="Save" className="mx-2" onClick={handleSave} loading={loading} />

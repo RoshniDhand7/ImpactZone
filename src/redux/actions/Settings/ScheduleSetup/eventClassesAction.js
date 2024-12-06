@@ -1,27 +1,21 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { getTime } from '../../../utils/commonFunctions';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { getTime } from '../../../../utils/commonFunctions';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
-const getEventClasses = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
-    }
+const getEventClasses = () => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASSES);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_CLASSES,
+                type: types.SETTINGS.SCHEDULE_SETUP.CLASSES,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
-    }
-    if (setLoading) {
-        setLoading(false);
     }
 };
 

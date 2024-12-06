@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents } from '../../../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { getEmployeeAppointmentPay } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
@@ -15,7 +15,7 @@ const CalendarDefault = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
-    let { allEvents } = useSelector((state) => state.event);
+    let { events } = useSelector((state) => state.settings.schedule);
     let { isAppointmentLevel } = useSelector((state) => state?.employees);
 
     const columns = [
@@ -25,12 +25,12 @@ const CalendarDefault = () => {
 
     const [reorderd, setReorderd] = useState([]);
     useEffect(() => {
-        if (allEvents) {
-            const filteredEvents = allEvents?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
+        if (events) {
+            const filteredEvents = events?.filter((item) => item?.eventLevel?.includes(isAppointmentLevel) && item.eventType === 'Appointments');
 
             setReorderd(filteredEvents);
         }
-    }, [isAppointmentLevel, allEvents]);
+    }, [isAppointmentLevel, events]);
 
     const handleRowReorder = (reorderedData) => {
         setReorderd(reorderedData.value);

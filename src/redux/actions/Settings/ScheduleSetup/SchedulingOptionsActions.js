@@ -1,23 +1,21 @@
-import api from '../../../services/api';
-import EndPoints from '../../../services/endPoints';
-import { types } from '../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../loaderAction';
-import { showToast } from '../toastAction';
+import api from '../../../../services/api';
+import EndPoints from '../../../../services/endPoints';
+import { types } from '../../../types/types';
+import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { showToast } from '../../toastAction';
 
 const getSchedulings = () => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_OPTION);
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_SCHEDULING_OPTIONS,
+                type: types.SETTINGS.SCHEDULE_SETUP.SCHEDULE_OPTION,
                 payload: res.data,
             });
         }
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    dispatch(hideLoaderAction());
 };
 
 const addScheduling = (data) => async (dispatch) => {

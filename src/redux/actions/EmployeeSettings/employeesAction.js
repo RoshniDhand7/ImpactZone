@@ -6,7 +6,7 @@ import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
 import { uploadImages } from '../../../utils/commonFunctions';
 
-const getEmployees = (pageNo, setLoading) => async (dispatch) => {
+const getEmployees = (setLoading) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }

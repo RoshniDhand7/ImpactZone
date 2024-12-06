@@ -9,7 +9,7 @@ import { calculateTimes, showFormErrors } from '../../../../utils/commonFunction
 import { useDispatch } from 'react-redux';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
-import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { editScheduledEvent, getScheduledEvent } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import useGetClubs from '../../../../hooks/useGetClubs';
 
 const DisplayOptions = () => {

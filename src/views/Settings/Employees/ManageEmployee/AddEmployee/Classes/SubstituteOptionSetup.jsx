@@ -15,7 +15,7 @@ import { CustomDropDown } from '../../../../../../shared/Input/AllInputs';
 import { substitutionPriorityOptions } from '../../../../../../utils/dropdownConstants';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import formValidation from '../../../../../../utils/validations';
-import { getEvents } from '../../../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents } from '../../../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 
 export default function SubstituteOptionSetup() {
     const { id } = useParams();
@@ -38,9 +38,9 @@ export default function SubstituteOptionSetup() {
         dispatch(getEvents());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const { allEvents } = useSelector((state) => state.event);
+    const { events } = useSelector((state) => state.settings.schedule);
 
-    const filteredEvents = allEvents
+    const filteredEvents = events
         ?.filter((item) => item?.eventLevel?.includes(isClassLevel) && item.eventType === 'Class')
         ?.map((item) => ({ name: item.name, value: item._id }));
 

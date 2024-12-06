@@ -14,12 +14,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
-import { getEvents, getServicesEvents } from '../../../../redux/actions/ScheduleSettings/eventsActions';
+import { getEvents, getServicesEvents } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { convertToDateTime, showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
 import { getEmployeePay, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
-import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/ScheduleSettings/eventClassesAction';
 import { types } from '../../../../redux/types/types';
 import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
+import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/Settings/ScheduleSetup/eventClassesAction';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
@@ -60,17 +60,17 @@ const EventClassesForm = () => {
         dispatch(getEmployees());
     }, [dispatch]);
     const { locationDropdown } = useSelector((state) => state.settings.schedule);
-    const { allEventClassesDropDown } = useSelector((state) => state.event);
+    const { eventClassesDropDown } = useSelector((state) => state.settings.schedule);
 
-    let { allEventClasses } = useSelector((state) => state.event);
-    allEventClasses = allEventClasses?.find((item) => item._id === data?.event);
+    let { eventClasses } = useSelector((state) => state.settings.schedule);
+    eventClasses = eventClasses?.find((item) => item._id === data?.event);
     const history = useHistory();
 
     useEffect(() => {
         if (data?.event) {
-            setData((prev) => ({ ...prev, totalCapacity: allEventClasses?.defaultMaxAttendes, waitlistPeople: allEventClasses?.maximumWaitlist }));
+            setData((prev) => ({ ...prev, totalCapacity: eventClasses?.defaultMaxAttendes, waitlistPeople: eventClasses?.maximumWaitlist }));
         }
-    }, [data?.event, allEventClasses]);
+    }, [data?.event, eventClasses]);
 
     useEffect(() => {
         if (id) {
@@ -89,8 +89,8 @@ const EventClassesForm = () => {
                         instructor: data.instructor,
                         staff: data.staff ? data?.staff : null,
                         payType: data.pay,
-                        totalCapacity: data.totalCapacity ? data.totalCapacity : allEventClasses?.defaultMaxAttendes,
-                        waitlistPeople: data.waitlistPeople ? data.waitlistPeople : allEventClasses?.maximumWaitlist,
+                        totalCapacity: data.totalCapacity ? data.totalCapacity : eventClasses?.defaultMaxAttendes,
+                        waitlistPeople: data.waitlistPeople ? data.waitlistPeople : eventClasses?.maximumWaitlist,
                         clientSignupClass: data.clientSignupClass,
                         onlineCapacity: data.onlineCapacity,
                         clientPaylater: data.clientPaylater,
@@ -106,7 +106,7 @@ const EventClassesForm = () => {
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, dispatch, allEmployees, allEventClasses]);
+    }, [id, dispatch, allEmployees, eventClasses]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
         const employeeWithLevel = allEmployees.find((employee) => employee._id === assistantId);
@@ -171,9 +171,9 @@ const EventClassesForm = () => {
             instructor: [...prevData.instructor, newAssistant],
         }));
     };
-    const { allServicesEvents } = useSelector((state) => state.event);
+    const { servicesEvents } = useSelector((state) => state.settings.schedule);
 
-    const eventLevels = allServicesEvents && allServicesEvents?.EventService?.map((item) => item.eventLevel?._id);
+    const eventLevels = servicesEvents && servicesEvents?.EventService?.map((item) => item.eventLevel?._id);
 
     const employeesWithLevel = allEmployees
         .filter((employee) => {
@@ -306,7 +306,7 @@ const EventClassesForm = () => {
         <>
             <FormPage backText="Classes">
                 <CustomGridLayout>
-                    <CustomDropDown name="event" label="Class Name" options={allEventClassesDropDown} onChange={handleChange} data={data} />
+                    <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
                 </CustomGridLayout>
                 <CustomCard title="When and Where" col="12">
