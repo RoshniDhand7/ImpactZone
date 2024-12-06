@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { getCitiesByState, getStatesByCountry, showFormErrors } from '../../../../utils/commonFunctions';
-import { addVendors, editVendors, getVendor } from '../../../../redux/actions/InventorySettings/vendorsAction';
+import { addVendors, editVendors, getVendor } from '../../../../redux/actions/Settings/InventorySetup/vendorsAction';
 
 const VendorForm = () => {
     const history = useHistory();

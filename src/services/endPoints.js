@@ -44,6 +44,9 @@ const endPoints = {
         INVENTORY_SETUP: {
             PRE_PAY: '/settings/inventory-setup/pre-pay/',
         },
+        MANAGE_EMPLOYEE: {
+            GENERAL: '/settings/manage-employee/general/',
+        },
     },
     POS: {
         SALE: '/point-of-sale/sale/',
@@ -66,6 +69,7 @@ const endPoints = {
         DOCUMENT: '/memberV2/document/',
         CHECK_IN: '/memberV2/check-in/',
         DOCUMENT_VIEW: '/memberV2/document-view/',
+        NOTES: '/memberV2/note/',
     },
 
     AUTH: {

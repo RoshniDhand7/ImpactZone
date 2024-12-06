@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
-import { editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory, useParams } from 'react-router-dom';
@@ -9,6 +8,7 @@ import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../share
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import { CustomDropDown } from '../../../../shared/Input/AllInputs';
 import { confirmDelete, getIds } from '../../../../utils/commonFunctions';
+import { editUsageItem, getCatalogItems, getUsageItem } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const Usage = () => {
     const [open, setOpen] = useState('');

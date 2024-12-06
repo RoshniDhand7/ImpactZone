@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
-import { getallEmployeeTimeSheet } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { diffHoursAndMinutes } from '../../../../utils/commonFunctions';
 import useFilters from '../../../../hooks/useFilters';
 import useGetClubs from '../../../../hooks/useGetClubs';
@@ -14,6 +13,7 @@ import { CustomCalenderInput, CustomMultiselect } from '../../../../shared/Input
 import CustomTable from '../../../../shared/Table/CustomTable';
 import useEmployees from '../../../../hooks/Employees/useEmployees';
 import EditTimesheetModal from '../ManageEmployee/AddEmployee/EditTimesheetModal';
+import { getallEmployeeTimeSheet } from '../../../../redux/actions/Settings/Employee/employeesAction';
 
 const TimeSheet = () => {
     const dispatch = useDispatch();

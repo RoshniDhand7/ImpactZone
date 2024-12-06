@@ -30,7 +30,7 @@ export default function SubstituteOptionSetup() {
     });
 
     const [substitutionOptionsId, setSubstituteOptionsId] = useState('');
-    let { isClassLevel } = useSelector((state) => state?.employees);
+    let { isClassLevel } = useSelector((state) => state?.settings?.employee);
 
     useEffect(() => {
         funcGetEmpSubstitution(id);

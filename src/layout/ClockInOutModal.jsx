@@ -5,10 +5,10 @@ import CustomCard, { CustomGridLayout } from '../shared/Cards/CustomCard';
 import moment from 'moment';
 import PrimaryButton from '../shared/Button/CustomButton';
 import { useDispatch } from 'react-redux';
-import { addEmployeesCheckInOut, getEmployeesFromBarCode } from '../redux/actions/EmployeeSettings/employeesAction';
 import { yesNoOptions } from '../utils/dropdownConstants';
 import formValidation from '../utils/validations';
 import { showFormErrors } from '../utils/commonFunctions';
+import { addEmployeesCheckInOut, getEmployeesFromBarCode } from '../redux/actions/Settings/Employee/employeesAction';
 
 const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
     const dispatch = useDispatch();

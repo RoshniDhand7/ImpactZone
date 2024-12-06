@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeeTimeSheet } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import _ from 'lodash';
@@ -14,6 +13,7 @@ import useGetClubs from '../../../../../hooks/useGetClubs';
 import PrimaryButton from '../../../../../shared/Button/CustomButton';
 import useDepartments from '../../../../../hooks/Employees/useDepartments';
 import EditTimesheetModal from './EditTimesheetModal';
+import { getEmployeeTimeSheet } from '../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const TimeSheet = () => {
     const dispatch = useDispatch();

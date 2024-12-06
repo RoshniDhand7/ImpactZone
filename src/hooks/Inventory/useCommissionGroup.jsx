@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCommissionGroups } from '../../redux/actions/InventorySettings/commissionGroupAction';
+import { getCommissionGroups } from '../../redux/actions/Settings/InventorySetup/commissionGroupAction';
 
 const useCommissionGroup = () => {
     const dispatch = useDispatch();

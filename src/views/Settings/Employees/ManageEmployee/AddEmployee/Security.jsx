@@ -8,7 +8,7 @@ import formValidation from '../../../../../utils/validations';
 import { showFormErrors } from '../../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { addEmployees, editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { addEmployees, editEmployee, getEmployee } from '../../../../../redux/actions/Settings/Employee/employeesAction';
 import { useParams } from 'react-router';
 import { getSecurityRoles } from '../../../../../redux/actions/EmployeeSettings/securityRolesAction';
 import { getJobDetails } from '../../../../../redux/actions/Settings/Business/jobActions';

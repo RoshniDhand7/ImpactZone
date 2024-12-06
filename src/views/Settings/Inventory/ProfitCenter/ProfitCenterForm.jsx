@@ -7,8 +7,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addProfitCenters, editProfitCenters, getProfitCenter } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
+import { addProfitCenters, editProfitCenters, getProfitCenter } from '../../../../redux/actions/Settings/InventorySetup/profitCenterAction';
 
 const ProfitCenterForm = () => {
     const history = useHistory();

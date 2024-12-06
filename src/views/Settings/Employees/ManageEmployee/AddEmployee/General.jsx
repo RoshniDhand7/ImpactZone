@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 import { yesNoOptions } from '../../../../../utils/dropdownConstants';
 import PhotoUpload from '../../../../../shared/Input/DragDropFiles';
 import formValidation from '../../../../../utils/validations';
-import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useHistory, useParams } from 'react-router';
+import { editEmployee, getEmployee } from '../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const General = () => {
     const dispatch = useDispatch();

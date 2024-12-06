@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { hoursOptions } from '../../../../utils/dropdownConstants';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { addResource, editResource, getResource } from '../../../../redux/actions/Settings/MembershipSetup/resourceAction';
 import { getResourceTypes } from '../../../../redux/actions/Settings/MembershipSetup/resourceTypeAction';
 import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
+import { getCatalogItems } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const ResourcesForm = () => {
     const history = useHistory();

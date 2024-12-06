@@ -121,6 +121,7 @@ export const types = {
         SERVICES: 'SERVICES',
         RESET_MEMBER_DATA: 'RESET_MEMBER_DATA',
         DOCUMENTS: 'DOCUMENTS',
+        NOTES: 'NOTES',
     },
 
     POS: {
@@ -183,6 +184,9 @@ export const types = {
             EVENT_CATEGORY: 'EVENT_CATEGORY',
             CLASSES: 'CLASSES',
             SCHEDULE_OPTION: 'SCHEDULE_OPTION',
+        },
+        MANAGE_EMPLOYEE: {
+            GENERAL: 'GENERAL',
         },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',

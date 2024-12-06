@@ -14,10 +14,10 @@ import {
     getEmployeeSaleItem,
     getEmployeeSalesItem,
 } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
-import { getCommissionGroups } from '../../../../../../redux/actions/InventorySettings/commissionGroupAction';
 import formValidation from '../../../../../../utils/validations';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
-import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getCommissionGroups } from '../../../../../../redux/actions/Settings/InventorySetup/commissionGroupAction';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const ItemCommission = () => {
     const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const ItemCommission = () => {
         dispatch(getEmployeesFilterType('salesCommission'));
     }, [dispatch]);
 
-    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    let { allEmployeesFilter } = useSelector((state) => state.settings.employee);
 
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {

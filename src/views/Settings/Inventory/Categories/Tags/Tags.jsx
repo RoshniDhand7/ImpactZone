@@ -6,7 +6,7 @@ import { confirmDelete, showFormErrors } from '../../../../../utils/commonFuncti
 import formValidation from '../../../../../utils/validations';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { CustomInput } from '../../../../../shared/Input/AllInputs';
-import { addTags, deleteTags, editTags, getTag, getTags } from '../../../../../redux/actions/InventorySettings/tagAction';
+import { addTags, deleteTags, editTags, getTag, getTags } from '../../../../../redux/actions/Settings/InventorySetup/tagAction';
 
 export default function Tags() {
     const dispatch = useDispatch();

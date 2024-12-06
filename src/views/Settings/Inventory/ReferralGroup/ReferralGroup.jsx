@@ -4,13 +4,13 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteReferralGroups, getReferralGroups } from '../../../../redux/actions/InventorySettings/referralGroupAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
+import { deleteReferralGroups, getReferralGroups } from '../../../../redux/actions/Settings/InventorySetup/referralGroupAction';
 
 export default function ReferralGroup() {
     const history = useHistory();

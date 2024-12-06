@@ -7,14 +7,14 @@ import Tracking from './Tracking';
 import Usage from './Usage';
 import Variations from './Variations';
 import { useDispatch } from 'react-redux';
-import { getCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { useEffect } from 'react';
-import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
-import { getCategories } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import { getTaxes } from '../../../../redux/actions/PosSettings/tax';
 import { getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
-import { getFilterSets } from '../../../../redux/actions/InventorySettings/filterSetsAction';
-import { getTags } from '../../../../redux/actions/InventorySettings/tagAction';
+import { getCatalogItem } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
+import { getCategories } from '../../../../redux/actions/Settings/InventorySetup/categoriesAction';
+import { getFilterSets } from '../../../../redux/actions/Settings/InventorySetup/filterSetsAction';
+import { getProfitCenters } from '../../../../redux/actions/Settings/InventorySetup/profitCenterAction';
+import { getTags } from '../../../../redux/actions/Settings/InventorySetup/tagAction';
 
 const AddCatalogItems = () => {
     const dispatch = useDispatch();

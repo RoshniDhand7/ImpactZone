@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfitCenters } from '../../redux/actions/InventorySettings/profitCenterAction';
+import { getProfitCenters } from '../../redux/actions/Settings/InventorySetup/profitCenterAction';
 
 const useProfitCenters = () => {
     const dispatch = useDispatch();

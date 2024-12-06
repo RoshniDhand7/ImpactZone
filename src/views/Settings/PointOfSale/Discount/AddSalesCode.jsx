@@ -23,7 +23,7 @@ const AddSalesCode = ({ data, setData, id, loading, name }) => {
         }
     }, [data?.salesCode, open, id]);
 
-    const { salesCode } = useSelector((state) => state.employees);
+    const { salesCode } = useSelector((state) => state.settings.employee);
 
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },

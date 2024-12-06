@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../redux/actions/InventorySettings/categoriesAction';
 import { useEffect } from 'react';
+import { getCategories } from '../../redux/actions/Settings/InventorySetup/categoriesAction';
 
 const useCategory = () => {
     const dispatch = useDispatch();

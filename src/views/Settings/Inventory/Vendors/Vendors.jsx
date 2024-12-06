@@ -4,10 +4,10 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteVendors, getVendors } from '../../../../redux/actions/InventorySettings/vendorsAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteVendors, getVendors } from '../../../../redux/actions/Settings/InventorySetup/vendorsAction';
 
 export default function Vendors() {
     const history = useHistory();

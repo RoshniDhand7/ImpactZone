@@ -7,10 +7,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addCategory, editCategory, getCategory } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
+import { getCatalogItems } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
+import { addCategory, editCategory, getCategory } from '../../../../redux/actions/Settings/InventorySetup/categoriesAction';
 
 const CategoriesForm = () => {
     const history = useHistory();

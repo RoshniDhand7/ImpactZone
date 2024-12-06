@@ -3,7 +3,7 @@ import CustomCard, { CustomGridLayout, CustomListItem } from '../../../../shared
 import FormPage from '../../../../shared/Layout/FormPage';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import { getEmployee } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { getEmployee } from '../../../../redux/actions/Settings/Employee/employeesAction';
 
 const ViewEmployeeForm = () => {
     const { id } = useParams();

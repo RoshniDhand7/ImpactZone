@@ -3,7 +3,7 @@ import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEmployee, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
+import { deleteEmployee, getEmployees } from '../../../../redux/actions/Settings/Employee/employeesAction';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
@@ -17,7 +17,7 @@ const ManageEmployee = () => {
         dispatch(getEmployees());
     }, [dispatch]);
 
-    const { allEmployees } = useSelector((state) => state.employees);
+    const { employees } = useSelector((state) => state.settings.employee);
 
     const address = (r) => {
         return (
@@ -56,7 +56,7 @@ const ManageEmployee = () => {
         );
     };
 
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allEmployees);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(employees);
 
     return (
         <>
@@ -67,7 +67,7 @@ const ManageEmployee = () => {
             </CustomFilterCard>
             <EmployeeFilters onFilterClose={onFilterClose} onApplyFilters={onApplyFilters} filters={filters} isFilterVisible={isFilterVisible} />
             <CustomTable data={tableData} columns={columns} onView={onView} onEdit={onEdit} onDelete={onDelete} />
-            {/* <CustomPaginator setPageNo={setPageNo} data={allEmployees} /> */}
+            {/* <CustomPaginator setPageNo={setPageNo} data={employees} /> */}
         </>
     );
 };

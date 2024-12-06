@@ -4,15 +4,15 @@ import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { CustomInputNumber, CustomMultiselect } from '../../../../../shared/Input/AllInputs';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { confirmDelete } from '../../../../../utils/commonFunctions';
+import useDepartments from '../../../../../hooks/Employees/useDepartments';
 import {
     addEmployeeDepartment,
     deleteEmployeeDepartment,
     editEmployeeDepartment,
     getEmployeeDepartments,
-} from '../../../../../redux/actions/EmployeeSettings/departmentsAction';
-import { useParams } from 'react-router-dom';
-import { confirmDelete } from '../../../../../utils/commonFunctions';
-import useDepartments from '../../../../../hooks/Employees/useDepartments';
+} from '../../../../../redux/actions/Settings/Employee/employeeDepartmentsAction';
 
 export default function EmployeeDepartments() {
     const { id } = useParams();

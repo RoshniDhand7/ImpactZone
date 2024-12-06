@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems } from '../../redux/actions/InventorySettings/catalogItemsAction';
 import { useEffect } from 'react';
+import { getCatalogItems } from '../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const useCatalogItems = () => {
     const dispatch = useDispatch();

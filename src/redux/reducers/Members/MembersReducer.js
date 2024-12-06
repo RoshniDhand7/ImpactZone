@@ -6,6 +6,7 @@ const intitalState = {
     agreement: [],
     services: [],
     checkIn: [],
+    notes: [],
 };
 
 const membersPortalReducer = (state = intitalState, action) => {
@@ -49,6 +50,11 @@ const membersPortalReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 checkIn: action.payload,
+            };
+        case types.MEMBER.NOTES:
+            return {
+                ...state,
+                notes: action.payload,
             };
         default:
             return { ...state };

@@ -198,6 +198,7 @@ const Personal = () => {
                             <CustomListItem name="socialSecurity" data={data} />
                             <CustomListItem name="occupation" data={data} />
                             <CustomListItem name="employeer" data={data} />
+                            <CustomListItem name="prepayBalance" value={`$${data?.prepayBalance}`} data={data} />
                         </CustomCard>
                         <CustomCard
                             title="Demographics "

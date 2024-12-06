@@ -26,11 +26,11 @@ import CustomPickList from '../../../../shared/Input/CustomPickList';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { addCatalogItem, editCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
 
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { calculateFinalAmount, calculateNetAmount, percentageDifference } from '../../../../utils/taxHelpers';
+import { addCatalogItem, editCatalogItem } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const General = ({ editItem }) => {
     const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const General = ({ editItem }) => {
                 unitPrice: editItem.unitPrice,
                 defaultPrice: editItem.defaultPrice,
                 allowDiscount: editItem.allowDiscount,
-                defaultDiscount: editItem.allowDiscount ? editItem.defaultDiscount || 'None' : data.defaultDiscount,
+                defaultDiscount: editItem.allowDiscount ? editItem.defaultDiscount || 'NONE' : data.defaultDiscount,
                 overrideDiscount: editItem.overrideDiscount,
                 minimumQuantity: editItem.minimumQuantity,
                 defaultQuantity: editItem.defaultQuantity,
@@ -137,6 +137,7 @@ const General = ({ editItem }) => {
                 tags: editItem.tags,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editItem]);
 
     //Net Price, Unit price and taxs calculations

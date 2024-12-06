@@ -5,6 +5,7 @@ import MembershipReducer from './MembershipReducer';
 import AgreementReducer from './AgreementReducer';
 import businessReducer from './BusinessReducer';
 import scheduleReducer from './ScheduleReducer';
+import employeeReducer from './EmployeeReducer';
 
 export default combineReducers({
     pos: PosReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
     agreement: AgreementReducer,
     business: businessReducer,
     schedule: scheduleReducer,
+    employee: employeeReducer,
 });

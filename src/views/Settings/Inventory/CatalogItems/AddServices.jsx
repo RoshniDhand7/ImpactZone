@@ -5,7 +5,7 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
+import { getCatalogItems } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const AddServices = ({ data, setData, id, loading, type, name }) => {
     const [open, setOpen] = useState(false);

@@ -4,11 +4,11 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete, truncateDescription } from '../../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
-import { deleteCategory } from '../../../../redux/actions/InventorySettings/categoriesAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import useCategory from '../../../../hooks/Inventory/useCategory';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteCategory } from '../../../../redux/actions/Settings/InventorySetup/categoriesAction';
 
 export default function Categories() {
     const history = useHistory();

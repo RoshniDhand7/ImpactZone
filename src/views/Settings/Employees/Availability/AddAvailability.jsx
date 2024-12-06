@@ -38,7 +38,7 @@ const AddAvailability = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
-    const { allEmployees } = useEmployees();
+    const { employees } = useEmployees();
     const calendarRef = useRef(null);
     useEffect(() => {
         if (id) {
@@ -56,17 +56,17 @@ const AddAvailability = () => {
 
     const { employeeClubs, availability } = useSelector((state) => state?.employeeAvailability);
     const employeeOptions = useMemo(
-        () => allEmployees.map((item) => ({ name: `${item.firstName} ${item?.middleInitial} ${item?.lastName}`, value: item?._id })),
-        [allEmployees],
+        () => employees.map((item) => ({ name: `${item.firstName} ${item?.middleInitial} ${item?.lastName}`, value: item?._id })),
+        [employees],
     );
 
     const suggestions = useMemo(
         () =>
-            allEmployees.map((item) => ({
+            employees.map((item) => ({
                 value: item._id,
                 name: `${item.firstName} ${item?.middleInitial} ${item?.lastName}`,
             })),
-        [allEmployees],
+        [employees],
     );
 
     useEffect(() => {

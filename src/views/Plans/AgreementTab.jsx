@@ -7,7 +7,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
-import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
@@ -17,6 +16,7 @@ import useCancelSellPlans from '../../hooks/useCancelSellPlans';
 import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 import { getMembersipTypes } from '../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 import { getCampaigns } from '../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getEmployees } from '../../redux/actions/Settings/Employee/employeesAction';
 
 const AgreementTab = ({ onTabEnable }) => {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const AgreementTab = ({ onTabEnable }) => {
 
     let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
 
-    const { employeesDropdown } = useSelector((state) => state.employees);
+    const { employeesDropdown } = useSelector((state) => state.settings.employee);
     const { campaignDropdown } = useSelector((state) => state.settings.members);
 
     const handleChange = ({ name, value }) => {

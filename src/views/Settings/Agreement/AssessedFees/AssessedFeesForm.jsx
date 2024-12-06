@@ -3,7 +3,6 @@ import FormPage from '../../../../shared/Layout/FormPage';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import formValidation from '../../../../utils/validations';
 import { CustomDropDown, CustomInput, CustomInputNumber, CustomInputSwitch } from '../../../../shared/Input/AllInputs';
-import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { assessedTypeOptions, daysOptions, declineDaysOptions, monthDropdownOptions, preferedDueDay, yesNoOptions } from '../../../../utils/dropdownConstants';
 import CustomPickList from '../../../../shared/Input/CustomPickList';
@@ -12,6 +11,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { addAssessedFee, editAssessedFee, getAssesedFees, getAssessedFee } from '../../../../redux/actions/Settings/AgreementSetup/assessedFeeAction';
+import { getProfitCenters } from '../../../../redux/actions/Settings/InventorySetup/profitCenterAction';
 
 const AssessedFeesForm = () => {
     const dispatch = useDispatch();

@@ -7,16 +7,16 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { confirmDelete } from '../../../../utils/commonFunctions';
+import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
+import { showToast } from '../../../../redux/actions/toastAction';
 import {
     deleteAllCatalogVariation,
     deleteCatalogVariation,
     editSubVariationCatalog,
     getCatalogVariations,
-} from '../../../../redux/actions/InventorySettings/catalogItemsAction';
-import { useParams } from 'react-router-dom';
-import { confirmDelete } from '../../../../utils/commonFunctions';
-import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
-import { showToast } from '../../../../redux/actions/toastAction';
+} from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const Variations = ({ editItem }) => {
     const dispatch = useDispatch();

@@ -4,7 +4,6 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
-import { deleteCommissionGroups } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import FilterComponent from '../../../../components/FilterComponent';
@@ -12,6 +11,7 @@ import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllI
 import { ActiveFilterDropdown, catalogProductTypeOptions } from '../../../../utils/dropdownConstants';
 import useCommissionGroup from '../../../../hooks/Inventory/useCommissionGroup';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
+import { deleteCommissionGroups } from '../../../../redux/actions/Settings/InventorySetup/commissionGroupAction';
 
 export default function CommissionGroup() {
     const history = useHistory();

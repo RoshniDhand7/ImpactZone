@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
+import { getEmployees } from '../../redux/actions/Settings/Employee/employeesAction';
 import { useEffect } from 'react';
 
 const useEmployees = () => {
@@ -9,8 +9,8 @@ const useEmployees = () => {
         dispatch(getEmployees());
     }, [dispatch]);
 
-    const { employeesDropdown, allEmployees } = useSelector((state) => state.employees);
-    return { employeesDropdown, allEmployees };
+    const { employeesDropdown, employees } = useSelector((state) => state.settings.employee);
+    return { employeesDropdown, employees };
 };
 
 export default useEmployees;

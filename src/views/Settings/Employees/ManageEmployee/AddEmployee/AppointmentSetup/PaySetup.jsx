@@ -14,9 +14,9 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import formValidation from '../../../../../../utils/validations';
 import AddandEditAppointmentPay from './AddandEditAppointmentPay';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import { getLevels } from '../../../../../../redux/actions/Settings/ScheduleSetup/levelActions';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const PaySetup = () => {
     const dispatch = useDispatch();
@@ -117,7 +117,7 @@ const PaySetup = () => {
         dispatch(getEmployeesFilterType('appointment'));
     }, [dispatch]);
 
-    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    let { allEmployeesFilter } = useSelector((state) => state.settings.employee);
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);

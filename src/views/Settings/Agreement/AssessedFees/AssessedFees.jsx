@@ -7,12 +7,12 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
-import { getProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import { deleteAssessedFee, getAssesedFees } from '../../../../redux/actions/Settings/AgreementSetup/assessedFeeAction';
+import { getProfitCenters } from '../../../../redux/actions/Settings/InventorySetup/profitCenterAction';
 
 const AssessedFees = () => {
     const history = useHistory();

@@ -6,11 +6,11 @@ import placeholder from '../../../assets/images/placeholder.png';
 import { getImageURL } from '../../../utils/imageUrl';
 import { useMemo } from 'react';
 import FilterPopup from './FilterPopup';
-import { getFilterSets } from '../../../redux/actions/InventorySettings/filterSetsAction';
-import { getTags } from '../../../redux/actions/InventorySettings/tagAction';
 import { roundOfNumber } from '../../../utils/taxHelpers';
 import CustomAnimatedCard from '../../../shared/Transitions/CustomAnimatedCard';
 import { getCatalogItems } from '../../../redux/actions/POS/catalogActions';
+import { getFilterSets } from '../../../redux/actions/Settings/InventorySetup/filterSetsAction';
+import { getTags } from '../../../redux/actions/Settings/InventorySetup/tagAction';
 
 export default function CatalogItems({ selectedCategory, onSelectProduct }) {
     let posCatalog = useSelector((state) => state.pos.catalogs);

@@ -3,9 +3,9 @@ import CustomCard from '../../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../../shared/Button/CustomButton';
 import CustomPickList from '../../../../../shared/Input/CustomPickList';
 import { useDispatch } from 'react-redux';
-import { editEmployee, getEmployee } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useHistory, useParams } from 'react-router-dom';
 import useGetClubs from '../../../../../hooks/useGetClubs';
+import { editEmployee, getEmployee } from '../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const Clubs = () => {
     const dispatch = useDispatch();

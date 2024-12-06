@@ -16,10 +16,10 @@ import CustomTable from '../../../../../../shared/Table/CustomTable';
 import formValidation from '../../../../../../utils/validations';
 import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFunctions';
 import { getEmployeeSalesItem } from '../../../../../../redux/actions/EmployeeSettings/salesCommssionAction';
-import { getCatalogItems } from '../../../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { getEvents } from '../../../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
-import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
+import { getCatalogItems } from '../../../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const BonusSetup = ({ type }) => {
     const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const BonusSetup = ({ type }) => {
         dispatch(getEmployeesFilterType(type === 'appointment' ? 'appointment' : 'salesCommission'));
     }, [dispatch, type]);
 
-    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    let { allEmployeesFilter } = useSelector((state) => state.settings.employee);
 
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
     const handleInputChange = ({ name, value }) => {

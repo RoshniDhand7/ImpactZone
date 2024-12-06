@@ -1,6 +1,6 @@
 import React from 'react';
-import { getEmployees } from '../../../../../redux/actions/EmployeeSettings/employeesAction';
 import { useDispatch } from 'react-redux';
+import { getEmployees } from '../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const CustomDialogComponent = ({ openSimilar, setOpenSimilarTo, loading, handleSave, data1, filterCriteriaType }) => {
     const dispatch = useDispatch();
@@ -8,8 +8,8 @@ const CustomDialogComponent = ({ openSimilar, setOpenSimilarTo, loading, handleS
         dispatch(getEmployees());
     }, [dispatch]);
 
-    let { allEmployees } = useSelector((state) => state.employees);
-    allEmployees = allEmployees?.filter((item) => item._id !== id);
+    let { employees } = useSelector((state) => state.settings.employee);
+    employees = employees?.filter((item) => item._id !== id);
 
     const handleInputChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data1);
@@ -19,14 +19,14 @@ const CustomDialogComponent = ({ openSimilar, setOpenSimilarTo, loading, handleS
     const filterEmployees = (criteria) => {
         switch (criteria) {
             case 'class':
-                return allEmployees
+                return employees
                     .filter((employee) => employee.pay > 50000) // Example condition for pay
                     .map((item) => ({
                         name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
                         value: { id: item._id, pay: item.pay },
                     }));
             case 'appointment':
-                return allEmployees
+                return employees
                     .filter((employee) => new Date(employee.appointmentDate) > new Date('2022-01-01'))
                     .map((item) => ({
                         name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
@@ -34,7 +34,7 @@ const CustomDialogComponent = ({ openSimilar, setOpenSimilarTo, loading, handleS
                     }));
             case 'employee':
             default:
-                return allEmployees.map((item) => ({
+                return employees.map((item) => ({
                     name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
                     value: { id: item._id, employeeClassData: item.employeeClassData },
                 }));

@@ -8,8 +8,8 @@ import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { amountTypeOptions } from '../../../../utils/dropdownConstants';
-import { addReferralGroups, editReferralGroups, getReferralGroup } from '../../../../redux/actions/InventorySettings/referralGroupAction';
 import SelectCatalogItems from '../CatalogItems/SelectCatalogItems';
+import { addReferralGroups, editReferralGroups, getReferralGroup } from '../../../../redux/actions/Settings/InventorySetup/referralGroupAction';
 
 const ReferralGroupForm = () => {
     const history = useHistory();

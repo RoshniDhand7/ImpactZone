@@ -8,8 +8,8 @@ import { useDispatch } from 'react-redux';
 import formValidation from '../../../../utils/validations';
 import { showFormErrors } from '../../../../utils/commonFunctions';
 import { catalogProductTypeOptions } from '../../../../utils/dropdownConstants';
-import { addCommissionGroups, editCommissionGroups, getCommissionGroup } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
 import SelectCatalogItems from '../CatalogItems/SelectCatalogItems';
+import { addCommissionGroups, editCommissionGroups, getCommissionGroup } from '../../../../redux/actions/Settings/InventorySetup/commissionGroupAction';
 
 const CommissionGroupForm = () => {
     const history = useHistory();

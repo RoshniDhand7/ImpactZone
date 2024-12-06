@@ -16,15 +16,15 @@ import formValidation from '../../../../utils/validations';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { getEvents, getServicesEvents } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { convertToDateTime, showArrayFormErrors, showFormErrors } from '../../../../utils/commonFunctions';
-import { getEmployeePay, getEmployees } from '../../../../redux/actions/EmployeeSettings/employeesAction';
 import { types } from '../../../../redux/types/types';
 import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/Settings/ScheduleSetup/eventClassesAction';
+import { getEmployeePay, getEmployees } from '../../../../redux/actions/Settings/Employee/employeesAction';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const { allEmployees, employeePayType } = useSelector((state) => state.employees);
+    const { employees, employeePayType } = useSelector((state) => state.settings.employee);
 
     const [data, setData] = useState({
         event: '',
@@ -106,10 +106,10 @@ const EventClassesForm = () => {
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, dispatch, allEmployees, eventClasses]);
+    }, [id, dispatch, employees, eventClasses]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
-        const employeeWithLevel = allEmployees.find((employee) => employee._id === assistantId);
+        const employeeWithLevel = employees.find((employee) => employee._id === assistantId);
         if (employeeWithLevel) {
             const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));
             const uniquePayTypeOptions = payTypeOptions.filter((option, index, self) => index === self.findIndex((t) => t.value === option.value));
@@ -175,7 +175,7 @@ const EventClassesForm = () => {
 
     const eventLevels = servicesEvents && servicesEvents?.EventService?.map((item) => item.eventLevel?._id);
 
-    const employeesWithLevel = allEmployees
+    const employeesWithLevel = employees
         .filter((employee) => {
             return employee.employeeClassData.some((classData) => eventLevels?.includes(classData.isClassLevel));
         })
@@ -201,7 +201,7 @@ const EventClassesForm = () => {
             let defaultPay = employeePayType?.employeeClassData?.find((item) => item.isDefaultPay);
             setData((prev) => ({ ...prev, payType: defaultPay ? defaultPay.payType : null }));
         }
-    }, [employeePayType, allEmployees]);
+    }, [employeePayType, employees]);
 
     const handleChangeDynamicField = async ({ name, value, customIndex, fieldName }) => {
         const _newData = { ...data };
@@ -225,7 +225,7 @@ const EventClassesForm = () => {
 
         if (name === 'assistant') {
             const selectedAssistant = value;
-            const employeeWithLevel = allEmployees.find((employee) => employee._id === selectedAssistant);
+            const employeeWithLevel = employees.find((employee) => employee._id === selectedAssistant);
 
             if (employeeWithLevel) {
                 const payTypeOptions = employeeWithLevel.employeeClassData.map((item) => ({ name: item.label, value: item.payType }));

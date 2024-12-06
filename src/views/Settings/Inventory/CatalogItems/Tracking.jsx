@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { getReferralGroups } from '../../../../redux/actions/InventorySettings/referralGroupAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputNumber, CustomTextArea } from '../../../../shared/Input/AllInputs';
 import CustomCard, { CustomGridLayout } from '../../../../shared/Cards/CustomCard';
-import { getVendors } from '../../../../redux/actions/InventorySettings/vendorsAction';
-import { getCommissionGroups } from '../../../../redux/actions/InventorySettings/commissionGroupAction';
 import { yesNoOptions } from '../../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { showFormErrors } from '../../../../utils/commonFunctions';
-import { editCatalogItem } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import formValidation from '../../../../utils/validations';
+import { editCatalogItem } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
+import { getCommissionGroups } from '../../../../redux/actions/Settings/InventorySetup/commissionGroupAction';
+import { getReferralGroups } from '../../../../redux/actions/Settings/InventorySetup/referralGroupAction';
+import { getVendors } from '../../../../redux/actions/Settings/InventorySetup/vendorsAction';
 
 const Tracking = ({ editItem }) => {
     const dispatch = useDispatch();

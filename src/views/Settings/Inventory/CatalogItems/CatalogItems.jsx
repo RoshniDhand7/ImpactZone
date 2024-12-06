@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addCatalogItem, deleteCatalogItem, getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import { confirmDelete, showFormErrors } from '../../../../utils/commonFunctions';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
@@ -13,6 +12,7 @@ import useFilters from '../../../../hooks/useFilters';
 import CatalogFilters from './CatalogFilters';
 import useCatalogItems from '../../../../hooks/Inventory/useCatalogItems';
 import { roundOfNumber } from '../../../../utils/taxHelpers';
+import { addCatalogItem, deleteCatalogItem, getCatalogItems } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const CatalogItems = () => {
     const history = useHistory();

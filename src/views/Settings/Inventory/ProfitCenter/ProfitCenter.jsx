@@ -4,11 +4,11 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
-import { deleteProfitCenters } from '../../../../redux/actions/InventorySettings/profitCenterAction';
 import useFilters from '../../../../hooks/useFilters';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useProfitCenters from '../../../../hooks/Inventory/useProfitCenters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
+import { deleteProfitCenters } from '../../../../redux/actions/Settings/InventorySetup/profitCenterAction';
 
 export default function ProfitCenter() {
     const history = useHistory();

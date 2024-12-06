@@ -21,7 +21,7 @@ const Services = () => {
         { field: 'primaryPhone', header: 'Receipt#', body: () => '#RC3234' },
         { field: 'netPrice', header: 'Price', body: (r) => '$' + r.netPrice },
         { field: 'primaryPhone', header: 'Expiration Date', body: () => '-' },
-        { field: 'primaryPhone', header: 'Sessions Purchased', body: () => '-' },
+        { field: 'sessionPurchase', header: 'Sessions Purchased' },
         { field: 'primaryPhone', header: 'Sessions Completed', body: () => '-' },
         { field: 'primaryPhone', header: 'Pending Sessions', body: () => '-' },
         { field: 'primaryPhone', header: 'Remaining Sessions', body: () => '-' },

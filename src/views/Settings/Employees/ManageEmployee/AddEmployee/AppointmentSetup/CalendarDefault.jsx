@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../../shared/Table/CustomTable';
 import { getEmployeeAppointmentPay } from '../../../../../../redux/actions/EmployeeSettings/appointmentAction';
 import { useParams } from 'react-router-dom';
-import { CalendarDefaultSorting } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
+import { CalendarDefaultSorting } from '../../../../../../redux/actions/Settings/Employee/employeesAction';
 
 const CalendarDefault = () => {
     const dispatch = useDispatch();

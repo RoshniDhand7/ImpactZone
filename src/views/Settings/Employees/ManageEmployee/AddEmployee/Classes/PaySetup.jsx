@@ -15,9 +15,9 @@ import { confirmDelete, showFormErrors } from '../../../../../../utils/commonFun
 import { CustomDropDown, CustomInputSwitch, CustomMultiselect } from '../../../../../../shared/Input/AllInputs';
 import PrimaryButton from '../../../../../../shared/Button/CustomButton';
 import CustomDialog from '../../../../../../shared/Overlays/CustomDialog';
-import { getEmployeesFilterType } from '../../../../../../redux/actions/EmployeeSettings/employeesAction';
 import formValidation from '../../../../../../utils/validations';
 import { getLevels } from '../../../../../../redux/actions/Settings/ScheduleSetup/levelActions';
+import { getEmployeesFilterType } from '../../../../../../redux/actions/Settings/Employee/employeesAction';
 
 export default function PaySetup() {
     const dispatch = useDispatch();
@@ -76,7 +76,7 @@ export default function PaySetup() {
         dispatch(getEmployeesFilterType('class'));
     }, [dispatch]);
 
-    let { allEmployeesFilter } = useSelector((state) => state.employees);
+    let { allEmployeesFilter } = useSelector((state) => state.settings.employee);
     allEmployeesFilter = allEmployeesFilter?.filter((item) => item._id !== id);
 
     const onEdit = (id) => {

@@ -4,7 +4,6 @@ import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask, Cust
 import { LeadPriorityOptions, genderOptions, memberTypeOptions } from '../../utils/dropdownConstants';
 import CustomImageInput from '../../shared/Input/CustomImageInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployees } from '../../redux/actions/EmployeeSettings/employeesAction';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 import debounce from 'lodash.debounce';
 import { showFormErrors } from '../../utils/commonFunctions';
@@ -14,8 +13,8 @@ import usePlacesAutocomplete from './usePlacesAutoComplete';
 import api from '../../services/api';
 import endPoints from '../../services/endPoints';
 import { addMembers, getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
-import { getDefaultMembershipPlan, getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 import { getCampaigns } from '../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getEmployees } from '../../redux/actions/Settings/Employee/employeesAction';
 
 const AddMembers = () => {
     const [data, setData] = useState({
@@ -42,8 +41,6 @@ const AddMembers = () => {
         tourOn: '',
         startOn: '',
         beginOn: '',
-        expireOn: '',
-        agreementPlan: '',
 
         uniqueBarCode: false,
     });
@@ -53,29 +50,11 @@ const AddMembers = () => {
     useEffect(() => {
         dispatch(getEmployees());
         dispatch(getCampaigns());
-        dispatch(getMembershipPlans());
     }, [dispatch]);
 
-    useEffect(() => {
-        dispatch(
-            getDefaultMembershipPlan((data1) => {
-                if (data1?.agreementPlan && data?.createType === 'PROSPECT') {
-                    setData((prev) => ({ ...prev, agreementPlan: data1.agreementPlan }));
-                } else {
-                    setData((prev) => ({ ...prev, agreementPlan: '' }));
-                }
-            }),
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data?.createType]);
-
-    const { employeesDropdown } = useSelector((state) => state.employees);
+    const { employeesDropdown } = useSelector((state) => state.settings.employee);
     const { campaignDropdown } = useSelector((state) => state.settings.members);
-    let { agreementPlans } = useSelector((state) => state.settings.agreement);
     const loading = useSelector((state) => state.loader.isLoading);
-
-    const prospectAgreement = agreementPlans?.filter((item) => item.isOneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
-    const memberagreement = agreementPlans?.filter((item) => !item.isOneTimePlan)?.map((item) => ({ name: item.name, value: item._id }));
 
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
@@ -142,14 +121,7 @@ const AddMembers = () => {
                     <CustomGridLayout extraClass="col-10">
                         <CustomDropDown col="4" name="createType" data={data} onChange={handleChange} required options={memberTypeOptions} />
                         <CustomInputNumber col="4" name="barCode" data={data} onChange={handleChange} required />
-                        <CustomDropDown
-                            col="4"
-                            name="agreementPlan"
-                            data={data}
-                            required
-                            onChange={handleChange}
-                            options={data?.createType === 'PROSPECT' ? prospectAgreement : memberagreement}
-                        />
+
                         {data?.createType === 'PROSPECT' && <CustomTextArea name="note" data={data} onChange={handleChange} />}
                     </CustomGridLayout>
                 </CustomGridLayout>
@@ -192,7 +164,6 @@ const AddMembers = () => {
                     {data?.createType === 'PROSPECT' && <CustomCalenderInput name="tourOn" data={data} onChange={handleChange} />}
                     <CustomCalenderInput name="firstVisit" data={data} onChange={handleChange} />
                     <CustomCalenderInput name="beginOn" required data={data} onChange={handleChange} maxDate={data.expiration} />
-                    <CustomCalenderInput name="expireOn" required data={data} onChange={handleChange} minDate={data.begin} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomButtonGroup>

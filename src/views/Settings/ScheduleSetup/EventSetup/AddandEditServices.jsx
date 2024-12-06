@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomCard, { CustomFilterCard1, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../../shared/Button/CustomButton';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import { getCatalogItems } from '../../../../redux/actions/InventorySettings/catalogItemsAction';
 import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { useHistory, useParams } from 'react-router-dom';
 import { confirmDelete, getIds, showFormErrors } from '../../../../utils/commonFunctions';
@@ -18,6 +17,7 @@ import {
     getServicesEvents,
 } from '../../../../redux/actions/Settings/ScheduleSetup/eventsActions';
 import { getLevels } from '../../../../redux/actions/Settings/ScheduleSetup/levelActions';
+import { getCatalogItems } from '../../../../redux/actions/Settings/InventorySetup/catalogItemsAction';
 
 const AddandEditServices = () => {
     const dispatch = useDispatch();

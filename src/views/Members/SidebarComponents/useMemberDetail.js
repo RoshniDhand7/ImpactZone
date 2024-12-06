@@ -35,6 +35,7 @@ const useMemberDetail = () => {
         newAccessCode: '',
         accessCode: '',
         reAccessCode: '',
+        prepayBalance: '',
         text: {
             membership: false,
             services: false,
@@ -86,6 +87,7 @@ const useMemberDetail = () => {
                     services: memberData?.promotional?.services,
                     booking: memberData?.promotional?.booking,
                 },
+                prepayBalance: memberData?.prepayBalance,
             });
         }
     }, [memberData]);

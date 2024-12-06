@@ -165,6 +165,31 @@ const getDocumentView = (id, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const getNotes = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.NOTES, null, { memberId: id });
+    if (res.success) {
+        dispatch({
+            type: types.MEMBER.NOTES,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+const addMemberNotes = (id, data, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.MEMBERS_V2.NOTES + id, data);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 
 export {
     getMembers,
@@ -178,4 +203,6 @@ export {
     getAgreementView,
     addMemberDocuments,
     getDocumentView,
+    getNotes,
+    addMemberNotes,
 };

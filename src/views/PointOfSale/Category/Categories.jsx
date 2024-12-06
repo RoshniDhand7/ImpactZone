@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../../redux/actions/InventorySettings/categoriesAction';
+import { getCategories } from '../../../redux/actions/Settings/InventorySetup/categoriesAction';
 
 export default function Categories({ active, setActive }) {
     const { allCategory } = useSelector((state) => state.category);
