@@ -18,7 +18,7 @@ const Notes = () => {
         { field: 'createdAt', body: (r) => moment(r?.createdAt).format('MMMM-DD-YYYY'), header: 'Date' },
         { field: 'createdAt', body: (r) => moment(r?.createdAt).format('hh:mm A'), header: 'Time' },
         { field: 'name', header: 'Text' },
-        { field: 'member', header: 'User' },
+        { field: 'employee', header: 'User' },
     ];
 
     useEffect(() => {
