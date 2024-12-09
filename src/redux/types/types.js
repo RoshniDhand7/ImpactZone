@@ -109,6 +109,7 @@ export const types = {
     //more
 
     CHANGE_DRAWERS: 'CHANGE_DRAWERS',
+    CHANGE_CLUB: 'CHANGE_CLUB',
 
     // Members
 
@@ -187,7 +188,9 @@ export const types = {
         },
         MANAGE_EMPLOYEE: {
             GENERAL: 'GENERAL',
+            DEPARTMENT: 'DEPARTMENT',
         },
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
+    CHANGE_TASK: 'CHANGE_TASK',
 };

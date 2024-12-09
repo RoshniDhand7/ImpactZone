@@ -46,6 +46,7 @@ const endPoints = {
         },
         MANAGE_EMPLOYEE: {
             GENERAL: '/settings/manage-employee/general/',
+            DEPARTMENT: '/settings/manage-employee/department/',
         },
     },
     POS: {
@@ -172,5 +173,9 @@ const endPoints = {
     RESOURCE_RESERVE: '/check-in/resources/',
     RESOURCES_RETURN: '/check-in/resources/return/',
     RESOURCES_LIST: '/check-in/resources/',
+
+    //Task
+
+    TASK: '/task/',
 };
 export default endPoints;

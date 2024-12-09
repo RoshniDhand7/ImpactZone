@@ -2,9 +2,11 @@ import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { showToast } from '../../toastAction';
 
-//Departments Assigned to Employees
-const getEmployeeDepartments = (employee, setLoading, returnData) => async (dispatch) => {
-    const res = await api('get', EndPoints.EMPLOYEE_DEPARTMENTS, '', { employee });
+const getEmployeeDepartments = (employee, setLoading, returnData) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('get', EndPoints.SETTINGS.MANAGE_EMPLOYEE.DEPARTMENT, '', { employee });
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -12,10 +14,13 @@ const getEmployeeDepartments = (employee, setLoading, returnData) => async (disp
             }
         }
     }
+    if (setLoading) {
+        setLoading(false);
+    }
 };
 const addEmployeeDepartment = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);
-    const res = await api('post', EndPoints.EMPLOYEE_DEPARTMENTS, data);
+    const res = await api('post', EndPoints.SETTINGS.MANAGE_EMPLOYEE.DEPARTMENT, data);
     if (res.success) {
         next();
     } else {
@@ -25,7 +30,7 @@ const addEmployeeDepartment = (data, setLoading, next) => async (dispatch) => {
 };
 const editEmployeeDepartment = (id, data, setLoading, next) => async (dispatch) => {
     setLoading(true);
-    const res = await api('put', EndPoints.EMPLOYEE_DEPARTMENTS + id, data);
+    const res = await api('put', EndPoints.SETTINGS.MANAGE_EMPLOYEE.DEPARTMENT + id, data);
     if (res.success) {
         next();
     } else {
@@ -35,7 +40,7 @@ const editEmployeeDepartment = (id, data, setLoading, next) => async (dispatch) 
 };
 
 const deleteEmployeeDepartment = (id, next) => async (dispatch) => {
-    const res = await api('delete', EndPoints.EMPLOYEE_DEPARTMENTS + id);
+    const res = await api('delete', EndPoints.SETTINGS.MANAGE_EMPLOYEE.DEPARTMENT + id);
     if (res.success) {
         next();
     } else {

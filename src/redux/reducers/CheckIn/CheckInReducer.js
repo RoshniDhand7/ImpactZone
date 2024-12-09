@@ -4,6 +4,7 @@ const intitalState = {
     getCheckInHistory: [],
     recentCheckIn: [],
     resourceList: [],
+    task: [],
 };
 
 const checkInReducer = (state = intitalState, action) => {
@@ -27,6 +28,11 @@ const checkInReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 resourceList: action.payload,
+            };
+        case types.CHANGE_TASK:
+            return {
+                ...state,
+                task: action.payload,
             };
         default:
             return { ...state };

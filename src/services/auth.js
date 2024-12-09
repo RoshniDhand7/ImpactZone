@@ -17,6 +17,15 @@ export const getMyId = () => {
         return decoded.userId;
     }
 };
+
+export const getMyClub = () => {
+    const club = localStorage.getItem('club');
+    console.log(club, 'club');
+    if (club) {
+        return club;
+    }
+};
+
 export const authenticate = (authToken, next) => {
     if (typeof window !== 'undefined') {
         localStorage.setItem('authToken', JSON.stringify(authToken));

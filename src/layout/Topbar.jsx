@@ -7,12 +7,15 @@ import { Menu } from 'primereact/menu';
 import { useEffect } from 'react';
 import { logout } from '../services/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProfile } from '../redux/actions/profileAction';
+import { getProfile, onClubAction } from '../redux/actions/profileAction';
 import { Tooltip } from 'primereact/tooltip';
 import Search from './Search';
 import ClockInOutModal from './ClockInOutModal';
 import CustomAvatar from '../shared/Avatar/Avatar';
 import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
+import ChangeClub from './ChangeClub';
+import useGetClubs from '../hooks/useGetClubs';
+import Task from '../views/CheckIn/Task';
 
 export default function TopBar() {
     const dispatch = useDispatch();
@@ -107,6 +110,28 @@ export default function TopBar() {
 
     const [openModal, setOpenModal] = useState(false);
     const [openClockModal, setOpenClockModal] = useState(false);
+    const [openClub, setOpenClub] = useState(false);
+    const [openTask, setOpenTask] = useState(false);
+    const { clubsDropdown } = useGetClubs();
+
+    useEffect(() => {
+        if (clubsDropdown?.length) {
+            let _club = localStorage.getItem('club');
+            if (_club) {
+                if (clubsDropdown.find((item) => item.value === _club)) {
+                    dispatch(onClubAction(_club));
+                } else {
+                    dispatch(onClubAction(clubsDropdown?.[0]?.value));
+                    localStorage.setItem('club', clubsDropdown?.[0]?.value);
+                }
+            } else {
+                dispatch(onClubAction(clubsDropdown?.[0]?.value));
+                localStorage.setItem('club', clubsDropdown?.[0]?.value);
+            }
+        }
+    }, [clubsDropdown, dispatch]);
+
+    const { club } = useSelector((state) => state.profile);
 
     let iconItems = [
         {
@@ -125,6 +150,7 @@ export default function TopBar() {
         },
         {
             icon: 'pi pi-calendar-plus',
+            command: () => setOpenTask(true),
         },
         {
             icon: 'pi pi-clock',
@@ -145,14 +171,19 @@ export default function TopBar() {
         <div className="flex justify-content-between">
             <Search openModal={openModal} setOpenModal={setOpenModal} />
             <ClockInOutModal openClockModal={openClockModal} setOpenClockModal={setOpenClockModal} />
+            <ChangeClub openClub={openClub} setOpenClub={setOpenClub} />
+            <Task openTask={openTask} setOpenTask={setOpenTask} />
 
             <Menubar style={{ border: 'none' }} model={iconItems} />
             <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>
                 <CustomAvatar label={user?.firstName} />
-                <div className="flex">
+                <div className="">
                     <div className="flex m-2">
                         <span className="font-semibold text-base  ">{user?.firstName || 'Loading...'}</span>
                         <i className="pi pi-angle-down mt-1 px-2" />
+                    </div>
+                    <div className="ml-2">
+                        <span className="font-semibold text-sm">{clubsDropdown.find((item) => item.value === club)?.name}</span>
                     </div>
                 </div>
             </div>
@@ -163,6 +194,10 @@ export default function TopBar() {
         {
             label: 'Profile Setting',
             command: () => history.push('/profile'),
+        },
+        {
+            label: 'Switch Club',
+            command: () => setOpenClub(true),
         },
         {
             label: 'Switch User',

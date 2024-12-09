@@ -23,6 +23,20 @@ export const yesNoOptions = [
         value: false,
     },
 ];
+export const taskTypeOptions = [
+    {
+        name: 'Email',
+        value: 'EMAIL',
+    },
+    {
+        name: 'Call ',
+        value: 'CALL',
+    },
+    {
+        name: 'Member Followup ',
+        value: 'MEMBER_FOLLOWUP',
+    },
+];
 export const defaultDiscountOptions = [
     {
         name: 'None',

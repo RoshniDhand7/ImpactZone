@@ -12,6 +12,7 @@ import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
 import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
 import { showToast } from '../../redux/actions/toastAction';
 import Reserve from './Reserve';
+import AddTask from './AddTask';
 
 export default function CheckIn() {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export default function CheckIn() {
         totalNextDue: '',
         nextDueDate: '',
     });
+    const [openTask, setOpenTask] = useState(false);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -148,9 +150,15 @@ export default function CheckIn() {
                         </div>
 
                         <div className="relative">
-                            <CustomButton label="Add Task" icon="pi pi-plus" className="text-white border-1 border-surface-100" />
+                            <CustomButton
+                                label="Add Task"
+                                icon="pi pi-plus"
+                                className="text-white border-1 border-surface-100"
+                                onClick={() => setOpenTask(true)}
+                            />
                         </div>
                     </div>
+                    <AddTask openTask={openTask} setOpenTask={setOpenTask} memberId={data?.member} />
 
                     <Divider layout="vertical" className="mx-4" />
                     <div className="flex flex-column w-full">

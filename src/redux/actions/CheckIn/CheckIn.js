@@ -78,6 +78,7 @@ const resourceReserve = (id, data, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+
 const resourceReturn = (data, reserveId, next) => async (dispatch) => {
     const res = await api('post', endPoints.RESOURCES_RETURN + reserveId, {
         date: data?.reserveDate,
@@ -90,4 +91,48 @@ const resourceReturn = (data, reserveId, next) => async (dispatch) => {
     }
 };
 
-export { getCheckIn, getRecentCheckInHistory, getCheckInLast, resourceReserve, resourceReturn, getResourcesList };
+//Task
+
+const addTaskAction = (data, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.TASK, data);
+    if (res.success) {
+        if (res.data) {
+            dispatch(showToast({ severity: 'success', summary: res.message }));
+            next();
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
+const getTaskAction = () => async (dispatch) => {
+    const res = await api('get', endPoints.TASK);
+    if (res.success) {
+        if (res.data) {
+            dispatch({
+                type: types.CHANGE_TASK,
+                payload: res.data,
+            });
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+const editTaskAction = (id, data, next) => async (dispatch) => {
+    const res = await api('put', endPoints.TASK + id, data);
+    if (res.success) {
+        if (res.data) {
+            dispatch(getTaskAction());
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
+
+export { getCheckIn, getRecentCheckInHistory, getCheckInLast, resourceReserve, resourceReturn, getResourcesList, addTaskAction, getTaskAction, editTaskAction };

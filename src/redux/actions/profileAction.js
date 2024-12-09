@@ -69,5 +69,12 @@ const getProfile = (next) => async (dispatch) => {
         next();
     }
 };
-export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword, onChangePassword };
 
+const onClubAction = (club) => async (dispatch) => {
+    dispatch({
+        type: types.CHANGE_CLUB,
+        payload: club,
+    });
+};
+
+export { onLogin, getProfile, onForgotPassword, onChangeForgotPassword, onChangePassword, onClubAction };

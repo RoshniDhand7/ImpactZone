@@ -1,8 +1,10 @@
 import axios from 'axios';
 import constants from '../constants';
-import { isAuthenticated } from './auth';
+import { getMyClub, isAuthenticated } from './auth';
 
 const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'application/json') => {
+    const club = getMyClub();
+    console.log(club, 'club');
     try {
         let headers = {
             'Content-Type': contentType,
@@ -12,6 +14,7 @@ const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'a
             headers = {
                 ...headers,
                 Authorization: `Bearer ${isAuthenticated()}`,
+                club: getMyClub(),
             };
         }
         let req = data;
