@@ -3,8 +3,6 @@ import constants from '../constants';
 import { getMyClub, isAuthenticated } from './auth';
 
 const api = async (method, urlEndPoint, data = {}, params = {}, contentType = 'application/json') => {
-    const club = getMyClub();
-    console.log(club, 'club');
     try {
         let headers = {
             'Content-Type': contentType,

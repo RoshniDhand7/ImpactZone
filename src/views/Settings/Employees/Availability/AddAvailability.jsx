@@ -44,7 +44,6 @@ const AddAvailability = () => {
         if (id) {
             dispatch(
                 getAvailability(id, (res) => {
-                    console.log(res, 'res');
                     setData({
                         employee: res.employee,
                         club: res.club,
@@ -152,12 +151,8 @@ const AddAvailability = () => {
         }
     };
 
-    console.log('availability>>', availability, data?.club && Object.keys(availability)?.length > 0);
     useEffect(() => {
-        console.log('hi>>');
         if (data?.club && Object.keys(availability)?.length > 0) {
-            console.log('hi1>>');
-
             let avail = availability?.find((item) => item?.club === data?.club);
             let otherEvents = availability
                 ?.filter((item) => item?.club !== data?.club && item.events?.length > 0)
@@ -172,10 +167,7 @@ const AddAvailability = () => {
                     [],
                 );
 
-            console.log('avail>>', avail, availability, data?.club);
             if (avail && avail?.events !== data?.events) {
-                console.log('hi12>>');
-
                 setData((prev) => ({
                     ...prev,
                     trackAvailability: avail.trackAvailability,

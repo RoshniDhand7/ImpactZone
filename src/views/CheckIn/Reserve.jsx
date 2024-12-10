@@ -46,14 +46,12 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     const { resourceTypeDropdown } = useSelector((state) => state.settings.members);
 
     const pastDueTemplate = (r) => {
-        console.log(r);
         const now = new Date();
         const createdAt = new Date(r?.createdAt);
         const diffInMs = now - createdAt;
 
         const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-        console.log('diffInHours', diffInHours > r.pastDue);
         return (
             <div
                 className={`${diffInHours > r.pastDue ? 'h-1rem w-4 border-circle bg-red-500 inline-block' : 'h-1rem w-4 border-circle bg-green-500 inline-block'}`}
@@ -62,7 +60,6 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     };
 
     const handleReserveReturn = (r) => {
-        console.log(r?.status, 'status');
         if (r?.isBookedForMember) {
             dispatch(resourceReturn(data, r?.reserveId, () => dispatch(getResourcesList(data))));
         } else {
@@ -90,7 +87,6 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
     const filterhandleChange = ({ name, value }) => {
         setFilteredData((prev) => ({ ...prev, [name]: value }));
     };
-    console.log('data>>', data);
     const customActionTemplate = (r) => {
         return <PrimaryButton name="status" label={r?.isBookedForMember ? 'Return' : 'Reserve'} onClick={() => handleReserveReturn(r)} />;
     };

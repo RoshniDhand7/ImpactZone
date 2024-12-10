@@ -3,9 +3,6 @@ import { useSelector } from 'react-redux';
 
 export default function Loader() {
     const isLoading = useSelector((state) => state.loader.isLoading);
-    const isTableLoading = useSelector((state) => state.loader.isTableLoading);
-
-    console.log('isTableLoading==>', { isTableLoading, isLoading });
 
     return (
         <div className="loader-overlay" style={{ display: isLoading ? 'flex' : 'none' }}>

@@ -2,7 +2,6 @@ import moment from 'moment';
 import { CusomCardBlue } from '../../../shared/Cards/CustomCard';
 import CustomTable from '../../../shared/Table/CustomTable';
 import ProfileDetail from './ProfileDetail';
-import TopLayout from './TopLayout';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getServices } from '../../../redux/actions/MembersPortal/memberPortalActions';
@@ -31,7 +30,6 @@ const Services = () => {
     return (
         <div className="">
             <ProfileDetail />
-            <TopLayout />
             <CusomCardBlue>Purchase History</CusomCardBlue>
             <CustomTable data={tableData} columns={columns} />
         </div>

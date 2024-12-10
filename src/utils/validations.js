@@ -114,6 +114,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'discountCode':
         case 'comment':
         case 'register':
+        case 'taskTitle':
+        case 'message':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -204,6 +206,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'employee':
         case 'sellOnline':
         case 'paymentType':
+        case 'taskType':
+        case 'member':
             if (typeof value == 'boolean') {
                 formErrors[name] = '';
             } else if (!value || value === null) {

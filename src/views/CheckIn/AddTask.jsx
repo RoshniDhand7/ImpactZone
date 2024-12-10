@@ -6,6 +6,9 @@ import useEmployees from '../../hooks/Employees/useEmployees';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { useDispatch } from 'react-redux';
 import { addTaskAction } from '../../redux/actions/CheckIn/CheckIn';
+import { getTasks } from '../../redux/actions/MembersPortal/memberPortalActions';
+import formValidation from '../../utils/validations';
+import { showFormErrors } from '../../utils/commonFunctions';
 
 const AddTask = ({ openTask, setOpenTask, memberId }) => {
     const initialState = {
@@ -19,17 +22,21 @@ const AddTask = ({ openTask, setOpenTask, memberId }) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
     const { employeesDropdown } = useEmployees();
     const handleSave = () => {
-        dispatch(
-            addTaskAction({ ...data, member: memberId }, setLoading, () => {
-                setOpenTask(false);
-                setData(initialState);
-            }),
-        );
+        if (showFormErrors(data, setData)) {
+            dispatch(
+                addTaskAction({ ...data, member: memberId }, setLoading, () => {
+                    setOpenTask(false);
+                    setData(initialState);
+                    dispatch(getTasks(memberId));
+                }),
+            );
+        }
     };
     return (
         <>
@@ -41,7 +48,7 @@ const AddTask = ({ openTask, setOpenTask, memberId }) => {
                     setData(initialState);
                 }}
                 loading={loading}
-                width="auto"
+                width="60vh"
                 onSave={handleSave}
             >
                 <CustomGridLayout>

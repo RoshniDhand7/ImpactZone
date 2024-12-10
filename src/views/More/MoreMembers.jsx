@@ -26,7 +26,7 @@ export default function MoreMembers() {
         },
         {
             img: agreementsetup,
-            link: '',
+            link: '/more/members/tasks',
             title: 'Tasks',
         },
     ];

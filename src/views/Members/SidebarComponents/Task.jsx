@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import ProfileDetail from './ProfileDetail';
-import TopLayout from './TopLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTasks } from '../../../redux/actions/MembersPortal/memberPortalActions';
 import CustomTable from '../../../shared/Table/CustomTable';
@@ -21,6 +20,7 @@ const Task = () => {
         { field: 'dueDate', body: (r) => (r?.dueDate ? moment(r?.dueDate).format('MMMM-DD-YYYY') : '-'), header: 'Deadline' },
         { field: 'taskType', body: (r) => (r?.taskType ? formatLetter(r?.taskType) : '-'), header: 'Task Type' },
         { field: 'taskTitle', header: 'Title' },
+        { field: 'employee', header: 'Employee' },
         { field: 'message', header: 'Message' },
         { field: 'completedDate', body: (r) => (r?.completedDate ? moment(r?.completedDate).format('MMMM-DD-YYYY') : '-'), header: 'Date Completed' },
     ];
@@ -28,7 +28,6 @@ const Task = () => {
         <>
             <div className="">
                 <ProfileDetail />
-                <TopLayout />
                 <CustomTable data={tableData} columns={columns} />
             </div>
         </>

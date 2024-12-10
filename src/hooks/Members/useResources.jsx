@@ -11,7 +11,6 @@ const useResources = () => {
 
     const { resource } = useSelector((state) => state.settings.members);
 
-    console.log(resource);
     return { allResources: resource };
 };
 

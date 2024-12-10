@@ -8,7 +8,6 @@ import CustomDialog from '../../../../shared/Overlays/CustomDialog';
 import { getMembershipPlans } from '../../../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
 
 const AddAgreementPlan = ({ data, setData, id, loading }) => {
-    console.log(data, setData, id, loading, 'data');
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const dispatch = useDispatch();
@@ -21,7 +20,6 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
             setSelected(data?.agreementPlans);
         }
     }, [data?.agreementPlans, open, id]);
-    console.log(selected, 'selected');
 
     let { agreementPlans } = useSelector((state) => state.settings.agreement);
     agreementPlans = agreementPlans
@@ -55,7 +53,6 @@ const AddAgreementPlan = ({ data, setData, id, loading }) => {
         setData((prev) => ({ ...prev, agreementPlans: selected }));
         setOpen(false);
     };
-    console.log(selected);
 
     return (
         <>

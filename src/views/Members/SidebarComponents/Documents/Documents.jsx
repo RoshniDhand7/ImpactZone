@@ -1,5 +1,4 @@
 import ProfileDetail from '../ProfileDetail';
-import TopLayout from '../TopLayout';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -39,7 +38,6 @@ const Documents = () => {
     return (
         <div>
             <ProfileDetail />
-            <TopLayout />
             <CustomFilterCard buttonTitle="Add Documents" contentPosition="end" onClick={() => setOpenDocument(true)}></CustomFilterCard>
             <CustomTable data={documents} columns={columns} onView={handleView} />
             <AddDocument document={document} setOpenDocument={setOpenDocument} dispatch={dispatch} id={id} />

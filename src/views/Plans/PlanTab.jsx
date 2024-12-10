@@ -78,7 +78,6 @@ const PlanTab = ({ onTabEnable }) => {
     }, [id, dispatch, memberId]);
 
     const handleNext = () => {
-        console.log('data>>', data);
         if (showFormErrors(data, setData, ['services', 'membershipType', 'clubs'])) {
             if (data?.memberToSell.id) {
                 const payload = {

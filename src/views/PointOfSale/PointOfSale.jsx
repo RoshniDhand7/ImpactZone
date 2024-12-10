@@ -178,8 +178,6 @@ export default function PointOfSale2() {
         setCartItems(_cart);
     }, [selectedItems, appliedPromo]);
 
-    console.log('selectedItems==>', selectedItems);
-
     //When we add something in selected items.
     const onAddItemIntoCart = (product) => {
         const index = selectedItems.findIndex((item) => item._id === product._id && item.subVariationId === product.subVariationId);
@@ -327,6 +325,7 @@ export default function PointOfSale2() {
         if (receiptData?._id) {
             handlePrint();
         }
+        //eslint-disable-next-line
     }, [receiptData]);
 
     return (

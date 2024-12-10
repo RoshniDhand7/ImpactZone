@@ -19,8 +19,6 @@ const Resources = () => {
 
     const { resource } = useSelector((state) => state.settings.members);
 
-    console.log(resource, 'resource');
-
     const columns = [
         { field: 'name', header: 'Resource Name' },
         { field: 'resourceType', header: 'Resource Type' },

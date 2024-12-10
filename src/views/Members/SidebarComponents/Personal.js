@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout, CustomListItem } from '../../../shared/Cards/CustomCard';
 import useMemberDetail from './useMemberDetail';
-import TopLayout from './TopLayout';
 import ProfileDetail from './ProfileDetail';
 import { CustomCalenderInput, CustomCheckbox, CustomDropDown, CustomInput, CustomInputMask, CustomInputNumber } from '../../../shared/Input/AllInputs';
 import { useParams } from 'react-router-dom';
@@ -180,7 +179,6 @@ const Personal = () => {
             <div className="grid">
                 <div className="md:col-12">
                     <ProfileDetail data={memberData || {}} />
-                    <TopLayout />
                     <div className="grid">
                         <CustomCard
                             title="Personal Details "

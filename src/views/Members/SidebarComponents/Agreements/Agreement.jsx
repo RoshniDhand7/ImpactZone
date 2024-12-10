@@ -1,6 +1,5 @@
 import CustomCard, { CustomListItem } from '../../../../shared/Cards/CustomCard';
 import ProfileDetail from '../ProfileDetail';
-import TopLayout from '../TopLayout';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -37,7 +36,6 @@ const Agreement = ({ data = {} }) => {
     return (
         <div>
             <ProfileDetail />
-            <TopLayout />
             <div className="grid">
                 <CustomCard
                     title="Misc"

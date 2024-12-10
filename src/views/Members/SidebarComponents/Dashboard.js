@@ -3,7 +3,6 @@ import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
 import UserImg1 from '../../../assets/images/Frame.png';
 import { useParams } from 'react-router-dom';
 import ProfileDetail from './ProfileDetail';
-import TopLayout from './TopLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMemberData } from '../../../redux/actions/MembersPortal/memberPortalActions';
 
@@ -44,7 +43,6 @@ const Dashboard = () => {
         <div className="grid">
             <div className="md:col-8">
                 <ProfileDetail data={data || {}} />
-                <TopLayout />
                 <CustomCard title="Alerts" col={12} height="200px">
                     <p className="text-sm font-medium flex gap-2 align-items-center mb-3 text-red-600">
                         <i className="pi pi-exclamation-triangle"></i> Past Due by 35 days

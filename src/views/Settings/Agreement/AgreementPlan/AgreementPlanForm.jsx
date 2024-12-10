@@ -64,14 +64,10 @@ const AgreementPlanForm = () => {
         dispatch(getAgreementTemplates());
     }, [dispatch]);
 
-    const state = useSelector((state) => console.log(state));
-    console.log(state);
-
     const allAssessedFeesDropdown = useSelector((state) => state.settings.agreement.assessedFeesDropdown);
     const agreementTemplatesDropdown = useSelector((state) => state.settings.agreement.agreementTemplatesDropdown);
     let { agreementCategoriesDropdown, agreementCategories } = useSelector((state) => state.settings.agreement);
 
-    console.log(agreementCategories, agreementCategoriesDropdown, 'agreementCategoriesDropdown');
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
     const MembershipTypesDropdown = useSelector((state) => state.settings.members.membershipTypesDropdown);
     const { clubsDropdown } = useGetClubs();

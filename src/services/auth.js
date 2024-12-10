@@ -20,7 +20,6 @@ export const getMyId = () => {
 
 export const getMyClub = () => {
     const club = localStorage.getItem('club');
-    console.log(club, 'club');
     if (club) {
         return club;
     }

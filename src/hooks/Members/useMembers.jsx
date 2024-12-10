@@ -9,10 +9,9 @@ const useMembers = () => {
         dispatch(getMembers());
     }, [dispatch]);
 
-    let members = useSelector((state) => state.membersPortal.members);
+    let { members, allMembersDropdown } = useSelector((state) => state.membersPortal);
 
-    console.log(members);
-    return { members };
+    return { members, allMembersDropdown };
 };
 
 export default useMembers;

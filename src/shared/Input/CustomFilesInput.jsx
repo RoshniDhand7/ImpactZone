@@ -85,8 +85,6 @@ export default function CustomFilesInput({
         setFiles(newArr);
     };
 
-    console.log(files, 'files');
-
     return (
         <>
             <input

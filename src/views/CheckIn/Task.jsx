@@ -5,14 +5,14 @@ import { editTaskAction, getTaskAction } from '../../redux/actions/CheckIn/Check
 import { DataView } from 'primereact/dataview';
 import { CustomCheckbox } from '../../shared/Input/AllInputs';
 import moment from 'moment';
-import _ from 'lodash';
+import { formatLetter } from '../../utils/commonFunctions';
 
 const Task = ({ openTask, setOpenTask }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getTaskAction());
-    }, []);
+    }, [dispatch]);
 
     let task = useSelector((state) => state?.checkin?.task);
 
@@ -42,18 +42,26 @@ const Task = ({ openTask, setOpenTask }) => {
         return (
             <div className="flex">
                 <div className="mx-3 flex w-5">
-                    <div className="my-auto mr-4">{index + 1}</div>
-                    <div>
+                    <div className="mx-3">
+                        <div className="font-medium ">Deadline</div>
                         <div>{moment(item?.dueDate)?.format('MMMM-DD-YYYY')}</div>
                     </div>
                 </div>
                 <div className="mx-3">
+                    <div className="font-medium ">Task Title</div>
                     <div>{item?.taskTitle}</div>
+                </div>
+                <div className="mx-3">
+                    <div className="font-medium ">Task Type</div>
+                    <div>{formatLetter(item?.taskType)}</div>
+                </div>
+                <div className="mx-3">
+                    <div className="font-medium ">Member</div>
+                    <div>{item?.member}</div>
                 </div>
             </div>
         );
     };
-    console.log(task, 'task');
 
     return (
         <div>
@@ -64,7 +72,7 @@ const Task = ({ openTask, setOpenTask }) => {
                     setOpenTask(false);
                 }}
                 loading={false}
-                width="auto"
+                width="60vw"
             >
                 <DataView value={task} itemTemplate={itemTemplate} paginator rows={5} />
             </CustomDialog>

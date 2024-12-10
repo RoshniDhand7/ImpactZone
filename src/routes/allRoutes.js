@@ -38,7 +38,8 @@ import Receipts from '../views/More/POS/Receipts';
 import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
-
+import AddTasks from '../views/More/Members/AddTasks';
+const Tasks = lazy(() => import('../views/More/Members/Tasks'));
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 
 export const PrivateRoutes = [
@@ -172,6 +173,18 @@ export const PrivateRoutes = [
                         path: '/manage',
                         name: 'Manage Members',
                         component: AllMembers,
+                    },
+                    {
+                        path: '/tasks',
+                        name: 'Tasks',
+                        component: Tasks,
+                        exact: true,
+                    },
+                    {
+                        path: '/tasks/add',
+                        name: 'Tasks',
+                        component: AddTasks,
+                        exact: true,
                     },
                 ],
             },

@@ -29,7 +29,6 @@ const AllMembers = () => {
         { field: '', header: 'Status/Reason' },
     ];
     const { members } = useMembers();
-    console.log(members, 'members');
     const history = useHistory();
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(members);
     const initialState = {

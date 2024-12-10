@@ -1,5 +1,4 @@
 import ProfileDetail from '../ProfileDetail';
-import TopLayout from '../TopLayout';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -28,7 +27,6 @@ const Notes = () => {
     return (
         <div>
             <ProfileDetail />
-            <TopLayout />
             <CustomFilterCard buttonTitle="Add Notes" contentPosition="end" onClick={() => setOpenNotes(true)}></CustomFilterCard>
             <CustomTable data={notes} columns={columns} />
             <AddNote openNotes={openNotes} setOpenNotes={setOpenNotes} dispatch={dispatch} id={id} />

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCheckIn } from '../../../redux/actions/MembersPortal/memberPortalActions';
 import ProfileDetail from './ProfileDetail';
-import TopLayout from './TopLayout';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
@@ -29,12 +28,10 @@ const CheckIn = () => {
         { field: '', header: 'Service Employee' },
         { field: '', header: 'Staff User' },
     ];
-    console.log('hi>>');
 
     return (
         <>
             <ProfileDetail />
-            <TopLayout />
             <CustomTable data={tableData} columns={columns} />
         </>
     );

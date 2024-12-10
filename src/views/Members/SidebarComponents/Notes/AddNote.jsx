@@ -26,7 +26,6 @@ const AddNote = ({ openNotes, setOpenNotes, dispatch, id }) => {
             );
         }
     };
-    console.log(data);
     return (
         <>
             <CustomDialog

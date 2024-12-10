@@ -7,7 +7,6 @@ import { showToast } from '../toastAction';
 
 const getMemberData = (id, key) => async (dispatch, getState) => {
     const state = getState();
-    console.log(state, 'state');
     if (state.membersPortal?.dashboard?._id !== id) {
         dispatch(showLoaderAction());
     }

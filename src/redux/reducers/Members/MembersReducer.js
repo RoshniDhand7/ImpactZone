@@ -24,7 +24,7 @@ const membersPortalReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 members: action.payload,
-                allMembersDropdown: action.payload.map((item) => ({ name: item.firstName, value: item._id })),
+                allMembersDropdown: action.payload.map((item) => ({ name: `${item.firstName} ${item.MI} ${item.lastName}`, value: item._id })),
             };
         }
         case types.MEMBER.VIEW_MEMBER:
