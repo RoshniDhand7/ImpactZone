@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CustomTable from '../../shared/Table/CustomTable';
 import useMembers from '../../hooks/Members/useMembers';
-import moment from 'moment';
 import { CustomFilterCard, CustomGridLayout } from '../../shared/Cards/CustomCard';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import useFilters from '../../hooks/useFilters';
@@ -9,6 +8,7 @@ import FilterComponent from '../../components/FilterComponent';
 import { CustomInput, CustomInputMask, CustomInputNumber } from '../../shared/Input/AllInputs';
 import { useHistory, useLocation } from 'react-router-dom';
 import TableImage from '../../shared/Image/TableImage';
+import { dateConversions } from '../../utils/commonFunctions';
 
 const AllMembers = () => {
     const location = useLocation();
@@ -23,7 +23,7 @@ const AllMembers = () => {
         },
         { field: 'agreement', header: 'Agreement #' },
         { field: 'primaryPhone', header: 'Primary Phone' },
-        { field: 'dob', body: (r) => (r?.dob ? moment(r?.dob)?.format('DD/MM/YYYY') : ''), header: 'BirthDate' },
+        { field: 'dob', body: (r) => dateConversions(r?.dob), header: 'BirthDate' },
         { field: '', header: 'Membership Type' },
         { field: 'barCode', header: 'Barcode' },
         { field: '', header: 'Status/Reason' },

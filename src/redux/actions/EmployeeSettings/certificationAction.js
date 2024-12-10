@@ -1,10 +1,9 @@
-import moment from 'moment/moment';
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { hideLoaderAction, showLoaderAction } from '../loaderAction';
 import { showToast } from '../toastAction';
-import { uploadFiles } from '../../../utils/commonFunctions';
+import { dateConversions, uploadFiles } from '../../../utils/commonFunctions';
 
 const getCertificates = (id, setLoading) => async (dispatch) => {
     if (setLoading) {
@@ -39,8 +38,8 @@ const addCertificates =
 
         const payload = {
             ...data,
-            acquiredDate: moment(data.acquiredDate).format('MM/DD/YYYY'),
-            expirationDate: moment(data.expirationDate).format('MM/DD/YYYY'),
+            acquiredDate: dateConversions(data?.acquiredDate),
+            expirationDate: dateConversions(data.expirationDate),
         };
 
         const res = await api('post', EndPoints.MANAGE_EMPLOYEE_CERTIFICATES, payload);
@@ -81,8 +80,8 @@ const editCertificates =
 
         const payload = {
             ...data,
-            acquiredDate: moment(data.acquiredDate).format('MM/DD/YYYY'),
-            expirationDate: moment(data.expirationDate).format('MM/DD/YYYY'),
+            acquiredDate: dateConversions(data?.acquiredDate),
+            expirationDate: dateConversions(data?.expirationDate),
         };
         const res = await api('put', EndPoints.MANAGE_EMPLOYEE_CERTIFICATES + id, payload);
         if (res.success) {

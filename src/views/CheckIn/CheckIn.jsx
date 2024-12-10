@@ -13,6 +13,7 @@ import BarcodeScanner from '../../shared/Barcode/BarcodeScanner';
 import { showToast } from '../../redux/actions/toastAction';
 import Reserve from './Reserve';
 import AddTask from './AddTask';
+import AddAlert from './AddAlert';
 
 export default function CheckIn() {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function CheckIn() {
         nextDueDate: '',
     });
     const [openTask, setOpenTask] = useState(false);
+    const [openAlert, setOpenAlert] = useState(false);
     const handleChange = ({ name, value }) => {
         const formErrors = formValidation(name, value, data);
         setData((prev) => ({ ...prev, [name]: value, formErrors }));
@@ -165,8 +167,14 @@ export default function CheckIn() {
                         {/* <div className="alerts-container flex-1"> */}
                         <div className="flex justify-content-between align-items-center">
                             <p className="text-white text-2xl font-medium">Alerts</p>
-                            <CustomButton label="Add Alert" icon="pi pi-plus" className="text-white border-1 border-surface-100" />
+                            <CustomButton
+                                label="Add Alert"
+                                icon="pi pi-plus"
+                                className="text-white border-1 border-surface-100"
+                                onClick={() => setOpenAlert(true)}
+                            />
                         </div>
+                        <AddAlert openAlert={openAlert} setOpenAlert={setOpenAlert} memberId={data?.member} />
                         <div className="alert-list mt-2">
                             <p className="text-white text-sm">Membership expires at 15/1/2022</p>
                             <p className="text-white text-sm">Membership expires at 15/1/2022</p>

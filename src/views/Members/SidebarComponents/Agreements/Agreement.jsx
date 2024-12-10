@@ -1,13 +1,13 @@
 import CustomCard, { CustomListItem } from '../../../../shared/Cards/CustomCard';
 import ProfileDetail from '../ProfileDetail';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { getAgreements } from '../../../../redux/actions/MembersPortal/memberPortalActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { CustomCheckbox, CustomInput } from '../../../../shared/Input/AllInputs';
 import AgreementView from './AgreementView';
+import { dateConversions } from '../../../../utils/commonFunctions';
 
 const Agreement = ({ data = {} }) => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Agreement = ({ data = {} }) => {
     const columns = [
         { field: 'name', header: 'Agreement Name' },
         { field: 'agreementNo', header: 'Agreement #' },
-        { field: 'createdDate', header: 'Created Date', body: (r) => moment(r?.date).format('DD-MM-YYYY'), style: { width: '150px' } },
+        { field: 'createdDate', header: 'Created Date', body: (r) => dateConversions(r?.date), style: { width: '150px' } },
         { field: 'signedDate', header: 'Signed Date', body: () => '-' },
         { field: 'agreementTerm', header: 'Agreement Term', body: () => '-' },
         { field: 'renewalFrequency', header: 'Renewal Frequency', body: () => '-' },

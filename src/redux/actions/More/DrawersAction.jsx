@@ -1,8 +1,8 @@
-import moment from 'moment';
 import api from '../../../services/api';
 import endPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
 import { showToast } from '../toastAction';
+import { dateConversions } from '../../../utils/commonFunctions';
 
 const getDrawers = (setLoading, data) => async (dispatch) => {
     if (setLoading) {
@@ -16,8 +16,8 @@ const getDrawers = (setLoading, data) => async (dispatch) => {
             clubs: data?.clubs,
             status: data.isActive,
             employee: data?.employee,
-            fromDate: moment(data?.from).format('DD-MM-YYYY'),
-            toDate: moment(data?.to).format('DD-MM-YYYY'),
+            fromDate: dateConversions(data?.from),
+            toDate: dateConversions(data?.to),
         },
     );
     if (res.success) {

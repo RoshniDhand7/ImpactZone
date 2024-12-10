@@ -200,6 +200,17 @@ const getTasks = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const getAlerts = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.ALERT + id);
+    if (res.success) {
+        dispatch({
+            type: types.MEMBER.ALERT,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
 export {
     getMembers,
@@ -216,4 +227,5 @@ export {
     getNotes,
     addMemberNotes,
     getTasks,
+    getAlerts,
 };

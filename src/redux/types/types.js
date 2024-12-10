@@ -124,6 +124,7 @@ export const types = {
         DOCUMENTS: 'DOCUMENTS',
         NOTES: 'NOTES',
         TASK: 'TASK',
+        ALERT: 'ALERT',
     },
 
     POS: {

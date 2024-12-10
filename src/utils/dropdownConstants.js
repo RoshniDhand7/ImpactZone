@@ -37,6 +37,24 @@ export const taskTypeOptions = [
         value: 'MEMBER_FOLLOWUP',
     },
 ];
+export const colorOptions = [
+    {
+        name: 'Info',
+        value: 'INFO',
+    },
+    {
+        name: 'Success',
+        value: 'SUCCESS',
+    },
+    {
+        name: 'Warning',
+        value: 'WARNING',
+    },
+    {
+        name: 'Danger',
+        value: 'DANGER',
+    },
+];
 export const defaultDiscountOptions = [
     {
         name: 'None',

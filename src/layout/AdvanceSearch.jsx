@@ -6,8 +6,7 @@ import { CustomGridLayout } from '../shared/Cards/CustomCard';
 import PrimaryButton from '../shared/Button/CustomButton';
 import CustomDialog from '../shared/Overlays/CustomDialog';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSearchedData } from '../utils/commonFunctions';
-import moment from 'moment';
+import { dateConversions, getSearchedData } from '../utils/commonFunctions';
 import TableImage from '../shared/Image/TableImage';
 import { getMembers } from '../redux/actions/MembersPortal/memberPortalActions';
 
@@ -77,12 +76,7 @@ const AdvanceSearch = ({ openAdvanceSearch, setOpenAdvanceSearch }) => {
                     <Column field="fullName" body={(r) => r?.firstName + ' ' + r?.lastName} header="Full Name" style={{ minWidth: '12rem' }}></Column>
                     <Column field="" header="Agreement #" style={{ minWidth: '12rem' }}></Column>
                     <Column field="primaryPhone" header="Primary Phone" style={{ minWidth: '12rem' }}></Column>
-                    <Column
-                        field="dob"
-                        body={(r) => (r?.dob ? moment(r?.dob)?.format('DD/MM/YYYY') : '')}
-                        header="BirthDate"
-                        style={{ minWidth: '12rem' }}
-                    ></Column>
+                    <Column field="dob" body={(r) => (r?.dob ? dateConversions(r?.dob) : '')} header="BirthDate" style={{ minWidth: '12rem' }}></Column>
                     <Column field="" header="Membership Type" style={{ minWidth: '12rem' }}></Column>
                     <Column field="barCode" header="Barcode" style={{ minWidth: '12rem' }}></Column>
                     <Column field="" header="Status/Reason" style={{ minWidth: '12rem' }}></Column>

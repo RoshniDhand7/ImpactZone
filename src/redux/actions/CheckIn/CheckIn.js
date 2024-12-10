@@ -135,4 +135,35 @@ const editTaskAction = (id, data, next) => async (dispatch) => {
     }
 };
 
-export { getCheckIn, getRecentCheckInHistory, getCheckInLast, resourceReserve, resourceReturn, getResourcesList, addTaskAction, getTaskAction, editTaskAction };
+//Alerts
+
+const addAlertAction = (data, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.ALERT, data);
+    if (res.success) {
+        if (res.data) {
+            dispatch(showToast({ severity: 'success', summary: res.message }));
+            next();
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
+export {
+    getCheckIn,
+    getRecentCheckInHistory,
+    getCheckInLast,
+    resourceReserve,
+    resourceReturn,
+    getResourcesList,
+    addTaskAction,
+    getTaskAction,
+    editTaskAction,
+    addAlertAction,
+};

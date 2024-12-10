@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editTaskAction, getTaskAction } from '../../redux/actions/CheckIn/CheckIn';
 import { DataView } from 'primereact/dataview';
 import { CustomCheckbox } from '../../shared/Input/AllInputs';
-import moment from 'moment';
-import { formatLetter } from '../../utils/commonFunctions';
+import { formatLetter, dateConversions } from '../../utils/commonFunctions';
 
 const Task = ({ openTask, setOpenTask }) => {
     const dispatch = useDispatch();
@@ -44,7 +43,7 @@ const Task = ({ openTask, setOpenTask }) => {
                 <div className="mx-3 flex w-5">
                     <div className="mx-3">
                         <div className="font-medium ">Deadline</div>
-                        <div>{moment(item?.dueDate)?.format('MMMM-DD-YYYY')}</div>
+                        <div>{dateConversions(item.dueDate)}</div>
                     </div>
                 </div>
                 <div className="mx-3">

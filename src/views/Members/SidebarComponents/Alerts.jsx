@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import ProfileDetail from './ProfileDetail';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasks } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { getAlerts } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import ProfileDetail from './ProfileDetail';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import { dateConversions, formatLetter } from '../../../utils/commonFunctions';
 
-const Task = () => {
+const Alerts = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const tableData = useSelector((state) => state.membersPortal.tasks);
+    const tableData = useSelector((state) => state.membersPortal.alerts);
 
     useEffect(() => {
-        dispatch(getTasks(id));
+        dispatch(getAlerts(id));
     }, [dispatch, id]);
 
     const columns = [
@@ -24,13 +24,11 @@ const Task = () => {
         { field: 'completedDate', body: (r) => dateConversions(r?.completedDate), header: 'Date Completed' },
     ];
     return (
-        <>
-            <div className="">
-                <ProfileDetail />
-                <CustomTable data={tableData} columns={columns} />
-            </div>
-        </>
+        <div className="">
+            <ProfileDetail />
+            <CustomTable data={tableData} columns={columns} />
+        </div>
     );
 };
 
-export default Task;
+export default Alerts;

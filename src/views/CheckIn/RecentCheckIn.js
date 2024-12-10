@@ -8,10 +8,10 @@ import PrimaryButton from '../../shared/Button/CustomButton';
 import { CustomFilterCard } from '../../shared/Cards/CustomCard';
 import useFilters from '../../hooks/useFilters';
 import FilterComponent from '../../components/FilterComponent';
-import moment from 'moment';
 import maleAvatarImage from '../../../src/assets/images/male-avatar.png';
 import femaleAvatarImage from '../../../src/assets/images/female-avatar.png';
 import CustomAvatar from '../../shared/Avatar/Avatar';
+import { getDateandTime } from '../../utils/commonFunctions';
 
 const RecentCheckIn = () => {
     const dispatch = useDispatch();
@@ -54,7 +54,7 @@ const RecentCheckIn = () => {
                     <div>
                         <h4 className="m-0">{checkIn.member}</h4>
                         <p className="text-sm m-0 text-gray-500">{checkIn.reason || checkIn?.membershipPlan?.name}</p>
-                        <p className="text-sm m-0 text-blue-600">{moment(checkIn.createdAt).format('hh:mm a')}</p>
+                        <p className="text-sm m-0 text-blue-600">{getDateandTime(checkIn.createdAt)}</p>
 
                         {checkIn.status === 'canceled' && (
                             <div className="flex align-items-center mt-2 text-red-500">

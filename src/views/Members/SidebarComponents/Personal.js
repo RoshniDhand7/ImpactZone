@@ -8,8 +8,7 @@ import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { genderOptions } from '../../../utils/dropdownConstants';
 import formValidation from '../../../utils/validations';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { showFormErrors } from '../../../utils/commonFunctions';
+import { dateConversions, showFormErrors } from '../../../utils/commonFunctions';
 import usePlacesAutocomplete from '../usePlacesAutoComplete';
 import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 import { editMemberAction, getMemberData } from '../../../redux/actions/MembersPortal/memberPortalActions';
@@ -192,7 +191,7 @@ const Personal = () => {
                             <CustomListItem name="firstName" data={data} />
                             <CustomListItem name="lastName" data={data} />
                             <CustomListItem name="gender" data={data} />
-                            <CustomListItem name="dob" value={moment(data?.dob).format('DD-MM-YYYY')} />
+                            <CustomListItem name="dob" value={dateConversions(data?.dob)} />
                             <CustomListItem name="socialSecurity" data={data} />
                             <CustomListItem name="occupation" data={data} />
                             <CustomListItem name="employeer" data={data} />

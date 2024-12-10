@@ -8,6 +8,7 @@ const intitalState = {
     checkIn: [],
     notes: [],
     tasks: [],
+    alerts: [],
 };
 
 const membersPortalReducer = (state = intitalState, action) => {
@@ -61,6 +62,11 @@ const membersPortalReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 tasks: action.payload,
+            };
+        case types.MEMBER.ALERT:
+            return {
+                ...state,
+                alerts: action.payload,
             };
         default:
             return { ...state };

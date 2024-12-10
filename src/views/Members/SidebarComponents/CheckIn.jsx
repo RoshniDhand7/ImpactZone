@@ -4,7 +4,7 @@ import { getCheckIn } from '../../../redux/actions/MembersPortal/memberPortalAct
 import ProfileDetail from './ProfileDetail';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import { getDateandTime } from '../../../utils/commonFunctions';
 
 const CheckIn = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const CheckIn = () => {
         {
             field: 'createdAt',
             header: 'Date',
-            body: (r) => moment(r?.createdAt).format('MM-DD-YYYY hh:mm A'),
+            body: (r) => getDateandTime(r?.createdAt),
         },
         { field: 'club', header: 'Club' },
         { field: '', header: 'Alerts' },

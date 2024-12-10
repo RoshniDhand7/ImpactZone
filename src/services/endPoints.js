@@ -72,6 +72,7 @@ const endPoints = {
         DOCUMENT_VIEW: '/memberV2/document-view/',
         NOTES: '/memberV2/note/',
         TASK: '/memberV2/task/',
+        ALERT: '/memberV2/notification/',
     },
 
     AUTH: {
@@ -178,5 +179,9 @@ const endPoints = {
     //Task
 
     TASK: '/task/',
+
+    //Alert
+
+    ALERT: '/notification/',
 };
 export default endPoints;

@@ -322,9 +322,6 @@ const convertArrayToObjectArray = (array) => {
         return { name: item, value: item };
     });
 };
-const getTime = (date) => {
-    return moment(new Date(date)).format('H:mm');
-};
 
 const convertToDateTime = (timeString) => {
     var parts = timeString.split(':');
@@ -471,9 +468,17 @@ const denominationsToDollarConverter = (data, type) => {
 };
 
 const dateConversions = (date) => {
-    const formattedDate = moment(date).format('DD-MM-YYYY');
-    const formattedTime = moment(date).format('hh:mm');
-    return { formattedDate, formattedTime };
+    const formattedDate = date ? moment(date).format('DD-MM-YYYY') : null;
+    return formattedDate;
+};
+const getTime = (time) => {
+    const formattedTime = time ? moment(new Date(time)).format('H:mm') : null;
+    return formattedTime;
+};
+
+const getDateandTime = (datetime) => {
+    const formattedTime = datetime ? moment(new Date(datetime)).format('DD-MM-YYYY  A') : null;
+    return formattedTime;
 };
 
 function adjustTime(e) {
@@ -577,4 +582,5 @@ export {
     diffHoursAndMinutes,
     uploadFiles1,
     formatLetter,
+    getDateandTime,
 };
