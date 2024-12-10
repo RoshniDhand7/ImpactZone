@@ -190,6 +190,17 @@ const addMemberNotes = (id, data, setLoading, next) => async (dispatch) => {
         setLoading(false);
     }
 };
+const getTasks = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.TASK + id);
+    if (res.success) {
+        dispatch({
+            type: types.MEMBER.TASK,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
 export {
     getMembers,
@@ -205,4 +216,5 @@ export {
     getDocumentView,
     getNotes,
     addMemberNotes,
+    getTasks,
 };

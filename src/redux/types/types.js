@@ -123,6 +123,7 @@ export const types = {
         RESET_MEMBER_DATA: 'RESET_MEMBER_DATA',
         DOCUMENTS: 'DOCUMENTS',
         NOTES: 'NOTES',
+        TASK: 'TASK',
     },
 
     POS: {

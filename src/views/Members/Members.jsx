@@ -8,6 +8,7 @@ import Agreement from './SidebarComponents/Agreements/Agreement';
 import Documents from './SidebarComponents/Documents/Documents';
 import CheckIn from './SidebarComponents/CheckIn';
 import Notes from './SidebarComponents/Notes/Notes';
+import Task from './SidebarComponents/Task';
 
 export default function Members() {
     return (
@@ -21,6 +22,7 @@ export default function Members() {
                     <Route path={`/member/:id/documents`} component={Documents} />
                     <Route path={`/member/:id/check-in`} component={CheckIn} />
                     <Route path={`/member/:id/notes`} component={Notes} />
+                    <Route path={`/member/:id/tasks`} component={Task} />
                 </Switch>
             </Layout>
         </div>

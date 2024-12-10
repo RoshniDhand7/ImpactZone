@@ -125,6 +125,12 @@ const capitalizeCamelCase = (str) => {
     let capitalizedString = capitalizedWords.join(' ');
     return capitalizedString;
 };
+function formatLetter(input) {
+    return input
+        .split('_')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
 
 const getAllCountries = () => {
     const country = Country.getAllCountries()?.map((item) => ({ name: item.name, value: item.isoCode }));
@@ -574,4 +580,5 @@ export {
     endOfWeek,
     diffHoursAndMinutes,
     uploadFiles1,
+    formatLetter,
 };

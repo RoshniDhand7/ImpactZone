@@ -71,6 +71,7 @@ const endPoints = {
         CHECK_IN: '/memberV2/check-in/',
         DOCUMENT_VIEW: '/memberV2/document-view/',
         NOTES: '/memberV2/note/',
+        TASK: '/memberV2/task/',
     },
 
     AUTH: {
