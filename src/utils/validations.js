@@ -225,7 +225,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'event':
         case 'services':
         case 'image':
-        case 'club':
         case 'clubs':
             if (value?.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;

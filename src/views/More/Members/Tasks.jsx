@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import CustomCard, { CustomFilterCard } from '../../../shared/Cards/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { editTaskAction, getTaskAction } from '../../../redux/actions/CheckIn/CheckIn';
-import moment from 'moment';
 import { CustomCheckbox } from '../../../shared/Input/AllInputs';
 import { DataView } from 'primereact/dataview';
-import { formatLetter } from '../../../utils/commonFunctions';
+import { dateConversions, formatLetter } from '../../../utils/commonFunctions';
+import FormPage from '../../../shared/Layout/FormPage';
 
 const Tasks = () => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Tasks = () => {
                 <div className="mx-3 flex w-5">
                     <div className="mx-3">
                         <div className="font-medium ">Deadline</div>
-                        <div>{moment(item?.dueDate)?.format('MMMM-DD-YYYY')}</div>
+                        <div>{dateConversions(item?.dueDate)}</div>
                     </div>
                 </div>
                 <div className="mx-3">
@@ -63,10 +63,12 @@ const Tasks = () => {
         );
     };
     return (
-        <CustomCard title="Task" col="12">
-            <CustomFilterCard buttonTitle="Add Task" linkTo="/more/members/tasks/add" contentPosition="end" />
-            <DataView value={task} itemTemplate={itemTemplate} paginator rows={5} />
-        </CustomCard>
+        <FormPage backText="Members">
+            <CustomCard title="Task" col="12">
+                <CustomFilterCard buttonTitle="Add Task" linkTo="/more/members/tasks/add" contentPosition="end" />
+                <DataView value={task} itemTemplate={itemTemplate} paginator rows={5} />
+            </CustomCard>
+        </FormPage>
     );
 };
 

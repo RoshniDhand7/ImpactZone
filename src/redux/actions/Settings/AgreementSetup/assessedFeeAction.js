@@ -1,11 +1,16 @@
 import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getAssesedFees = () => async (dispatch) => {
-    dispatch(showLoaderAction());
+const getAssesedFees = () => async (dispatch, getState) => {
+    const state = getState();
+    console.log(state, 'state');
+    let assessedFees = state.settings.agreement.assessedFees;
+    if (!assessedFees?.length) {
+        dispatch(showTableLoaderAction());
+    }
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE);
     if (res.success) {
         if (res.data) {
@@ -17,7 +22,7 @@ const getAssesedFees = () => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    dispatch(hideLoaderAction());
+    dispatch(hideTableLoaderAction());
 };
 const addAssessedFee = (data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
@@ -44,7 +49,6 @@ const editAssessedFee = (id, data, next) => async (dispatch) => {
 };
 
 const getAssessedFee = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.ASSESSED_FEE + id);
     if (res.success) {
         if (res.data) {
@@ -53,7 +57,6 @@ const getAssessedFee = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 
 const deleteAssessedFee = (id, next) => async (dispatch) => {

@@ -24,7 +24,6 @@ const getAgreementTemplates = (setLoading) => async (dispatch) => {
     }
 };
 const getAgreementTemplate = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE + id);
     if (res.success) {
         if (res.data) {
@@ -33,7 +32,6 @@ const getAgreementTemplate = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const addAgreementTemplate = (data, setLoading, next) => async (dispatch) => {
     setLoading(true);

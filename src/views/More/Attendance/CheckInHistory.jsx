@@ -9,6 +9,7 @@ import moment from 'moment';
 import FilterComponent from '../../../components/FilterComponent';
 import useFilters from '../../../hooks/useFilters';
 import { CustomCalenderInput, CustomInput } from '../../../shared/Input/AllInputs';
+import { dateConversions } from '../../../utils/commonFunctions';
 
 const CheckInHistory = () => {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const CheckInHistory = () => {
     const columns = [
         { field: 'employee', header: 'Employee Name' },
         { field: 'department', body: (r) => r?.department?.map((item) => item.name)?.join(','), header: 'Department' },
-        { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Check in Date/Time' },
+        { field: 'createdAt', body: (r) => dateConversions(r?.createdAt), header: 'Check in Date/Time' },
     ];
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));

@@ -41,6 +41,7 @@ import Receipt from '../views/More/POS/Receipt';
 import AddTasks from '../views/More/Members/AddTasks';
 const Tasks = lazy(() => import('../views/More/Members/Tasks'));
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
+const Reserve = lazy(() => import('../views/More/Members/Reserve/Reserve'));
 
 export const PrivateRoutes = [
     {
@@ -184,6 +185,12 @@ export const PrivateRoutes = [
                         path: '/tasks/add',
                         name: 'Tasks',
                         component: AddTasks,
+                        exact: true,
+                    },
+                    {
+                        path: '/reserve',
+                        name: 'Reserve',
+                        component: Reserve,
                         exact: true,
                     },
                 ],

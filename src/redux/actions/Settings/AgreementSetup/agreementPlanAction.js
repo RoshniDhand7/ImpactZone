@@ -25,7 +25,6 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
     }
 };
 const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const params = { memberId: memberId };
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN + id, {}, params);
     if (res.success) {
@@ -35,7 +34,6 @@ const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 
 const getDefaultMembershipPlan = (returnData) => async () => {

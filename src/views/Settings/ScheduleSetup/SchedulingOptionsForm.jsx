@@ -6,8 +6,7 @@ import { CustomCalenderInput, CustomDropDown, CustomMultiselect } from '../../..
 import formValidation from '../../../utils/validations';
 import { WeekDaysOption, yesNoOptions } from '../../../utils/dropdownConstants';
 import CustomTable from '../../../shared/Table/CustomTable';
-import { confirmDelete, showArrayFormErrors, showFormErrors } from '../../../utils/commonFunctions';
-import moment from 'moment';
+import { confirmDelete, dateConversions, getTime, showArrayFormErrors, showFormErrors } from '../../../utils/commonFunctions';
 import { addScheduling, getSchedulings } from '../../../redux/actions/Settings/ScheduleSetup/SchedulingOptionsActions';
 
 const SchedulingOptionsForm = () => {
@@ -196,10 +195,10 @@ const SchedulingOptionsForm = () => {
 
     const columns = [
         { field: 'id', header: 'S.no' },
-        { field: 'date', body: (r) => moment(r.date).format('DD-MM-YYYY'), header: 'Date' },
+        { field: 'date', body: (r) => dateConversions(r.date), header: 'Date' },
         { field: 'open', body: (r) => (r.open ? 'Yes' : 'No'), header: 'Open' },
-        { field: 'startTime', body: (r) => (r?.startTime ? moment(r.startTime).format('hh:mm A') : '-'), header: 'Start Time' },
-        { field: 'endTime', body: (r) => (r?.endTime ? moment(r.endTime).format('hh:mm A') : '-'), header: 'End Time' },
+        { field: 'startTime', body: (r) => getTime(r?.startTime), header: 'Start Time' },
+        { field: 'endTime', body: (r) => getTime(r?.endTime), header: 'End Time' },
     ];
 
     useEffect(() => {

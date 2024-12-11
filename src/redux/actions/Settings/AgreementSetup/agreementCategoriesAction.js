@@ -1,12 +1,15 @@
 import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideTableLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getAgreementCategories = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getAgreementCategories = () => async (dispatch, getState) => {
+    const state = getState();
+    console.log(state, 'state');
+    let agreementCategories = state.settings.agreement.agreementCategories;
+    if (!agreementCategories?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_CATEGORY);
     if (res.success) {
@@ -19,12 +22,9 @@ const getAgreementCategories = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const getAgreementCategory = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_CATEGORY + id);
     if (res.success) {
         if (res.data) {
@@ -33,7 +33,6 @@ const getAgreementCategory = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const addAgreementCategories = (data, setLoading, history) => async (dispatch) => {
     setLoading(true);
@@ -56,7 +55,7 @@ const editAgreementCategories = (id, data, setLoading, history) => async (dispat
 const deleteAgreementCategories = (id) => async (dispatch) => {
     const res = await api('delete', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_CATEGORY + id);
     if (res.success) {
-        dispatch(getAgreementCategories(() => {}));
+        dispatch(getAgreementCategories());
         dispatch(showToast({ severity: 'success', summary: res.message }));
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));

@@ -4,11 +4,10 @@ import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployee, getEmployees } from '../../../../redux/actions/Settings/Employee/employeesAction';
-import { confirmDelete } from '../../../../utils/commonFunctions';
+import { confirmDelete, dateConversions } from '../../../../utils/commonFunctions';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import EmployeeFilters from './EmployeeFilters';
-import moment from 'moment';
 
 const ManageEmployee = () => {
     const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const ManageEmployee = () => {
         { field: 'barCode', header: 'BarCode' },
         { field: 'address', body: address, header: 'Address' },
         { field: 'primaryPhone', header: 'Primary Phone' },
-        { field: 'hireDate', body: (r) => (r?.hireDate ? moment(r?.hireDate).format('DD-MM-YYYY') : ''), header: 'Hire Date' },
+        { field: 'hireDate', body: (r) => dateConversions(r?.hireDate), header: 'Hire Date' },
         { field: 'terminationDate', header: 'Termination Date' },
     ];
     const onView = (col) => {

@@ -4,7 +4,7 @@ import CustomTable from '../../../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import { diffHoursAndMinutes } from '../../../../../utils/commonFunctions';
+import { diffHoursAndMinutes, getDateandTime } from '../../../../../utils/commonFunctions';
 import FilterComponent from '../../../../../components/FilterComponent';
 import useFilters from '../../../../../hooks/useFilters';
 import { CustomFilterCard, CustomGridLayout } from '../../../../../shared/Cards/CustomCard';
@@ -46,8 +46,8 @@ const TimeSheet = () => {
     const columns = [
         { field: 'club', header: 'Club' },
         { field: 'department', header: 'Department' },
-        { field: 'clockIn', body: (r) => moment(r?.clockIn).format(' MM/DD/YYYY hh:mm a'), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockOut' },
+        { field: 'clockIn', body: (r) => getDateandTime(r?.clockIn), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => getDateandTime(r?.clockOut), header: 'ClockOut' },
         {
             field: 'duration',
             body: (r) => {
@@ -59,7 +59,7 @@ const TimeSheet = () => {
             },
             header: 'Duration',
         },
-        { field: 'modifiedOn', body: (r) => moment(r?.clockIn).format(' MM/DD/YYYY hh:mm a'), header: 'Modified On' },
+        { field: 'modifiedOn', body: (r) => getDateandTime(r?.clockIn), header: 'Modified On' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
         employeeTimeSheet,

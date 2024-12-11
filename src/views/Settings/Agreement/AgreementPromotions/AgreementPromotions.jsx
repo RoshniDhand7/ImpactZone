@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { confirmDelete } from '../../../../utils/commonFunctions';
+import { confirmDelete, dateConversions } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import moment from 'moment';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
@@ -23,7 +22,7 @@ const AgreementPromotions = () => {
         { field: 'name', header: 'Name' },
         { field: 'code', header: 'Code' },
         { field: 'membershipPlan', header: 'Membership Plan' },
-        { field: 'startDate', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'StartDate' },
+        { field: 'startDate', body: (r) => dateConversions(r.createdAt), header: 'StartDate' },
         { field: 'isActive', header: 'Availability' },
     ];
 

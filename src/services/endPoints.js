@@ -182,6 +182,6 @@ const endPoints = {
 
     //Alert
 
-    ALERT: '/notification/',
+    ALERT: '/memberV2/notification/',
 };
 export default endPoints;

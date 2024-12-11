@@ -42,7 +42,7 @@ const AgreementCategories = () => {
         );
     };
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementCategories);
-
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
     return (
         <>
             <CustomFilterCard buttonTitle="Add Agreement Categories" linkTo="/settings/agreement/categories/add" contentPosition="end">
@@ -50,7 +50,7 @@ const AgreementCategories = () => {
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
 
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

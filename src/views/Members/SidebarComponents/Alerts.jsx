@@ -4,7 +4,7 @@ import { getAlerts } from '../../../redux/actions/MembersPortal/memberPortalActi
 import ProfileDetail from './ProfileDetail';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
-import { dateConversions, formatLetter } from '../../../utils/commonFunctions';
+import { dateConversions } from '../../../utils/commonFunctions';
 
 const Alerts = () => {
     const dispatch = useDispatch();
@@ -16,12 +16,9 @@ const Alerts = () => {
     }, [dispatch, id]);
 
     const columns = [
-        { field: 'dueDate', body: (r) => dateConversions(r?.dueDate), header: 'Deadline' },
-        { field: 'taskType', body: (r) => (r?.taskType ? formatLetter(r?.taskType) : '-'), header: 'Task Type' },
-        { field: 'taskTitle', header: 'Title' },
+        { field: 'createdAt', body: (r) => dateConversions(r?.createdAt), header: 'Date' },
+        { field: 'title', header: 'Title' },
         { field: 'employee', header: 'Employee' },
-        { field: 'message', header: 'Message' },
-        { field: 'completedDate', body: (r) => dateConversions(r?.completedDate), header: 'Date Completed' },
     ];
     return (
         <div className="">

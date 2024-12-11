@@ -1,6 +1,5 @@
 import ProfileDetail from '../ProfileDetail';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { getDocuments } from '../../../../redux/actions/MembersPortal/memberPortalActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import DocumentView from './DocumentView';
 import AddDocument from './AddDocument';
+import { dateConversions } from '../../../../utils/commonFunctions';
 
 const Documents = () => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Documents = () => {
         { field: 'name', header: 'File Name' },
         { field: 'govtId', header: 'Govt Id' },
         { field: 'type', header: 'Type' },
-        { field: 'createdAt', header: 'Created At', body: (r) => moment(r?.createdAt).format('DD-MM-YYYY') },
+        { field: 'createdAt', header: 'Created At', body: (r) => dateConversions(r?.createdAt) },
         // { field: 'url', header: 'Renewal Frequency', body: () => '-' },
     ];
 

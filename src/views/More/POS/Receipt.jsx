@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getReceiptAction } from '../../../redux/actions/POS/saleActions';
 import CustomCard from '../../../shared/Cards/CustomCard';
-import moment from 'moment';
 import { useReactToPrint } from 'react-to-print';
+import { dateConversions } from '../../../utils/commonFunctions';
 
 const skeletonStyle = {
     backgroundColor: '#e0e0e0',
@@ -89,7 +89,7 @@ export const PrintReceipt = React.forwardRef(({ data, loading }, ref) => {
                 }}
             >
                 <ItemCard2 label={'Cashier'} value={data.employee?.firstName + ' ' + data.employee?.lastName} />
-                <ItemCard2 label={'Date'} value={moment(data.createdAt).format('MM/DD/YYYY')} />
+                <ItemCard2 label={'Date'} value={dateConversions(data?.createdAt)} />
             </div>
             {/* Cart Item Table */}
             <table

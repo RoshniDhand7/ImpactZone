@@ -24,7 +24,6 @@ const getAgreementPromotions = (setLoading) => async (dispatch) => {
     }
 };
 const getAgreementPromotion = (id, returnData) => async (dispatch) => {
-    dispatch(showLoaderAction());
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION + id);
     if (res.success) {
         if (res.data) {
@@ -33,7 +32,6 @@ const getAgreementPromotion = (id, returnData) => async (dispatch) => {
             }
         }
     }
-    dispatch(hideLoaderAction());
 };
 const addAgreementPromotion = (data, history) => async (dispatch) => {
     dispatch(showLoaderAction());

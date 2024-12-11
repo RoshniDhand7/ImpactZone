@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
-import { diffHoursAndMinutes } from '../../../../utils/commonFunctions';
+import { diffHoursAndMinutes, getDateandTime } from '../../../../utils/commonFunctions';
 import useFilters from '../../../../hooks/useFilters';
 import useGetClubs from '../../../../hooks/useGetClubs';
 import useDepartments from '../../../../hooks/Employees/useDepartments';
@@ -47,8 +47,8 @@ const TimeSheet = () => {
         { field: 'club', header: 'Club' },
         { field: 'employeeName', header: 'Employee Name' },
         { field: 'department', header: 'Department' },
-        { field: 'clockIn', body: (r) => (r?.clockIn ? moment(r?.clockIn).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockIn' },
-        { field: 'clockOut', body: (r) => (r?.clockOut ? moment(r?.clockOut).format('MM/DD/YYYY hh:mm a') : null), header: 'ClockOut' },
+        { field: 'clockIn', body: (r) => getDateandTime(r?.clockIn), header: 'ClockIn' },
+        { field: 'clockOut', body: (r) => getDateandTime(r?.clockOut), header: 'ClockOut' },
         {
             field: 'duration',
             body: (r) => {
@@ -60,7 +60,7 @@ const TimeSheet = () => {
             },
             header: 'Duration',
         },
-        { field: 'modifiedOn', body: (r) => moment(r?.clockIn).format(' MM/DD/YYYY hh:mm a'), header: 'Modified On' },
+        { field: 'modifiedOn', body: (r) => getDateandTime(r?.clockIn), header: 'Modified On' },
     ];
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(
         allTimesheet,

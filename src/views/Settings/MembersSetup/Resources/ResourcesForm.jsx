@@ -68,6 +68,8 @@ const ResourcesForm = () => {
             }
         }
     };
+
+    console.log(catalogServiceDropdown, 'catalogServiceDropdown');
     return (
         <FormPage backText="Resources">
             <CustomCard col="12" title="Resource">

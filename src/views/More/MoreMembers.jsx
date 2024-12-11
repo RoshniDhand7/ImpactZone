@@ -21,7 +21,7 @@ export default function MoreMembers() {
         },
         {
             img: Reserve,
-            link: '',
+            link: '/more/members/reserve',
             title: 'Reserve',
         },
         {

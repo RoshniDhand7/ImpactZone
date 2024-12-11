@@ -472,12 +472,12 @@ const dateConversions = (date) => {
     return formattedDate;
 };
 const getTime = (time) => {
-    const formattedTime = time ? moment(new Date(time)).format('H:mm') : null;
+    const formattedTime = time ? moment(new Date(time)).format('H:mm A') : null;
     return formattedTime;
 };
 
 const getDateandTime = (datetime) => {
-    const formattedTime = datetime ? moment(new Date(datetime)).format('DD-MM-YYYY  A') : null;
+    const formattedTime = datetime ? moment(new Date(datetime)).format('DD-MM-YYYY H:mm A') : null;
     return formattedTime;
 };
 

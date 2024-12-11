@@ -261,6 +261,8 @@ const General = ({ editItem }) => {
         }
     };
 
+    console.log(data, 'data');
+
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">
@@ -305,7 +307,13 @@ const General = ({ editItem }) => {
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Clubs">
-                <CustomPickList name="clubs" selected={data?.clubs} sourceData={clubsDropdown} onPickListChange={handleChange} />
+                <CustomPickList
+                    name="clubs"
+                    selected={data?.clubs}
+                    sourceData={clubsDropdown}
+                    onPickListChange={handleChange}
+                    errorMessage={data?.formErrors?.['clubs']}
+                />
             </CustomCard>
             <CustomCard col="12" title="Taxes">
                 <CustomPickList name="taxes" selected={data?.taxes} sourceData={allTaxDropdown} onPickListChange={handleChange} />

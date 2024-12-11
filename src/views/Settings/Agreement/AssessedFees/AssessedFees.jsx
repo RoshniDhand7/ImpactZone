@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { confirmDelete } from '../../../../utils/commonFunctions';
+import { confirmDelete, dateConversions } from '../../../../utils/commonFunctions';
 import CustomTable from '../../../../shared/Table/CustomTable';
-import moment from 'moment';
 import { CustomDropDown, CustomMultiselect } from '../../../../shared/Input/AllInputs';
 import { ActiveFilterDropdown } from '../../../../utils/dropdownConstants';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
@@ -32,7 +31,7 @@ const AssessedFees = () => {
         { field: 'type', header: 'Type' },
         { field: 'profitCenter', header: 'Profit Center' },
         { field: 'amount', header: 'Amount' },
-        { field: 'createdAt', body: (r) => moment(r.createdAt).format('DD-MM-YYYY'), header: 'Start Date' },
+        { field: 'createdAt', body: (r) => dateConversions(r?.createdAt), header: 'Start Date' },
         { field: 'clubName', body: (r) => r?.clubName?.join(' , '), header: 'Club' },
         { field: 'isActive', header: 'Active' },
     ];
@@ -63,6 +62,7 @@ const AssessedFees = () => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allAssessedFees);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     return (
         <>
@@ -99,7 +99,7 @@ const AssessedFees = () => {
                     />
                 </CustomGridLayout>
             </FilterComponent>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

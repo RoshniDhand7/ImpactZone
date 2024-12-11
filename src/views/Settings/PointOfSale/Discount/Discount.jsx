@@ -3,9 +3,8 @@ import { CustomFilterCard, CustomGridLayout } from '../../../../shared/Cards/Cus
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { confirmDelete } from '../../../../utils/commonFunctions';
+import { confirmDelete, dateConversions } from '../../../../utils/commonFunctions';
 import { deleteDiscountType, getDiscountTypes } from '../../../../redux/actions/PosSettings/discountType';
-import moment from 'moment';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import FilterComponent from '../../../../components/FilterComponent';
@@ -32,8 +31,8 @@ const Discount = () => {
             },
             header: 'Discount',
         },
-        { field: 'startDate', body: (r) => moment(r.startDate).format('DD-MM-YYYY'), header: 'Start Date' },
-        { field: 'endDate', body: (r) => (r?.endDate ? moment(r.endDate).format('DD-MM-YYYY') : '-'), header: 'End Date' },
+        { field: 'startDate', body: (r) => dateConversions(r?.startDate), header: 'Start Date' },
+        { field: 'endDate', body: (r) => dateConversions(r?.endDate), header: 'End Date' },
     ];
 
     const onEdit = (col) => {

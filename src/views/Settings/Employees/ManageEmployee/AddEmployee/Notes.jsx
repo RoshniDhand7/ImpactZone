@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomTable from '../../../../../shared/Table/CustomTable';
 import CustomDialog from '../../../../../shared/Overlays/CustomDialog';
 import { addEmployeeNotes, getEmployeeNotes } from '../../../../../redux/actions/EmployeeSettings/certificationAction';
-import moment from 'moment';
 import { CustomTextArea } from '../../../../../shared/Input/AllInputs';
 import formValidation from '../../../../../utils/validations';
-import { showFormErrors } from '../../../../../utils/commonFunctions';
+import { getDateandTime, showFormErrors } from '../../../../../utils/commonFunctions';
 
 const Notes = () => {
     const { id } = useParams();
@@ -60,7 +59,7 @@ const Notes = () => {
     };
     const columns = [
         { field: 'takenBy', header: 'Taken By' },
-        { field: 'dateTime', body: (r) => moment(r.dateTime).format('MM-DD-YYYY hh:mm a'), header: 'Date/Time' },
+        { field: 'dateTime', body: (r) => getDateandTime(r.dateTime), header: 'Date/Time' },
         { field: 'notes', header: 'Notes' },
     ];
     const onClose = () => {
