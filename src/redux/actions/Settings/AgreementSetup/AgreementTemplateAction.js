@@ -1,12 +1,14 @@
 import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getAgreementTemplates = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getAgreementTemplates = () => async (dispatch, getState) => {
+    const state = getState();
+    let agreementTemplates = state.settings.agreement.agreementTemplates;
+    if (!agreementTemplates?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE);
     if (res.success) {
@@ -19,9 +21,7 @@ const getAgreementTemplates = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const getAgreementTemplate = (id, returnData) => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_TEMPLATE + id);

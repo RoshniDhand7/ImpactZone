@@ -6,7 +6,6 @@ import { showToast } from '../../toastAction';
 
 const getAgreementCategories = () => async (dispatch, getState) => {
     const state = getState();
-    console.log(state, 'state');
     let agreementCategories = state.settings.agreement.agreementCategories;
     if (!agreementCategories?.length) {
         dispatch(showTableLoaderAction());

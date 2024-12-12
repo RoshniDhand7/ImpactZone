@@ -32,6 +32,7 @@ export default function Cart({
     onOpenCheckout,
     ifCartValidated,
     onCheckout,
+    memberDetail,
 }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -42,6 +43,7 @@ export default function Cart({
     }, [dispatch]);
     const [discountPopup, setDiscountPopup] = useState(false);
     const [specialDiscountPopup, setSpecialDiscountPopup] = useState(false);
+    let { gradTotal } = cartDetails;
 
     const onDeleteCartItem = (index) => {
         setSelectedItems((prev) => {
@@ -125,7 +127,16 @@ export default function Cart({
     }, [setHeight]);
 
     const handleQuickCash = () => {
-        ifCartValidated() && setOpenQuickCash(true);
+        ifCartValidated() && onCheckout({ method: 'CASH', printReceiept: false });
+    };
+
+    console.log(memberDetail?.prepayBalance >= gradTotal, 'prePay');
+
+    const handlePrePay = () => {
+        ifCartValidated() &&
+            memberDetail?.prepayBalance >= gradTotal &&
+            memberDetail?.prepayBalance !== 0 &&
+            onCheckout({ method: 'PRE_PAY', printReceiept: false });
     };
 
     const handleNoSale = () => {
@@ -179,6 +190,7 @@ export default function Cart({
                                 appliedPromo={appliedPromo}
                                 onOpenSaveCartPopup={onOpenSaveCartPopup}
                                 onOpenCheckout={onOpenCheckout}
+                                memberDetail={memberDetail}
                             />
                         </div>
                     </div>
@@ -187,7 +199,7 @@ export default function Cart({
             <div className="flex gap-2">
                 <CustomButton className="w-full px-2" label="No Sale" severity="secondary" onClick={handleNoSale} />
                 <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={handleQuickCash} />
-                <PrimaryButton className="w-full px-2" label="Pre-Pay" />
+                <PrimaryButton className="w-full px-2" label="Pre-Pay" onClick={handlePrePay} />
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
 

@@ -4,7 +4,7 @@ import { Messages } from 'primereact/messages';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { validatePromoCodeAction } from '../../../redux/actions/POS/PosActions';
 
-export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout, cartItems }) {
+export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout, cartItems, memberDetail }) {
     const dispatch = useDispatch();
     let { tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [promo, setPromo] = useState('');
@@ -81,10 +81,12 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                         <div className="text-dark-gray">Final Total:</div>
                         <div className="font-medium ">${gradTotal?.toFixed(2)}</div>
                     </div>
-                    {/* <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2 ">
-                    <div className="text-dark-gray">Pre-Pay Balance</div>
-                    <div className="font-medium text-green-600">$2.00</div>
-                </div> */}
+                    {memberDetail && (
+                        <div className="flex justify-content-between bg-white py-2 px-3 border-round-md text-lg my-2 ">
+                            <div className="text-dark-gray">Pre-Pay Balance</div>
+                            <div className="font-medium text-green-600">${memberDetail?.prepayBalance}</div>
+                        </div>
+                    )}
                     {appliedPromo ? (
                         <div className="flex justify-content-between bg-white py-2 px-3 border-round-md my-2 border-1 border-green-600 border-dashed ">
                             <div className="text-dark-gray text-green-600">Promo {appliedPromo?.discountCode} Applied</div>

@@ -81,5 +81,15 @@ const addDropCheck = (data, setLoading, next) => async (dispatch) => {
     }
     setLoading(false);
 };
+const getPreBalance = (memberId, returnData) => async (dispatch) => {
+    const res = await api('get', endPoints.PREPAY_BALANCE, {}, { id: memberId });
+    if (res.success) {
+        if (res.data) {
+            returnData(res.data);
+        }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
-export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut, validatePromoCodeAction, addDropCheck };
+export { getPromoCodeDetail, verifyCashRegisterAccessCode, cashRegisterCheckIn, cashRegisterCheckOut, validatePromoCodeAction, addDropCheck, getPreBalance };

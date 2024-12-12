@@ -83,6 +83,7 @@ const AgreementCategories = () => {
         }
     };
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementTemplates);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     return (
         <>
@@ -90,7 +91,7 @@ const AgreementCategories = () => {
                 <PrimaryButton label="Filters" icon="pi pi-filter" className="mx-2" onClick={onFilterOpen} />
             </CustomFilterCard>
             <AgreementTemplateFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} onCopy={onCopy} loading={isTableLoading} />
             <CustomDialog title="Copy Agreement Template" visible={visible} onCancel={onClose} loading={loading} onSave={handleSave}>
                 <CustomGridLayout>
                     <CustomInput col="12" name="name" data={data} onChange={handleChange} />

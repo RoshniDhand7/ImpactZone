@@ -7,11 +7,12 @@ import { ReactComponent as AlertIcon } from '../../../assets/svg/checkin.svg';
 import { ReactComponent as MessageIcon } from '../../../assets/svg/message.svg';
 import AddTask from '../../CheckIn/AddTask';
 import { useParams } from 'react-router-dom';
+import AddAlert from '../../CheckIn/AddAlert';
 
 const TopLayout = () => {
     const { id } = useParams();
     const [openTask, setOpenTask] = useState(false);
-
+    const [openAlert, setOpenAlert] = useState(false);
     const LIST = [
         {
             label: 'Quick Enroll',
@@ -33,6 +34,7 @@ const TopLayout = () => {
         {
             label: 'Create Alert',
             icon: <AlertIcon />,
+            command: () => setOpenAlert(true),
         },
         {
             label: 'Send Message',
@@ -54,6 +56,7 @@ const TopLayout = () => {
                 </div>
             ))}
             <AddTask openTask={openTask} setOpenTask={setOpenTask} memberId={id} />
+            <AddAlert openAlert={openAlert} setOpenAlert={setOpenAlert} memberId={id} />
         </div>
     );
 };

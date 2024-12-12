@@ -16,6 +16,7 @@ import { showToast } from '../../redux/actions/toastAction';
 import { onCheckoutAction } from '../../redux/actions/POS/saleActions';
 import { PrintReceipt } from '../More/POS/Receipt';
 import { useReactToPrint } from 'react-to-print';
+import { getPreBalance } from '../../redux/actions/POS/PosActions';
 
 export default function PointOfSale2() {
     const dispatch = useDispatch();
@@ -45,6 +46,23 @@ export default function PointOfSale2() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
     const [variationProduct, setVariationProduct] = useState(null);
+    const [memberDetail, setMemberDetail] = useState(null);
+
+    //PrepayBalance
+
+    useEffect(() => {
+        if (selectedMember) {
+            dispatch(
+                getPreBalance(selectedMember, (data) => {
+                    setMemberDetail(data);
+                }),
+            );
+        } else {
+            setMemberDetail(null);
+        }
+    }, [selectedMember]);
+
+    console.log(memberDetail, 'memberDetail');
 
     //Count final detailed price and calculations
     useEffect(() => {
@@ -306,17 +324,16 @@ export default function PointOfSale2() {
         setCheckoutPopup(false);
     };
 
-    const onCheckout = ({ method, printReceiept }, setLoading, next) => {
+    const onCheckout = ({ method, printReceiept }) => {
         let payload = { member: selectedMember, paymentType: method, amount: cartDetails?.gradTotal, cartItems, cartDetails, cashRegister: drawer };
         dispatch(
-            onCheckoutAction(payload, setLoading, (e) => {
+            onCheckoutAction(payload, (e) => {
                 setSelectedItems([]);
                 setSelectedMember('');
                 onCloseCheckout();
                 if (printReceiept) {
                     setReceiptData(e);
                 }
-                next?.();
             }),
         );
     };
@@ -327,6 +344,8 @@ export default function PointOfSale2() {
         }
         //eslint-disable-next-line
     }, [receiptData]);
+
+    console.log(selectedMember, 'selectedmember');
 
     return (
         <div className="pos grid">
@@ -349,6 +368,7 @@ export default function PointOfSale2() {
                     onOpenCheckout={onOpenCheckout}
                     ifCartValidated={ifCartValidated}
                     onCheckout={onCheckout}
+                    memberDetail={memberDetail}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />

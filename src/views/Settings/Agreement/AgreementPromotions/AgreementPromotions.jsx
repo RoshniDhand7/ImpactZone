@@ -44,6 +44,7 @@ const AgreementPromotions = () => {
         );
     };
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementPromotions);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     return (
         <>
@@ -52,7 +53,7 @@ const AgreementPromotions = () => {
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
 
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

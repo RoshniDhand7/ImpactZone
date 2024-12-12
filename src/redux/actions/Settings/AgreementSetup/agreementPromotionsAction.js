@@ -1,12 +1,14 @@
 import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getAgreementPromotions = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getAgreementPromotions = () => async (dispatch, getState) => {
+    const state = getState();
+    let agreementPromotions = state.settings.agreement.agreementPromotions;
+    if (!agreementPromotions?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION);
     if (res.success) {
@@ -19,9 +21,7 @@ const getAgreementPromotions = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const getAgreementPromotion = (id, returnData) => async (dispatch) => {
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PROMOTION + id);

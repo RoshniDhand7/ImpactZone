@@ -73,6 +73,7 @@ const AgreementPlan = () => {
         return agreementCategories.find((category) => category._id === data.categoryId)?.subCategories?.map((item) => ({ name: item, value: item })) || [];
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.categoryId]);
+    const { isTableLoading } = useSelector((state) => state?.tableLoader);
 
     return (
         <>
@@ -114,7 +115,7 @@ const AgreementPlan = () => {
                     <CustomDropDown name="sellOnline" options={yesNoOptions} onChange={handleChange} data={data} col={12} showClear />
                 </CustomGridLayout>
             </FilterComponent>
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} loading={isTableLoading} />
         </>
     );
 };

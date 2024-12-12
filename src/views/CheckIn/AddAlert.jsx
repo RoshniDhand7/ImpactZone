@@ -7,6 +7,7 @@ import { CustomDropDown, CustomInput, CustomTextArea } from '../../shared/Input/
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { showFormErrors } from '../../utils/commonFunctions';
 import { addAlertAction } from '../../redux/actions/CheckIn/CheckIn';
+import { getAlerts } from '../../redux/actions/MembersPortal/memberPortalActions';
 
 const AddAlert = ({ openAlert, setOpenAlert, memberId }) => {
     const initialState = {
@@ -28,6 +29,7 @@ const AddAlert = ({ openAlert, setOpenAlert, memberId }) => {
                 addAlertAction({ ...data, member: memberId }, setLoading, () => {
                     setOpenAlert(false);
                     setData(initialState);
+                    dispatch(getAlerts(memberId));
                 }),
             );
         }

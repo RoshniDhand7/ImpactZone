@@ -2,12 +2,14 @@ import api from '../../../../services/api';
 import EndPoints from '../../../../services/endPoints';
 import { getIds } from '../../../../utils/commonFunctions';
 import { types } from '../../../types/types';
-import { hideLoaderAction, showLoaderAction } from '../../loaderAction';
+import { hideLoaderAction, hideTableLoaderAction, showLoaderAction, showTableLoaderAction } from '../../loaderAction';
 import { showToast } from '../../toastAction';
 
-const getMembershipPlans = (setLoading) => async (dispatch) => {
-    if (setLoading) {
-        setLoading(true);
+const getMembershipPlans = () => async (dispatch, getState) => {
+    const state = getState();
+    let agreementPlans = state.settings.agreement.agreementPlans;
+    if (!agreementPlans?.length) {
+        dispatch(showTableLoaderAction());
     }
     const res = await api('get', EndPoints.SETTINGS.AGREEMENT_SETUP.AGREEMENT_PLAN);
     if (res.success) {
@@ -20,9 +22,7 @@ const getMembershipPlans = (setLoading) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
-    if (setLoading) {
-        setLoading(false);
-    }
+    dispatch(hideTableLoaderAction());
 };
 const getMembershipPlan = (id, memberId, returnData) => async (dispatch) => {
     const params = { memberId: memberId };
