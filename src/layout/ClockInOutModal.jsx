@@ -39,7 +39,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
     };
 
     const handleFind = () => {
-        if (showFormErrors(data, setData, ['club', 'name', 'accessCode'])) {
+        if (showFormErrors(data, setData, ['clubs', 'name', 'accessCode'])) {
             dispatch(
                 getEmployeesFromBarCode(data?.barCode, setLoading, (item) => {
                     setData((prev) => ({

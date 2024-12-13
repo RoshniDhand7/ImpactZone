@@ -47,6 +47,8 @@ export default function PointOfSale2() {
     const [cartDetails, setCartDetails] = useState({});
     const [variationProduct, setVariationProduct] = useState(null);
     const [memberDetail, setMemberDetail] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
 
     //PrepayBalance
 
@@ -324,10 +326,10 @@ export default function PointOfSale2() {
         setCheckoutPopup(false);
     };
 
-    const onCheckout = ({ method, printReceiept }) => {
+    const onCheckout = ({ method, printReceiept, setLoading }) => {
         let payload = { member: selectedMember, paymentType: method, amount: cartDetails?.gradTotal, cartItems, cartDetails, cashRegister: drawer };
         dispatch(
-            onCheckoutAction(payload, (e) => {
+            onCheckoutAction(payload, setLoading, (e) => {
                 setSelectedItems([]);
                 setSelectedMember('');
                 onCloseCheckout();
@@ -369,6 +371,10 @@ export default function PointOfSale2() {
                     ifCartValidated={ifCartValidated}
                     onCheckout={onCheckout}
                     memberDetail={memberDetail}
+                    loading={loading}
+                    loading1={loading1}
+                    setLoading={setLoading}
+                    setLoading1={setLoading1}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />

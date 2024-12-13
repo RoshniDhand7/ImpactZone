@@ -33,6 +33,10 @@ export default function Cart({
     ifCartValidated,
     onCheckout,
     memberDetail,
+    loading,
+    loading1,
+    setLoading,
+    setLoading1,
 }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -127,7 +131,7 @@ export default function Cart({
     }, [setHeight]);
 
     const handleQuickCash = () => {
-        ifCartValidated() && onCheckout({ method: 'CASH', printReceiept: false });
+        ifCartValidated() && onCheckout({ method: 'CASH', printReceiept: false, setLoading });
     };
 
     console.log(memberDetail?.prepayBalance >= gradTotal, 'prePay');
@@ -136,7 +140,7 @@ export default function Cart({
         ifCartValidated() &&
             memberDetail?.prepayBalance >= gradTotal &&
             memberDetail?.prepayBalance !== 0 &&
-            onCheckout({ method: 'PRE_PAY', printReceiept: false });
+            onCheckout({ method: 'PRE_PAY', printReceiept: false, setLoading: setLoading1 });
     };
 
     const handleNoSale = () => {
@@ -198,8 +202,8 @@ export default function Cart({
             </div>
             <div className="flex gap-2">
                 <CustomButton className="w-full px-2" label="No Sale" severity="secondary" onClick={handleNoSale} />
-                <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={handleQuickCash} />
-                <PrimaryButton className="w-full px-2" label="Pre-Pay" onClick={handlePrePay} />
+                <PrimaryButton className="w-full px-1" label="Quick Cash" onClick={handleQuickCash} loading={loading} />
+                <PrimaryButton className="w-full px-2" label="Pre-Pay" onClick={handlePrePay} loading={loading1} />
                 <PrimaryButton className="w-full px-1" label="Card File" />
             </div>
 
