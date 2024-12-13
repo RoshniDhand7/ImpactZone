@@ -29,7 +29,7 @@ const MembershipTypes = () => {
 
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'discountType', header: 'Discount Type' },
         { field: 'totalMember', header: '# Members' },
         { field: 'isActive', header: 'Active' },

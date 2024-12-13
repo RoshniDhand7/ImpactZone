@@ -88,7 +88,15 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         setFilteredData((prev) => ({ ...prev, [name]: value }));
     };
     const customActionTemplate = (r) => {
-        return <PrimaryButton name="status" label={r?.isBookedForMember ? 'Return' : 'Reserve'} onClick={() => handleReserveReturn(r)} />;
+        console.log(r, 'r');
+        return (
+            <PrimaryButton
+                name="status"
+                label={r?.isBookedForMember ? 'Return' : 'Reserve'}
+                onClick={() => handleReserveReturn(r)}
+                disabled={!r?.isBookedForMember && r?.reserveCount === r?.availableQuantity}
+            />
+        );
     };
 
     return (

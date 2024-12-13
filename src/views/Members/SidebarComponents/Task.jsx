@@ -20,7 +20,7 @@ const Task = () => {
         { field: 'taskType', body: (r) => (r?.taskType ? formatLetter(r?.taskType) : '-'), header: 'Task Type' },
         { field: 'taskTitle', header: 'Title' },
         { field: 'employee', header: 'Employee' },
-        { field: 'message', header: 'Message' },
+        { field: 'message', body: 'descriptionBodyTemplate', header: 'Message' },
         { field: 'completedDate', body: (r) => dateConversions(r?.completedDate), header: 'Date Completed' },
     ];
     return (

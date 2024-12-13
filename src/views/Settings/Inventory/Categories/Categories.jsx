@@ -2,7 +2,7 @@ import React from 'react';
 import { CustomFilterCard } from '../../../../shared/Cards/CustomCard';
 import CustomTable from '../../../../shared/Table/CustomTable';
 import { useHistory } from 'react-router-dom';
-import { confirmDelete, truncateDescription } from '../../../../utils/commonFunctions';
+import { confirmDelete } from '../../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
 import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
@@ -16,19 +16,10 @@ export default function Categories() {
     const { allCategory } = useCategory();
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(allCategory);
 
-    const DescriptionComponent = (r, index) => {
-        const truncatedDescription = truncateDescription(r.description);
-        return (
-            <>
-                <span>{truncatedDescription}</span>
-            </>
-        );
-    };
-
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'displayInPos', header: 'Displays in POS' },
-        { field: 'description', body: DescriptionComponent, header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'isActive', header: 'Active' },
     ];
 

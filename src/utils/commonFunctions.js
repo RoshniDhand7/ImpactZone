@@ -8,6 +8,7 @@ import { Country, State, City } from 'country-state-city';
 import { confirmDialog } from 'primereact/confirmdialog';
 import moment from 'moment';
 import constants from '../constants';
+import { CustomOverlay1 } from '../shared/CustomOverlay';
 
 const showFormErrors = (data, setData, ignore) => {
     let formErrors = {};
@@ -540,6 +541,21 @@ const diffHoursAndMinutes = (dt2, dt1) => {
 var startOfWeek = moment().utc().startOf('week').toDate();
 var endOfWeek = moment().utc().endOf('week').toDate();
 
+const longOverlayText = (obj, key = 'description', size = 20) => {
+    let _longText = obj?.[key];
+    let _text = '';
+    if (_longText?.length > size) {
+        _text = _longText.slice(0, size) + '...';
+    } else {
+        _text = _longText;
+    }
+    return (
+        <CustomOverlay1 template={<span className="cursor-pointer">{_text}</span>}>
+            <p className="p-2">{_longText}</p>
+        </CustomOverlay1>
+    );
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -583,4 +599,5 @@ export {
     uploadFiles1,
     formatLetter,
     getDateandTime,
+    longOverlayText,
 };

@@ -27,13 +27,13 @@ const AddMembershipType = ({ data, setData, id, loading, name }) => {
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
         { field: 'name', header: ' Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'noOfMembers', header: 'No of Members' },
     ];
 
     const columns1 = [
         { field: 'name', header: 'Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'noOfMembers', header: 'No. of Members' },
     ];
 

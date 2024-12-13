@@ -27,7 +27,7 @@ const Campaigns = () => {
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'campaignGroup', header: 'Compaign Group' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'isActive', header: 'Active' },
     ];
 

@@ -22,7 +22,7 @@ const JobTitle = () => {
 
     const columns = [
         { field: 'jobTitle', header: 'Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'isActive', header: 'Active' },
     ];
 

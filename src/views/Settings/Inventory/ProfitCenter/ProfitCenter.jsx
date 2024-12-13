@@ -16,7 +16,7 @@ export default function ProfitCenter() {
     const { allProfitCenters } = useProfitCenters();
     const columns = [
         { field: 'name', header: 'Name', sortable: true },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'ProfitCenterType', header: 'Catelog Items Assigned' },
         { field: 'glCode', header: 'GL Code', sortable: true },
         { field: 'isActive', header: 'Active' },

@@ -150,7 +150,7 @@ const endPoints = {
     ADD_RECENT_SUGGESSION: '/suggestion/',
     DASHBOARD: '/dashboard-count/',
     PROMO_CODE: '/promo-code/',
-    PREPAY_BALANCE: '/point-of-sale/prepay-balance/',
+    PREPAY_BALANCE: '/point-of-sale/prepay/balance/',
     VALIDATE_PROMO_CODE: '/validate-promo-code/',
     REGISTERS: '/cash-register/',
     VERIFY_ACCESS_CODE: '/verify-cash-register/',

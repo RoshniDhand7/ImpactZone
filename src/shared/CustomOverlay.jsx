@@ -1,7 +1,7 @@
 import { OverlayPanel } from 'primereact/overlaypanel';
 import React, { useRef } from 'react';
 
-export default function CustomOverlay({ children, onClick }) {
+function CustomOverlay({ children, onClick }) {
     const ref = useRef(null);
 
     return (
@@ -11,3 +11,19 @@ export default function CustomOverlay({ children, onClick }) {
         </>
     );
 }
+
+function CustomOverlay1({ template, children }) {
+    const ol = useRef(null);
+    return (
+        <>
+            <span onClick={(e) => ol.current.toggle(e)}>{template}</span>
+            <div className="custom-overlay">
+                <OverlayPanel ref={ol} onClick={(e) => ol.current.toggle(e)}>
+                    {children}
+                </OverlayPanel>
+            </div>
+        </>
+    );
+}
+
+export { CustomOverlay, CustomOverlay1 };

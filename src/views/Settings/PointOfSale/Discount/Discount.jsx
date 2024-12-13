@@ -24,7 +24,7 @@ const Discount = () => {
 
     const columns = [
         { field: 'discountName', header: 'Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         {
             body: (r) => {
                 return `${r.amountType === 'FIXED' ? '$' + r.amount : r?.amount + '%'} `;

@@ -21,7 +21,7 @@ const Certifications = () => {
     const columns = [
         { field: 'name', header: 'Name' },
         { field: 'certificateNumber', header: 'Cerificate Number' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'issuer', header: 'Issuer' },
         { field: 'acquiredDate', header: 'Acquired Date' },
         { field: 'expirationDate', header: 'Expiration Date' },

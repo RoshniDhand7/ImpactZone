@@ -26,7 +26,7 @@ const AcessSchedule = () => {
 
     const columns = [
         { field: 'name', header: 'Name' },
-        { field: 'description', header: 'Description' },
+        { field: 'description', body: 'descriptionBodyTemplate', header: 'Description' },
         { field: 'shortName', header: 'Short Name' },
         { field: 'isActive', header: 'Active' },
     ];

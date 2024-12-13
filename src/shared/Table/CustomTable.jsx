@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { convertBooleanValues } from '../../utils/commonFunctions';
+import { convertBooleanValues, longOverlayText } from '../../utils/commonFunctions';
 
 const CustomTable = ({
     convertToboolean = true,
@@ -38,6 +38,22 @@ const CustomTable = ({
         );
     };
 
+    const dynamicBodyTemplate = (rowData, col) => {
+        if (typeof col.body === 'function') {
+            return col.body(rowData);
+        } else if (typeof col.body === 'string') {
+            const bodyFunction = eval(col.body);
+            /* eslint no-eval: 0 */
+            return bodyFunction(rowData, col.field);
+        } else {
+            return rowData[col.field];
+        }
+    };
+    const descriptionBodyTemplate = (rowData, field) => {
+        /* eslint no-unused-vars: off */
+        return longOverlayText(rowData, field);
+    };
+
     return (
         <DataTable
             value={convertToboolean ? convertBooleanValues(data) : data}
@@ -62,7 +78,7 @@ const CustomTable = ({
                 <Column
                     key={col.field}
                     field={col.field}
-                    body={col.body}
+                    body={(rowData) => dynamicBodyTemplate(rowData, col)}
                     header={col.header}
                     selectionMode={col.selectionMode} // Enable selection only for specified columns
                     sortable={col.sortable}

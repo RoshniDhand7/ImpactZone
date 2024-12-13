@@ -26,7 +26,7 @@ const LocationsForm = () => {
                     setData({
                         name: data.name,
                         locationType: data.locationType,
-                        club: data.club,
+                        clubs: data.clubs,
                         isActive: data.isActive,
                     });
                 }),
@@ -36,7 +36,7 @@ const LocationsForm = () => {
     const [data, setData] = useState({
         name: '',
         locationType: '',
-        club: [],
+        clubs: [],
         isActive: true,
     });
     const handleChange = ({ name, value }) => {
@@ -58,7 +58,7 @@ const LocationsForm = () => {
                 <CustomGridLayout>
                     <CustomInput name="name" data={data} onChange={handleChange} required />
                     <CustomDropDown name="locationType" options={locationTypeDropdown} data={data} onChange={handleChange} required />
-                    <CustomMultiselect name="club" options={clubsDropdown} data={data} onChange={handleChange} required />
+                    <CustomMultiselect name="clubs" options={clubsDropdown} data={data} onChange={handleChange} required />
                     <CustomInputSwitch name="isActive" data={data} onChange={handleChange} />
                 </CustomGridLayout>
             </CustomCard>
