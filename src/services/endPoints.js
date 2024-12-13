@@ -73,6 +73,7 @@ const endPoints = {
         NOTES: '/memberV2/note/',
         TASK: '/memberV2/task/',
         ALERT: '/memberV2/notification/',
+        TRANSACTIONS: '/memberV2/prepay-transaction/',
     },
 
     AUTH: {

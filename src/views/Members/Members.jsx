@@ -10,6 +10,7 @@ import CheckIn from './SidebarComponents/CheckIn';
 import Notes from './SidebarComponents/Notes/Notes';
 import Task from './SidebarComponents/Task';
 import Alerts from './SidebarComponents/Alerts';
+import Billing from './SidebarComponents/Billing';
 
 export default function Members() {
     return (
@@ -25,6 +26,7 @@ export default function Members() {
                     <Route path={`/member/:id/notes`} component={Notes} />
                     <Route path={`/member/:id/tasks`} component={Task} />
                     <Route path={`/member/:id/alerts`} component={Alerts} />
+                    <Route path={`/member/:id/billing`} component={Billing} />
                 </Switch>
             </Layout>
         </div>

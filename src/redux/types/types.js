@@ -99,7 +99,6 @@ export const types = {
     CHANGE_POS_REGISTERS: 'CHANGE_POS_REGISTERS',
     CHANGE_PROMO_CODE: 'CHANGE_PROMO_CODE',
     CLEAR_POS_PROMO: 'CLEAR_POS_PROMO',
-    
 
     //check in
     CHANGE_CHECK_IN: 'CHANGE_CHECK_IN',
@@ -126,6 +125,7 @@ export const types = {
         NOTES: 'NOTES',
         TASK: 'TASK',
         ALERT: 'ALERT',
+        TRANSACTIONS: 'TRANSACTIONS',
     },
 
     POS: {

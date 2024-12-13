@@ -211,6 +211,17 @@ const getAlerts = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const getTransactions = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.TRANSACTIONS + id);
+    if (res.success) {
+        dispatch({
+            type: types.MEMBER.TRANSACTIONS,
+            payload: res.data,
+        });
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
 export {
     getMembers,
@@ -228,4 +239,5 @@ export {
     addMemberNotes,
     getTasks,
     getAlerts,
+    getTransactions,
 };
