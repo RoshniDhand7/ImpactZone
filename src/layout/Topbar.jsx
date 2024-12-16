@@ -177,13 +177,13 @@ export default function TopBar() {
             <Menubar style={{ border: 'none' }} model={iconItems} />
             <div className="flex cursor-pointer" onClick={(event) => menuRight.current.toggle(event)}>
                 <CustomAvatar label={user?.firstName} />
-                <div className="">
-                    <div className="flex m-2">
+                <div className="mx-2">
+                    <div className="flex">
                         <span className="font-semibold text-base  ">{user?.firstName || 'Loading...'}</span>
                         <i className="pi pi-angle-down mt-1 px-2" />
                     </div>
-                    <div className="ml-2">
-                        <span className="font-semibold text-sm">{clubsDropdown.find((item) => item.value === club)?.name}</span>
+                    <div className="">
+                        <span className="text-sm">{clubsDropdown.find((item) => item.value === club)?.name}</span>
                     </div>
                 </div>
             </div>
