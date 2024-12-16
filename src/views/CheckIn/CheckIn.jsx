@@ -14,6 +14,7 @@ import { showToast } from '../../redux/actions/toastAction';
 import Reserve from './Reserve';
 import AddTask from './AddTask';
 import AddAlert from './AddAlert';
+import { dateConversions } from '../../utils/commonFunctions';
 
 export default function CheckIn() {
     const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export default function CheckIn() {
         totalPastDue: '',
         totalNextDue: '',
         nextDueDate: '',
+        alerts: '',
     });
     const [openTask, setOpenTask] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
@@ -60,8 +62,14 @@ export default function CheckIn() {
 
     const { getCheckInData } = useSelector((state) => state.checkin);
 
+    console.log(
+        members?.find((item) => item._id === data?.member),
+        'members',
+    );
+
     useEffect(() => {
         if (Object.keys(getCheckInData)) {
+            let notification = members?.find((item) => item._id === data?.member);
             setData((prev) => ({
                 ...prev,
                 member: getCheckInData?._id,
@@ -69,9 +77,10 @@ export default function CheckIn() {
                 lastVisit: null,
                 barCode: getCheckInData?.barCode,
                 notes: getCheckInData?.note,
+                alerts: notification?.notification,
             }));
         }
-    }, [getCheckInData]);
+    }, [getCheckInData, members]);
 
     const column1 = [
         { field: 'employee1', header: 'Name' },
@@ -176,9 +185,12 @@ export default function CheckIn() {
                         </div>
                         <AddAlert openAlert={openAlert} setOpenAlert={setOpenAlert} memberId={data?.member} />
                         <div className="alert-list mt-2">
-                            <p className="text-white text-sm">Membership expires at 15/1/2022</p>
-                            <p className="text-white text-sm">Membership expires at 15/1/2022</p>
-                            <p className="text-white text-sm">Membership expires at 15/1/2022</p>
+                            {data?.alerts?.slice(-3)?.map((item, index) => (
+                                <div className="flex justify-content-between align-items-center">
+                                    <p className="text-white text-sm">{item.title}</p>
+                                    <p className="text-white text-sm"> {dateConversions(item.createdAt)}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     {/* </div> */}
