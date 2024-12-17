@@ -161,7 +161,7 @@ const endPoints = {
     GET_MEMBERSHIP_PLAN_INFO: '/member-agreement-plan',
     CAMPAIGN_TYPES: '/campaign-type/',
     REGISTER_SETTINGS: '/cash-register-setting/',
-    EMPLOYEE_BARCODE: '/employee-barcode/',
+    EMPLOYEE_BARCODE: '/clock-in/validate-barcode/',
     EMPLOYEE_CHECKINOUT: '/employee-clockin-clockout/',
     EMPLOYEE_TIMESHEET: '/employee-timesheet/',
     ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
