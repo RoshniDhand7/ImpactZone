@@ -162,9 +162,9 @@ const endPoints = {
     CAMPAIGN_TYPES: '/campaign-type/',
     REGISTER_SETTINGS: '/cash-register-setting/',
     EMPLOYEE_BARCODE: '/clock-in/validate-barcode/',
-    EMPLOYEE_CHECKINOUT: '/employee-clockin-clockout/',
-    EMPLOYEE_TIMESHEET: '/employee-timesheet/',
-    ALL_EMPLOYEE_TIMESHEET: '/all-timesheet/',
+    EMPLOYEE_CHECKINOUT: '/clock-in/out/',
+    EMPLOYEE_TIMESHEET: '/clock-in/employee-timesheet/',
+    ALL_EMPLOYEE_TIMESHEET: '/clock-in/employee-timesheet/all/',
     DRAWERS: '/drawers/',
 
     SAVED_CART: '/point-of-sale/saved-carts/',
