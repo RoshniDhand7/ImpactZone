@@ -4,6 +4,7 @@ import CustomDialog from '../shared/Overlays/CustomDialog';
 import useGetClubs from '../hooks/useGetClubs';
 import { useDispatch, useSelector } from 'react-redux';
 import { onClubAction } from '../redux/actions/profileAction';
+import { getCatalogItems } from '../redux/actions/POS/catalogActions';
 
 const ChangeClub = ({ openClub, setOpenClub }) => {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const ChangeClub = ({ openClub, setOpenClub }) => {
     const handleSave = () => {
         dispatch(onClubAction(data?.club));
         localStorage.setItem('club', data?.club);
+        dispatch(getCatalogItems());
         setOpenClub(false);
     };
     return (
