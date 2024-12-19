@@ -131,7 +131,7 @@ export default function Cart({
     }, [setHeight]);
 
     const handleQuickCash = () => {
-        ifCartValidated() && onCheckout({ method: 'CASH', printReceiept: false, setLoading });
+        ifCartValidated() && onCheckout({ paymentType: [{ type: 'CASH', amount: cartDetails?.gradTotal }], printReceiept: false, setLoading });
     };
 
     console.log(memberDetail?.prepayBalance >= gradTotal, 'prePay');
@@ -140,7 +140,7 @@ export default function Cart({
         ifCartValidated() &&
             memberDetail?.prepayBalance >= gradTotal &&
             memberDetail?.prepayBalance !== 0 &&
-            onCheckout({ method: 'PRE_PAY', printReceiept: false, setLoading: setLoading1 });
+            onCheckout({ paymentType: [{ type: 'PRE_PAY', amount: cartDetails?.gradTotal }], printReceiept: false, setLoading: setLoading1 });
     };
 
     const handleNoSale = () => {

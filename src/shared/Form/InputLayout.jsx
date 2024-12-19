@@ -6,8 +6,6 @@ export default function InputLayout({ label, name, required, col, extraClassName
     if (col > 12) {
         col = 12;
     }
-    console.log(data?.formErrors, name);
-
     return (
         <div className={`col-12  md:col-${col} ${extraClassName}`}>
             {showLabel && (
