@@ -354,7 +354,7 @@ export default function PointOfSale2() {
         //eslint-disable-next-line
     }, [receiptData]);
 
-    console.log(selectedMember, 'selectedmember');
+    console.log(selectedCategory, 'selectedCategory');
 
     return (
         <div className="pos grid">

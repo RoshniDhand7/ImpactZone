@@ -104,7 +104,7 @@ const endPoints = {
     REFERRAL_GROUPS: '/referral-group/',
     COMMISSION_GROUPS: '/commission-group/',
     VENDORS: '/vendor/',
-    CATEGORIES: '/inventory-category/',
+    CATEGORIES: '/settings/inventory-setup/category/',
     FILTER_SETS: '/filter-set/',
     TAGS: '/tag/',
     PROFIT_CENTERS: '/settings/inventory-setup/profit-center/',
