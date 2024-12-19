@@ -403,10 +403,20 @@ export const CustomInputNumber = ({
     customIndex,
     fieldName,
     maxFractionDigits = 4,
+    showLabel = true,
     ...props
 }) => {
     return (
-        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout
+            col={col || 4}
+            label={label}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+            showLabel={showLabel}
+        >
             <InputNumber
                 id={name}
                 name={name}

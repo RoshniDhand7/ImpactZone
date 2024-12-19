@@ -107,6 +107,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                                     placeholder="Enter amount"
                                     min={0}
                                     max={gradTotal}
+                                    showLabel={false}
                                 />
                             </div>
                         ))}
