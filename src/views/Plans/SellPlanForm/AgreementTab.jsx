@@ -1,45 +1,29 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import formValidation from '../../utils/validations';
-import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
-import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInputNumber } from '../../shared/Input/AllInputs';
-import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
+import formValidation from '../../../utils/validations';
+import CustomCard, { CustomGridLayout } from '../../../shared/Cards/CustomCard';
+import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInputNumber } from '../../../shared/Input/AllInputs';
+import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../redux/actions/Plans/SellPlan';
-import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../utils/dropdownConstants';
+import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../../redux/actions/Plans/SellPlan';
+import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../../utils/dropdownConstants';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
-import { showArrayFormErrors, showFormErrors, uniqueData } from '../../utils/commonFunctions';
+import { showArrayFormErrors, showFormErrors, uniqueData } from '../../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
-import useCancelSellPlans from '../../hooks/useCancelSellPlans';
-import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
-import { getMembersipTypes } from '../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
-import { getCampaigns } from '../../redux/actions/Settings/MembershipSetup/campaignsAction';
-import { getEmployees } from '../../redux/actions/Settings/Employee/employeesAction';
+import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getEmployees } from '../../../redux/actions/Settings/Employee/employeesAction';
 
-const AgreementTab = ({ onTabEnable }) => {
+const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [data, setData] = useState({
-        oftenClientCharged: '',
-        membershipType: '',
-        services: '',
-        club: '',
-        salesPerson: '',
-        memberSince: '',
-        signDate: '',
-        beginDate: '',
-        firstDueDate: '',
-        assessedFee: '',
-        agreementNo: 0,
-    });
     useEffect(() => {
         dispatch(getEmployees());
         dispatch(getCampaigns());
         dispatch(getMembersipTypes());
-        dispatch(getMembers());
     }, [dispatch]);
 
     const [items, setItems] = useState([]);
@@ -63,10 +47,10 @@ const AgreementTab = ({ onTabEnable }) => {
     const { campaignDropdown } = useSelector((state) => state.settings.members);
 
     const handleChange = ({ name, value }) => {
-        const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        const formErrors = formValidation(name, value, planInfo);
+        setPlanInfo((prev) => ({ ...prev, [name]: value, formErrors }));
         if (name === 'agreementNo') {
-            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+            setPlanInfo((prev) => ({ ...prev, [name]: value, formErrors }));
             if (value) {
                 debouncedChangeHandler(value);
             }
@@ -76,19 +60,19 @@ const AgreementTab = ({ onTabEnable }) => {
     const handleChange1 = (e) => {
         const inputValue = e.value;
         const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
-        const formErrors = formValidation('referredBy', trimmedValue, data);
-        setData((prev) => ({ ...prev, referredBy: trimmedValue, formErrors }));
+        const formErrors = formValidation('referredBy', trimmedValue, planInfo);
+        setPlanInfo((prev) => ({ ...prev, referredBy: trimmedValue, formErrors }));
     };
 
     const changeHandler = (val) => {
-        const formErrors = formValidation('agreementNo', val, data);
+        const formErrors = formValidation('agreementNo', val, planInfo);
         dispatch(
             checkAgreementNumberAction(val, newPlanId, (success) => {
                 if (success) {
-                    setData((prev) => ({ ...prev, agreementNo: val, formErrors }));
+                    setPlanInfo((prev) => ({ ...prev, agreementNo: val, formErrors }));
                 } else {
                     formErrors['agreementNo'] = 'Agreement number is not unique';
-                    setData((prev) => ({ ...prev, agreementNo: val, formErrors }));
+                    setPlanInfo((prev) => ({ ...prev, agreementNo: val, formErrors }));
                 }
             }),
         );
@@ -103,39 +87,14 @@ const AgreementTab = ({ onTabEnable }) => {
         [],
     );
 
-    useEffect(() => {
-        if (id) {
-            dispatch(
-                getSellPlan(newPlanId, (data) => {
-                    setData({
-                        ...data,
-                        services: uniqueData(data.services),
-                        salesPerson: data.addmember.salesPerson,
-                        campaign: data.addmember.campaign,
-                        memberSince: new Date(data.addmember.createdAt),
-                        signDate: data.signDate ? new Date(data.signDate) : new Date(),
-                        beginDate: data.beginDate ? new Date(data.beginDate) : new Date(),
-                        assessedFee: data.assessedFee.map((item) => ({
-                            ...item,
-                            dueDate: item.dueDate ? new Date(item.dueDate) : '',
-                            recurring: item.recurring,
-                            apply: item.apply,
-                        })),
-                    });
-                }),
-            );
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const handleChangeDynamicFields = ({ name, value, customIndex, fieldName }) => {
-        const _newData = { ...data };
+        const _newData = { ...planInfo };
         let obj = _newData[fieldName][customIndex];
         obj[name] = value;
         const formErrors = formValidation(name, value, obj);
         obj.formErrors = formErrors;
         _newData[fieldName][customIndex] = obj;
-        setData(() => ({ ..._newData }));
+        setPlanInfo(() => ({ ..._newData }));
     };
 
     const templateRenderer = (field, rowData, index, fieldName) => {
@@ -151,15 +110,15 @@ const AgreementTab = ({ onTabEnable }) => {
             case 'firstDueDate':
                 return <CustomCalenderInput minDate={new Date()} name="firstDueDate" {...commonProps} readOnlyInput={true} />;
             case 'numberOfPayments':
-                return <CustomDropDown name="numberOfPayments" options={noOfPaymentOptions} required {...commonProps} />;
+                return <CustomDropDown name="isRecurring" label="Number Of Payments" options={noOfPaymentOptions} required {...commonProps} />;
             case 'autoRenew':
                 return <CustomDropDown label="Auto Renew to Open" name="autoRenew" options={yesNoOptions} required {...commonProps} />;
             case 'unitPrice':
-                return <CustomInputNumber prefix="$" name="unitPrice" minFractionDigits={4} maxFractionDigits={4} {...commonProps} />;
+                return <CustomInputNumber prefix="$" name="unitPrice" maxFractionDigits={4} {...commonProps} />;
             case 'dueDate':
                 return <CustomCalenderInput minDate={new Date()} name="dueDate" {...commonProps} readOnlyInput={true} required />;
             case 'amount':
-                return <CustomInputNumber prefix="$" name="amount" minFractionDigits={4} maxFractionDigits={4} {...commonProps} required />;
+                return <CustomInputNumber prefix="$" name="amount" maxFractionDigits={4} {...commonProps} required />;
             case 'apply':
                 return <CustomDropDown label="Apply" name="apply" options={yesNoOptions} required {...commonProps} />;
             case 'recurring':
@@ -168,22 +127,23 @@ const AgreementTab = ({ onTabEnable }) => {
                 return rowData[field];
         }
     };
+
     const handleNext = (tab) => {
-        if (showFormErrors(data, setData)) {
-            const validated = showArrayFormErrors(data.services);
-            const validatedAssessedFee = showArrayFormErrors(data.assessedFee);
+        if (showFormErrors(planInfo, setPlanInfo)) {
+            const validated = showArrayFormErrors(planInfo.services);
+            const validatedAssessedFee = showArrayFormErrors(planInfo.assessedFee);
 
             if (!validated.isValid) {
-                setData((prev) => ({ ...prev, services: validated.data }));
+                setPlanInfo((prev) => ({ ...prev, services: validated.data }));
             }
             if (!validatedAssessedFee.isValid) {
-                setData((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
+                setPlanInfo((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
             }
             if (validated.isValid && validatedAssessedFee.isValid) {
                 const payload = {
-                    ...data,
-                    referredBy: data.referredBy?.fullName ? data.referredBy?.fullName : '',
-                    services: data.services?.map((item) => ({
+                    ...planInfo,
+                    referredBy: planInfo.referredBy?.fullName ? planInfo.referredBy?.fullName : '',
+                    services: planInfo.services?.map((item) => ({
                         catalogId: item._id,
                         name: item.name,
                         unitPrice: item.unitPrice,
@@ -191,7 +151,7 @@ const AgreementTab = ({ onTabEnable }) => {
                         firstDueDate: item.firstDueDate,
                         autoRenew: item.autoRenew,
                     })),
-                    assessedFee: data.assessedFee?.map((assesedfee) => ({
+                    assessedFee: planInfo.assessedFee?.map((assesedfee) => ({
                         assessedFeeId: assesedfee._id,
                         name: assesedfee.name,
                         amount: assesedfee.amount,
@@ -214,6 +174,7 @@ const AgreementTab = ({ onTabEnable }) => {
             }
         }
     };
+
     const search = (event) => {
         let query = event.query;
         let _filteredItems = allMembers.filter((item) => {
@@ -224,32 +185,24 @@ const AgreementTab = ({ onTabEnable }) => {
         setItems(_filteredItems);
         return _filteredItems;
     };
-    const { confirm } = useCancelSellPlans(newPlanId);
 
     return (
         <>
             <CustomCard col="12" title="Membership">
                 <CustomGridLayout>
-                    <CustomGroupInput name="agreementNo" data={data} onChange={handleChange} required prefixName={data?.club?.name} />
-                    <CustomDropDown name="membershipType" options={membershipTypesDropdown} onChange={handleChange} data={data} required disabled />
-                    <CustomDropDown
-                        name="oftenClientCharged"
-                        label="How Often will Clients Be Charged"
-                        options={oftenClientChargedOptions}
-                        onChange={handleChange}
-                        data={data}
-                        disabled
-                    />
+                    <CustomGroupInput name="agreementNo" data={planInfo} onChange={handleChange} required prefixName={planInfo?.club} />
+                    <CustomDropDown name="membershipType" options={membershipTypesDropdown} onChange={handleChange} data={planInfo} required disabled />
+                    <CustomDropDown name="howOftenWillClientsBeCharged" options={oftenClientChargedOptions} onChange={handleChange} data={planInfo} disabled />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Sales Information">
                 <CustomGridLayout>
-                    <CustomDropDown name="salesPerson" data={data} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
+                    <CustomDropDown name="salesPerson" data={planInfo} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
                     <div className="md:col-4">
                         <label className="text-sm font-semibold">Referred By</label>
                         <AutoComplete
                             field="fullName"
-                            value={data.referredBy}
+                            value={planInfo.referredBy}
                             suggestions={items}
                             completeMethod={search}
                             onChange={handleChange1}
@@ -260,19 +213,18 @@ const AgreementTab = ({ onTabEnable }) => {
                             itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
                         />
                     </div>
-                    {/* <CustomInput name="referredBy" col={3} data={data} onChange={handleChange} /> */}
-                    <CustomDropDown name="campaign" data={data} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
+                    <CustomDropDown name="campaign" data={planInfo} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Dates">
                 <CustomGridLayout>
-                    <CustomCalenderInput name="memberSince" required data={data} onChange={handleChange} disabled />
-                    <CustomCalenderInput name="signDate" required data={data} onChange={handleChange} minDate={new Date()} />
-                    <CustomCalenderInput name="beginDate" required data={data} onChange={handleChange} minDate={new Date()} />
+                    <CustomCalenderInput name="memberSince" required data={planInfo} onChange={handleChange} disabled />
+                    <CustomCalenderInput name="signDate" required data={planInfo} onChange={handleChange} minDate={new Date()} />
+                    <CustomCalenderInput name="beginDate" required data={planInfo} onChange={handleChange} minDate={new Date()} />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Services">
-                <DataTable value={data?.services} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={planInfo?.services} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                     <Column field="name" header="Name" className="bg-light-green font-bold" />
                     <Column
                         body={(rowData, index) => templateRenderer('firstDueDate', rowData, index, 'services')}
@@ -297,7 +249,7 @@ const AgreementTab = ({ onTabEnable }) => {
                 </DataTable>
             </CustomCard>
             <CustomCard col="12" title="Assessed Fees">
-                <DataTable value={data?.assessedFee} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={planInfo?.assessedFee} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                     <Column field="name" header="Name" className="bg-light-green font-bold" />
                     <Column
                         body={(rowData, index) => templateRenderer('dueDate', rowData, index, 'assessedFee')}
@@ -322,9 +274,9 @@ const AgreementTab = ({ onTabEnable }) => {
                 </DataTable>
             </CustomCard>
             <CustomButtonGroup>
-                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
+                <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('?tab=payment-amounts')} />
                 <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} />
-                <LightButton label="Cancel" onClick={confirm} />
+                <LightButton label="Cancel" onClick={onCancel} />
             </CustomButtonGroup>
         </>
     );

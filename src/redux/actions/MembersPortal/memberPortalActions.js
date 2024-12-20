@@ -35,14 +35,12 @@ const getMembers = () => async (dispatch) => {
 };
 const addMembers = (data, next) => async (dispatch) => {
     dispatch(showLoaderAction());
-
     if (data.image.length) {
         let urls = await uploadImages(data.image);
         data.image = urls[0];
     } else {
         data.image = '';
     }
-
     const paylaod = {
         ...data,
         ...(data?.primaryPhone && { primaryPhone: data?.primaryPhone?.replace(/\D/g, '') }),
@@ -94,7 +92,6 @@ const getServices = () => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-
 const getAgreements = (id) => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.AGREEMENT, {}, { memberId: id });
     if (res.success) {
@@ -106,7 +103,6 @@ const getAgreements = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-
 const getAgreementView = (id, setData) => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.AGREEMENT_VIEW + id);
     if (res.success) {

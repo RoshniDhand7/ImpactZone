@@ -49,7 +49,6 @@ const AgreementPlanForm = () => {
         whatHappensAfterAutopayPayments: 'CONTRACT_EXPIRES',
         sellOnline: '',
         onlineDescription: '',
-        oneTimePlan: '',
         agreementPlans: [],
         isActive: true,
     });
@@ -106,7 +105,7 @@ const AgreementPlanForm = () => {
                         name: data.name,
                         membershipType: data?.membershipType?._id,
                         agreementTemplate: data.agreementTemplate,
-                        assessedFee: data?.assessedFee?.id,
+                        assessedFee: data?.assessedFees?.map((item) => item._id),
                         services: data.services,
                         autoPay: data.autoPay,
                         howOftenWillClientsBeCharged: data.howOftenWillClientsBeCharged,

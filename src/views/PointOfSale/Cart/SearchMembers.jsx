@@ -26,8 +26,6 @@ export default function SearchMembers({ selectedMember, setSelectedMember }) {
     return (
         <div>
             <CustomAsyncReactSelect
-                name="memberSell"
-                field="fullName"
                 suggestions={suggestions}
                 options={options}
                 placeholder="Search Member"

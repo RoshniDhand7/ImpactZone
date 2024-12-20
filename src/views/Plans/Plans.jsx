@@ -8,16 +8,16 @@ import { useHistory } from 'react-router-dom';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import PlanFilters from './PlanFilters';
 import useFilters from '../../hooks/useFilters';
-import { getMembershipPlans } from '../../redux/actions/Settings/AgreementSetup/agreementPlanAction';
+import { getActivePlans } from '../../redux/actions/Plans/plansActions';
 
 export default function Plans() {
+    const club = useSelector((state) => state.profile.club);
+    const agreementPlans = useSelector((state) => state.plans.active);
     const dispatch = useDispatch();
     const history = useHistory();
     useEffect(() => {
-        dispatch(getMembershipPlans());
-    }, [dispatch]);
-
-    const { agreementPlans } = useSelector((state) => state.settings.agreement);
+        dispatch(getActivePlans());
+    }, [club, dispatch]);
 
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(agreementPlans);
 

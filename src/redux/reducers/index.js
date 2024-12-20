@@ -15,13 +15,12 @@ import catalogItemsReducer from './InventorySettings/catalogItemsReducer';
 import taxReducer from './PosSettings/taxReducer';
 import paymentMethodReducer from './PosSettings/PaymentMethodsReducer';
 import discountTypeReducer from './PosSettings/discountTypeReducer';
-import memberReducer from './Dashboard/MembersReducer';
-import sellPlanReducer from './Plans/SellPlanReducer';
+import plansReducer from './Plans/plansReducer';
 import filterSetReducer from './InventorySettings/filterSetReducer';
 import tagsReducer from './InventorySettings/tagsReducer';
-import POSReducer1 from './POSReducer1';
+
 import dashboardReducer from './Dashboard/DashboardReducer';
-import Pos from './POS/PosReducer';
+
 import RegisterReducer from './PosSettings/registerReducer';
 import drawersReducer from './More/DrawersReducer';
 import moreAttendanceReducer from './More/AttendanceReducer';
@@ -52,13 +51,10 @@ export default combineReducers({
     taxes: taxReducer,
     paymentMethod: paymentMethodReducer,
     discountType: discountTypeReducer,
-    members: memberReducer,
-    plans: sellPlanReducer,
+    plans: plansReducer,
     filterSet: filterSetReducer,
     tags: tagsReducer,
-    POS: POSReducer1,
     dashboard: dashboardReducer,
-    PointOfSale: Pos,
     registers: RegisterReducer,
     drawers: drawersReducer,
     settings: SettingsReducer,

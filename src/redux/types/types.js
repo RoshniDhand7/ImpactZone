@@ -194,6 +194,10 @@ export const types = {
             DEPARTMENT: 'DEPARTMENT',
         },
     },
+    PLANS: {
+        ACTIVE: 'ACTIVE',
+        DRAFT: 'DRAFT',
+    },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
     CHANGE_TASK: 'CHANGE_TASK',
 };
