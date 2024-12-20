@@ -342,6 +342,7 @@ export default function PointOfSale2() {
                 setSelectedItems([]);
                 setSelectedMember('');
                 onCloseCheckout();
+                setAdditionalPrePay(0);
                 if (printReceiept) {
                     setReceiptData(e);
                 }
