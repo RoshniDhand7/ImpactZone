@@ -1,11 +1,17 @@
 import { types } from '../../types/types';
 const intitalState = {
+    active: [],
     allDrafts: [],
 };
 
-const sellPlanReducer = (state = intitalState, action) => {
+const plansReducer = (state = intitalState, action) => {
     switch (action.type) {
-        case types.CHANGE_DRAFTS:
+        case types.PLANS.ACTIVE:
+            return {
+                ...state,
+                active: action.payload,
+            };
+        case types.PLANS.DRAFT:
             return {
                 ...state,
                 allDrafts: action.payload,
@@ -16,4 +22,4 @@ const sellPlanReducer = (state = intitalState, action) => {
     }
 };
 
-export default sellPlanReducer;
+export default plansReducer;

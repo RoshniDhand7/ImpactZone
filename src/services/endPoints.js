@@ -1,4 +1,8 @@
 const endPoints = {
+    PLANS: {
+        ACTIVE: '/plans/active/',
+        MEMBER: '/plans/member/',
+    },
     SETTINGS: {
         POS: {
             REGISTER: '/settings/pos/register/',
@@ -60,7 +64,6 @@ const endPoints = {
     },
     VALIDATE_ACCESS_CODE: '/validate-access-code/',
     //member
-
     MEMBERS_V2: {
         MEMBERS: '/memberV2/',
         MEMBER: '/memberV2/detail/',

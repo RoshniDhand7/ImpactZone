@@ -11,7 +11,7 @@ const getAllDrafts = () => async (dispatch) => {
     if (res.success) {
         if (res.data) {
             dispatch({
-                type: types.CHANGE_DRAFTS,
+                type: types.PLANS.DRAFT,
                 payload: res.data,
             });
         }

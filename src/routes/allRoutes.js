@@ -14,7 +14,7 @@ import MembersSetup from '../views/Settings/MembersSetup/MembersSetup';
 import Inventory from '../views/Settings/Inventory/Inventory';
 import PointOfSaleSetUp from '../views/Settings/PointOfSale/PointOfSale';
 import AddMembers from '../views/Members/AddMembers';
-import SellPlanForm from '../views/Plans/SellPlanForm';
+import SellPlanForm from '../views/Plans/SellPlanForm/SellPlanForm';
 import AllDrafts from '../views/Plans/AllDrafts';
 import PlanAgreement from '../views/Plans/Agreement';
 import BusinessSettingRoutes from './Settings/BusinessRoutes';

@@ -90,11 +90,11 @@ export const durationTypeOptions = [
 export const noOfPaymentOptions = [
     {
         name: 'One Time Service',
-        value: 'One time',
+        value: false,
     },
     {
         name: 'Recurring',
-        value: 'Recuring',
+        value: true,
     },
 ];
 

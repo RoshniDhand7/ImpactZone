@@ -118,6 +118,9 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'message':
         case 'title':
         case 'description':
+        case 'city':
+        case 'state':
+        case 'description':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {
@@ -169,8 +172,6 @@ const formValidation = (name, value, state, ignore = []) => {
 
         case 'multiClubInOut':
         case 'clockInRequired':
-        case 'state':
-        case 'city':
         case 'eventType':
         case 'internalUse':
         case 'bookOutFrom':

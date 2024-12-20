@@ -3,7 +3,6 @@ import FilterComponent from '../../components/FilterComponent';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomMultiselect } from '../../shared/Input/AllInputs';
 import { useDispatch, useSelector } from 'react-redux';
-import useAgreementPlan from '../../hooks/Agreement/useAgreementPlan';
 import { getAgreementCategories } from '../../redux/actions/Settings/AgreementSetup/agreementCategoriesAction';
 
 const PlanFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }) => {
@@ -13,7 +12,6 @@ const PlanFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }
     }, [dispatch]);
 
     const agreementCategoryDropdown = useSelector((state) => state.settings.agreement.agreementCategoryDropdown);
-    const { agreementPlansDropdown } = useAgreementPlan();
 
     const [data, setData] = useState({
         filterType: 'AND',
@@ -34,7 +32,6 @@ const PlanFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisible }
             setData={setData}
         >
             <CustomGridLayout>
-                <CustomMultiselect col="12" name="_id" label="Plan" data={data} onChange={handleChange} options={agreementPlansDropdown} showClear />
                 <CustomMultiselect
                     col="12"
                     name="categoryId"
