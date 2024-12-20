@@ -45,6 +45,8 @@ export default function PointOfSale2() {
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
+    const [additionalPrePay, setAdditionalPrePay] = useState(0);
+
     const [variationProduct, setVariationProduct] = useState(null);
     const [memberDetail, setMemberDetail] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -62,9 +64,7 @@ export default function PointOfSale2() {
         } else {
             setMemberDetail(null);
         }
-    }, [selectedMember]);
-
-    console.log(memberDetail, 'memberDetail');
+    }, [selectedMember, dispatch]);
 
     //Count final detailed price and calculations
     useEffect(() => {
@@ -94,8 +94,9 @@ export default function PointOfSale2() {
             total += item?.finalTotal;
         });
         gradTotal = total + tax - waivedTaxAmount;
+        gradTotal = gradTotal + additionalPrePay;
         setCartDetails({ netTotal, total, tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal });
-    }, [cartItems]);
+    }, [cartItems, additionalPrePay]);
 
     //will create cart arr obj from selected items, will calculate all the dynamic pricing and dynamic discounts here
     useEffect(() => {
@@ -334,6 +335,7 @@ export default function PointOfSale2() {
             cartItems,
             cartDetails,
             cashRegister: drawer,
+            additionalPrePay,
         };
         dispatch(
             onCheckoutAction(payload, setLoading, (e) => {
@@ -382,6 +384,8 @@ export default function PointOfSale2() {
                     loading1={loading1}
                     setLoading={setLoading}
                     setLoading1={setLoading1}
+                    additionalPrePay={additionalPrePay}
+                    setAdditionalPrePay={setAdditionalPrePay}
                 />
             </div>
             <VariationPopup visible={variationProduct} onCancel={onCloseVariation} onAddItemIntoCart={onAddItemIntoCart} />

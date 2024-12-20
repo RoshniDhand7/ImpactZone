@@ -30,6 +30,7 @@ const Receipts = () => {
         { body: (r) => `${r?.member?.firstName} ${r?.member?.lastName}`, header: 'Customer' },
         { body: (r) => `$${r?.amount}`, header: 'Price' },
         { field: 'cashRegister', header: 'Station' },
+        // { field: 'status', body: (r) => <PrimaryButton name="" label={r?.status ? 'VOID' : 'RETURN'} /> },
         {
             field: 'employeeName',
             body: (r) => (

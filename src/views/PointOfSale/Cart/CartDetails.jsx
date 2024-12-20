@@ -4,11 +4,22 @@ import { Messages } from 'primereact/messages';
 import PrimaryButton, { CustomButton } from '../../../shared/Button/CustomButton';
 import { validatePromoCodeAction } from '../../../redux/actions/POS/PosActions';
 
-export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo, onOpenSaveCartPopup, onOpenCheckout, cartItems, memberDetail }) {
+export default function CartDetails({
+    cartDetails,
+    setAppliedPromo,
+    appliedPromo,
+    onOpenSaveCartPopup,
+    onOpenCheckout,
+    cartItems,
+    memberDetail,
+    showPrePay,
+    setShowPrePay,
+    additionalPrePay,
+    setAdditionalPrePay,
+}) {
     const dispatch = useDispatch();
     let { tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [promo, setPromo] = useState('');
-
     const msgs = useRef(null);
 
     const validatePromo = () => {
@@ -30,13 +41,31 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
         setAppliedPromo(null);
     };
 
+    const handleAddPrePay = () => {
+        const roundedTotal = Math.ceil(gradTotal / 10) * 10;
+        const additionalAmount = roundedTotal - gradTotal;
+        console.log(roundedTotal, additionalAmount, 'roundedTotal');
+        setAdditionalPrePay(additionalAmount);
+        setShowPrePay(!showPrePay);
+    };
+    const handlePrePayChange = (e) => {
+        const parsedValue = parseInt(e.target.value) || 0;
+        setAdditionalPrePay(parsedValue);
+    };
+
     return (
         <>
             {cartItems?.length > 0 && (
                 <>
-                    <div className="text-xl font-medium mb-2">
-                        <div>Pricing Detail</div>
+                    <div className="flex justify-content-between">
+                        <div className="text-xl font-medium mb-2">
+                            <div>Pricing Detail</div>
+                        </div>
+                        <div className="text-lg font-semibold mb-2 underline text-blue-500 cursor-pointer" onClick={handleAddPrePay}>
+                            <div>Add Prepay</div>
+                        </div>
                     </div>
+
                     <div className="flex justify-content-between">
                         <div className="text-dark-gray">Net Total:</div>
                         <div className="font-medium ">${netTotal?.toFixed(2)}</div>
@@ -77,6 +106,12 @@ export default function CartDetails({ cartDetails, setAppliedPromo, appliedPromo
                     <div className="text-dark-gray">Account Balance:</div>
                     <div className="font-medium text-red-600">$2.00</div>
                 </div> */}
+                    {showPrePay && (
+                        <div className="flex justify-content-between">
+                            <div className="text-dark-gray">Additional PrePay:</div>
+                            <input type="number" name="additionalPrePay" onChange={handlePrePayChange} value={additionalPrePay} style={{ width: '45px' }} />
+                        </div>
+                    )}
                     <div className="flex justify-content-between">
                         <div className="text-dark-gray">Final Total:</div>
                         <div className="font-medium ">${gradTotal?.toFixed(2)}</div>

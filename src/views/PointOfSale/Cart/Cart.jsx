@@ -37,6 +37,8 @@ export default function Cart({
     loading1,
     setLoading,
     setLoading1,
+    additionalPrePay,
+    setAdditionalPrePay,
 }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -112,6 +114,7 @@ export default function Cart({
     const [openDrawer, setOpenDrawer] = useState(false);
     const [closeDrawer, setCloseDrawer] = useState(false);
     const [openAddDrop, setOpenAddDrop] = useState(false);
+    const [showPrePay, setShowPrePay] = useState(false);
 
     let items = [
         { label: 'Add/Drop', command: () => setOpenAddDrop(true) },
@@ -131,7 +134,7 @@ export default function Cart({
     }, [setHeight]);
 
     const handleQuickCash = () => {
-        ifCartValidated() && onCheckout({ paymentType: [{ type: 'CASH', amount: cartDetails?.gradTotal }], printReceiept: false, setLoading });
+        ifCartValidated() && onCheckout({ paymentType: [{ type: 'CASH', amount: gradTotal }], printReceiept: false, setLoading });
     };
 
     console.log(memberDetail?.prepayBalance >= gradTotal, 'prePay');
@@ -140,7 +143,7 @@ export default function Cart({
         ifCartValidated() &&
             memberDetail?.prepayBalance >= gradTotal &&
             memberDetail?.prepayBalance !== 0 &&
-            onCheckout({ paymentType: [{ type: 'PRE_PAY', amount: cartDetails?.gradTotal }], printReceiept: false, setLoading: setLoading1 });
+            onCheckout({ paymentType: [{ type: 'PRE_PAY', amount: gradTotal }], printReceiept: false, setLoading: setLoading1 });
     };
 
     const handleNoSale = () => {
@@ -195,6 +198,10 @@ export default function Cart({
                                 onOpenSaveCartPopup={onOpenSaveCartPopup}
                                 onOpenCheckout={onOpenCheckout}
                                 memberDetail={memberDetail}
+                                showPrePay={showPrePay}
+                                setShowPrePay={setShowPrePay}
+                                additionalPrePay={additionalPrePay}
+                                setAdditionalPrePay={setAdditionalPrePay}
                             />
                         </div>
                     </div>
