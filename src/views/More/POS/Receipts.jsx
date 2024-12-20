@@ -5,8 +5,9 @@ import CustomTable from '../../../shared/Table/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
-import { getReceiptsAction } from '../../../redux/actions/POS/saleActions';
+import { getReceiptsAction, receiptsReturnAction, receiptsVoidAction } from '../../../redux/actions/POS/saleActions';
 import { formatDateTime } from '../../../utils/dateTime';
+import { Tag } from 'primereact/tag';
 
 const Receipts = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,14 @@ const Receipts = () => {
     useEffect(() => {
         dispatch(getReceiptsAction());
     }, [dispatch]);
+
+    const handleStatus = (id, status) => {
+        if (status === 'VOID') {
+            dispatch(receiptsVoidAction(id));
+        } else {
+            dispatch(receiptsReturnAction(id));
+        }
+    };
 
     const columns = [
         {
@@ -30,7 +39,18 @@ const Receipts = () => {
         { body: (r) => `${r?.member?.firstName} ${r?.member?.lastName}`, header: 'Customer' },
         { body: (r) => `$${r?.amount}`, header: 'Price' },
         { field: 'cashRegister', header: 'Station' },
-        // { field: 'status', body: (r) => <PrimaryButton name="" label={r?.status ? 'VOID' : 'RETURN'} /> },
+        {
+            field: 'status',
+            body: (r) =>
+                r?.status === 'SALE' ? (
+                    <PrimaryButton
+                        label={r?.registerStatus === 'OPEN' ? 'Void' : 'Return'}
+                        onClick={() => handleStatus(r?._id, r?.registerStatus === 'OPEN' ? 'VOID' : 'RETURN')}
+                    />
+                ) : (
+                    <Tag severity={r?.status === 'VOID' ? 'warning' : 'Success'} value={r?.status === 'VOID' ? 'Voided' : 'Returned'}></Tag>
+                ),
+        },
         {
             field: 'employeeName',
             body: (r) => (

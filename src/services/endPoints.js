@@ -51,6 +51,8 @@ const endPoints = {
     },
     POS: {
         SALE: '/point-of-sale/sale/',
+        RETURN: '/point-of-sale/sale/return/',
+        VOID: '/point-of-sale/sale/void/',
         REGISTER: '/point-of-sale/registers/',
         REGISTER_STATUS: '/point-of-sale/registers/status',
         ADD_DROP: '/point-of-sale/add-drop',

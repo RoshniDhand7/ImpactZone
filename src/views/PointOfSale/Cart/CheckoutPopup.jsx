@@ -21,7 +21,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
         onCancel();
     };
     const onSubmit = () => {
-        onCheckout({ paymentType: method, printReceiept }, setLoading);
+        onCheckout({ paymentType: method, printReceiept, setLoading });
     };
 
     const handleMethodToggle = (type) => {

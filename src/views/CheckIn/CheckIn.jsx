@@ -80,7 +80,7 @@ export default function CheckIn() {
                 alerts: notification?.notification,
             }));
         }
-    }, [getCheckInData, members]);
+    }, [getCheckInData, members, data?.member]);
 
     const column1 = [
         { field: 'employee1', header: 'Name' },
