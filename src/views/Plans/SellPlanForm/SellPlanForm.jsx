@@ -123,6 +123,7 @@ const SellPlanForm = () => {
         } else {
             setDisabledTabIndices([...disabledTabIndices, 1]);
         }
+        //eslint-disable-next-line
     }, [selectedMember, dispatch]);
 
     const onTabEnable = (index) => {

@@ -166,6 +166,18 @@ export const PrintReceipt = React.forwardRef(({ data, loading }, ref) => {
                 <ItemCard loading={loading} label="Waived Tax Amount" value={data.cartDetails?.waivedTaxAmount} prefix="-" />
                 <ItemCard loading={loading} label="Grand Total" value={data.cartDetails?.gradTotal} />
             </div>
+            {(data?.status === 'VOID' || data?.status === 'RETURN') && (
+                <div
+                    style={{
+                        marginTop: '10px',
+                        borderTop: '1px dotted black',
+                        paddingTop: '5px',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    THIS IS {data?.status} TRANSACTION
+                </div>
+            )}
 
             <div
                 style={{

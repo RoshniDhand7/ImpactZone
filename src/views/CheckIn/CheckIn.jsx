@@ -186,9 +186,9 @@ export default function CheckIn() {
                         <AddAlert openAlert={openAlert} setOpenAlert={setOpenAlert} memberId={data?.member} />
                         <div className="alert-list mt-2">
                             {data?.alerts?.slice(-3)?.map((item, index) => (
-                                <div className="flex justify-content-between align-items-center">
-                                    <p className="text-white text-sm">{item.title}</p>
-                                    <p className="text-white text-sm"> {dateConversions(item.createdAt)}</p>
+                                <div className="flex justify-content-between align-items-center mb-2" style={{ color: item.colorType }}>
+                                    <p className={`text-sm`}>{item.title}</p>
+                                    <p className={` text-sm`}> {dateConversions(item.createdAt)}</p>
                                 </div>
                             ))}
                         </div>

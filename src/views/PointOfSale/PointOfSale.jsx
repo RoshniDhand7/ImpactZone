@@ -45,7 +45,7 @@ export default function PointOfSale2() {
     const [cartItems, setCartItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [cartDetails, setCartDetails] = useState({});
-    const [additionalPrePay, setAdditionalPrePay] = useState(0);
+    const [additionalPrePay, setAdditionalPrePay] = useState(null);
 
     const [variationProduct, setVariationProduct] = useState(null);
     const [memberDetail, setMemberDetail] = useState(null);
@@ -309,7 +309,7 @@ export default function PointOfSale2() {
             dispatch(showToast({ severity: 'warn', summary: 'Please select drawers to proceed with checkout.' }));
             return;
         }
-        if (!selectedItems.length) {
+        if (cartDetails?.gradTotal <= 0) {
             dispatch(showToast({ severity: 'warn', summary: 'Your cart is empty. Add items to proceed.' }));
             return;
         }

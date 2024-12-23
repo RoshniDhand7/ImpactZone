@@ -17,7 +17,13 @@ const Alerts = () => {
 
     const columns = [
         { field: 'createdAt', body: (r) => dateConversions(r?.createdAt), header: 'Date' },
-        { field: 'title', header: 'Title' },
+        {
+            field: 'title',
+            body: (r) => {
+                return <p style={{ color: r?.colorType }}>{r?.title}</p>;
+            },
+            header: 'Title',
+        },
         { field: 'employee', header: 'Employee' },
     ];
     return (

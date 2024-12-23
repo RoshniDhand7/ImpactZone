@@ -3,7 +3,6 @@ import CustomCard, { CustomFilterCard, CustomListItem } from '../../../shared/Ca
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
-import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
 import { CustomAsyncReactSelect } from '../../../shared/Input/AllInputs';
 
 const PlanTab = ({ onTabEnable, onCancel, planInfo, selectedMember, setSelectedMember }) => {

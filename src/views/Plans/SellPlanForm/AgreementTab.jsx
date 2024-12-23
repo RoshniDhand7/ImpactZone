@@ -5,12 +5,12 @@ import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInputNumbe
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../../redux/actions/Plans/SellPlan';
+import { checkAgreementNumberAction, editSellPlan } from '../../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../../utils/dropdownConstants';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
-import { showArrayFormErrors, showFormErrors, uniqueData } from '../../../utils/commonFunctions';
+import { showArrayFormErrors, showFormErrors } from '../../../utils/commonFunctions';
 import { AutoComplete } from 'primereact/autocomplete';
 import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';

@@ -12,7 +12,7 @@ export default function SearchMembers({ selectedMember, setSelectedMember }) {
 
     const options = useMemo(() => allMembers.map((item) => ({ name: `${item.firstName} ${item?.MI} ${item?.lastName}`, value: item?._id })), [allMembers]);
     const suggestions = useMemo(
-        () => recentMembers.map((item) => ({ name: `${item.firstName} ${item?.MI} ${item?.lastName}`, value: item?._id })),
+        () => recentMembers?.map((item) => ({ name: `${item.firstName} ${item?.MI} ${item?.lastName}`, value: item?._id })),
         [recentMembers],
     );
 

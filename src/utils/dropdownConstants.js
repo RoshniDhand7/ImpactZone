@@ -39,20 +39,28 @@ export const taskTypeOptions = [
 ];
 export const colorOptions = [
     {
-        name: 'Info',
-        value: 'INFO',
+        name: 'Red',
+        value: '#E60606',
     },
     {
-        name: 'Success',
-        value: 'SUCCESS',
+        name: 'Blue',
+        value: '#06CBE6',
     },
     {
-        name: 'Warning',
-        value: 'WARNING',
+        name: 'Green',
+        value: '#20B03C',
     },
     {
-        name: 'Danger',
-        value: 'DANGER',
+        name: 'Yellow',
+        value: '#FFC348',
+    },
+    {
+        name: 'Orange',
+        value: '#FE7135',
+    },
+    {
+        name: 'Purple',
+        value: '#6C45BE',
     },
 ];
 export const defaultDiscountOptions = [

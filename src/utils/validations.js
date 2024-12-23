@@ -120,7 +120,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'description':
         case 'city':
         case 'state':
-        case 'description':
             if (equal(length(value))) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else if (whiteSpaceCheck(value)) {

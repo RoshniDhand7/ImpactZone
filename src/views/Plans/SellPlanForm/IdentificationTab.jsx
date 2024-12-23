@@ -4,7 +4,6 @@ import CustomCard, { CustomGridLayout } from '../../../shared/Cards/CustomCard';
 import formValidation from '../../../utils/validations';
 import CustomImageInput from '../../../shared/Input/CustomImageInput';
 import { CustomInput, CustomInputNumber } from '../../../shared/Input/AllInputs';
-import CustomFilesInput from '../../../shared/Input/CustomFilesInput';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { showFormErrors } from '../../../utils/commonFunctions';
 import debounce from 'lodash.debounce';
