@@ -25,11 +25,12 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
         onCancel();
     };
     const onSubmit = () => {
-        if (payType) {
-            onCheckout();
-        } else {
-            onCheckout({ paymentType: method, printReceiept, setLoading });
-        }
+        onCheckout({ paymentType: method, printReceiept, setLoading });
+        // if (payType) {
+           
+        // } else {
+        //     onCheckout({ paymentType: method, printReceiept, setLoading });
+        // }
     };
 
     const handleMethodToggle = (type) => {

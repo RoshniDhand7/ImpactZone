@@ -88,7 +88,7 @@ export const PrintReceipt = React.forwardRef(({ data, loading }, ref) => {
                     marginTop: '5px',
                 }}
             >
-                <ItemCard2 label={'Cashier'} value={data.employee?.firstName + ' ' + data.employee?.lastName} />
+                <ItemCard2 label={'Cashier'} value={data?.employee?.firstName + ' ' + data?.employee?.lastName} />
                 <ItemCard2 label={'Date'} value={dateConversions(data?.createdAt)} />
             </div>
             {/* Cart Item Table */}
@@ -156,15 +156,15 @@ export const PrintReceipt = React.forwardRef(({ data, loading }, ref) => {
                     lineHeight: '1.6',
                 }}
             >
-                <ItemCard loading={loading} label="Net Total" value={data.cartDetails?.netTotal} />
+                <ItemCard loading={loading} label="Net Total" value={data?.cartDetails?.netTotal} />
 
-                <ItemCard loading={loading} label="Discount" value={data.cartDetails?.discount} prefix="-" />
-                <ItemCard loading={loading} label="Promo Discount" value={data.cartDetails?.promoDiscount} prefix="-" />
-                <ItemCard loading={loading} label="Special Discount" value={data.cartDetails?.specialDiscount} prefix="-" />
-                <ItemCard loading={loading} label="Total Amount" value={data.cartDetails?.total} />
-                <ItemCard loading={loading} label="Tax" value={data.cartDetails?.tax} prefix="+" />
-                <ItemCard loading={loading} label="Waived Tax Amount" value={data.cartDetails?.waivedTaxAmount} prefix="-" />
-                <ItemCard loading={loading} label="Grand Total" value={data.cartDetails?.gradTotal} />
+                <ItemCard loading={loading} label="Discount" value={data?.cartDetails?.discount} prefix="-" />
+                <ItemCard loading={loading} label="Promo Discount" value={data?.cartDetails?.promoDiscount} prefix="-" />
+                <ItemCard loading={loading} label="Special Discount" value={data?.cartDetails?.specialDiscount} prefix="-" />
+                <ItemCard loading={loading} label="Total Amount" value={data?.cartDetails?.total} />
+                <ItemCard loading={loading} label="Tax" value={data?.cartDetails?.tax} prefix="+" />
+                <ItemCard loading={loading} label="Waived Tax Amount" value={data?.cartDetails?.waivedTaxAmount} prefix="-" />
+                <ItemCard loading={loading} label="Grand Total" value={data?.cartDetails?.gradTotal} />
             </div>
             {(data?.status === 'VOID' || data?.status === 'RETURN') && (
                 <div

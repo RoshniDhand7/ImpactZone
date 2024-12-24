@@ -469,7 +469,7 @@ const denominationsToDollarConverter = (data, type) => {
 };
 
 const dateConversions = (date) => {
-    const formattedDate = date ? moment(date).format('DD-MM-YYYY') : null;
+    const formattedDate = date ? moment(date).format('MM-DD-YYYY') : null;
     return formattedDate;
 };
 const getTime = (time) => {
@@ -478,7 +478,7 @@ const getTime = (time) => {
 };
 
 const getDateandTime = (datetime) => {
-    const formattedTime = datetime ? moment(new Date(datetime)).format('DD-MM-YYYY H:mm A') : null;
+    const formattedTime = datetime ? moment(new Date(datetime)).format('MM-DD-YYYY H:mm A') : null;
     return formattedTime;
 };
 

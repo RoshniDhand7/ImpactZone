@@ -85,7 +85,7 @@ const receiptsReturnAction = (id, accessCode, paymentType, setLoading, next) => 
     }
     const res = await api('put', endPoints.POS.RETURN + id, { accessCode, paymentType });
     if (res.success) {
-        next();
+        next(res.data);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }

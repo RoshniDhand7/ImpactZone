@@ -94,7 +94,7 @@ const ClockInOutModal = ({ openClockModal, setOpenClockModal }) => {
                 <CustomGridLayout>
                     <div className="col-6">
                         <h5 className="text-bold mb-2">Date/Time</h5>
-                        {moment(new Date()).format('DD-MM-YYYY hh:mm A')}
+                        {moment(new Date()).format('MM-DD-YYYY hh:mm A')}
                     </div>
                     <div className="col-6 grid align-items-end ">
                         <CustomInputNumber name="barCode" col={12} data={data} onChange={handleChange} />

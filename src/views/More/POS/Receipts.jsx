@@ -33,7 +33,6 @@ const Receipts = () => {
     }, [dispatch]);
 
     const handleStatus = (r) => {
-        console.log(r, 'r');
         setData((prev) => ({
             ...prev,
             rowId: r?._id,
@@ -102,15 +101,16 @@ const Receipts = () => {
                     receiptsVoidAction(data?.rowId, data?.accessCode, setLoading, () => {
                         dispatch(getReceiptsAction());
                         onClose();
-                        // if (printReceiept) {
-                        //     setReceiptData(e);
-                        // }
                     }),
                 );
             } else {
                 dispatch(
-                    receiptsReturnAction(data?.rowId, data?.accessCode, data?.paymentType, setLoading, () => {
+                    receiptsReturnAction(data?.rowId, data?.accessCode, data?.paymentType, setLoading, (e) => {
+                        console.log(e, 'e');
                         dispatch(getReceiptsAction());
+                        if (data?.printReceiept) {
+                            setReceiptData(e);
+                        }
                         onClose();
                     }),
                 );
@@ -129,17 +129,19 @@ const Receipts = () => {
         //eslint-disable-next-line
     }, [receiptData]);
 
-    console.log(receipts, 'receipts');
     let cartDetails = { netTotal: data?.amount, total: data?.amount, tax: 0, gradTotal: data?.amount };
-    const onCheckout = () => {
+    const onCheckout = ({ paymentType, printReceiept }) => {
         setVisible(true);
         setCheckoutPopup(false);
+        setData((prev) => ({ ...prev, paymentType: paymentType, printReceiept }));
     };
     const printRef = useRef();
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
     });
+
+    console.log(data, receiptData, 'data');
 
     return (
         <>
