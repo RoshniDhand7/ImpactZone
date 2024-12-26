@@ -54,6 +54,7 @@ const EventSetup = () => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+   
 
     return (
         <>

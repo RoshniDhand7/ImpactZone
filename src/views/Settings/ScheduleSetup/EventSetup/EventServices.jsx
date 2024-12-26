@@ -25,7 +25,7 @@ const EventServices = () => {
     const customHeader = (item) => {
         return (
             <div className="flex align-items-center justify-content-between gap-2 w-full ml-auto">
-                <div> Level {item?.eventLevel?.name}</div>
+                <div> {item?.eventLevel?.name}</div>
                 <div className="flex gap-3 mr-3">
                     <i
                         className="pi pi-pencil"

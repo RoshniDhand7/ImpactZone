@@ -130,7 +130,7 @@ const endPoints = {
 
     INVENTORY_CATALOG_USAGE: '/settings/inventory-setup/catalog/usage/',
     INVENTORY_CATALOG_USAGE_TYPE: '/settings/inventory-setup/catalog/usage-type/',
-    INVENTORY_CATALOG_VARIATION: '/settings/inventory-setup/catalog/inventory-variation/',
+    INVENTORY_CATALOG_VARIATION: '/settings/inventory-setup/catalog/variation/',
     INVENTORY_CATALOG_VARIATION_DETAIL: '/inventory-variation-detail/',
     INVENTORY_CATALOG_VARIATION_ALL: '/inventory-variation-all/',
     INVENTORY_SUB_VARIATION: '/inventory-sub-variation/',

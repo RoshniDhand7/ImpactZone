@@ -9,25 +9,35 @@ import { CustomFilterCard, CustomGridLayout } from '../../../shared/Cards/Custom
 import PrimaryButton from '../../../shared/Button/CustomButton';
 import useFilters from '../../../hooks/useFilters';
 import FilterComponent from '../../../components/FilterComponent';
-import { CustomDropDown, CustomMultiselect } from '../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomMultiselect } from '../../../shared/Input/AllInputs';
 import { colorOptions } from '../../../utils/dropdownConstants';
 import useEmployees from '../../../hooks/Employees/useEmployees';
+import moment from 'moment';
 
 const Alerts = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const alerts = useSelector((state) => state.membersPortal.alerts);
     const { employeesDropdown } = useEmployees();
-    const [data, setData] = useState({
+    var startOfWeek = moment().utc().startOf('week').toDate();
+    var endOfWeek = moment().utc().endOf('week').toDate();
+    const initialData = {
         filterType: 'AND',
-    });
+        from: startOfWeek,
+        to: endOfWeek,
+        employee: null,
+        colorType: '',
+    };
+    const [data, setData] = useState(initialData);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
     useEffect(() => {
-        dispatch(getAlerts(id));
+        dispatch(getAlerts(setLoading, id, data));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, id]);
 
     const columns = [
@@ -41,7 +51,7 @@ const Alerts = () => {
         },
         { field: 'employee', header: 'Employee' },
     ];
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(alerts);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(alerts, 'backend', id, getAlerts);
     return (
         <div className="">
             <ProfileDetail />
@@ -50,7 +60,7 @@ const Alerts = () => {
                     <PrimaryButton label="Filter" icon="pi pi-filter" onClick={onFilterOpen} className="mx-2 " />
                 </div>
             </CustomFilterCard>
-            <CustomTable data={tableData} columns={columns} />
+            <CustomTable data={tableData} columns={columns} loading={loading} />
 
             <FilterComponent
                 value={filters}
@@ -60,10 +70,13 @@ const Alerts = () => {
                 data={data}
                 handleChange={handleChange}
                 setData={setData}
+                initailData={initialData}
             >
                 <CustomGridLayout>
                     <CustomDropDown col={12} label="Color" name="colorType" options={colorOptions} data={data} onChange={handleChange} showClear />
                     <CustomMultiselect col={12} name="employee" options={employeesDropdown} data={data} onChange={handleChange} showClear />
+                    <CustomCalenderInput name="from" data={data} onChange={handleChange} col={12} maxDate={data.to} />
+                    <CustomCalenderInput name="to" data={data} onChange={handleChange} col={12} minDate={data.from} />
                 </CustomGridLayout>
             </FilterComponent>
         </div>

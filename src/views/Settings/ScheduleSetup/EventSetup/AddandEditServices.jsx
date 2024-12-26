@@ -10,7 +10,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { confirmDelete, getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 import {
-    deleteAllServices,
     editScheduledEvent,
     editScheduledEventServices,
     getScheduledEventService,
@@ -141,7 +140,7 @@ const AddandEditServices = () => {
                                 label={'Remove All'}
                                 onClick={() => {
                                     setData((prev) => ({ ...prev, services: [] }));
-                                    dispatch(deleteAllServices(eventId));
+                                    // dispatch(deleteAllServices(eventId));
                                 }}
                             />
                         </div>

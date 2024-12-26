@@ -1,3 +1,4 @@
+import moment from 'moment';
 import api from '../../../services/api';
 import endPoints from '../../../services/endPoints';
 import { uploadImages } from '../../../utils/commonFunctions';
@@ -196,8 +197,20 @@ const getTasks = (id) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
-const getAlerts = (id) => async (dispatch) => {
-    const res = await api('get', endPoints.MEMBERS_V2.ALERT + id);
+const getAlerts = (setLoading, id, data) => async (dispatch) => {
+    setLoading(true);
+    const res = await api(
+        'get',
+        endPoints.MEMBERS_V2.ALERT + id,
+        {},
+        {
+            fromDate: moment(data?.from).format('YYYY-MM-DD'),
+            toDate: moment(data?.to).format('YYYY-MM-DD'),
+            employee: data?.employee,
+            filterType: data?.filterType,
+            colorType: data?.colorType,
+        },
+    );
     if (res.success) {
         dispatch({
             type: types.MEMBER.ALERT,
@@ -206,6 +219,7 @@ const getAlerts = (id) => async (dispatch) => {
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
+    setLoading(false);
 };
 const getTransactions = (id) => async (dispatch) => {
     const res = await api('get', endPoints.MEMBERS_V2.TRANSACTIONS + id);

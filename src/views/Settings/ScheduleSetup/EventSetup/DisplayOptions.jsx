@@ -23,7 +23,7 @@ const DisplayOptions = () => {
         calanderDisplay: [],
         popupDisplay: [],
         boxColor: 'fc1c1c',
-        textColor: 'fcfcfc',
+        textColor: 'f5f2f2',
         timesShown: 'Quarter Hour',
         club: [],
     });
@@ -31,14 +31,14 @@ const DisplayOptions = () => {
     useEffect(() => {
         if (id) {
             dispatch(
-                getScheduledEvent(id, (data) => {
+                getScheduledEvent(id, (data1) => {
                     setData({
-                        calanderDisplay: data.calanderDisplay ? data.calanderDisplay : '',
-                        popupDisplay: data.popupDisplay ? data.popupDisplay : '',
-                        boxColor: data.boxColor,
-                        textColor: data.textColor ?? 'fc1c1c',
-                        timesShown: data.timesShown ? data.timesShown : 'Quarter Hour',
-                        club: data.club,
+                        calanderDisplay: data1.calanderDisplay ? data1.calanderDisplay : '',
+                        popupDisplay: data1.popupDisplay ? data1.popupDisplay : '',
+                        boxColor: data1.boxColor ?? 'fc1c1c',
+                        textColor: data1.textColor ?? 'f5f2f2',
+                        timesShown: data1.timesShown ? data1.timesShown : 'Quarter Hour',
+                        club: data1.club,
                     });
                 }),
             );
@@ -56,6 +56,8 @@ const DisplayOptions = () => {
             }
         }
     };
+
+    console.log('data>>', data);
 
     return (
         <>

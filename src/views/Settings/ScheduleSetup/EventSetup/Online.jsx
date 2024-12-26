@@ -13,10 +13,10 @@ const Online = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        appointmentAtLeast: '',
-        appointmentFuture: '',
+        appointmentAtLeast: { data: '', type: '' },
+        appointmentUntil: { data: '', type: '' },
         cancelOnline: '',
-        timeBeforeEvent: '',
+        timeBeforeEvent: { data: '', type: '' },
         description: '',
         termAndCondition: '',
     });
@@ -26,10 +26,24 @@ const Online = () => {
             dispatch(
                 getScheduledEvent(id, (data) => {
                     setData({
-                        appointmentAtLeast: data.appointmentAtLeast,
-                        appointmentFuture: data.appointmentFuture,
+                        appointmentAtLeast: data.appointmentAtLeast
+                            ? {
+                                  name: `${data?.appointmentAtLeast?.value} ${data?.appointmentAtLeast?.type?.toLowerCase()}`,
+                                  data: data?.appointmentAtLeast?.value,
+                                  type: data?.appointmentAtLeast?.type,
+                              }
+                            : {},
+                        appointmentUntil: {
+                            name: `${data?.appointmentUntil?.value} ${data?.appointmentUntil?.type?.toLowerCase()}`,
+                            data: data?.appointmentUntil?.value,
+                            type: data?.appointmentUntil?.type,
+                        },
                         cancelOnline: data.cancelOnline,
-                        timeBeforeEvent: data.timeBeforeEvent,
+                        timeBeforeEvent: {
+                            name: `${data?.timeBeforeEvent?.value} ${data?.timeBeforeEvent?.type?.toLowerCase()}`,
+                            data: data?.timeBeforeEvent?.value,
+                            type: data?.timeBeforeEvent?.type,
+                        },
                         description: data.description,
                         termAndCondition: data.termAndCondition,
                     });
@@ -46,23 +60,60 @@ const Online = () => {
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
             if (id) {
-                dispatch(editScheduledEvent(id, data, setLoading, history, tab));
+                dispatch(
+                    editScheduledEvent(
+                        id,
+                        {
+                            ...data,
+                            appointmentAtLeast: { value: data?.appointmentAtLeast?.data, type: data?.appointmentAtLeast?.type },
+                            appointmentUntil: { value: data?.appointmentUntil?.data, type: data?.appointmentUntil?.type },
+                            timeBeforeEvent: { value: data?.timeBeforeEvent?.data, type: data?.timeBeforeEvent?.type },
+                        },
+                        setLoading,
+                        history,
+                        tab,
+                    ),
+                );
             }
         }
     };
+
+    console.log(data, 'data');
 
     return (
         <>
             <CustomCard col="12" title="Allow Booking an Appointment">
                 <CustomGridLayout>
-                    <CustomDropDown options={BookingHours} name="appointmentAtLeast" data={data} onChange={handleChange} />
-                    <CustomDropDown options={BookingHours} name="appointmentFuture" label="Appointment Until" data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        options={BookingHours?.map((cat, i) => {
+                            return { name: cat.name, data: cat.value, type: cat.type };
+                        })}
+                        name="appointmentAtLeast"
+                        data={data}
+                        onChange={handleChange}
+                    />
+                    <CustomDropDown
+                        options={BookingHours?.map((cat, i) => {
+                            return { name: cat.name, data: cat.value, type: cat.type };
+                        })}
+                        name="appointmentUntil"
+                        label="Appointment Until"
+                        data={data}
+                        onChange={handleChange}
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Cancellation">
                 <CustomGridLayout>
                     <CustomDropDown options={yesNoOptions} name="cancelOnline" data={data} onChange={handleChange} />
-                    <CustomDropDown options={BookingHours} name="timeBeforeEvent" data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        options={BookingHours?.map((cat, i) => {
+                            return { name: cat.name, data: cat.value, type: cat.type };
+                        })}
+                        name="timeBeforeEvent"
+                        data={data}
+                        onChange={handleChange}
+                    />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Description">

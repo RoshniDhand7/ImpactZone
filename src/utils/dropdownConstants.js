@@ -1,4 +1,3 @@
-import moment from 'moment';
 import ringTone1 from '../assets/sounds/morning_alarm.mp3';
 import ringTone2 from '../assets/sounds/samsung_ringtone.mp3';
 
@@ -408,39 +407,50 @@ export const itemSoldOptions = [
         value: 'NON_SALE_ITEM',
     },
 ];
-
-const timeToMinutes = (time, unit) => {
-    let duration = moment.duration(time, unit);
-    return duration.asMinutes();
-};
-
 export const BookingHours = [
-    { name: '15 minutes', value: 15 },
-    { name: '30 minutes', value: 30 },
-    { name: '45 minutes', value: 45 },
+    { value: 15, type: 'MINUTES' },
+    { value: 30, type: 'MINUTES' },
+    { value: 45, type: 'MINUTES' },
 ];
+
+BookingHours.forEach((entry) => {
+    entry.name = `${entry.value} ${entry.type.toLowerCase()}`;
+});
 
 for (let i = 1; i <= 47; i++) {
     BookingHours.push({
-        name: `${i} ${i === 1 ? 'hour' : 'hours'}`,
-        value: timeToMinutes(i, 'hours'),
+        value: i,
+        type: 'HOURS',
     });
 }
 
 const additionalHoursOptions = [
-    { name: '49 hours', value: timeToMinutes(49, 'hours') },
-    { name: '73 hours', value: timeToMinutes(73, 'hours') },
+    { value: 49, type: 'HOURS' },
+    { value: 73, type: 'HOURS' },
 ];
 
-BookingHours.push(...additionalHoursOptions);
+additionalHoursOptions.forEach((option) => {
+    BookingHours.push(option);
+});
 
 for (let j = 2; j <= 30; j++) {
-    BookingHours.push({ name: `${j} days`, value: timeToMinutes(j, 'days') });
+    BookingHours.push({
+        value: j,
+        type: 'DAYS',
+    });
 }
 
 for (let k = 5; k <= 12; k++) {
-    BookingHours.push({ name: `${k} weeks`, value: timeToMinutes(k, 'weeks') });
+    BookingHours.push({
+        value: k,
+        type: 'WEEKS',
+    });
 }
+
+BookingHours.forEach((entry) => {
+    const unit = entry.value === 1 ? entry.type.slice(0, -1).toLowerCase() : entry.type.toLowerCase();
+    entry.name = `${entry.value} ${unit}`;
+});
 
 export const defaultMaxAttendesOptions = [];
 for (let i = 1; i <= 50; i++) {
@@ -478,9 +488,16 @@ export const generateSequence = () => {
 
     return sequence;
 };
-export const calendarDisplayOptions = ['Duration', 'Level', 'Location', 'Member Name', 'Event', 'Status', 'Employee Name', 'Enrolled /Max Attendee'].map(
-    (name) => ({ name, value: name }),
-);
+export const calendarDisplayOptions = [
+    { name: 'Duration', value: 'DURATION' },
+    { name: 'Level', value: 'LEVEL' },
+    { name: 'Location', value: 'LOCATION' },
+    { name: 'Member Name', value: 'MEMBER_NAME' },
+    { name: 'Event', value: 'EVENT' },
+    { name: 'Employee Name', value: 'EMPLOYEE_NAME' },
+    { name: 'Enrolled /Max Attendee', value: 'ENROLLED_MAX_ATTENDANCE' },
+];
+
 export const timeShownOptions = ['Quarter Hour', 'Hour', 'Half Hour'].map((name) => ({ name, value: name }));
 
 export const classMeet = ['One Time', 'Weekly', 'Biweekly', 'Monthly'].map((name, index) => ({
