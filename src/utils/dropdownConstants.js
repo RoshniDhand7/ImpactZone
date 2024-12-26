@@ -443,16 +443,25 @@ for (let k = 5; k <= 12; k++) {
 }
 
 export const defaultMaxAttendesOptions = [];
-for (let i = 0; i <= 50; i++) {
+for (let i = 1; i <= 50; i++) {
     const option = {
         name: i === 0 ? '0' : i,
         value: i === 0 ? '0' : i,
     };
     defaultMaxAttendesOptions.push(option);
 }
-export const EventTypeOptions = ['Class', 'Appointments'].map((name) => ({ name, value: name }));
-export const EventCommissionGroupOptions = ['Per Event', 'Per Person'].map((name) => ({ name, value: name }));
-export const waitListExpirationOptions = ['Event Start', 'Event End'].map((name) => ({ name, value: name }));
+export const EventTypeOptions = [
+    { name: 'Class', value: 'CLASS' },
+    { name: 'Appointments', value: 'APPOINTMENTS' },
+];
+export const EventCommissionGroupOptions = [
+    { name: 'Per Event', value: 'PER_EVENT' },
+    { name: 'Per Person', value: 'PER_PERSON' },
+];
+export const waitListExpirationOptions = [
+    { name: 'Event Start', value: 'EVENT_START' },
+    { name: 'Event End', value: 'EVENT_END' },
+];
 export const generateSequence = () => {
     let sequence = [];
 

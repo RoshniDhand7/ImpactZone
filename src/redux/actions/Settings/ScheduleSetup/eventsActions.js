@@ -44,7 +44,7 @@ const getScheduledEvent = (id, returnData) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 const getScheduledEventService = (id, returnData) => async (dispatch) => {
-    const res = await api('get', EndPoints.SCHEDULE_EVENT_LEVEL + id);
+    const res = await api('get', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENT_LEVEL + id);
     if (res.success) {
         if (res.data) {
             if (returnData) {
@@ -80,7 +80,7 @@ const addScheduledEvent =
 const editScheduledEventServices = (id, data, setLoading, history) => async (dispatch) => {
     setLoading(true);
 
-    const res = await api('put', EndPoints.SCHEDULE_EVENTS_LEVEL + id, data);
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL + id, data);
     if (res.success) {
         history.goBack();
         dispatch(showToast({ severity: 'success', summary: res.message }));
@@ -104,7 +104,7 @@ const editScheduledEvent =
         setLoading(false);
     };
 const singleServiceDelete = (eventId, colId, next) => async (dispatch) => {
-    const res = await api('put', EndPoints.SCHEDULE_EVENT_LEVEL + eventId, {
+    const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENT_LEVEL + eventId, {
         serviceId: colId,
     });
     if (res.success) {
@@ -124,7 +124,7 @@ const deleteScheduledEvent = (id) => async (dispatch) => {
     }
 };
 const deleteAllServices = (id) => async (dispatch) => {
-    const res = await api('delete', EndPoints.SCHEDULE_EVENTS_LEVEL + id);
+    const res = await api('delete', EndPoints.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL + id);
     if (res.success) {
         dispatch(showToast({ severity: 'success', summary: res.message }));
     } else {

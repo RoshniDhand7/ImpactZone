@@ -77,12 +77,12 @@ const AddandEditServices = () => {
     };
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
-        { field: 'unitPrice', header: 'Catalog Price' },
+        { field: 'netPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
         { field: 'upc', header: 'UPC' },
     ];
     const columns1 = [
-        { field: 'unitPrice', header: 'Catalog Price' },
+        { field: 'netPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
         { field: 'upc', header: 'UPC' },
     ];
@@ -120,6 +120,9 @@ const AddandEditServices = () => {
         );
     };
 
+    console.log(levelDropdown, levelIndex, 'levelDropdown');
+    console.log(data?.services, 'CatalogFilter');
+
     return (
         <>
             <FormPage backText="Services">
@@ -131,7 +134,7 @@ const AddandEditServices = () => {
                     disabled={eventId ? true : false}
                 />
 
-                <CustomCard col="12" title={`Level ${data?.level && levelDropdown[levelIndex]?.name}`}>
+                <CustomCard col="12" title={` ${data?.level && levelDropdown[levelIndex - 1]?.name}`}>
                     <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">
                         <div>
                             <PrimaryButton

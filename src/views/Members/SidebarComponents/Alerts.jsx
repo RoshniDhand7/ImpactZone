@@ -5,17 +5,19 @@ import ProfileDetail from './ProfileDetail';
 import CustomTable from '../../../shared/Table/CustomTable';
 import { useParams } from 'react-router-dom';
 import { dateConversions } from '../../../utils/commonFunctions';
-import { CustomFilterCard } from '../../../shared/Cards/CustomCard';
+import { CustomFilterCard, CustomGridLayout } from '../../../shared/Cards/CustomCard';
 import PrimaryButton from '../../../shared/Button/CustomButton';
 import useFilters from '../../../hooks/useFilters';
 import FilterComponent from '../../../components/FilterComponent';
-import { CustomDropDown } from '../../../shared/Input/AllInputs';
+import { CustomDropDown, CustomMultiselect } from '../../../shared/Input/AllInputs';
 import { colorOptions } from '../../../utils/dropdownConstants';
+import useEmployees from '../../../hooks/Employees/useEmployees';
 
 const Alerts = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const alerts = useSelector((state) => state.membersPortal.alerts);
+    const { employeesDropdown } = useEmployees();
     const [data, setData] = useState({
         filterType: 'AND',
     });
@@ -59,7 +61,10 @@ const Alerts = () => {
                 handleChange={handleChange}
                 setData={setData}
             >
-                <CustomDropDown col={12} label="Color" name="colorType" options={colorOptions} data={data} onChange={handleChange} showClear />
+                <CustomGridLayout>
+                    <CustomDropDown col={12} label="Color" name="colorType" options={colorOptions} data={data} onChange={handleChange} showClear />
+                    <CustomMultiselect col={12} name="employee" options={employeesDropdown} data={data} onChange={handleChange} showClear />
+                </CustomGridLayout>
             </FilterComponent>
         </div>
     );

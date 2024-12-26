@@ -15,9 +15,8 @@ const EventServices = () => {
         dispatch(getServicesEvents(id));
     }, [dispatch, id]);
     const columns = [
-        { field: 'unitPrice', header: 'Catalog Price' },
+        { field: 'netPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
-        { field: 'size', header: 'Size' },
         { field: 'isActive', header: 'Status' },
     ];
 

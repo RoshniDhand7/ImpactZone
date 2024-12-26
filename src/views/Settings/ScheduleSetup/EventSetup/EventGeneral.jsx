@@ -27,15 +27,15 @@ const EventGeneral = () => {
     const [data, setData] = useState({
         isActive: true,
         name: '',
-        eventType: '',
+        eventType: 'CLASS',
         internalUse: false,
         locationType: '',
-        defaultMaxAttendes: '0',
-        eventCommissionType: '',
+        defaultMaxAttendes: 10,
+        eventCommissionType: 'PER_EVENT',
         availableOnline: false,
         trackAttendees: false,
-        maximumWaitlist: '0',
-        waitListExpiration: '',
+        maximumWaitlist: 10,
+        waitListExpiration: 'EVENT_START',
         employee: false,
         location: false,
         member: false,
@@ -125,6 +125,8 @@ const EventGeneral = () => {
             }
         }
     };
+
+    console.log('data>>', data);
 
     return (
         <>
