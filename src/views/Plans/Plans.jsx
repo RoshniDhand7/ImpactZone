@@ -36,7 +36,7 @@ export default function Plans() {
                     alt="cart"
                     style={{ width: '20px', height: '20px' }}
                     className="carttooltip"
-                    onClick={() => history.replace(`/plans/sell-plan/${r._id}`)}
+                    onClick={() => history.push(`/plans/sell-plan/${r._id}`)}
                 />
             </>
         );

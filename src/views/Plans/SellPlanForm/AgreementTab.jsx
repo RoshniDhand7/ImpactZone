@@ -10,15 +10,19 @@ import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
-import { showArrayFormErrors, showFormErrors, uniqueData } from '../../../utils/commonFunctions';
+
 import { AutoComplete } from 'primereact/autocomplete';
 import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
 import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';
 import { getEmployees } from '../../../redux/actions/Settings/Employee/employeesAction';
 
-const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
+const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+
+    useEffect(() => {
+        onTabEnable(2);
+    }, []);
 
     useEffect(() => {
         dispatch(getEmployees());
@@ -105,6 +109,9 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
             onChange: handleChangeDynamicFields,
             extraClassName: 'w-full',
         };
+        if (['LATE_FEE', 'DECLINE_FEE', 'NO_SHOW_FEE', 'FREEZE_FEE', 'CANCELLATION_FEE'].includes(rowData.type) && field === 'dueDate') {
+            return;
+        }
 
         switch (field) {
             case 'firstDueDate':
@@ -128,53 +135,58 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
         }
     };
 
-    const handleNext = (tab) => {
-        if (showFormErrors(planInfo, setPlanInfo)) {
-            const validated = showArrayFormErrors(planInfo.services);
-            const validatedAssessedFee = showArrayFormErrors(planInfo.assessedFee);
+    // const handleNext = (tab) => {
+    //     if (showFormErrors(planInfo, setPlanInfo)) {
+    //         const validated = showArrayFormErrors(planInfo.services);
+    //         const validatedAssessedFee = showArrayFormErrors(planInfo.assessedFee);
 
-            if (!validated.isValid) {
-                setPlanInfo((prev) => ({ ...prev, services: validated.data }));
-            }
-            if (!validatedAssessedFee.isValid) {
-                setPlanInfo((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
-            }
-            if (validated.isValid && validatedAssessedFee.isValid) {
-                const payload = {
-                    ...planInfo,
-                    referredBy: planInfo.referredBy?.fullName ? planInfo.referredBy?.fullName : '',
-                    services: planInfo.services?.map((item) => ({
-                        catalogId: item._id,
-                        name: item.name,
-                        unitPrice: item.unitPrice,
-                        numberOfPayments: item.numberOfPayments,
-                        firstDueDate: item.firstDueDate,
-                        autoRenew: item.autoRenew,
-                    })),
-                    assessedFee: planInfo.assessedFee?.map((assesedfee) => ({
-                        assessedFeeId: assesedfee._id,
-                        name: assesedfee.name,
-                        amount: assesedfee.amount,
-                        dueDate: assesedfee.dueDate,
-                        apply: assesedfee.apply,
-                        recurring: assesedfee.recurring,
-                    })),
-                    ...(tab && { type: 'hold', tabName: 'agreement', planId: newPlanId }),
-                };
-                dispatch(
-                    editSellPlan(newPlanId, payload, () => {
-                        if (tab) {
-                            history.replace('/plans/drafts');
-                        } else {
-                            onTabEnable(0, 1, 2, 3, 4);
-                            history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
-                        }
-                    }),
-                );
-            }
-        }
+    //         if (!validated.isValid) {
+    //             setPlanInfo((prev) => ({ ...prev, services: validated.data }));
+    //         }
+    //         if (!validatedAssessedFee.isValid) {
+    //             setPlanInfo((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
+    //         }
+    //         if (validated.isValid && validatedAssessedFee.isValid) {
+    //             const payload = {
+    //                 ...planInfo,
+    //                 referredBy: planInfo.referredBy?.fullName ? planInfo.referredBy?.fullName : '',
+    //                 services: planInfo.services?.map((item) => ({
+    //                     catalogId: item._id,
+    //                     name: item.name,
+    //                     unitPrice: item.unitPrice,
+    //                     numberOfPayments: item.numberOfPayments,
+    //                     firstDueDate: item.firstDueDate,
+    //                     autoRenew: item.autoRenew,
+    //                 })),
+    //                 assessedFee: planInfo.assessedFee?.map((assesedfee) => ({
+    //                     assessedFeeId: assesedfee._id,
+    //                     name: assesedfee.name,
+    //                     amount: assesedfee.amount,
+    //                     dueDate: assesedfee.dueDate,
+    //                     apply: assesedfee.apply,
+    //                     recurring: assesedfee.recurring,
+    //                 })),
+    //                 ...(tab && { type: 'hold', tabName: 'agreement', planId: newPlanId }),
+    //             };
+    //             dispatch(
+    //                 editSellPlan(newPlanId, payload, () => {
+    //                     if (tab) {
+    //                         history.replace('/plans/drafts');
+    //                     } else {
+    //                         onTabEnable(0, 1, 2, 3, 4);
+    //                         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
+    //                     }
+    //                 }),
+    //             );
+    //         }
+    //     }
+    // };
+
+    const handleNext = () => {
+        history.replace({
+            search: `?tab=payment-amounts&member=${memberInfo._id}`,
+        });
     };
-
     const search = (event) => {
         let query = event.query;
         let _filteredItems = allMembers.filter((item) => {
@@ -275,7 +287,7 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('?tab=payment-amounts')} />
-                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} />
+                {/* <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} /> */}
                 <LightButton label="Cancel" onClick={onCancel} />
             </CustomButtonGroup>
         </>

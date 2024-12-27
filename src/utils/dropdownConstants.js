@@ -488,7 +488,7 @@ export const assessedTypeOptions = [
 ];
 
 export const preferedDueDay = [
-    { name: 'Month and Day', value: 'MONTH_AND_DAY' },
+    { name: 'Specific Date', value: 'SPECIFIC_DATE' },
     { name: 'Number of Days from Begin Date', value: 'DAYS_FROM_BEGIN_DATE' },
 ];
 
@@ -608,5 +608,12 @@ export const documentTypeOptions = [
     {
         name: 'Other',
         value: 'OTHER',
+    },
+];
+
+export const paymentMethodsOptions = [
+    {
+        name: 'Credit Card',
+        value: 'CREDIT_CARD',
     },
 ];

@@ -3,18 +3,17 @@ import CustomTabView from '../../../shared/TabView/CustomTabView';
 import FormPage from '../../../shared/Layout/FormPage';
 import PlanTab from './PlanTab';
 import PersonalTab from './PersonalTab';
-import IdentificationTab from './IdentificationTab';
 import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
-import PaymentAmountTab from '../PaymentAmountTab';
-import BillingInfoTab from '../BillingInfoTab';
+import PaymentAmountTab from './PaymentAmountTab';
+import BillingInfoTab from './BillingInfoTab';
 import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
 import { useDispatch } from 'react-redux';
 import { getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
 import { useEffect } from 'react';
 import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
 import useQueryParams from '../../../hooks/useQueryParams';
-import { getDueDate } from '../../../utils/dateTime';
+import { getDueDate, getFirstDueDate } from '../../../utils/dateTime';
 import { calculateFinalAmount } from '../../../utils/taxHelpers';
 
 const SellPlanForm = () => {
@@ -44,10 +43,14 @@ const SellPlanForm = () => {
                     membershipTypeName: e.membershipTypeName,
                     timePeriod: e.timePeriod,
 
-                    assessedFee: e.assessedFee,
+                    assessedFee: e.assessedFee.map((item) => ({
+                        ...item,
+                        dueDate: getDueDate(item.dueDateDeterminedBy, item.preferredDate, item.noOfDays),
+                        apply: true,
+                    })),
                     services: [...e.services, ...e.membershipTypeServices].map((item) => ({
                         ...item,
-                        firstDueDate: getDueDate(e.whenWillClientsBeCharged, e.date),
+                        firstDueDate: getFirstDueDate(e.whenWillClientsBeCharged, e.date),
                         unitPrice: calculateFinalAmount(
                             item.netPrice,
                             item?.taxes.reduce((total, tax) => total + tax.taxRatePercentage, 0),
@@ -129,6 +132,15 @@ const SellPlanForm = () => {
         setDisabledTabIndices(disabledTabIndices.filter((item) => item !== index));
     };
     const { confirm } = useCancelSellPlans(newPlanId);
+
+    const [payment, setPayment] = useState({
+        paymentMethod: 'CREDIT_CARD',
+        cardNumber: '',
+        cvc: '',
+        expiryDate: '',
+        cardHolderName: '',
+        focused: '',
+    });
     const tabs = [
         {
             title: 'Plan',
@@ -144,17 +156,16 @@ const SellPlanForm = () => {
         },
         { title: 'Personal', content: <PersonalTab memberInfo={memberInfo} setMemberInfo={setMemberInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
         {
-            title: 'Identification',
-            content: <IdentificationTab memberInfo={memberInfo} setMemberInfo={setMemberInfo} onTabEnable={onTabEnable} onCancel={confirm} />,
+            title: 'Agreement',
+            content: <AgreementTab memberInfo={memberInfo} planInfo={planInfo} setPlanInfo={setPlanInfo} onTabEnable={onTabEnable} onCancel={confirm} />,
         },
-        { title: 'Agreement', content: <AgreementTab planInfo={planInfo} setPlanInfo={setPlanInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
-        { title: 'Payment Amounts', content: <PaymentAmountTab onTabEnable={onTabEnable} onCancel={confirm} /> },
-        { title: 'Billing Info', content: <BillingInfoTab onTabEnable={onTabEnable} onCancel={confirm} /> },
+        { title: 'Payment Amounts', content: <PaymentAmountTab memberInfo={memberInfo} planInfo={planInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
+        { title: 'Billing Info', content: <BillingInfoTab payment={payment} setPayment={setPayment} onTabEnable={onTabEnable} onCancel={confirm} /> },
     ];
 
     return (
         <>
-            <FormPage backText="Plans" backTo="/plans" isConfirm={newPlanId ? false : true} confirmFn={confirm}>
+            <FormPage backText="Plans">
                 <CustomTabView tabs={tabs} disabledTabIndices={disabledTabIndices} />
             </FormPage>
         </>
