@@ -89,6 +89,10 @@ const endPoints = {
         CHANGE_FORGOT_PASSWORD: '/change-forgot-password',
         CHANGE_PASSWORD: '/change-password',
     },
+    CALENDAR: {
+        EVENTS: '/calendar/events/',
+        LOCATIONS: '/calendar/locations/',
+    },
 
     UPLOAD_FILES: '/upload',
     EMPLOYEE: '/settings/manage-employee/general/',

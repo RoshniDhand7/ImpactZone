@@ -31,6 +31,7 @@ import POSReducer from './POSReducer';
 import checkInReducer from './CheckIn/CheckInReducer';
 import tableLoaderReducer from './tableLoaderReducer';
 import membersPortalReducer from './Members/MembersReducer';
+import calendarReducer from './Cale/CalendarReducer';
 
 export default combineReducers({
     loader: loaderReducer,
@@ -62,4 +63,5 @@ export default combineReducers({
     moreAttendance: moreAttendanceReducer,
     employeeAvailability: availabilityReducer,
     checkin: checkInReducer,
+    calendar: calendarReducer,
 });

@@ -198,6 +198,10 @@ export const types = {
         ACTIVE: 'ACTIVE',
         DRAFT: 'DRAFT',
     },
+    CALENDAR: {
+        EVENTS: 'EVENTS',
+        LOCATIONS: 'LOCATIONS',
+    },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
     CHANGE_TASK: 'CHANGE_TASK',
 };
