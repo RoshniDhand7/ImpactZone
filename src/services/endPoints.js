@@ -92,6 +92,7 @@ const endPoints = {
     CALENDAR: {
         EVENTS: '/calendar/events/',
         LOCATIONS: '/calendar/locations/',
+        CLASSES: '/calendar/classes/',
     },
 
     UPLOAD_FILES: '/upload',

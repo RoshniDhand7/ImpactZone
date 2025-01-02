@@ -201,6 +201,7 @@ export const types = {
     CALENDAR: {
         EVENTS: 'EVENTS',
         LOCATIONS: 'LOCATIONS',
+        CLASSES: 'CLASSES',
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
     CHANGE_TASK: 'CHANGE_TASK',

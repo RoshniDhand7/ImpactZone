@@ -23,4 +23,13 @@ const getCalendarLocations = () => async (dispatch) => {
     }
 };
 
-export { getCalendarEvents, getCalendarLocations };
+const getCalendarClasses = () => async (dispatch) => {
+    const res = await api('get', endPoints.CALENDAR.CLASSES);
+    if (res.success) {
+        if (res.data) {
+            dispatch({ type: types.CALENDAR.CLASSES, payload: res.data });
+        }
+    }
+};
+
+export { getCalendarEvents, getCalendarLocations, getCalendarClasses };
