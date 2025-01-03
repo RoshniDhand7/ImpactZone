@@ -63,7 +63,7 @@ const scheduleReducer = (state = intitalState, action) => {
                 ...state,
                 eventCategories: action.payload,
             };
-        case types.SETTINGS.SCHEDULE_SETUP.CLASSES:
+        case types.SETTINGS.SCHEDULE_SETUP.CLASS:
             return {
                 ...state,
                 classes: action.payload,

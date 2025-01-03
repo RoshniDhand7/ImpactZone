@@ -186,7 +186,7 @@ export const types = {
             EVENT_SETUP: 'EVENT_SETUP',
             SCHEDULE_EVENTS_LEVEL: 'SCHEDULE_EVENTS_LEVEL',
             EVENT_CATEGORY: 'EVENT_CATEGORY',
-            CLASSES: 'CLASSES',
+            CLASS: 'CLASS',
             SCHEDULE_OPTION: 'SCHEDULE_OPTION',
         },
         MANAGE_EMPLOYEE: {

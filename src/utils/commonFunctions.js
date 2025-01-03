@@ -556,6 +556,34 @@ const longOverlayText = (obj, key = 'description', size = 20) => {
     );
 };
 
+function getDatesByDays(startDate, endDate, days) {
+    const validDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayIndexes = days.map((day) => {
+        const index = validDays.indexOf(day);
+        if (index === -1) {
+            throw new Error(`Invalid day: ${day}. `);
+        }
+        return index;
+    });
+
+    const start = moment(startDate, 'YYYY-MM-DD');
+    const end = moment(endDate, 'YYYY-MM-DD');
+    const datesWithDays = [];
+    let currentDate = start.clone();
+
+    while (currentDate.isSameOrBefore(end)) {
+        if (dayIndexes.includes(currentDate.day())) {
+            datesWithDays.push({
+                date: currentDate.format('YYYY-MM-DD'),
+                day: currentDate.format('dddd'),
+            });
+        }
+        currentDate.add(1, 'days');
+    }
+
+    return datesWithDays;
+}
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -600,4 +628,5 @@ export {
     formatLetter,
     getDateandTime,
     longOverlayText,
+    getDatesByDays,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCalendarClasses, getCalendarEvents, getCalendarLocations } from '../../redux/actions/Calendar/CalendarAction';
+import { getAllCalendarEvents, getCalendarEvents, getCalendarLocations } from '../../redux/actions/Calendar/CalendarAction';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { CustomTabMenu } from '../../shared/TabMenu/TabMenu';
 import { Menu } from 'primereact/menu';
 import moment from 'moment';
+import { getDatesByDays } from '../../utils/commonFunctions';
 
 export default function Calendar() {
     const dispatch = useDispatch();
@@ -22,14 +23,14 @@ export default function Calendar() {
     useEffect(() => {
         dispatch(getCalendarEvents());
         dispatch(getCalendarLocations());
-        dispatch(getCalendarClasses());
+        dispatch(getAllCalendarEvents());
     }, [dispatch]);
 
     const { employeesDropdown } = useEmployees();
 
     const { events, locations, calendarEvents } = useSelector((state) => state.calendar);
 
-    console.log(events, locations, calendarEvents, 'Locations>>');
+    // console.log(events, locations, calendarEvents, 'Locations>>');
     const items = [
         { label: 'Employee', icon: 'pi pi-user' },
         { label: 'Location', icon: 'pi pi-chart-line' },
@@ -50,27 +51,49 @@ export default function Calendar() {
     ];
     const [allEvents, setAllEvents] = useState([]);
 
-    console.log(tabIndex, 'tabIndex');
-
     const CalendarEvents = () => {
-        const events = [];
-        calendarEvents?.forEach((item, index) => {
-            let startDate = new Date(item.startDate);
-            console.log(moment(item.startDate).format('YYYY-MM-DDTHH:mm:ss'), startDate.toISOString().split('T')[0], item, 'Start>>>');
-            events.push({
-                id: item._id,
-                title: `${item.event.name ?? ''}`,
-                backgroundColor: `#${item.event.boxColor}`,
-                color: `#${item.event.textColor}`,
-                start: startDate.toISOString().split('T')[0],
-                end: `${moment(item?.endDate).format('YYYY-MM-DD')}T00:00:00`,
-                textColor: `#${item.event.textColor}`,
+        const events1 = [];
+
+        calendarEvents?.forEach((item) => {
+            const startDate = moment(item.startDate).format('YYYY-MM-DD');
+            const endDate = moment(item.endDate).format('YYYY-MM-DD');
+
+            item?.schedule?.forEach((scheduleItem) => {
+                const matchedDates = getDatesByDays(startDate, endDate, scheduleItem.days);
+
+                matchedDates.forEach((matchedDate) => {
+                    const startDate = new Date(matchedDate.date);
+                    events1.push({
+                        // id: item._id,
+                        title: `${item.event.name ?? ''}`,
+                        backgroundColor: `#${item.event.boxColor}`,
+                        color: '#fff',
+                        start: `${startDate.toISOString().split('T')[0]}`,
+                        end: `${startDate.toISOString().split('T')[0]}`,
+                        textColor: `#${item.event.textColor}`,
+                    });
+                });
             });
         });
 
-        console.log(events, 'events');
-        return events;
+        // console.log(moment(item.startDate).format('YYYY-MM-DDTHH:mm:ss'), startDate.toISOString().split('T')[0], item, 'Start>>>');
+        // events1.push({
+        //     id: item._id,
+        //     title: `${item.event.name ?? ''}`,
+        //     backgroundColor: `#${item.event.boxColor}`,
+        //     color: `#fff`,
+        //     start: startDate.toISOString().split('T')[0],
+        //     end: `${moment(item?.endDate).format('YYYY-MM-DD')}T00:00:00`,
+        //     textColor: `#${item.event.textColor}`,
+        // });
+
+        console.log(events1, 'events1');
+
+        return events1;
     };
+
+    const ev = CalendarEvents();
+    console.log(ev, 'ev');
 
     return (
         <div>

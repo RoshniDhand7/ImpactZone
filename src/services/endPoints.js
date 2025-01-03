@@ -42,7 +42,7 @@ const endPoints = {
             EVENT_SETUP: '/settings/schedule-setup/event-setup/',
             EVENT_CATEGORY: '/settings/schedule-setup/event-category/',
             SCHEDULE_OPTION: '/settings/schedule-setup/schedule-option/',
-            CLASSES: '/settings/schedule-setup/class/',
+            CLASS: '/settings/schedule-setup/class/',
             SCHEDULE_EVENTS_LEVEL: '/settings/schedule-setup/event-setup/level-services/',
             SCHEDULE_EVENT_LEVEL: '/settings/schedule-setup/event-setup/level-service/',
         },

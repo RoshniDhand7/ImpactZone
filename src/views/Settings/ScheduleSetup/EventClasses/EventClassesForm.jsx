@@ -20,6 +20,7 @@ import { types } from '../../../../redux/types/types';
 import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/Settings/ScheduleSetup/eventClassesAction';
 import { getEmployeePay, getEmployees } from '../../../../redux/actions/Settings/Employee/employeesAction';
+import moment from 'moment';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const EventClassesForm = () => {
             {
                 days: [],
                 startTime: '',
+                duration: '',
+                endTime: '',
             },
         ],
         instructor: [
@@ -65,6 +68,11 @@ const EventClassesForm = () => {
     let { eventClasses } = useSelector((state) => state.settings.schedule);
     eventClasses = eventClasses?.find((item) => item._id === data?.event);
     const history = useHistory();
+    console.log(eventClasses, 'eventClasses');
+
+    const durationOptions = eventClasses?.duration?.map((item) => ({ name: `${item} minutes`, value: item }));
+
+    console.log(durationOptions);
 
     useEffect(() => {
         if (data?.event) {
@@ -85,7 +93,11 @@ const EventClassesForm = () => {
                         classLocation: data.classLocation,
                         startDate: new Date(data.startDate),
                         endDate: new Date(data.endDate),
-                        schedule: data.schedule?.map((item) => ({ ...item, startTime: convertToDateTime(item.startTime) })),
+                        schedule: data.schedule?.map((item) => ({
+                            ...item,
+                            startTime: item.startTime,
+                            endTime: item.endTime ? item.endTime : null,
+                        })),
                         instructor: data.instructor,
                         staff: data.staff ? data?.staff : null,
                         payType: data.pay,
@@ -106,7 +118,7 @@ const EventClassesForm = () => {
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, dispatch, employees, eventClasses]);
+    }, [id, dispatch, employees]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
         const employeeWithLevel = employees.find((employee) => employee._id === assistantId);
@@ -155,6 +167,8 @@ const EventClassesForm = () => {
             days: [],
             startTime: '',
             timeFormat: '',
+            duration: '',
+            endTime: '',
         };
         setData((prevData) => ({
             ...prevData,
@@ -214,6 +228,35 @@ const EventClassesForm = () => {
                 ..._newData,
             }));
             await dispatch(getEmployeePay(value));
+        }
+        if (name === 'duration') {
+            const startTime = obj?.startTime;
+            if (startTime && value) {
+                const endTime = new Date(moment(startTime).add(value, 'minutes'));
+                obj.endTime = endTime;
+                obj.duration = value;
+            } else {
+                obj.endTime = null;
+                obj.duration = null;
+            }
+        }
+
+        if (name === 'startTime') {
+            const startTime = value;
+            const duration = obj?.duration;
+
+            if (startTime && duration) {
+                const endTime = new Date(moment(startTime).add(duration, 'minutes'));
+                obj.startTime = startTime;
+                obj.endTime = endTime;
+            } else if (startTime && !duration) {
+                obj.startTime = startTime;
+                obj.endTime = null;
+                obj.duration = null;
+            } else {
+                obj.endTime = null;
+                obj.duration = null;
+            }
         }
 
         const formErrors = formValidation(name, value, obj);
@@ -302,6 +345,8 @@ const EventClassesForm = () => {
         }
     };
 
+    console.log('add Class ', data);
+
     return (
         <>
             <FormPage backText="Classes">
@@ -322,13 +367,6 @@ const EventClassesForm = () => {
                     {data?.schedule?.map((scheduleItem, index) => (
                         <div key={index}>
                             <CustomGridLayout extraClass="align-items-center">
-                                {/* <CustomInputTime
-                                    name="startTime"
-                                    onChange={handleChangeDynamicField}
-                                    data={scheduleItem}
-                                    fieldName="schedule"
-                                    customIndex={index}
-                                /> */}
                                 <CustomCalenderInput
                                     name="startTime"
                                     customIndex={index}
@@ -339,6 +377,15 @@ const EventClassesForm = () => {
                                     placeholder="Select Time"
                                     hourFormat="12"
                                 />
+                                <CustomDropDown
+                                    name="duration"
+                                    customIndex={index}
+                                    options={durationOptions}
+                                    onChange={handleChangeDynamicField}
+                                    data={scheduleItem}
+                                    fieldName="schedule"
+                                    placeholder="Add Duration"
+                                />
                                 <CustomMultiselect
                                     name="days"
                                     customIndex={index}
@@ -347,6 +394,17 @@ const EventClassesForm = () => {
                                     options={WeekDaysOption}
                                     fieldName="schedule"
                                     col={4}
+                                />
+                                <CustomCalenderInput
+                                    name="endTime"
+                                    customIndex={index}
+                                    onChange={handleChangeDynamicField}
+                                    data={scheduleItem}
+                                    fieldName="schedule"
+                                    timeOnly
+                                    placeholder="Select Time"
+                                    hourFormat="12"
+                                    disabled={true}
                                 />
                                 {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
                             </CustomGridLayout>

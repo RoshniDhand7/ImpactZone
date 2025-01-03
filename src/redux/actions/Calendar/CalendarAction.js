@@ -23,7 +23,7 @@ const getCalendarLocations = () => async (dispatch) => {
     }
 };
 
-const getCalendarClasses = () => async (dispatch) => {
+const getAllCalendarEvents = () => async (dispatch) => {
     const res = await api('get', endPoints.CALENDAR.CLASSES);
     if (res.success) {
         if (res.data) {
@@ -32,4 +32,4 @@ const getCalendarClasses = () => async (dispatch) => {
     }
 };
 
-export { getCalendarEvents, getCalendarLocations, getCalendarClasses };
+export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents };
