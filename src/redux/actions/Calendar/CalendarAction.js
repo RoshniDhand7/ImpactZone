@@ -22,6 +22,14 @@ const getCalendarLocations = () => async (dispatch) => {
         }
     }
 };
+const getCalendarResources = () => async (dispatch) => {
+    const res = await api('get', endPoints.CALENDAR.RESOURCES);
+    if (res.success) {
+        if (res.data) {
+            dispatch({ type: types.CALENDAR.RESOURCES, payload: res.data });
+        }
+    }
+};
 
 const getAllCalendarEvents = () => async (dispatch) => {
     const res = await api('get', endPoints.CALENDAR.CLASSES);
@@ -32,4 +40,4 @@ const getAllCalendarEvents = () => async (dispatch) => {
     }
 };
 
-export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents };
+export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents, getCalendarResources };

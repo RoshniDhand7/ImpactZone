@@ -473,7 +473,7 @@ const dateConversions = (date) => {
     return formattedDate;
 };
 const getTime = (time) => {
-    const formattedTime = time ? moment(new Date(time)).format('H:mm A') : null;
+    const formattedTime = time ? moment(new Date(time)).format('HH:mm') : null;
     return formattedTime;
 };
 
@@ -584,6 +584,11 @@ function getDatesByDays(startDate, endDate, days) {
     return datesWithDays;
 }
 
+const eventIncludes = (options, name) => {
+    console.log(options, name);
+    return options.includes(name);
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -629,4 +634,5 @@ export {
     getDateandTime,
     longOverlayText,
     getDatesByDays,
+    eventIncludes,
 };

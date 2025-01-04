@@ -37,7 +37,7 @@ const addClasses = (data, history) => async (dispatch) => {
 
     const payload = {
         ...data,
-        schedule: data?.schedule?.map((item) => ({ ...item, startTime: item.startTime, endTime: item.endTime })),
+        schedule: data?.schedule?.map((item) => ({ ...item, startTime: getTime(item.startTime), endTime: getTime(item.endTime) })),
         pay: data?.payType,
     };
     const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASS, payload);
@@ -50,7 +50,7 @@ const editClasses = (id, data, history) => async (dispatch, getState) => {
     dispatch(showLoaderAction());
     const payload = {
         ...data,
-        schedule: data?.schedule?.map((item) => ({ ...item, startTime: item.startTime, endTime: item.endTime })),
+        schedule: data?.schedule?.map((item) => ({ ...item, startTime: getTime(item.startTime), endTime: getTime(item.endTime) })),
         pay: data?.payType,
     };
     const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASS + id, payload);

@@ -95,8 +95,8 @@ const EventClassesForm = () => {
                         endDate: new Date(data.endDate),
                         schedule: data.schedule?.map((item) => ({
                             ...item,
-                            startTime: item.startTime,
-                            endTime: item.endTime ? item.endTime : null,
+                            startTime: convertToDateTime(item.startTime),
+                            endTime: item.endTime ? convertToDateTime(item.endTime) : null,
                         })),
                         instructor: data.instructor,
                         staff: data.staff ? data?.staff : null,
@@ -149,7 +149,6 @@ const EventClassesForm = () => {
             dispatch(getServicesEvents(data?.event));
             setData((prev) => ({
                 ...prev,
-                staff: null,
                 payType: '',
                 instructor: [
                     {
@@ -191,12 +190,18 @@ const EventClassesForm = () => {
 
     const employeesWithLevel = employees
         .filter((employee) => {
-            return employee.employeeClassData.some((classData) => eventLevels?.includes(classData.isClassLevel));
+            console.log(employee, eventLevels, employee.isClassLevel, 'isClassLevel');
+            return employee.isClassLevel.some((classData) => eventLevels?.includes(classData));
         })
-        .map((employee) => ({
-            name: employee.firstName,
-            value: employee._id,
-        }));
+        ?.map((it) => ({ name: it.firstName, value: it._id }));
+
+    console.log(
+        employees.filter((employee) => {
+            console.log(employee, eventLevels, employee.isClassLevel, 'isClassLevel');
+            return employee.isClassLevel.some((classData) => eventLevels?.includes(classData));
+        }),
+        'employeesWithLevel',
+    );
 
     useEffect(() => {
         if (data?.staff) {
