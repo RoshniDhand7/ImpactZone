@@ -113,7 +113,7 @@ const SellPlanForm = () => {
         mobilePhone: '',
     });
 
-    console.log('planInfo===>', planInfo);
+    // console.log('planInfo===>', planInfo);
 
     useEffect(() => {
         if (selectedMember) {

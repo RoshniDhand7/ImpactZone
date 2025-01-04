@@ -6,7 +6,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ProgressBar } from 'primereact/progressbar';
 import { isAuthenticated } from './services/auth';
 import RecentCheckIn from './views/CheckIn/RecentCheckIn';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 function App() {
     // let state = useSelector((state) => state);
     // console.log('state=>', state);
