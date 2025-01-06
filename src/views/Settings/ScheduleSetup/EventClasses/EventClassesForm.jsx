@@ -355,16 +355,14 @@ const EventClassesForm = () => {
     return (
         <>
             <FormPage backText="Classes">
-                <CustomGridLayout>
-                    <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} />
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
-                </CustomGridLayout>
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>
-                        <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
-                        <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} col="6" />
+                        <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} col={4} />
+                        <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} />
+                        <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} />
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
                         <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate} />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" col={4} />
                     </CustomGridLayout>
                     <CustomGridLayout extraClass="justify-content-end">
                         <PrimaryButton label="Add New Schedule" className="mx-2 " onClick={handleAddSchedule} loading={loading} />
