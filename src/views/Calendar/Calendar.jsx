@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { CustomCalenderInput, CustomDropDown } from '../../shared/Input/AllInputs';
+import { CustomDropDown } from '../../shared/Input/AllInputs';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import useEmployees from '../../hooks/Employees/useEmployees';
 import { useHistory } from 'react-router-dom';
@@ -13,8 +13,7 @@ import { CustomTabMenu } from '../../shared/TabMenu/TabMenu';
 import { Menu } from 'primereact/menu';
 import moment from 'moment';
 import { getDatesByDays } from '../../utils/commonFunctions';
-import CustomDialog from '../../shared/Overlays/CustomDialog';
-import { CustomGridLayout } from '../../shared/Cards/CustomCard';
+import BookEvent from './BookEvent';
 
 export default function Calendar() {
     const dispatch = useDispatch();
@@ -132,16 +131,7 @@ export default function Calendar() {
             </div>
             <Menu model={CalendarItems} popup ref={menu} />
 
-            <CustomDialog title="Member Details" visible={openBookEvent} onCancel={onClose} onApply={onSubmit} saveLabel="Book">
-                <CustomGridLayout>
-                    <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={6} />
-                    <CustomCalenderInput name="eventTime" data={data} onChange={handleChange} col={6} timeOnly />
-                    <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={6} />
-                    <CustomDropDown name="eventType" data={data} onChange={handleChange} col={6} />
-                    <CustomDropDown name="event" data={data} onChange={handleChange} col={6} />
-                    <CustomDropDown name="resoures" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={6} />
-                </CustomGridLayout>
-            </CustomDialog>
+            <BookEvent openBookEvent={openBookEvent} setOpenBookEvent={setOpenBookEvent} />
 
             <FullCalendar
                 height="75vh"

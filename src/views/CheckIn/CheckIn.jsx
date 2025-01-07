@@ -223,8 +223,8 @@ export default function CheckIn() {
                         {/* Resources Section */}
                         <div className="flex align-items-center justify-content-between mt-3">
                             <h3 className="font-semibold text-lg ">Resources</h3>
-                            <label className=" block">Calendar</label>
-                            <label className=" block cursor-pointer" onClick={() => setReserve(true)}>
+                            <label className="block">Calendar</label>
+                            <label className="block cursor-pointer" onClick={() => setReserve(true)}>
                                 Reserve
                             </label>
                         </div>
