@@ -39,5 +39,27 @@ const getAllCalendarEvents = () => async (dispatch) => {
         }
     }
 };
+const calendarBooking = (data, setLoading, next) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.CALENDAR.BOOKING, data);
+    if (res.success) {
+        if (res.data) {
+            next();
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+const getAllCalendarBooking = () => async (dispatch) => {
+    const res = await api('get', endPoints.CALENDAR.BOOKING);
+    if (res.success) {
+        if (res.data) {
+            dispatch({ type: types.CALENDAR.BOOK_EVENTS, payload: res.data });
+        }
+    }
+};
 
-export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents, getCalendarResources };
+export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents, getCalendarResources, calendarBooking, getAllCalendarBooking };

@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCalendarEvents, getCalendarEvents, getCalendarLocations, getCalendarResources } from '../../redux/actions/Calendar/CalendarAction';
+import {
+    getAllCalendarBooking,
+    getAllCalendarEvents,
+    getCalendarEvents,
+    getCalendarLocations,
+    getCalendarResources,
+} from '../../redux/actions/Calendar/CalendarAction';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -25,11 +31,12 @@ export default function Calendar() {
         dispatch(getCalendarLocations());
         dispatch(getAllCalendarEvents());
         dispatch(getCalendarResources());
+        dispatch(getAllCalendarBooking());
     }, [dispatch]);
 
     const { employeesDropdown } = useEmployees();
 
-    const { calendarLocationDropdown, calendarEvents, calendarResourcesDropdown } = useSelector((state) => state.calendar);
+    const { calendarLocationDropdown, calendarEvents, bookedEvents, calendarResourcesDropdown } = useSelector((state) => state.calendar);
 
     const items = [
         { label: 'Employee', icon: 'pi pi-user' },
@@ -39,19 +46,11 @@ export default function Calendar() {
 
     const [openBookEvent, setOpenBookEvent] = useState(false);
 
-    const [data, setData] = useState({
-        employee: '',
-        location: '',
-        resources: '',
-    });
-
-    const onClose = () => {
-        setOpenBookEvent(false);
-    };
-    const onSubmit = () => {};
-    const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
-    };
+    // const [data, setData] = useState({
+    //     employee: '',
+    //     location: '',
+    //     resources: '',
+    // });
 
     const [tabIndex, setTabIndex] = useState(0);
     let CalendarItems = [{ label: 'Book Events', command: () => setOpenBookEvent(true) }, { label: 'Recent Sessions' }, { label: 'Availability' }];
@@ -91,7 +90,7 @@ export default function Calendar() {
             });
         });
 
-        console.log(events1, 'events1');
+        console.log(events1, bookedEvents, 'events1');
 
         return events1;
     };

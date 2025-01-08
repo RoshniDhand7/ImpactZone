@@ -94,6 +94,7 @@ const endPoints = {
         LOCATIONS: '/calendar/locations/',
         CLASSES: '/calendar/classes/',
         RESOURCES: '/calendar/resources/',
+        BOOKING: '/calendar/booking/',
     },
 
     UPLOAD_FILES: '/upload',

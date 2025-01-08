@@ -1,28 +1,54 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown } from '../../shared/Input/AllInputs';
 import useEmployees from '../../hooks/Employees/useEmployees';
 import useMembers from '../../hooks/Members/useMembers';
+import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
+import { getMemberData } from '../../redux/actions/MembersPortal/memberPortalActions';
+import { EventTypeOptions } from '../../utils/dropdownConstants';
+import { calendarBooking } from '../../redux/actions/Calendar/CalendarAction';
+import formValidation from '../../utils/validations';
+import { showFormErrors } from '../../utils/commonFunctions';
 
 const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     const dispatch = useDispatch();
-    const [data, setData] = useState({
-        employee: '',
-        location: '',
+    const [loading, setLoading] = useState(false);
+
+    const initialState = {
+        member: '',
+        eventDate: new Date(),
+        eventTime: new Date(),
+        staff: '',
+        eventType: '',
+        event: '',
         resources: '',
-    });
+    };
+    const [data, setData] = useState(initialState);
     const { employeesDropdown } = useEmployees();
 
-    const { calendarLocationDropdown, calendarEvents, calendarResourcesDropdown } = useSelector((state) => state.calendar);
+    const { calendarResourcesDropdown, calendarEventsDropdown } = useSelector((state) => state.calendar);
 
-    const onSubmit = () => {};
+    const onSubmit = () => {
+        if (showFormErrors(data, setData)) {
+            dispatch(
+                calendarBooking(data, setLoading, () => {
+                    setOpenBookEvent(false);
+                    onClose();
+                }),
+            );
+        }
+    };
     const handleChange = ({ name, value }) => {
-        setData((prev) => ({ ...prev, [name]: value }));
+        const formErrors = formValidation(name, value, data);
+        setData((prev) => ({ ...prev, [name]: value, formErrors }));
     };
 
-    const onClose = () => {};
+    const onClose = () => {
+        setOpenBookEvent(false);
+        setData(initialState);
+    };
     const { members } = useMembers();
 
     const suggestions = useMemo(
@@ -35,9 +61,18 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     );
 
     const memberOptions = useMemo(() => members?.map((item) => ({ name: `${item.firstName} ${item.MI} ${item.lastName}`, value: item?._id })), [members]);
+    useEffect(() => {
+        if (data?.member) {
+            dispatch(getMemberData(data?.member, 'dashboard'));
+        }
+    }, [dispatch, data?.member]);
+
+    const memberData = useSelector((state) => state.membersPortal.dashboard);
+
+    console.log('data', data);
 
     return (
-        <CustomDialog title="Member Details" visible={openBookEvent} onCancel={onClose} onApply={onSubmit} saveLabel="Book">
+        <CustomDialog loading={loading} title="Member Details" visible={openBookEvent} onCancel={onClose} onSave={onSubmit} saveLabel="Book">
             <CustomGridLayout>
                 <CustomAsyncReactSelect
                     name="member"
@@ -49,12 +84,36 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
                     onChange={handleChange}
                     col={11}
                 />
-                <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={6} />
-                <CustomCalenderInput name="eventTime" data={data} onChange={handleChange} col={6} timeOnly />
-                <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={6} />
-                <CustomDropDown name="eventType" data={data} onChange={handleChange} col={6} />
-                <CustomDropDown name="event" data={data} onChange={handleChange} col={6} />
-                <CustomDropDown name="resoures" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={6} />
+                <div className="text-sm p-error ">{data?.formErrors?.member}</div>
+                {data?.member && (
+                    <div className="member-container mt-3 ml-2 border-round-xl shadow-2  flex justify-content-between p-2 mb-2">
+                        <div className="flex w-full justify-content-between">
+                            <div className="flex gap-5">
+                                <div className="avatar-img1">
+                                    <img
+                                        className="fit-cover rounded-full border-white border-2"
+                                        src={getImageURL(memberData?.image)}
+                                        onError={(e) => (e.target.src = getDefaultImage())}
+                                        alt=""
+                                    />
+                                </div>
+
+                                <div className="flex flex-column justify-center">
+                                    <p className=" text-2xl font-semibold ">
+                                        {memberData && memberData?.firstName + ' ' + memberData?.MI + ' ' + memberData?.lastName}
+                                    </p>
+                                    <p className=" font-semibold mt-2">Barcode: {memberData && memberData?.barCode}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={12} minDate={new Date()} />
+                <CustomCalenderInput name="eventTime" data={data} onChange={handleChange} col={12} timeOnly hourFormat="12" />
+                <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={12} />
+                <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={12} />
+                <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={12} />
+                <CustomDropDown name="resources" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={12} />
             </CustomGridLayout>
         </CustomDialog>
     );
