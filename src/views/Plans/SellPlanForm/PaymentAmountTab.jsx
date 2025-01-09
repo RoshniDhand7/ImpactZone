@@ -4,7 +4,7 @@ import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { formatDate } from '@fullcalendar/core';
 
-const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
+const PaymentAmountTab = ({ onTabEnable, planInfo, onCancel }) => {
     const history = useHistory();
     const [total, setTotal] = useState(0);
 
@@ -14,7 +14,7 @@ const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
 
     const handleNext = () => {
         history.replace({
-            search: `?tab=billing-info&member=${memberInfo._id}`,
+            search: `?tab=billing-info`,
         });
     };
 
@@ -22,7 +22,7 @@ const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
         let serviceSum = planInfo?.services.reduce((total, service) => total + service.unitPrice, 0);
         let assessedFeeSum = planInfo?.assessedFee.filter((item) => item.type === 'ANNUAL_FEE').reduce((total, fee) => total + fee.amount, 0);
         setTotal(serviceSum + assessedFeeSum);
-    }, []);
+    }, [planInfo]);
 
     return (
         <>
@@ -32,8 +32,8 @@ const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
                         <div className="flex justify-content-between text-lg mb-2">
                             <span className="font-bold ">Services</span>
                         </div>
-                        {planInfo?.services?.map((item) => (
-                            <CustomListItem label={item.name + ` (Due On ${formatDate(item.firstDueDate)})`} value={'$' + item.unitPrice} />
+                        {planInfo?.services?.map((item, i) => (
+                            <CustomListItem key={i} label={item.name + ` (Due On ${formatDate(item.firstDueDate)})`} value={'$' + item.unitPrice} />
                         ))}
                     </>
                 )}
@@ -42,8 +42,9 @@ const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
                         <div className="flex justify-content-between text-lg mb-2">
                             <span className="font-bold ">Assesssed Fee</span>
                         </div>
-                        {planInfo?.assessedFee?.map((item) => (
+                        {planInfo?.assessedFee?.map((item, i) => (
                             <CustomListItem
+                                key={i}
                                 label={item.name + `${item.type === 'ANNUAL_FEE' ? ` (Due On ${formatDate(item.dueDate)})` : ''}`}
                                 value={'$' + item.amount}
                             />
@@ -58,7 +59,6 @@ const PaymentAmountTab = ({ onTabEnable, memberInfo, planInfo, onCancel }) => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext()} />
-
                 <LightButton label="Cancel" onClick={onCancel} />
             </CustomButtonGroup>
         </>

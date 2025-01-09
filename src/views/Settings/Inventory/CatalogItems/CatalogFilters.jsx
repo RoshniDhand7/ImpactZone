@@ -40,7 +40,7 @@ const CatalogFilters = ({ onFilterClose, onApplyFilters, filters, isFilterVisibl
             >
                 <CustomGridLayout>
                     <CustomDropDown col={12} name="type" options={catalogProductTypeOptions} data={data} onChange={handleChange} showClear />
-                    <CustomMultiselect col={12} name="profitCentre" options={profitCenterDropdown} data={data} onChange={handleChange} />
+                    <CustomMultiselect col={12} name="profitCenter" options={profitCenterDropdown} data={data} onChange={handleChange} />
                     <CustomDropDown col={12} label="Item Status" name="isActive" options={ActiveFilterDropdown} data={data} onChange={handleChange} showClear />
                     <CustomDropDown col={12} name="itemSoldOnline" label="Online Status" options={yesNoOptions} data={data} onChange={handleChange} showClear />
                     <CustomMultiselect col={12} name="clubs" options={clubsDropdown} data={data} onChange={handleChange} />

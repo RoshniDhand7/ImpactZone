@@ -303,7 +303,12 @@ export const reasonCodeTypeOptions = [
     },
 ];
 
-export const itemStartOptions = ['Upon Purchase', 'Upon next visit', 'Upon first use'].map((name) => ({ name, value: name.toUpperCase() }));
+export const itemStartOptions = [
+    { name: 'None', value: 'NONE' },
+    { name: 'Upon Purchase', value: 'UPON_PURCHASE' },
+    { name: 'Upon Next Visit', value: 'UPON_NEXT_VISIT' },
+    { name: 'Upon First Use', value: 'UPON_FIRST_USE' },
+];
 
 export const classesPayTypeOptions = [
     {

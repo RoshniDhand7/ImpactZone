@@ -5,18 +5,13 @@ import { CustomCalenderInput, CustomDropDown, CustomGroupInput, CustomInputNumbe
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAgreementNumberAction, editSellPlan, getSellPlan } from '../../../redux/actions/Plans/SellPlan';
+import { checkAgreementNumberAction } from '../../../redux/actions/Plans/SellPlan';
 import { noOfPaymentOptions, oftenClientChargedOptions, yesNoOptions } from '../../../utils/dropdownConstants';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import debounce from 'lodash.debounce';
 
-import { AutoComplete } from 'primereact/autocomplete';
-import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
-import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';
-import { getEmployees } from '../../../redux/actions/Settings/Employee/employeesAction';
-
-const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel }) => {
+const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, onCancel }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -24,29 +19,10 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel
         onTabEnable(2);
     }, []);
 
-    useEffect(() => {
-        dispatch(getEmployees());
-        dispatch(getCampaigns());
-        dispatch(getMembersipTypes());
-    }, [dispatch]);
-
-    const [items, setItems] = useState([]);
-
-    let allMembers = useSelector((state) => state.membersPortal.members);
-
-    allMembers = allMembers.map((item) => ({
-        firstName: item.firstName,
-        middleName: item.MI,
-        lastName: item.lastName,
-        fullName: `${item.firstName} ${item.MI} ${item.lastName}`.trim(),
-        id: item._id,
-        path: `member/${item._id}`,
-    }));
-
-    const { id, newPlanId, memberId } = useParams();
+    const { newPlanId } = useParams();
 
     let { membershipTypesDropdown } = useSelector((state) => state.settings.members);
-
+    const allMembersDropdown = useSelector((state) => state.membersPortal.allMembersDropdown);
     const { employeesDropdown } = useSelector((state) => state.settings.employee);
     const { campaignDropdown } = useSelector((state) => state.settings.members);
 
@@ -59,13 +35,6 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel
                 debouncedChangeHandler(value);
             }
         }
-    };
-
-    const handleChange1 = (e) => {
-        const inputValue = e.value;
-        const trimmedValue = typeof inputValue === 'string' ? inputValue.trimStart() : inputValue;
-        const formErrors = formValidation('referredBy', trimmedValue, planInfo);
-        setPlanInfo((prev) => ({ ...prev, referredBy: trimmedValue, formErrors }));
     };
 
     const changeHandler = (val) => {
@@ -135,69 +104,11 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel
         }
     };
 
-    // const handleNext = (tab) => {
-    //     if (showFormErrors(planInfo, setPlanInfo)) {
-    //         const validated = showArrayFormErrors(planInfo.services);
-    //         const validatedAssessedFee = showArrayFormErrors(planInfo.assessedFee);
-
-    //         if (!validated.isValid) {
-    //             setPlanInfo((prev) => ({ ...prev, services: validated.data }));
-    //         }
-    //         if (!validatedAssessedFee.isValid) {
-    //             setPlanInfo((prev) => ({ ...prev, assessedFee: validatedAssessedFee.data }));
-    //         }
-    //         if (validated.isValid && validatedAssessedFee.isValid) {
-    //             const payload = {
-    //                 ...planInfo,
-    //                 referredBy: planInfo.referredBy?.fullName ? planInfo.referredBy?.fullName : '',
-    //                 services: planInfo.services?.map((item) => ({
-    //                     catalogId: item._id,
-    //                     name: item.name,
-    //                     unitPrice: item.unitPrice,
-    //                     numberOfPayments: item.numberOfPayments,
-    //                     firstDueDate: item.firstDueDate,
-    //                     autoRenew: item.autoRenew,
-    //                 })),
-    //                 assessedFee: planInfo.assessedFee?.map((assesedfee) => ({
-    //                     assessedFeeId: assesedfee._id,
-    //                     name: assesedfee.name,
-    //                     amount: assesedfee.amount,
-    //                     dueDate: assesedfee.dueDate,
-    //                     apply: assesedfee.apply,
-    //                     recurring: assesedfee.recurring,
-    //                 })),
-    //                 ...(tab && { type: 'hold', tabName: 'agreement', planId: newPlanId }),
-    //             };
-    //             dispatch(
-    //                 editSellPlan(newPlanId, payload, () => {
-    //                     if (tab) {
-    //                         history.replace('/plans/drafts');
-    //                     } else {
-    //                         onTabEnable(0, 1, 2, 3, 4);
-    //                         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${memberId}${'?tab=payment-amounts'}`);
-    //                     }
-    //                 }),
-    //             );
-    //         }
-    //     }
-    // };
-
     const handleNext = () => {
         history.replace({
-            search: `?tab=payment-amounts&member=${memberInfo._id}`,
+            search: `?tab=payment-amounts`,
         });
     };
-    const search = (event) => {
-        let query = event.query;
-        let _filteredItems = allMembers.filter((item) => {
-            let _item = `${item.firstName} ${item.middleName} ${item.lastName}`.trim();
-            let _query = query.trim().toLowerCase();
-            return _item.toLowerCase().includes(_query);
-        });
-        setItems(_filteredItems);
-        return _filteredItems;
-    };
-
     return (
         <>
             <CustomCard col="12" title="Membership">
@@ -209,23 +120,9 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel
             </CustomCard>
             <CustomCard col="12" title="Sales Information">
                 <CustomGridLayout>
-                    <CustomDropDown name="salesPerson" data={planInfo} onChange={handleChange} required options={employeesDropdown} optionLabel="name" />
-                    <div className="md:col-4">
-                        <label className="text-sm font-semibold">Referred By</label>
-                        <AutoComplete
-                            field="fullName"
-                            value={planInfo.referredBy}
-                            suggestions={items}
-                            completeMethod={search}
-                            onChange={handleChange1}
-                            className="w-full"
-                            showEmptyMessage={true}
-                            required={true}
-                            inputClassName="w-full mt-1"
-                            itemTemplate={(item) => <div>{`${item.firstName} ${item.middleName} ${item.lastName} `}</div>}
-                        />
-                    </div>
-                    <CustomDropDown name="campaign" data={planInfo} onChange={handleChange} required options={campaignDropdown} optionLabel="name" />
+                    <CustomDropDown data={planInfo} onChange={handleChange} name="salesPerson" options={employeesDropdown} required />
+                    <CustomDropDown data={planInfo} onChange={handleChange} name="referredBy" options={allMembersDropdown} />
+                    <CustomDropDown data={planInfo} onChange={handleChange} name="campaign" options={campaignDropdown} required />
                 </CustomGridLayout>
             </CustomCard>
             <CustomCard col="12" title="Dates">
@@ -287,7 +184,6 @@ const AgreementTab = ({ onTabEnable, planInfo, setPlanInfo, memberInfo, onCancel
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('?tab=payment-amounts')} />
-                {/* <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=agreement')} /> */}
                 <LightButton label="Cancel" onClick={onCancel} />
             </CustomButtonGroup>
         </>

@@ -31,4 +31,20 @@ const getMemberDetails = (id, returnData) => async () => {
         }
     }
 };
-export { getActivePlans, getActivePlan, getMemberDetails };
+
+const createMemberSubscription = (data, setLoading, next) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    let payload = { ...data };
+    const res = await api('post', EndPoints.PLANS.PLAN, payload);
+    if (res.success) {
+        if (next) {
+            next(res.data);
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+export { getActivePlans, getActivePlan, getMemberDetails, createMemberSubscription };

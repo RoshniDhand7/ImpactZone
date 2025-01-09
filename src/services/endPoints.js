@@ -1,5 +1,6 @@
 const endPoints = {
     PLANS: {
+        PLAN: '/plans/',
         ACTIVE: '/plans/active/',
         MEMBER: '/plans/member/',
     },

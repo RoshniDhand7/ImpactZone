@@ -1,50 +1,21 @@
 import React, { useState } from 'react';
 import CustomCard, { CustomListItem } from '../../../shared/Cards/CustomCard';
 import { useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { CustomAsyncReactSelect } from '../../../shared/Input/AllInputs';
 
 const PlanTab = ({ onTabEnable, onCancel, planInfo, selectedMember, setSelectedMember }) => {
     const history = useHistory();
-    const { id } = useParams();
-
     const [error, setError] = useState(null);
     let allMembersDropdown = useSelector((state) => state.membersPortal.allMembersDropdown);
-
-    // const handleNext = () => {
-    //     if (showFormErrors(data, setData, ['services', 'membershipType', 'clubs'])) {
-    //         if (data?.memberToSell.id) {
-    //             const payload = {
-    //                 name: data.name,
-    //                 oftenClientCharged: data.oftenClientCharged,
-    //                 club: data?.clubs?.length > 0 ? getIds(data?.clubs) : null,
-    //                 membershipType: data?.membershipType?._id,
-    //                 memberToSell: data.memberToSell.id,
-    //                 type: 'next',
-    //                 services:
-    //                     data?.services?.length > 0 ? data?.services?.map((item) => ({ catalogId: item._id, unitPrice: item.unitPrice, name: item.name })) : [],
-    //             };
-
-    //             if (newPlanId) {
-    //                 dispatch(
-    //                     editSellPlan(newPlanId, payload, () => {
-    //                         onTabEnable(0, 1);
-    //                         history.replace(`/plans/sell-plan/${id}/${newPlanId}/${data.memberToSell.id}${'?tab=personal'}`);
-    //                         getMembershipPlan();
-    //                     }),
-    //                 );
-    //             } else {
-    //                 dispatch(addSellPlan(id, payload, onTabEnable, history, getMembershipPlan));
-    //             }
-    //         }
-    //     }
-    // };
 
     const handleNext = () => {
         if (selectedMember) {
             onTabEnable(1);
-            history.replace(`/plans/sell-plan/${id}?tab=personal${selectedMember && `&member=${selectedMember}`}`);
+            history.replace({
+                search: `?tab=personal`,
+            });
         } else {
             setError('Plese Select Member!');
         }

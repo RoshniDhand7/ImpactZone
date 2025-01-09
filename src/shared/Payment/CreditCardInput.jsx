@@ -11,8 +11,8 @@ const authData = {
     apiLoginID: '929fEhC9',
 };
 
-export default function CreditCardInput({ onChange }) {
-    const { dispatchData, loading } = useAcceptJs({ authData, environment: 'SANDBOX' });
+export default function CreditCardInput() {
+    const { dispatchData } = useAcceptJs({ authData, environment: 'SANDBOX' });
     const [data, setData] = useState({
         cardNumber: '',
         cvc: '',
@@ -21,9 +21,8 @@ export default function CreditCardInput({ onChange }) {
         focused: '',
     });
 
-    const handleChange = ({ name, value }) => {
+    const handleCreditChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value, focused: name, formErrors: { ...prev.formErrors, [name]: '' } }));
-        onChange({ name, value });
     };
 
     const [validations, setValidations] = useState({ cardNumberLength: 16, cvvLength: 3, validCardLengths: [] });
@@ -47,23 +46,22 @@ export default function CreditCardInput({ onChange }) {
         }
     }, [data.cardNumber]);
 
-    const handleSubmit = async (event) => {
+    const handleCreditCardSubmit = async () => {
         try {
-            event.preventDefault();
             const { validCardLengths, cvvLength } = validations;
             const { cardNumber, expiryDate, cvc, cardHolderName } = data;
 
             if (!validCardLengths.includes(cardNumber.length)) {
                 setData((prev) => ({ ...prev, formErrors: { ...prev.formErrors, cardNumber: 'Please provide valid credit card number.' } }));
-                return;
+                return false;
             }
             if (cvvLength !== cvc.length) {
                 setData((prev) => ({ ...prev, formErrors: { ...prev.formErrors, cvc: 'Please provide valid code.' } }));
-                return;
+                return false;
             }
             if (!cardHolderName.trim()) {
                 setData((prev) => ({ ...prev, formErrors: { ...prev.formErrors, cardHolderName: 'Please provide card holder name.' } }));
-                return;
+                return false;
             }
             const cardData = {
                 cardNumber,
@@ -72,10 +70,10 @@ export default function CreditCardInput({ onChange }) {
                 cardCode: cvc,
             };
             const response = await dispatchData({ cardData });
-            console.log('Received response:', response);
-            return response?.opaqueData?.dataValue;
+            console.log('CreditCard response:', response);
+            return response?.opaqueData;
         } catch (error) {
-            console.log('Received error:', error);
+            console.log('CreditCard error:', error);
             if (error?.messages) {
                 let _errors = error?.messages.message;
                 let formErrors = {};
@@ -94,18 +92,27 @@ export default function CreditCardInput({ onChange }) {
         }
     };
 
-    return (
-        <div className="col-12 grid">
-            <div className="col grid my-auto">
-                <CustomInput name="cardNumber" data={data} onChange={handleChange} keyfilter="pnum" maxLength={validations.cardNumberLength} col={6} />
-                <CustomInputMask name="expiryDate" mask="99/99" data={data} onChange={handleChange} col={6} placeholder="MM/YY" />
-                <CustomInput label="CVV" name="cvc" data={data} onChange={handleChange} keyfilter="pnum" maxLength={validations.cvvLength} col={6} />
-                <CustomInput name="cardHolderName" data={data} onChange={handleChange} col={6} />
+    const CardInput = ({ handleCreditChange: handleChange, validations, data }) => {
+        return (
+            <div className="col-12 grid">
+                <div className="col grid my-auto">
+                    <CustomInput name="cardNumber" data={data} onChange={handleChange} keyfilter="pnum" maxLength={validations.cardNumberLength} col={6} />
+                    <CustomInputMask name="expiryDate" mask="99/99" data={data} onChange={handleChange} col={6} placeholder="MM/YY" />
+                    <CustomInput label="CVV" name="cvc" data={data} onChange={handleChange} keyfilter="pnum" maxLength={validations.cvvLength} col={6} />
+                    <CustomInput name="cardHolderName" data={data} onChange={handleChange} col={6} />
+                </div>
+                <div className="col-4 ">
+                    <Cards
+                        number={data.cardNumber.replace(/\D/g, '')}
+                        expiry={data.expiryDate}
+                        cvc={data.cvc}
+                        name={data.cardHolderName}
+                        focused={data.focused}
+                    />
+                </div>
             </div>
-            <div className="col-4 ">
-                <Cards number={data.cardNumber.replace(/\D/g, '')} expiry={data.expiryDate} cvc={data.cvc} name={data.cardHolderName} focused={data.focused} />
-            </div>
-            <button onClick={handleSubmit}>handleSubmit</button>
-        </div>
-    );
+        );
+    };
+
+    return { CardInput, handleCreditCardSubmit, validations, handleCreditChange, data };
 }

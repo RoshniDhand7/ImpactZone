@@ -65,7 +65,7 @@ const CatalogItems = () => {
                 type: visible.type,
                 name: data.name,
                 upc: visible.upc,
-                profitCentre: visible.profitCentre,
+                profitCenter: visible.profitCenter,
                 category: visible.category ?? 'NONE',
                 itemCaption: visible.itemCaption,
                 itemSold: visible.itemSold,

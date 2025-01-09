@@ -42,7 +42,7 @@ const General = ({ editItem }) => {
         type: 'PRODUCT',
         name: '',
         upc: '',
-        profitCentre: '',
+        profitCenter: '',
         itemCaption: '',
         itemSold: '',
         isRecurring: false,
@@ -66,7 +66,7 @@ const General = ({ editItem }) => {
         maximumQuantity: 1,
         allowUnlimited: false,
         isStockable: false,
-        itemStart: '',
+        itemStart: 'NONE',
         expiration: false,
         days: '',
         month: '',
@@ -99,7 +99,7 @@ const General = ({ editItem }) => {
                 type: editItem.type,
                 name: editItem.name,
                 upc: editItem.upc,
-                profitCentre: editItem.profitCentre,
+                profitCenter: editItem.profitCenter,
                 itemCaption: editItem.itemCaption,
                 itemSold: editItem.itemSold,
                 isRecurring: editItem.isRecurring,
@@ -271,7 +271,7 @@ const General = ({ editItem }) => {
                     <CustomDropDown name="type" options={catalogProductTypeOptions} onChange={handleChange} data={data} disabled={id} />
                     <CustomInput name="name" onChange={handleChange} data={data} required />
                     <CustomInputNumber name="upc" label="UPC" onChange={handleChange} data={data} col={4} required />
-                    <CustomDropDown name="profitCentre" options={profitCenterDropdown} onChange={handleChange} data={data} required />
+                    <CustomDropDown name="profitCenter" options={profitCenterDropdown} onChange={handleChange} data={data} required />
 
                     <CustomInput name="itemCaption" onChange={handleChange} data={data} required />
                     <CustomDropDown name="itemSold" label="How is this item sold?" options={itemSoldOptions} onChange={handleChange} data={data} required />

@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createMemberSubscription, getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
+import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { getDueDate, getFirstDueDate } from '../../../utils/dateTime';
+import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
+import { calculateFinalAmount } from '../../../utils/taxHelpers';
 import CustomTabView from '../../../shared/TabView/CustomTabView';
 import FormPage from '../../../shared/Layout/FormPage';
+
+import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getEmployees } from '../../../redux/actions/Settings/Employee/employeesAction';
+
 import PlanTab from './PlanTab';
 import PersonalTab from './PersonalTab';
-import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
 import PaymentAmountTab from './PaymentAmountTab';
 import BillingInfoTab from './BillingInfoTab';
-import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
-import { useDispatch } from 'react-redux';
-import { getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
-import { useEffect } from 'react';
-import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
-import useQueryParams from '../../../hooks/useQueryParams';
-import { getDueDate, getFirstDueDate } from '../../../utils/dateTime';
-import { calculateFinalAmount } from '../../../utils/taxHelpers';
 
 const SellPlanForm = () => {
-    // we will get the member id if someone come from draft plans or if someone has refreshed any tab , so it will refetch the member details
-    let memberId = useQueryParams('member');
-    useEffect(() => {
-        if (memberId) {
-            setSelectedMember(memberId);
-        }
-    }, [memberId]);
-
     const dispatch = useDispatch();
     const { newPlanId, id } = useParams();
+    useEffect(() => {
+        dispatch(getEmployees());
+        dispatch(getCampaigns());
+        dispatch(getMembersipTypes());
+    }, [dispatch]);
+    // we will get the member id if someone come from draft plans or if someone has refreshed any tab , so it will refetch the member details
+    useEffect(() => {
+        let _selectedMember = localStorage.getItem('selectedMember');
+        if (_selectedMember) {
+            setSelectedMember(_selectedMember);
+        }
+    }, []);
 
-    const [disabledTabIndices, setDisabledTabIndices] = useState([1, 2, 3, 4, 5, 6, 7]);
+    const [disabledTabIndices, setDisabledTabIndices] = useState([1, 2, 3, 4]);
 
     // this will fetch the plan info like name category, assessedFee and the services inclued with their taxes and everything
     useEffect(() => {
@@ -86,9 +93,9 @@ const SellPlanForm = () => {
         membershipType: '',
         howOftenWillClientsBeCharged: '',
 
-        salesPerson: '',
-        referredBy: '',
-        campaign: '',
+        salesPerson: null,
+        referredBy: null,
+        campaign: null,
 
         memberSince: '',
         signDate: new Date(),
@@ -113,10 +120,9 @@ const SellPlanForm = () => {
         mobilePhone: '',
     });
 
-    // console.log('planInfo===>', planInfo);
-
     useEffect(() => {
         if (selectedMember) {
+            localStorage.setItem('selectedMember', selectedMember);
             dispatch(
                 getMemberDetails(selectedMember, (e) => {
                     setMemberInfo((pre) => ({ ...pre, ...e, image: e.image ? [e.image] : [] }));
@@ -124,23 +130,39 @@ const SellPlanForm = () => {
                 }),
             );
         } else {
-            setDisabledTabIndices([...disabledTabIndices, 1]);
+            localStorage.removeItem('selectedMember');
         }
     }, [selectedMember, dispatch]);
 
     const onTabEnable = (index) => {
-        setDisabledTabIndices(disabledTabIndices.filter((item) => item !== index));
+        setDisabledTabIndices((prev) => prev.filter((item) => item > index));
     };
     const { confirm } = useCancelSellPlans(newPlanId);
 
     const [payment, setPayment] = useState({
-        paymentMethod: 'CREDIT_CARD',
-        cardNumber: '',
-        cvc: '',
-        expiryDate: '',
-        cardHolderName: '',
-        focused: '',
+        paymentMethodType: 'CREDIT_CARD',
+        enableCardOnFile: false,
+        useClubAccount: true,
     });
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = (opaqueData) => {
+        if (opaqueData) {
+            let payload = {
+                selectedMember,
+                planId: id,
+                payment: {
+                    paymentMethodType: payment.paymentMethodType,
+                    paymentMethod: { opaqueData },
+                    enableCardOnFile: payment.enableCardOnFile,
+                    useClubAccount: payment.useClubAccount,
+                },
+                member: memberInfo,
+                plan: planInfo,
+            };
+            dispatch(createMemberSubscription(payload, setLoading, () => {}));
+        }
+    };
     const tabs = [
         {
             title: 'Plan',
@@ -160,7 +182,12 @@ const SellPlanForm = () => {
             content: <AgreementTab memberInfo={memberInfo} planInfo={planInfo} setPlanInfo={setPlanInfo} onTabEnable={onTabEnable} onCancel={confirm} />,
         },
         { title: 'Payment Amounts', content: <PaymentAmountTab memberInfo={memberInfo} planInfo={planInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
-        { title: 'Billing Info', content: <BillingInfoTab payment={payment} setPayment={setPayment} onTabEnable={onTabEnable} onCancel={confirm} /> },
+        {
+            title: 'Billing Info',
+            content: (
+                <BillingInfoTab loading={loading} onSubmit={onSubmit} payment={payment} setPayment={setPayment} onTabEnable={onTabEnable} onCancel={confirm} />
+            ),
+        },
     ];
 
     return (

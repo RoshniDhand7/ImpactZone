@@ -65,9 +65,6 @@ const getFirstDueDate = (paymentOption, specificDate = null) => {
 };
 const getDueDate = (paymentOption, specificDate = null, daysFromBeginDate = 0) => {
     const currentDate = moment();
-
-    console.log('paymentOption==>', paymentOption);
-
     switch (paymentOption) {
         case 'NO_DUE_DATE':
             return null;

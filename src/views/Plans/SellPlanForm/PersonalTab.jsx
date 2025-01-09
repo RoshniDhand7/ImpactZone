@@ -43,7 +43,7 @@ const PersonalTab = ({ onTabEnable, onCancel, memberInfo, setMemberInfo }) => {
     const handleNext = () => {
         if (showFormErrors(memberInfo, setMemberInfo)) {
             history.replace({
-                search: `?tab=agreement&member=${memberInfo._id}`,
+                search: `?tab=agreement`,
             });
         }
     };
