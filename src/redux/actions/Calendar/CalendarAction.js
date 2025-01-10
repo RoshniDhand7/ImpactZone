@@ -61,5 +61,13 @@ const getAllCalendarBooking = () => async (dispatch) => {
         }
     }
 };
+const getCalendarBooking = () => async (dispatch) => {
+    const res = await api('get', endPoints.CALENDAR.BOOKING);
+    if (res.success) {
+        if (res.data) {
+            dispatch({ type: types.CALENDAR.BOOK_EVENTS, payload: res.data });
+        }
+    }
+};
 
 export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents, getCalendarResources, calendarBooking, getAllCalendarBooking };

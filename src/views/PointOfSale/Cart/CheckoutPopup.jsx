@@ -27,7 +27,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
     const onSubmit = () => {
         onCheckout({ paymentType: method, printReceiept, setLoading });
         // if (payType) {
-           
+
         // } else {
         //     onCheckout({ paymentType: method, printReceiept, setLoading });
         // }
@@ -68,13 +68,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                 const updatedMethods = prev.map((method) => (method.type === updatedMethodType ? { ...method, amount: cappedEnteredAmount } : method));
                 const otherMethods = updatedMethods.filter((method) => method.type !== updatedMethodType);
                 const totalOtherAmounts = otherMethods.reduce((sum, method) => sum + method.amount, 0);
-                console.log(typeof cappedEnteredAmount, updatedMethods, 'cappedEnteredAmount');
                 if (cappedEnteredAmount === 0) {
-                    console.log(
-                        cappedEnteredAmount,
-                        updatedMethods.map((method, index) => (index === 0 ? { ...method, amount: finalTotal } : { ...method, amount: 0 })),
-                        'cappedEnteredAmount',
-                    );
                     return updatedMethods.map((method, index) => (index === 0 ? { ...method, amount: finalTotal } : { ...method, amount: 0 }));
                 }
 
@@ -89,15 +83,12 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
 
                     const adjustedAmount = (method.amount / totalOtherAmounts) * remainingTotal;
 
-                    console.log(adjustedAmount);
                     return { ...method, amount: parseFloat(adjustedAmount.toFixed(2)) };
                 });
             });
         },
         [setMethod],
     );
-
-    console.log(method);
 
     return (
         <CustomDialog title="Complete Sale" visible={visible} onCancel={onClose} onSave={onSubmit} saveLabel="Finish" loading={loading} width={'60vw'}>
@@ -119,7 +110,6 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                         {method.map((met) => (
                             <div key={met.type} className="flex align-items-center justify-content-between mb-2 mr-5">
                                 <div className="mr-2">{met.type}:</div>
-                                {console.log(met.amount)}
                                 <input
                                     type="number"
                                     name={formatLetter(met.type)}

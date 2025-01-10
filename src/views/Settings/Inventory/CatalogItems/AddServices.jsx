@@ -25,8 +25,6 @@ const AddServices = ({ data, setData, id, loading, type, name }) => {
 
     const { catalogServiceFilterItems, allCatalogItemsFilter } = useSelector((state) => state.catalogItems);
 
-    console.log(catalogServiceFilterItems, allCatalogItemsFilter, 'CatalogFilter');
-
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
         { field: 'name', header: 'Item Name' },

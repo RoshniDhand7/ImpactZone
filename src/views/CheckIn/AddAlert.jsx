@@ -35,7 +35,6 @@ const AddAlert = ({ openAlert, setOpenAlert, memberId }) => {
         }
     };
 
-    console.log(data, 'data');
     return (
         <>
             <CustomDialog

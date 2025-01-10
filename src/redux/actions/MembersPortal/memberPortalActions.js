@@ -82,8 +82,8 @@ const editMemberAction = (id, data, next) => async (dispatch) => {
     dispatch(hideLoaderAction());
 };
 
-const getServices = () => async (dispatch) => {
-    const res = await api('get', endPoints.MEMBERS_V2.SERVICES);
+const getServices = (id) => async (dispatch) => {
+    const res = await api('get', endPoints.MEMBERS_V2.SERVICES, {}, { id });
     if (res.success) {
         dispatch({
             type: types.MEMBER.SERVICES,

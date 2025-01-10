@@ -68,11 +68,8 @@ const EventClassesForm = () => {
     let { eventClasses } = useSelector((state) => state.settings.schedule);
     eventClasses = eventClasses?.find((item) => item._id === data?.event);
     const history = useHistory();
-    console.log(eventClasses, 'eventClasses');
 
     const durationOptions = eventClasses?.duration?.map((item) => ({ name: `${item} minutes`, value: item }));
-
-    console.log(durationOptions);
 
     useEffect(() => {
         if (data?.event) {
@@ -190,18 +187,9 @@ const EventClassesForm = () => {
 
     const employeesWithLevel = employees
         .filter((employee) => {
-            console.log(employee, eventLevels, employee.isClassLevel, 'isClassLevel');
             return employee.isClassLevel.some((classData) => eventLevels?.includes(classData));
         })
         ?.map((it) => ({ name: it.firstName, value: it._id }));
-
-    console.log(
-        employees.filter((employee) => {
-            console.log(employee, eventLevels, employee.isClassLevel, 'isClassLevel');
-            return employee.isClassLevel.some((classData) => eventLevels?.includes(classData));
-        }),
-        'employeesWithLevel',
-    );
 
     useEffect(() => {
         if (data?.staff) {
@@ -342,15 +330,24 @@ const EventClassesForm = () => {
             }
             if (validatedSchedule.isValid) {
                 if (id) {
-                    dispatch(editClasses(id, data, history));
+                    dispatch(
+                        editClasses(
+                            id,
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            history,
+                        ),
+                    );
                 } else {
-                    dispatch(addClasses(data, history));
+                    dispatch(
+                        addClasses(
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            history,
+                        ),
+                    );
                 }
             }
         }
     };
-
-    console.log('add Class ', data);
 
     return (
         <>
@@ -387,7 +384,6 @@ const EventClassesForm = () => {
                                     onChange={handleChangeDynamicField}
                                     data={scheduleItem}
                                     fieldName="schedule"
-                                    placeholder="Add Duration"
                                 />
                                 <CustomMultiselect
                                     name="days"

@@ -39,6 +39,7 @@ import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
 import AddTasks from '../views/More/Members/AddTasks';
+import ManageEvents from '../views/Calendar/ManageEvents';
 const Tasks = lazy(() => import('../views/More/Members/Tasks'));
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 const Reserve = lazy(() => import('../views/More/Members/Reserve/Reserve'));
@@ -68,6 +69,15 @@ export const PrivateRoutes = [
         path: '/calender',
         name: 'Calender',
         component: Calender,
+        exact: true,
+        items: [
+            {
+                path: '/events/:id',
+                name: 'Events',
+                exact: true,
+                component: ManageEvents,
+            },
+        ],
     },
     {
         path: '/pos',

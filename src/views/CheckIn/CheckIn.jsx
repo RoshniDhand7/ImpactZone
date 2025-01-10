@@ -62,11 +62,6 @@ export default function CheckIn() {
 
     const { getCheckInData } = useSelector((state) => state.checkin);
 
-    console.log(
-        members?.find((item) => item._id === data?.member),
-        'members',
-    );
-
     useEffect(() => {
         if (Object.keys(getCheckInData)) {
             let notification = members?.find((item) => item._id === data?.member);
@@ -89,8 +84,8 @@ export default function CheckIn() {
     ];
 
     const column2 = [
-        { field: 'name', header: 'Name' },
-        { field: 'count', header: 'Count' },
+        { field: 'service', header: 'Name' },
+        { field: 'totalCount', header: 'Count' },
         { field: 'expires', header: 'Expires' },
     ];
     const column3 = [
@@ -217,7 +212,7 @@ export default function CheckIn() {
                             <h3 className="font-semibold text-lg ">Redeemable</h3>
                             <label className="mb-2 block">POS</label>
                         </div>
-                        <CustomTable data={getCheckInData?.plan?.[0]?.services} columns={column2} minWidth="0rem" paginator={false} className={''} />
+                        <CustomTable data={getCheckInData?.redeemable} columns={column2} minWidth="0rem" paginator={false} className={''} />
                     </div>
                     <div className="col-4">
                         {/* Resources Section */}

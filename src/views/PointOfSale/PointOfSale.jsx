@@ -357,8 +357,6 @@ export default function PointOfSale2() {
         //eslint-disable-next-line
     }, [receiptData]);
 
-    console.log(selectedCategory, 'selectedCategory');
-
     return (
         <div className="pos grid">
             <div className="col-2 flex flex-column">

@@ -57,8 +57,6 @@ const DisplayOptions = () => {
         }
     };
 
-    console.log('data>>', data);
-
     return (
         <>
             <CustomCard col="12" title="Calendar Display">

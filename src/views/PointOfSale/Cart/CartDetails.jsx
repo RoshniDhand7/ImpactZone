@@ -44,15 +44,12 @@ export default function CartDetails({
     const handleAddPrePay = () => {
         const roundedTotal = Math.ceil(gradTotal / 10) * 10;
         const additionalAmount = roundedTotal - gradTotal;
-        console.log(roundedTotal, additionalAmount, 'roundedTotal');
         setAdditionalPrePay(additionalAmount);
         setShowPrePay(!showPrePay);
     };
     const handlePrePayChange = (e) => {
         const value = parseFloat(e.target.value) || 0;
-        console.log(typeof value, 'value');
         const formattedValue = parseFloat(value.toFixed(2));
-        console.log(typeof formattedValue, 'formattedValue');
         setAdditionalPrePay(formattedValue);
     };
 

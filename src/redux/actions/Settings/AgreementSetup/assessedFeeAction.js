@@ -6,7 +6,6 @@ import { showToast } from '../../toastAction';
 
 const getAssesedFees = () => async (dispatch, getState) => {
     const state = getState();
-    console.log(state, 'state');
     let assessedFees = state.settings.agreement.assessedFees;
     if (!assessedFees?.length) {
         dispatch(showTableLoaderAction());

@@ -106,7 +106,6 @@ const Receipts = () => {
             } else {
                 dispatch(
                     receiptsReturnAction(data?.rowId, data?.accessCode, data?.paymentType, setLoading, (e) => {
-                        console.log(e, 'e');
                         dispatch(getReceiptsAction());
                         if (data?.printReceiept) {
                             setReceiptData(e);
@@ -140,8 +139,6 @@ const Receipts = () => {
     const handlePrint = useReactToPrint({
         content: () => printRef.current,
     });
-
-    console.log(data, receiptData, 'data');
 
     return (
         <>

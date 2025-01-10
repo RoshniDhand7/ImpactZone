@@ -50,8 +50,6 @@ const EventClasses = () => {
 
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(classes);
 
-    console.log(tableData, 'tableData');
-
     return (
         <>
             <CustomFilterCard buttonTitle="Add Classes" linkTo="/settings/schedule/classes/add" contentPosition="end">

@@ -126,8 +126,6 @@ const EventGeneral = () => {
         }
     };
 
-    console.log('data>>', data);
-
     return (
         <>
             <CustomCard col="12" title="Personal">

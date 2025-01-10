@@ -21,8 +21,6 @@ export default function CatalogItems({ selectedCategory, onSelectProduct }) {
         dispatch(getTags());
     }, [dispatch]);
 
-    console.log(selectedCategory, posCatalog, 'selectedCategory');
-
     posCatalog = useMemo(() => {
         if (!selectedCategory) {
             return posCatalog.filter((item) => item.type !== 'PRE_PAY');

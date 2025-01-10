@@ -21,7 +21,6 @@ export const CustomTabMenu = ({ isActive, items, extraClassName, col = 12, onCha
             onChangeTabIndex(e.index);
         }
     };
-    console.log(activeIndex);
     return (
         <div className="card">
             <TabMenu

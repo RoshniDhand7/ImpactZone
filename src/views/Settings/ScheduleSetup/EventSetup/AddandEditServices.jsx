@@ -119,9 +119,6 @@ const AddandEditServices = () => {
         );
     };
 
-    console.log(levelDropdown, levelName, 'levelDropdown');
-    console.log(data, 'CatalogFilter');
-
     return (
         <>
             <FormPage backText="Services">

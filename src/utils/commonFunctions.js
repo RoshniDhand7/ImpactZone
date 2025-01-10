@@ -476,6 +476,9 @@ const getTime = (time) => {
     const formattedTime = time ? moment(new Date(time)).format('HH:mm') : null;
     return formattedTime;
 };
+const getISODateUTC = (date) => {
+    return new Date(date).toISOString();
+};
 
 const getDateandTime = (datetime) => {
     const formattedTime = datetime ? moment(new Date(datetime)).format('MM-DD-YYYY H:mm A') : null;
@@ -585,8 +588,35 @@ function getDatesByDays(startDate, endDate, days) {
 }
 
 const eventIncludes = (options, name) => {
-    console.log(options, name);
     return options.includes(name);
+};
+
+const formatDateTimeZone = (date) => {
+    return date.toLocaleString('en-CA', { timeZone: 'Asia/Kolkata' });
+};
+const formatEventTime = (dateString, timeString, duration) => {
+    const start = `${new Date(dateString).toISOString().split('T')[0]}T${timeString}:00`;
+    const end = moment(start).add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
+    return { start, end };
+};
+const buildEventTitle = (event, matchedDate, employee, location) => {
+    const { name, defaultMaxAttendes, calanderDisplay = [] } = event;
+    const titleParts = [];
+    const displayMapping = {
+        EVENT: name,
+        DURATION: `${matchedDate.duration} minutes`,
+        LOCATION: location?.name,
+        EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',
+        ENROLLED_MAX_ATTENDANCE: defaultMaxAttendes,
+    };
+
+    calanderDisplay.forEach((option) => {
+        if (displayMapping[option]) {
+            titleParts.push(displayMapping[option]);
+        }
+    });
+
+    return titleParts.join('\n');
 };
 
 export {
@@ -635,4 +665,8 @@ export {
     longOverlayText,
     getDatesByDays,
     eventIncludes,
+    formatDateTimeZone,
+    getISODateUTC,
+    formatEventTime,
+    buildEventTitle,
 };

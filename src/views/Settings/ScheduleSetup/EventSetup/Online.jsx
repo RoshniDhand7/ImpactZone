@@ -78,8 +78,6 @@ const Online = () => {
         }
     };
 
-    console.log(data, 'data');
-
     return (
         <>
             <CustomCard col="12" title="Allow Booking an Appointment">

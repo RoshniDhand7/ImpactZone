@@ -261,8 +261,6 @@ const General = ({ editItem }) => {
         }
     };
 
-    console.log(data, 'data');
-
     return (
         <div id="main-content">
             <CustomCard col="12" title="General">

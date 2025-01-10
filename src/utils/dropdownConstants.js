@@ -22,6 +22,25 @@ export const yesNoOptions = [
         value: false,
     },
 ];
+
+export const eventStatusOptions = [
+    {
+        name: 'Pending',
+        value: 'Pending',
+    },
+    {
+        name: 'Cancel-No Charge',
+        value: 'Cancel-No Charge',
+    },
+    {
+        name: 'Cancel Charge',
+        value: 'Cancel Charge',
+    },
+    {
+        name: 'Completed',
+        value: 'Completed',
+    },
+];
 export const taskTypeOptions = [
     {
         name: 'Email',

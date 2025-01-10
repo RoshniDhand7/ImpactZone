@@ -17,8 +17,7 @@ import useEmployees from '../../hooks/Employees/useEmployees';
 import { useHistory } from 'react-router-dom';
 import { CustomTabMenu } from '../../shared/TabMenu/TabMenu';
 import { Menu } from 'primereact/menu';
-import moment from 'moment';
-import { getDatesByDays } from '../../utils/commonFunctions';
+import { buildEventTitle, formatEventTime } from '../../utils/commonFunctions';
 import BookEvent from './BookEvent';
 
 export default function Calendar() {
@@ -58,39 +57,35 @@ export default function Calendar() {
 
     const CalendarEvents = () => {
         const events1 = [];
-
-        calendarEvents?.forEach((item) => {
-            const startDate = moment(item.startDate).format('YYYY-MM-DD');
-            const endDate = moment(item.endDate).format('YYYY-MM-DD');
-
-            console.log('events>>', item);
-
-            item?.schedule?.forEach((scheduleItem) => {
-                const matchedDates = getDatesByDays(startDate, endDate, scheduleItem.days);
-
-                matchedDates.forEach((matchedDate) => {
-                    const startDate = new Date(matchedDate.date);
-                    let start = `${startDate.toISOString().split('T')[0]}T${scheduleItem.startTime}:00`;
-                    let end = moment(start);
-                    end = end.add(scheduleItem.duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
+        const allEvents = [...(calendarEvents || []), ...(bookedEvents || [])];
+        allEvents.forEach((item) => {
+            const isBookedEvent = !!item.eventDate;
+            if (isBookedEvent) {
+                const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
+                events1.push({
+                    id: item._id,
+                    title: [item.event, `${item.duration} minutes`, item.staff].join('\n'),
+                    backgroundColor: '#252b42',
+                    color: '#fff',
+                    start,
+                    end,
+                    textColor: '#fff',
+                });
+            } else {
+                item?.subSchedule?.forEach((matchedDate) => {
+                    const { start, end } = formatEventTime(matchedDate.scheduleDate, matchedDate.startTime, matchedDate.duration);
                     events1.push({
-                        // id: item._id,
-                        title: `${item.event.calanderDisplay?.includes('EVENT') ? item.event.name : ''}
-                        \n ${item.event.calanderDisplay?.includes('DURATION') ? scheduleItem.duration + ' minutes' : ''}
-                        \n ${item.event.calanderDisplay?.includes('LOCATION') ? item.location.name : ''}
-                         \n ${item.event.calanderDisplay?.includes('EMPLOYEE_NAME') ? (item?.employee?.firstName ?? '') : ''}
-                        \n${item.event.calanderDisplay?.includes('ENROLLED_MAX_ATTENDANCE') ? item.event.defaultMaxAttendes : ''}`,
+                        id: matchedDate._id,
+                        title: buildEventTitle(item.event, matchedDate, item?.employee, item.location),
                         backgroundColor: `#${item.event.boxColor}`,
                         color: '#fff',
-                        start: start,
-                        end: end,
+                        start,
+                        end,
                         textColor: `#${item.event.textColor}`,
                     });
                 });
-            });
+            }
         });
-
-        console.log(events1, bookedEvents, 'events1');
 
         return events1;
     };
@@ -98,10 +93,41 @@ export default function Calendar() {
     const renderEventContent = (eventInfo) => {
         const titleLines = eventInfo.event.title.split('\n');
         return (
-            <div>
-                {titleLines.map((line, index) => (
-                    <div key={index}>{line}</div>
-                ))}
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100%',
+                    width: '100%',
+                    position: 'relative',
+                    padding: '5px',
+                    boxSizing: 'border-box',
+                }}
+            >
+                {/* Event Title */}
+                <div>
+                    {titleLines.map((line, index) => (
+                        <div key={index}>{line}</div>
+                    ))}
+                </div>
+
+                {/* Button at Bottom-Right */}
+                <button
+                    onClick={() => history.push(`calender/events/${eventInfo.event.id}`)}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        position: 'absolute',
+                        bottom: '5px',
+                        right: '5px',
+                        cursor: 'pointer',
+                        color: 'white',
+                        padding: '2px',
+                    }}
+                >
+                    <i className="pi pi-pencil"></i>
+                </button>
             </div>
         );
     };
@@ -149,12 +175,12 @@ export default function Calendar() {
                     },
                 }}
                 initialView={'timeGridWeek'}
-                editable={true}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
                 events={CalendarEvents()}
                 eventContent={renderEventContent}
+                editable={false}
                 // select={handleDateClick}
                 // eventClick={handleEventClick}
                 // eventsSet={(events) => setCurrentEvents(events)}
