@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createMemberSubscription, getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
 import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
@@ -20,6 +20,7 @@ import PaymentAmountTab from './PaymentAmountTab';
 import BillingInfoTab from './BillingInfoTab';
 
 const SellPlanForm = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { newPlanId, id } = useParams();
     useEffect(() => {
@@ -160,7 +161,11 @@ const SellPlanForm = () => {
                 member: memberInfo,
                 plan: planInfo,
             };
-            dispatch(createMemberSubscription(payload, setLoading, () => {}));
+            dispatch(
+                createMemberSubscription(payload, setLoading, (subscription) => {
+                    history.push(`/plans/subscription-agreement/${subscription._id}`);
+                }),
+            );
         }
     };
     const tabs = [

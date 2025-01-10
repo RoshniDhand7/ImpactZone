@@ -3,6 +3,7 @@ const endPoints = {
         PLAN: '/plans/',
         ACTIVE: '/plans/active/',
         MEMBER: '/plans/member/',
+        AGREEMENT: '/plans/agreement/',
     },
     SETTINGS: {
         POS: {

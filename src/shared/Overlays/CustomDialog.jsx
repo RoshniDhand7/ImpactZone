@@ -28,8 +28,8 @@ export default function CustomDialog({
         <CustomButtonGroup>
             {onApply ? <PrimaryButton label={applyLabel} className="mx-2" loading={loading} onClick={onApply} disabled={applydisabled} /> : null}
             {onSave ? <PrimaryButton label={saveLabel} className="mx-2" loading={loading} onClick={onSave} disabled={savedisabled} /> : null}
-            {onCancel ? <LightButton label="Cancel" onClick={onCancel} /> : null}
             {onClear ? <LightButton label="Clear" onClick={onClear} /> : null}
+            {onCancel ? <LightButton label="Cancel" onClick={onCancel} /> : null}
         </CustomButtonGroup>
     );
     const headerElement = (

@@ -39,6 +39,9 @@ import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
 import AddTasks from '../views/More/Members/AddTasks';
+
+const SubscriptionPlanAgreement = lazy(() => import('../views/Plans/SellPlanForm/PlanAgreement/SubscriptionPlanAgreement'));
+
 const Tasks = lazy(() => import('../views/More/Members/Tasks'));
 const PointOfSale = lazy(() => import('../views/PointOfSale/PointOfSale'));
 const Reserve = lazy(() => import('../views/More/Members/Reserve/Reserve'));
@@ -85,6 +88,12 @@ export const PrivateRoutes = [
                 name: 'Sell Plan',
                 exact: true,
                 component: SellPlanForm,
+            },
+            {
+                path: '/subscription-agreement/:subscriptionPlanId',
+                name: 'Plan Agreement',
+                exact: true,
+                component: SubscriptionPlanAgreement,
             },
             {
                 path: '/sell-plan/:id/:newPlanId/:memberId/',
