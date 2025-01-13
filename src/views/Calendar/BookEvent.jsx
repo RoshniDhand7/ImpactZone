@@ -158,12 +158,12 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
             </CustomGridLayout>
             <CustomGridLayout>
                 <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={6} minDate={new Date()} />
+                <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={6} />
                 <CustomCalenderInput name="startTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" />
                 <CustomDropDown name="duration" options={durationOptions} onChange={handleChange} data={data} col={6} />
                 <CustomCalenderInput name="endTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" disabled={true} />
                 <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={6} />
                 <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={6} />
-                <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={6} />
                 <CustomDropDown name="resources" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={6} />
             </CustomGridLayout>
         </CustomDialog>

@@ -21,6 +21,8 @@ const calendarReducer = (state = initialState, action) => {
             return { ...state, bookedEvents: action.payload };
         case types.CALENDAR.RESOURCES:
             return { ...state, calendarResourcesDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })) };
+        case types.CALENDAR.BOOK_EVENT:
+            return { ...state };
         default:
             return { ...state };
     }

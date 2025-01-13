@@ -93,18 +93,7 @@ export default function Calendar() {
     const renderEventContent = (eventInfo) => {
         const titleLines = eventInfo.event.title.split('\n');
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    height: '100%',
-                    width: '100%',
-                    position: 'relative',
-                    padding: '5px',
-                    boxSizing: 'border-box',
-                }}
-            >
+            <div className="calendar-container">
                 {/* Event Title */}
                 <div>
                     {titleLines.map((line, index) => (
@@ -119,7 +108,7 @@ export default function Calendar() {
                         background: 'none',
                         border: 'none',
                         position: 'absolute',
-                        bottom: '5px',
+                        top: '5px',
                         right: '5px',
                         cursor: 'pointer',
                         color: 'white',

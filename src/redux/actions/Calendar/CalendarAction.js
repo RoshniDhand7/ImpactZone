@@ -61,13 +61,38 @@ const getAllCalendarBooking = () => async (dispatch) => {
         }
     }
 };
-const getCalendarBooking = () => async (dispatch) => {
-    const res = await api('get', endPoints.CALENDAR.BOOKING);
+const getCalendarBooking = (id, returnData) => async () => {
+    const res = await api('get', endPoints.CALENDAR.BOOKING + id);
     if (res.success) {
         if (res.data) {
-            dispatch({ type: types.CALENDAR.BOOK_EVENTS, payload: res.data });
+            if (returnData) {
+                returnData(res.data);
+            }
         }
     }
 };
+const editCalendarBooking = (id, setLoading, data, next) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('put', endPoints.CALENDAR.BOOKING + id, data);
+    if (res.success) {
+        if (res.data) {
+            next();
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 
-export { getCalendarEvents, getCalendarLocations, getAllCalendarEvents, getCalendarResources, calendarBooking, getAllCalendarBooking };
+export {
+    getCalendarEvents,
+    getCalendarLocations,
+    getAllCalendarEvents,
+    getCalendarResources,
+    calendarBooking,
+    getAllCalendarBooking,
+    getCalendarBooking,
+    editCalendarBooking,
+};
