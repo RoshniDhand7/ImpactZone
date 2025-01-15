@@ -7,6 +7,7 @@ const initialState = {
     calendarLocationDropdown: [],
     calendarEventsDropdown: [],
     bookedEvents: [],
+    calendarEvent: [],
 };
 
 const calendarReducer = (state = initialState, action) => {
@@ -22,7 +23,7 @@ const calendarReducer = (state = initialState, action) => {
         case types.CALENDAR.RESOURCES:
             return { ...state, calendarResourcesDropdown: action.payload.map((item) => ({ name: item.name, value: item._id })) };
         case types.CALENDAR.BOOK_EVENT:
-            return { ...state };
+            return { ...state, calendarEvent: action.payload };
         default:
             return { ...state };
     }

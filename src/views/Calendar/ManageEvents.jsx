@@ -8,9 +8,12 @@ import { eventStatusOptions, generateSequence } from '../../utils/dropdownConsta
 import CustomTable from '../../shared/Table/CustomTable';
 import AddMember from './AddMember';
 import { getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { convertToDateTime } from '../../utils/commonFunctions';
+import formValidation from '../../utils/validations';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const ManageEvents = () => {
     const { id } = useParams();
@@ -18,13 +21,24 @@ const ManageEvents = () => {
 
     useEffect(() => {
         if (id) {
-            dispatch(
-                getCalendarBooking(id, (item) =>
-                    setData({ employee: item.staff, date: new Date(item.createdAt), time: convertToDateTime(item.startTime), duration: item.duration }),
-                ),
-            );
+            dispatch(getCalendarBooking(id));
         }
     }, [id]);
+
+    const { calendarEvent } = useSelector((state) => state.calendar);
+
+    useEffect(() => {
+        if (calendarEvent) {
+            setData({
+                employee: calendarEvent.staff,
+                date: new Date(calendarEvent.createdAt),
+                time: calendarEvent.startTime ? convertToDateTime(calendarEvent.startTime) : null,
+                duration: calendarEvent.duration,
+                member: calendarEvent.member,
+                event: calendarEvent.event,
+            });
+        }
+    }, [calendarEvent]);
 
     const { employees } = useEmployees();
     const suggestions = useMemo(
@@ -40,26 +54,68 @@ const ManageEvents = () => {
         [employees],
     );
     const durationOptions = generateSequence();
-
     const [data, setData] = useState({
         employee: '',
         date: '',
         time: '',
         duration: '',
         enrollment: `5/30`,
+        member: [],
+        services: [],
     });
+
+    useEffect(() => {
+        if (data.employee) {
+            let employee = employees.find((item) => item._id === data?.employee);
+            let level = employee?.isClassLevel[0];
+            console.log(level, data.event, 'level22');
+            let eventService = data.event?.eventService?.find((item) => item.eventLevel == level);
+            eventService = eventService?.services;
+            console.log(eventService, 'eventService');
+        }
+    }, [data.employee]);
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
+    const handleChangeDynamicFields = (rowData, index, event) => {
+        const { name, value } = event.target;
+        console.log(rowData, index, name, value, 'val');
 
-    const columns = [
-        { field: 'event', header: 'Member' },
-        { field: 'event', header: 'Service' },
-        { field: 'event', header: 'Verified' },
-    ];
+        const updatedService = { ...rowData.service };
+
+        const customIndex = index.rowIndex;
+
+        updatedService[customIndex] = {
+            ...updatedService[customIndex],
+            [name]: value,
+        };
+
+        console.log(updatedService, '_updatedService');
+
+        setData((prevData) => ({
+            ...prevData,
+            service: updatedService,
+        }));
+    };
+
+    const CustomServiceTemplate = (r, index) => {
+        console.log(r, 'index');
+        return (
+            <CustomDropDown
+                name="service"
+                value={r?._id}
+                onChange={(val) => handleChangeDynamicFields(r, index, val)}
+                options={r?.service?.map((item) => ({ name: item.name, value: item._id }))}
+                fieldName="services"
+                customIndex={index.rowIndex}
+            />
+        );
+    };
 
     const [openMemberList, setOpenMemberList] = useState(false);
+
+    console.log(data, 'data');
 
     return (
         <FormPage backText="Calendar">
@@ -102,7 +158,11 @@ const ManageEvents = () => {
                 </CustomGridLayout>
             </CustomCard>
             <h2 className="text-semibold text-2xl ml-2 mt-2">Manage Event</h2>
-            <CustomTable data={[]} columns={columns} />
+            <DataTable value={data?.member} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
+                <Column field="firstName" body={(r) => r?.firstName + '' + r?.lastName} header="Member" className="bg-light-green font-bold" />
+                <Column className="bg-light-green font-bold" header="Service" body={(rowData, index) => CustomServiceTemplate(rowData, index)} />
+                <Column header="Verified" className="bg-light-green font-bold" />
+            </DataTable>
         </FormPage>
     );
 };

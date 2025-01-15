@@ -61,13 +61,11 @@ const getAllCalendarBooking = () => async (dispatch) => {
         }
     }
 };
-const getCalendarBooking = (id, returnData) => async () => {
+const getCalendarBooking = (id) => async (dispatch) => {
     const res = await api('get', endPoints.CALENDAR.BOOKING + id);
     if (res.success) {
         if (res.data) {
-            if (returnData) {
-                returnData(res.data);
-            }
+            dispatch({ type: types.CALENDAR.BOOK_EVENT, payload: res.data });
         }
     }
 };
