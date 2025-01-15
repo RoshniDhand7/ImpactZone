@@ -5,13 +5,11 @@ import { CustomButton } from '../../shared/Button/CustomButton';
 import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown, CustomInput, CustomTextArea } from '../../shared/Input/AllInputs';
 import useEmployees from '../../hooks/Employees/useEmployees';
 import { eventStatusOptions, generateSequence } from '../../utils/dropdownConstants';
-import CustomTable from '../../shared/Table/CustomTable';
 import AddMember from './AddMember';
 import { getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { convertToDateTime } from '../../utils/commonFunctions';
-import formValidation from '../../utils/validations';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
@@ -43,14 +41,19 @@ const ManageEvents = () => {
     const { employees } = useEmployees();
     const suggestions = useMemo(
         () =>
-            employees.map((item) => ({
-                value: item._id,
-                name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
-            })),
+            employees
+                ?.filter((item) => Array.isArray(item.isClassLevel) && item.isClassLevel.length > 0)
+                ?.map((item) => ({
+                    value: item._id,
+                    name: `${item.firstName} ${item.middleInitial} ${item.lastName}`,
+                })),
         [employees],
     );
     const employeeOptions = useMemo(
-        () => employees?.map((item) => ({ name: `${item.firstName} ${item.middleInitial} ${item.lastName}`, value: item?._id })),
+        () =>
+            employees
+                ?.filter((item) => Array.isArray(item.isClassLevel) && item.isClassLevel.length > 0)
+                ?.map((item) => ({ name: `${item.firstName} ${item.middleInitial} ${item.lastName}`, value: item?._id })),
         [employees],
     );
     const durationOptions = generateSequence();
@@ -65,19 +68,36 @@ const ManageEvents = () => {
         employeelevelService: [],
     });
 
+    const [memberService, setMemberServices] = useState([]);
+    const [filterMemberServices, setFilteredServices] = useState([]);
+
     useEffect(() => {
-        if (data.employee) {
-            let employee = employees.find((item) => item._id === data?.employee);
-            let level = employee?.isClassLevel[0];
+        const idsToMatch = data?.employeelevelService?.map((item) => item._id);
+        console.log(data?.employeelevelService, memberService, idsToMatch, 'employeeLevel');
+        const filteredServices = idsToMatch ? memberService?.filter((item) => idsToMatch.includes(item._id)) : [];
+        console.log(filteredServices, 'filteredServices');
+        setFilteredServices(filteredServices);
+    }, [memberService, data?.employeelevelService, data?.employee]);
+
+    useEffect(() => {
+        if (data?.employee) {
+            const employee = employees.find((item) => item._id === data.employee);
+            const level = employee?.isClassLevel?.[0];
             console.log(level, data.event, 'level22');
-            let eventService = data.event?.eventService?.find((item) => item.eventLevel == level);
-            eventService = eventService?.services;
-            if (eventService?.length > 0) {
-                setData((prev) => ({ ...prev, employeelevelService: eventService ? eventService : [] }));
-            }
-            console.log(eventService, 'eventService');
+            let eventService = data.event?.eventService?.find((item) => item.eventLevel === level);
+            const services = eventService?.services || [];
+            setData((prev) => ({
+                ...prev,
+                employeelevelService: services,
+            }));
+            console.log(services, 'eventService');
+        } else {
+            setData((prev) => ({
+                ...prev,
+                employeelevelService: [],
+            }));
         }
-    }, [data.employee]);
+    }, [data.employee, data.event, employees]);
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
@@ -105,16 +125,16 @@ const ManageEvents = () => {
 
     const CustomServiceTemplate = (r, index) => {
         console.log(r, 'index');
-        const idsToMatch = data?.employeelevelService?.map((item) => item._id);
-        const filteredServices = r?.services?.filter((item) => idsToMatch?.includes(item._id));
-        console.log(filteredServices, 'filteredServices');
-        // r?.services?.filter((item)=>item._id===)
+
+        setMemberServices(r?.services);
+
+        console.log(filterMemberServices, 'filterMemberServices');
         return (
             <CustomDropDown
                 name="service"
                 value={r?._id}
                 onChange={(val) => handleChangeDynamicFields(r, index, val)}
-                options={filteredServices?.map((item) => ({ name: item.name, value: item._id }))}
+                options={filterMemberServices?.map((item) => ({ name: item.name, value: item._id }))}
                 fieldName="services"
                 customIndex={index.rowIndex}
             />
