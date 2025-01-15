@@ -62,6 +62,7 @@ const ManageEvents = () => {
         enrollment: `5/30`,
         member: [],
         services: [],
+        employeelevelService: [],
     });
 
     useEffect(() => {
@@ -71,6 +72,9 @@ const ManageEvents = () => {
             console.log(level, data.event, 'level22');
             let eventService = data.event?.eventService?.find((item) => item.eventLevel == level);
             eventService = eventService?.services;
+            if (eventService?.length > 0) {
+                setData((prev) => ({ ...prev, employeelevelService: eventService ? eventService : [] }));
+            }
             console.log(eventService, 'eventService');
         }
     }, [data.employee]);
@@ -101,12 +105,16 @@ const ManageEvents = () => {
 
     const CustomServiceTemplate = (r, index) => {
         console.log(r, 'index');
+        const idsToMatch = data?.employeelevelService?.map((item) => item._id);
+        const filteredServices = r?.services?.filter((item) => idsToMatch?.includes(item._id));
+        console.log(filteredServices, 'filteredServices');
+        // r?.services?.filter((item)=>item._id===)
         return (
             <CustomDropDown
                 name="service"
                 value={r?._id}
                 onChange={(val) => handleChangeDynamicFields(r, index, val)}
-                options={r?.service?.map((item) => ({ name: item.name, value: item._id }))}
+                options={filteredServices?.map((item) => ({ name: item.name, value: item._id }))}
                 fieldName="services"
                 customIndex={index.rowIndex}
             />
