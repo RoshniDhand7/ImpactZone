@@ -3,6 +3,7 @@ import EndPoints from '../../../services/endPoints';
 import { uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideTableLoaderAction, showTableLoaderAction } from '../loaderAction';
+import { showToast } from '../toastAction';
 
 const getActivePlans = () => async (dispatch) => {
     dispatch(showTableLoaderAction());
@@ -33,7 +34,7 @@ const getMemberDetails = (id, returnData) => async () => {
     }
 };
 
-const createMemberSubscription = (data, setLoading, next) => async () => {
+const createMemberSubscription = (data, setLoading, next) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
@@ -43,6 +44,8 @@ const createMemberSubscription = (data, setLoading, next) => async () => {
         if (next) {
             next(res.data);
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message ?? res }));
     }
     if (setLoading) {
         setLoading(false);
@@ -58,7 +61,6 @@ const getSubscriptionAgreementDetails = (id, setLoading, returnData) => async ()
     }
     setLoading(false);
 };
-
 const signSubscriptionAgreement = (id, data, signatures, setLoading, next) => async () => {
     setLoading(true);
 

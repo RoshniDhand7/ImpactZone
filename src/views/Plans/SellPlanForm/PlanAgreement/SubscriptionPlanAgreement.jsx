@@ -163,7 +163,7 @@ export default function SubscriptionPlanAgreement() {
             <CustomCard col="12" title="Subscription Agreement">
                 <CustomGridLayout>
                     <CustomColLayout size={9}>
-                        <div className="overflow-x-auto bg-white border-round-sm p-2">
+                        <div className="overflow-auto bg-white border-round-sm p-2 h-screen">
                             <div ref={templateRef} id="agreement-template" className="p-2">
                                 <div dangerouslySetInnerHTML={{ __html: data?.htmlContent }}></div>
                                 <style dangerouslySetInnerHTML={{ __html: data?.cssContent }}></style>
@@ -172,14 +172,14 @@ export default function SubscriptionPlanAgreement() {
                     </CustomColLayout>
                     <CustomColLayout size={3}>
                         <CustomButtonGroup position="center">
-                            <PrimaryButton label="Confirm" onClick={onSubmit} loading={isSubmitLoading} />
+                            {!data?.isSigned && <PrimaryButton label="Confirm" onClick={onSubmit} loading={isSubmitLoading} />}
                             <PrimaryButton label="Download" className="mx-2" icon="pi pi-download" loading={loading} onClick={handleDownloadPdf} />
                             <PrimaryButton label="Print" className="bg-yellow-300" onClick={handlePrint} icon="pi pi-print" />
                         </CustomButtonGroup>
 
                         <div style={{ pointerEvents: data?.isSigned ? 'none' : 'auto' }}>
                             {signatures?.map((item, i) => (
-                                <div key={i} className={`signature-box border-round-lg p-2 my-1 ${item?.error ? 'border-1 border-red-' : ''}`}>
+                                <div key={i} className={`signature-box border-round-lg p-2 my-1 ${item?.error ? 'border-1 border-red-200' : ''}`}>
                                     <button className="cursor-pointer" onClick={() => onOpenSignatureModel(i)}>
                                         Sign {i + 1}
                                     </button>
