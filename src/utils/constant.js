@@ -16,6 +16,10 @@ export const mergeFields = [
         value: '{{MEMBERSHIP_TYPE}}',
     },
     {
+        name: 'Membership Name',
+        value: '{{MEMBERSHIP_NAME}}',
+    },
+    {
         name: 'Services',
         value: '{{SERVICES}}',
     },
@@ -23,10 +27,7 @@ export const mergeFields = [
         name: 'Assessed Fees',
         value: '{{ASSESSED_FEES}}',
     },
-    {
-        name: 'Membership Name',
-        value: '{{MEMBERSHIP_NAME}}',
-    },
+
     {
         name: 'Client’s Title',
         value: '{{MEMBER_TITLE}}',
@@ -38,6 +39,10 @@ export const mergeFields = [
     {
         name: 'Client’s Last Name',
         value: '{{MEMBER_LAST_NAME}}',
+    },
+    {
+        name: 'Client’s Barcode',
+        value: '{{MEMBER_BARCODE}}',
     },
     {
         name: 'Client’s Address',
@@ -73,8 +78,8 @@ export const mergeFields = [
         value: '{{MEMBER_CELL_PHONE}}',
     },
     {
-        name: '⁠Driver’s License Number',
-        value: '{{MEMBER_DRIVER_LICENSE_NUMBER}}',
+        name: 'Client’s Govt. ID',
+        value: '{{MEMBER_GOVT_ID}}',
     },
     {
         name: 'Employer',
@@ -137,23 +142,12 @@ export const mergeFields = [
         name: 'Campaign',
         value: '{{CAMPAIGN}}',
     },
+
+    //Membership Agreement
     {
         name: 'Agreement #',
         value: '{{AGREEMENT_NUMBER}}',
     },
-    {
-        name: 'Barcode',
-        value: '{{BARCODE}}',
-    },
-    {
-        name: 'Date',
-        value: '{{DATE}}',
-    },
-    {
-        name: 'Time',
-        value: '{{TIME}}',
-    },
-
     {
         name: '⁠Membership Begin Date',
         value: '{{MEMBERSHIP_BEGIN_DATE}}',
@@ -189,6 +183,14 @@ export const mergeFields = [
     {
         name: '⁠Total Amount Due',
         value: '{{TOTAL_AMOUNT_DUE}}',
+    },
+    {
+        name: 'Date',
+        value: '{{DATE}}',
+    },
+    {
+        name: 'Time',
+        value: '{{TIME}}',
     },
 ];
 export const filterType = [

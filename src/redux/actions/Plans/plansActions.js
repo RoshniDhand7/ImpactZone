@@ -1,5 +1,6 @@
 import api from '../../../services/api';
 import EndPoints from '../../../services/endPoints';
+import { uploadImages } from '../../../utils/commonFunctions';
 import { types } from '../../types/types';
 import { hideTableLoaderAction, showTableLoaderAction } from '../loaderAction';
 
@@ -57,4 +58,19 @@ const getSubscriptionAgreementDetails = (id, setLoading, returnData) => async ()
     }
     setLoading(false);
 };
-export { getActivePlans, getActivePlan, getMemberDetails, createMemberSubscription, getSubscriptionAgreementDetails };
+
+const signSubscriptionAgreement = (id, data, signatures, setLoading, next) => async () => {
+    setLoading(true);
+
+    let _signatures = await uploadImages(signatures.map((item) => item.url));
+    _signatures = _signatures.map((item) => ({ url: item }));
+    let payload = { htmlContent: data.htmlContent, signatures: _signatures };
+    const res = await api('put', EndPoints.PLANS.AGREEMENT + id, payload);
+    if (res.success) {
+        if (next) {
+            next(res.data);
+        }
+    }
+    setLoading(false);
+};
+export { getActivePlans, getActivePlan, getMemberDetails, createMemberSubscription, getSubscriptionAgreementDetails, signSubscriptionAgreement };

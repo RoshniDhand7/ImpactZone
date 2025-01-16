@@ -129,7 +129,6 @@ export default function PageBuilder({ id }) {
                 id: 'signature',
                 label: 'Signature',
                 category: 'Field',
-                // content: `<div>[Member’s signature]</div>`,
                 content: `<div>{{MEMBER_SIGNATURE}}</div>`,
                 media: `<svg fill="#000000" width="26" height="26" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" ><path d="M232 64L280 64 280 214 277 270 300 242 356 189 388 221 256 353 124 221 156 189 212 242 235 270 232 214 232 64ZM64 400L448 400 448 448 64 448 64 400Z" fill="#252B42" stroke="2" /></svg>`,
             });

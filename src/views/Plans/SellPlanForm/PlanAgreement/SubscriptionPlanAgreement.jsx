@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import SignaturePad from 'react-signature-canvas';
 import { useReactToPrint } from 'react-to-print';
 import domToPdf from 'dom-to-pdf';
@@ -10,12 +10,14 @@ import dummy from '../../../../assets/images/signature.png';
 
 import CustomCard, { CustomColLayout, CustomGridLayout } from '../../../../shared/Cards/CustomCard';
 import PrimaryButton, { CustomButtonGroup } from '../../../../shared/Button/CustomButton';
-import { getSubscriptionAgreementDetails } from '../../../../redux/actions/Plans/plansActions';
+import { getSubscriptionAgreementDetails, signSubscriptionAgreement } from '../../../../redux/actions/Plans/plansActions';
 import { base64ToFile } from '../../../../utils/fileHelper';
 import { getImageURL } from '../../../../utils/imageUrl';
 import { CustomCheckbox } from '../../../../shared/Input/AllInputs';
+import moment from 'moment';
 
 export default function SubscriptionPlanAgreement() {
+    const history = useHistory();
     const templateRef = useRef();
     const signRef = useRef();
     const dispatch = useDispatch();
@@ -31,7 +33,11 @@ export default function SubscriptionPlanAgreement() {
             getSubscriptionAgreementDetails(subscriptionPlanId, setLoading, (e) => {
                 setData({ ...e, htmlContent: replaceWithImage(e?.htmlContent, '{{MEMBER_SIGNATURE}}') });
                 let _signatures = getPlaceholderUrls(e?.htmlContent, '{{MEMBER_SIGNATURE}}');
-                setSignatures(_signatures);
+                if (e?.signatures.length) {
+                    setSignatures(e?.signatures);
+                } else {
+                    setSignatures(_signatures);
+                }
             }),
         );
     }, [dispatch]);
@@ -41,6 +47,7 @@ export default function SubscriptionPlanAgreement() {
         const matches = [...template.matchAll(regex)];
         return matches.map(() => ({
             url: '',
+            error: false,
         }));
     }
 
@@ -73,9 +80,10 @@ export default function SubscriptionPlanAgreement() {
             }
             let _signatures = [...signatures];
             if (copyToAll) {
-                _signatures = _signatures.map(() => ({ url: file }));
+                _signatures = _signatures.map(() => ({ url: file, error: false }));
             } else {
                 _signatures[openSignatureModal - 1].url = file;
+                _signatures[openSignatureModal - 1].error = false;
             }
             setSignatures(_signatures);
             onCloseSignatureModel();
@@ -98,11 +106,14 @@ export default function SubscriptionPlanAgreement() {
         documentTitle: 'Visitor Pass',
         onAfterPrint: () => console.log('Printed PDF successfully!'),
     });
+
     const handleDownloadPdf = async () => {
+        let { subscription } = data;
+        let { member, company } = subscription;
         setLoading(true);
         const elementToPrint = document.getElementById('agreement-template');
         const options = {
-            filename: 'agreement.pdf',
+            filename: `${member?.firstName}-${member?.lastName}-${company?.companyName}(${moment().format('ll')}).pdf`,
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
             html2canvas: {
                 scale: 2,
@@ -120,6 +131,33 @@ export default function SubscriptionPlanAgreement() {
         });
     };
 
+    const [isSubmitLoading, setSubmitLoading] = useState(false);
+
+    const onSubmit = () => {
+        if (data?.isSigned) {
+            return;
+        }
+        let isValid = true;
+        let _signatures = signatures.map((item) => {
+            if (!item.url) {
+                isValid = false;
+                return { ...item, error: true };
+            } else {
+                return item;
+            }
+        });
+
+        if (isValid) {
+            dispatch(
+                signSubscriptionAgreement(subscriptionPlanId, data, signatures, setSubmitLoading, () => {
+                    history.push('/plans');
+                }),
+            );
+        } else {
+            setSignatures(_signatures);
+        }
+    };
+
     return (
         <>
             <CustomCard col="12" title="Subscription Agreement">
@@ -134,13 +172,14 @@ export default function SubscriptionPlanAgreement() {
                     </CustomColLayout>
                     <CustomColLayout size={3}>
                         <CustomButtonGroup position="center">
-                            <PrimaryButton label="Confirm" />
+                            <PrimaryButton label="Confirm" onClick={onSubmit} loading={isSubmitLoading} />
                             <PrimaryButton label="Download" className="mx-2" icon="pi pi-download" loading={loading} onClick={handleDownloadPdf} />
                             <PrimaryButton label="Print" className="bg-yellow-300" onClick={handlePrint} icon="pi pi-print" />
                         </CustomButtonGroup>
-                        <div>
+
+                        <div style={{ pointerEvents: data?.isSigned ? 'none' : 'auto' }}>
                             {signatures?.map((item, i) => (
-                                <div key={i} className="signature-box border-round-lg p-2 my-1">
+                                <div key={i} className={`signature-box border-round-lg p-2 my-1 ${item?.error ? 'border-1 border-red-' : ''}`}>
                                     <button className="cursor-pointer" onClick={() => onOpenSignatureModel(i)}>
                                         Sign {i + 1}
                                     </button>
