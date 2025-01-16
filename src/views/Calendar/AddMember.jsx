@@ -11,7 +11,7 @@ import CustomDialog from '../../shared/Overlays/CustomDialog';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import { CustomInput, CustomInputMask, CustomInputNumber } from '../../shared/Input/AllInputs';
 import { useDispatch } from 'react-redux';
-import { editCalendarBooking, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
+import { editCalendarEventMember, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
 
 const AddMember = ({ openMemberList, setOpenMemberList }) => {
     const { members } = useMembers();
@@ -20,7 +20,7 @@ const AddMember = ({ openMemberList, setOpenMemberList }) => {
     const { id } = useParams();
     const handleSave = () => {
         dispatch(
-            editCalendarBooking(id, setLoading, { member: selected?.map((item) => item._id) }, () => {
+            editCalendarEventMember(id, setLoading, { member: selected?.map((item) => item._id) }, () => {
                 setOpenMemberList(false);
                 setSelected([]);
                 dispatch(getCalendarBooking(id));

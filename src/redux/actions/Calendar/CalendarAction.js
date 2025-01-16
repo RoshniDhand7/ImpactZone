@@ -54,7 +54,7 @@ const calendarBooking = (data, setLoading, next) => async () => {
     }
 };
 const getAllCalendarBooking = () => async (dispatch) => {
-    const res = await api('get', endPoints.CALENDAR.BOOKING);
+    const res = await api('get', endPoints.CALENDAR.CALENDAR_BOOKING);
     if (res.success) {
         if (res.data) {
             dispatch({ type: types.CALENDAR.BOOK_EVENTS, payload: res.data });
@@ -84,6 +84,21 @@ const editCalendarBooking = (id, setLoading, data, next) => async () => {
     }
 };
 
+const editCalendarEventMember = (id, setLoading, data, next) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('put', endPoints.CALENDAR.MEMBER + id, data);
+    if (res.success) {
+        if (res.data) {
+            next();
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
+
 export {
     getCalendarEvents,
     getCalendarLocations,
@@ -93,4 +108,5 @@ export {
     getAllCalendarBooking,
     getCalendarBooking,
     editCalendarBooking,
+    editCalendarEventMember,
 };

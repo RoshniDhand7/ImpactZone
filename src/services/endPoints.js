@@ -94,7 +94,9 @@ const endPoints = {
         LOCATIONS: '/calendar/locations/',
         CLASSES: '/calendar/classes/',
         RESOURCES: '/calendar/resources/',
+        CALENDAR_BOOKING: '/calendar/booking/class/',
         BOOKING: '/calendar/booking/',
+        MEMBER: '/settings/schedule-setup/class/sub-schedule/',
     },
 
     UPLOAD_FILES: '/upload',

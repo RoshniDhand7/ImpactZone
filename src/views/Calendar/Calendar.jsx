@@ -55,34 +55,33 @@ export default function Calendar() {
     let CalendarItems = [{ label: 'Book Events', command: () => setOpenBookEvent(true) }, { label: 'Recent Sessions' }, { label: 'Availability' }];
     // const [allEvents, setAllEvents] = useState([]);
 
+    console.log('bookedEvents>>', bookedEvents);
+
     const CalendarEvents = () => {
         const events1 = [];
-        const allEvents = [...(calendarEvents || []), ...(bookedEvents || [])];
-        allEvents.forEach((item) => {
-            const isBookedEvent = !!item.eventDate;
-            if (isBookedEvent) {
+        bookedEvents.forEach((item) => {
+            if (item.type === 'BOOKING') {
                 const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
                 events1.push({
                     id: item._id,
-                    title: [item.event, `${item.duration} minutes`, item.staff].join('\n'),
+                    title: [item.event, `${item.duration} minutes`, item.staff?.firstName].join('\n'),
                     backgroundColor: '#252b42',
                     color: '#fff',
                     start,
                     end,
                     textColor: '#fff',
                 });
+                // }
             } else {
-                item?.subSchedule?.forEach((matchedDate) => {
-                    const { start, end } = formatEventTime(matchedDate.scheduleDate, matchedDate.startTime, matchedDate.duration);
-                    events1.push({
-                        id: matchedDate._id,
-                        title: buildEventTitle(item.event, matchedDate, item?.employee, item.location),
-                        backgroundColor: `#${item.event.boxColor}`,
-                        color: '#fff',
-                        start,
-                        end,
-                        textColor: `#${item.event.textColor}`,
-                    });
+                const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
+                events1.push({
+                    id: item._id,
+                    title: buildEventTitle(item.event, item?.staff, item.location, item.duration),
+                    backgroundColor: `#${item.boxColor}`,
+                    color: '#fff',
+                    start,
+                    end,
+                    textColor: `#${item.textColor}`,
                 });
             }
         });

@@ -599,15 +599,16 @@ const formatEventTime = (dateString, timeString, duration) => {
     const end = moment(start).add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
     return { start, end };
 };
-const buildEventTitle = (event, matchedDate, employee, location) => {
-    const { name, defaultMaxAttendes, calanderDisplay = [] } = event;
+const buildEventTitle = (event, employee, location, duration) => {
+    // const { name, defaultMaxAttendes, calanderDisplay = [] } = event;
+    let calanderDisplay = ['EVENT', 'DURATION', 'LOCATION', 'EMPLOYEE_NAME', 'ENROLLED_MAX_ATTENDANCE'];
     const titleParts = [];
     const displayMapping = {
-        EVENT: name,
-        DURATION: `${matchedDate.duration} minutes`,
+        EVENT: event,
+        DURATION: `${duration} minutes`,
         LOCATION: location?.name,
         EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',
-        ENROLLED_MAX_ATTENDANCE: defaultMaxAttendes,
+        ENROLLED_MAX_ATTENDANCE: '',
     };
 
     calanderDisplay.forEach((option) => {
