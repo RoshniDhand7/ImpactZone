@@ -147,18 +147,18 @@ const SellPlanForm = () => {
     });
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = (opaqueData) => {
+    const onSubmit = ({ opaqueData, opaqueDataValidation, cardHolderName }) => {
         if (opaqueData) {
             let payload = {
                 selectedMember,
                 planId: id,
                 payment: {
                     paymentMethodType: payment.paymentMethodType,
-                    paymentMethod: { opaqueData },
+                    paymentMethod: { opaqueData, opaqueDataValidation, cardHolderName },
                     enableCardOnFile: payment.enableCardOnFile,
                     useClubAccount: payment.useClubAccount,
                 },
-                member: memberInfo,
+                member: { ...memberInfo, image: '' },
                 plan: planInfo,
             };
             dispatch(
@@ -190,7 +190,16 @@ const SellPlanForm = () => {
         {
             title: 'Billing Info',
             content: (
-                <BillingInfoTab loading={loading} onSubmit={onSubmit} payment={payment} setPayment={setPayment} onTabEnable={onTabEnable} onCancel={confirm} />
+                <BillingInfoTab
+                    setLoading={setLoading}
+                    memberInfo={memberInfo}
+                    loading={loading}
+                    onSubmit={onSubmit}
+                    payment={payment}
+                    setPayment={setPayment}
+                    onTabEnable={onTabEnable}
+                    onCancel={confirm}
+                />
             ),
         },
     ];
