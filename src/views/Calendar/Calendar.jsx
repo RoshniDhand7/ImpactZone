@@ -55,8 +55,6 @@ export default function Calendar() {
     let CalendarItems = [{ label: 'Book Events', command: () => setOpenBookEvent(true) }, { label: 'Recent Sessions' }, { label: 'Availability' }];
     // const [allEvents, setAllEvents] = useState([]);
 
-    console.log('bookedEvents>>', bookedEvents);
-
     const CalendarEvents = () => {
         const events1 = [];
         bookedEvents.forEach((item) => {
@@ -64,7 +62,8 @@ export default function Calendar() {
                 const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
                 events1.push({
                     id: item._id,
-                    title: [item.event, `${item.duration} minutes`, item.staff?.firstName].join('\n'),
+                    title: buildEventTitle(item.event, item?.staff, item.location[0]?.name, item.duration, item.calanderDisplay),
+                    // title: [item.event, `${item.duration} minutes`, item.staff?.firstName].join('\n'),
                     backgroundColor: '#252b42',
                     color: '#fff',
                     start,
@@ -76,7 +75,7 @@ export default function Calendar() {
                 const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
                 events1.push({
                     id: item._id,
-                    title: buildEventTitle(item.event, item?.staff, item.location, item.duration),
+                    title: buildEventTitle(item.event, item?.staff, item.location[0]?.name, item.duration, item.calanderDisplay),
                     backgroundColor: `#${item.boxColor}`,
                     color: '#fff',
                     start,

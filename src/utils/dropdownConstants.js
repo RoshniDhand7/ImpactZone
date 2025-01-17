@@ -23,22 +23,33 @@ export const yesNoOptions = [
     },
 ];
 
+export const memberStatusOptions = [
+    {
+        name: 'Pending',
+        value: 'PENDING',
+    },
+    {
+        name: 'Attended',
+        value: 'ATTENDED',
+    },
+];
+
 export const eventStatusOptions = [
     {
         name: 'Pending',
-        value: 'Pending',
+        value: 'PENDING',
     },
     {
         name: 'Cancel-No Charge',
-        value: 'Cancel-No Charge',
+        value: 'CANCEL_No_CHARGE',
     },
     {
         name: 'Cancel Charge',
-        value: 'Cancel Charge',
+        value: 'CANCEL_CHARGE',
     },
     {
         name: 'Completed',
-        value: 'Completed',
+        value: 'COMPLETED',
     },
 ];
 export const taskTypeOptions = [

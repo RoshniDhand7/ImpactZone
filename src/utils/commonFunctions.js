@@ -599,9 +599,7 @@ const formatEventTime = (dateString, timeString, duration) => {
     const end = moment(start).add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
     return { start, end };
 };
-const buildEventTitle = (event, employee, location, duration) => {
-    // const { name, defaultMaxAttendes, calanderDisplay = [] } = event;
-    let calanderDisplay = ['EVENT', 'DURATION', 'LOCATION', 'EMPLOYEE_NAME', 'ENROLLED_MAX_ATTENDANCE'];
+const buildEventTitle = (event, employee, location, duration, calanderDisplay) => {
     const titleParts = [];
     const displayMapping = {
         EVENT: event,

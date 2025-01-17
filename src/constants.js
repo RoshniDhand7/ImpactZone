@@ -1,6 +1,6 @@
 // const baseUrl = 'http://localhost:1102/';
 const baseUrl = 'https://impactzoneapi.appdeft.in/';
-// const baseUrl = 'http://62.169.20.214:1102/';
+// const baseUrl = 'http://192.168.1.3:1102/';
 const endPointUrl = baseUrl + 'api/user';
 
 const constants = { baseUrl, endPointUrl };

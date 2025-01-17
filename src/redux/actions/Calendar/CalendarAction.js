@@ -1,6 +1,7 @@
 import api from '../../../services/api';
 import endPoints from '../../../services/endPoints';
 import { types } from '../../types/types';
+import { showToast } from '../toastAction';
 
 const getCalendarEvents = () => async (dispatch) => {
     const res = await api('get', endPoints.CALENDAR.EVENTS);
@@ -98,6 +99,14 @@ const editCalendarEventMember = (id, setLoading, data, next) => async () => {
         setLoading(false);
     }
 };
+const deleteEventMember = (id, memberId, next) => async (dispatch) => {
+    const res = await api('put', endPoints.CALENDAR.REMOVE_MEMBER + id, { member: memberId });
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
 export {
     getCalendarEvents,
@@ -109,4 +118,5 @@ export {
     getCalendarBooking,
     editCalendarBooking,
     editCalendarEventMember,
+    deleteEventMember,
 };

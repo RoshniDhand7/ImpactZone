@@ -4,14 +4,16 @@ import CustomCard, { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomButton } from '../../shared/Button/CustomButton';
 import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown, CustomInput, CustomTextArea } from '../../shared/Input/AllInputs';
 import useEmployees from '../../hooks/Employees/useEmployees';
-import { eventStatusOptions, generateSequence } from '../../utils/dropdownConstants';
+import { eventStatusOptions, generateSequence, memberStatusOptions } from '../../utils/dropdownConstants';
 import AddMember from './AddMember';
-import { getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
+import { deleteEventMember, editCalendarEventMember, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { convertToDateTime } from '../../utils/commonFunctions';
+import { useHistory, useParams } from 'react-router-dom';
+import { confirmDelete, convertToDateTime, getTime } from '../../utils/commonFunctions';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import _ from 'lodash';
+import moment from 'moment';
 
 const ManageEvents = () => {
     const { id } = useParams();
@@ -21,20 +23,24 @@ const ManageEvents = () => {
         if (id) {
             dispatch(getCalendarBooking(id));
         }
-    }, [id]);
+    }, [id, dispatch]);
+
+    const history = useHistory();
 
     const { calendarEvent } = useSelector((state) => state.calendar);
 
     useEffect(() => {
-        if (calendarEvent) {
-            setData({
-                employee: calendarEvent.staff,
-                date: new Date(calendarEvent.createdAt),
-                time: calendarEvent.startTime ? convertToDateTime(calendarEvent.startTime) : null,
-                duration: calendarEvent.duration,
-                member: calendarEvent.member,
-                event: calendarEvent.event,
-            });
+        if (calendarEvent && Object.keys(calendarEvent).length > 0) {
+            setData((prevData) => ({
+                ...prevData,
+                staff: calendarEvent.staff || null,
+                eventDate: calendarEvent.eventDate ? new Date(calendarEvent.eventDate) : null,
+                startTime: calendarEvent.startTime ? convertToDateTime(calendarEvent.startTime) : null,
+                duration: Number(calendarEvent.duration) || null,
+                member: calendarEvent.member || null,
+                event: calendarEvent.event || null,
+                status: calendarEvent.status,
+            }));
         }
     }, [calendarEvent]);
 
@@ -58,92 +64,141 @@ const ManageEvents = () => {
     );
     const durationOptions = generateSequence();
     const [data, setData] = useState({
-        employee: '',
-        date: '',
-        time: '',
+        staff: '',
+        eventDate: '',
+        startTime: '',
         duration: '',
         enrollment: `5/30`,
         member: [],
         services: [],
         employeelevelService: [],
+        memberService: [],
+        memberStatus: [],
     });
 
-    const [memberService, setMemberServices] = useState([]);
-    const [filterMemberServices, setFilteredServices] = useState([]);
-
     useEffect(() => {
-        const idsToMatch = data?.employeelevelService?.map((item) => item._id);
-        console.log(data?.employeelevelService, memberService, idsToMatch, 'employeeLevel');
-        const filteredServices = idsToMatch ? memberService?.filter((item) => idsToMatch.includes(item._id)) : [];
-        console.log(filteredServices, 'filteredServices');
-        setFilteredServices(filteredServices);
-    }, [memberService, data?.employeelevelService, data?.employee]);
-
-    useEffect(() => {
-        if (data?.employee) {
-            const employee = employees.find((item) => item._id === data.employee);
-            const level = employee?.isClassLevel?.[0];
-            console.log(level, data.event, 'level22');
+        if (data?.staff) {
+            const staff = employees.find((item) => item._id === data.staff);
+            const level = staff?.isClassLevel?.[0];
             let eventService = data.event?.eventService?.find((item) => item.eventLevel === level);
             const services = eventService?.services || [];
             setData((prev) => ({
                 ...prev,
                 employeelevelService: services,
             }));
-            console.log(services, 'eventService');
         } else {
             setData((prev) => ({
                 ...prev,
                 employeelevelService: [],
             }));
         }
-    }, [data.employee, data.event, employees]);
+    }, [data.staff, data.event, employees]);
 
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
-    };
-    const handleChangeDynamicFields = (rowData, index, event) => {
-        const { name, value } = event.target;
-        console.log(rowData, index, name, value, 'val');
-
-        const updatedService = { ...rowData.service };
-
-        const customIndex = index.rowIndex;
-
-        updatedService[customIndex] = {
-            ...updatedService[customIndex],
-            [name]: value,
-        };
-
-        console.log(updatedService, '_updatedService');
-
-        setData((prevData) => ({
-            ...prevData,
-            service: updatedService,
-        }));
-    };
-
-    const CustomServiceTemplate = (r, index) => {
-        console.log(r, 'index');
-
-        setMemberServices(r?.services);
-
-        console.log(filterMemberServices, 'filterMemberServices');
-        return (
-            <CustomDropDown
-                name="service"
-                value={r?._id}
-                onChange={(val) => handleChangeDynamicFields(r, index, val)}
-                options={filterMemberServices?.map((item) => ({ name: item.name, value: item._id }))}
-                fieldName="services"
-                customIndex={index.rowIndex}
-            />
+        let d;
+        if (name === 'startTime') {
+            d = getTime(value);
+        } else if (name === 'eventDate') {
+            d = moment(value).format('YYYY-MM-DD');
+        } else {
+            d = value;
+        }
+        dispatch(
+            editCalendarEventMember(id, _, { [name]: d }, () => {
+                dispatch(getCalendarBooking(id));
+            }),
         );
     };
 
-    const [openMemberList, setOpenMemberList] = useState(false);
+    const handleChangeDynamicFields = (fieldName, index, event) => {
+        const { name, value } = event.target;
+        setData((prevData) => {
+            const updatedField = Array.isArray(prevData[fieldName]) ? [...prevData[fieldName]] : [];
+            const customIndex = index.rowIndex;
+            updatedField[customIndex] = {
+                ...updatedField[customIndex],
+                [name]: value,
+            };
+            return {
+                ...prevData,
+                [fieldName]: updatedField,
+            };
+        });
+    };
 
-    console.log(data, 'data');
+    const CustomServiceTemplate = (row, index) => {
+        const idsToMatch = data?.employeelevelService || [];
+        const filteredServices = row?.services?.filter((service) => idsToMatch.includes(service._id)) || [];
+        const defaultValue = filteredServices[0]?._id || '';
+
+        return data?.staff ? (
+            filteredServices.length > 0 ? (
+                <CustomDropDown
+                    name="service"
+                    value={data?.memberService?.[index.rowIndex]?.service || defaultValue}
+                    onChange={(val) => handleChangeDynamicFields('memberService', index, val)}
+                    options={filteredServices.map((service) => ({
+                        name: service.name,
+                        value: service._id,
+                    }))}
+                    fieldName="services"
+                    customIndex={index.rowIndex}
+                    showLabel={false}
+                />
+            ) : (
+                <div className="flex">
+                    <div className="p-error">No Service Found</div>
+                    <div className="cursor-pointer ml-2 text-blue-500 text-underline" onClick={() => history.push('/pos')}>
+                        POS
+                    </div>
+                </div>
+            )
+        ) : (
+            <div>Please Select Employee</div>
+        );
+    };
+
+    const CustomStatusTemplate = (row, index) => {
+        const defaultValue = memberStatusOptions[0]?.value || '';
+        return (
+            <>
+                <CustomDropDown
+                    name="status"
+                    value={data?.memberStatus?.[index.rowIndex]?.status || defaultValue}
+                    onChange={(val) => handleChangeDynamicFields('memberStatus', index, val)}
+                    fieldName="status"
+                    customIndex={index.rowIndex}
+                    showLabel={false}
+                    options={memberStatusOptions}
+                />
+            </>
+        );
+    };
+
+    const onDelete = (col, position) => {
+        confirmDelete(
+            () => {
+                dispatch(
+                    deleteEventMember(id, col._id, () => {
+                        dispatch(getCalendarBooking(id));
+                    }),
+                );
+            },
+            'Do you want to delete this Member ?',
+            position,
+        );
+    };
+
+    const ActionTemplate = (r) => {
+        return <i className="mx-2 cursor-pointer pi pi-trash" onClick={() => onDelete(r)}></i>;
+    };
+
+    const VerifyTemplate = (r) => {
+        return <i className="mx-2 cursor-pointer pi pi-times-circle text-red-500" onClick={() => onDelete(r)}></i>;
+    };
+
+    const [openMemberList, setOpenMemberList] = useState(false);
 
     return (
         <FormPage backText="Calendar">
@@ -159,26 +214,26 @@ const ManageEvents = () => {
                 </CustomButton>
 
                 <CustomButton className="ml-3">Repeat Event</CustomButton>
-                <AddMember openMemberList={openMemberList} setOpenMemberList={setOpenMemberList} />
+                <AddMember openMemberList={openMemberList} setOpenMemberList={setOpenMemberList} member={data?.member} />
             </div>
             <CustomCard col="12" title="Event Details">
                 <CustomGridLayout>
                     <div className="col-4 p-1">
                         <label>Employee</label>
                         <CustomAsyncReactSelect
-                            name="employee"
+                            name="staff"
                             suggestions={suggestions}
                             options={employeeOptions}
                             placeholder="Search Employee"
                             showLabel={false}
-                            value={data.employee}
+                            value={data.staff}
                             onChange={handleChange}
                             col={12}
                         />
                     </div>
 
-                    <CustomCalenderInput name="date" onChange={handleChange} data={data} col={4} />
-                    <CustomCalenderInput name="time" onChange={handleChange} data={data} col={4} timeOnly hourformat={12} />
+                    <CustomCalenderInput name="eventDate" onChange={handleChange} data={data} col={4} />
+                    <CustomCalenderInput name="startTime" onChange={handleChange} data={data} col={4} timeOnly hourformat={12} />
                     <CustomDropDown name="duration" options={durationOptions} onChange={handleChange} data={data} col={4} />
                     <CustomInput name="enrollment" data={data} disabled />
                     <CustomDropDown name="status" options={eventStatusOptions} onChange={handleChange} data={data} col={4} />
@@ -188,8 +243,10 @@ const ManageEvents = () => {
             <h2 className="text-semibold text-2xl ml-2 mt-2">Manage Event</h2>
             <DataTable value={data?.member} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                 <Column field="firstName" body={(r) => r?.firstName + '' + r?.lastName} header="Member" className="bg-light-green font-bold" />
+                <Column className="bg-light-green font-bold" header="Status" body={(rowData, index) => CustomStatusTemplate(rowData, index)} />
                 <Column className="bg-light-green font-bold" header="Service" body={(rowData, index) => CustomServiceTemplate(rowData, index)} />
-                <Column header="Verified" className="bg-light-green font-bold" />
+                <Column header="Verified" className="bg-light-green font-bold" body={VerifyTemplate} />
+                <Column header="Action" className="bg-light-green font-bold" body={ActionTemplate} />
             </DataTable>
         </FormPage>
     );

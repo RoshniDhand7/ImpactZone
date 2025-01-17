@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import useMembers from '../../hooks/Members/useMembers';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TableImage from '../../shared/Image/TableImage';
 import { dateConversions } from '../../utils/commonFunctions';
 import { CustomFilterCard, CustomGridLayout } from '../../shared/Cards/CustomCard';
@@ -10,13 +9,27 @@ import CustomTable from '../../shared/Table/CustomTable';
 import CustomDialog from '../../shared/Overlays/CustomDialog';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import { CustomInput, CustomInputMask, CustomInputNumber } from '../../shared/Input/AllInputs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editCalendarEventMember, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
+import { getMembers } from '../../redux/actions/MembersPortal/memberPortalActions';
 
-const AddMember = ({ openMemberList, setOpenMemberList }) => {
-    const { members } = useMembers();
-    const history = useHistory();
+const AddMember = ({ openMemberList, setOpenMemberList, member }) => {
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getMembers());
+    }, [dispatch]);
+    const { members } = useSelector((state) => state.membersPortal);
+    const [filteredMembers, setFilteredMembers] = useState([]);
+
+    useEffect(() => {
+        if (members) {
+            const idsToMatch = member?.map((item) => item?._id) || [];
+            const filteredMembers = members?.filter((item) => !idsToMatch.includes(item._id)) || [];
+            setFilteredMembers(filteredMembers);
+        }
+        //eslint-disable-next-line
+    }, [member]);
+
     const { id } = useParams();
     const handleSave = () => {
         dispatch(
@@ -50,7 +63,7 @@ const AddMember = ({ openMemberList, setOpenMemberList }) => {
     const handleChange = ({ name, value }) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
-    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(members);
+    const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(filteredMembers);
     const initialState = {
         firstName: '',
         lastName: '',
@@ -59,8 +72,6 @@ const AddMember = ({ openMemberList, setOpenMemberList }) => {
         primaryPhone: '',
     };
     const [data, setData] = useState(initialState);
-
-    console.log('selected>>', selected);
 
     return (
         <>
@@ -75,7 +86,7 @@ const AddMember = ({ openMemberList, setOpenMemberList }) => {
                 width="auto"
             >
                 <CustomGridLayout>
-                    <CustomFilterCard>
+                    <CustomFilterCard contentPosition="between">
                         <PrimaryButton label="Filter" icon="pi pi-filter" className="mx-2 " onClick={onFilterOpen} />
                     </CustomFilterCard>
                     <FilterComponent

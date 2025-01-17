@@ -97,6 +97,7 @@ const endPoints = {
         CALENDAR_BOOKING: '/calendar/booking/class/',
         BOOKING: '/calendar/booking/',
         MEMBER: '/settings/schedule-setup/class/sub-schedule/',
+        REMOVE_MEMBER: '/calendar/booking/remove-member/',
     },
 
     UPLOAD_FILES: '/upload',
