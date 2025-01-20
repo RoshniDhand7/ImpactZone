@@ -62,11 +62,6 @@ export default function CheckIn() {
 
     const { getCheckInData } = useSelector((state) => state.checkin);
 
-    console.log(
-        members?.find((item) => item._id === data?.member),
-        'members',
-    );
-
     useEffect(() => {
         if (Object.keys(getCheckInData)) {
             let notification = members?.find((item) => item._id === data?.member);
@@ -89,8 +84,8 @@ export default function CheckIn() {
     ];
 
     const column2 = [
-        { field: 'name', header: 'Name' },
-        { field: 'count', header: 'Count' },
+        { field: 'service', header: 'Name' },
+        { field: 'totalCount', header: 'Count' },
         { field: 'expires', header: 'Expires' },
     ];
     const column3 = [
@@ -138,7 +133,7 @@ export default function CheckIn() {
             </div>
 
             {data?.member && (
-                <div className="member-container  border-round-xl shadow-2 bg-green flex justify-content-between p-3 mb-2">
+                <div className="member-container  border-round-xl shadow-3  flex justify-content-between p-3 mb-2">
                     <div className="flex w-full justify-content-between">
                         <div className="flex gap-5">
                             <div className="avatar-img">
@@ -151,12 +146,12 @@ export default function CheckIn() {
                             </div>
 
                             <div className="flex flex-column justify-center">
-                                <p className="text-white text-2xl font-medium">
+                                <p className=" text-2xl font-semibold ">
                                     {getCheckInData?.firstName + ' ' + getCheckInData?.MI + ' ' + getCheckInData?.lastName}
                                 </p>
-                                <p className="text-white font-medium mt-2">Barcode: {getCheckInData?.barCode}</p>
-                                <p className="text-white font-medium">{getCheckInData?.isActive ? 'Active' : 'InActive'}</p>
-                                <p className="text-white">{data?.membershipType || 'All Access'}</p>
+                                <p className=" font-semibold mt-2">Barcode: {getCheckInData?.barCode}</p>
+                                <p className=" font-semibold">{getCheckInData?.isActive ? 'Active' : 'InActive'}</p>
+                                <p className="font-semibold">{data?.membershipType || 'All Access'}</p>
                             </div>
                         </div>
 
@@ -164,8 +159,9 @@ export default function CheckIn() {
                             <CustomButton
                                 label="Add Task"
                                 icon="pi pi-plus"
-                                className="text-white border-1 border-surface-100"
+                                className=" border-1 border-surface-100"
                                 onClick={() => setOpenTask(true)}
+                                outlined={false}
                             />
                         </div>
                     </div>
@@ -175,20 +171,21 @@ export default function CheckIn() {
                     <div className="flex flex-column w-full">
                         {/* <div className="alerts-container flex-1"> */}
                         <div className="flex justify-content-between align-items-center">
-                            <p className="text-white text-2xl font-medium">Alerts</p>
+                            <p className=" text-2xl font-semibold">Alerts</p>
                             <CustomButton
                                 label="Add Alert"
                                 icon="pi pi-plus"
-                                className="text-white border-1 border-surface-100"
+                                className=" border-1 border-surface-100"
                                 onClick={() => setOpenAlert(true)}
+                                outlined={false}
                             />
                         </div>
                         <AddAlert openAlert={openAlert} setOpenAlert={setOpenAlert} memberId={data?.member} />
                         <div className="alert-list mt-2">
                             {data?.alerts?.slice(-3)?.map((item, index) => (
-                                <div className="flex justify-content-between align-items-center">
-                                    <p className="text-white text-sm">{item.title}</p>
-                                    <p className="text-white text-sm"> {dateConversions(item.createdAt)}</p>
+                                <div className="flex justify-content-between align-items-center mb-2" style={{ color: item.colorType }}>
+                                    <p className={`text-sm font-semibold`}>{item.title}</p>
+                                    <p className={` text-sm font-semibold`}> {dateConversions(item.createdAt)}</p>
                                 </div>
                             ))}
                         </div>
@@ -215,14 +212,14 @@ export default function CheckIn() {
                             <h3 className="font-semibold text-lg ">Redeemable</h3>
                             <label className="mb-2 block">POS</label>
                         </div>
-                        <CustomTable data={getCheckInData?.plan?.[0]?.services} columns={column2} minWidth="0rem" paginator={false} className={''} />
+                        <CustomTable data={getCheckInData?.redeemable} columns={column2} minWidth="0rem" paginator={false} className={''} />
                     </div>
                     <div className="col-4">
                         {/* Resources Section */}
                         <div className="flex align-items-center justify-content-between mt-3">
                             <h3 className="font-semibold text-lg ">Resources</h3>
-                            <label className=" block">Calendar</label>
-                            <label className=" block cursor-pointer" onClick={() => setReserve(true)}>
+                            <label className="block">Calendar</label>
+                            <label className="block cursor-pointer" onClick={() => setReserve(true)}>
                                 Reserve
                             </label>
                         </div>

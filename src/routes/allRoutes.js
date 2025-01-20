@@ -39,6 +39,7 @@ import DrawerSummary from '../views/More/POS/DrawerSummary';
 import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
 import AddTasks from '../views/More/Members/AddTasks';
+import ManageEvents from '../views/Calendar/ManageEvents';
 
 const SubscriptionPlanAgreement = lazy(() => import('../views/Plans/SellPlanForm/PlanAgreement/SubscriptionPlanAgreement'));
 
@@ -71,6 +72,15 @@ export const PrivateRoutes = [
         path: '/calender',
         name: 'Calender',
         component: Calender,
+        exact: true,
+        items: [
+            {
+                path: '/events/:id',
+                name: 'Events',
+                exact: true,
+                component: ManageEvents,
+            },
+        ],
     },
     {
         path: '/pos',

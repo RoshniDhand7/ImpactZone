@@ -24,15 +24,15 @@ const catalogItemsReducer = (state = intitalState, action) => {
                         name: item.name,
                         _id: item._id,
                         upc: item.upc,
-                        unitPrice: item.unitPrice,
+                        netPrice: item.netPrice,
                         img: item.catalogImage,
                     })),
                 catalogTypeFilterItems: action.payload
                     ?.filter((item) => item.type === 'PRODUCT' && item.isActive)
-                    ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
+                    ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, netPrice: item.netPrice })),
                 catalogServiceFilterItems: action.payload
                     ?.filter((item) => item.type === 'SERVICE' && item.isActive)
-                    ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, unitPrice: item.unitPrice })),
+                    ?.map((item) => ({ name: item.name, _id: item._id, upc: item.upc, netPrice: item.netPrice })),
                 catalogProductDropdown: action.payload
                     .filter((item) => item.type === 'PRODUCT' && item.isActive)
                     ?.map((item) => ({ name: item.name, value: item?._id })),

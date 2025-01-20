@@ -65,20 +65,32 @@ const getReceiptAction = (id, setLoading, next) => async (dispatch) => {
     setLoading(false);
 };
 
-const receiptsVoidAction = (id) => async (dispatch) => {
-    const res = await api('put', endPoints.POS.VOID + id);
+const receiptsVoidAction = (id, accessCode, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('put', endPoints.POS.VOID + id, { accessCode });
     if (res.success) {
-        dispatch(getReceiptsAction());
+        next();
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
+    if (setLoading) {
+        setLoading(false);
+    }
 };
-const receiptsReturnAction = (id) => async (dispatch) => {
-    const res = await api('put', endPoints.POS.RETURN + id);
+const receiptsReturnAction = (id, accessCode, paymentType, setLoading, next) => async (dispatch) => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('put', endPoints.POS.RETURN + id, { accessCode, paymentType });
     if (res.success) {
-        dispatch(getReceiptsAction());
+        next(res.data);
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+    if (setLoading) {
+        setLoading(false);
     }
 };
 const addNoSale = (data, setLoading, next) => async (dispatch) => {

@@ -20,6 +20,7 @@ import { types } from '../../../../redux/types/types';
 import { getLocations } from '../../../../redux/actions/Settings/ScheduleSetup/locationsActions';
 import { addClasses, editClasses, getEventClass } from '../../../../redux/actions/Settings/ScheduleSetup/eventClassesAction';
 import { getEmployeePay, getEmployees } from '../../../../redux/actions/Settings/Employee/employeesAction';
+import moment from 'moment';
 
 const EventClassesForm = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const EventClassesForm = () => {
             {
                 days: [],
                 startTime: '',
+                duration: '',
+                endTime: '',
             },
         ],
         instructor: [
@@ -66,6 +69,8 @@ const EventClassesForm = () => {
     eventClasses = eventClasses?.find((item) => item._id === data?.event);
     const history = useHistory();
 
+    const durationOptions = eventClasses?.duration?.map((item) => ({ name: `${item} minutes`, value: item }));
+
     useEffect(() => {
         if (data?.event) {
             setData((prev) => ({ ...prev, totalCapacity: eventClasses?.defaultMaxAttendes, waitlistPeople: eventClasses?.maximumWaitlist }));
@@ -85,7 +90,11 @@ const EventClassesForm = () => {
                         classLocation: data.classLocation,
                         startDate: new Date(data.startDate),
                         endDate: new Date(data.endDate),
-                        schedule: data.schedule?.map((item) => ({ ...item, startTime: convertToDateTime(item.startTime) })),
+                        schedule: data.schedule?.map((item) => ({
+                            ...item,
+                            startTime: convertToDateTime(item.startTime),
+                            endTime: item.endTime ? convertToDateTime(item.endTime) : null,
+                        })),
                         instructor: data.instructor,
                         staff: data.staff ? data?.staff : null,
                         payType: data.pay,
@@ -106,7 +115,7 @@ const EventClassesForm = () => {
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, dispatch, employees, eventClasses]);
+    }, [id, dispatch, employees]);
 
     const fetchAssistantPayOptions = async (assistantId) => {
         const employeeWithLevel = employees.find((employee) => employee._id === assistantId);
@@ -137,7 +146,6 @@ const EventClassesForm = () => {
             dispatch(getServicesEvents(data?.event));
             setData((prev) => ({
                 ...prev,
-                staff: null,
                 payType: '',
                 instructor: [
                     {
@@ -155,6 +163,8 @@ const EventClassesForm = () => {
             days: [],
             startTime: '',
             timeFormat: '',
+            duration: '',
+            endTime: '',
         };
         setData((prevData) => ({
             ...prevData,
@@ -177,12 +187,9 @@ const EventClassesForm = () => {
 
     const employeesWithLevel = employees
         .filter((employee) => {
-            return employee.employeeClassData.some((classData) => eventLevels?.includes(classData.isClassLevel));
+            return employee.isClassLevel.some((classData) => eventLevels?.includes(classData));
         })
-        .map((employee) => ({
-            name: employee.firstName,
-            value: employee._id,
-        }));
+        ?.map((it) => ({ name: it.firstName, value: it._id }));
 
     useEffect(() => {
         if (data?.staff) {
@@ -214,6 +221,35 @@ const EventClassesForm = () => {
                 ..._newData,
             }));
             await dispatch(getEmployeePay(value));
+        }
+        if (name === 'duration') {
+            const startTime = obj?.startTime;
+            if (startTime && value) {
+                const endTime = new Date(moment(startTime).add(value, 'minutes'));
+                obj.endTime = endTime;
+                obj.duration = value;
+            } else {
+                obj.endTime = null;
+                obj.duration = null;
+            }
+        }
+
+        if (name === 'startTime') {
+            const startTime = value;
+            const duration = obj?.duration;
+
+            if (startTime && duration) {
+                const endTime = new Date(moment(startTime).add(duration, 'minutes'));
+                obj.startTime = startTime;
+                obj.endTime = endTime;
+            } else if (startTime && !duration) {
+                obj.startTime = startTime;
+                obj.endTime = null;
+                obj.duration = null;
+            } else {
+                obj.endTime = null;
+                obj.duration = null;
+            }
         }
 
         const formErrors = formValidation(name, value, obj);
@@ -294,9 +330,20 @@ const EventClassesForm = () => {
             }
             if (validatedSchedule.isValid) {
                 if (id) {
-                    dispatch(editClasses(id, data, history));
+                    dispatch(
+                        editClasses(
+                            id,
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            history,
+                        ),
+                    );
                 } else {
-                    dispatch(addClasses(data, history));
+                    dispatch(
+                        addClasses(
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            history,
+                        ),
+                    );
                 }
             }
         }
@@ -305,16 +352,14 @@ const EventClassesForm = () => {
     return (
         <>
             <FormPage backText="Classes">
-                <CustomGridLayout>
-                    <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} />
-                    <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" />
-                </CustomGridLayout>
                 <CustomCard title="When and Where" col="12">
                     <CustomGridLayout>
-                        <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} col="6" />
-                        <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} col="6" />
+                        <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} col={4} />
+                        <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} />
+                        <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} />
                         <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
                         <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate} />
+                        <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" col={4} />
                     </CustomGridLayout>
                     <CustomGridLayout extraClass="justify-content-end">
                         <PrimaryButton label="Add New Schedule" className="mx-2 " onClick={handleAddSchedule} loading={loading} />
@@ -322,13 +367,6 @@ const EventClassesForm = () => {
                     {data?.schedule?.map((scheduleItem, index) => (
                         <div key={index}>
                             <CustomGridLayout extraClass="align-items-center">
-                                {/* <CustomInputTime
-                                    name="startTime"
-                                    onChange={handleChangeDynamicField}
-                                    data={scheduleItem}
-                                    fieldName="schedule"
-                                    customIndex={index}
-                                /> */}
                                 <CustomCalenderInput
                                     name="startTime"
                                     customIndex={index}
@@ -339,6 +377,14 @@ const EventClassesForm = () => {
                                     placeholder="Select Time"
                                     hourFormat="12"
                                 />
+                                <CustomDropDown
+                                    name="duration"
+                                    customIndex={index}
+                                    options={durationOptions}
+                                    onChange={handleChangeDynamicField}
+                                    data={scheduleItem}
+                                    fieldName="schedule"
+                                />
                                 <CustomMultiselect
                                     name="days"
                                     customIndex={index}
@@ -347,6 +393,17 @@ const EventClassesForm = () => {
                                     options={WeekDaysOption}
                                     fieldName="schedule"
                                     col={4}
+                                />
+                                <CustomCalenderInput
+                                    name="endTime"
+                                    customIndex={index}
+                                    onChange={handleChangeDynamicField}
+                                    data={scheduleItem}
+                                    fieldName="schedule"
+                                    timeOnly
+                                    placeholder="Select Time"
+                                    hourFormat="12"
+                                    disabled={true}
                                 />
                                 {index > 0 && <i className="pi pi-minus-circle mt-4" onClick={() => handleRemove(index, 'schedule')}></i>}
                             </CustomGridLayout>

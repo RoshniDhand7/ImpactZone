@@ -336,3 +336,17 @@ a:-webkit-any-link {
 }
 
 /* Selected card styling */
+.calendar-container {
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content: 'space-between';
+    height: '100%';
+    width: '100%';
+    position: 'relative';
+    padding: '5px';
+    box-sizing: 'border-box';
+}
+
+// .custom-table-height .p-datatable-tbody {
+//     height: 90px; /* Adjust the height as needed */
+// }

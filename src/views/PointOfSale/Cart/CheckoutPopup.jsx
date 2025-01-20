@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CustomDialog from '../../../shared/Overlays/CustomDialog';
 import { CustomButton } from '../../../shared/Button/CustomButton';
-import { CustomCheckbox, CustomInputNumber } from '../../../shared/Input/AllInputs';
+import { CustomCheckbox } from '../../../shared/Input/AllInputs';
 import { formatLetter } from '../../../utils/commonFunctions';
 
-export default function CheckoutPopup({ visible, onCancel, cartDetails, onCheckout, memberDetail }) {
+export default function CheckoutPopup({ visible, onCancel, cartDetails, onCheckout, memberDetail, payType }) {
     let { tax, discount, specialDiscount, promoDiscount, waivedTaxAmount, gradTotal, netTotal } = cartDetails;
     const [method, setMethod] = useState([]);
     const [printReceiept, setPrintReceiept] = useState(true);
@@ -14,14 +14,23 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
         paymentMethods.splice(2, 0, 'PRE_PAY');
     }
     useEffect(() => {
-        setMethod([{ type: 'CASH', amount: gradTotal }]);
-    }, [gradTotal]);
+        if (payType?.length > 0) {
+            setMethod(payType.map(({ type, amount }) => ({ type, amount })));
+        } else {
+            setMethod([{ type: 'CASH', amount: gradTotal }]);
+        }
+    }, [gradTotal, payType]);
 
     const onClose = () => {
         onCancel();
     };
     const onSubmit = () => {
         onCheckout({ paymentType: method, printReceiept, setLoading });
+        // if (payType) {
+
+        // } else {
+        //     onCheckout({ paymentType: method, printReceiept, setLoading });
+        // }
     };
 
     const handleMethodToggle = (type) => {
@@ -39,7 +48,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                 const removedAmount = exists.amount;
                 const adjustedMethods = remainingMethods.map((method) => ({
                     ...method,
-                    amount: parseInt(((method.amount / totalRemainingAmount) * (totalRemainingAmount + removedAmount)).toFixed(0)),
+                    amount: parseFloat(((method.amount / totalRemainingAmount) * (totalRemainingAmount + removedAmount)).toFixed(2)),
                 }));
 
                 return adjustedMethods;
@@ -50,6 +59,7 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
     const handleAmountChange = (type, amount) => {
         adjustAmounts(type, amount, gradTotal);
     };
+
     const adjustAmounts = useCallback(
         (updatedMethodType, enteredAmount, finalTotal) => {
             setMethod((prev) => {
@@ -58,6 +68,10 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                 const updatedMethods = prev.map((method) => (method.type === updatedMethodType ? { ...method, amount: cappedEnteredAmount } : method));
                 const otherMethods = updatedMethods.filter((method) => method.type !== updatedMethodType);
                 const totalOtherAmounts = otherMethods.reduce((sum, method) => sum + method.amount, 0);
+                if (cappedEnteredAmount === 0) {
+                    return updatedMethods.map((method, index) => (index === 0 ? { ...method, amount: finalTotal } : { ...method, amount: 0 }));
+                }
+
                 return updatedMethods.map((method) => {
                     if (method.type === updatedMethodType) {
                         return method;
@@ -69,15 +83,12 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
 
                     const adjustedAmount = (method.amount / totalOtherAmounts) * remainingTotal;
 
-                    console.log(adjustedAmount);
-                    return { ...method, amount: parseInt(adjustedAmount.toFixed(0)) };
+                    return { ...method, amount: parseFloat(adjustedAmount.toFixed(2)) };
                 });
             });
         },
         [setMethod],
     );
-
-    console.log(method);
 
     return (
         <CustomDialog title="Complete Sale" visible={visible} onCancel={onClose} onSave={onSubmit} saveLabel="Finish" loading={loading} width={'60vw'}>
@@ -99,15 +110,16 @@ export default function CheckoutPopup({ visible, onCancel, cartDetails, onChecko
                         {method.map((met) => (
                             <div key={met.type} className="flex align-items-center justify-content-between mb-2 mr-5">
                                 <div className="mr-2">{met.type}:</div>
-                                {console.log(met.amount)}
-                                <CustomInputNumber
+                                <input
+                                    type="number"
                                     name={formatLetter(met.type)}
                                     value={met.amount}
-                                    onChange={(e) => handleAmountChange(met.type, e.value)}
+                                    onChange={(e) => handleAmountChange(met.type, e.target.value)}
                                     placeholder="Enter amount"
                                     min={0}
                                     max={gradTotal}
                                     showLabel={false}
+                                    style={{ width: '150px', height: '30px' }}
                                 />
                             </div>
                         ))}

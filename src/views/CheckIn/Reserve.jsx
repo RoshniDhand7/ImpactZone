@@ -88,7 +88,6 @@ const Reserve = ({ reserve, setReserve, suggestions, memberOptions, member }) =>
         setFilteredData((prev) => ({ ...prev, [name]: value }));
     };
     const customActionTemplate = (r) => {
-        console.log(r, 'r');
         return (
             <PrimaryButton
                 name="status"

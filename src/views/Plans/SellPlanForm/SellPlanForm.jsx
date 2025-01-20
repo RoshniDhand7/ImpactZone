@@ -133,6 +133,7 @@ const SellPlanForm = () => {
         } else {
             localStorage.removeItem('selectedMember');
         }
+        //eslint-disable-next-line
     }, [selectedMember, dispatch]);
 
     const onTabEnable = (index) => {

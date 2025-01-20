@@ -43,13 +43,13 @@ const scheduleReducer = (state = intitalState, action) => {
             return {
                 ...state,
                 events: action.payload,
-                eventClasses: action.payload.filter((item) => item.eventType === 'Class' && item.isActive),
+                eventClasses: action.payload.filter((item) => item.eventType === 'CLASS' && item.isActive),
                 eventsDropDown: action.payload.filter((item) => item.isActive)?.map((item) => ({ name: item.name, value: item._id })),
                 eventClassesDropDown: action.payload
-                    .filter((item) => item.eventType === 'Class' && item.isActive)
+                    .filter((item) => item.eventType === 'CLASS' && item.isActive)
                     .map((item) => ({ name: item.name, value: item._id })),
                 eventAppointmentDropDown: action.payload
-                    .filter((item) => item.eventType === 'Appointments' && item.isActive)
+                    .filter((item) => item.eventType === 'APPOINTMENTS' && item.isActive)
                     .map((item) => ({ name: item.name, value: item._id })),
             };
         case types.SETTINGS.SCHEDULE_SETUP.SCHEDULE_EVENTS_LEVEL:
@@ -63,7 +63,7 @@ const scheduleReducer = (state = intitalState, action) => {
                 ...state,
                 eventCategories: action.payload,
             };
-        case types.SETTINGS.SCHEDULE_SETUP.CLASSES:
+        case types.SETTINGS.SCHEDULE_SETUP.CLASS:
             return {
                 ...state,
                 classes: action.payload,

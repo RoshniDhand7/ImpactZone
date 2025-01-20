@@ -137,8 +137,6 @@ export default function Cart({
         ifCartValidated() && onCheckout({ paymentType: [{ type: 'CASH', amount: gradTotal }], printReceiept: false, setLoading });
     };
 
-    console.log(memberDetail?.prepayBalance >= gradTotal, 'prePay');
-
     const handlePrePay = () => {
         ifCartValidated() &&
             memberDetail?.prepayBalance >= gradTotal &&

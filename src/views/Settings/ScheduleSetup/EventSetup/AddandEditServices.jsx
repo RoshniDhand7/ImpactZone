@@ -10,7 +10,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import { confirmDelete, getIds, showFormErrors } from '../../../../utils/commonFunctions';
 import formValidation from '../../../../utils/validations';
 import {
-    deleteAllServices,
     editScheduledEvent,
     editScheduledEventServices,
     getScheduledEventService,
@@ -66,7 +65,7 @@ const AddandEditServices = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.services, open]);
 
-    const { levelDropdown, levels } = useSelector((state) => state.settings.schedule);
+    const { levelDropdown } = useSelector((state) => state.settings.schedule);
     let filterdLevelsDropdown = levelDropdown.filter((item) => !servicesEventsLevels.map((ed) => ed).includes(item.name));
 
     const { catalogServiceFilterItems } = useSelector((state) => state.catalogItems);
@@ -77,17 +76,17 @@ const AddandEditServices = () => {
     };
     const columns = [
         { selectionMode: 'multiple', headerStyle: '' },
-        { field: 'unitPrice', header: 'Catalog Price' },
+        { field: 'netPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
         { field: 'upc', header: 'UPC' },
     ];
     const columns1 = [
-        { field: 'unitPrice', header: 'Catalog Price' },
+        { field: 'netPrice', header: 'Catalog Price' },
         { field: 'name', header: 'Name' },
         { field: 'upc', header: 'UPC' },
     ];
 
-    const levelIndex = levels?.findIndex((item) => item._id === data.level);
+    const levelName = levelDropdown?.find((item) => data.level === item.value);
     const handleSave = () => {
         const formErrors = formValidation('services', selected, data);
         setData((prev) => ({ ...prev, services: selected, formErrors }));
@@ -131,14 +130,14 @@ const AddandEditServices = () => {
                     disabled={eventId ? true : false}
                 />
 
-                <CustomCard col="12" title={`Level ${data?.level && levelDropdown[levelIndex]?.name}`}>
+                <CustomCard col="12" title={` ${data?.level && levelName?.name ? levelName?.name : ''}`}>
                     <CustomFilterCard1 buttonTitle="Add" onClick={() => setOpen(true)} extraClass="justify-content-end gap-2">
                         <div>
                             <PrimaryButton
                                 label={'Remove All'}
                                 onClick={() => {
                                     setData((prev) => ({ ...prev, services: [] }));
-                                    dispatch(deleteAllServices(eventId));
+                                    // dispatch(deleteAllServices(eventId));
                                 }}
                             />
                         </div>

@@ -29,13 +29,13 @@ const AddServices = ({ data, setData, id, loading, type, name }) => {
         { selectionMode: 'multiple', headerStyle: '' },
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
+        { field: 'netPrice', header: 'Price' },
     ];
 
     const columns1 = [
         { field: 'name', header: 'Item Name' },
         { field: 'upc', header: 'Item UPC' },
-        { field: 'unitPrice', header: 'Price' },
+        { field: 'netPrice', header: 'Price' },
     ];
 
     const handleServiceDelete = (col) => {

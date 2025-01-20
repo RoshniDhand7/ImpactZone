@@ -469,16 +469,19 @@ const denominationsToDollarConverter = (data, type) => {
 };
 
 const dateConversions = (date) => {
-    const formattedDate = date ? moment(date).format('DD-MM-YYYY') : null;
+    const formattedDate = date ? moment(date).format('MM-DD-YYYY') : null;
     return formattedDate;
 };
 const getTime = (time) => {
-    const formattedTime = time ? moment(new Date(time)).format('H:mm A') : null;
+    const formattedTime = time ? moment(new Date(time)).format('HH:mm') : null;
     return formattedTime;
+};
+const getISODateUTC = (date) => {
+    return new Date(date).toISOString();
 };
 
 const getDateandTime = (datetime) => {
-    const formattedTime = datetime ? moment(new Date(datetime)).format('DD-MM-YYYY H:mm A') : null;
+    const formattedTime = datetime ? moment(new Date(datetime)).format('MM-DD-YYYY H:mm A') : null;
     return formattedTime;
 };
 
@@ -556,6 +559,65 @@ const longOverlayText = (obj, key = 'description', size = 20) => {
     );
 };
 
+function getDatesByDays(startDate, endDate, days) {
+    const validDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayIndexes = days.map((day) => {
+        const index = validDays.indexOf(day);
+        if (index === -1) {
+            throw new Error(`Invalid day: ${day}. `);
+        }
+        return index;
+    });
+
+    const start = moment(startDate, 'YYYY-MM-DD');
+    const end = moment(endDate, 'YYYY-MM-DD');
+    const datesWithDays = [];
+    let currentDate = start.clone();
+
+    while (currentDate.isSameOrBefore(end)) {
+        if (dayIndexes.includes(currentDate.day())) {
+            datesWithDays.push({
+                date: currentDate.format('YYYY-MM-DD'),
+                day: currentDate.format('dddd'),
+            });
+        }
+        currentDate.add(1, 'days');
+    }
+
+    return datesWithDays;
+}
+
+const eventIncludes = (options, name) => {
+    return options.includes(name);
+};
+
+const formatDateTimeZone = (date) => {
+    return date.toLocaleString('en-CA', { timeZone: 'Asia/Kolkata' });
+};
+const formatEventTime = (dateString, timeString, duration) => {
+    const start = `${new Date(dateString).toISOString().split('T')[0]}T${timeString}:00`;
+    const end = moment(start).add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
+    return { start, end };
+};
+const buildEventTitle = (event, employee, location, duration, calanderDisplay) => {
+    const titleParts = [];
+    const displayMapping = {
+        EVENT: event,
+        DURATION: `${duration} minutes`,
+        LOCATION: location?.name,
+        EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',
+        ENROLLED_MAX_ATTENDANCE: '',
+    };
+
+    calanderDisplay.forEach((option) => {
+        if (displayMapping[option]) {
+            titleParts.push(displayMapping[option]);
+        }
+    });
+
+    return titleParts.join('\n');
+};
+
 export {
     capitalizeCamelCase,
     showFormErrors,
@@ -600,4 +662,10 @@ export {
     formatLetter,
     getDateandTime,
     longOverlayText,
+    getDatesByDays,
+    eventIncludes,
+    formatDateTimeZone,
+    getISODateUTC,
+    formatEventTime,
+    buildEventTitle,
 };

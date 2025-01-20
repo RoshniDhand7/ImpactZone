@@ -14,7 +14,7 @@ const Notifications = () => {
     const dispatch = useDispatch();
     const [data, setData] = useState({
         eventNotification: '',
-        timeBeforeEventReminder: '',
+        timeBeforeEventReminder: { data: '', type: '' },
         message: '',
         cancelLink: '',
     });
@@ -30,7 +30,11 @@ const Notifications = () => {
                 getScheduledEvent(id, (data) => {
                     setData({
                         eventNotification: data.eventNotification,
-                        timeBeforeEventReminder: data.timeBeforeEventReminder,
+                        timeBeforeEventReminder: {
+                            name: `${data?.timeBeforeEventReminder?.value} ${data?.timeBeforeEventReminder?.type?.toLowerCase()}`,
+                            data: data?.timeBeforeEventReminder?.value,
+                            type: data?.timeBeforeEventReminder?.type,
+                        },
                         message: data.message,
                         cancelLink: data.cancelLink,
                     });
@@ -41,7 +45,15 @@ const Notifications = () => {
     const handleSave = (tab) => {
         if (showFormErrors(data, setData)) {
             if (id) {
-                dispatch(editScheduledEvent(id, data, setLoading, history, tab));
+                dispatch(
+                    editScheduledEvent(
+                        id,
+                        { ...data, timeBeforeEventReminder: { value: data?.timeBeforeEventReminder?.data, type: data?.timeBeforeEventReminder?.type } },
+                        setLoading,
+                        history,
+                        tab,
+                    ),
+                );
             }
         }
     };
@@ -50,7 +62,14 @@ const Notifications = () => {
             <CustomCard col="12" title="Event Reminders">
                 <CustomGridLayout>
                     <CustomDropDown options={yesNoOptions} name="eventNotification" data={data} onChange={handleChange} />
-                    <CustomDropDown options={BookingHours} name="timeBeforeEventReminder" data={data} onChange={handleChange} />
+                    <CustomDropDown
+                        options={BookingHours?.map((cat, i) => {
+                            return { name: cat.name, data: cat.value, type: cat.type };
+                        })}
+                        name="timeBeforeEventReminder"
+                        data={data}
+                        onChange={handleChange}
+                    />
                     <CustomTextArea name="message" data={data} onChange={handleChange} maxLength={100} />
                 </CustomGridLayout>
             </CustomCard>

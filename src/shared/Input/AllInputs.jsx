@@ -187,10 +187,20 @@ export const CustomDropDown = ({
     optionLabel = 'name',
     customIndex,
     fieldName,
+    showLabel = true,
     ...props
 }) => {
     return (
-        <InputLayout col={col} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout
+            col={col}
+            label={label}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+            showLabel={showLabel}
+        >
             <Dropdown
                 id={name}
                 name={name}

@@ -8,21 +8,28 @@ import PrimaryButton from '../../../../shared/Button/CustomButton';
 import useFilters from '../../../../hooks/useFilters';
 import ActiveFilter from '../../../../components/Filters/ActiveFilter';
 import { deleteClasses, getEventClasses } from '../../../../redux/actions/Settings/ScheduleSetup/eventClassesAction';
+import { types } from '../../../../redux/types/types';
 
 const EventClasses = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getEventClasses());
+        return () => {
+            dispatch({
+                type: types.SETTINGS.SCHEDULE_SETUP.CLASS,
+                payload: [],
+            });
+        };
     }, [dispatch]);
 
-    const { classes } = useSelector((state) => state.settings.schedule);
+    const classes = useSelector((state) => state?.settings?.schedule?.classes);
 
     const columns = [
         { field: 'event', header: 'Name' },
         { field: 'classLocation', header: 'Location' },
-        { field: 'days', body: (r) => r.schedule[0]?.days?.join(','), header: 'Schedule' },
-        { field: 'instructor', body: (r) => r.instructor[0]?.firstName, header: 'Instructor' },
+        { field: 'days', body: (r) => (r?.schedule?.length > 0 ? r?.schedule?.map((item) => item.days?.join(',')) : '-'), header: 'Schedule' },
+        { field: 'instructor', body: (r) => (r?.instructor?.length > 0 ? r?.instructor?.map((item) => item.firstName) : '-'), header: 'Instructor' },
         { field: 'totalCapacity', header: 'Capacity' },
         { field: 'isActive', header: 'Active' },
     ];
@@ -40,6 +47,7 @@ const EventClasses = () => {
             position,
         );
     };
+
     const { tableData, onFilterOpen, onFilterClose, onApplyFilters, filters, isFilterVisible } = useFilters(classes);
 
     return (
@@ -50,7 +58,7 @@ const EventClasses = () => {
                 </div>
             </CustomFilterCard>
             <ActiveFilter filters={filters} onApplyFilters={onApplyFilters} isFilterVisible={isFilterVisible} onFilterClose={onFilterClose} />
-            <CustomTable data={tableData} columns={columns} onEdit={onEdit} onDelete={onDelete} />
+            <CustomTable data={tableData ? tableData : []} columns={columns} onEdit={onEdit} onDelete={onDelete} />
         </>
     );
 };

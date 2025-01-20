@@ -186,7 +186,7 @@ export const types = {
             EVENT_SETUP: 'EVENT_SETUP',
             SCHEDULE_EVENTS_LEVEL: 'SCHEDULE_EVENTS_LEVEL',
             EVENT_CATEGORY: 'EVENT_CATEGORY',
-            CLASSES: 'CLASSES',
+            CLASS: 'CLASS',
             SCHEDULE_OPTION: 'SCHEDULE_OPTION',
         },
         MANAGE_EMPLOYEE: {
@@ -197,6 +197,15 @@ export const types = {
     PLANS: {
         ACTIVE: 'ACTIVE',
         DRAFT: 'DRAFT',
+    },
+    CALENDAR: {
+        EVENTS: 'EVENTS',
+        LOCATIONS: 'LOCATIONS',
+        CLASSES: 'CLASSES',
+        RESOURCES: 'RESOURCES',
+        BOOKING: 'BOOKING',
+        BOOK_EVENTS: 'BOOK_EVENTS',
+        BOOK_EVENT: 'BOOK_EVENT',
     },
     CHANGE_ATTENDANCE_CHECK_IN: 'CHANGE_ATTENDANCE_CHECK_IN',
     CHANGE_TASK: 'CHANGE_TASK',
