@@ -117,7 +117,6 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'taskTitle':
         case 'message':
         case 'title':
-        case 'description':
         case 'city':
         case 'state':
             if (equal(length(value))) {
@@ -188,9 +187,8 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'reasonCodeType':
         case 'commissionGroup':
         case 'level':
-        case 'profitCentre':
-        case 'itemSold':
         case 'profitCenter':
+        case 'itemSold':
         case 'category':
         case 'noOfMonths':
         case 'subCategory':

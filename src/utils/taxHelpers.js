@@ -4,7 +4,7 @@ export function calculateNetAmount(amount, tax) {
 }
 export function calculateFinalAmount(amount, tax) {
     let finalAmount = amount * (1 + tax / 100);
-    return finalAmount;
+    return roundOfNumber(finalAmount);
 }
 export function calculateTax(amount, tax) {
     return (amount * tax) / 100;

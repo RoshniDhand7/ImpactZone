@@ -15,14 +15,18 @@ var domToPdf = require('dom-to-pdf');
 
 const PlanAgreement = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         dispatch(getAgreementTemplates(setLoading));
     }, [dispatch]);
     const componentRef = useRef();
+
     const [signatures, setSignatures] = useState([]);
+
     const { newPlanId, agreementId } = useParams();
+
     let agreementTemplates = useSelector((state) => state.settings.agreement.agreementTemplates);
     const agreementTemplate = agreementTemplates?.find((item) => item._id === agreementId);
 

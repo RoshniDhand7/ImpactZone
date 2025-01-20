@@ -44,6 +44,9 @@ export const CustomOverlay = React.forwardRef(({ children, col }, ref) => {
 export function CustomGridLayout({ children, extraClass }) {
     return <div className={`grid ${extraClass}`}>{children}</div>;
 }
+export function CustomColLayout({ size, children, extraClass }) {
+    return <div className={`col-12  ${size ? `md:col-${size}` : 'col'} ${extraClass}`}>{children}</div>;
+}
 export function CustomListItem({ label, name, data, value, keys, dynamicKey }) {
     if (!label) {
         if (name) {

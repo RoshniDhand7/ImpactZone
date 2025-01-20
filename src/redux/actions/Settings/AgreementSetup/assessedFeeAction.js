@@ -29,6 +29,7 @@ const addAssessedFee = (data, next) => async (dispatch) => {
     if (res.success) {
         next();
         dispatch(showToast({ severity: 'success', summary: res.message }));
+        dispatch(getAssesedFees());
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
@@ -41,6 +42,7 @@ const editAssessedFee = (id, data, next) => async (dispatch) => {
     if (res.success) {
         next();
         dispatch(showToast({ severity: 'success', summary: res.message }));
+        dispatch(getAssesedFees());
     } else {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }

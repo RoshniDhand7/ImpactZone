@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import InputLayout from '../Form/InputLayout';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -279,8 +279,6 @@ export const CustomCalenderInput = ({
                 showIcon
                 clearButtonClassName="mt-4"
                 {...props}
-                // icon="pi pi-clock"
-                // timeOnly
             />
         </InputLayout>
     );
@@ -606,48 +604,6 @@ export const CustomCheckBoxInput = ({ label, name, onChange, data, value, extraC
     );
 };
 
-export const CustomAutoComplete = ({
-    label,
-    name,
-    data,
-    value,
-    onChange,
-    errorMessage,
-    extraClassName,
-    required,
-    col,
-    inputClass,
-    suggestions = [],
-    forceSelection = false,
-    itemTemplate,
-    filtered,
-    search,
-    handleClear,
-    ...props
-}) => {
-    return (
-        <InputLayout col={col || 12} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
-            <span className="p-input-icon-right w-full">
-                <AutoComplete
-                    id={name}
-                    name={name}
-                    value={value || data?.[name]}
-                    suggestions={filtered}
-                    completeMethod={search}
-                    forceSelection={forceSelection}
-                    onChange={(e) => onChange && onChange({ ...e, name: e.target.name, value: typeof e.value === 'string' ? e.value.trimStart() : e.value })}
-                    className={`w-full p-fluid ${inputClass ? inputClass : ''} ${errorMessage ? 'p-invalid' : ''}`}
-                    inputClassName="w-full"
-                    placeholder={props.placeholder || ''}
-                    itemTemplate={itemTemplate}
-                    showEmptyMessage={true}
-                    {...props}
-                />
-                {value || data?.[name] ? <i className="pi pi-times cursor-pointer" onClick={handleClear} /> : <i className="pi pi-search" />}
-            </span>
-        </InputLayout>
-    );
-};
 export const CustomReactSelect = ({
     label,
     name,

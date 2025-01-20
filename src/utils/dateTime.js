@@ -5,8 +5,13 @@ function formatDateTime(date) {
         return moment(date).format('MM/DD/YYYY hh:mm A');
     }
 }
+function formatDate(date) {
+    if (date) {
+        return moment(date).format('DD/MM/YYYY');
+    }
+}
 
-const getDueDate = (paymentOption, specificDate = null) => {
+const getFirstDueDate = (paymentOption, specificDate = null) => {
     const currentDate = moment();
 
     switch (paymentOption) {
@@ -58,5 +63,30 @@ const getDueDate = (paymentOption, specificDate = null) => {
             throw new Error('Invalid payment option.');
     }
 };
+const getDueDate = (paymentOption, specificDate = null, daysFromBeginDate = 0) => {
+    const currentDate = moment();
+    switch (paymentOption) {
+        case 'NO_DUE_DATE':
+            return null;
 
-export { formatDateTime, getDueDate };
+        case 'DAYS_FROM_BEGIN_DATE':
+            return currentDate.add(daysFromBeginDate, 'days').toDate();
+
+        case 'SPECIFIC_DATE':
+            if (specificDate && moment(specificDate).isValid()) {
+                const specificMoment = moment(specificDate);
+                const yearsToAdd = currentDate.diff(specificMoment, 'years') + 1;
+                if (specificMoment.isBefore(currentDate, 'day')) {
+                    specificMoment.add(yearsToAdd, 'years');
+                }
+
+                return specificMoment.toDate();
+            }
+            throw new Error("Specific date is required when the 'SPECIFIC_DATE' option is selected.");
+
+        default:
+            throw new Error('Invalid payment option.');
+    }
+};
+
+export { formatDateTime, formatDate, getDueDate, getFirstDueDate };

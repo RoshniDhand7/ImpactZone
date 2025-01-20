@@ -1,35 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createMemberSubscription, getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
+import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
+import { getDueDate, getFirstDueDate } from '../../../utils/dateTime';
+import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
+import { calculateFinalAmount } from '../../../utils/taxHelpers';
 import CustomTabView from '../../../shared/TabView/CustomTabView';
 import FormPage from '../../../shared/Layout/FormPage';
+
+import { getMembersipTypes } from '../../../redux/actions/Settings/MembershipSetup/membershipTypeAction';
+import { getCampaigns } from '../../../redux/actions/Settings/MembershipSetup/campaignsAction';
+import { getEmployees } from '../../../redux/actions/Settings/Employee/employeesAction';
+
 import PlanTab from './PlanTab';
 import PersonalTab from './PersonalTab';
-import IdentificationTab from './IdentificationTab';
-import { useParams } from 'react-router-dom';
 import AgreementTab from './AgreementTab';
-import PaymentAmountTab from '../PaymentAmountTab';
-import BillingInfoTab from '../BillingInfoTab';
-import useCancelSellPlans from '../../../hooks/useCancelSellPlans';
-import { useDispatch } from 'react-redux';
-import { getActivePlan, getMemberDetails } from '../../../redux/actions/Plans/plansActions';
-import { useEffect } from 'react';
-import { getMembers } from '../../../redux/actions/MembersPortal/memberPortalActions';
-import useQueryParams from '../../../hooks/useQueryParams';
-import { getDueDate } from '../../../utils/dateTime';
-import { calculateFinalAmount } from '../../../utils/taxHelpers';
+import PaymentAmountTab from './PaymentAmountTab';
+import BillingInfoTab from './BillingInfoTab';
 
 const SellPlanForm = () => {
-    // we will get the member id if someone come from draft plans or if someone has refreshed any tab , so it will refetch the member details
-    let memberId = useQueryParams('member');
-    useEffect(() => {
-        if (memberId) {
-            setSelectedMember(memberId);
-        }
-    }, [memberId]);
-
+    const history = useHistory();
     const dispatch = useDispatch();
     const { newPlanId, id } = useParams();
+    useEffect(() => {
+        dispatch(getEmployees());
+        dispatch(getCampaigns());
+        dispatch(getMembersipTypes());
+    }, [dispatch]);
+    // we will get the member id if someone come from draft plans or if someone has refreshed any tab , so it will refetch the member details
+    useEffect(() => {
+        let _selectedMember = localStorage.getItem('selectedMember');
+        if (_selectedMember) {
+            setSelectedMember(_selectedMember);
+        }
+    }, []);
 
-    const [disabledTabIndices, setDisabledTabIndices] = useState([1, 2, 3, 4, 5, 6, 7]);
+    const [disabledTabIndices, setDisabledTabIndices] = useState([1, 2, 3, 4]);
 
     // this will fetch the plan info like name category, assessedFee and the services inclued with their taxes and everything
     useEffect(() => {
@@ -44,10 +51,14 @@ const SellPlanForm = () => {
                     membershipTypeName: e.membershipTypeName,
                     timePeriod: e.timePeriod,
 
-                    assessedFee: e.assessedFee,
+                    assessedFee: e.assessedFee.map((item) => ({
+                        ...item,
+                        dueDate: getDueDate(item.dueDateDeterminedBy, item.preferredDate, item.noOfDays),
+                        apply: true,
+                    })),
                     services: [...e.services, ...e.membershipTypeServices].map((item) => ({
                         ...item,
-                        firstDueDate: getDueDate(e.whenWillClientsBeCharged, e.date),
+                        firstDueDate: getFirstDueDate(e.whenWillClientsBeCharged, e.date),
                         unitPrice: calculateFinalAmount(
                             item.netPrice,
                             item?.taxes.reduce((total, tax) => total + tax.taxRatePercentage, 0),
@@ -83,9 +94,9 @@ const SellPlanForm = () => {
         membershipType: '',
         howOftenWillClientsBeCharged: '',
 
-        salesPerson: '',
-        referredBy: '',
-        campaign: '',
+        salesPerson: null,
+        referredBy: null,
+        campaign: null,
 
         memberSince: '',
         signDate: new Date(),
@@ -112,6 +123,7 @@ const SellPlanForm = () => {
 
     useEffect(() => {
         if (selectedMember) {
+            localStorage.setItem('selectedMember', selectedMember);
             dispatch(
                 getMemberDetails(selectedMember, (e) => {
                     setMemberInfo((pre) => ({ ...pre, ...e, image: e.image ? [e.image] : [] }));
@@ -119,15 +131,44 @@ const SellPlanForm = () => {
                 }),
             );
         } else {
-            setDisabledTabIndices([...disabledTabIndices, 1]);
+            localStorage.removeItem('selectedMember');
         }
         //eslint-disable-next-line
     }, [selectedMember, dispatch]);
 
     const onTabEnable = (index) => {
-        setDisabledTabIndices(disabledTabIndices.filter((item) => item !== index));
+        setDisabledTabIndices((prev) => prev.filter((item) => item > index));
     };
     const { confirm } = useCancelSellPlans(newPlanId);
+
+    const [payment, setPayment] = useState({
+        paymentMethodType: 'CREDIT_CARD',
+        enableCardOnFile: false,
+        useClubAccount: true,
+    });
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = ({ opaqueData, opaqueDataValidation, cardHolderName }) => {
+        if (opaqueData) {
+            let payload = {
+                selectedMember,
+                planId: id,
+                payment: {
+                    paymentMethodType: payment.paymentMethodType,
+                    paymentMethod: { opaqueData, opaqueDataValidation, cardHolderName },
+                    enableCardOnFile: payment.enableCardOnFile,
+                    useClubAccount: payment.useClubAccount,
+                },
+                member: { ...memberInfo, image: '' },
+                plan: planInfo,
+            };
+            dispatch(
+                createMemberSubscription(payload, setLoading, (subscription) => {
+                    history.push(`/plans/subscription-agreement/${subscription._id}`);
+                }),
+            );
+        }
+    };
     const tabs = [
         {
             title: 'Plan',
@@ -143,17 +184,30 @@ const SellPlanForm = () => {
         },
         { title: 'Personal', content: <PersonalTab memberInfo={memberInfo} setMemberInfo={setMemberInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
         {
-            title: 'Identification',
-            content: <IdentificationTab memberInfo={memberInfo} setMemberInfo={setMemberInfo} onTabEnable={onTabEnable} onCancel={confirm} />,
+            title: 'Agreement',
+            content: <AgreementTab memberInfo={memberInfo} planInfo={planInfo} setPlanInfo={setPlanInfo} onTabEnable={onTabEnable} onCancel={confirm} />,
         },
-        { title: 'Agreement', content: <AgreementTab planInfo={planInfo} setPlanInfo={setPlanInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
-        { title: 'Payment Amounts', content: <PaymentAmountTab onTabEnable={onTabEnable} onCancel={confirm} /> },
-        { title: 'Billing Info', content: <BillingInfoTab onTabEnable={onTabEnable} onCancel={confirm} /> },
+        { title: 'Payment Amounts', content: <PaymentAmountTab memberInfo={memberInfo} planInfo={planInfo} onTabEnable={onTabEnable} onCancel={confirm} /> },
+        {
+            title: 'Billing Info',
+            content: (
+                <BillingInfoTab
+                    setLoading={setLoading}
+                    memberInfo={memberInfo}
+                    loading={loading}
+                    onSubmit={onSubmit}
+                    payment={payment}
+                    setPayment={setPayment}
+                    onTabEnable={onTabEnable}
+                    onCancel={confirm}
+                />
+            ),
+        },
     ];
 
     return (
         <>
-            <FormPage backText="Plans" backTo="/plans" isConfirm={newPlanId ? false : true} confirmFn={confirm}>
+            <FormPage backText="Plans">
                 <CustomTabView tabs={tabs} disabledTabIndices={disabledTabIndices} />
             </FormPage>
         </>

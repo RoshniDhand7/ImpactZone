@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CustomCard, { CustomGridLayout } from '../../../shared/Cards/CustomCard';
-import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask } from '../../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown, CustomInput, CustomInputMask, CustomInputNumber } from '../../../shared/Input/AllInputs';
 import formValidation from '../../../utils/validations';
 import { getCitiesByState, getStatesByCountry, showFormErrors } from '../../../utils/commonFunctions';
 import { useDispatch } from 'react-redux';
@@ -8,10 +8,14 @@ import { genderOptions } from '../../../utils/dropdownConstants';
 import PrimaryButton, { CustomButtonGroup, LightButton } from '../../../shared/Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import usePlacesAutocomplete from '../../Members/usePlacesAutoComplete';
+import CustomImageInput from '../../../shared/Input/CustomImageInput';
 
 const PersonalTab = ({ onTabEnable, onCancel, memberInfo, setMemberInfo }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    useEffect(() => {
+        onTabEnable(1);
+    }, []);
 
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
@@ -37,10 +41,9 @@ const PersonalTab = ({ onTabEnable, onCancel, memberInfo, setMemberInfo }) => {
     };
 
     const handleNext = () => {
-        if (showFormErrors(memberInfo, setMemberInfo, ['accessCode', 'barCode'])) {
-            onTabEnable(2);
+        if (showFormErrors(memberInfo, setMemberInfo)) {
             history.replace({
-                search: `?tab=identification&member=${memberInfo._id}`,
+                search: `?tab=agreement`,
             });
         }
     };
@@ -50,8 +53,16 @@ const PersonalTab = ({ onTabEnable, onCancel, memberInfo, setMemberInfo }) => {
         <>
             <CustomCard col="12" title="Personal">
                 <CustomGridLayout>
-                    <CustomInput name="firstName" required data={memberInfo} onChange={handleChange} disabled />
-                    <CustomInput name="lastName" required data={memberInfo} onChange={handleChange} />
+                    <div className="col-2">
+                        <CustomImageInput name="image" data={memberInfo} onFilesChange={handleChange} required editable={true} />
+                    </div>
+                    <div className="col-10 grid">
+                        <CustomInput name="accessCode" required data={memberInfo} onChange={handleChange} col={6} />
+                        <CustomInputNumber name="barCode" required data={memberInfo} onChange={handleChange} col={6} />
+                        <CustomInput name="firstName" required data={memberInfo} onChange={handleChange} col={6} disabled />
+                        <CustomInput name="lastName" required data={memberInfo} onChange={handleChange} col={6} />
+                    </div>
+
                     <div className="md:col-12">
                         <label className="text-sm font-semibold">Address</label>
                         <span className="text-red-500">*</span>
@@ -91,7 +102,7 @@ const PersonalTab = ({ onTabEnable, onCancel, memberInfo, setMemberInfo }) => {
             </CustomCard>
             <CustomButtonGroup>
                 <PrimaryButton label="Next" className="mx-2" onClick={() => handleNext('')} />
-                <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=personal')} />
+                {/* <PrimaryButton label="Save & Hold" className="mx-2" onClick={() => handleNext('?tab=personal')} /> */}
                 <LightButton label="Cancel" onClick={onCancel} />
             </CustomButtonGroup>
         </>
