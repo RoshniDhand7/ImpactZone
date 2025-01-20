@@ -599,23 +599,30 @@ const formatEventTime = (dateString, timeString, duration) => {
     const end = moment(start).add(duration, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
     return { start, end };
 };
-const buildEventTitle = (event, employee, location, duration, calanderDisplay) => {
+const buildEventTitle = (event, employee, duration) => {
+    const { name, calanderDisplay, classLocation } = event;
     const titleParts = [];
     const displayMapping = {
-        EVENT: event,
+        EVENT: name,
         DURATION: `${duration} minutes`,
-        LOCATION: location?.name,
+        LOCATION: classLocation?.[0]?.name,
         EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',
         ENROLLED_MAX_ATTENDANCE: '',
     };
 
-    calanderDisplay.forEach((option) => {
+    calanderDisplay?.forEach((option) => {
         if (displayMapping[option]) {
             titleParts.push(displayMapping[option]);
         }
     });
 
     return titleParts.join('\n');
+};
+const updateEndTime = (startTime, duration) => {
+    if (startTime && duration) {
+        return new Date(moment(startTime).add(duration, 'minutes').toISOString());
+    }
+    return null;
 };
 
 export {
@@ -668,4 +675,5 @@ export {
     getISODateUTC,
     formatEventTime,
     buildEventTitle,
+    updateEndTime,
 };

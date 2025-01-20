@@ -7,10 +7,10 @@ import useEmployees from '../../hooks/Employees/useEmployees';
 import useMembers from '../../hooks/Members/useMembers';
 import { getDefaultImage, getImageURL } from '../../utils/imageUrl';
 import { getMemberData } from '../../redux/actions/MembersPortal/memberPortalActions';
-import { EventTypeOptions, generateSequence } from '../../utils/dropdownConstants';
+import { EventTypeOptions } from '../../utils/dropdownConstants';
 import { calendarBooking, getAllCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
 import formValidation from '../../utils/validations';
-import { getTime, showFormErrors } from '../../utils/commonFunctions';
+import { getTime, showFormErrors, updateEndTime } from '../../utils/commonFunctions';
 import moment from 'moment';
 
 const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
@@ -19,7 +19,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
 
     const initialState = {
         member: '',
-        eventDate: '',
+        eventDate: new Date(),
         staff: '',
         eventType: '',
         event: '',
@@ -32,6 +32,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     const { employeesDropdown } = useEmployees();
 
     const { calendarResourcesDropdown, calendarEventsDropdown } = useSelector((state) => state.calendar);
+    let { events } = useSelector((state) => state.calendar);
 
     const onSubmit = () => {
         if (showFormErrors(data, setData, ['endTime'])) {
@@ -53,40 +54,21 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
             );
         }
     };
+
     const handleChange = ({ name, value }) => {
         setData((prev) => {
             const updatedData = { ...prev, [name]: value };
-            let formErrors = formValidation(name, value, updatedData);
+            const formErrors = formValidation(name, value, updatedData);
 
             if (name === 'duration') {
-                const startTime = updatedData?.startTime;
-
-                if (startTime && value) {
-                    const endTime = new Date(moment(startTime).add(value, 'minutes').toISOString());
-                    updatedData.endTime = endTime;
-                    updatedData.duration = value;
-                } else {
-                    updatedData.endTime = null;
-                    updatedData.duration = null;
-                }
-            }
-
-            if (name === 'startTime') {
-                const startTime = value;
-                const duration = updatedData?.duration;
-
-                if (startTime && duration) {
-                    const endTime = new Date(moment(startTime).add(duration, 'minutes').toISOString());
-                    updatedData.startTime = startTime;
-                    updatedData.endTime = endTime;
-                } else if (startTime && !duration) {
-                    updatedData.startTime = startTime;
-                    updatedData.endTime = null;
-                    updatedData.duration = null;
-                } else {
-                    updatedData.endTime = null;
-                    updatedData.duration = null;
-                }
+                updatedData.endTime = updateEndTime(updatedData.startTime, value);
+                updatedData.duration = value || null;
+            } else if (name === 'startTime') {
+                updatedData.endTime = updateEndTime(value, updatedData.duration);
+                updatedData.startTime = value || null;
+            } else if (name === 'event') {
+                updatedData.event = value;
+                updatedData.duration = '';
             }
 
             return { ...updatedData, formErrors };
@@ -116,7 +98,11 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     }, [dispatch, data?.member]);
 
     const memberData = useSelector((state) => state.membersPortal.dashboard);
-    const durationOptions = generateSequence();
+    events = events?.find((item) => item._id === data?.event);
+
+    const durationOptions = events?.duration?.map((item) => ({ name: `${item} minutes`, value: item }));
+
+    console.log('Booked>>', data?.event, events, data);
 
     return (
         <CustomDialog loading={loading} title="Member Details" visible={openBookEvent} onCancel={onClose} onSave={onSubmit} saveLabel="Book" width="60vh">
@@ -158,12 +144,12 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
             </CustomGridLayout>
             <CustomGridLayout>
                 <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={6} minDate={new Date()} />
+                <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={6} />
                 <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={6} />
                 <CustomCalenderInput name="startTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" />
                 <CustomDropDown name="duration" options={durationOptions} onChange={handleChange} data={data} col={6} />
                 <CustomCalenderInput name="endTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" disabled={true} />
                 <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={6} />
-                <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={6} />
                 <CustomDropDown name="resources" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={6} />
             </CustomGridLayout>
         </CustomDialog>

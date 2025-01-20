@@ -120,6 +120,20 @@ a:-webkit-any-link {
         width: 100%;
     }
 }
+.fc.fc-theme-standard .fc-toolbar .fc-button {
+    color: #ffffff;
+    background: #252b42 !important;
+    border: 1px solid #1c2238 !important;
+    font-size: 1rem;
+    transition:
+        background-color 0.2s,
+        color 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s;
+    border-radius: 6px;
+}
+p-button:focus {
+}
 // #main-content {
 //     height: 92vh;
 //     overflow: scroll;

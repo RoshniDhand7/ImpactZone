@@ -145,6 +145,7 @@ const ManageEvents = () => {
                     fieldName="services"
                     customIndex={index.rowIndex}
                     showLabel={false}
+                    col={8}
                 />
             ) : (
                 <div className="flex">
@@ -171,6 +172,7 @@ const ManageEvents = () => {
                     customIndex={index.rowIndex}
                     showLabel={false}
                     options={memberStatusOptions}
+                    col={8}
                 />
             </>
         );
@@ -242,11 +244,27 @@ const ManageEvents = () => {
             </CustomCard>
             <h2 className="text-semibold text-2xl ml-2 mt-2">Manage Event</h2>
             <DataTable value={data?.member} scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
-                <Column field="firstName" body={(r) => r?.firstName + '' + r?.lastName} header="Member" className="bg-light-green font-bold" />
-                <Column className="bg-light-green font-bold" header="Status" body={(rowData, index) => CustomStatusTemplate(rowData, index)} />
-                <Column className="bg-light-green font-bold" header="Service" body={(rowData, index) => CustomServiceTemplate(rowData, index)} />
-                <Column header="Verified" className="bg-light-green font-bold" body={VerifyTemplate} />
-                <Column header="Action" className="bg-light-green font-bold" body={ActionTemplate} />
+                <Column
+                    field="firstName"
+                    body={(r) => r?.firstName + '' + r?.lastName}
+                    header="Member"
+                    className="bg-light-green font-bold"
+                    style={{ width: '20%' }}
+                />
+                <Column
+                    className="bg-light-green font-bold"
+                    header="Status"
+                    body={(rowData, index) => CustomStatusTemplate(rowData, index)}
+                    style={{ width: '25%' }}
+                />
+                <Column
+                    className="bg-light-green font-bold"
+                    header="Service"
+                    body={(rowData, index) => CustomServiceTemplate(rowData, index)}
+                    style={{ width: '25%' }}
+                />
+                <Column header="Verified" className="bg-light-green font-bold" body={VerifyTemplate} style={{ width: '15%' }} />
+                <Column header="Action" className="bg-light-green font-bold" body={ActionTemplate} style={{ width: '15%' }} />
             </DataTable>
         </FormPage>
     );

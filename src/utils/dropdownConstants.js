@@ -686,3 +686,13 @@ export const paymentMethodsOptions = [
         value: 'CREDIT_CARD',
     },
 ];
+export const calendarViewOptions = [
+    {
+        name: 'Day',
+        value: 'day',
+    },
+    {
+        name: 'Week',
+        value: 'week',
+    },
+];
