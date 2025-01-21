@@ -1,8 +1,8 @@
 import { Button } from 'primereact/button';
 import React from 'react';
 
-export default function PrimaryButton({ className, icon, ...props }) {
-    return <Button className={`my-2 btn-dark ${className}`} icon={icon} {...props} />;
+export default function PrimaryButton({ className, icon, size = '', ...props }) {
+    return <Button className={`my-2 btn-dark ${className}`} size={size} icon={icon} {...props} />;
 }
 
 export function LightButton({ className, icon, outlined, ...props }) {

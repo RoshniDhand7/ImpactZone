@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { Menu } from 'primereact/menu';
 import { calendarViewOptions } from '../../utils/dropdownConstants';
 
-const CalendarHeader = ({ calendarRef, setOpenBookEvent }) => {
+const CalendarHeader = ({ calendarRef }) => {
     const history = useHistory();
     const menu = useRef(null);
     const [view, setView] = useState('week');
@@ -25,7 +25,7 @@ const CalendarHeader = ({ calendarRef, setOpenBookEvent }) => {
         }
         setView(value);
     };
-    let CalendarItems = [{ label: 'Book Events', command: () => setOpenBookEvent(true) }, { label: 'Recent Sessions' }, { label: 'Availability' }];
+    let CalendarItems = [{ label: 'Recent Sessions' }, { label: 'Availability' }];
 
     const updateCalendarDate = (view) => {
         if (!view) return;
@@ -75,30 +75,30 @@ const CalendarHeader = ({ calendarRef, setOpenBookEvent }) => {
     const [calendarDate, setCalendarDate] = useState(null);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '10px',
-                backgroundColor: '#f8f9fa',
-                borderRadius: '5px',
-                marginBottom: '4px',
-            }}
-        >
-            <span style={{ marginRight: '10px', fontWeight: 'bold' }}>{calendarDate}</span>
-            <div className="col-6 flex justify-content-end">
-                <CustomDropDown name="view" col={3} options={calendarViewOptions} showLabel={false} onChange={handleChangeView} value={view} />
-                <PrimaryButton onClick={handleToday}>Today</PrimaryButton>
-                <span className="p-buttonset">
-                    <PrimaryButton icon="pi pi-angle-left" onClick={handlePrev} />
-                    <PrimaryButton icon="pi pi-angle-right" onClick={handleNext} />
-                </span>
+        <div className="w-full flex justify-content-between surface-ground mb-2 border-round-md">
+            <div className="flex">
+                <PrimaryButton onClick={handleToday} size="small" className="mx-2">
+                    Today
+                </PrimaryButton>
+                <PrimaryButton icon="pi pi-angle-left" onClick={handlePrev} size="small" />
+                <PrimaryButton icon="pi pi-angle-right" onClick={handleNext} size="small" />
+                <div className="my-auto font-bold mx-2">{calendarDate}</div>
+            </div>
 
-                <PrimaryButton className=" ml-3" onClick={(e) => menu.current.toggle(e)}>
+            <div className="flex justify-content-end col-6">
+                <CustomDropDown
+                    name="view"
+                    col={3}
+                    options={calendarViewOptions}
+                    showLabel={false}
+                    onChange={handleChangeView}
+                    value={view}
+                    extraClassName="my-auto"
+                />
+                <PrimaryButton className="mx-2" onClick={(e) => menu.current.toggle(e)} size="small">
                     Options
                 </PrimaryButton>
-                <PrimaryButton icon="pi pi-plus-circle " className=" ml-3" onClick={() => history.push('/settings/schedule/classes/add')} size="small">
+                <PrimaryButton icon="pi pi-plus-circle " className="mx-2" size="small" onClick={() => history.push('/settings/schedule/classes/add')}>
                     Add Class
                 </PrimaryButton>
                 <Menu model={CalendarItems} popup ref={menu} />

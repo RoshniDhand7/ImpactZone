@@ -15,10 +15,12 @@ import { useHistory } from 'react-router-dom';
 import { buildEventTitle, formatEventTime } from '../../utils/commonFunctions';
 import BookEvent from './BookEvent';
 import CalendarHeader from './CalendarHeader';
+import CalendarSideBar from '../../assets/icons/calendarSidebar.png';
 
 export default function Calendar() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         dispatch(getCalendarEvents());
@@ -30,8 +32,6 @@ export default function Calendar() {
 
     const calendarRef = useRef();
     const { bookedEvents } = useSelector((state) => state.calendar);
-
-    const [openBookEvent, setOpenBookEvent] = useState(false);
 
     const CalendarEvents = () => {
         const events1 = [];
@@ -95,32 +95,53 @@ export default function Calendar() {
     };
 
     return (
-        <div>
-            <CalendarHeader calendarRef={calendarRef} setOpenBookEvent={setOpenBookEvent} />
+        <>
+            <div className="flex justify-content-between">
+                <img
+                    src={CalendarSideBar}
+                    alt="cal"
+                    style={{ width: '75px', height: '75px' }}
+                    className="cursor-pointer"
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                />
+                <CalendarHeader calendarRef={calendarRef} />
+            </div>
 
-            <FullCalendar
-                height="75vh"
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                headerToolbar={false}
-                views={{
-                    timeGridWeek: {
-                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' },
-                    },
-                    timeGridDay: {
-                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' },
-                    },
-                }}
-                initialView={'timeGridWeek'}
-                selectable={true}
-                selectMirror={true}
-                dayMaxEvents={true}
-                events={CalendarEvents()}
-                eventContent={renderEventContent}
-                editable={false}
-                buttonText={{ today: 'Today', week: 'Week', day: 'Day' }}
-                ref={calendarRef}
-            />
-            <BookEvent openBookEvent={openBookEvent} setOpenBookEvent={setOpenBookEvent} />
-        </div>
+            <div className="flex">
+                {isSidebarOpen && (
+                    <div className="mx-2 sidebar">
+                        <div className="p-">
+                            <h3>Member Details</h3>
+                            <BookEvent />
+                        </div>
+                    </div>
+                )}
+
+                <div className="w-full">
+                    <FullCalendar
+                        height="100vh"
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        headerToolbar={false}
+                        views={{
+                            timeGridWeek: {
+                                titleFormat: { year: 'numeric', month: 'short', day: '2-digit' },
+                            },
+                            timeGridDay: {
+                                titleFormat: { year: 'numeric', month: 'short', day: '2-digit' },
+                            },
+                        }}
+                        initialView={'timeGridWeek'}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={true}
+                        events={CalendarEvents()}
+                        eventContent={renderEventContent}
+                        editable={false}
+                        buttonText={{ today: 'Today', week: 'Week', day: 'Day' }}
+                        ref={calendarRef}
+                    />
+                </div>
+            </div>
+        </>
     );
 }

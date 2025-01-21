@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomDialog from '../../shared/Overlays/CustomDialog';
 import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown } from '../../shared/Input/AllInputs';
 import useEmployees from '../../hooks/Employees/useEmployees';
@@ -12,8 +11,9 @@ import { calendarBooking, getAllCalendarBooking } from '../../redux/actions/Cale
 import formValidation from '../../utils/validations';
 import { getTime, showFormErrors, updateEndTime } from '../../utils/commonFunctions';
 import moment from 'moment';
+import PrimaryButton, { CustomButtonGroup, LightButton } from '../../shared/Button/CustomButton';
 
-const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
+const BookEvent = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -46,7 +46,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
                     },
                     setLoading,
                     () => {
-                        setOpenBookEvent(false);
+                        // setOpenBookEvent(false);
                         onClose();
                         dispatch(getAllCalendarBooking());
                     },
@@ -76,7 +76,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     };
 
     const onClose = () => {
-        setOpenBookEvent(false);
+        // setOpenBookEvent(false);
         setData(initialState);
     };
     const { members } = useMembers();
@@ -105,7 +105,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
     console.log('Booked>>', data?.event, events, data);
 
     return (
-        <CustomDialog loading={loading} title="Member Details" visible={openBookEvent} onCancel={onClose} onSave={onSubmit} saveLabel="Book" width="60vh">
+        <>
             <CustomGridLayout>
                 <CustomAsyncReactSelect
                     name="member"
@@ -119,7 +119,7 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
                 />
                 <div className="text-sm p-error ">{data?.formErrors?.member}</div>
                 {data?.member && (
-                    <div className="member-container mt-3 ml-2 border-round-xl shadow-2  flex justify-content-between p-2 mb-2 w-full">
+                    <div className=" my-2 mx-2 border-round-xl shadow-2  flex justify-content-between p-1 w-full">
                         <div className="flex w-full justify-content-between">
                             <div className="flex gap-5">
                                 <div className="avatar-img1">
@@ -132,10 +132,10 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
                                 </div>
 
                                 <div className="flex flex-column justify-center">
-                                    <p className=" text-2xl font-semibold ">
+                                    <p className=" text-2xl font-medium ">
                                         {memberData && memberData?.firstName + ' ' + memberData?.MI + ' ' + memberData?.lastName}
                                     </p>
-                                    <p className=" font-semibold mt-2">Barcode: {memberData && memberData?.barCode}</p>
+                                    <p className=" font-medium mt-2">Barcode: {memberData && memberData?.barCode}</p>
                                 </div>
                             </div>
                         </div>
@@ -143,16 +143,23 @@ const BookEvent = ({ openBookEvent, setOpenBookEvent }) => {
                 )}
             </CustomGridLayout>
             <CustomGridLayout>
-                <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={6} minDate={new Date()} />
-                <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={6} />
-                <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={6} />
-                <CustomCalenderInput name="startTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" />
-                <CustomDropDown name="duration" options={durationOptions} onChange={handleChange} data={data} col={6} />
-                <CustomCalenderInput name="endTime" data={data} onChange={handleChange} col={6} timeOnly hourFormat="6" disabled={true} />
-                <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={6} />
-                <CustomDropDown name="resources" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={6} />
+                <CustomCalenderInput name="eventDate" data={data} onChange={handleChange} col={12} minDate={new Date()} />
+                <CustomDropDown name="eventType" data={data} options={EventTypeOptions} onChange={handleChange} col={12} />
+                <CustomDropDown name="event" data={data} options={calendarEventsDropdown} onChange={handleChange} col={12} />
+                <CustomCalenderInput name="startTime" data={data} onChange={handleChange} col={12} timeOnly hourFormat="12" />
+                <CustomDropDown name="duration" options={durationOptions} onChange={handleChange} data={data} col={12} />
+                <CustomCalenderInput name="endTime" data={data} onChange={handleChange} col={12} timeOnly hourFormat="12" disabled={true} />
+                <CustomDropDown name="staff" options={employeesDropdown} data={data} onChange={handleChange} col={12} />
+                <CustomDropDown name="resources" options={calendarResourcesDropdown} data={data} onChange={handleChange} col={12} />
             </CustomGridLayout>
-        </CustomDialog>
+            <CustomButtonGroup>
+                <PrimaryButton label="Book" className="mx-2" onClick={onSubmit} loading={loading} />
+                <LightButton label="Request" />
+            </CustomButtonGroup>
+        </>
+        // <CustomDialog loading={loading} title="Member Details" visible={openBookEvent} onCancel={onClose} onSave={onSubmit} saveLabel="Book" width="60vh">
+
+        // </CustomDialog>
     );
 };
 export default BookEvent;

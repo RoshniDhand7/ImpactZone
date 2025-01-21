@@ -6,7 +6,7 @@ import { CustomAsyncReactSelect, CustomCalenderInput, CustomDropDown, CustomInpu
 import useEmployees from '../../hooks/Employees/useEmployees';
 import { eventStatusOptions, generateSequence, memberStatusOptions } from '../../utils/dropdownConstants';
 import AddMember from './AddMember';
-import { deleteEventMember, editCalendarEventMember, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
+import { deleteEvent, deleteEventMember, editCalendarEventMember, getCalendarBooking } from '../../redux/actions/Calendar/CalendarAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { confirmDelete, convertToDateTime, getTime } from '../../utils/commonFunctions';
@@ -111,7 +111,7 @@ const ManageEvents = () => {
         );
     };
 
-    const handleChangeDynamicFields = (fieldName, index, event) => {
+    const handleChangeDynamicFields = (fieldName, index, event, memberId) => {
         const { name, value } = event.target;
         setData((prevData) => {
             const updatedField = Array.isArray(prevData[fieldName]) ? [...prevData[fieldName]] : [];
@@ -120,6 +120,13 @@ const ManageEvents = () => {
                 ...updatedField[customIndex],
                 [name]: value,
             };
+            dispatch(
+                editCalendarEventMember(id, _, { member: memberId, service: value, status: 'HOLD' }, () => {
+                    dispatch(getCalendarBooking(id));
+                }),
+            );
+
+            console.log(updatedField[customIndex], [name], value, 'updatedField>>');
             return {
                 ...prevData,
                 [fieldName]: updatedField,
@@ -127,17 +134,20 @@ const ManageEvents = () => {
         });
     };
 
+    console.log(data, 'data');
+
     const CustomServiceTemplate = (row, index) => {
         const idsToMatch = data?.employeelevelService || [];
         const filteredServices = row?.services?.filter((service) => idsToMatch.includes(service._id)) || [];
-        const defaultValue = filteredServices[0]?._id || '';
-
+        const serviceUse = filteredServices?.find((item) => item.serviceUse);
+        const defaultValue = serviceUse?._id || '';
+        console.log('filteredServices>>', filteredServices, serviceUse);
         return data?.staff ? (
             filteredServices.length > 0 ? (
                 <CustomDropDown
                     name="service"
                     value={data?.memberService?.[index.rowIndex]?.service || defaultValue}
-                    onChange={(val) => handleChangeDynamicFields('memberService', index, val)}
+                    onChange={(val) => handleChangeDynamicFields('memberService', index, val, row?._id)}
                     options={filteredServices.map((service) => ({
                         name: service.name,
                         value: service._id,
@@ -146,6 +156,7 @@ const ManageEvents = () => {
                     customIndex={index.rowIndex}
                     showLabel={false}
                     col={8}
+                    placeholder="Select Service"
                 />
             ) : (
                 <div className="flex">
@@ -197,15 +208,31 @@ const ManageEvents = () => {
     };
 
     const VerifyTemplate = (r) => {
-        return <i className="mx-2 cursor-pointer pi pi-times-circle text-red-500" onClick={() => onDelete(r)}></i>;
+        return <i className="mx-2 cursor-pointer pi pi-times-circle text-red-500"></i>;
     };
 
     const [openMemberList, setOpenMemberList] = useState(false);
 
+    const handleRemove = (position) => {
+        confirmDelete(
+            () => {
+                dispatch(
+                    deleteEvent(id, () => {
+                        history.goBack();
+                    }),
+                );
+            },
+            'Do you want to delete this Event ?',
+            position,
+        );
+    };
+
     return (
         <FormPage backText="Calendar">
             <div className="member-container bg-lightest-blue  border-round-xl shadow-3  flex justify-content-start p-2 mb-2 mx-2">
-                <CustomButton className="ml-3">Remove Event</CustomButton>
+                <CustomButton className="ml-3" onClick={handleRemove}>
+                    Remove Event
+                </CustomButton>
                 <CustomButton
                     className="ml-3"
                     onClick={() => {

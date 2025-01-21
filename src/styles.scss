@@ -132,8 +132,12 @@ a:-webkit-any-link {
         box-shadow 0.2s;
     border-radius: 6px;
 }
-p-button:focus {
+.sidebar {
+    transition: height 1s;
+    height: 100%;
+    width: 400px;
 }
+
 // #main-content {
 //     height: 92vh;
 //     overflow: scroll;

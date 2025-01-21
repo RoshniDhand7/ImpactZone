@@ -40,7 +40,7 @@ const getAllCalendarEvents = () => async (dispatch) => {
         }
     }
 };
-const calendarBooking = (data, setLoading, next) => async () => {
+const calendarBooking = (data, setLoading, next) => async (dispatch) => {
     if (setLoading) {
         setLoading(true);
     }
@@ -48,7 +48,10 @@ const calendarBooking = (data, setLoading, next) => async () => {
     if (res.success) {
         if (res.data) {
             next();
+            dispatch(showToast({ severity: 'success', summary: res.message }));
         }
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
     }
     if (setLoading) {
         setLoading(false);
@@ -107,6 +110,14 @@ const deleteEventMember = (id, memberId, next) => async (dispatch) => {
         dispatch(showToast({ severity: 'error', summary: res.message }));
     }
 };
+const deleteEvent = (id, next) => async (dispatch) => {
+    const res = await api('delete', endPoints.CALENDAR.REMOVE_EVENT + id);
+    if (res.success) {
+        next();
+    } else {
+        dispatch(showToast({ severity: 'error', summary: res.message }));
+    }
+};
 
 export {
     getCalendarEvents,
@@ -119,4 +130,5 @@ export {
     editCalendarBooking,
     editCalendarEventMember,
     deleteEventMember,
+    deleteEvent,
 };
