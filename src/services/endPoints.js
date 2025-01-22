@@ -101,6 +101,7 @@ const endPoints = {
         MEMBER: '/settings/schedule-setup/class/sub-schedule/',
         REMOVE_MEMBER: '/calendar/booking/remove-member/',
         REMOVE_EVENT: '/settings/schedule-setup/class/remove-event/',
+        REPEAT_EVENT: '/settings/schedule-setup/class/repeat-event',
     },
 
     UPLOAD_FILES: '/upload',

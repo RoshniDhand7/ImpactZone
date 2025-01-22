@@ -242,7 +242,9 @@ const ManageEvents = () => {
                     Add Member
                 </CustomButton>
 
-                <CustomButton className="ml-3">Repeat Event</CustomButton>
+                <CustomButton className="ml-3" onClick={() => history.push(`/calender/events/${id}/repeat-event`)}>
+                    Repeat Event
+                </CustomButton>
                 <AddMember openMemberList={openMemberList} setOpenMemberList={setOpenMemberList} member={data?.member} />
             </div>
             <CustomCard col="12" title="Event Details">

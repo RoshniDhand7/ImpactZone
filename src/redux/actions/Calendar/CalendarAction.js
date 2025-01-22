@@ -102,6 +102,20 @@ const editCalendarEventMember = (id, setLoading, data, next) => async () => {
         setLoading(false);
     }
 };
+const repeatCalendarEvent = (id, setLoading, data, next) => async () => {
+    if (setLoading) {
+        setLoading(true);
+    }
+    const res = await api('post', endPoints.CALENDAR.REPEAT_EVENT, data);
+    if (res.success) {
+        if (res.data) {
+            next();
+        }
+    }
+    if (setLoading) {
+        setLoading(false);
+    }
+};
 const deleteEventMember = (id, memberId, next) => async (dispatch) => {
     const res = await api('put', endPoints.CALENDAR.REMOVE_MEMBER + id, { member: memberId });
     if (res.success) {
@@ -131,4 +145,5 @@ export {
     editCalendarEventMember,
     deleteEventMember,
     deleteEvent,
+    repeatCalendarEvent,
 };

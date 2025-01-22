@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e2f894ea.css",
-    "main.js": "/static/js/main.68543fe4.js",
+    "main.css": "/static/css/main.9b72d337.css",
+    "main.js": "/static/js/main.e72f3749.js",
     "static/js/4.0f9d0b7b.chunk.js": "/static/js/4.0f9d0b7b.chunk.js",
     "static/js/667.1edc09c3.chunk.js": "/static/js/667.1edc09c3.chunk.js",
     "static/js/647.97ba46d7.chunk.js": "/static/js/647.97ba46d7.chunk.js",
@@ -65,6 +65,7 @@
     "static/media/Navlogo.png": "/static/media/Navlogo.1c4ec6671e88ff219249.png",
     "static/media/logo.png": "/static/media/logo.1c4ec6671e88ff219249.png",
     "static/media/403.svg": "/static/media/403.e5fccd741447716a647e2145f030d734.svg",
+    "static/media/calendarSidebar.png": "/static/media/calendarSidebar.686e4b1338a53fb6ba46.png",
     "static/media/color.png": "/static/media/color.6441e63a57ccc5105bad.png",
     "static/media/rewards.svg": "/static/media/rewards.0e7b7fae712781e9531e561421dcfbad.svg",
     "static/media/nomination.svg": "/static/media/nomination.1013759697c825edbd81f28578b0b121.svg",
@@ -82,8 +83,8 @@
     "static/media/dashboard.svg": "/static/media/dashboard.87ef22b40d60ea2d50f8883afdbbdd06.svg",
     "static/media/notes.svg": "/static/media/notes.f4197235b2aefabff3f90898619d2666.svg",
     "index.html": "/index.html",
-    "main.e2f894ea.css.map": "/static/css/main.e2f894ea.css.map",
-    "main.68543fe4.js.map": "/static/js/main.68543fe4.js.map",
+    "main.9b72d337.css.map": "/static/css/main.9b72d337.css.map",
+    "main.e72f3749.js.map": "/static/js/main.e72f3749.js.map",
     "4.0f9d0b7b.chunk.js.map": "/static/js/4.0f9d0b7b.chunk.js.map",
     "667.1edc09c3.chunk.js.map": "/static/js/667.1edc09c3.chunk.js.map",
     "647.97ba46d7.chunk.js.map": "/static/js/647.97ba46d7.chunk.js.map",
@@ -132,7 +133,7 @@
     "457.d9a31e62.chunk.js.map": "/static/js/457.d9a31e62.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2f894ea.css",
-    "static/js/main.68543fe4.js"
+    "static/css/main.9b72d337.css",
+    "static/js/main.e72f3749.js"
   ]
 }

@@ -40,6 +40,7 @@ import Profile from '../views/Profile/Profile';
 import Receipt from '../views/More/POS/Receipt';
 import AddTasks from '../views/More/Members/AddTasks';
 import ManageEvents from '../views/Calendar/ManageEvents';
+import RepeatEvents from '../views/Calendar/RepeatEvents';
 
 const SubscriptionPlanAgreement = lazy(() => import('../views/Plans/SellPlanForm/PlanAgreement/SubscriptionPlanAgreement'));
 
@@ -79,6 +80,12 @@ export const PrivateRoutes = [
                 name: 'Events',
                 exact: true,
                 component: ManageEvents,
+            },
+            {
+                path: '/events/:id/repeat-event',
+                name: 'Events',
+                exact: true,
+                component: RepeatEvents,
             },
         ],
     },

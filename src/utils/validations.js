@@ -226,6 +226,7 @@ const formValidation = (name, value, state, ignore = []) => {
         case 'clubs':
         case 'resources':
         case 'staff':
+        case 'days':
             if (value?.length === 0) {
                 formErrors[name] = `${firstLetterToUppercase(name)} is required!`;
             } else {
@@ -233,13 +234,13 @@ const formValidation = (name, value, state, ignore = []) => {
             }
             break;
 
-        case 'days':
-            if (!value?.length) {
-                formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
-            } else {
-                formErrors[name] = '';
-            }
-            break;
+        // case 'days':
+        //     if (!value?.length) {
+        //         formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
+        //     } else {
+        //         formErrors[name] = '';
+        //     }
+        //     break;
 
         case 'maxPayPerClient':
         case 'ofSessions':
@@ -356,18 +357,6 @@ const formValidation = (name, value, state, ignore = []) => {
                 formErrors[name] = '';
             }
             break;
-
-        // case 'unitPrice':
-        //     if (!value) {
-        //         formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
-        //     } else if (!number(value)) {
-        //         formErrors[name] = `${firstLetterToUppercase(name)} are required!`;
-        //     } else if (whiteSpaceCheck(value)) {
-        //         formErrors[name] = `Unnecessary space in word!`;
-        //     } else {
-        //         formErrors[name] = '';
-        //     }
-        //     break;
 
         default:
             break;

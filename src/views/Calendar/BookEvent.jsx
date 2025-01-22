@@ -39,10 +39,19 @@ const BookEvent = () => {
             dispatch(
                 calendarBooking(
                     {
-                        ...data,
+                        member: data.member,
+                        staff: data.staff,
+                        eventType: data.eventType,
+                        event: data.event,
+                        resources: data.resources,
                         eventDate: moment(data.eventDate).format('YYYY-MM-DD'),
-                        startTime: getTime(data.startTime),
-                        endTime: getTime(data.endTime),
+                        schedule: [
+                            {
+                                startTime: getTime(data.startTime),
+                                endTime: getTime(data.endTime),
+                                duration: data.duration,
+                            },
+                        ],
                     },
                     setLoading,
                     () => {

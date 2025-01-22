@@ -33,6 +33,8 @@ export default function Calendar() {
     const calendarRef = useRef();
     const { bookedEvents } = useSelector((state) => state.calendar);
 
+    console.log(bookedEvents, 'bookedEvents');
+
     const CalendarEvents = () => {
         const events1 = [];
         bookedEvents?.forEach((item) => {
