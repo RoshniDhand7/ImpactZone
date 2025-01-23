@@ -264,10 +264,20 @@ export const CustomCalenderInput = ({
     disabled,
     customIndex,
     fieldName,
+    showLabel = true,
     ...props
 }) => {
     return (
-        <InputLayout col={col || 4} label={label} name={name} required={required} extraClassName={extraClassName} data={data} errorMessage={errorMessage}>
+        <InputLayout
+            col={col || 4}
+            label={label}
+            name={name}
+            required={required}
+            extraClassName={extraClassName}
+            data={data}
+            errorMessage={errorMessage}
+            showLabel={showLabel}
+        >
             <Calendar
                 inputId={name}
                 name={name}

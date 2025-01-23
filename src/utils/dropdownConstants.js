@@ -534,11 +534,13 @@ export const calendarDisplayOptions = [
 ];
 
 export const timeShownOptions = ['Quarter Hour', 'Hour', 'Half Hour'].map((name) => ({ name, value: name }));
+export const classMeet = [
+    { name: 'One Time', value: 'ONE_TIME' },
+    { name: 'Weekly', value: 'WEEKLY' },
+    { name: 'Biweekly', value: 'BIWEEKLY' },
+    { name: 'Monthly', value: 'MONTHLY' },
+];
 
-export const classMeet = ['One Time', 'Weekly', 'Biweekly', 'Monthly'].map((name, index) => ({
-    name,
-    value: index + 1,
-}));
 export const WeekDaysOption = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((name) => ({ name, value: name }));
 export const SpecialRestrictionOptions = [
     { name: 'None', value: 'NONE' },

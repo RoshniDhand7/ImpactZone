@@ -50,6 +50,9 @@ const RepeatEvents = () => {
                 endTime: updateEndTime(calendarEvent.startTime, Number(calendarEvent.duration)),
                 type: calendarEvent.type,
                 classScheduleId: calendarEvent.scheduleClass,
+                startDate: calendarEvent?.startDate ? new Date(calendarEvent?.startDate) : null,
+                endDate: calendarEvent?.endDate ? new Date(calendarEvent?.endDate) : null,
+                days:calendarEvent?.days
             }));
         }
     }, [calendarEvent]);

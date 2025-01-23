@@ -16,8 +16,12 @@ import { buildEventTitle, formatEventTime } from '../../utils/commonFunctions';
 import BookEvent from './BookEvent';
 import CalendarHeader from './CalendarHeader';
 import CalendarSideBar from '../../assets/icons/calendarSidebar.png';
+import { CustomCalenderInput } from '../../shared/Input/AllInputs';
+import { formatDate, formatDateRange } from './calendarHelper';
+import { CustomGridLayout } from '../../shared/Cards/CustomCard';
+import { Calendar } from 'primereact/calendar';
 
-export default function Calendar() {
+export default function CalendarComponent() {
     const dispatch = useDispatch();
     const history = useHistory();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -96,9 +100,42 @@ export default function Calendar() {
         );
     };
 
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [calendarDate, setCalendarDate] = useState(null);
+    const handleDateSelect = (e) => {
+        const { value } = e.target;
+        if (!(value instanceof Date)) {
+            console.error('Invalid date selected');
+            return;
+        }
+        setShowDatePicker(!showDatePicker);
+        setDate(value);
+        const calendarApi = calendarRef?.current?.getApi();
+        calendarApi.gotoDate(value);
+    };
+
+    useEffect(() => {
+        const calendarApi = calendarRef?.current?.getApi();
+        if (calendarApi) {
+            const { type, activeStart, activeEnd } = calendarApi.view;
+            if (type === 'timeGridWeek') {
+                const formattedRange = formatDateRange(activeStart, new Date(activeEnd - 1));
+                console.log(`Week Range: ${formattedRange}`);
+                setCalendarDate(formattedRange);
+            } else if (type === 'timeGridDay') {
+                const formattedDate = formatDate(activeStart);
+                console.log(`Day Date: ${formattedDate}`);
+                setCalendarDate(formattedDate);
+            }
+        }
+    }, [showDatePicker]);
+
+    console.log(showDatePicker, 'showDatePicker');
+
     return (
         <>
-            <div className="flex justify-content-between">
+            <div className="flex justify-content-between ">
                 <img
                     src={CalendarSideBar}
                     alt="cal"
@@ -106,8 +143,17 @@ export default function Calendar() {
                     className="cursor-pointer"
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 />
-                <CalendarHeader calendarRef={calendarRef} />
+                <CalendarHeader
+                    calendarRef={calendarRef}
+                    showDatePicker={showDatePicker}
+                    setShowDatePicker={setShowDatePicker}
+                    calendarDate={calendarDate}
+                    setCalendarDate={setCalendarDate}
+                />
             </div>
+            {showDatePicker && (
+                <Calendar onChange={handleDateSelect} value={date} inline className="absolute z-5 w-4" style={{ marginLeft: '500px' }} showLabel={false} />
+            )}
 
             <div className="flex">
                 {isSidebarOpen && (
@@ -119,7 +165,7 @@ export default function Calendar() {
                     </div>
                 )}
 
-                <div className="w-full">
+                <div className="w-full relative">
                     <FullCalendar
                         height="100vh"
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -141,6 +187,7 @@ export default function Calendar() {
                         editable={false}
                         buttonText={{ today: 'Today', week: 'Week', day: 'Day' }}
                         ref={calendarRef}
+                        slotDuration="00:15:00"
                     />
                 </div>
             </div>

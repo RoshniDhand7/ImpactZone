@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CustomDropDown } from '../../shared/Input/AllInputs';
+import { CustomCalenderInput, CustomDropDown } from '../../shared/Input/AllInputs';
 import PrimaryButton from '../../shared/Button/CustomButton';
 import { useHistory } from 'react-router-dom';
 import { Menu } from 'primereact/menu';
 import { calendarViewOptions } from '../../utils/dropdownConstants';
+import { formatDate, formatDateRange } from './calendarHelper';
+import calendarIcon from '../../assets/icons/calendar.png';
 
-const CalendarHeader = ({ calendarRef }) => {
+const CalendarHeader = ({ calendarRef, showDatePicker, setShowDatePicker, calendarDate, setCalendarDate }) => {
     const history = useHistory();
     const menu = useRef(null);
     const [view, setView] = useState('week');
@@ -41,18 +43,7 @@ const CalendarHeader = ({ calendarRef }) => {
             setCalendarDate(formattedDate);
         }
     };
-    const formatDate = (date) => {
-        return new Intl.DateTimeFormat('en-US', {
-            weekday: 'long',
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-        }).format(date);
-    };
 
-    const formatDateRange = (startDate, endDate) => {
-        return `${formatDate(startDate)} - ${formatDate(endDate)}`;
-    };
     const handleNavigation = (action) => {
         const calendarApi = calendarRef?.current?.getApi();
         if (!calendarApi) return;
@@ -72,8 +63,6 @@ const CalendarHeader = ({ calendarRef }) => {
     const handlePrev = () => handleNavigation('prev');
     const handleNext = () => handleNavigation('next');
 
-    const [calendarDate, setCalendarDate] = useState(null);
-
     return (
         <div className="w-full flex justify-content-between surface-ground mb-2 border-round-md">
             <div className="flex">
@@ -82,7 +71,15 @@ const CalendarHeader = ({ calendarRef }) => {
                 </PrimaryButton>
                 <PrimaryButton icon="pi pi-angle-left" onClick={handlePrev} size="small" />
                 <PrimaryButton icon="pi pi-angle-right" onClick={handleNext} size="small" />
-                <div className="my-auto font-bold mx-2">{calendarDate}</div>
+                {/* <div className="my-auto font-bold mx-2">{calendarDate}</div> */}
+                <div className="my-auto font-bold mx-2 cursor-pointer ">{calendarDate instanceof Date ? calendarDate.toLocaleDateString() : calendarDate}</div>
+                <img
+                    src={calendarIcon}
+                    alt="cal1"
+                    style={{ width: '30px', height: '30px' }}
+                    className="my-auto cursor-pointer"
+                    onClick={() => setShowDatePicker(!showDatePicker)}
+                />
             </div>
 
             <div className="flex justify-content-end col-6">

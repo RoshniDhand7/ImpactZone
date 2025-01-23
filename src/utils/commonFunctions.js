@@ -601,9 +601,10 @@ const formatEventTime = (dateString, timeString, duration) => {
 };
 const buildEventTitle = (event, employee, duration) => {
     const { name, calanderDisplay, classLocation } = event;
+    console.log(name, event, 'event');
     const titleParts = [];
     const displayMapping = {
-        EVENT: name,
+        EVENT: event?.name,
         DURATION: `${duration} minutes`,
         LOCATION: classLocation?.[0]?.name,
         EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',

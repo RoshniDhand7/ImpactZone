@@ -29,7 +29,7 @@ const EventClassesForm = () => {
 
     const [data, setData] = useState({
         event: '',
-        classMeet: '',
+        classMeet: 'ONE_TIME',
         classLocation: '',
         startDate: '',
         endDate: '',
@@ -328,19 +328,20 @@ const EventClassesForm = () => {
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, schedule: validatedSchedule.data }));
             }
+            const { schedule, ...rest } = data;
             if (validatedSchedule.isValid) {
                 if (id) {
                     dispatch(
                         editClasses(
                             id,
-                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            { ...rest, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
                             history,
                         ),
                     );
                 } else {
                     dispatch(
                         addClasses(
-                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            { ...rest, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
                             history,
                         ),
                     );
@@ -348,6 +349,7 @@ const EventClassesForm = () => {
             }
         }
     };
+    console.log(data, 'data');
 
     return (
         <>
@@ -385,15 +387,17 @@ const EventClassesForm = () => {
                                     data={scheduleItem}
                                     fieldName="schedule"
                                 />
-                                <CustomMultiselect
-                                    name="days"
-                                    customIndex={index}
-                                    onChange={handleChangeDynamicField}
-                                    data={scheduleItem}
-                                    options={WeekDaysOption}
-                                    fieldName="schedule"
-                                    col={4}
-                                />
+                                {data?.classMeet !== 'ONE_TIME' && (
+                                    <CustomMultiselect
+                                        name="days"
+                                        customIndex={index}
+                                        onChange={handleChangeDynamicField}
+                                        data={scheduleItem}
+                                        options={WeekDaysOption}
+                                        fieldName="schedule"
+                                        col={4}
+                                    />
+                                )}
                                 <CustomCalenderInput
                                     name="endTime"
                                     customIndex={index}
