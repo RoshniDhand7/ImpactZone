@@ -33,7 +33,7 @@ const ManageEvents = () => {
         if (calendarEvent && Object.keys(calendarEvent).length > 0) {
             setData((prevData) => ({
                 ...prevData,
-                staff: calendarEvent.staff || null,
+                staff: calendarEvent.staff?._id || null,
                 eventDate: calendarEvent.eventDate ? new Date(calendarEvent.eventDate) : null,
                 startTime: calendarEvent.startTime ? convertToDateTime(calendarEvent.startTime) : null,
                 duration: Number(calendarEvent.duration) || null,
@@ -260,6 +260,7 @@ const ManageEvents = () => {
                             value={data.staff}
                             onChange={handleChange}
                             col={12}
+                            isClearable={false}
                         />
                     </div>
 

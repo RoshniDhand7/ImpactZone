@@ -605,7 +605,7 @@ const buildEventTitle = (event, employee, duration) => {
     const titleParts = [];
     const displayMapping = {
         EVENT: event?.name,
-        DURATION: `${duration} minutes`,
+        DURATION: `${duration}minutes`,
         LOCATION: classLocation?.[0]?.name,
         EMPLOYEE_NAME: employee?.firstName ? `${employee.firstName} ${employee.lastName}` : '',
         ENROLLED_MAX_ATTENDANCE: '',
@@ -617,7 +617,7 @@ const buildEventTitle = (event, employee, duration) => {
         }
     });
 
-    return titleParts.join('\n');
+    return titleParts.join(',');
 };
 const updateEndTime = (startTime, duration) => {
     if (startTime && duration) {

@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    deleteEvent,
     getAllCalendarBooking,
     getAllCalendarEvents,
+    getCalendarBooking,
     getCalendarEvents,
     getCalendarLocations,
     getCalendarResources,
@@ -12,14 +14,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useHistory } from 'react-router-dom';
-import { buildEventTitle, formatEventTime } from '../../utils/commonFunctions';
+import { buildEventTitle, confirmDelete, formatEventTime } from '../../utils/commonFunctions';
 import BookEvent from './BookEvent';
 import CalendarHeader from './CalendarHeader';
 import CalendarSideBar from '../../assets/icons/calendarSidebar.png';
-import { CustomCalenderInput } from '../../shared/Input/AllInputs';
 import { formatDate, formatDateRange } from './calendarHelper';
-import { CustomGridLayout } from '../../shared/Cards/CustomCard';
 import { Calendar } from 'primereact/calendar';
+import { OverlayPanel } from 'primereact/overlaypanel';
+import moment from 'moment';
 
 export default function CalendarComponent() {
     const dispatch = useDispatch();
@@ -47,14 +49,12 @@ export default function CalendarComponent() {
                 events1.push({
                     id: item._id,
                     title: buildEventTitle(item.event, item?.staff, item.duration),
-                    // title: [item.event, `${item.duration} minutes`, item.staff?.firstName].join('\n'),
                     backgroundColor: '#252b42',
                     color: '#fff',
                     start,
                     end,
                     textColor: '#fff',
                 });
-                // }
             } else {
                 const { start, end } = formatEventTime(item.eventDate, item.startTime, item.duration);
                 events1.push({
@@ -68,34 +68,24 @@ export default function CalendarComponent() {
                 });
             }
         });
-
         return events1;
     };
 
     const renderEventContent = (eventInfo) => {
-        const titleLines = eventInfo.event.title.split('\n');
+        const title = eventInfo.event.title;
+
         return (
-            <div className="calendar-container">
-                <div>
-                    {titleLines.map((line, index) => (
-                        <div key={index}>{line}</div>
-                    ))}
-                </div>
-                <button
-                    onClick={() => history.push(`calender/events/${eventInfo.event.id}`)}
+            <div className="calendar-container" style={{ height: '40px' }}>
+                <div
                     style={{
-                        background: 'none',
-                        border: 'none',
-                        position: 'absolute',
-                        top: '5px',
-                        right: '5px',
-                        cursor: 'pointer',
-                        color: 'white',
-                        padding: '2px',
+                        fontSize: '10px',
+                        fontWeight: '200',
+                        whiteSpace: 'normal',
+                        wordWrap: 'break-word',
                     }}
                 >
-                    <i className="pi pi-pencil"></i>
-                </button>
+                    {title}
+                </div>
             </div>
         );
     };
@@ -132,6 +122,38 @@ export default function CalendarComponent() {
     }, [showDatePicker]);
 
     console.log(showDatePicker, 'showDatePicker');
+    const [eventId, setEventId] = useState(null);
+
+    const overlayRef = useRef(null);
+
+    const handleEventClick = (clickInfo) => {
+        console.log(clickInfo, 'clickInfo');
+        dispatch(getCalendarBooking(clickInfo.event.id));
+        // overlayRef.current.toggle('');
+        clickInfo.el.addEventListener('click', (event) => {
+            overlayRef?.current?.show(event);
+        });
+        setEventId(clickInfo.event.id);
+        clickInfo.el.click();
+        // overlayRef.current.toggle('');
+    };
+    const { calendarEvent } = useSelector((state) => state.calendar);
+
+    const handleDelete = (position) => {
+        confirmDelete(
+            () => {
+                dispatch(
+                    deleteEvent(eventId, () => {
+                        dispatch(getAllCalendarBooking());
+                    }),
+                );
+            },
+            'Do you want to delete this Event ?',
+            position,
+        );
+    };
+
+    console.log(calendarEvent, 'calendarEvent');
 
     return (
         <>
@@ -188,8 +210,45 @@ export default function CalendarComponent() {
                         buttonText={{ today: 'Today', week: 'Week', day: 'Day' }}
                         ref={calendarRef}
                         slotDuration="00:15:00"
+                        eventClick={handleEventClick}
                     />
                 </div>
+                {overlayRef ? (
+                    <OverlayPanel className="p-0 eventshow-panel" ref={overlayRef} dismissable={true} style={{ width: '20rem' }}>
+                        <div className="p-0 mx-auto " style={{ height: '8rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', marginBottom: '6px', marginTop: '' }}>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <i className="pi pi-pencil text-blue-400" onClick={() => history.push(`calender/events/${eventId}`)}></i>
+                                    <i className="pi pi-trash" onClick={handleDelete}></i>
+                                    <i className="pi pi-times text-red-400" onClick={(e) => overlayRef?.current?.hide(e)}></i>
+                                </div>
+                            </div>
+                            <div className="flex justify-content-between align-items-center">
+                                <div
+                                    className="shadow-1 w-1 h-1rem  "
+                                    style={{ backgroundColor: `#${calendarEvent?.type === 'CLASS' ? calendarEvent?.event?.boxColor : '252b42'}` }}
+                                ></div>
+                                <div className="text-sm font-semibold  text-sm   ">{calendarEvent?.event?.name}</div>&nbsp;
+                            </div>
+                            <div className="flex mt-2 mb-1 align-items-center">
+                                <i className="pi pi-calendar mr-5 "></i>
+                                <div className="font-semibold text-sm ">{moment(calendarEvent?.eventDate).format('dddd, D MMMM')}</div>
+                            </div>
+                            <div className="flex mb-1 align-items-center">
+                                <i className="pi pi-clock mr-5"></i>
+                                <div className="font-semibold text-sm ">{calendarEvent?.duration} minutes</div>
+                            </div>
+                            <div className="flex mb-1 align-items-center">
+                                <i className="pi pi-user mr-5"></i>
+                                <div className="font-semibold  text-sm">
+                                    {calendarEvent?.staff?.firstName}
+                                    {calendarEvent?.staff?.MI}
+                                    {calendarEvent?.staff?.lastName}
+                                </div>
+                            </div>
+                        </div>
+                    </OverlayPanel>
+                ) : null}
             </div>
         </>
     );

@@ -31,7 +31,7 @@ const EventClassesForm = () => {
         event: '',
         classMeet: 'ONE_TIME',
         classLocation: '',
-        startDate: '',
+        startDate: new Date(),
         endDate: '',
         schedule: [
             {
@@ -137,9 +137,32 @@ const EventClassesForm = () => {
 
     const loading = useSelector((state) => state?.loader?.isLoading);
     const handleChange = ({ name, value }) => {
-        const formErrors = formValidation(name, value, data);
-        setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        if (name === 'classMeet') {
+            setData((prevState) => {
+                const updatedSchedule = prevState.schedule.map((item) => {
+                    if (value === 'ONE_TIME') {
+                        return { ...item, days: [] };
+                    }
+                    return item;
+                });
+
+                return {
+                    ...prevState,
+                    classMeet: value,
+                    schedule: updatedSchedule,
+                };
+            });
+        } else {
+            const formErrors = formValidation(name, value, data);
+            setData((prev) => ({ ...prev, [name]: value, formErrors }));
+        }
     };
+
+    useEffect(() => {
+        if (data?.classMeet === 'ONE_TIME') {
+            setData((prev) => ({ ...prev, endDate: data?.startDate }));
+        }
+    }, [data?.classMeet, data?.startDate]);
 
     useEffect(() => {
         if (data?.event) {
@@ -324,24 +347,26 @@ const EventClassesForm = () => {
 
     const handleSave = () => {
         if (showFormErrors(data, setData)) {
-            let validatedSchedule = showArrayFormErrors(data.schedule);
+            let validatedSchedule = showArrayFormErrors(data.schedule, data?.classMeet === 'ONE_TIME' ? ['days'] : []);
+            console.log(validatedSchedule, 'validatedSchedule');
             if (!validatedSchedule.isValid) {
                 setData((prev) => ({ ...prev, schedule: validatedSchedule.data }));
             }
-            const { schedule, ...rest } = data;
+            // const { schedule, ...rest } = data;
+
             if (validatedSchedule.isValid) {
                 if (id) {
                     dispatch(
                         editClasses(
                             id,
-                            { ...rest, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
                             history,
                         ),
                     );
                 } else {
                     dispatch(
                         addClasses(
-                            { ...rest, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
+                            { ...data, startDate: moment(data.startDate).format('YYYY-MM-DD'), endDate: moment(data.endDate).format('YYYY-MM-DD') },
                             history,
                         ),
                     );
@@ -359,8 +384,8 @@ const EventClassesForm = () => {
                         <CustomDropDown name="event" label="Class Name" options={eventClassesDropDown} onChange={handleChange} data={data} col={4} />
                         <CustomDropDown name="classMeet" label="How often does class meet?" options={classMeet} onChange={handleChange} data={data} />
                         <CustomDropDown name="classLocation" options={locationDropdown} onChange={handleChange} data={data} />
-                        <CustomCalenderInput name="startDate" onChange={handleChange} data={data} />
-                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate} />
+                        <CustomCalenderInput name="startDate" onChange={handleChange} data={data} minDate={new Date()} />
+                        <CustomCalenderInput name="endDate" onChange={handleChange} data={data} disabled={!data?.startDate || data?.classMeet === 'ONE_TIME'} />
                         <CustomInputSwitch name="isActive" data={data} onChange={handleChange} extraClassName="text-right" col={4} />
                     </CustomGridLayout>
                     <CustomGridLayout extraClass="justify-content-end">

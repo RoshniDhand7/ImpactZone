@@ -42,7 +42,7 @@ const addClasses = (data, history) => async (dispatch) => {
     };
     const res = await api('post', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASS, payload);
     if (res.success) {
-        history.goBack();
+        // history.goBack();
     }
     dispatch(hideLoaderAction());
 };
@@ -55,7 +55,7 @@ const editClasses = (id, data, history) => async (dispatch, getState) => {
     };
     const res = await api('put', EndPoints.SETTINGS.SCHEDULE_SETUP.CLASS + id, payload);
     if (res.success) {
-        history.goBack();
+        // history.goBack();
     }
     dispatch(hideLoaderAction());
 };
